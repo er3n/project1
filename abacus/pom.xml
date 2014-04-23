@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.abacus</groupId>
 	<artifactId>abacus</artifactId>
@@ -16,6 +17,8 @@
 		<hibernate-version>4.3.0.Final</hibernate-version>
 		<hibernate-validator-version>5.0.1.Final</hibernate-validator-version>
 		<mysql-connector-version>5.1.26</mysql-connector-version>
+		<postgresql-driver-version>9.3-1100-jdbc41</postgresql-driver-version>
+		<spring-data-jpa-version>1.4.1.RELEASE</spring-data-jpa-version>
 	</properties>
 
 	<dependencies>
@@ -121,23 +124,28 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-validator-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-connector-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.3-1100-jdbc41</version>
+			<version>${postgresql-driver-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa-version}</version>
 		</dependency>
 
 		<!-- END OF PERSISTANCE -->
- 
-  
+
+
 		<!-- OTHER -->
 		<dependency>
 			<groupId>cglib</groupId>
@@ -158,7 +166,20 @@
 		<!-- END OF OTHER -->
 
 
-
+		<!-- TEST -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${springframework-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- END OF TEST -->
 
 	</dependencies>
 

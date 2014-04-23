@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+
+<f:view contentType="text/html">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Marka Takip Sistemi (Alpha)</title>
+
+		<link rel="stylesheet"
+			href="${request.contextPath}/app/resources/styles/default.css"
+			type="text/css" />
+
+		<link href='http://fonts.googleapis.com/css?family=Raleway:500'
+			rel='stylesheet' type='text/css' />
+
+
+	</h:head>
+	<h:body>
+
+
+		<p:menubar>
+			<p:menuitem value="#{lbl.hizliArama}" url="/app/search/quick.xhtml" icon="ui-icon-search" />
+			<p:menuitem value="#{lbl.detayliArama}" url="/app/search/detail.xhtml" icon="ui-icon-calculator" />  
+			<p:menuitem value="#{lbl.topluArama}" url="/app/search/bulk.xhtml" icon="ui-icon-cart" />
+			<p:menuitem value="#{lbl.aramaAktar}" url="/app/search/transport.xhtml" icon="ui-icon-extlink" />
+			<f:facet name="options">
+				<h:form>
+					<p:button value="Hesap Olustur" href="/app/registration.xhtml" icon="ui-icon-tag" rendered="#{sec:areNotGranted('ROLE_USER')}" />
+					<p:button value="Oturum Ac" href="/app/login.xhtml" icon="ui-icon-extlink" rendered="#{sec:areNotGranted('ROLE_USER')}" ></p:button>
+					<p:button value="Cikis" href="/app/logout.xhtml" icon="ui-icon-extlink" rendered="#{sec:areAnyGranted('ROLE_USER')}" ></p:button>
+				</h:form>
+			</f:facet>
+		</p:menubar>
+
+
+		<p:growl id="growl" showDetail="true" sticky="false" autoUpdate="true" life="3000" />  
+		<div id="content">
+			<div style="margin: 0px auto; width: 100%; text-align: center">
+				<img
+					src="${request.contextPath}/app/resources/img/benzermarkaarama.png"
+					alt="Benzer Marka Arama" />
+			</div>
+			
+
+			<ui:insert name="content" />
+
+		</div>
+
+		<p:ajaxStatus
+			style="width:54px;height:55px;position:fixed;right:5px;bottom:5px">
+			<f:facet name="start">
+
+				<img src="${request.contextPath}/app/resources/img/loading.gif" />
+
+			</f:facet>
+
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
+
+	</h:body>
+</f:view>
+
+
+</html>

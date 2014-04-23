@@ -10,15 +10,15 @@ import org.abacus.common.shared.entity.DynamicEntity;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "USER_ROLE")
+@Table(name = "user_role")
 public class UserRoleEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
+	@JoinColumn(name = "user_id")
 	private UserEntity user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ROLE_ID")
+	@JoinColumn(name = "role_id")
 	private RoleEntity role;
 
 	public UserEntity getUser() {

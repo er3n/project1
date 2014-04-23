@@ -14,10 +14,10 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "ROLE")
+@Table(name = "role")
 public class RoleEntity extends DynamicEntity {
 
-	@Column(name = "NAME", nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)

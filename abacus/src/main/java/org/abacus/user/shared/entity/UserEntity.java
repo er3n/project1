@@ -5,48 +5,35 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.abacus.common.shared.entity.RootEntity;
+import org.abacus.common.shared.entity.StaticEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "users") //user reserved
 @SuppressWarnings("serial")
-public class UserEntity implements RootEntity {
+public class UserEntity extends StaticEntity {
 
-	@Id
-	@Column(name = "ID")
-	private String id;
-
-	@Column(name = "PASSWORD", nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "IS_ACTIVE", nullable = false)
+	@Column(name = "is_active", nullable = false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "COMPANY_ID")
+	@JoinColumn(name = "company_id")
 	private CompanyEntity companyEntity;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
 	private List<UserRoleEntity> userRoleEntity;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getPassword() {
 		return password;

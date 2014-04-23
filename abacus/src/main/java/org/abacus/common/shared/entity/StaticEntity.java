@@ -9,11 +9,8 @@ import javax.persistence.MappedSuperclass;
 public class StaticEntity implements RootEntity {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String id;
-
-	@Column(name = "NAME")
-	private String name;
 
 	public String getId() {
 		return id;
@@ -21,14 +18,6 @@ public class StaticEntity implements RootEntity {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@Override

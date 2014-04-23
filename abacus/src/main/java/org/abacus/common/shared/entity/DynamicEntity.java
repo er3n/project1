@@ -21,25 +21,25 @@ public class DynamicEntity implements RootEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_id")
 	@SequenceGenerator(name = "seq_id", sequenceName = "seq_id", allocationSize = 1)	
-	@Column(name = "ID")
+	@Column(name = "id")
 	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATE_CREATED", nullable = false)
-	private Date dateCreated;
+	@Column(name = "date_created", nullable = true)
+	private Date dateCreated = new Date();
 
-	@Column(name = "USER_CREATED", nullable = false)
+	@Column(name = "user_created", nullable = true)
 	private String userCreated;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATE_UPDATED")
+	@Column(name = "date_updated", nullable = true)
 	private Date dateUpdated = new Date();
 
-	@Column(name = "USER_UPDATED")
+	@Column(name = "user_updates", nullable = true)
 	private String userUpdated;
 
 	@Version
-	@Column(name = "VERSION", nullable = false)
+	@Column(name = "version", nullable = false)
 	private int version = 0;
 
 	public void updateHook(String userUpdated) {

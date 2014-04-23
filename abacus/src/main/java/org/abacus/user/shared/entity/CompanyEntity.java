@@ -11,16 +11,27 @@ import org.abacus.common.shared.entity.StaticEntity;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "COMPANY")
+@Table(name = "company")
 public class CompanyEntity extends StaticEntity {
 
-	@Column(name = "LEVEL", nullable = false)
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "level", nullable = false)
 	private Integer level;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PARENT_ID")
+	@JoinColumn(name = "parent_id")
 	private CompanyEntity parent;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public Integer getLevel() {
 		return level;
 	}

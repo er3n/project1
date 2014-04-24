@@ -12,5 +12,8 @@ INSERT INTO role_authority (id, role_id, authority_id, version) VALUES (nextval(
 
 INSERT INTO user_role (id, user_id, role_id, version) VALUES (nextval('seq_id'), 'ADMIN', 1, 0);
 
+INSERT INTO users( id, is_active, password, company_id) VALUES ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e', '01');
+
+
 COMMIT;
 

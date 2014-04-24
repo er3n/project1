@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	>
 
 
 <f:view contentType="text/html">
@@ -14,12 +16,18 @@
 
 	</h:head>
 	<h:body style="width:1200px;margin:0 auto">
+	
+	 
 
 		<h:form>
-			<p:menubar style="margin:5px auto;">		
+			<p:menubar style="margin:5px auto;"> 
+				<p:submenu label="Sistem Yonetimi">
+					<p:menuitem value="Kullanici Islemleri" url="/app/user/manager.abc" icon="ui-icon-search" />
+				</p:submenu>		
 				<f:facet name="options">
 					<h:form>
-						<p:button value="Hesap Olustur" href="/app/registration.xhtml" icon="ui-icon-tag" />
+						<p:button value="Giris" href="/app/login.xhtml" icon="ui-icon-tag" rendered="#{empty request.remoteUser}" />
+						<p:button value="Oturumu Kapat" href="/app/logout" icon="ui-icon-extlink" rendered="#{not empty request.remoteUser}" />
 					</h:form>
 				</f:facet>
 			</p:menubar>

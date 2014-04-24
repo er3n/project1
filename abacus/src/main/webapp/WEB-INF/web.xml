@@ -8,6 +8,11 @@
 	
 	<!-- SPRING -->
 	
+	<context-param>
+		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+		<param-value>/WEB-INF/tags/springsecurity.taglib.xml</param-value>
+	</context-param>
+	
 	<listener>
         <listener-class>
             org.springframework.web.context.ContextLoaderListener

@@ -19,12 +19,13 @@
 		<mysql-connector-version>5.1.26</mysql-connector-version>
 		<postgresql-driver-version>9.3-1100-jdbc41</postgresql-driver-version>
 		<spring-data-jpa-version>1.4.1.RELEASE</spring-data-jpa-version>
+		<spring-faces-version>2.3.3.RELEASE</spring-faces-version>
 	</properties>
 
 	<dependencies>
 
 		<!-- JSF 2.2 -->
- 
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -111,6 +112,11 @@
 					<artifactId>spring-aop</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-faces</artifactId>
+			<version>${spring-faces-version}</version>
 		</dependency>
 
 		<!-- END OF SPRING -->

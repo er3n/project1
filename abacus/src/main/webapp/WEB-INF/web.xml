@@ -81,8 +81,9 @@
 	<!-- PRIMEFACES -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>bootstrap</param-value>
+		<param-value>delta</param-value>
 	</context-param>
+
 	<!-- END OF PRIMEFACES -->
 	
 	<session-config>

@@ -16,9 +16,10 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "users") //user reserved
+@Table(name = "sec_user")
+// user reserved
 @SuppressWarnings("serial")
-public class UserEntity extends StaticEntity {
+public class SecUserEntity extends StaticEntity {
 
 	@Column(name = "password", nullable = false)
 	private String password;
@@ -33,7 +34,7 @@ public class UserEntity extends StaticEntity {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
-	private List<UserRoleEntity> userRoleEntity;
+	private List<SecGroupMemberEntity> groupMemberList;
 
 	public String getPassword() {
 		return password;
@@ -59,12 +60,12 @@ public class UserEntity extends StaticEntity {
 		this.companyEntity = companyEntity;
 	}
 
-	public List<UserRoleEntity> getUserRoleEntity() {
-		return userRoleEntity;
+	public List<SecGroupMemberEntity> getGroupMemberList() {
+		return groupMemberList;
 	}
 
-	public void setUserRoleEntity(List<UserRoleEntity> userRoleEntity) {
-		this.userRoleEntity = userRoleEntity;
+	public void setGroupMemberList(List<SecGroupMemberEntity> groupMemberList) {
+		this.groupMemberList = groupMemberList;
 	}
 
 }

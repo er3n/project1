@@ -10,30 +10,31 @@ import org.abacus.common.shared.entity.DynamicEntity;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "role_authority")
-public class RoleAuthorityEntity extends DynamicEntity {
+@Table(name = "sec_group_authority")
+public class SecGroupAuthorityEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "role_id")
-	private RoleEntity role;
+	@JoinColumn(name = "group_id")
+	private SecGroupEntity group;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "authority_id")
-	private AuthorityEntity authority;
+	private SecAuthorityEntity authority;
 
-	public RoleEntity getRole() {
-		return role;
+	public SecGroupEntity getGroup() {
+		return group;
 	}
 
-	public void setRole(RoleEntity role) {
-		this.role = role;
+	public void setGroup(SecGroupEntity group) {
+		this.group = group;
 	}
 
-	public AuthorityEntity getAuthority() {
+	public SecAuthorityEntity getAuthority() {
 		return authority;
 	}
 
-	public void setAuthority(AuthorityEntity authority) {
+	public void setAuthority(SecAuthorityEntity authority) {
 		this.authority = authority;
 	}
+
 }

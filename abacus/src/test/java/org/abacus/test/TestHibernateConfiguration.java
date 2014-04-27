@@ -2,7 +2,7 @@ package org.abacus.test;
 
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.CompanyEntity;
-import org.abacus.user.shared.entity.UserEntity;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class TestHibernateConfiguration {
 	@Rollback(value=false)
 	public void testAddNewUser(){
 		
-		UserEntity entity = new UserEntity();
+		SecUserEntity entity = new SecUserEntity();
 		
 		entity.setActive(true);
 		CompanyEntity companyEntity = new CompanyEntity();

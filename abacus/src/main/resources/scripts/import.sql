@@ -2,18 +2,15 @@ INSERT INTO company (id, name, level, parent_id) VALUES ('01', 'HOLDING', 1, nul
 INSERT INTO company (id, name, level, parent_id) VALUES ('01.01', 'SIRKET', 2, '01');
 INSERT INTO company (id, name, level, parent_id) VALUES ('01.01.01', 'PROJE', 3, '01.01');
 
-INSERT INTO authority (id) VALUES ('AUTH_ADMIN');
+INSERT INTO sec_authority (id) VALUES ('AUTH_ADMIN');
 
-INSERT INTO users (id, is_active, password, company_id) VALUES ('ADMIN', 1,'sifre123', '01');
+INSERT INTO sec_user( id, is_active, password, company_id) VALUES ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e', '01');
 
-INSERT INTO role (id, name, version) VALUES (nextval('seq_id'), 'Admin Rolü', 0);
+INSERT INTO sec_group (id, name, version) VALUES (nextval('seq_id'), 'Yonetici Grubu', 0);
 
-INSERT INTO role_authority (id, role_id, authority_id, version) VALUES (nextval('seq_id'), 1, 'AUTH_ADMIN', 0);
+INSERT INTO sec_group_authority (id, group_id, authority_id, version) VALUES (nextval('seq_id'), 1, 'AUTH_ADMIN', 0);
 
-INSERT INTO user_role (id, user_id, role_id, version) VALUES (nextval('seq_id'), 'ADMIN', 1, 0);
-
-INSERT INTO users( id, is_active, password, company_id) VALUES ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e', '01');
-
+INSERT INTO sec_group_member (id, user_id, group_id, version) VALUES (nextval('seq_id'), 'admin', 1, 0);
 
 COMMIT;
 

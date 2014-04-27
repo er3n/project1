@@ -14,16 +14,16 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "role")
-public class RoleEntity extends DynamicEntity {
+@Table(name = "sec_group")
+public class SecGroupEntity extends DynamicEntity {
 
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
-	private List<RoleAuthorityEntity> authorities;
- 
+	private List<SecGroupAuthorityEntity> groupAuthorityList;
+
 	public String getName() {
 		return name;
 	}
@@ -32,12 +32,13 @@ public class RoleEntity extends DynamicEntity {
 		this.name = name;
 	}
 
-	public List<RoleAuthorityEntity> getAuthorities() {
-		return authorities;
+	public List<SecGroupAuthorityEntity> getGroupAuthorityList() {
+		return groupAuthorityList;
 	}
 
-	public void setAuthorities(List<RoleAuthorityEntity> authorities) {
-		this.authorities = authorities;
+	public void setGroupAuthorityList(
+			List<SecGroupAuthorityEntity> groupAuthorityList) {
+		this.groupAuthorityList = groupAuthorityList;
 	}
 
 }

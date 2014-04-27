@@ -7,7 +7,7 @@ import org.abacus.common.shared.entity.StaticEntity;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "authority")
-public class AuthorityEntity extends StaticEntity {
+@Table(name = "sec_authority")
+public class SecAuthorityEntity extends StaticEntity {
 
 }

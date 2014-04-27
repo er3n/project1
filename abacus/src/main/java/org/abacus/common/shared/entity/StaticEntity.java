@@ -28,12 +28,12 @@ public class StaticEntity implements RootEntity {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof DynamicEntity)) {
+		if (!(obj instanceof StaticEntity)) {
 			return false;
 		}
 		final StaticEntity other = (StaticEntity) obj;
 		if (this.id != null && other.id != null) {
-			if (this.id != other.id) {
+			if (!this.id.equals(other.id)) {
 				return false;
 			}
 		}

@@ -3,7 +3,7 @@ package org.abacus.common.security;
 import java.util.List;
 
 import org.abacus.user.core.persistance.repository.UserRepository;
-import org.abacus.user.shared.entity.SecUserEntity;
+import org.abacus.user.shared.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +22,7 @@ public class SecurityHandler implements UserDetailsService {
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		SecUserEntity user = userRepository.findOne(username);
+		UserEntity user = userRepository.findOne(username);
 
 		if (user == null) {
 			throw new UsernameNotFoundException(username);

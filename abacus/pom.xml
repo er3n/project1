@@ -9,7 +9,7 @@
 
 	<properties>
 		<java-version>1.7</java-version>
-		<jsf-version>2.2.2</jsf-version>
+		<jsf-version>2.1.7</jsf-version>
 		<primefaces-version>4.0</primefaces-version>
 		<javax-servlet-api>3.0.1</javax-servlet-api>
 		<springframework-version>4.0.2.RELEASE</springframework-version>

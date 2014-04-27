@@ -17,4 +17,3 @@ INSERT INTO sec_group_authority (id, group_id, authority_id, version) VALUES (ne
 INSERT INTO sec_group_member (id, user_id, group_id, version) VALUES (nextval('seq_id'), 'admin', 1, 0);
 
 COMMIT;
-

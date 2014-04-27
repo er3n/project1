@@ -2,6 +2,8 @@ package org.abacus.user.core.handler;
 
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupMemberRepository;
@@ -52,6 +54,9 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 		return groupAuthorities;
 	}
 
+	@Autowired
+	private EntityManagerFactory fatory;
+	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public void removeGroup(Long groupId) throws UserExistsInGroupException {

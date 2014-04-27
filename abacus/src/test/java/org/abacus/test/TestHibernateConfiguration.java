@@ -1,6 +1,8 @@
 package org.abacus.test;
 
+import org.abacus.user.core.handler.SecGroupHandler;
 import org.abacus.user.core.persistance.repository.UserRepository;
+import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.junit.Test;
@@ -14,12 +16,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath*:/appcontext/persistence-context.xml"})
+@ContextConfiguration(locations={"classpath*:/appcontext/persistence-context.xml","classpath*:/appcontext/main-context.xml"})
 @TransactionConfiguration(defaultRollback = true)
 public class TestHibernateConfiguration {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private SecGroupHandler groupHandler;
 	
 	@Test
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
@@ -39,6 +44,12 @@ public class TestHibernateConfiguration {
 		userRepository.save(entity);
 		
 		
+	}
+	
+	@Test
+	@Rollback(false)
+	public void testRemoveGroup() throws UserExistsInGroupException{
+		groupHandler.removeGroup(1l);
 	}
 
 }

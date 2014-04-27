@@ -42,9 +42,9 @@
 						<f:facet name="footer">
 							<p:commandButton value="Ekle" actionListener="#{userGroupViewBean.newGroup}" update=":groupDetailForm:groupDetailPanel" />
 							<p:spacer width="5px" />
-							<p:commandButton value="Sil" actionListener="#{userGroupViewBean.removeGroup}"/>
+							<p:commandButton value="Sil" ajax="true" actionListener="#{userGroupViewBean.removeGroup}"  update=":groupDetailForm:groupDetailPanel :groupListForm:groupListDataTable" />
 						</f:facet>
-
+ 
 					</p:dataTable>
 
 				</h:form>

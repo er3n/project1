@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.user.core.handler.SecGroupHandler;
@@ -14,7 +14,6 @@ import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.web.model.DynamicEntityDataModel;
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
 @ManagedBean
@@ -56,8 +55,6 @@ public class UserGroupViewBean {
 			secGroupHandler.removeGroup(selectedGroup.getId());
 			jsfMessageHelper.addInfo("kullaniciGrubuSilindi");
 			this.newSelectedGroup();
-			RequestContext.getCurrentInstance().update(":groupDetailForm:groupDetailPanel");
-			RequestContext.getCurrentInstance().update(":groupListForm:groupListDataTable");
 		} catch (UserExistsInGroupException e) {
 			jsfMessageHelper.addError("grubaAitKullanicilarBulundu");
 		}

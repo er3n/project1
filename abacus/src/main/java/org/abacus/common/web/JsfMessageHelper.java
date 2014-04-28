@@ -1,5 +1,6 @@
 package org.abacus.common.web;
 
+import java.io.Serializable;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -8,7 +9,7 @@ import javax.faces.context.FacesContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JsfMessageHelper {
+public class JsfMessageHelper implements Serializable {
 
 	public void addInfo(String message) {
 		FacesContext.getCurrentInstance().addMessage(null,

@@ -1,0 +1,120 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/content/template/simple.xhtml">
+
+	<ui:define name="content">
+
+		<h:panelGrid id="typeGrid" columns="2" cellpadding="4" cellspacing="4">
+
+			<h:form id="typeForm">
+
+				<p:panel id="typePanel" header="Type" style="height:500px; width:400px">
+
+					<h:panelGrid id="typeGrid" columns="2" cellpadding="4" cellspacing="4">
+
+						<h:outputLabel value="Kod:" />
+						<p:inputText value="#{definitionBean.selType.id}" required="true" requiredMessage="Type.Code Bos olamaz" validatorMessage="Type.Code" />
+
+						<h:outputLabel value="Ad:" />
+						<p:inputText value="#{definitionBean.selType.name}" required="true" requiredMessage="Type.Ack Bos olamaz" validatorMessage="Type.Ack" />
+
+						<f:facet name="footer">
+							<p:commandButton id="saveType" update=":typeForm" ajax="true" value="#{definitionBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
+								actionListener="#{definitionBean.saveOrUpdateType}" style="float: right;" />
+							<p:commandButton id="deleteType" update=":typeForm :valForm" ajax="true" value="#{definitionBean.selType.id == null ? '-' : 'Sil'}"
+								actionListener="#{definitionBean.deleteType}" style="float: right;" />
+							<p:commandButton id="clearType" update=":typeForm :valForm" ajax="true" value="#{definitionBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{definitionBean.addNewType}" style="float: right;">
+								<p:resetInput target=":typeForm" />
+							</p:commandButton>
+						</f:facet>
+					</h:panelGrid>
+
+					<p:panel header="typeTablePanel" style="height:50%">
+						<p:inputText id="rowTypeAra" style="width: 100%;">
+							<p:watermark for="rowTypeAra" value="Type Ara..." />
+						</p:inputText>
+
+						<p:dataTable id="typeTable" var="selType" value="#{definitionBean.typeList}" selection="#{definitionBean.selType}" emptyMessage="Kayit Bulanamadi" selectionMode="single"
+							paginator="true" paginatorPosition="bottom" rowKey="#{selType.id}" rows="10" resizableColumns="true" style="width:100%">
+
+							<p:ajax event="rowSelect" update=":typeForm :valForm" listener="#{definitionBean.setCurrentType}">
+							</p:ajax>
+
+  							<p:column headerText="Kod">  
+            					#{selType.id}  
+        					</p:column>  
+
+  							<p:column headerText="Aciklama">  
+            					#{selType.name}  
+        					</p:column>  
+
+							<ui:remove>
+							<p:column width="120">
+								<f:facet name="header">
+									<h:outputLabel value="Aciklama" />
+								</f:facet>
+								<h:outputLabel value="#{selType.ack}" />
+							</p:column>
+							</ui:remove>
+
+						</p:dataTable>
+					</p:panel>
+
+
+				</p:panel>
+			</h:form>
+
+			<h:form id="valForm">
+ 				<p:panel id="valPanel" header="Value" style="height:500px; width:600px">
+
+					<h:panelGrid id="valGrid" columns="2" cellpadding="4" cellspacing="4">
+
+						<h:outputLabel value="Kod:" />
+						<p:inputText value="#{definitionBean.newVal.code}" required="true" requiredMessage="Val.Code Bos olamaz" validatorMessage="Val.Code" />
+
+						<h:outputLabel value="Ad:" />
+						<p:inputText value="#{definitionBean.newVal.name}" required="true" requiredMessage="Val.Ack Bos olamaz" validatorMessage="Val.Ack" />
+
+						<f:facet name="footer">
+							<p:commandButton id="saveVal" update=":valForm:valPanel" ajax="true" value="#{definitionBean.newVal.id == null ? 'Kaydet' : 'Guncelle'}"
+								actionListener="#{definitionBean.saveOrUpdateVal}" style="float: right;" />
+							<p:commandButton id="clearVal" process="@this" ajax="true" update=":valForm:valPanel" value="#{definitionBean.newVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{definitionBean.clearVal}" style="float: right;">
+								<p:resetInput target=":valForm:valPanel" />
+							</p:commandButton>
+						</f:facet>
+					</h:panelGrid>
+
+					<p:treeTable value="#{definitionBean.root}" var="defValDTO" selectionMode="single" selection="#{definitionBean.selValNode}" resizableColumns="true" style="width:100%" scrollable="true" scrollHeight="250">
+
+						<p:ajax event="select" listener="#{definitionBean.onNodeSelect}" update=":valForm" />
+
+						<f:facet name="header">valTree</f:facet>
+
+						<p:column style="width:150px">
+							<f:facet name="header">Kod</f:facet>
+							<h:outputText value="#{defValDTO.code}" />
+						</p:column>
+
+						<p:column style="width:100px">
+							<f:facet name="header">Ack</f:facet>
+							<h:outputText value="#{defValDTO.name}" />
+						</p:column>
+
+					</p:treeTable>
+
+				</p:panel>
+
+			</h:form>
+
+		</h:panelGrid>
+
+	</ui:define>
+
+</ui:composition>

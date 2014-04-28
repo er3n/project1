@@ -14,6 +14,7 @@
 		<security:logout logout-url="/app/logout" logout-success-url="/app/user/login.abc" />
 		<security:intercept-url pattern="/app/user/usermanager.abc" access="hasRole('KULLANICI_ISLEMLERI')" />
 		<security:intercept-url pattern="/app/user/rolemanager.abc" access="hasRole('KULLANICI_GRUP_ISLEMLERI')" />
+		<security:intercept-url pattern="/app/definition/defmanager.abc" access="hasRole('TANIMLAMA_ISLEMLERI')" />
 		<security:intercept-url pattern="/app/**" access="isAuthenticated()" />
 	</security:http>
 

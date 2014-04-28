@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface DefValueRepository extends CrudRepository<DefValueEntity, Long> {
 
-	@Query("select a from DefValueEntity a where a.type.id = :typeId")
+	@Query("select a from DefValueEntity a where a.id>0 and a.type.id = :typeId order by a.code")
 	List<DefValueEntity> findTypeValues(@Param("typeId") String typeId);
 	
 }

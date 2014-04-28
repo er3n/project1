@@ -24,6 +24,7 @@
 				<p:submenu label="Sistem Yonetimi" rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI, KULLANICI_GRUP_ISLEMLERI')}">
 					<p:menuitem value="Kullanici Islemleri" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI')}" />
 					<p:menuitem value="Kullanici Grup Islemleri" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('KULLANICI_GRUP_ISLEMLERI')}" />
+					<p:menuitem value="Tanimlar" url="/app/definition/defmanager.abc" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
 				</p:submenu>		
 				<f:facet name="options">
 					<h:form>

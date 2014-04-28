@@ -1,12 +1,13 @@
 package org.abacus.user.core.handler;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 
-public interface SecGroupHandler {
+public interface SecGroupHandler extends Serializable{
 	
 	List<SecGroupEntity> allGroups();
 

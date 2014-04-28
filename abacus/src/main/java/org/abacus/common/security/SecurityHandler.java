@@ -5,6 +5,7 @@ import java.util.List;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,5 +42,10 @@ public class SecurityHandler implements UserDetailsService {
 		return secUser;
 
 	}
+	
+	public SecUser getCurrentUser(){
+		SecUser secUser = (SecUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return secUser;
+	} 
 
 }

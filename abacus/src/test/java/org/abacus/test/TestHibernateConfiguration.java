@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath*:/appcontext/persistence-context.xml","classpath*:/appcontext/main-context.xml"})
+@ContextConfiguration(locations={"classpath*:/appcontext/persistence-context.xml","classpath*:/appcontext/main-context.xml","classpath*:/appcontext/cache-context.xml"})
 @TransactionConfiguration(defaultRollback = true)
 public class TestHibernateConfiguration {
 
@@ -25,6 +25,9 @@ public class TestHibernateConfiguration {
 	
 	@Autowired
 	private SecGroupHandler groupHandler;
+	
+	@Autowired
+	private SecGroupHandler secGroupHandler;
 	
 	@Test
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
@@ -50,6 +53,13 @@ public class TestHibernateConfiguration {
 	@Rollback(false)
 	public void testRemoveGroup() throws UserExistsInGroupException{
 		groupHandler.removeGroup(1l);
+	}
+	
+	@Test
+	@Rollback(false)
+	public void testSpringAbstrationCache(){
+		secGroupHandler.allAuthorities();
+		secGroupHandler.allAuthorities();
 	}
 
 }

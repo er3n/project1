@@ -1,5 +1,6 @@
 package org.abacus.user.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import org.primefaces.model.DualListModel;
 
 @ManagedBean
 @ViewScoped
-public class UserGroupViewBean {
+public class UserGroupViewBean implements Serializable{
 
 	@ManagedProperty(value = "#{secGroupHandler}")
 	private SecGroupHandler secGroupHandler;

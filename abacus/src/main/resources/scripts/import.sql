@@ -11,9 +11,9 @@ INSERT INTO sec_group (id, name, version) VALUES (nextval('seq_id'), 'Sistem Yon
 INSERT INTO sec_group (id, name, version) VALUES (nextval('seq_id'), 'Holding Yoneticisi', 0);
 INSERT INTO sec_group (id, name, version) VALUES (nextval('seq_id'), 'Sirket Yoneticisi', 0);
 INSERT INTO sec_group (id, name, version) VALUES (nextval('seq_id'), 'Proje Yoneticisi', 0);
-
+ 
 INSERT INTO sec_group_authority (id, group_id, authority_id, version) VALUES (nextval('seq_id'), 1, 'KULLANICI_GRUP_ISLEMLERI', 0);
-
+ 
 INSERT INTO sec_group_member (id, user_id, group_id, version) VALUES (nextval('seq_id'), 'admin', 1, 0);
 
 COMMIT;

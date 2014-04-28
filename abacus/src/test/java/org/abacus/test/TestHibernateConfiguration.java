@@ -40,12 +40,11 @@ public class TestHibernateConfiguration {
 		CompanyEntity companyEntity = new CompanyEntity();
 		companyEntity.setId("01");
 		entity.setCompanyEntity(companyEntity );
-		entity.setId("ADMÝN");
+		entity.setId("ADMIN");
 		
 		entity.setPassword("wqwe");
 		
 		userRepository.save(entity);
-		
 		
 	}
 	

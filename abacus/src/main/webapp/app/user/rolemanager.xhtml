@@ -80,7 +80,7 @@
 						</p:pickList>
 
 						<f:facet name="footer">
-							<p:button value="Kaydet" />
+							<p:commandButton value="#{not empty userGroupViewBean.selectedGroup ? 'Guncelle' : 'Kaydet'}" />
 						</f:facet>
 
 					</h:panelGrid>

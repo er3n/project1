@@ -76,15 +76,15 @@
 					<h:panelGrid id="valGrid" columns="2" cellpadding="4" cellspacing="4">
 
 						<h:outputLabel value="Kod:" />
-						<p:inputText value="#{definitionBean.newVal.code}" required="true" requiredMessage="Val.Code Bos olamaz" validatorMessage="Val.Code" />
+						<p:inputText value="#{definitionBean.selVal.code}" required="true" requiredMessage="Val.Code Bos olamaz" validatorMessage="Val.Code" />
 
 						<h:outputLabel value="Ad:" />
-						<p:inputText value="#{definitionBean.newVal.name}" required="true" requiredMessage="Val.Ack Bos olamaz" validatorMessage="Val.Ack" />
+						<p:inputText value="#{definitionBean.selVal.name}" required="true" requiredMessage="Val.Ack Bos olamaz" validatorMessage="Val.Ack" />
 
 						<f:facet name="footer">
-							<p:commandButton id="saveVal" update=":valForm:valPanel" ajax="true" value="#{definitionBean.newVal.id == null ? 'Kaydet' : 'Guncelle'}"
+							<p:commandButton id="saveVal" update=":valForm:valPanel" ajax="true" value="#{definitionBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionBean.saveOrUpdateVal}" style="float: right;" />
-							<p:commandButton id="clearVal" process="@this" ajax="true" update=":valForm:valPanel" value="#{definitionBean.newVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
+							<p:commandButton id="clearVal" process="@this" ajax="true" update=":valForm:valPanel" value="#{definitionBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionBean.clearVal}" style="float: right;">
 								<p:resetInput target=":valForm:valPanel" />
 							</p:commandButton>

@@ -28,14 +28,13 @@ import org.primefaces.model.TreeNode;
 public class DefinitionBean implements Serializable {
 
 	private DefValueEntity rootVal = new DefValueEntity(0L, "Root", "-");
-	private TreeNode root = new DefaultTreeNode(rootVal, null);
+	private TreeNode root = null;
 
 	private DefTypeEntity selType;
 	private List<DefTypeEntity> typeList;
 
-	private DefValueEntity newVal;
-	private DefValueEntity selVal;
 	private TreeNode selValNode;
+	private DefValueEntity selVal;
 	private List<DefValueEntity> valList;
 
 	@ManagedProperty(value = "#{defTypeHandler}")
@@ -47,18 +46,10 @@ public class DefinitionBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 
-	private Long viewScopeId = 0L;
-
-	public Long getViewScopeId() {
-		return viewScopeId;
-	}
-
-	public void setViewScopeText(Long viewScopeId) {
-		this.viewScopeId = viewScopeId;
-	}
-
 	@PostConstruct
 	public void init() {
+		root = null;
+		root = new DefaultTreeNode(rootVal, null);
 		System.out.println("init.viewScope.Type");
 		this.findTypeList();
 		if (typeList.size() > 0) {
@@ -66,15 +57,6 @@ public class DefinitionBean implements Serializable {
 		} else {
 			clearType();
 		}
-	}
-
-	public void printViewScope() {
-		if (viewScopeId == null) {
-			viewScopeId = 0L;
-		} else {
-			viewScopeId++;
-		}
-		System.out.println("viewScopeText.Type:" + viewScopeId);
 	}
 
 	public void saveOrUpdateType() {
@@ -96,15 +78,13 @@ public class DefinitionBean implements Serializable {
 	}
 
 	public void saveOrUpdateVal() {
-		if (newVal.isNew()) {
-			newVal.setType(selType);
-			newVal.setParent(selVal!=null?selVal:new DefValueEntity(0L));
-			valList.add(0, newVal);
+		if (selVal.isNew()) {
+			valList.add(0, selVal);
 			jsfMessageHelper.addInfo("valueKayitIslemiBasarili");
 		} else {
 			jsfMessageHelper.addInfo("valueGuncellemeIslemiBasarili");
 		}
-		defValService.saveOrUpdateEntity(newVal);
+		defValService.saveOrUpdateEntity(selVal);
 		selVal = null;
 		clearVal();
 		refreshTree();
@@ -116,23 +96,6 @@ public class DefinitionBean implements Serializable {
 
 	public void setCurrentType() {
 		findValList(selType.getId());
-	}
-
-	public void setCurrentVal() {
-		newVal = selVal;
-		if (newVal == null) {
-			clearVal();
-		}
-	}
-
-	public void setCurrentValNode() {
-		if (selValNode == null || selValNode.getData() == null) {
-			selVal = null;
-			clearVal();
-		} else {
-			selVal = (DefValueEntity) selValNode.getData();
-			setCurrentVal();
-		}
 	}
 
 	public void addNewType() {
@@ -159,9 +122,24 @@ public class DefinitionBean implements Serializable {
 		}
 		clearVal();
 	}
+	
+	public void setCurrentValNode() {
+		if (selValNode == null || selValNode.getData() == null) {
+			selVal = null;
+			clearVal();
+		} else {
+			selVal = (DefValueEntity) selValNode.getData();
+		}
+	}
 
 	public void clearVal() {
-		newVal = new DefValueEntity();
+		DefValueEntity parentVal = new DefValueEntity(0L);
+		if (selVal!=null && !selVal.isNew()){
+			parentVal = selVal;
+		}
+		selVal = new DefValueEntity();
+		selVal.setParent(parentVal);
+		selVal.setType(selType);
 	}
 
 	public void findTypeList() {
@@ -223,14 +201,6 @@ public class DefinitionBean implements Serializable {
 		this.typeList = typeList;
 	}
 
-	public DefValueEntity getNewVal() {
-		return newVal;
-	}
-
-	public void setNewVal(DefValueEntity newVal) {
-		this.newVal = newVal;
-	}
-
 	public DefValueEntity getSelVal() {
 		return selVal;
 	}
@@ -273,10 +243,6 @@ public class DefinitionBean implements Serializable {
 
 	public void setRoot(TreeNode root) {
 		this.root = root;
-	}
-
-	public void setViewScopeId(Long viewScopeId) {
-		this.viewScopeId = viewScopeId;
 	}
 
 	public TreeNode getRoot() {

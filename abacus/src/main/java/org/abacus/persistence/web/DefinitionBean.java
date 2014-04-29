@@ -78,7 +78,7 @@ public class DefinitionBean implements Serializable {
 	}
 
 	public void saveOrUpdateType() {
-		if (selType.getId() == null || selType.getIsNew()) {
+		if (selType.isNew()) {
 			jsfMessageHelper.addInfo("typeKayitIslemiBasarili");
 		} else {
 			jsfMessageHelper.addInfo("typeGuncellemeIslemiBasarili");
@@ -88,7 +88,7 @@ public class DefinitionBean implements Serializable {
 	}
 
 	public void deleteType() {
-		if (selType.getId() != null && !selType.getIsNew()) {
+		if (!selType.isNew()) {
 			defTypeService.deleteEntity(selType);
 			jsfMessageHelper.addInfo("typeSilmeIslemiBasarili");
 		} 
@@ -96,7 +96,7 @@ public class DefinitionBean implements Serializable {
 	}
 
 	public void saveOrUpdateVal() {
-		if (newVal.getId() == null || newVal.getIsNew()) {
+		if (newVal.isNew()) {
 			newVal.setType(selType);
 			newVal.setParent(selVal!=null?selVal:new DefValueEntity(0L));
 			valList.add(0, newVal);
@@ -138,21 +138,22 @@ public class DefinitionBean implements Serializable {
 	public void addNewType() {
 		boolean found = false;
 		for (DefTypeEntity def : typeList) {
-			if (def.getIsNew()) {
+			if (def.isNew()) {
 				selType = def;
 				found = true;
+				break;
 			}
 		}
-		if (!found) {
+		if (found) {
+			setCurrentType();
+		} else {
 			clearType();
 		}
-		setCurrentType();
 
 	}
 
 	public void clearType() {
-		selType = new DefTypeEntity(true);
-		selType.setId("?");
+		selType = new DefTypeEntity();
 		if (typeList != null) {
 			typeList.add(0, selType);
 		}
@@ -161,7 +162,6 @@ public class DefinitionBean implements Serializable {
 
 	public void clearVal() {
 		newVal = new DefValueEntity();
-		newVal.setIsNew(true);
 	}
 
 	public void findTypeList() {

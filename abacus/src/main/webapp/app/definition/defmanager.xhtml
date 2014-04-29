@@ -27,7 +27,7 @@
 							<p:commandButton id="saveType" update=":typeForm" ajax="true" value="#{definitionBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionBean.saveOrUpdateType}" style="float: right;" />
 							<p:commandButton id="deleteType" update=":typeForm :valForm" ajax="true" value="#{definitionBean.selType.id == null ? '-' : 'Sil'}"
-								actionListener="#{definitionBean.deleteType}" style="float: right;" />
+								actionListener="#{definitionBean.deleteType}" style="float: right;" immediate="true"/>
 							<p:commandButton id="clearType" update=":typeForm :valForm" ajax="true" value="#{definitionBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionBean.addNewType}" style="float: right;">
 								<p:resetInput target=":typeForm" />

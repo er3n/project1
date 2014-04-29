@@ -34,15 +34,13 @@ public class DefValueEntity extends DynamicEntity {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active = true;
 	
-	@Transient
-	private boolean isNew=false;
-	
-	public boolean getIsNew() {
-		return isNew;
+	@Override
+	public String toString(){
+		return this.isNew()?"New:"+super.toString():(this.getId()+">"+this.getType().getId()+":"+this.getCode());
 	}
-
-	public void setIsNew(boolean isNew) {
-		this.isNew = isNew;
+	
+	public boolean isNew() {
+		return (this.getId()==null);
 	}
 
 	public DefValueEntity(){

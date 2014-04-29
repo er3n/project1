@@ -65,7 +65,7 @@
 						<p:pickList  
 							value="#{userGroupViewBean.selectedGroupAuthoritiesDL}"
 							var="authority" itemValue="#{authority}"
-							itemLabel="#{authority.id}" converter="staticEntityConverter"
+							itemLabel="#{authority.id}" converter="authorityEntityConverter"
 							showCheckbox="true" showSourceFilter="true"
 							showTargetFilter="true" filterMatchMode="contains">
 
@@ -80,7 +80,8 @@
 						</p:pickList>
 
 						<f:facet name="footer">
-							<p:button value="Kaydet" />
+							<p:commandButton value="Kaydet" rendered="#{empty userGroupViewBean.selectedGroup.id}" actionListener="#{userGroupViewBean.saveGroup}" update=":groupListForm" />
+							<p:commandButton value="Guncelle" rendered="#{not empty userGroupViewBean.selectedGroup.id}" actionListener="#{userGroupViewBean.updateGroup}" update=":groupListForm" />
 						</f:facet>
 
 					</h:panelGrid>

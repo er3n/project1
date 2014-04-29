@@ -10,7 +10,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.user.core.handler.SecGroupHandler;
+import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
@@ -19,13 +21,16 @@ import org.primefaces.model.DualListModel;
 
 @ManagedBean
 @ViewScoped
-public class UserGroupViewBean implements Serializable{
+public class UserGroupViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{secGroupHandler}")
 	private SecGroupHandler secGroupHandler;
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
+
+	@ManagedProperty(value = "#{sessionInfoHelper}")
+	private SessionInfoHelper sessionInfoHelper;
 
 	private SecGroupEntity selectedGroup;
 
@@ -47,10 +52,36 @@ public class UserGroupViewBean implements Serializable{
 		List<SecAuthorityEntity> targetSelectedGrupAuthorities = new ArrayList<>();
 		selectedGroupAuthoritiesDL.setSource(allAuthorities);
 		selectedGroupAuthoritiesDL.setTarget(targetSelectedGrupAuthorities);
-		selectedGroup = null;
+		selectedGroup = new SecGroupEntity();
 	}
 
-	public void removeGroup(){
+	public void saveGroup() {
+		try {
+			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL
+					.getTarget();
+			String userName = sessionInfoHelper.currentUserName();
+			secGroupHandler.saveGroup(selectedGroup, selectedAuthorities,
+					userName);
+			jsfMessageHelper.addInfo("grupEklendi");
+		} catch (GroupNameInUseException e) {
+			jsfMessageHelper.addInfo("grupIsmiKullanimda");
+		}
+	}
+
+	public void updateGroup() {
+		try {
+			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL
+					.getTarget();
+			String userName = sessionInfoHelper.currentUserName();
+			secGroupHandler.updateGroup(selectedGroup, selectedAuthorities,
+					userName);
+			jsfMessageHelper.addInfo("grupGuncellendi");
+		} catch (GroupNameInUseException e) {
+			jsfMessageHelper.addError("groupIsmiKullanimda");
+		}
+	}
+
+	public void removeGroup() {
 
 		try {
 			secGroupHandler.removeGroup(selectedGroup.getId());
@@ -111,6 +142,14 @@ public class UserGroupViewBean implements Serializable{
 
 	public void setJsfMessageHelper(JsfMessageHelper jsfMessageHelper) {
 		this.jsfMessageHelper = jsfMessageHelper;
+	}
+
+	public SessionInfoHelper getSessionInfoHelper() {
+		return sessionInfoHelper;
+	}
+
+	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
+		this.sessionInfoHelper = sessionInfoHelper;
 	}
 
 }

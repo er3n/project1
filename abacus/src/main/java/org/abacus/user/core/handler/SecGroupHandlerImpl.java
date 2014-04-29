@@ -1,5 +1,6 @@
 package org.abacus.user.core.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,8 +11,10 @@ import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupMemberRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
+import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
+import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,6 +79,57 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 		groupAuthorityRepository.deleteByGroupId(groupId);
 		
 		groupRepository.delete(groupId);
+		
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
+	public void saveGroup(SecGroupEntity group, List<SecAuthorityEntity> selectedAuthorities, String userCreated) throws GroupNameInUseException {
+		
+		SecGroupEntity existingGroupEntitiy = groupRepository.findByName(group.getName());
+		if(existingGroupEntitiy != null){
+			throw new GroupNameInUseException();
+		}
+		
+		groupRepository.save(group);
+		
+		List<SecGroupAuthorityEntity> groupAuthorities = new ArrayList<>();
+		for(SecAuthorityEntity authority : selectedAuthorities){
+			SecGroupAuthorityEntity groupAuthority = new SecGroupAuthorityEntity();
+			groupAuthority.setAuthority(authority);
+			groupAuthority.setGroup(group);
+			groupAuthority.createHook(userCreated);
+			groupAuthorities.add(groupAuthority);
+		}
+		
+		groupAuthorityRepository.save(groupAuthorities);
+		
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
+	public void updateGroup(SecGroupEntity group, List<SecAuthorityEntity> selectedAuthorities, String userCreated)
+			throws GroupNameInUseException {
+		
+		SecGroupEntity existingGroupEntitiy = groupRepository.findByName(group.getName());
+		if(existingGroupEntitiy != null && !existingGroupEntitiy.getId().equals(group.getId()) ){
+			throw new GroupNameInUseException();
+		}
+		
+		groupRepository.save(group);
+		
+		groupAuthorityRepository.deleteByGroupId(group.getId());
+		
+		List<SecGroupAuthorityEntity> groupAuthorities = new ArrayList<>();
+		for(SecAuthorityEntity authority : selectedAuthorities){
+			SecGroupAuthorityEntity groupAuthority = new SecGroupAuthorityEntity();
+			groupAuthority.setAuthority(authority);
+			groupAuthority.setGroup(group);
+			groupAuthority.createHook(userCreated);
+			groupAuthorities.add(groupAuthority);
+		}
+		
+		groupAuthorityRepository.save(groupAuthorities);
 		
 	}
 		

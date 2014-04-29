@@ -19,6 +19,9 @@ public class DynamicEntityDataModel<T extends DynamicEntity> extends ListDataMod
 
 	@Override
 	public Object getRowKey(T object) {
+		if(object.getId() == null){
+			return -1;
+		}
 		Long id = object.getId();
 		return id.toString();
 	}

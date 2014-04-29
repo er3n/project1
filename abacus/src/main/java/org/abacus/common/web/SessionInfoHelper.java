@@ -1,11 +1,13 @@
 package org.abacus.common.web;
 
+import java.io.Serializable;
+
 import org.abacus.common.security.SecUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SessionInfoHelper {
+public class SessionInfoHelper implements Serializable {
 
 
 	public SecUser currentUser(){

@@ -5,6 +5,6 @@ import java.io.Serializable;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DefValueDao implements Serializable {
+public class DefStateDao implements Serializable {
 
 }

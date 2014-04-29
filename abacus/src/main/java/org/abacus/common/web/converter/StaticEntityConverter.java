@@ -1,4 +1,4 @@
-package org.abacus.user.web.converter;
+package org.abacus.common.web.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

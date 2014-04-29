@@ -3,11 +3,18 @@ package org.abacus.definition.shared.constant;
 public interface DefConstant {
 
 	enum GroupEnum {
-		P,	//Parameter	(Static)
-		S,	//State		(Static)
-		T,	//Task		(Dynamic)
-		V,	//Value		(Dynamic)
+		P("Parameter"),	//(Static)
+		S("State"),		//(Static)
+		T("Task"),		//(Dynamic)
+		V("Value"),		//(Dynamic)
 		;
+		private String description;
+		private GroupEnum(String description) {
+			this.description = description;
+		}
+		public String getDescription() {
+			return this.description;
+		}
 	}
 
 	enum TypeEnum {

@@ -26,7 +26,7 @@ import org.primefaces.model.TreeNode;
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("serial")
-public class DefinitionBean implements Serializable {
+public class DefinitionViewBean implements Serializable {
 
 	private TreeNode rootNode = null;
 	private DefValueEntity rootVal = new DefValueEntity(0L, ".", ".");
@@ -47,11 +47,25 @@ public class DefinitionBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 
+	private DefConstant.GroupEnum[] groupEnums;
+
+	private DefConstant.GroupEnum selectedGroupEnum;
+
 	@PostConstruct
 	public void init() {
-		getNewRoot();
-		System.out.println("init.viewScope.Type");
-		this.findTypeList();
+		groupEnums = DefConstant.GroupEnum.values();
+		selectedGroupEnum =  groupEnums[0];
+		selectedGroupChanged();
+	}
+
+	private void newRoot() {
+		rootNode = null;
+		rootNode = new DefaultTreeNode(rootVal, null);
+	}
+	
+	public void selectedGroupChanged(){
+		newRoot();
+		this.findTypeList(selectedGroupEnum);
 		if (typeList.size() > 0) {
 			selType = typeList.get(0);
 		} else {
@@ -59,11 +73,6 @@ public class DefinitionBean implements Serializable {
 		}
 	}
 
-	private void getNewRoot(){
-		rootNode = null;
-		rootNode = new DefaultTreeNode(rootVal, null);
-	}
-	
 	public void saveOrUpdateType() {
 		if (selType.isNew()) {
 			jsfMessageHelper.addInfo("typeKayitIslemiBasarili");
@@ -71,15 +80,15 @@ public class DefinitionBean implements Serializable {
 			jsfMessageHelper.addInfo("typeGuncellemeIslemiBasarili");
 		}
 		defTypeService.saveOrUpdateEntity(selType);
-		findTypeList();
+		findTypeList(selectedGroupEnum);
 	}
 
 	public void deleteType() {
 		if (!selType.isNew()) {
 			defTypeService.deleteEntity(selType);
 			jsfMessageHelper.addInfo("typeSilmeIslemiBasarili");
-		} 
-		findTypeList();
+		}
+		findTypeList(selectedGroupEnum);
 	}
 
 	public void saveOrUpdateVal() {
@@ -127,7 +136,7 @@ public class DefinitionBean implements Serializable {
 		}
 		clearVal();
 	}
-	
+
 	public void setCurrentValNode() {
 		if (selNode == null || selNode.getData() == null) {
 			selVal = null;
@@ -139,7 +148,7 @@ public class DefinitionBean implements Serializable {
 
 	public void clearVal() {
 		DefValueEntity parentVal = new DefValueEntity(0L);
-		if (selVal!=null && !selVal.isNew()){
+		if (selVal != null && !selVal.isNew()) {
 			parentVal = selVal;
 		}
 		selVal = new DefValueEntity();
@@ -147,11 +156,11 @@ public class DefinitionBean implements Serializable {
 		selVal.setType(selType);
 	}
 
-	public void findTypeList() {
+	public void findTypeList(DefConstant.GroupEnum groupEnum) {
 		selType = null;
 		typeList = null;
 		clearType();
-		typeList = defTypeService.getTypeList(DefConstant.GroupEnum.V.name());
+		typeList = defTypeService.getTypeList(groupEnum.name());
 	}
 
 	public void findValList(String typ) {
@@ -163,8 +172,8 @@ public class DefinitionBean implements Serializable {
 	}
 
 	private void refreshTree() {
-		getNewRoot();
-		
+		newRoot();
+
 		Map<Long, TreeNode> valMap = new HashMap<Long, TreeNode>(1 << 8);// 1<<8=2^8=256
 		for (DefValueEntity val : valList) {
 			TreeNode createNode = new DefaultTreeNode(val, null);
@@ -268,6 +277,22 @@ public class DefinitionBean implements Serializable {
 
 	public void setSelNode(TreeNode selNode) {
 		this.selNode = selNode;
+	}
+
+	public DefConstant.GroupEnum[] getGroupEnums() {
+		return groupEnums;
+	}
+
+	public void setGroupEnums(DefConstant.GroupEnum[] groupEnums) {
+		this.groupEnums = groupEnums;
+	}
+
+	public DefConstant.GroupEnum getSelectedGroupEnum() {
+		return selectedGroupEnum;
+	}
+
+	public void setSelectedGroupEnum(DefConstant.GroupEnum selectedGroupEnum) {
+		this.selectedGroupEnum = selectedGroupEnum;
 	}
 
 }

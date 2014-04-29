@@ -13,7 +13,7 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
 import org.abacus.definition.core.handler.DefValueHandler;
-import org.abacus.definition.shared.entity.DefConstant;
+import org.abacus.definition.shared.constant.DefConstant;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.primefaces.event.NodeCollapseEvent;

@@ -1,4 +1,4 @@
-package org.abacus.definition.shared.entity;
+package org.abacus.definition.shared.constant;
 
 public interface DefConstant {
 

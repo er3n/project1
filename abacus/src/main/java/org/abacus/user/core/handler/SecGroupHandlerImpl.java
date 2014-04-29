@@ -49,7 +49,6 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	@Cacheable("userCache")
 	public List<SecAuthorityEntity> allAuthorities() {
 		List<SecAuthorityEntity> authorityList = authorityRepository.findAllOrderById();
 		return authorityList;

@@ -12,11 +12,9 @@
 		<h:panelGrid id="typeGrid" columns="2" cellpadding="4" cellspacing="4">
 
 			<h:form id="typeForm">
-
 				<p:panel id="typePanel" header="Type" style="height:500px; width:400px">
-
+				
 					<h:panelGrid id="typeGrid" columns="2" cellpadding="4" cellspacing="4">
-
 						<h:outputLabel value="Kod:" />
 						<p:inputText value="#{definitionBean.selType.id}" required="true" requiredMessage="Type.Code Bos olamaz" validatorMessage="Type.Code" />
 
@@ -62,19 +60,16 @@
 								<h:outputLabel value="#{selType.ack}" />
 							</p:column>
 							</ui:remove>
-
 						</p:dataTable>
 					</p:panel>
-
-
+				
 				</p:panel>
 			</h:form>
 
 			<h:form id="valForm">
  				<p:panel id="valPanel" header="Value" style="height:500px; width:600px">
-
+					
 					<h:panelGrid id="valGrid" columns="2" cellpadding="4" cellspacing="4">
-
 						<h:outputLabel value="Kod:" />
 						<p:inputText value="#{definitionBean.selVal.code}" required="true" requiredMessage="Val.Code Bos olamaz" validatorMessage="Val.Code" />
 
@@ -91,26 +86,20 @@
 						</f:facet>
 					</h:panelGrid>
 
-					<p:treeTable value="#{definitionBean.root}" var="defValDTO" selectionMode="single" selection="#{definitionBean.selValNode}" resizableColumns="true" style="width:100%" scrollable="true" scrollHeight="250">
-
+					<p:treeTable value="#{definitionBean.rootNode}" var="defValDTO" selectionMode="single" selection="#{definitionBean.selNode}" resizableColumns="true" style="width:100%" scrollable="true" scrollHeight="250">
 						<p:ajax event="select" listener="#{definitionBean.onNodeSelect}" update=":valForm" />
-
 						<f:facet name="header">valTree</f:facet>
-
 						<p:column style="width:150px">
 							<f:facet name="header">Kod</f:facet>
 							<h:outputText value="#{defValDTO.code}" />
 						</p:column>
-
 						<p:column style="width:100px">
 							<f:facet name="header">Ack</f:facet>
 							<h:outputText value="#{defValDTO.name}" />
 						</p:column>
-
 					</p:treeTable>
-
+					
 				</p:panel>
-
 			</h:form>
 
 		</h:panelGrid>

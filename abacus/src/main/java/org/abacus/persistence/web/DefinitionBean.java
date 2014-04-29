@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
 import org.abacus.definition.core.handler.DefValueHandler;
+import org.abacus.definition.shared.entity.DefConstant;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.primefaces.event.NodeCollapseEvent;
@@ -22,18 +23,18 @@ import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("serial")
 public class DefinitionBean implements Serializable {
 
-	private DefValueEntity rootVal = new DefValueEntity(0L, "Root", "-");
-	private TreeNode root = null;
+	private TreeNode rootNode = null;
+	private DefValueEntity rootVal = new DefValueEntity(0L, ".", ".");
 
 	private DefTypeEntity selType;
 	private List<DefTypeEntity> typeList;
 
-	private TreeNode selValNode;
+	private TreeNode selNode;
 	private DefValueEntity selVal;
 	private List<DefValueEntity> valList;
 
@@ -48,8 +49,7 @@ public class DefinitionBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		root = null;
-		root = new DefaultTreeNode(rootVal, null);
+		getNewRoot();
 		System.out.println("init.viewScope.Type");
 		this.findTypeList();
 		if (typeList.size() > 0) {
@@ -59,6 +59,11 @@ public class DefinitionBean implements Serializable {
 		}
 	}
 
+	private void getNewRoot(){
+		rootNode = null;
+		rootNode = new DefaultTreeNode(rootVal, null);
+	}
+	
 	public void saveOrUpdateType() {
 		if (selType.isNew()) {
 			jsfMessageHelper.addInfo("typeKayitIslemiBasarili");
@@ -124,11 +129,11 @@ public class DefinitionBean implements Serializable {
 	}
 	
 	public void setCurrentValNode() {
-		if (selValNode == null || selValNode.getData() == null) {
+		if (selNode == null || selNode.getData() == null) {
 			selVal = null;
 			clearVal();
 		} else {
-			selVal = (DefValueEntity) selValNode.getData();
+			selVal = (DefValueEntity) selNode.getData();
 		}
 	}
 
@@ -146,7 +151,7 @@ public class DefinitionBean implements Serializable {
 		selType = null;
 		typeList = null;
 		clearType();
-		typeList = defTypeService.getTypeList();
+		typeList = defTypeService.getTypeList(DefConstant.GroupEnum.V.name());
 	}
 
 	public void findValList(String typ) {
@@ -158,9 +163,8 @@ public class DefinitionBean implements Serializable {
 	}
 
 	private void refreshTree() {
-		root = null;
-		root = new DefaultTreeNode(rootVal, null);
-
+		getNewRoot();
+		
 		Map<Long, TreeNode> valMap = new HashMap<Long, TreeNode>(1 << 8);// 1<<8=2^8=256
 		for (DefValueEntity val : valList) {
 			TreeNode createNode = new DefaultTreeNode(val, null);
@@ -169,20 +173,12 @@ public class DefinitionBean implements Serializable {
 		for (DefValueEntity valDto : valList) {
 			TreeNode selNode = valMap.get(valDto.getId());
 			if (valDto.getParent().getId().equals(0L)) {
-				root.getChildren().add(selNode);
+				rootNode.getChildren().add(selNode);
 			} else {
 				TreeNode parNode = valMap.get(valDto.getParent().getId());
 				parNode.getChildren().add(selNode);
 			}
 		}
-	}
-
-	public DefValueEntity getRootVal() {
-		return rootVal;
-	}
-
-	public void setRootVal(DefValueEntity rootVal) {
-		this.rootVal = rootVal;
 	}
 
 	public DefTypeEntity getSelType() {
@@ -241,14 +237,6 @@ public class DefinitionBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public void setRoot(TreeNode root) {
-		this.root = root;
-	}
-
-	public TreeNode getRoot() {
-		return root;
-	}
-
 	public void onNodeExpand(NodeExpandEvent event) {
 		System.out.println("Expanded" + event.getTreeNode().toString());
 	}
@@ -266,12 +254,20 @@ public class DefinitionBean implements Serializable {
 		System.out.println("Unselected:" + event.getTreeNode().toString());
 	}
 
-	public TreeNode getSelValNode() {
-		return selValNode;
+	public TreeNode getRootNode() {
+		return rootNode;
 	}
 
-	public void setSelValNode(TreeNode selValNode) {
-		this.selValNode = selValNode;
+	public void setRootNode(TreeNode rootNode) {
+		this.rootNode = rootNode;
 	}
-	
+
+	public TreeNode getSelNode() {
+		return selNode;
+	}
+
+	public void setSelNode(TreeNode selNode) {
+		this.selNode = selNode;
+	}
+
 }

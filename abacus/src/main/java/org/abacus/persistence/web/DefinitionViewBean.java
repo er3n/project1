@@ -92,13 +92,16 @@ public class DefinitionViewBean implements Serializable {
 	}
 
 	public void saveOrUpdateVal() {
+		int idx = 0;
 		if (selVal.isNew()) {
-			valList.add(0, selVal);
 			jsfMessageHelper.addInfo("valueKayitIslemiBasarili");
 		} else {
 			jsfMessageHelper.addInfo("valueGuncellemeIslemiBasarili");
+			idx = valList.indexOf(selVal);
+			valList.remove(selVal);
 		}
-		defValService.saveOrUpdateEntity(selVal);
+		selVal = defValService.saveOrUpdateEntity(selVal);
+		valList.add(idx, selVal);
 		selVal = null;
 		clearVal();
 		refreshTree();

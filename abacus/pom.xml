@@ -8,16 +8,16 @@
 
 	<properties>
 		<java-version>1.7</java-version>
-		<jsf-version>2.1.7</jsf-version>
+		<jsf-version>2.1.28</jsf-version>
 		<primefaces-version>4.0</primefaces-version>
 		<javax-servlet-api>3.0.1</javax-servlet-api>
-		<springframework-version>4.0.2.RELEASE</springframework-version>
+		<springframework-version>4.0.3.RELEASE</springframework-version>
 		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>
 		<hibernate-version>4.3.0.Final</hibernate-version>
 		<hibernate-validator-version>5.0.1.Final</hibernate-validator-version>
 		<mysql-connector-version>5.1.26</mysql-connector-version>
 		<postgresql-driver-version>9.3-1100-jdbc41</postgresql-driver-version>
-		<spring-data-jpa-version>1.4.1.RELEASE</spring-data-jpa-version>
+		<spring-data-jpa-version>1.5.2.RELEASE</spring-data-jpa-version>
 		<spring-faces-version>2.3.3.RELEASE</spring-faces-version>
 	</properties>
 

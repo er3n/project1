@@ -18,9 +18,9 @@
 		<h:panelGrid id="mainGrid" columns="2" cellpadding="4" cellspacing="4"
 			columnClasses="topAligned,topAligned">
 
-			<h:panelGrid columns="1" style="width:400px">
+			<h:panelGrid columns="1" style="width:450px">
 			<h:form id="typeForm">
-				<p:panel id="typePanel" header="Grup" style="width:400px">
+				<p:panel id="typePanel" header="Grup" style="width:450px">
 				
 					<h:panelGrid id="typeGrid" columns="4" cellpadding="4" cellspacing="4">
 						
@@ -76,9 +76,9 @@
 			</h:form>
 			</h:panelGrid>
 			
-			<h:panelGrid columns="1" style="width:400px">
+			<h:panelGrid columns="1" style="width:700px">
 			<h:form id="valForm">
- 				<p:panel id="valPanel" header="Deger" style="width:800px">
+ 				<p:panel id="valPanel" header="Deger">
 					
 					<h:panelGrid id="valGrid" columns="4" cellpadding="4" cellspacing="4">
 						<h:outputLabel value="Kod:" />
@@ -102,15 +102,15 @@
 					<p:treeTable value="#{definitionViewBean.rootNode}" var="defValDTO" selectionMode="single" selection="#{definitionViewBean.selNode}" resizableColumns="true" style="width:100%">
 						<p:ajax event="select" listener="#{definitionViewBean.onNodeSelect}" update=":valForm" />
 						<f:facet name="header">valTree</f:facet>
-						<p:column style="width:150px">
+						<p:column style="width:100px">
 							<f:facet name="header">Kod</f:facet>
 							<h:outputText value="#{defValDTO.code}" />
 						</p:column>
-						<p:column style="width:100px">
+						<p:column style="width:150px">
 							<f:facet name="header">Ack</f:facet>
 							<h:outputText value="#{defValDTO.name}" />
 						</p:column>
-						<p:column style="width:100px">
+						<p:column style="width:30px">
 							<f:facet name="header">Version</f:facet>
 							<h:outputText value="#{defValDTO.version}" />
 						</p:column>

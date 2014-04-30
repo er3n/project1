@@ -12,6 +12,7 @@ import org.abacus.user.shared.entity.SecGroupMemberEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.holder.SearchUserCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,9 @@ public class SecUserHandlerImpl implements SecUserHandler {
 	
 	@Autowired
 	private GroupMemberRepository groupMemberRepository;
+	
+	@Autowired
+	private Md5PasswordEncoder md5PasswordEncoder;
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -47,6 +51,7 @@ public class SecUserHandlerImpl implements SecUserHandler {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void createUser(SecUserEntity selectedUser,
 			List<SecGroupEntity> userGroups, String creatingUser)
 			throws UserNameExistsException {
@@ -55,6 +60,8 @@ public class SecUserHandlerImpl implements SecUserHandler {
 		if (isUserExists) {
 			throw new UserNameExistsException();
 		}
+		
+		selectedUser.setPassword(md5PasswordEncoder.encodePassword(selectedUser.getPassword(), null));
 
 		selectedUser.setActive(true);
 		userRepository.save(selectedUser);
@@ -65,6 +72,7 @@ public class SecUserHandlerImpl implements SecUserHandler {
 			membership.setUser(selectedUser);
 			membership.setGroup(group);
 			membership.createHook(creatingUser);
+			memberships.add(membership);
 		}
 		
 		groupMemberRepository.save(memberships);
@@ -83,6 +91,7 @@ public class SecUserHandlerImpl implements SecUserHandler {
 			membership.setUser(selectedUser);
 			membership.setGroup(group);
 			membership.updateHook(updatingUser);
+			memberships.add(membership);
 		}
 		
 		groupMemberRepository.save(memberships);

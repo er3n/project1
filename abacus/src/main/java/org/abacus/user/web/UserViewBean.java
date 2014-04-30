@@ -11,12 +11,19 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.user.core.handler.SecGroupHandler;
-import org.abacus.user.core.handler.SecUserHandler;
+import org.abacus.user.core.handler.UserService;
 import org.abacus.user.shared.UserNameExistsException;
 import org.abacus.user.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
+import org.abacus.user.shared.event.CreateUserEvent;
+import org.abacus.user.shared.event.ReadGroupsEvent;
+import org.abacus.user.shared.event.ReadUserEvent;
+import org.abacus.user.shared.event.RequestReadGroupsEvent;
+import org.abacus.user.shared.event.RequestReadUserEvent;
+import org.abacus.user.shared.event.UpdateUserEvent;
+import org.abacus.user.shared.event.UserCreatedEvent;
+import org.abacus.user.shared.event.UserUpdatedEvent;
 import org.abacus.user.shared.holder.SearchUserCriteria;
 import org.primefaces.model.DualListModel;
 import org.springframework.util.StringUtils;
@@ -24,12 +31,6 @@ import org.springframework.util.StringUtils;
 @ManagedBean
 @ViewScoped
 public class UserViewBean implements Serializable {
-
-	@ManagedProperty(value = "#{secUserHandler}")
-	private SecUserHandler secUserHandler;
-
-	@ManagedProperty(value = "#{secGroupHandler}")
-	private SecGroupHandler secGroupHandler;
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -47,16 +48,21 @@ public class UserViewBean implements Serializable {
 
 	private DualListModel<SecGroupEntity> selectedGroupMemberDL;
 
+	@ManagedProperty(value = "#{userEventHandler}")
+	private UserService userService;
+
 	@PostConstruct
 	public void init() {
 		searchUserCriteria = new SearchUserCriteria();
 		selectedUser = new SecUserEntity();
 		userSearchResults = null;
 		this.clear();
-		allGroups = secGroupHandler.allGroups();
+		RequestReadGroupsEvent event = new RequestReadGroupsEvent();
+		ReadGroupsEvent allGroupsEvent = userService.requestGroup(event);
+		allGroups = allGroupsEvent.getGroupList();
 	}
-	
-	public void createUser(){
+
+	public void createUser() {
 		String company = sessionInfoHelper.currentCompany();
 		String currentUser = sessionInfoHelper.currentUserName();
 		CompanyEntity companyEntity = new CompanyEntity();
@@ -64,24 +70,27 @@ public class UserViewBean implements Serializable {
 		selectedUser.setCompanyEntity(companyEntity);
 		List<SecGroupEntity> selectedGroups = selectedGroupMemberDL.getTarget();
 		try {
-			secUserHandler.createUser(selectedUser,selectedGroups,currentUser);
+			UserCreatedEvent createdEvent = userService.createUser(new CreateUserEvent(selectedUser, selectedGroups, currentUser));
+			selectedUser = createdEvent.getSecUser();
+			this.reloadSearchCriteria(selectedUser.getId());
 			jsfMessageHelper.addInfo("kullaniciEklendi");
 		} catch (UserNameExistsException e) {
 			jsfMessageHelper.addError("kullaniciAdiKullanimda");
 		}
 	}
-	
-	public void updateUser(){
+
+	public void updateUser() {
 		String currentUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedGroupMemberDL.getTarget();
-		secUserHandler.updateUser(selectedUser,selectedGroups,currentUser);
+		UserUpdatedEvent updatedEvent = userService.updateUser(new UpdateUserEvent(selectedUser, selectedGroups, currentUser));
+		this.reloadSearchCriteria(updatedEvent.getUser().getId());
 		jsfMessageHelper.addInfo("kullaniciGuncellendi");
 	}
 	
-	public void pacifyUser(){
-		String currentUser = sessionInfoHelper.currentUserName();
-		secUserHandler.makePassiveUser(selectedUser,currentUser);
-		jsfMessageHelper.addInfo("kullaniciPasiflestirildi");
+	private void reloadSearchCriteria(String username){
+		searchUserCriteria = new SearchUserCriteria();
+		searchUserCriteria.setUsername(username);
+		this.findUser();
 	}
 
 	public void clear() {
@@ -91,51 +100,36 @@ public class UserViewBean implements Serializable {
 	public void findUser() {
 		String company = sessionInfoHelper.currentCompany();
 		searchUserCriteria.setCompany(company);
-		userSearchResults = secUserHandler.findUser(searchUserCriteria);
+		ReadUserEvent readUserEvent = userService.requestUser(new RequestReadUserEvent(searchUserCriteria));
+		userSearchResults = readUserEvent.getUserEntityList();
 	}
 
 	public DualListModel<SecGroupEntity> selectedUserGroups() {
-		
+
 		selectedGroupMemberDL = new DualListModel<SecGroupEntity>();
-		
+
 		String selectedUserName = selectedUser.getId();
-		
-		List<SecGroupEntity> targetUserGroups =new ArrayList<>();
+
+		List<SecGroupEntity> targetUserGroups = new ArrayList<>();
 		List<SecGroupEntity> sourceUserGroups = new ArrayList<>();
-		
-		if(StringUtils.hasText(selectedUserName)){
-			targetUserGroups = secUserHandler
-					.findUserGroups(selectedUserName);
-			
+
+		if (StringUtils.hasText(selectedUserName)) {
+			ReadGroupsEvent readUserGroupsEvent = userService.requestGroup(new RequestReadGroupsEvent(selectedUserName));
+			targetUserGroups = readUserGroupsEvent.getGroupList();
+
 			for (SecGroupEntity groupEntity : allGroups) {
 				if (!targetUserGroups.contains(groupEntity)) {
 					sourceUserGroups.add(groupEntity);
 				}
 			}
-		}else{
+		} else {
 			sourceUserGroups = allGroups;
-			
+
 		}
-		
+
 		selectedGroupMemberDL.setSource(sourceUserGroups);
 		selectedGroupMemberDL.setTarget(targetUserGroups);
 		return selectedGroupMemberDL;
-	}
-
-	public SecUserHandler getSecUserHandler() {
-		return secUserHandler;
-	}
-
-	public void setSecUserHandler(SecUserHandler secUserHandler) {
-		this.secUserHandler = secUserHandler;
-	}
-
-	public SecGroupHandler getSecGroupHandler() {
-		return secGroupHandler;
-	}
-
-	public void setSecGroupHandler(SecGroupHandler secGroupHandler) {
-		this.secGroupHandler = secGroupHandler;
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -187,12 +181,20 @@ public class UserViewBean implements Serializable {
 	}
 
 	public DualListModel<SecGroupEntity> getSelectedGroupMemberDL() {
+		this.selectedGroupMemberDL = selectedUserGroups();
 		return selectedGroupMemberDL;
 	}
 
-	public void setSelectedGroupMemberDL(
-			DualListModel<SecGroupEntity> selectedGroupMemberDL) {
+	public void setSelectedGroupMemberDL(DualListModel<SecGroupEntity> selectedGroupMemberDL) {
 		this.selectedGroupMemberDL = selectedGroupMemberDL;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

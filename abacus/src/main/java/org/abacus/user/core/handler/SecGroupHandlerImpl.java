@@ -105,7 +105,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 		groupAuthorityRepository.save(groupAuthorities);
 		
 	}
-
+	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public void updateGroup(SecGroupEntity group, List<SecAuthorityEntity> selectedAuthorities, String userCreated)
@@ -115,8 +115,6 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 		if(existingGroupEntitiy != null && !existingGroupEntitiy.getId().equals(group.getId()) ){
 			throw new GroupNameInUseException();
 		}
-		
-		groupRepository.save(group);
 		
 		groupAuthorityRepository.deleteByGroupId(group.getId());
 		

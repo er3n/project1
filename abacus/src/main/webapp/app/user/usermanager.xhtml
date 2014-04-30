@@ -9,7 +9,7 @@
 
 	<ui:define name="content">
 
-		<h:form>
+		<h:form id="userQueryPanel">
 			<p:panel header="Kullanici Islemleri">
 
 				<h:panelGrid columns="2" cellspacing="4" style="vertical-align:top">
@@ -37,7 +37,8 @@
 						actionListener="#{userViewBean.findUser}"
 						update=":searchResultTable" />
 					<p:spacer width="5px" />
-					<p:commandButton value="Yeni Kullanici" update=":userDetailDialog"
+					<p:commandButton value="Yeni Kullanici"
+						update=":userDetailForm:userDetailDialog"
 						oncomplete="PF('userDialog').show()">
 						<p:ajax event="click" listener="#{userViewBean.clear()}" />
 					</p:commandButton>
@@ -63,7 +64,8 @@
 					</p:column>
 
 					<p:column style="width:4%">
-						<p:commandButton id="selectButton" update=":userDetailDialog"
+						<p:commandButton id="selectButton"
+							update=":userDetailForm:userDetailDialog"
 							oncomplete="PF('userDialog').show()" icon="ui-icon-search"
 							title="View">
 							<f:setPropertyActionListener value="#{userSearchResultRecord}"
@@ -76,16 +78,39 @@
 		</h:panelGrid>
 
 		<p:dialog header="Kullanici" widgetVar="userDialog" resizable="false"
-			showEffect="fade" modal="true">
-			<h:form id="userDetailDialog">
-				<h:panelGrid columns="2" cellpadding="4">
+			showEffect="fade" modal="true" appendToBody="@(body)">
+			<h:form id="userDetailForm">
+				<h:panelGrid id="userDetailDialog" columns="2" cellpadding="4">
 
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.selectedUser.id}"
+						disabled="#{not empty userViewBean.selectedUser.id}"
 						required="true" requiredMessage="Kullanici adi bos olamaz" />
 
+					<h:outputLabel for="password" value="#{lbl.password}" rendered="#{empty userViewBean.selectedUser.id}" />
+					<p:password id="password"
+						value="#{userViewBean.selectedUser.password}"
+						rendered="#{empty userViewBean.selectedUser.id}"
+						match="repassword" feedback="true"
+						requiredMessage="#{lbl.sifreAdiBosOlamaz}"
+						promptLabel="Lütfen şifre giriniz" weakLabel="#{lbl.zayif}"
+						validatorMessage="#{lbl.sifrelerEslesmiyor}"
+						goodLabel="#{lbl.orta}" strongLabel="#{lbl.guclu}"
+						autocomplete="off" />
+
+					<h:outputLabel for="repassword" value="#{lbl.repoassword}" rendered="#{empty userViewBean.selectedUser.id}" />
+					<p:password id="repassword" label="repassword" required="true"
+						rendered="#{empty userViewBean.selectedUser.id}"
+						requiredMessage="#{lbl.sifreTekrarBosOlamaz}" autocomplete="off" />
+
+					<h:outputText value="Durum" rendered="#{not empty userViewBean.selectedUser.id}" />
+					<p:selectOneButton value="#{userViewBean.selectedUser.active}" rendered="#{not empty userViewBean.selectedUser.id}" >
+						<f:selectItem itemLabel="Aktif" itemValue="true" />
+						<f:selectItem itemLabel="Pasif" itemValue="false" />
+					</p:selectOneButton>
+
 					<h:outputText value="Gruplar" />
-					<p:pickList value="#{userViewBean.selectedUserGroups()}"
+					<p:pickList value="#{userViewBean.selectedGroupMemberDL}"
 						var="group" itemValue="#{group}" itemLabel="#{group.name}"
 						converter="groupEntityConverter" showCheckbox="true"
 						showSourceFilter="true" showTargetFilter="true"
@@ -96,23 +121,24 @@
 						<f:facet name="targetCaption">Secilen Gruplar</f:facet>
 
 						<p:column>
-						#{group.name}
-					</p:column>
+							#{group.name}
+						</p:column>
 
 					</p:pickList>
 
 
 					<f:facet name="footer">
 						<p:commandButton value="Guncelle"
-							action="#{userViewBean.updateUser}"
+							actionListener="#{userViewBean.updateUser}"
 							rendered="#{not empty userViewBean.selectedUser.id}"
-							oncomplete="PF('userDialog').hide();" update=":searchResultTable" />
+							oncomplete="PF('userDialog').hide();" update=":searchResultTable :userQueryPanel" />
 						<p:commandButton value="Tanimla"
-							action="#{userViewBean.createUser}"
+							actionListener="#{userViewBean.createUser}"
 							rendered="#{empty userViewBean.selectedUser.id}"
-							oncomplete="PF('userDialog').hide();" update=":searchResultTable" />
+							oncomplete="PF('userDialog').hide();" update=":searchResultTable :userQueryPanel" />
 					</f:facet>
 				</h:panelGrid>
+
 			</h:form>
 		</p:dialog>
 

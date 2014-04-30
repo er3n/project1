@@ -5,7 +5,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import org.abacus.user.core.persistance.repository.GroupRepository;
 import org.abacus.user.shared.entity.SecGroupEntity;
+import org.springframework.web.jsf.FacesContextUtils;
 
 @FacesConverter("groupEntityConverter")
 public class GroupEntityConverter implements Converter {
@@ -13,9 +15,8 @@ public class GroupEntityConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
-
-		SecGroupEntity entitiy = new SecGroupEntity();
-		entitiy.setId(Long.valueOf(value));
+		GroupRepository repository = FacesContextUtils.getWebApplicationContext(context).getBean(GroupRepository.class);
+		SecGroupEntity entitiy = repository.findOne(Long.valueOf(value));
 		return entitiy;
 	}
 

@@ -17,10 +17,9 @@ import javax.persistence.Version;
 @MappedSuperclass
 public class DynamicEntity implements RootEntity {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_id")
-	@SequenceGenerator(name = "seq_id", sequenceName = "seq_id", allocationSize = 1)	
+	@SequenceGenerator(name = "seq_id", sequenceName = "seq_id", allocationSize = 1)
 	@Column(name = "id")
 	private Long id;
 
@@ -38,9 +37,9 @@ public class DynamicEntity implements RootEntity {
 	@Column(name = "user_updates", nullable = true)
 	private String userUpdated;
 
-//	@Version
+	@Version
 	@Column(name = "version", nullable = false)
-	private int version = 0;
+	private Integer version;
 
 	public void updateHook(String userUpdated) {
 		this.dateUpdated = Calendar.getInstance().getTime();
@@ -112,11 +111,11 @@ public class DynamicEntity implements RootEntity {
 		this.userUpdated = userUpdated;
 	}
 
-	public int getVersion() {
+	public Integer getVersion() {
 		return version;
 	}
 
-	public void setVersion(int version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 

@@ -19,6 +19,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -40,8 +41,8 @@ public class UserDao implements Serializable {
 
 		Session session = em.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(SecUserEntity.class,"u");
-		criteria.createAlias("u.groupMemberList", "gm");
-		criteria.createAlias("gm.group", "g");
+		criteria.createAlias("u.groupMemberList", "gm",JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("gm.group", "g",JoinType.LEFT_OUTER_JOIN);
 		
 		if(StringUtils.hasText(searchUserCriteria.getUsername())){
 			criteria.add(Restrictions.eq("u.id", searchUserCriteria.getUsername()));
@@ -62,6 +63,8 @@ public class UserDao implements Serializable {
 
 		}
 
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
 		criteria.addOrder(Order.asc("u.id"));
 		
 		List<SecUserEntity> userList = criteria.list();

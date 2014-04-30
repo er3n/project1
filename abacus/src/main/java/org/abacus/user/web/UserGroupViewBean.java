@@ -64,7 +64,7 @@ public class UserGroupViewBean implements Serializable {
 					userName);
 			jsfMessageHelper.addInfo("grupEklendi");
 		} catch (GroupNameInUseException e) {
-			jsfMessageHelper.addInfo("grupIsmiKullanimda");
+			jsfMessageHelper.addError("grupIsmiKullanimda");
 		}
 	}
 
@@ -151,5 +151,9 @@ public class UserGroupViewBean implements Serializable {
 	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
 		this.sessionInfoHelper = sessionInfoHelper;
 	}
+	
+	
+	
+	
 
 }

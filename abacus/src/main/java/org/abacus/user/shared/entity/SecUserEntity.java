@@ -28,7 +28,7 @@ public class SecUserEntity extends StaticEntity {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "company_id")
 	private CompanyEntity companyEntity;
 

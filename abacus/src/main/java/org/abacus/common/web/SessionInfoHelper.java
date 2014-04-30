@@ -26,5 +26,9 @@ public class SessionInfoHelper implements Serializable {
 		
 		return false;
 	}
+
+	public String currentCompany() {
+		return currentUser().getCompany();
+	}
 	
 }

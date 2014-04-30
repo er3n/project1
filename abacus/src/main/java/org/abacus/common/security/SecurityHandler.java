@@ -37,6 +37,7 @@ public class SecurityHandler implements UserDetailsService {
 		secUser.setPassword(user.getPassword());
 		secUser.setActive(user.getActive());
 		secUser.setAuthorityNames(authorityNames);
+		secUser.setCompany(user.getCompanyEntity().getId());
 
 		return secUser;
 

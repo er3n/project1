@@ -9,22 +9,116 @@
 
 	<ui:define name="content">
 
-		<p:panel header="Kullanici Islemleri">
-			<h:outputText
-				value="FC Barcelona is one of only three clubs never to have been relegated from La Liga and is the most successful club in Spanish football along with Real Madrid,  
-        having won twenty La Liga titles, a record twenty-five Spanish Cups, eight Spanish Super Cups, four Eva Duarte Cups and two League Cups.  
-        They are also one of the most successful clubs  in European football having won fourteen official major trophies in total,  
-        including ten UEFA competitions. They have won three UEFA Champions League titles, a record four UEFA Cup Winners' Cups,  
-        a record three InterCities Fairs Cups (the forerunner to the UEFA Europa League), three UEFA Super Cups and one FIFA Club World Cup.  
-        The club is also the only European side to have played continental football in every season since its inception in 1955." />
+		<h:form>
+			<p:panel header="Kullanici Islemleri">
 
-			<f:facet name="footer">
-				<p:button value="Ekle" />
-				<p:spacer width="5px" />
-				<p:button value="Guncelle" disabled="true" />
-			</f:facet>
+				<h:panelGrid columns="2" cellspacing="4" style="vertical-align:top">
 
-		</p:panel>
+					<h:outputText value="Kullanici Adi" />
+					<p:inputText value="#{userViewBean.searchUserCriteria.username}" />
+
+					<h:outputText value="Grup" />
+					<p:selectManyMenu
+						value="#{userViewBean.searchUserCriteria.groupList}"
+						converter="groupEntityConverter" style="width:150px;height:100px"
+						var="selectedGroup" showCheckbox="true">
+						<f:selectItems value="#{userViewBean.allGroups}" var="group"
+							itemLabel="#{group.name}" itemValue="#{group}" />
+						<p:column>  
+			                #{selectedGroup.name}
+			            </p:column>
+
+					</p:selectManyMenu>
+
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<p:commandButton value="Sorgula"
+						actionListener="#{userViewBean.findUser}"
+						update=":searchResultTable" />
+					<p:spacer width="5px" />
+					<p:commandButton value="Yeni Kullanici" update=":userDetailDialog"
+						oncomplete="PF('userDialog').show()">
+						<p:ajax event="click" listener="#{userViewBean.clear()}" />
+					</p:commandButton>
+				</f:facet>
+
+			</p:panel>
+
+		</h:form>
+
+		<h:panelGrid id="searchResultTable" columns="1" style="width:100%">
+			<h:form>
+				<p:dataTable rendered="#{not empty userViewBean.userSearchResults}"
+					emptyMessage="Kayit Bulunamadi"
+					value="#{userViewBean.userSearchResults}"
+					var="userSearchResultRecord">
+					<p:column headerText="Kullanici Adi">
+						<h:outputText value="#{userSearchResultRecord.id}" />
+					</p:column>
+
+					<p:column headerText="Durum">
+						<h:outputText
+							value="#{userSearchResultRecord.active ? 'Aktif' : 'Pasif'}" />
+					</p:column>
+
+					<p:column style="width:4%">
+						<p:commandButton id="selectButton" update=":userDetailDialog"
+							oncomplete="PF('userDialog').show()" icon="ui-icon-search"
+							title="View">
+							<f:setPropertyActionListener value="#{userSearchResultRecord}"
+								target="#{userViewBean.selectedUser}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</h:panelGrid>
+
+		<p:dialog header="Kullanici" widgetVar="userDialog" resizable="false"
+			showEffect="fade" modal="true">
+			<h:form id="userDetailDialog">
+				<h:panelGrid columns="2" cellpadding="4">
+
+					<h:outputText value="Kullanici Adi" />
+					<p:inputText value="#{userViewBean.selectedUser.id}"
+						required="true" requiredMessage="Kullanici adi bos olamaz" />
+
+					<h:outputText value="Gruplar" />
+					<p:pickList value="#{userViewBean.selectedUserGroups()}"
+						var="group" itemValue="#{group}" itemLabel="#{group.name}"
+						converter="groupEntityConverter" showCheckbox="true"
+						showSourceFilter="true" showTargetFilter="true"
+						filterMatchMode="contains">
+
+						<f:facet name="sourceCaption">Tum Gruplar</f:facet>
+
+						<f:facet name="targetCaption">Secilen Gruplar</f:facet>
+
+						<p:column>
+						#{group.name}
+					</p:column>
+
+					</p:pickList>
+
+
+					<f:facet name="footer">
+						<p:commandButton value="Guncelle"
+							action="#{userViewBean.updateUser}"
+							rendered="#{not empty userViewBean.selectedUser.id}"
+							oncomplete="PF('userDialog').hide();" update=":searchResultTable" />
+						<p:commandButton value="Tanimla"
+							action="#{userViewBean.createUser}"
+							rendered="#{empty userViewBean.selectedUser.id}"
+							oncomplete="PF('userDialog').hide();" update=":searchResultTable" />
+					</f:facet>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+
+
 
 
 	</ui:define>

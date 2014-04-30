@@ -14,6 +14,7 @@ public class SecUser implements UserDetails {
 	private String username;
 	private String password;
 	private boolean isActive;
+	private String company;
 
 	private List<String> authorityNames;
 
@@ -88,6 +89,14 @@ public class SecUser implements UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
 	}
 
 }

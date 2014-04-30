@@ -38,7 +38,7 @@ public class DynamicEntity implements RootEntity {
 	@Column(name = "user_updates", nullable = true)
 	private String userUpdated;
 
-	@Version
+//	@Version
 	@Column(name = "version", nullable = false)
 	private int version = 0;
 

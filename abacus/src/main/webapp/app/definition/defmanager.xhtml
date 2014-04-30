@@ -89,11 +89,11 @@
 					</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveVal" update=":valForm:valPanel" ajax="true" value="#{definitionViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
+							<p:commandButton id="saveVal" update=":valForm" ajax="true" value="#{definitionViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveOrUpdateVal}" />
 							<p:commandButton id="clearVal" process="@this" ajax="true" update=":valForm:valPanel" value="#{definitionViewBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionViewBean.clearVal}" >
-								<p:resetInput target=":valForm:valPanel" />
+								<p:resetInput target=":valForm" />
 							</p:commandButton>
 						</f:facet>
 				</p:panel>
@@ -109,6 +109,10 @@
 						<p:column style="width:100px">
 							<f:facet name="header">Ack</f:facet>
 							<h:outputText value="#{defValDTO.name}" />
+						</p:column>
+						<p:column style="width:100px">
+							<f:facet name="header">Version</f:facet>
+							<h:outputText value="#{defValDTO.version}" />
 						</p:column>
 					</p:treeTable>
 					

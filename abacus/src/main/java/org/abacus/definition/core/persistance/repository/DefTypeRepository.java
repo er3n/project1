@@ -2,9 +2,7 @@ package org.abacus.definition.core.persistance.repository;
 
 import java.util.List;
 
-import org.abacus.definition.shared.constant.DefConstant;
 import org.abacus.definition.shared.entity.DefTypeEntity;
-import org.hibernate.validator.internal.cfg.DefaultConstraintMapping;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

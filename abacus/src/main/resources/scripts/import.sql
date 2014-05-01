@@ -46,10 +46,11 @@ insert into def_value (id, type_id, parent_id, code, name, is_active, version) v
 insert into def_value (id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), 'SEHIR', 0, '34', 'Istanbul', 1, 0);
 insert into def_value (id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), 'SEHIR', currval('seq_id')-1, '34.01', 'Fatih', 1, 0);
 
+insert into def_state (id, type_id, code, name) values ('STKSTATE_PRE', 'STKSTATE', 'PRE', 'Stk Prepare State');
 insert into def_state (id, type_id, code, name) values ('STKSTATE_ENT', 'STKSTATE', 'ENT', 'Stk Entry State');
 insert into def_state (id, type_id, code, name) values ('STKSTATE_CAN', 'STKSTATE', 'CAN', 'Stk Cancel State');
 
-insert into def_param (id, type_id, code, name) values ('STKPARAM_COST', 'STKPARAM', 'COSTTYPE', 'Stk Cost Type');
+insert into def_param (id, type_id, code, name) values ('STKPARAM_COSTTYPE', 'STKPARAM', 'COSTTYPE', 'Stk Cost Type');
 
 insert into def_task (id, type_id, code, name, is_active, version) values (nextval('seq_id'), 'STK_IO_I', '1', 'Stk Giris', 1, 0);
 insert into def_task (id, type_id, code, name, is_active, version) values (nextval('seq_id'), 'STK_IO_O', '1', 'Stk Cikis', 1, 0);

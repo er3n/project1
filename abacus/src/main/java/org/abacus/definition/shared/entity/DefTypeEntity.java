@@ -24,11 +24,6 @@ public class DefTypeEntity extends StaticEntity {
 	@Column(name = "trtype", nullable = false)
 	private Integer trtype = 0; //TODO : stok/finans degisecek
 
-	@Override
-	public String toString(){
-		return this.isNew()?"New:"+super.toString():(this.getId());
-	}
-	
 	public boolean isNew() {
 		return (this.getId()==null || this.getId().equals("."));
 	}

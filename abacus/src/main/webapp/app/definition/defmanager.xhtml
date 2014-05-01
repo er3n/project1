@@ -45,15 +45,16 @@
 						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveType" update=":typeForm" ajax="true"
+							<p:commandButton id="saveType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid" 
+								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveOrUpdateType}" />
-							<p:commandButton id="deleteType" update=":typeForm :valForm"
+							<p:commandButton id="deleteType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
 								actionListener="#{definitionViewBean.deleteType}"
 								immediate="true" disabled="true" />
-							<p:commandButton id="clearType" update=":typeForm :valForm"
+							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionViewBean.addNewType}"
@@ -70,7 +71,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selType.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":typeForm :valForm"
+						<p:ajax event="rowSelect" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
 							listener="#{definitionViewBean.typeRowSelectListener}">
 						</p:ajax>
 

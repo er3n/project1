@@ -24,11 +24,6 @@ public class DefStateEntity extends StaticEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Override
-	public String toString(){
-		return this.isNew()?"New:"+super.toString():(this.getType().getId()+":"+this.getId());
-	}
-	
 	public boolean isNew() {
 		return (this.getId()==null);
 	}

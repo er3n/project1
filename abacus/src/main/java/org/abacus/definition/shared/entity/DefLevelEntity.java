@@ -32,10 +32,6 @@ public class DefLevelEntity extends StaticEntity {
 	@Column(name = "level_desc", nullable = false)
 	private Integer level_desc;
 	
-	public String toString(){
-		return this.getId();
-	}
-
 	public DefValueEntity getValue() {
 		return value;
 	}

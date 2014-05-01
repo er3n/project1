@@ -1,4 +1,4 @@
-package org.abacus.persistence.web;
+package org.abacus.definition.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,12 +40,16 @@ public class DefParamViewBean implements Serializable {
 		findTypeParam();
 	}
 
+	public void paramRowSelectListener() {
+		System.out.println("paramRowSelectListener");
+	}
+
 	
 	public void saveParam() {
 		if (selParam.isNew()) {
-			jsfMessageHelper.addInfo("typeKayitIslemiBasarili");//degistir
+			jsfMessageHelper.addInfo("paramKayitIslemiBasarili");
 		} else {
-			jsfMessageHelper.addInfo("typeGuncellemeIslemiBasarili");//degistir
+			jsfMessageHelper.addInfo("paramGuncellemeIslemiBasarili");
 		}
 		defParamService.saveParamEntity(selParam);
 		findTypeParam();
@@ -54,7 +58,7 @@ public class DefParamViewBean implements Serializable {
 	public void deleteParam() {
 		if (!selParam.isNew()) {
 			defParamService.deleteParamEntity(selParam);
-			jsfMessageHelper.addInfo("typeSilmeIslemiBasarili");//degistir
+			jsfMessageHelper.addInfo("paramSilmeIslemiBasarili");
 		}
 		findTypeParam();
 	}
@@ -65,13 +69,14 @@ public class DefParamViewBean implements Serializable {
 	}
 
 	public void findTypeParam() {
-		selParam = null;
+		createParam();
 		paramList = null;
 		if (selType!=null){
 			paramList = defParamService.getParamList(selType.getId());
 		} else {
 			paramList = new ArrayList<DefParamEntity>();
 		}
+		System.out.println(paramList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -95,7 +100,9 @@ public class DefParamViewBean implements Serializable {
 	}
 
 	public void setSelParam(DefParamEntity selParam) {
-		this.selParam = selParam;
+		if (selParam!=null){
+			this.selParam = selParam;
+		}
 	}
 
 	public List<DefParamEntity> getParamList() {

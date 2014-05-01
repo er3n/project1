@@ -40,4 +40,12 @@ public class StaticEntity implements RootEntity {
 		return true;
 	}
 
+	@Override
+	public String toString(){
+		if (this.id!=null){
+			return this.id;
+		}
+		return super.toString();
+	}
+	
 }

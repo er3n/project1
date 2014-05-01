@@ -18,12 +18,14 @@ public class DefParamHandlerImpl implements DefParamHandler {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public List<DefParamEntity> getParamList(String typeId){
-		return defParamRepository.getParamList(typeId);
+		List<DefParamEntity> list = defParamRepository.getParamList(typeId);
+		return list;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public DefParamEntity saveParamEntity(DefParamEntity entity) {
+		entity.setId(entity.getType().getId()+"_"+entity.getCode());
 		return defParamRepository.save(entity);
 	}
 

@@ -17,31 +17,30 @@
 							cellspacing="4">
 
 							<h:outputLabel value="Param Kod:" />
-							<p:inputText value="#{defParamViewBean.selParam.id}"
-								required="true" requiredMessage="Type.Code Bos olamaz"
-								validatorMessage="Type.Code" disabled="true" />
+							<p:inputText value="#{defParamViewBean.selParam.code}"
+								required="true" requiredMessage="Param.Code Bos olamaz"
+								validatorMessage="Param.Code"/>
 
 							<h:outputLabel value="Param Ad:" />
 							<p:inputText value="#{defParamViewBean.selParam.name}"
-								required="true" requiredMessage="Type.Ack Bos olamaz"
-								validatorMessage="Type.Ack" />
+								required="true" requiredMessage="Param Bos olamaz"
+								validatorMessage="Param.Ack" />
 						</h:panelGrid>
 
 						<f:facet name="footer">
 							<p:commandButton id="saveParam" update=":paramForm" ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? 'Kaydet' : 'Guncelle'}"
-								actionListener="#{defParamViewBean.saveParam}" />
+								actionListener="#{defParamViewBean.saveParam}"/>
 							<p:commandButton id="deleteParam" update=":paramForm"
 								ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? '-' : 'Sil'}"
 								actionListener="#{defParamViewBean.deleteParam}"
-								immediate="true" disabled="true" />
+								immediate="true" />
 							<p:commandButton id="clearParam" update=":paramForm"
 								ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{defParamViewBean.createParam}"
-								disabled="true">
-								<p:resetInput target=":typeForm"/>
+								actionListener="#{defParamViewBean.createParam}">
+								<p:resetInput target=":paramForm"/>
 							</p:commandButton>
 						</f:facet>
 					</p:panel>
@@ -52,13 +51,17 @@
 						emptyMessage="Kayit Bulanamadi" selectionMode="single"
 						paginator="true" paginatorPosition="bottom" rowKey="#{selParam.id}"
 						rows="10" resizableColumns="true">
+						
+						<p:ajax event="rowSelect" update=":paramForm"
+							listener="#{defParamViewBean.paramRowSelectListener}">
+						</p:ajax>
 
 						<p:column headerText="Kod">  
-            					#{selType.id}  
+            					#{selParam.code}  
         					</p:column>
 
 						<p:column headerText="Aciklama">  
-            					#{selType.name}  
+            					#{selParam.name}  
         					</p:column>
 
 					</p:dataTable>

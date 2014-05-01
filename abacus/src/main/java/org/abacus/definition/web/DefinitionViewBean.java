@@ -1,4 +1,4 @@
-package org.abacus.persistence.web;
+package org.abacus.definition.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class DefinitionViewBean implements Serializable {
 		renderGroupV = selectedGroupEnum.equals(DefConstant.GroupEnum.V);//Value:--Dynamc: OK
 		findValList(null);	
 		
-		defParamViewBean.setSelParam(null);
+		defParamViewBean.setSelType(null);
 	}
 
 	public void typeRowSelectListener() {

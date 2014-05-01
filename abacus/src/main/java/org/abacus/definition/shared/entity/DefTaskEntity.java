@@ -31,7 +31,10 @@ public class DefTaskEntity extends DynamicEntity {
 	
 	@Override
 	public String toString(){
-		return this.isNew()?"New:"+super.toString():(this.getId()+">"+this.getType().getId()+":"+this.getCode());
+		if (this.getId()!=null){
+			return this.getId()+">"+this.getType().getId()+":"+this.getCode();
+		}
+		return super.toString();
 	}
 	
 	public boolean isNew() {

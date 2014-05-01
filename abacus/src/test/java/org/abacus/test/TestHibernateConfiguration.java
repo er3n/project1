@@ -28,17 +28,17 @@ public class TestHibernateConfiguration {
 	@Rollback(value=false)
 	public void testAddNewUser(){
 		
-		SecUserEntity entity = new SecUserEntity();
-		
-		entity.setActive(true);
-		CompanyEntity companyEntity = new CompanyEntity();
-		companyEntity.setId("01");
-		entity.setCompanyEntity(companyEntity );
-		entity.setId("ADMIN");
-		
-		entity.setPassword("wqwe");
-		
-		userRepository.save(entity);
+//		SecUserEntity entity = new SecUserEntity();
+//		
+//		entity.setActive(true);
+//		CompanyEntity companyEntity = new CompanyEntity();
+//		companyEntity.setId("01");
+//		entity.setCompanyEntity(companyEntity );
+//		entity.setId("ADMIN");
+//		
+//		entity.setPassword("wqwe");
+//		
+//		userRepository.save(entity);
 		
 	}
 	

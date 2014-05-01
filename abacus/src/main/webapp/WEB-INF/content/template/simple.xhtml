@@ -1,44 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-	xmlns:sec="http://www.springframework.org/security/tags"
-	>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
 
 <f:view contentType="text/html">
-	<h:head>  
+	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>#{lbl.projectTitle} - #{lbl.projectDescription}</title>
 
 		<h:outputStylesheet library="default" name="css/style.css" />
 
-		<link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Raleway:500'
+			rel='stylesheet' type='text/css' />
 
 	</h:head>
 	<h:body style="width:1200px;margin:0 auto">
-	
-	 
+
+
 
 		<h:form>
-			<p:menubar style="margin:5px auto;"> 
-				<p:submenu label="Sistem Yonetimi" rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI, KULLANICI_GRUP_ISLEMLERI')}">
-					<p:menuitem value="Kullanici Islemleri" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI')}" />
-					<p:menuitem value="Kullanici Grup Islemleri" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('KULLANICI_GRUP_ISLEMLERI')}" />
-					
-					<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}">
-						<p:menuitem value="Paremetre" url="/app/definition/defmanager.abc?type=p" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
-						<p:menuitem value="State" url="/app/definition/defmanager.abc?type=s" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
-						<p:menuitem value="Task" url="/app/definition/defmanager.abc?type=t" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
-						<p:menuitem value="Value" url="/app/definition/defmanager.abc?type=v" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+			<p:menubar style="margin:5px auto;">
+				<p:submenu label="Sistem Yonetimi"
+					rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI, KULLANICI_GRUP_ISLEMLERI')}">
+					<p:menuitem value="Kullanici Islemleri"
+						url="/app/user/usermanager.abc"
+						rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI')}" />
+					<p:menuitem value="Kullanici Grup Islemleri"
+						url="/app/user/rolemanager.abc"
+						rendered="#{sec:areAnyGranted('KULLANICI_GRUP_ISLEMLERI')}" />
+
+					<p:submenu label="Tanimlar"
+						rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}">
+						<p:menuitem value="Paremetre"
+							url="/app/definition/defmanager.abc?type=p"
+							rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+						<p:menuitem value="State"
+							url="/app/definition/defmanager.abc?type=s"
+							rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+						<p:menuitem value="Task"
+							url="/app/definition/defmanager.abc?type=t"
+							rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+						<p:menuitem value="Value"
+							url="/app/definition/defmanager.abc?type=v"
+							rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
 					</p:submenu>
-					
-				</p:submenu>		
+
+				</p:submenu>
+
 				<f:facet name="options">
 					<h:form>
-						<p:button value="Giris" href="/app/login.xhtml" icon="ui-icon-tag" rendered="#{empty request.remoteUser}" />
-						<p:button value="Oturumu Kapat" href="/app/logout" icon="ui-icon-extlink" rendered="#{not empty request.remoteUser}" />
+						<p:button value="Giris" href="/app/login.xhtml" icon="ui-icon-tag"
+							rendered="#{empty request.remoteUser}" />
+
+						<c:if test="#{not empty request.remoteUser}">
+							<p:menuButton
+								value="#{sessionInfoHelper.currentUser().selectedCompany.name} - #{sessionInfoHelper.currentUser().selectedCompany.id}"
+								style="padding-right: 10px">
+								<c:forEach var="company"
+									items="#{sessionInfoHelper.currentUser().companies}">
+									<p:menuitem value="#{company.name} - #{company.id}" />
+								</c:forEach>
+							</p:menuButton>
+						</c:if>
+
+						<p:menuButton value="#{request.remoteUser}"
+							style="text-transform:capitalize;"
+							rendered="#{not empty request.remoteUser}">
+							<p:menuitem value="Cikis" url="/app/logout"
+								icon="ui-icon-extlink" />
+						</p:menuButton>
+
 					</h:form>
 				</f:facet>
+
 			</p:menubar>
 		</h:form>
 
@@ -46,14 +86,16 @@
 
 		<div id="content" style="margin: 15px auto; min-height: 600px">
 
-			<p:growl id="growl" showDetail="true" sticky="false" autoUpdate="true" life="3000" />  
+			<p:growl id="growl" showDetail="true" sticky="false"
+				autoUpdate="true" life="3000" />
 
 			<ui:insert name="content" />
 
 		</div>
 
-		<p:ajaxStatus style="width:54px;height:55px;position:fixed;right:5px;bottom:5px">
-			
+		<p:ajaxStatus
+			style="width:54px;height:55px;position:fixed;right:5px;bottom:5px">
+
 			<f:facet name="start">
 				<h:graphicImage library="default" name="img/clock.png" />
 				<img src="${request.contextPath}/app/resources/img/loading.gif" />
@@ -62,7 +104,7 @@
 			<f:facet name="complete">
 				<h:outputText value="" />
 			</f:facet>
-			
+
 		</p:ajaxStatus>
 
 	</h:body>

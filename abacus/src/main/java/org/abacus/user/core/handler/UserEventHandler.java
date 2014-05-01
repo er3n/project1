@@ -5,17 +5,21 @@ import java.util.List;
 
 import org.abacus.user.core.persistance.UserDao;
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
+import org.abacus.user.core.persistance.repository.CompanyRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupMemberRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
+import org.abacus.user.core.persistance.repository.UserCompanyRepository;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.UserNameExistsException;
+import org.abacus.user.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecGroupMemberEntity;
+import org.abacus.user.shared.entity.SecUserCompanyEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateGroupEvent;
 import org.abacus.user.shared.event.CreateUserEvent;
@@ -24,9 +28,11 @@ import org.abacus.user.shared.event.GroupCreatedEvent;
 import org.abacus.user.shared.event.GroupDeletedEvent;
 import org.abacus.user.shared.event.GroupUpdatedEvent;
 import org.abacus.user.shared.event.ReadAuthoritiesEvent;
+import org.abacus.user.shared.event.ReadCompanisEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
 import org.abacus.user.shared.event.RequestReadAuthoritiesEvent;
+import org.abacus.user.shared.event.RequestReadCompaniesEvent;
 import org.abacus.user.shared.event.RequestReadGroupsEvent;
 import org.abacus.user.shared.event.RequestReadUserEvent;
 import org.abacus.user.shared.event.UpdateGroupEvent;
@@ -60,8 +66,15 @@ public class UserEventHandler implements UserService{
 	
 	@Autowired
 	private AuthorityRepository authorityRepository;
+	
 	@Autowired
 	private GroupAuthorityRepository groupAuthorityRepository;
+	
+	@Autowired
+	private UserCompanyRepository userCompaniesRepository;
+	
+	@Autowired
+	private CompanyRepository companyRepository;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -77,6 +90,7 @@ public class UserEventHandler implements UserService{
 		
 		SecUserEntity secUser = event.getUser();
 		List<SecGroupEntity> userGroups = event.getUserGroups();
+		List<CompanyEntity> companies = event.getCompanies();
 		String userCreated = event.getUserCreated();
 		
 		
@@ -90,6 +104,19 @@ public class UserEventHandler implements UserService{
 		secUser.setActive(true);
 		
 		secUser = userRepository.save(secUser);
+		
+		List<SecUserCompanyEntity> userCompaines = new ArrayList<>();
+		for(CompanyEntity company : companies){
+			SecUserCompanyEntity userCompany = new SecUserCompanyEntity();
+			userCompany.setUser(secUser);
+			userCompany.setCompany(company);
+			userCompany.createHook(userCreated);
+			userCompaines.add(userCompany);
+		}
+		
+		userCompaniesRepository.save(userCompaines);
+		
+		
 
 		List<SecGroupMemberEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
@@ -113,9 +140,23 @@ public class UserEventHandler implements UserService{
 
 		SecUserEntity updatingUser = event.getUser();
 		List<SecGroupEntity> userGroups = event.getUserGroupList();
+		List<CompanyEntity> companies = event.getCompanies();
 		String userUpdated = event.getUserUpdated();
 		
 		updatingUser = userRepository.save(updatingUser);
+		
+		userCompaniesRepository.delete(updatingUser.getId());
+		
+		List<SecUserCompanyEntity> userCompaines = new ArrayList<>();
+		for(CompanyEntity company : companies){
+			SecUserCompanyEntity userCompany = new SecUserCompanyEntity();
+			userCompany.setUser(updatingUser);
+			userCompany.setCompany(company);
+			userCompany.updateHook(userUpdated);
+			userCompaines.add(userCompany);
+		}
+		
+		userCompaniesRepository.save(userCompaines);
 		
 		
 		groupMemberRepository.delete(updatingUser.getId());
@@ -246,6 +287,21 @@ public class UserEventHandler implements UserService{
 		ReadAuthoritiesEvent readEvent = new ReadAuthoritiesEvent(groupAuthorities);
 		
 		return readEvent;
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
+	public ReadCompanisEvent requestCompany(
+			RequestReadCompaniesEvent event) {
+		List<CompanyEntity> companies = null;
+		
+		if(StringUtils.hasText(event.getUsername())){
+			companies = companyRepository.findByUsername(event.getUsername());
+		}else{
+			companies = companyRepository.findByCompany(event.getCompany());
+		}
+		
+		return new ReadCompanisEvent(companies);
 	}
 
 }

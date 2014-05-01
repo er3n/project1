@@ -10,9 +10,11 @@ import org.abacus.user.shared.event.GroupCreatedEvent;
 import org.abacus.user.shared.event.GroupDeletedEvent;
 import org.abacus.user.shared.event.GroupUpdatedEvent;
 import org.abacus.user.shared.event.ReadAuthoritiesEvent;
+import org.abacus.user.shared.event.ReadCompanisEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
 import org.abacus.user.shared.event.RequestReadAuthoritiesEvent;
+import org.abacus.user.shared.event.RequestReadCompaniesEvent;
 import org.abacus.user.shared.event.RequestReadGroupsEvent;
 import org.abacus.user.shared.event.RequestReadUserEvent;
 import org.abacus.user.shared.event.UpdateGroupEvent;
@@ -37,6 +39,8 @@ public interface UserService {
 	GroupDeletedEvent deleteGroup(DeleteGroupEvent event) throws UserExistsInGroupException;
 	
 	ReadAuthoritiesEvent requestAuthorities(RequestReadAuthoritiesEvent event);
+
+	ReadCompanisEvent requestCompany(RequestReadCompaniesEvent requestReadCompaniesEvent);
 	
 	
 }

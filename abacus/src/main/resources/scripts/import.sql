@@ -7,7 +7,7 @@ INSERT INTO sec_authority (id) VALUES ('KULLANICI_GRUP_ISLEMLERI');
 INSERT INTO sec_authority (id) VALUES ('TANIMLAMA_ISLEMLERI');
 
 
-INSERT INTO sec_user( id, is_active, password, company_id) VALUES ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e', '01');
+INSERT INTO sec_user( id, is_active, password) VALUES ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e');
 
 INSERT INTO sec_group (id, name, version) VALUES (nextval('seq_id'), 'Sistem Yoneticisi', 0);
 INSERT INTO sec_group (id, name, version) VALUES (nextval('seq_id'), 'Holding Yoneticisi', 0);
@@ -19,6 +19,8 @@ INSERT INTO sec_group_authority (id, group_id, authority_id, version) VALUES (ne
 INSERT INTO sec_group_authority (id, group_id, authority_id, version) VALUES (nextval('seq_id'), 1, 'TANIMLAMA_ISLEMLERI', 0);
  
 INSERT INTO sec_group_member (id, user_id, group_id, version) VALUES (nextval('seq_id'), 'admin', 1, 0);
+
+INSERT INTO sec_user_company (id, user_id, company_id, version) VALUES (nextval('seq_id'), 'admin','01', 0);
 
 insert into def_type (id, name, group_id, level, trtype) values ('.', '.', '.', 0, 0);
 insert into def_type (id, name, group_id, level, trtype) values ('STKPARAM', 'Stk Param', 'P', 1, 0);

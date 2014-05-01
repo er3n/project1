@@ -1,6 +1,7 @@
 package org.abacus.user.shared.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,6 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "sec_user")
-// user reserved
 @SuppressWarnings("serial")
 public class SecUserEntity extends StaticEntity {
 
@@ -28,13 +28,13 @@ public class SecUserEntity extends StaticEntity {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "company_id")
-	private CompanyEntity companyEntity;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
+	private Set<SecUserCompanyEntity> companyList;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
-	private List<SecGroupMemberEntity> groupMemberList;
+	private Set<SecGroupMemberEntity> groupMemberList;
 
 	public String getPassword() {
 		return password;
@@ -52,19 +52,19 @@ public class SecUserEntity extends StaticEntity {
 		this.active = active;
 	}
 
-	public CompanyEntity getCompanyEntity() {
-		return companyEntity;
+	public Set<SecUserCompanyEntity> getCompanyList() {
+		return companyList;
 	}
 
-	public void setCompanyEntity(CompanyEntity companyEntity) {
-		this.companyEntity = companyEntity;
+	public void setCompanyList(Set<SecUserCompanyEntity> companyList) {
+		this.companyList = companyList;
 	}
 
-	public List<SecGroupMemberEntity> getGroupMemberList() {
+	public Set<SecGroupMemberEntity> getGroupMemberList() {
 		return groupMemberList;
 	}
 
-	public void setGroupMemberList(List<SecGroupMemberEntity> groupMemberList) {
+	public void setGroupMemberList(Set<SecGroupMemberEntity> groupMemberList) {
 		this.groupMemberList = groupMemberList;
 	}
 

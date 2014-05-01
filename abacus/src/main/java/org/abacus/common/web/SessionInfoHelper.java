@@ -3,6 +3,7 @@ package org.abacus.common.web;
 import java.io.Serializable;
 
 import org.abacus.common.security.SecUser;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,8 @@ public class SessionInfoHelper implements Serializable {
 	} 
 	
 	public boolean isAuthenticated(){
-		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof SecUser){
+		Authentication authentucation = SecurityContextHolder.getContext().getAuthentication();
+		if(authentucation != null && authentucation.getPrincipal() instanceof SecUser){
 			return true;
 		}
 		

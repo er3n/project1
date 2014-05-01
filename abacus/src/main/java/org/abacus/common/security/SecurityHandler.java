@@ -2,7 +2,9 @@ package org.abacus.common.security;
  
 import java.util.List;
 
+import org.abacus.user.core.persistance.repository.CompanyRepository;
 import org.abacus.user.core.persistance.repository.UserRepository;
+import org.abacus.user.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,9 @@ public class SecurityHandler implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CompanyRepository companyRepository;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -37,7 +42,15 @@ public class SecurityHandler implements UserDetailsService {
 		secUser.setPassword(user.getPassword());
 		secUser.setActive(user.getActive());
 		secUser.setAuthorityNames(authorityNames);
-		secUser.setCompany(user.getCompanyEntity().getId());
+		
+		List<CompanyEntity> userCompanies = companyRepository.findByUsername(username);
+		
+		secUser.setCompany(userCompanies.get(0).getId());
+		
+		List<CompanyEntity> companies = companyRepository.findByUsername(username);
+		CompanyEntity selectedCompany = companyRepository.findOne(secUser.getCompany());
+		
+		secUser.init(companies,selectedCompany);
 
 		return secUser;
 	}

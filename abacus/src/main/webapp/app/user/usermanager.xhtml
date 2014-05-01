@@ -12,10 +12,20 @@
 		<h:form id="userQueryPanel">
 			<p:panel header="Kullanici Islemleri">
 
-				<h:panelGrid columns="2" cellspacing="4" style="vertical-align:top">
+				<h:panelGrid columns="4" cellspacing="4" style="vertical-align:top">
 
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.searchUserCriteria.username}" />
+
+					<h:outputText value="Sirket" /> 
+					<p:selectOneMenu value="#{userViewBean.searchUserCriteria.company}"
+						converter="companyEntityConverter"
+						style="width:145px">
+						<f:selectItem itemLabel="Seciniz..." itemValue="" />  
+						<f:selectItems value="#{userViewBean.allCompanies}"
+							var="company" itemLabel="#{company.name}"
+							itemValue="#{company}" />
+					</p:selectOneMenu>
 
 					<h:outputText value="Grup" />
 					<p:selectManyMenu
@@ -87,7 +97,8 @@
 						disabled="#{not empty userViewBean.selectedUser.id}"
 						required="true" requiredMessage="Kullanici adi bos olamaz" />
 
-					<h:outputLabel for="password" value="#{lbl.password}" rendered="#{empty userViewBean.selectedUser.id}" />
+					<h:outputLabel for="password" value="#{lbl.password}"
+						rendered="#{empty userViewBean.selectedUser.id}" />
 					<p:password id="password"
 						value="#{userViewBean.selectedUser.password}"
 						rendered="#{empty userViewBean.selectedUser.id}"
@@ -98,13 +109,16 @@
 						goodLabel="#{lbl.orta}" strongLabel="#{lbl.guclu}"
 						autocomplete="off" />
 
-					<h:outputLabel for="repassword" value="#{lbl.repoassword}" rendered="#{empty userViewBean.selectedUser.id}" />
+					<h:outputLabel for="repassword" value="#{lbl.repoassword}"
+						rendered="#{empty userViewBean.selectedUser.id}" />
 					<p:password id="repassword" label="repassword" required="true"
 						rendered="#{empty userViewBean.selectedUser.id}"
 						requiredMessage="#{lbl.sifreTekrarBosOlamaz}" autocomplete="off" />
 
-					<h:outputText value="Durum" rendered="#{not empty userViewBean.selectedUser.id}" />
-					<p:selectOneButton value="#{userViewBean.selectedUser.active}" rendered="#{not empty userViewBean.selectedUser.id}" >
+					<h:outputText value="Durum"
+						rendered="#{not empty userViewBean.selectedUser.id}" />
+					<p:selectOneButton value="#{userViewBean.selectedUser.active}"
+						rendered="#{not empty userViewBean.selectedUser.id}">
 						<f:selectItem itemLabel="Aktif" itemValue="true" />
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
 					</p:selectOneButton>
@@ -126,26 +140,41 @@
 
 					</p:pickList>
 
+					<h:outputText value="Sirketler" />
+					<p:pickList value="#{userViewBean.selectedUserCompaniesDL}"
+						var="company" itemValue="#{company}" itemLabel="#{company.name}"
+						converter="companyEntityConverter" showCheckbox="true"
+						required="true" requiredMessage="En az bir sirket secilmelidir."
+						showSourceFilter="true" showTargetFilter="true"
+						filterMatchMode="contains">
+
+						<f:facet name="sourceCaption">Tum Sirketler</f:facet>
+
+						<f:facet name="targetCaption">Secilen Sirketler</f:facet>
+
+						<p:column>
+							#{company.name}
+						</p:column>
+
+					</p:pickList>
+
 
 					<f:facet name="footer">
 						<p:commandButton value="Guncelle"
 							actionListener="#{userViewBean.updateUser}"
 							rendered="#{not empty userViewBean.selectedUser.id}"
-							oncomplete="PF('userDialog').hide();" update=":searchResultTable :userQueryPanel" />
+							oncomplete="PF('userDialog').hide();"
+							update=":searchResultTable :userQueryPanel" />
 						<p:commandButton value="Tanimla"
 							actionListener="#{userViewBean.createUser}"
 							rendered="#{empty userViewBean.selectedUser.id}"
-							oncomplete="PF('userDialog').hide();" update=":searchResultTable :userQueryPanel" />
+							oncomplete="PF('userDialog').hide();"
+							update=":searchResultTable :userQueryPanel" />
 					</f:facet>
 				</h:panelGrid>
 
 			</h:form>
 		</p:dialog>
-
-
-
-
-
 
 	</ui:define>
 

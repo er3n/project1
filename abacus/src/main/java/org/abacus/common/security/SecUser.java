@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import org.abacus.user.shared.entity.CompanyEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
@@ -17,6 +18,9 @@ public class SecUser implements UserDetails {
 	private String company;
 
 	private List<String> authorityNames;
+
+	private List<CompanyEntity> companies;
+	private CompanyEntity selectedCompany;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,6 +39,12 @@ public class SecUser implements UserDetails {
 		}
 
 		return authorities;
+	}
+	
+	public void init(List<CompanyEntity> companies,
+			CompanyEntity selectedCompany) {
+		setCompanies(companies);
+		setSelectedCompany(selectedCompany);
 	}
 
 	@Override
@@ -97,6 +107,26 @@ public class SecUser implements UserDetails {
 
 	public void setCompany(String company) {
 		this.company = company;
+	}
+
+	public List<CompanyEntity> getCompanies() {
+		return companies;
+	}
+
+	public void setCompanies(List<CompanyEntity> companies) {
+		this.companies = companies;
+	}
+
+	public CompanyEntity getSelectedCompany() {
+		return selectedCompany;
+	}
+
+	public void setSelectedCompany(CompanyEntity selectedCompany) {
+		if(selectedCompany != null){
+			this.companies.remove(selectedCompany);
+		}
+		this.selectedCompany = selectedCompany;
+		this.companies.remove(this.selectedCompany);
 	}
 
 }

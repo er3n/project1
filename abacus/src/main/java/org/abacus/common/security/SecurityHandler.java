@@ -40,7 +40,6 @@ public class SecurityHandler implements UserDetailsService {
 		secUser.setCompany(user.getCompanyEntity().getId());
 
 		return secUser;
-
 	}
 
 }

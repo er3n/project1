@@ -15,7 +15,7 @@
 		<link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css' />
 
 	</h:head>
-	<h:body style="width:1256px;margin:0 auto">
+	<h:body style="width:1200px;margin:0 auto">
 	
 	 
 
@@ -24,7 +24,14 @@
 				<p:submenu label="Sistem Yonetimi" rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI, KULLANICI_GRUP_ISLEMLERI')}">
 					<p:menuitem value="Kullanici Islemleri" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('KULLANICI_ISLEMLERI')}" />
 					<p:menuitem value="Kullanici Grup Islemleri" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('KULLANICI_GRUP_ISLEMLERI')}" />
-					<p:menuitem value="Tanimlar" url="/app/definition/defmanager.abc" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+					
+					<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}">
+						<p:menuitem value="Paremetre" url="/app/definition/defmanager.abc?type=p" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+						<p:menuitem value="State" url="/app/definition/defmanager.abc?type=s" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+						<p:menuitem value="Task" url="/app/definition/defmanager.abc?type=t" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+						<p:menuitem value="Value" url="/app/definition/defmanager.abc?type=v" rendered="#{sec:areAnyGranted('TANIMLAMA_ISLEMLERI')}" />
+					</p:submenu>
+					
 				</p:submenu>		
 				<f:facet name="options">
 					<h:form>

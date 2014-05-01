@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
@@ -54,7 +55,13 @@ public class DefinitionViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		groupEnums = DefConstant.GroupEnum.values();
-		selectedGroupEnum =  groupEnums[0];
+		try{
+			String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
+			selectedGroupEnum =  DefConstant.GroupEnum.valueOf(value.toUpperCase());
+		}catch(Exception e){
+			selectedGroupEnum = groupEnums[0];
+		}
+
 		selectedGroupChanged();
 	}
 
@@ -66,11 +73,12 @@ public class DefinitionViewBean implements Serializable {
 	public void selectedGroupChanged(){
 		newRoot();
 		this.findTypeList(selectedGroupEnum);
-		if (typeList.size() > 0) {
-			selType = typeList.get(0);
-		} else {
-			clearType();
-		}
+//		if (typeList.size() > 0) {
+//			selType = typeList.get(0);
+//		} else {
+//			clearType();
+//		}
+		clearType();
 	}
 
 	public void saveOrUpdateType() {

@@ -9,98 +9,125 @@
 
 	<ui:define name="content">
 
-<style>
+		<style>
 .topAligned {
 	vertical-align: top;
 }
 </style>
 
-		<h:panelGrid id="mainGrid" columns="2" cellpadding="4" cellspacing="4"
-			columnClasses="topAligned,topAligned">
+		<h:panelGrid id="mainGrid" columns="1">
 
-			<h:panelGrid columns="1" style="width:450px">
-			<h:form id="typeForm">
-				<p:panel id="typePanel" header="Grup" style="width:450px">
-				
-					<h:panelGrid id="typeGrid" columns="4" cellpadding="4" cellspacing="4">
-						
-						<h:outputText value="Grup" />
-						<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}"
-							converter="enumEntitiyConverter" style="width:145px" >
-							<f:selectItems value="#{definitionViewBean.groupEnums}"
-								var="groupEnum" itemLabel="#{groupEnum.description}"
-								itemValue="#{groupEnum}" />
-							<p:ajax event="change" update=":typeForm"
-								listener="#{definitionViewBean.selectedGroupChanged}"
-								process="@this" />
-						</p:selectOneMenu>
+			<h:panelGrid columns="1">
+				<h:form id="typeForm">
+					<p:panel id="typePanel" header="Grup">
 
-						<h:outputLabel value="" />
-						<h:outputLabel value="" />
-							
-						<h:outputLabel value="Kod:" />
-						<p:inputText value="#{definitionViewBean.selType.id}" required="true" requiredMessage="Type.Code Bos olamaz" validatorMessage="Type.Code" disabled="true"/>
+						<h:panelGrid id="typeGrid" columns="8" cellpadding="4"
+							cellspacing="4">
 
-						<h:outputLabel value="Ad:" />
-						<p:inputText value="#{definitionViewBean.selType.name}" required="true" requiredMessage="Type.Ack Bos olamaz" validatorMessage="Type.Ack" />
-					</h:panelGrid>
+							<h:outputText value="Grup" />
+							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" disabled="true"
+								converter="enumEntitiyConverter" style="width:145px">
+								<f:selectItems value="#{definitionViewBean.groupEnums}"
+									var="groupEnum" itemLabel="#{groupEnum.description}"
+									itemValue="#{groupEnum}" />
+								<p:ajax event="change" update=":typeForm"
+									listener="#{definitionViewBean.selectedGroupChanged}"
+									process="@this" />
+							</p:selectOneMenu>
+
+							<h:outputLabel value="" />
+							<h:outputLabel value="" />
+
+							<h:outputLabel value="Kod:" />
+							<p:inputText value="#{definitionViewBean.selType.id}"
+								required="true" requiredMessage="Type.Code Bos olamaz"
+								validatorMessage="Type.Code" disabled="true" />
+
+							<h:outputLabel value="Ad:" />
+							<p:inputText value="#{definitionViewBean.selType.name}"
+								required="true" requiredMessage="Type.Ack Bos olamaz"
+								validatorMessage="Type.Ack" />
+						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveType" update=":typeForm" ajax="true" value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
+							<p:commandButton id="saveType" update=":typeForm" ajax="true"
+								value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveOrUpdateType}" />
-							<p:commandButton id="deleteType" update=":typeForm :valForm" ajax="true" value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
-								actionListener="#{definitionViewBean.deleteType}" immediate="true" disabled="true"/>
-							<p:commandButton id="clearType" update=":typeForm :valForm" ajax="true" value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{definitionViewBean.addNewType}" disabled="true">
+							<p:commandButton id="deleteType" update=":typeForm :valForm"
+								ajax="true"
+								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
+								actionListener="#{definitionViewBean.deleteType}"
+								immediate="true" disabled="true" />
+							<p:commandButton id="clearType" update=":typeForm :valForm"
+								ajax="true"
+								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{definitionViewBean.addNewType}"
+								disabled="true">
 								<p:resetInput target=":typeForm" />
 							</p:commandButton>
 						</f:facet>
-				</p:panel>
+					</p:panel>
 
-						<p:dataTable id="typeTable" var="selType" value="#{definitionViewBean.typeList}" selection="#{definitionViewBean.selType}" emptyMessage="Kayit Bulanamadi" selectionMode="single"
-							paginator="true" paginatorPosition="bottom" rowKey="#{selType.id}" rows="10" resizableColumns="true" style="width:100%">
+					<p:dataTable id="typeTable" var="selType"
+						value="#{definitionViewBean.typeList}"
+						selection="#{definitionViewBean.selType}"
+						emptyMessage="Kayit Bulanamadi" selectionMode="single"
+						paginator="true" paginatorPosition="bottom" rowKey="#{selType.id}"
+						rows="10" resizableColumns="true">
 
-							<p:ajax event="rowSelect" update=":typeForm :valForm" listener="#{definitionViewBean.setCurrentType}">
-							</p:ajax>
+						<p:ajax event="rowSelect" update=":typeForm :valForm"
+							listener="#{definitionViewBean.setCurrentType}">
+						</p:ajax>
 
-  							<p:column headerText="Kod">  
+						<p:column headerText="Kod">  
             					#{selType.id}  
-        					</p:column>  
+        					</p:column>
 
-  							<p:column headerText="Aciklama">  
+						<p:column headerText="Aciklama">  
             					#{selType.name}  
-        					</p:column>  
+        					</p:column>
 
-						</p:dataTable>
-				
-			</h:form>
+					</p:dataTable>
+
+				</h:form>
 			</h:panelGrid>
-			
-			<h:panelGrid columns="1" style="width:700px">
-			<h:form id="valForm">
- 				<p:panel id="valPanel" header="Deger">
-					
-					<h:panelGrid id="valGrid" columns="4" cellpadding="4" cellspacing="4">
-						<h:outputLabel value="Kod:" />
-						<p:inputText value="#{definitionViewBean.selVal.code}" required="true" requiredMessage="Val.Code Bos olamaz" validatorMessage="Val.Code" />
 
-						<h:outputLabel value="Ad:" />
-						<p:inputText value="#{definitionViewBean.selVal.name}" required="true" requiredMessage="Val.Ack Bos olamaz" validatorMessage="Val.Ack" />
-					</h:panelGrid>
+			<h:panelGrid columns="1">
+				<h:form id="valForm">
+					<p:panel id="valPanel" header="Deger">
+
+						<h:panelGrid id="valGrid" columns="4" cellpadding="2"
+							cellspacing="2">
+							<h:outputLabel value="Kod:" />
+							<p:inputText value="#{definitionViewBean.selVal.code}"
+								required="true" requiredMessage="Val.Code Bos olamaz"
+								validatorMessage="Val.Code" />
+
+							<h:outputLabel value="Ad:" />
+							<p:inputText value="#{definitionViewBean.selVal.name}"
+								required="true" requiredMessage="Val.Ack Bos olamaz"
+								validatorMessage="Val.Ack" />
+						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveVal" update=":valForm" ajax="true" value="#{definitionViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
+							<p:commandButton id="saveVal" update=":valForm" ajax="true"
+								value="#{definitionViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveOrUpdateVal}" />
-							<p:commandButton id="clearVal" process="@this" ajax="true" update=":valForm:valPanel" value="#{definitionViewBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{definitionViewBean.clearVal}" >
+							<p:commandButton id="clearVal" process="@this" ajax="true"
+								update=":valForm:valPanel"
+								value="#{definitionViewBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{definitionViewBean.clearVal}">
 								<p:resetInput target=":valForm" />
 							</p:commandButton>
 						</f:facet>
-				</p:panel>
-					
+					</p:panel>
 
-					<p:treeTable value="#{definitionViewBean.rootNode}" var="defValDTO" selectionMode="single" selection="#{definitionViewBean.selNode}" resizableColumns="true" style="width:100%">
-						<p:ajax event="select" listener="#{definitionViewBean.onNodeSelect}" update=":valForm" />
+
+					<p:treeTable value="#{definitionViewBean.rootNode}" var="defValDTO"
+						selectionMode="single" selection="#{definitionViewBean.selNode}"
+						resizableColumns="true" style="width:100%">
+						<p:ajax event="select"
+							listener="#{definitionViewBean.onNodeSelect}" update=":valForm" />
 						<f:facet name="header">valTree</f:facet>
 						<p:column style="width:100px">
 							<f:facet name="header">Kod</f:facet>
@@ -115,10 +142,10 @@
 							<h:outputText value="#{defValDTO.version}" />
 						</p:column>
 					</p:treeTable>
-					
-			</h:form>
+
+				</h:form>
 			</h:panelGrid>
-			
+
 		</h:panelGrid>
 
 	</ui:define>

@@ -9,8 +9,8 @@ public interface DefValueHandler extends Serializable{
 
 	List<DefValueEntity> getValueList(String typ);
 
-	DefValueEntity saveOrUpdateEntity(DefValueEntity entity);
+	DefValueEntity saveValueEntity(DefValueEntity entity);
 	
-	void deleteEntity(DefValueEntity entity);
+	void deleteValueEntity(DefValueEntity entity);
 	
 }

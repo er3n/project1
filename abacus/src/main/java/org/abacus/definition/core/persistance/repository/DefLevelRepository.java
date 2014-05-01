@@ -12,6 +12,6 @@ public interface DefLevelRepository extends CrudRepository<DefLevelEntity, Strin
 	@Modifying
 	@Transactional
 	@Query("delete from DefLevelEntity e where e.value.id = :valueId")
-	void deleteLevelNode(@Param("valueId")Long valueId);
+	void deleteLevel(@Param("valueId")Long valueId);
 	
 }

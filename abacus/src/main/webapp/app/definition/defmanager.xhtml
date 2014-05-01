@@ -26,19 +26,19 @@
 									var="groupEnum" itemLabel="#{groupEnum.description}"
 									itemValue="#{groupEnum}" />
 								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
-									listener="#{definitionViewBean.selectedGroupChanged}"
+									listener="#{definitionViewBean.groupChangeListener}"
 									process="@this" />
 							</p:selectOneMenu>
 
 							<h:outputLabel value="" />
 							<h:outputLabel value="" />
 
-							<h:outputLabel value="Kod:" />
+							<h:outputLabel value="Tip Kod:" />
 							<p:inputText value="#{definitionViewBean.selType.id}"
 								required="true" requiredMessage="Type.Code Bos olamaz"
 								validatorMessage="Type.Code" disabled="true" />
 
-							<h:outputLabel value="Ad:" />
+							<h:outputLabel value="Tip Ad:" />
 							<p:inputText value="#{definitionViewBean.selType.name}"
 								required="true" requiredMessage="Type.Ack Bos olamaz"
 								validatorMessage="Type.Ack" />
@@ -71,7 +71,7 @@
 						rows="10" resizableColumns="true">
 
 						<p:ajax event="rowSelect" update=":typeForm :valForm"
-							listener="#{definitionViewBean.setCurrentType}">
+							listener="#{definitionViewBean.typeRowSelectListener}">
 						</p:ajax>
 
 						<p:column headerText="Kod">  

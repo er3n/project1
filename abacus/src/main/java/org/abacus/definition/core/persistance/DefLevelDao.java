@@ -24,8 +24,8 @@ public class DefLevelDao implements Serializable {
 	@Autowired
 	private DefLevelRepository levelRepository;
 
-	public void insertValueLevels(DefValueEntity value){
-		levelRepository.deleteLevelNode(value.getId());
+	public void insertLevelEntity(DefValueEntity value){
+		levelRepository.deleteLevel(value.getId());
 		em.flush();
 		DefValueEntity hierarchy = value; 
 		List<DefLevelEntity> levelList = new ArrayList<DefLevelEntity>();

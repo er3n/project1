@@ -30,7 +30,7 @@ public class DefValueDao implements Serializable {
 	@Autowired
 	private DefLevelRepository levelRepository;
 
-	public DefValueEntity save(DefValueEntity entity) {
+	public DefValueEntity saveValueEntity(DefValueEntity entity) {
 		if (entity.isNew() && entity.getParent().getId().equals(0L)){
 			DefValueEntity root = valueRepository.findOne(0L);
 			entity.setParent(root);
@@ -40,8 +40,8 @@ public class DefValueDao implements Serializable {
 		return entity;
 	}
 
-	public void delete(DefValueEntity entity) {
-		levelRepository.deleteLevelNode(entity.getId());
+	public void deleteValueEntity(DefValueEntity entity) {
+		levelRepository.deleteLevel(entity.getId());
 		valueRepository.delete(entity);
 	}
 	
@@ -52,10 +52,10 @@ public class DefValueDao implements Serializable {
 		if (isFullChildHierarchy){
 			List<DefValueEntity> resultList = getValueChildren(value.getId());
 			for (DefValueEntity val : resultList) {
-				levelDao.insertValueLevels(val);
+				levelDao.insertLevelEntity(val);
 			}
 		} else {
-			levelDao.insertValueLevels(value);
+			levelDao.insertLevelEntity(value);
 		}
 	}
 

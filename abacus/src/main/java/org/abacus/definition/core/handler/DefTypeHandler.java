@@ -7,34 +7,10 @@ import org.abacus.definition.shared.entity.DefTypeEntity;
 
 public interface DefTypeHandler extends Serializable{
 
-	List<DefTypeEntity> getGroupTypeList(String groupEnum);
+	List<DefTypeEntity> getTypeList(String groupEnum);
 
-	void saveOrUpdateEntity(DefTypeEntity entity);
+	DefTypeEntity saveTypeEntity(DefTypeEntity entity);
 	
-	void deleteEntity(DefTypeEntity entity);
+	void deleteTypeEntity(DefTypeEntity entity);
 
-	/*
-	T getEntity(I id);
-
-	List<T> getEntityList();
-
-	void saveEntity(T entity);
-
-	void updateEntity(T entity);
-
-	void saveOrUpdateEntity(T entity);
-
-	void deleteEntity(T entity);
-
-	void refreshEntity(T entity);
-
-	List<T> getResultList(String query);
-
-	T getResultSingle(String query);
-
-	Integer executeSql(String sqlText);
-
-	List<T> findByNamedQuery(String queryName, Object... params);
-	*/
-	
 }

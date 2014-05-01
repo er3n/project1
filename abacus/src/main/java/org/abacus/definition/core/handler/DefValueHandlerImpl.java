@@ -21,24 +21,24 @@ public class DefValueHandlerImpl implements DefValueHandler {
 	private DefValueRepository defValueRepo;
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public List<DefValueEntity> getValueList(String typ){
-		return defValueRepo.findTypeValueList(typ); 
+		return defValueRepo.getValueList(typ); 
 	}
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public DefValueEntity saveOrUpdateEntity(DefValueEntity entity) {
+	public DefValueEntity saveValueEntity(DefValueEntity entity) {
 		System.out.println(entity.getVersion());
-		entity = defValueDao.save(entity);
+		entity = defValueDao.saveValueEntity(entity);
 		System.out.println(entity.getVersion());
 		return entity;	
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public void deleteEntity(DefValueEntity entity) {
-		defValueDao.delete(entity);
+	public void deleteValueEntity(DefValueEntity entity) {
+		defValueDao.deleteValueEntity(entity);
 	}
 
 }

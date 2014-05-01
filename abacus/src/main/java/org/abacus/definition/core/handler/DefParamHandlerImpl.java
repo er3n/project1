@@ -2,35 +2,35 @@ package org.abacus.definition.core.handler;
 
 import java.util.List;
 
-import org.abacus.definition.core.persistance.repository.DefTypeRepository;
-import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.abacus.definition.core.persistance.repository.DefParamRepository;
+import org.abacus.definition.shared.entity.DefParamEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("defTypeHandler")
-public class DefTypeHandlerImpl implements DefTypeHandler {
+@Service("defParamHandler")
+public class DefParamHandlerImpl implements DefParamHandler {
 
 	@Autowired
-	private DefTypeRepository defTypeRepository;
+	private DefParamRepository defParamRepository;
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefTypeEntity> getTypeList(String groupEnum){
-		return defTypeRepository.getTypeList(groupEnum);
+	public List<DefParamEntity> getParamList(String typeId){
+		return defParamRepository.getParamList(typeId);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public DefTypeEntity saveTypeEntity(DefTypeEntity entity) {
-		return defTypeRepository.save(entity);
+	public DefParamEntity saveParamEntity(DefParamEntity entity) {
+		return defParamRepository.save(entity);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public void deleteTypeEntity(DefTypeEntity entity) {
-		defTypeRepository.delete(entity);
+	public void deleteParamEntity(DefParamEntity entity) {
+		defParamRepository.delete(entity);
 	}
 	
 }

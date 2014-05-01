@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 public interface DefTypeRepository extends CrudRepository<DefTypeEntity, String> {
 
 	@Query("select a from DefTypeEntity a where a.id != '.' and a.group = :groupEnum order by a.id")
-	List<DefTypeEntity> findGroupTypeList(@Param("groupEnum") String groupEnum);
+	List<DefTypeEntity> getTypeList(@Param("groupEnum") String groupEnum);
 	
 }

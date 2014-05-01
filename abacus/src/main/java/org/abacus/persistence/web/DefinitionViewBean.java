@@ -1,6 +1,7 @@
 package org.abacus.persistence.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,7 @@ import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.constant.DefConstant;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
-import org.primefaces.event.NodeCollapseEvent;
-import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -48,6 +46,9 @@ public class DefinitionViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 
+	@ManagedProperty(value = "#{defParamViewBean}")
+	private DefParamViewBean defParamViewBean;
+
 	private DefConstant.GroupEnum[] groupEnums;
 	private DefConstant.GroupEnum selectedGroupEnum;
 	
@@ -65,18 +66,24 @@ public class DefinitionViewBean implements Serializable {
 		}catch(Exception e){
 			selectedGroupEnum = groupEnums[0];
 		}
-
-		selectedGroupChanged();
+		groupChangeListener();
 	}
 	
-	public void selectedGroupChanged(){
+	public void groupChangeListener(){
 		this.findTypeList(selectedGroupEnum);
 		selType=null;
 		renderGroupP = selectedGroupEnum.equals(DefConstant.GroupEnum.P);//Param:--Static: working
 		renderGroupS = selectedGroupEnum.equals(DefConstant.GroupEnum.S);//State:--Static: --
 		renderGroupT = selectedGroupEnum.equals(DefConstant.GroupEnum.T);//Task :--Dynamc: --
 		renderGroupV = selectedGroupEnum.equals(DefConstant.GroupEnum.V);//Value:--Dynamc: OK
-		findValList(".");		
+		findValList(null);	
+		
+		defParamViewBean.setSelParam(null);
+	}
+
+	public void typeRowSelectListener() {
+		findValList(selType.getId());
+		defParamViewBean.setSelType(selType);
 	}
 
 	public void saveOrUpdateType() {
@@ -85,13 +92,13 @@ public class DefinitionViewBean implements Serializable {
 		} else {
 			jsfMessageHelper.addInfo("typeGuncellemeIslemiBasarili");
 		}
-		defTypeService.saveOrUpdateEntity(selType);
+		selType = defTypeService.saveTypeEntity(selType);
 		findTypeList(selectedGroupEnum);
 	}
 
 	public void deleteType() {
 		if (!selType.isNew()) {
-			defTypeService.deleteEntity(selType);
+			defTypeService.deleteTypeEntity(selType);
 			jsfMessageHelper.addInfo("typeSilmeIslemiBasarili");
 		}
 		findTypeList(selectedGroupEnum);
@@ -106,7 +113,7 @@ public class DefinitionViewBean implements Serializable {
 			idx = valList.indexOf(selVal);
 			valList.remove(selVal);
 		}
-		selVal = defValService.saveOrUpdateEntity(selVal);
+		selVal = defValService.saveValueEntity(selVal);
 		valList.add(idx, selVal);
 		selVal = null;
 		clearVal();
@@ -115,10 +122,6 @@ public class DefinitionViewBean implements Serializable {
 
 	public void onTabChange() {
 		System.out.println("onTabChange");
-	}
-
-	public void setCurrentType() {
-		findValList(selType.getId());
 	}
 
 	public void addNewType() {
@@ -131,7 +134,7 @@ public class DefinitionViewBean implements Serializable {
 			}
 		}
 		if (found) {
-			setCurrentType();
+			typeRowSelectListener();
 		} else {
 			clearType();
 		}
@@ -146,7 +149,8 @@ public class DefinitionViewBean implements Serializable {
 		clearVal();
 	}
 
-	public void setCurrentValNode() {
+	public void valueSelectListener(NodeSelectEvent event) {
+		System.out.println("valueSelectListener:" + event.getTreeNode().toString());
 		if (selNode == null || selNode.getData() == null) {
 			selVal = null;
 			clearVal();
@@ -168,14 +172,18 @@ public class DefinitionViewBean implements Serializable {
 	public void findTypeList(DefConstant.GroupEnum groupEnum) {
 		selType = null;
 		typeList = null;
-		typeList = defTypeService.getGroupTypeList(groupEnum.name());
+		typeList = defTypeService.getTypeList(groupEnum.name());
 	}
 
 	public void findValList(String typ) {
 		selVal = null;
 		clearVal();
 		valList = null;
-		valList = defValService.getValueList(typ);
+		if (typ!=null){
+			valList = defValService.getValueList(typ);
+		} else {
+			valList = new ArrayList<>();
+		}
 		refreshTree();
 	}
 
@@ -206,11 +214,11 @@ public class DefinitionViewBean implements Serializable {
 	public DefTypeEntity getSelType() {
 		return selType;
 	}
-
+	
 	public void setSelType(DefTypeEntity selType) {
 		this.selType = selType;
 	}
-
+	
 	public List<DefTypeEntity> getTypeList() {
 		return typeList;
 	}
@@ -259,23 +267,6 @@ public class DefinitionViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public void onNodeExpand(NodeExpandEvent event) {
-		System.out.println("Expanded" + event.getTreeNode().toString());
-	}
-
-	public void onNodeCollapse(NodeCollapseEvent event) {
-		System.out.println("Collapsed" + event.getTreeNode().toString());
-	}
-
-	public void onNodeSelect(NodeSelectEvent event) {
-		System.out.println("Selected:" + event.getTreeNode().toString());
-		setCurrentValNode();
-	}
-
-	public void onNodeUnselect(NodeUnselectEvent event) {
-		System.out.println("Unselected:" + event.getTreeNode().toString());
-	}
-
 	public TreeNode getRootNode() {
 		return rootNode;
 	}
@@ -322,6 +313,14 @@ public class DefinitionViewBean implements Serializable {
 
 	public boolean isRenderGroupV() {
 		return renderGroupV;
+	}
+
+	public DefParamViewBean getDefParamViewBean() {
+		return defParamViewBean;
+	}
+
+	public void setDefParamViewBean(DefParamViewBean defParamViewBean) {
+		this.defParamViewBean = defParamViewBean;
 	}
 
 }

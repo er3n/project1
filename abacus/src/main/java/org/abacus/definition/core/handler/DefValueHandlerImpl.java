@@ -23,7 +23,7 @@ public class DefValueHandlerImpl implements DefValueHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
 	public List<DefValueEntity> getValueList(String typ){
-		return defValueRepo.findTypeValues(typ); 
+		return defValueRepo.findTypeValueList(typ); 
 	}
 	
 	@Override

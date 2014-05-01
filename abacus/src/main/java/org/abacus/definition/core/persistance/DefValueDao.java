@@ -8,10 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.abacus.common.web.AbcUtility;
 import org.abacus.definition.core.persistance.repository.DefLevelRepository;
 import org.abacus.definition.core.persistance.repository.DefValueRepository;
-import org.abacus.definition.shared.entity.DefLevelEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +25,9 @@ public class DefValueDao implements Serializable {
 	private DefValueRepository valueRepository;
 
 	@Autowired
+	private DefLevelDao levelDao;
+
+	@Autowired
 	private DefLevelRepository levelRepository;
 
 	public DefValueEntity save(DefValueEntity entity) {
@@ -35,8 +36,7 @@ public class DefValueDao implements Serializable {
 			entity.setParent(root);
 		}
 		entity = valueRepository.save(entity);
-		em.flush();
-		insertLevelTree(entity);
+		insertValueChildLevels(entity, false); 
 		return entity;
 	}
 
@@ -44,39 +44,22 @@ public class DefValueDao implements Serializable {
 		levelRepository.deleteLevelNode(entity.getId());
 		valueRepository.delete(entity);
 	}
-
-	private void insertLevelTree(DefValueEntity value){
-//		List<DefValueEntity> resultList = getValueChildren(value.getId());//Full Tree Level Insert, Node degistirme ozelligi olursa aktiflestirilecek
-		List<DefValueEntity> resultList = new ArrayList<DefValueEntity>();
-		resultList.add(value);
-
-		for (DefValueEntity val : resultList) {
-			levelRepository.deleteLevelNode(val.getId());
-			insertLevelNode(val);
-		}
-	}
-
-	private void insertLevelNode(DefValueEntity value){
-		DefValueEntity hierarchy = value; 
-		List<DefLevelEntity> levelList = new ArrayList<DefLevelEntity>();
-		for (Integer descOrder = 1; hierarchy.getParent()!=null ; descOrder++) {
-			DefLevelEntity lvl = new DefLevelEntity();
-			lvl.setType(value.getType());
-			lvl.setValue(value);
-			lvl.setParent(hierarchy);
-			lvl.setLevel_desc(descOrder);
-			levelList.add(lvl);
-			hierarchy = hierarchy.getParent(); 
-		}
-		for (DefLevelEntity lvl : levelList) {
-			lvl.setLevel_asc(1+levelList.size()-lvl.getLevel_desc());
-			lvl.setId(AbcUtility.LPad(value.getId().toString(),10,'0')+"_"+AbcUtility.LPad(lvl.getLevel_asc().toString(),2,'0'));
-			levelRepository.save(lvl);
-		}
-	}
 	
+	private void insertValueChildLevels(DefValueEntity value, boolean isFullChildHierarchy){
+		//False: Sadece Secili Value Levelleri Refresh Olur
+		//True : Full Tree Level Insert, Node degistirme ozelligi olursa aktiflestirilecek
+		em.flush();
+		if (isFullChildHierarchy){
+			List<DefValueEntity> resultList = getValueChildren(value.getId());
+			for (DefValueEntity val : resultList) {
+				levelDao.insertValueLevels(val);
+			}
+		} else {
+			levelDao.insertValueLevels(value);
+		}
+	}
+
 	private List<DefValueEntity> getValueChildren(Long valueId){
-		
 		StringBuilder sb = new StringBuilder();
 		sb.append("select v.* from def_value v, ");
 		sb.append("	(with recursive r (id) as ( "); //Oracle'da recursive silinecek "with r (id)"

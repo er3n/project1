@@ -11,20 +11,27 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.user.core.handler.SecGroupHandler;
+import org.abacus.user.core.handler.UserService;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
+import org.abacus.user.shared.event.CreateGroupEvent;
+import org.abacus.user.shared.event.DeleteGroupEvent;
+import org.abacus.user.shared.event.GroupCreatedEvent;
+import org.abacus.user.shared.event.GroupDeletedEvent;
+import org.abacus.user.shared.event.GroupUpdatedEvent;
+import org.abacus.user.shared.event.ReadAuthoritiesEvent;
+import org.abacus.user.shared.event.ReadGroupsEvent;
+import org.abacus.user.shared.event.RequestReadAuthoritiesEvent;
+import org.abacus.user.shared.event.RequestReadGroupsEvent;
+import org.abacus.user.shared.event.UpdateGroupEvent;
 import org.abacus.user.web.model.DynamicEntityDataModel;
 import org.primefaces.model.DualListModel;
 
 @ManagedBean
 @ViewScoped
 public class UserGroupViewBean implements Serializable {
-
-	@ManagedProperty(value = "#{secGroupHandler}")
-	private SecGroupHandler secGroupHandler;
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -35,6 +42,9 @@ public class UserGroupViewBean implements Serializable {
 	private SecGroupEntity selectedGroup;
 
 	private DualListModel<SecAuthorityEntity> selectedGroupAuthoritiesDL;
+
+	@ManagedProperty(value = "#{userService}")
+	private UserService userService;
 
 	@PostConstruct
 	public void init() {
@@ -47,8 +57,11 @@ public class UserGroupViewBean implements Serializable {
 
 	private void newSelectedGroup() {
 		selectedGroupAuthoritiesDL = new DualListModel<SecAuthorityEntity>();
-		List<SecAuthorityEntity> allAuthorities = secGroupHandler
-				.allAuthorities();
+
+		ReadAuthoritiesEvent authoritiesEvent = userService
+				.requestAuthorities(new RequestReadAuthoritiesEvent());
+		List<SecAuthorityEntity> allAuthorities = authoritiesEvent
+				.getGroupAuthorities();
 		List<SecAuthorityEntity> targetSelectedGrupAuthorities = new ArrayList<>();
 		selectedGroupAuthoritiesDL.setSource(allAuthorities);
 		selectedGroupAuthoritiesDL.setTarget(targetSelectedGrupAuthorities);
@@ -59,9 +72,11 @@ public class UserGroupViewBean implements Serializable {
 		try {
 			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL
 					.getTarget();
-			String userName = sessionInfoHelper.currentUserName();
-			secGroupHandler.saveGroup(selectedGroup, selectedAuthorities,
-					userName);
+			String username = sessionInfoHelper.currentUserName();
+
+			GroupCreatedEvent groupCreatedEvent = userService
+					.createGroup(new CreateGroupEvent(selectedGroup,
+							selectedAuthorities, username));
 			jsfMessageHelper.addInfo("grupEklendi");
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("grupIsmiKullanimda");
@@ -73,8 +88,9 @@ public class UserGroupViewBean implements Serializable {
 			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL
 					.getTarget();
 			String userName = sessionInfoHelper.currentUserName();
-			secGroupHandler.updateGroup(selectedGroup, selectedAuthorities,
-					userName);
+			GroupUpdatedEvent groupUpdatedEvent = userService
+					.updateGroup(new UpdateGroupEvent(selectedGroup,
+							selectedAuthorities, userName));
 			jsfMessageHelper.addInfo("grupGuncellendi");
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("groupIsmiKullanimda");
@@ -84,7 +100,8 @@ public class UserGroupViewBean implements Serializable {
 	public void removeGroup() {
 
 		try {
-			secGroupHandler.removeGroup(selectedGroup.getId());
+			GroupDeletedEvent event = userService
+					.deleteGroup(new DeleteGroupEvent(selectedGroup.getId()));
 			jsfMessageHelper.addInfo("kullaniciGrubuSilindi");
 			this.newSelectedGroup();
 		} catch (UserExistsInGroupException e) {
@@ -96,27 +113,34 @@ public class UserGroupViewBean implements Serializable {
 	public void onGroupRowSelected() {
 		Long groupId = selectedGroup.getId();
 		selectedGroupAuthoritiesDL = new DualListModel<>();
-		List<SecAuthorityEntity> target = secGroupHandler
-				.findGroupAuthorities(groupId);
-		List<SecAuthorityEntity> source = secGroupHandler.allAuthorities();
+		ReadAuthoritiesEvent groupAuthoritiesEvent = userService
+				.requestAuthorities(new RequestReadAuthoritiesEvent(groupId));
+		List<SecAuthorityEntity> target = groupAuthoritiesEvent
+				.getGroupAuthorities();
+		ReadAuthoritiesEvent allGroupAuthoritiesEvent = userService
+				.requestAuthorities(new RequestReadAuthoritiesEvent());
+		List<SecAuthorityEntity> source = allGroupAuthoritiesEvent
+				.getGroupAuthorities();
 		source.removeAll(target);
 		selectedGroupAuthoritiesDL.setSource(source);
 		selectedGroupAuthoritiesDL.setTarget(target);
 	}
 
 	public DynamicEntityDataModel<SecGroupEntity> findAllGroups() {
-		List<SecGroupEntity> groupList = secGroupHandler.allGroups();
+		ReadGroupsEvent allGroups = userService
+				.requestGroup(new RequestReadGroupsEvent());
+		List<SecGroupEntity> groupList = allGroups.getGroupList();
 		DynamicEntityDataModel<SecGroupEntity> dataModel = new DynamicEntityDataModel<SecGroupEntity>(
 				groupList);
 		return dataModel;
 	}
 
-	public SecGroupHandler getSecGroupHandler() {
-		return secGroupHandler;
+	public UserService getUserService() {
+		return userService;
 	}
 
-	public void setSecGroupHandler(SecGroupHandler secGroupHandler) {
-		this.secGroupHandler = secGroupHandler;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 	public SecGroupEntity getSelectedGroup() {
@@ -151,9 +175,5 @@ public class UserGroupViewBean implements Serializable {
 	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
 		this.sessionInfoHelper = sessionInfoHelper;
 	}
-	
-	
-	
-	
 
 }

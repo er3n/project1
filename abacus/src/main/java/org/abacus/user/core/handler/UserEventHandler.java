@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.user.core.persistance.UserDao;
+import org.abacus.user.core.persistance.repository.AuthorityRepository;
+import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupMemberRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
 import org.abacus.user.core.persistance.repository.UserRepository;
+import org.abacus.user.shared.GroupNameInUseException;
+import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.UserNameExistsException;
+import org.abacus.user.shared.entity.SecAuthorityEntity;
+import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecGroupMemberEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
@@ -20,11 +26,9 @@ import org.abacus.user.shared.event.GroupUpdatedEvent;
 import org.abacus.user.shared.event.ReadAuthoritiesEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
-import org.abacus.user.shared.event.ReadUserGroupsEvent;
 import org.abacus.user.shared.event.RequestReadAuthoritiesEvent;
 import org.abacus.user.shared.event.RequestReadGroupsEvent;
 import org.abacus.user.shared.event.RequestReadUserEvent;
-import org.abacus.user.shared.event.RequestReadUserGroupsEvent;
 import org.abacus.user.shared.event.UpdateGroupEvent;
 import org.abacus.user.shared.event.UpdateUserEvent;
 import org.abacus.user.shared.event.UserCreatedEvent;
@@ -53,6 +57,11 @@ public class UserEventHandler implements UserService{
 	
 	@Autowired
 	private GroupRepository groupRepository;
+	
+	@Autowired
+	private AuthorityRepository authorityRepository;
+	@Autowired
+	private GroupAuthorityRepository groupAuthorityRepository;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -129,13 +138,6 @@ public class UserEventHandler implements UserService{
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	public ReadUserGroupsEvent requestGroup(RequestReadUserGroupsEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public ReadGroupsEvent requestGroup(RequestReadGroupsEvent event) {
 		
 		List<SecGroupEntity> groupList = null;
@@ -151,30 +153,99 @@ public class UserEventHandler implements UserService{
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
-	public GroupCreatedEvent createGroup(CreateGroupEvent event) {
-		// TODO Auto-generated method stub
-		return null;
+	public GroupCreatedEvent createGroup(CreateGroupEvent event) throws GroupNameInUseException {
+
+		SecGroupEntity group = event.getGroup();
+		List<SecAuthorityEntity> selectedAuthorities = event.getAuthorities();
+		String userCreated = event.getUserCreated();
+
+		
+		SecGroupEntity existingGroupEntitiy = groupRepository.findByName(group.getName());
+		if(existingGroupEntitiy != null){
+			throw new GroupNameInUseException();
+		}
+		
+		group = groupRepository.save(group);
+		
+		List<SecGroupAuthorityEntity> groupAuthorities = new ArrayList<>();
+		for(SecAuthorityEntity authority : selectedAuthorities){
+			SecGroupAuthorityEntity groupAuthority = new SecGroupAuthorityEntity();
+			groupAuthority.setAuthority(authority);
+			groupAuthority.setGroup(group);
+			groupAuthority.createHook(userCreated);
+			groupAuthorities.add(groupAuthority);
+		}
+		
+		groupAuthorityRepository.save(groupAuthorities);
+		
+		return new GroupCreatedEvent(group);
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
-	public GroupUpdatedEvent updateGroup(UpdateGroupEvent event) {
-		// TODO Auto-generated method stub
-		return null;
+	public GroupUpdatedEvent updateGroup(UpdateGroupEvent event) throws GroupNameInUseException {
+		
+		SecGroupEntity group = event.getGroup();
+		List<SecAuthorityEntity> selectedAuthorities = event.getAuthorities();
+		String userCreated = event.getUserCreated();
+
+		SecGroupEntity existingGroupEntitiy = groupRepository.findByName(group.getName());
+		if(existingGroupEntitiy != null && !existingGroupEntitiy.getId().equals(group.getId()) ){
+			throw new GroupNameInUseException();
+		}
+		
+		group = groupRepository.save(group);
+		
+		groupAuthorityRepository.deleteByGroupId(group.getId());
+		
+		List<SecGroupAuthorityEntity> groupAuthorities = new ArrayList<>();
+		for(SecAuthorityEntity authority : selectedAuthorities){
+			SecGroupAuthorityEntity groupAuthority = new SecGroupAuthorityEntity();
+			groupAuthority.setAuthority(authority);
+			groupAuthority.setGroup(group);
+			groupAuthority.createHook(userCreated);
+			groupAuthorities.add(groupAuthority);
+		}
+		
+		groupAuthorityRepository.save(groupAuthorities);
+		
+		return new GroupUpdatedEvent(group);
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
-	public GroupDeletedEvent deleteGroup(DeleteGroupEvent event) {
-		// TODO Auto-generated method stub
-		return null;
+	public GroupDeletedEvent deleteGroup(DeleteGroupEvent event) throws UserExistsInGroupException {
+		
+		Long groupId = event.getGroupId();
+		
+		Long count = groupMemberRepository.userCount(groupId);
+		boolean isGroupHasAnyMember = count > 0;
+		
+		if(isGroupHasAnyMember){
+			throw new UserExistsInGroupException();
+		}
+		
+		groupAuthorityRepository.deleteByGroupId(groupId);
+		
+		groupRepository.delete(groupId);
+		
+		return new GroupDeletedEvent();
 	}
+
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public ReadAuthoritiesEvent requestAuthorities(RequestReadAuthoritiesEvent event) {
-		// TODO Auto-generated method stub
-		return null;
+		List<SecAuthorityEntity> groupAuthorities = null;
+		if(event.getGroupId() != null){
+			groupAuthorities = groupRepository.findGroupAuthorities(event.getGroupId());
+		}else{
+			groupAuthorities = authorityRepository.findAllOrderById();
+		}
+		
+		ReadAuthoritiesEvent readEvent = new ReadAuthoritiesEvent(groupAuthorities);
+		
+		return readEvent;
 	}
 
 }

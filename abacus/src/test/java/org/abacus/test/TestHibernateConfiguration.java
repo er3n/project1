@@ -1,6 +1,5 @@
 package org.abacus.test;
 
-import org.abacus.user.core.handler.SecGroupHandler;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.CompanyEntity;
@@ -22,12 +21,7 @@ public class TestHibernateConfiguration {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private SecGroupHandler groupHandler;
-	
-	@Autowired
-	private SecGroupHandler secGroupHandler;
+
 	
 	@Test
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
@@ -51,14 +45,14 @@ public class TestHibernateConfiguration {
 	@Test
 	@Rollback(false)
 	public void testRemoveGroup() throws UserExistsInGroupException{
-		groupHandler.removeGroup(1l);
+//		groupHandler.removeGroup(1l);
 	}
 	
 	@Test
 	@Rollback(false)
 	public void testSpringAbstrationCache(){
-		secGroupHandler.allAuthorities();
-		secGroupHandler.allAuthorities();
+//		secGroupHandler.allAuthorities();
+//		secGroupHandler.allAuthorities();
 	}
 
 }

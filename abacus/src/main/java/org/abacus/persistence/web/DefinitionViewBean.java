@@ -49,8 +49,12 @@ public class DefinitionViewBean implements Serializable {
 	private JsfMessageHelper jsfMessageHelper;
 
 	private DefConstant.GroupEnum[] groupEnums;
-
 	private DefConstant.GroupEnum selectedGroupEnum;
+	
+	public boolean renderGroupP;
+	public boolean renderGroupS;
+	public boolean renderGroupT;
+	public boolean renderGroupV;
 
 	@PostConstruct
 	public void init() {
@@ -64,10 +68,14 @@ public class DefinitionViewBean implements Serializable {
 
 		selectedGroupChanged();
 	}
-
+	
 	public void selectedGroupChanged(){
 		this.findTypeList(selectedGroupEnum);
 		selType=null;
+		renderGroupP = selectedGroupEnum.equals(DefConstant.GroupEnum.P);//Param:--Static: working
+		renderGroupS = selectedGroupEnum.equals(DefConstant.GroupEnum.S);//State:--Static: --
+		renderGroupT = selectedGroupEnum.equals(DefConstant.GroupEnum.T);//Task :--Dynamc: --
+		renderGroupV = selectedGroupEnum.equals(DefConstant.GroupEnum.V);//Value:--Dynamc: OK
 		findValList(".");		
 	}
 
@@ -298,6 +306,22 @@ public class DefinitionViewBean implements Serializable {
 
 	public void setSelectedGroupEnum(DefConstant.GroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
+	}
+
+	public boolean isRenderGroupP() {
+		return renderGroupP;
+	}
+
+	public boolean isRenderGroupS() {
+		return renderGroupS;
+	}
+
+	public boolean isRenderGroupT() {
+		return renderGroupT;
+	}
+
+	public boolean isRenderGroupV() {
+		return renderGroupV;
 	}
 
 }

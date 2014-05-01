@@ -5,18 +5,15 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	template="/WEB-INF/content/template/simple.xhtml">
+>
 
-	<ui:define name="content">
-		<style> .topAligned { vertical-align: top;} </style>
-		<h:panelGrid id="mainGrid" columns="1">
-
-			<h:panelGrid id="typeGrid" columns="1">
-				<h:form id="typeForm">
+			<!-- paramGrid -->
+			<h:panelGrid id="paramGrid" columns="1">
+				<h:form id="paramForm" rendered="#{definitionViewBean.renderGroupP}">
 				
-					<p:panel id="typePanel" header="Grup">
+					<p:panel id="paramPanel" header="Parametre">
 
-						<h:panelGrid id="typeGrid" columns="8" cellpadding="4"
+						<h:panelGrid id="paramGrid" columns="8" cellpadding="4"
 							cellspacing="4">
 
 							<h:outputText value="Grup" />
@@ -25,7 +22,7 @@
 								<f:selectItems value="#{definitionViewBean.groupEnums}"
 									var="groupEnum" itemLabel="#{groupEnum.description}"
 									itemValue="#{groupEnum}" />
-								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
+								<p:ajax event="change" update="paramForm"
 									listener="#{definitionViewBean.selectedGroupChanged}"
 									process="@this" />
 							</p:selectOneMenu>
@@ -45,15 +42,15 @@
 						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveType" update=":typeForm" ajax="true"
+							<p:commandButton id="saveParam" update=":paramForm" ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveOrUpdateType}" />
-							<p:commandButton id="deleteType" update=":typeForm :valForm"
+							<p:commandButton id="deleteParam" update=":paramForm"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
 								actionListener="#{definitionViewBean.deleteType}"
 								immediate="true" disabled="true" />
-							<p:commandButton id="clearType" update=":typeForm :valForm"
+							<p:commandButton id="clearParam" update=":paramForm"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionViewBean.addNewType}"
@@ -63,7 +60,7 @@
 						</f:facet>
 					</p:panel>
 
-					<p:dataTable id="typeTable" var="selType"
+					<p:dataTable id="paramTable" var="selType"
 						value="#{definitionViewBean.typeList}"
 						selection="#{definitionViewBean.selType}"
 						emptyMessage="Kayit Bulanamadi" selectionMode="single"
@@ -86,16 +83,7 @@
 
 				</h:form>
 			</h:panelGrid>
-			<!-- typeGrid -->
+			<!-- paramGrid -->
 
-			<ui:include src="defValue.xhtml"></ui:include>
 
-			<ui:include src="defParam.xhtml"></ui:include>
-
-			<ui:include src="defState.xhtml"></ui:include>
-
-			<ui:include src="defTask.xhtml"></ui:include>
-
-		</h:panelGrid>
-	</ui:define>
 </ui:composition>

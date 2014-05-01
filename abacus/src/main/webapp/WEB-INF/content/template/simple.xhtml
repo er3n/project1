@@ -58,24 +58,25 @@
 						<p:button value="Giris" href="/app/login.xhtml" icon="ui-icon-tag"
 							rendered="#{empty request.remoteUser}" />
 
-						<c:if test="#{not empty request.remoteUser}">
-							<p:menuButton
-								value="#{sessionInfoHelper.currentUser().selectedCompany.name} - #{sessionInfoHelper.currentUser().selectedCompany.id}"
-								style="padding-right: 10px">
-								<c:forEach var="company"
-									items="#{sessionInfoHelper.currentUser().companies}">
-									<p:menuitem value="#{company.name} - #{company.id}" />
-								</c:forEach>
-							</p:menuButton>
-						</c:if>
-
-						<p:menuButton value="#{request.remoteUser}"
-							style="text-transform:capitalize;"
+						<h:panelGrid columns="2"
 							rendered="#{not empty request.remoteUser}">
-							<p:menuitem value="Cikis" url="/app/logout"
-								icon="ui-icon-extlink" />
-						</p:menuButton>
 
+							<p:selectOneMenu
+								value="#{sessionInfoHelper.currentUser().selectedCompany}"
+								converter="companyEntityConverter" style="width:145px">
+								<f:selectItems
+									value="#{sessionInfoHelper.currentUser().companies}"
+									var="company" itemLabel="#{company.name} - #{company.id}"
+									itemValue="#{company}" />
+								<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.redirect()}" />
+							</p:selectOneMenu>
+
+							<p:menuButton value="#{request.remoteUser}"
+								style="text-transform:capitalize;">
+								<p:menuitem value="Cikis" url="/app/logout"
+									icon="ui-icon-extlink" />
+							</p:menuButton>
+						</h:panelGrid>
 					</h:form>
 				</f:facet>
 

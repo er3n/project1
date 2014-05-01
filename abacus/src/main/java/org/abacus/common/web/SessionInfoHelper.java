@@ -2,6 +2,9 @@ package org.abacus.common.web;
 
 import java.io.Serializable;
 
+import javax.faces.application.NavigationHandler;
+import javax.faces.context.FacesContext;
+
 import org.abacus.common.security.SecUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,6 +34,12 @@ public class SessionInfoHelper implements Serializable {
 
 	public String currentCompany() {
 		return currentUser().getCompany();
+	}
+	
+	public void redirect(){
+		FacesContext context = FacesContext.getCurrentInstance();
+	    NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
+	    navigationHandler.handleNavigation(context, null, "/app/index.abc?faces-redirect=true");
 	}
 	
 }

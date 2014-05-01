@@ -122,11 +122,8 @@ public class SecUser implements UserDetails {
 	}
 
 	public void setSelectedCompany(CompanyEntity selectedCompany) {
-		if(selectedCompany != null){
-			this.companies.remove(selectedCompany);
-		}
 		this.selectedCompany = selectedCompany;
-		this.companies.remove(this.selectedCompany);
+		this.company = selectedCompany.getId();
 	}
 
 }

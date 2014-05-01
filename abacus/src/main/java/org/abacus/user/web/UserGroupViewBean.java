@@ -43,7 +43,7 @@ public class UserGroupViewBean implements Serializable {
 
 	private DualListModel<SecAuthorityEntity> selectedGroupAuthoritiesDL;
 
-	@ManagedProperty(value = "#{userService}")
+	@ManagedProperty(value = "#{userEventHandler}")
 	private UserService userService;
 
 	@PostConstruct
@@ -91,6 +91,7 @@ public class UserGroupViewBean implements Serializable {
 			GroupUpdatedEvent groupUpdatedEvent = userService
 					.updateGroup(new UpdateGroupEvent(selectedGroup,
 							selectedAuthorities, userName));
+			selectedGroup = groupUpdatedEvent.getGroup();
 			jsfMessageHelper.addInfo("grupGuncellendi");
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("groupIsmiKullanimda");

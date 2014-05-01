@@ -25,12 +25,12 @@
 							cellspacing="4">
 
 							<h:outputText value="Grup" />
-							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" disabled="true"
+							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" 
 								converter="enumEntitiyConverter" style="width:145px">
 								<f:selectItems value="#{definitionViewBean.groupEnums}"
 									var="groupEnum" itemLabel="#{groupEnum.description}"
 									itemValue="#{groupEnum}" />
-								<p:ajax event="change" update=":typeForm"
+								<p:ajax event="change" update=":typeForm :valForm"
 									listener="#{definitionViewBean.selectedGroupChanged}"
 									process="@this" />
 							</p:selectOneMenu>

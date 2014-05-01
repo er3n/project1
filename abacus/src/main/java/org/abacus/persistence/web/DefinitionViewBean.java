@@ -65,20 +65,10 @@ public class DefinitionViewBean implements Serializable {
 		selectedGroupChanged();
 	}
 
-	private void newRoot() {
-		rootNode = null;
-		rootNode = new DefaultTreeNode(rootVal, null);
-	}
-	
 	public void selectedGroupChanged(){
-		newRoot();
 		this.findTypeList(selectedGroupEnum);
-//		if (typeList.size() > 0) {
-//			selType = typeList.get(0);
-//		} else {
-//			clearType();
-//		}
-		clearType();
+		selType=null;
+		findValList(".");		
 	}
 
 	public void saveOrUpdateType() {
@@ -170,8 +160,7 @@ public class DefinitionViewBean implements Serializable {
 	public void findTypeList(DefConstant.GroupEnum groupEnum) {
 		selType = null;
 		typeList = null;
-		clearType();
-		typeList = defTypeService.getTypeList(groupEnum.name());
+		typeList = defTypeService.getGroupTypeList(groupEnum.name());
 	}
 
 	public void findValList(String typ) {
@@ -180,6 +169,11 @@ public class DefinitionViewBean implements Serializable {
 		valList = null;
 		valList = defValService.getValueList(typ);
 		refreshTree();
+	}
+
+	private void newRoot() {
+		rootNode = null;
+		rootNode = new DefaultTreeNode(rootVal, null);
 	}
 
 	private void refreshTree() {

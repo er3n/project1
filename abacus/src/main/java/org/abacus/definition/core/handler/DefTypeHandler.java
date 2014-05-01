@@ -7,7 +7,7 @@ import org.abacus.definition.shared.entity.DefTypeEntity;
 
 public interface DefTypeHandler extends Serializable{
 
-	List<DefTypeEntity> getTypeList(String groupEnum);
+	List<DefTypeEntity> getGroupTypeList(String groupEnum);
 
 	void saveOrUpdateEntity(DefTypeEntity entity);
 	

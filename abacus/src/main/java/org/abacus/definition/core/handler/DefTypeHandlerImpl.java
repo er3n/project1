@@ -17,8 +17,8 @@ public class DefTypeHandlerImpl implements DefTypeHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefTypeEntity> getTypeList(String groupEnum){
-		return defTypeRepository.findAllOrderById(groupEnum);
+	public List<DefTypeEntity> getGroupTypeList(String groupEnum){
+		return defTypeRepository.findGroupTypeList(groupEnum);
 	}
 
 	@Override

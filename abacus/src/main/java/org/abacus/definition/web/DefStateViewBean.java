@@ -41,7 +41,7 @@ public class DefStateViewBean implements Serializable {
 	}
 
 	public void stateRowSelectListener() {
-		System.out.println("stateRowSelectListener");
+//		System.out.println("stateRowSelectListener");
 	}
 
 	
@@ -76,7 +76,7 @@ public class DefStateViewBean implements Serializable {
 		} else {
 			stateList = new ArrayList<DefStateEntity>();
 		}
-		System.out.println(stateList);
+//		System.out.println(stateList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {

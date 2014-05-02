@@ -12,7 +12,7 @@
 		<h:form id="userQueryPanel">
 			<p:panel header="Kullanici Islemleri">
 
-				<h:panelGrid columns="4" cellspacing="4" style="vertical-align:top">
+				<h:panelGrid columns="4" cellspacing="2" style="vertical-align:top">
 
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.searchUserCriteria.username}" />
@@ -90,8 +90,9 @@
 		<p:dialog header="Kullanici" widgetVar="userDialog" resizable="false"
 			showEffect="fade" modal="true" appendToBody="@(body)">
 			<h:form id="userDetailForm">
-				<h:panelGrid id="userDetailDialog" columns="4" cellpadding="4">
+				<h:panelGrid id="userDetailDialog" columns="2" cellpadding="2">
 
+					<h:panelGrid id="userDetailDialogHeader" columns="6" cellpadding="2">
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.selectedUser.id}"
 						disabled="#{not empty userViewBean.selectedUser.id}"
@@ -122,6 +123,7 @@
 						<f:selectItem itemLabel="Aktif" itemValue="true" />
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
 					</p:selectOneButton>
+					</h:panelGrid>
 
 					<h:outputText value="Gruplar" />
 					<p:pickList value="#{userViewBean.selectedGroupMemberDL}"

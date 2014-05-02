@@ -71,9 +71,6 @@ public class DefValueDao implements Serializable {
 		Query query = em.createNativeQuery(sb.toString(), DefValueEntity.class);
 		query.setParameter("valueId", valueId);
 		List<DefValueEntity> resultList = query.getResultList();
-		for (DefValueEntity relation : resultList) {
-		  System.out.println(relation.toString());
-		}
 		return resultList;
 	}
 	

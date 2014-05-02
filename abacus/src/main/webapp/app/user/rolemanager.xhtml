@@ -57,7 +57,8 @@
 					<h:panelGrid id="groupDetailPanel" columns="2">
 
 						<h:outputText value="Grup Adi" style="font-weight:bold" />
-						<p:inputText value="#{userGroupViewBean.selectedGroup.name}" />
+						<p:inputText value="#{userGroupViewBean.selectedGroup.name}" 
+						required="true" requiredMessage="Grup Adi Giriniz" />
 
 
 						<h:outputText value="Yetkiler" style="font-weight:bold" />

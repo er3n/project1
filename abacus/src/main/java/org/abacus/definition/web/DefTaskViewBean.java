@@ -41,7 +41,7 @@ public class DefTaskViewBean implements Serializable {
 	}
 
 	public void taskRowSelectListener() {
-		System.out.println("taskRowSelectListener");
+//		System.out.println("taskRowSelectListener");
 	}
 
 	
@@ -76,7 +76,7 @@ public class DefTaskViewBean implements Serializable {
 		} else {
 			taskList = new ArrayList<DefTaskEntity>();
 		}
-		System.out.println(taskList);
+//		System.out.println(taskList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {

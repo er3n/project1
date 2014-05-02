@@ -41,7 +41,7 @@ public class DefParamViewBean implements Serializable {
 	}
 
 	public void paramRowSelectListener() {
-		System.out.println("paramRowSelectListener");
+//		System.out.println("paramRowSelectListener");
 	}
 
 	
@@ -76,7 +76,7 @@ public class DefParamViewBean implements Serializable {
 		} else {
 			paramList = new ArrayList<DefParamEntity>();
 		}
-		System.out.println(paramList);
+//		System.out.println(paramList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {

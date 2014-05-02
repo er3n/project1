@@ -72,7 +72,7 @@ public class DefValueViewBean implements Serializable {
 	}
 
 	public void valueSelectListener(NodeSelectEvent event) {
-		System.out.println("valueSelectListener:" + event.getTreeNode().toString());
+//		System.out.println("valueSelectListener:" + event.getTreeNode().toString());
 		if (selNode == null || selNode.getData() == null) {
 			selVal = null;
 			clearVal();
@@ -101,7 +101,7 @@ public class DefValueViewBean implements Serializable {
 			valList = new ArrayList<>();
 		}
 		refreshTree();
-		System.out.println(valList);
+//		System.out.println(valList);
 	}
 
 	private void newRoot() {

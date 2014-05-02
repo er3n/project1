@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
 import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.constant.DefConstant;
@@ -32,6 +33,9 @@ public class DefinitionViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 
+	@ManagedProperty(value = "#{sessionInfoHelper}")
+	private SessionInfoHelper sessionInfoHelper;
+
 	@ManagedProperty(value = "#{defValueViewBean}")
 	private DefValueViewBean defValueViewBean;
 
@@ -51,6 +55,9 @@ public class DefinitionViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
+		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompany());
+		
 		groupEnums = DefConstant.GroupEnum.values();
 		try{
 			String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
@@ -204,6 +211,14 @@ public class DefinitionViewBean implements Serializable {
 
 	public void setDefTaskViewBean(DefTaskViewBean defTaskViewBean) {
 		this.defTaskViewBean = defTaskViewBean;
+	}
+
+	public SessionInfoHelper getSessionInfoHelper() {
+		return sessionInfoHelper;
+	}
+
+	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
+		this.sessionInfoHelper = sessionInfoHelper;
 	}
 
 }

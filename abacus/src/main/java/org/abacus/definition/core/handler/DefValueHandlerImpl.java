@@ -29,9 +29,7 @@ public class DefValueHandlerImpl implements DefValueHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public DefValueEntity saveValueEntity(DefValueEntity entity) {
-		System.out.println(entity.getVersion());
 		entity = defValueDao.saveValueEntity(entity);
-		System.out.println(entity.getVersion());
 		return entity;	
 	}
 

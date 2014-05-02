@@ -16,34 +16,34 @@
 						<h:panelGrid id="valGrid" columns="4" cellpadding="2"
 							cellspacing="2">
 							<h:outputLabel value="Deger Kod:" />
-							<p:inputText value="#{definitionViewBean.selVal.code}"
+							<p:inputText value="#{defValueViewBean.selVal.code}"
 								required="true" requiredMessage="Val.Code Bos olamaz"
 								validatorMessage="Val.Code" />
 
 							<h:outputLabel value="Deger Ad:" />
-							<p:inputText value="#{definitionViewBean.selVal.name}"
+							<p:inputText value="#{defValueViewBean.selVal.name}"
 								required="true" requiredMessage="Val.Ack Bos olamaz"
 								validatorMessage="Val.Ack" />
 						</h:panelGrid>
 
 						<f:facet name="footer">
 							<p:commandButton id="saveVal" update=":valForm" ajax="true"
-								value="#{definitionViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
-								actionListener="#{definitionViewBean.saveOrUpdateVal}" />
+								value="#{defValueViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
+								actionListener="#{defValueViewBean.saveOrUpdateVal}" />
 							<p:commandButton id="clearVal" process="@this" ajax="true"
 								update=":valForm :valForm"
-								value="#{definitionViewBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{definitionViewBean.clearVal}">
+								value="#{defValueViewBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{defValueViewBean.clearVal}">
 								<p:resetInput target=":valForm" />
 							</p:commandButton>
 						</f:facet>
 					</p:panel>
 
-					<p:treeTable id="valTree" value="#{definitionViewBean.rootNode}" var="defValDTO"
-						selectionMode="single" selection="#{definitionViewBean.selNode}"
+					<p:treeTable id="valTree" value="#{defValueViewBean.rootNode}" var="defValDTO"
+						selectionMode="single" selection="#{defValueViewBean.selNode}"
 						resizableColumns="true" style="width:100%">
 						<p:ajax event="select"
-							listener="#{definitionViewBean.valueSelectListener}" update=":valForm" />
+							listener="#{defValueViewBean.valueSelectListener}" update=":valForm" />
 						<f:facet name="header">valTree</f:facet>
 						<p:column style="width:100px">
 							<f:facet name="header">Kod</f:facet>

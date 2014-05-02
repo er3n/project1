@@ -71,6 +71,18 @@ public class DynamicEntity implements RootEntity {
 		return true;
 	}
 
+	@Override
+	public String toString(){
+		if (this.id!=null){
+			return this.getClass().getSimpleName()+":"+this.id;
+		}
+		return this.getClass().getSimpleName()+":NEW";
+	}
+
+	public boolean isNew() {
+		return (this.getId()==null);
+	}
+
 	public Long getId() {
 		return id;
 	}

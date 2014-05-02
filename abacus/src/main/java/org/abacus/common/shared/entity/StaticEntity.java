@@ -43,9 +43,13 @@ public class StaticEntity implements RootEntity {
 	@Override
 	public String toString(){
 		if (this.id!=null){
-			return this.id;
+			return this.getClass().getSimpleName()+":"+this.id;
 		}
-		return super.toString();
+		return this.getClass().getSimpleName()+":NEW";
 	}
 	
+	public boolean isNew() {
+		return (this.getId()==null);
+	}
+
 }

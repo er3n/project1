@@ -42,10 +42,6 @@ public class DefValueEntity extends DynamicEntity {
 		return super.toString();
 	}
 	
-	public boolean isNew() {
-		return (this.getId()==null);
-	}
-
 	public DefValueEntity(){
 	}
 	

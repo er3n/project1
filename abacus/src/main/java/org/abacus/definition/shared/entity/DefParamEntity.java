@@ -24,10 +24,6 @@ public class DefParamEntity extends StaticEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	public boolean isNew() {
-		return (this.getId()==null);
-	}
-
 	public DefParamEntity(){
 	}
 	

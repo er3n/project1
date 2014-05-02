@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
-import org.abacus.definition.shared.constant.DefConstant;
 
 @Entity
 @Table(name = "def_type")
@@ -16,20 +15,15 @@ public class DefTypeEntity extends StaticEntity {
 	private String name;
 
 	@Column(name = "group_id", nullable = false)
-	private String group = DefConstant.GroupEnum.V.name(); //TODO : tanim degisecek
+	private String group; 
  
 	@Column(name = "level", nullable = false)
-	private Integer level = 1; //TODO : tanim degisecek
+	private Integer level = 1; 
 
 	@Column(name = "trtype", nullable = false)
-	private Integer trtype = 0; //TODO : stok/finans degisecek
-
-	public boolean isNew() {
-		return (this.getId()==null || this.getId().equals("."));
-	}
+	private Integer trtype = 0; 
 
 	public DefTypeEntity() {
-		this.setId(".");
 	}
 
 	public DefTypeEntity(String id) {

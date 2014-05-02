@@ -60,14 +60,12 @@ public class DefinitionViewBean implements Serializable {
 	
 	public void groupChangeListener(){
 		this.findTypeList(selectedGroupEnum);
-		selType=null;
 		renderGroupP = selectedGroupEnum.equals(DefConstant.GroupEnum.P);//Param:--Static: working
 		renderGroupS = selectedGroupEnum.equals(DefConstant.GroupEnum.S);//State:--Static: --
 		renderGroupT = selectedGroupEnum.equals(DefConstant.GroupEnum.T);//Task :--Dynamc: --
 		renderGroupV = selectedGroupEnum.equals(DefConstant.GroupEnum.V);//Value:--Dynamc: OK
 		
-		defValueViewBean.setSelType(null);
-		defParamViewBean.setSelType(null);
+		clearType();
 	}
 
 	public void typeRowSelectListener() {
@@ -93,34 +91,15 @@ public class DefinitionViewBean implements Serializable {
 		findTypeList(selectedGroupEnum);
 	}
 
-	public void addNewType() {
-		boolean found = false;
-		for (DefTypeEntity def : typeList) {
-			if (def.isNew()) {
-				selType = def;
-				found = true;
-				break;
-			}
-		}
-		if (found) {
-			typeRowSelectListener();
-		} else {
-			clearType();
-		}
-
-	}
-
 	public void clearType() {
 		selType = new DefTypeEntity();
-		if (typeList != null) {
-			typeList.add(0, selType);
-		}
+		selType.setGroup(selectedGroupEnum.name());
 		defValueViewBean.setSelType(null);
 		defParamViewBean.setSelType(null);
 	}
 
 	public void findTypeList(DefConstant.GroupEnum groupEnum) {
-		selType = null;
+		clearType();
 		typeList = null;
 		typeList = defTypeService.getTypeList(groupEnum.name());
 	}
@@ -130,7 +109,9 @@ public class DefinitionViewBean implements Serializable {
 	}
 	
 	public void setSelType(DefTypeEntity selType) {
-		this.selType = selType;
+		if (selType!=null){
+			this.selType = selType;
+		}
 	}
 	
 	public List<DefTypeEntity> getTypeList() {

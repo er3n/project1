@@ -36,7 +36,7 @@
 							<h:outputLabel value="Tip Kod:" />
 							<p:inputText value="#{definitionViewBean.selType.id}"
 								required="true" requiredMessage="Type.Code Bos olamaz"
-								validatorMessage="Type.Code" disabled="true" />
+								validatorMessage="Type.Code" />
 
 							<h:outputLabel value="Tip Ad:" />
 							<p:inputText value="#{definitionViewBean.selType.name}"
@@ -53,12 +53,12 @@
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
 								actionListener="#{definitionViewBean.deleteType}"
-								immediate="true" disabled="true" />
+								immediate="true" />
 							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{definitionViewBean.addNewType}"
-								disabled="true">
+								actionListener="#{definitionViewBean.clearType}"
+								>
 								<p:resetInput target=":typeForm" />
 							</p:commandButton>
 						</f:facet>

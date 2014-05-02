@@ -37,10 +37,6 @@ public class DefTaskEntity extends DynamicEntity {
 		return super.toString();
 	}
 	
-	public boolean isNew() {
-		return (this.getId()==null);
-	}
-
 	public DefTaskEntity(){
 	}
 	

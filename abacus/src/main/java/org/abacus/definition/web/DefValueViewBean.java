@@ -25,7 +25,7 @@ import org.primefaces.model.TreeNode;
 public class DefValueViewBean implements Serializable {
 
 	private TreeNode rootNode = null;
-	private DefValueEntity rootVal = new DefValueEntity(0L, ".", ".");
+	private DefValueEntity rootVal = null;
 
 	private DefTypeEntity selType;
 
@@ -41,6 +41,10 @@ public class DefValueViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		rootVal = new DefValueEntity();
+		rootVal.setId(0L);
+		rootVal.setCode(".");
+		rootVal.setName(".");
 	}
 	
 	
@@ -78,7 +82,8 @@ public class DefValueViewBean implements Serializable {
 	}
 
 	public void clearVal() {
-		DefValueEntity parentVal = new DefValueEntity(0L);
+		DefValueEntity parentVal = new DefValueEntity();
+		parentVal.setId(0L);
 		if (selVal != null && !selVal.isNew()) {
 			parentVal = selVal;
 		}

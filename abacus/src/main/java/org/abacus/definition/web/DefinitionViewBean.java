@@ -41,6 +41,9 @@ public class DefinitionViewBean implements Serializable {
 	@ManagedProperty(value = "#{defStateViewBean}")
 	private DefStateViewBean defStateViewBean;
 
+	@ManagedProperty(value = "#{defTaskViewBean}")
+	private DefTaskViewBean defTaskViewBean;
+
 	public String groupEnumName;
 	private DefConstant.GroupEnum[] groupEnums;
 	private DefConstant.GroupEnum selectedGroupEnum;
@@ -69,7 +72,7 @@ public class DefinitionViewBean implements Serializable {
 		defValueViewBean.setSelType(selType);
 		defParamViewBean.setSelType(selType);
 		defStateViewBean.setSelType(selType);
-		
+		defTaskViewBean.setSelType(selType);
 	}
 
 	public void saveOrUpdateType() {
@@ -96,6 +99,7 @@ public class DefinitionViewBean implements Serializable {
 		defValueViewBean.setSelType(null);
 		defParamViewBean.setSelType(null);
 		defStateViewBean.setSelType(null);
+		defTaskViewBean.setSelType(null);
 	}
 
 	public void findTypeList(DefConstant.GroupEnum groupEnum) {
@@ -192,6 +196,14 @@ public class DefinitionViewBean implements Serializable {
 
 	public void setGroupEnumName(String groupEnumName) {
 		this.groupEnumName = groupEnumName;
+	}
+
+	public DefTaskViewBean getDefTaskViewBean() {
+		return defTaskViewBean;
+	}
+
+	public void setDefTaskViewBean(DefTaskViewBean defTaskViewBean) {
+		this.defTaskViewBean = defTaskViewBean;
 	}
 
 }

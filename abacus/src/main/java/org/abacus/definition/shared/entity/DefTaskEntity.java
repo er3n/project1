@@ -29,27 +29,9 @@ public class DefTaskEntity extends DynamicEntity {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active = true;
 	
-	@Override
-	public String toString(){
-		if (this.getId()!=null){
-			return this.getId()+">"+this.getType().getId()+":"+this.getCode();
-		}
-		return super.toString();
-	}
-	
 	public DefTaskEntity(){
 	}
 	
-	public DefTaskEntity(Long id){
-		this.setId(id);
-	}
-
-	public DefTaskEntity(Long id,String code, String ack){
-		this.setId(id);
-		this.code = code;
-		this.name = ack;
-	}
-
 	public DefTypeEntity getType() {
 		return type;
 	}
@@ -81,6 +63,5 @@ public class DefTaskEntity extends DynamicEntity {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	
 	
 }

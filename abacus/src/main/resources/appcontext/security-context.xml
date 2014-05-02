@@ -12,10 +12,15 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:form-login login-page="/app/user/login.abc" login-processing-url="/app/j_spring_security_check" authentication-failure-url="/app/login.xhtml" />
 		<security:logout logout-url="/app/logout" logout-success-url="/app/user/login.abc" />
-		<security:intercept-url pattern="/app/user/usermanager.abc" access="hasRole('KULLANICI_ISLEMLERI')" />
-		<security:intercept-url pattern="/app/user/rolemanager.abc" access="hasRole('KULLANICI_GRUP_ISLEMLERI')" />
-		<security:intercept-url pattern="/app/definition/defmanager.abc" access="hasRole('TANIMLAMA_ISLEMLERI')" />
 		<security:intercept-url pattern="/app/**" access="isAuthenticated()" />
+		
+		<security:intercept-url pattern="/app/user/usermanager.abc" access="hasRole('AUTH_SECURITY')" />
+		<security:intercept-url pattern="/app/user/rolemanager.abc" access="hasRole('AUTH_SECURITY')" />
+
+		<security:intercept-url pattern="/app/organization/orgmanager.abc" access="hasRole('AUTH_ORGANIZATION')" />
+
+		<security:intercept-url pattern="/app/definition/defmanager.abc" access="hasRole('AUTH_DEFINITION')" />
+
 	</security:http>
 
 	<security:authentication-manager>

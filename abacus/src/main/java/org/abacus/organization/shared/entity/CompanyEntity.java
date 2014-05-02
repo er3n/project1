@@ -17,11 +17,9 @@ public class CompanyEntity extends StaticEntity {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "level", nullable = false)
-	private Integer level;
-	//Level1:Holding
-	//Level2:Company
-	//Level3:Project
+//	DefConstant.OrgCompanyLevelEnum
+	@Column(name = "level_enum", nullable = false)
+	private String level = "L0";
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
@@ -35,11 +33,11 @@ public class CompanyEntity extends StaticEntity {
 		this.name = name;
 	}
 	
-	public Integer getLevel() {
+	public String getLevel() {
 		return level;
 	}
 
-	public void setLevel(Integer level) {
+	public void setLevel(String level) {
 		this.level = level;
 	}
 

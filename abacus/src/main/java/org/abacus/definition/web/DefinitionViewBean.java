@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
-import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.constant.DefConstant;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 
@@ -23,18 +22,15 @@ public class DefinitionViewBean implements Serializable {
 
 	private DefTypeEntity selType;
 	private List<DefTypeEntity> typeList;
-
-	@ManagedProperty(value = "#{defTypeHandler}")
-	private DefTypeHandler defTypeService;
-
-	@ManagedProperty(value = "#{defValueHandler}")
-	private DefValueHandler defValService;
+	
+	@ManagedProperty(value = "#{sessionInfoHelper}")
+	private SessionInfoHelper sessionInfoHelper;
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
-
-	@ManagedProperty(value = "#{sessionInfoHelper}")
-	private SessionInfoHelper sessionInfoHelper;
+	
+	@ManagedProperty(value = "#{defTypeHandler}")
+	private DefTypeHandler defTypeService;
 
 	@ManagedProperty(value = "#{defValueViewBean}")
 	private DefValueViewBean defValueViewBean;
@@ -139,14 +135,6 @@ public class DefinitionViewBean implements Serializable {
 
 	public void setDefTypeService(DefTypeHandler defTypeService) {
 		this.defTypeService = defTypeService;
-	}
-
-	public DefValueHandler getDefValService() {
-		return defValService;
-	}
-
-	public void setDefValService(DefValueHandler defValService) {
-		this.defValService = defValService;
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

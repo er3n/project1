@@ -2,6 +2,20 @@ package org.abacus.definition.shared.constant;
 
 public interface DefConstant {
 
+	enum OrgCompanyLevelEnum {
+		L1("Holding"),
+		L2("Company"),
+		L3("Project"),
+		;
+		private String description;
+		private OrgCompanyLevelEnum(String description) {
+			this.description = description;
+		}
+		public String getDescription() {
+			return this.description;
+		}
+	}
+	
 	enum OrgDepartmentGroupEnum {
 		A("Administrative"),
 		S("Store"),

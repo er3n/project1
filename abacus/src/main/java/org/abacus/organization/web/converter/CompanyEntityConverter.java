@@ -1,12 +1,12 @@
-package org.abacus.user.web.converter;
+package org.abacus.organization.web.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import org.abacus.user.core.persistance.repository.CompanyRepository;
-import org.abacus.user.shared.entity.CompanyEntity;
+import org.abacus.organization.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.jsf.FacesContextUtils;
 

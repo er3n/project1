@@ -49,8 +49,8 @@ public class DefinitionViewBean implements Serializable {
 	private DefTaskViewBean defTaskViewBean;
 
 	public String groupEnumName;
-	private DefConstant.GroupEnum[] groupEnums;
-	private DefConstant.GroupEnum selectedGroupEnum;
+	private DefConstant.DefTypeGroupEnum[] groupEnums;
+	private DefConstant.DefTypeGroupEnum selectedGroupEnum;
 	
 
 	@PostConstruct
@@ -58,10 +58,10 @@ public class DefinitionViewBean implements Serializable {
 		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
 		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompany());
 		
-		groupEnums = DefConstant.GroupEnum.values();
+		groupEnums = DefConstant.DefTypeGroupEnum.values();
 		try{
 			String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
-			selectedGroupEnum =  DefConstant.GroupEnum.valueOf(value.toUpperCase());
+			selectedGroupEnum =  DefConstant.DefTypeGroupEnum.valueOf(value.toUpperCase());
 		}catch(Exception e){
 			selectedGroupEnum = groupEnums[0];
 		}
@@ -109,7 +109,7 @@ public class DefinitionViewBean implements Serializable {
 		defTaskViewBean.setSelType(null);
 	}
 
-	public void findTypeList(DefConstant.GroupEnum groupEnum) {
+	public void findTypeList(DefConstant.DefTypeGroupEnum groupEnum) {
 		clearType();
 		typeList = null;
 		typeList = defTypeService.getTypeList(groupEnum.name());
@@ -157,19 +157,19 @@ public class DefinitionViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public DefConstant.GroupEnum[] getGroupEnums() {
+	public DefConstant.DefTypeGroupEnum[] getGroupEnums() {
 		return groupEnums;
 	}
 
-	public void setGroupEnums(DefConstant.GroupEnum[] groupEnums) {
+	public void setGroupEnums(DefConstant.DefTypeGroupEnum[] groupEnums) {
 		this.groupEnums = groupEnums;
 	}
 
-	public DefConstant.GroupEnum getSelectedGroupEnum() {
+	public DefConstant.DefTypeGroupEnum getSelectedGroupEnum() {
 		return selectedGroupEnum;
 	}
 
-	public void setSelectedGroupEnum(DefConstant.GroupEnum selectedGroupEnum) {
+	public void setSelectedGroupEnum(DefConstant.DefTypeGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
 	}
 

@@ -1,8 +1,8 @@
-package org.abacus.user.core.persistance.repository;
+package org.abacus.organization.core.persistance.repository;
 
 import java.util.List;
 
-import org.abacus.user.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

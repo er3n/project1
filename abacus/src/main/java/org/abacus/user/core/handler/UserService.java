@@ -10,7 +10,7 @@ import org.abacus.user.shared.event.GroupCreatedEvent;
 import org.abacus.user.shared.event.GroupDeletedEvent;
 import org.abacus.user.shared.event.GroupUpdatedEvent;
 import org.abacus.user.shared.event.ReadAuthoritiesEvent;
-import org.abacus.user.shared.event.ReadCompanisEvent;
+import org.abacus.user.shared.event.ReadCompaniesEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
 import org.abacus.user.shared.event.RequestReadAuthoritiesEvent;
@@ -40,7 +40,7 @@ public interface UserService {
 	
 	ReadAuthoritiesEvent requestAuthorities(RequestReadAuthoritiesEvent event);
 
-	ReadCompanisEvent requestCompany(RequestReadCompaniesEvent requestReadCompaniesEvent);
+	ReadCompaniesEvent requestCompany(RequestReadCompaniesEvent requestReadCompaniesEvent);
 	
 	
 }

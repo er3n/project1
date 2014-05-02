@@ -14,8 +14,8 @@ public class GroupEnumEntityConverter implements  Converter{
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
-		DefConstant.GroupEnum[] groupEnums = DefConstant.GroupEnum.values();
-		for(DefConstant.GroupEnum groupEnum : groupEnums){
+		DefConstant.DefTypeGroupEnum[] groupEnums = DefConstant.DefTypeGroupEnum.values();
+		for(DefConstant.DefTypeGroupEnum groupEnum : groupEnums){
 			if(groupEnum.name().equals(value)){
 				return groupEnum;
 			}
@@ -29,7 +29,7 @@ public class GroupEnumEntityConverter implements  Converter{
 		if(value instanceof String){
 			return null;
 		}
-		DefConstant.GroupEnum entitiy = (DefConstant.GroupEnum) value;
+		DefConstant.DefTypeGroupEnum entitiy = (DefConstant.DefTypeGroupEnum) value;
 		return entitiy.name();
 	}
 

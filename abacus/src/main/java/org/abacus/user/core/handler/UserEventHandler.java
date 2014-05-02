@@ -3,9 +3,10 @@ package org.abacus.user.core.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.abacus.organization.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.user.core.persistance.UserDao;
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
-import org.abacus.user.core.persistance.repository.CompanyRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupMemberRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
@@ -14,7 +15,6 @@ import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.UserNameExistsException;
-import org.abacus.user.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
@@ -28,7 +28,7 @@ import org.abacus.user.shared.event.GroupCreatedEvent;
 import org.abacus.user.shared.event.GroupDeletedEvent;
 import org.abacus.user.shared.event.GroupUpdatedEvent;
 import org.abacus.user.shared.event.ReadAuthoritiesEvent;
-import org.abacus.user.shared.event.ReadCompanisEvent;
+import org.abacus.user.shared.event.ReadCompaniesEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
 import org.abacus.user.shared.event.RequestReadAuthoritiesEvent;
@@ -291,7 +291,7 @@ public class UserEventHandler implements UserService{
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	public ReadCompanisEvent requestCompany(
+	public ReadCompaniesEvent requestCompany(
 			RequestReadCompaniesEvent event) {
 		List<CompanyEntity> companies = null;
 		
@@ -301,7 +301,7 @@ public class UserEventHandler implements UserService{
 			companies = companyRepository.findByCompany(event.getCompany());
 		}
 		
-		return new ReadCompanisEvent(companies);
+		return new ReadCompaniesEvent(companies);
 	}
 
 }

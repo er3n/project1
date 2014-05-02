@@ -14,7 +14,8 @@ public class DefTypeEntity extends StaticEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "group_id", nullable = false)
+//	DefConstant.DefTypeGroupEnum
+	@Column(name = "group_enum", nullable = false)
 	private String group; 
  
 	@Column(name = "level", nullable = false)

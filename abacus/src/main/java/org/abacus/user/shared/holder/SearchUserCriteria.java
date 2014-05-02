@@ -3,7 +3,7 @@ package org.abacus.user.shared.holder;
 import java.io.Serializable;
 import java.util.List;
 
-import org.abacus.user.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 
 public class SearchUserCriteria implements Serializable {

@@ -2,14 +2,27 @@ package org.abacus.definition.shared.constant;
 
 public interface DefConstant {
 
-	enum GroupEnum {
+	enum OrgDepartmentGroupEnum {
+		A("Administrative"),
+		S("Store"),
+		;
+		private String description;
+		private OrgDepartmentGroupEnum(String description) {
+			this.description = description;
+		}
+		public String getDescription() {
+			return this.description;
+		}
+	}
+	
+	enum DefTypeGroupEnum {
 		P("Parameter"),	//(Static)
 		S("State"),		//(Static)
 		T("Task"),		//(Dynamic)
 		V("Value"),		//(Dynamic)
 		;
 		private String description;
-		private GroupEnum(String description) {
+		private DefTypeGroupEnum(String description) {
 			this.description = description;
 		}
 		public String getDescription() {
@@ -17,7 +30,7 @@ public interface DefConstant {
 		}
 	}
 
-	enum TypeEnum {
+	enum DefTypeEnum {
 		//
 		// Budget
 		BUD,// 
@@ -192,7 +205,7 @@ public interface DefConstant {
 		}
 	}
 
-	enum StoreAuthEnum {
+	enum StkAuthEnum {
 		input_bill, //$NON-NLS-1$
 		input_only, //$NON-NLS-1$
 		input_send, //$NON-NLS-1$

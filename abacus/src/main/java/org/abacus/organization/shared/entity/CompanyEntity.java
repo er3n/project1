@@ -1,4 +1,4 @@
-package org.abacus.user.shared.entity;
+package org.abacus.organization.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import org.abacus.common.shared.entity.StaticEntity;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "company")
+@Table(name = "org_company")
 public class CompanyEntity extends StaticEntity {
 
 	@Column(name = "name")

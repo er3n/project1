@@ -3,7 +3,7 @@ package org.abacus.user.shared.event;
 import java.util.List;
 
 import org.abacus.common.shared.event.CreatedEvent;
-import org.abacus.user.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 

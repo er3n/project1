@@ -2,9 +2,9 @@ package org.abacus.common.security;
  
 import java.util.List;
 
-import org.abacus.user.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
-import org.abacus.user.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

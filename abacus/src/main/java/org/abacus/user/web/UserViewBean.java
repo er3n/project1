@@ -11,13 +11,13 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.user.core.handler.UserService;
 import org.abacus.user.shared.UserNameExistsException;
-import org.abacus.user.shared.entity.CompanyEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateUserEvent;
-import org.abacus.user.shared.event.ReadCompanisEvent;
+import org.abacus.user.shared.event.ReadCompaniesEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
 import org.abacus.user.shared.event.RequestReadCompaniesEvent;
@@ -67,7 +67,7 @@ public class UserViewBean implements Serializable {
 		ReadGroupsEvent allGroupsEvent = userService.requestGroup(event);
 		allGroups = allGroupsEvent.getGroupList();
 
-		ReadCompanisEvent allCompaniesEvent = userService
+		ReadCompaniesEvent allCompaniesEvent = userService
 				.requestCompany(new RequestReadCompaniesEvent(null,
 						sessionInfoHelper.currentCompany()));
 		allCompanies = allCompaniesEvent.getCompanyList();
@@ -134,7 +134,7 @@ public class UserViewBean implements Serializable {
 		List<CompanyEntity> sourceUserCompanies = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
-			ReadCompanisEvent userCompaniesEvent = userService
+			ReadCompaniesEvent userCompaniesEvent = userService
 					.requestCompany(new RequestReadCompaniesEvent(
 							selectedUserName, null));
 			targetUserCompanies = userCompaniesEvent.getCompanyList();

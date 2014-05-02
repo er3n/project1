@@ -7,7 +7,6 @@ import javax.faces.convert.FacesConverter;
 
 import org.abacus.common.shared.entity.StaticEntity;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
-import org.springframework.util.ObjectUtils;
 
 
 @FacesConverter("authorityEntityConverter")

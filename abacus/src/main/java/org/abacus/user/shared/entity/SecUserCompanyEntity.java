@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.organization.shared.entity.CompanyEntity;
 
 @Entity
 @SuppressWarnings("serial")

@@ -2,8 +2,6 @@ package org.abacus.test;
 
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserExistsInGroupException;
-import org.abacus.user.shared.entity.CompanyEntity;
-import org.abacus.user.shared.entity.SecUserEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

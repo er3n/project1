@@ -19,7 +19,7 @@ public class DynamicEntity implements RootEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_id")
-	@SequenceGenerator(name = "seq_id", sequenceName = "seq_id", allocationSize = 1000)
+	@SequenceGenerator(name = "seq_id", sequenceName = "seq_id", allocationSize = 1)
 	@Column(name = "id")
 	private Long id;
 

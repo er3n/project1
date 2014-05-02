@@ -39,7 +39,7 @@ public class UserDao implements Serializable {
 		criteria.createAlias("u.companyList", "uc",JoinType.LEFT_OUTER_JOIN);
 		
 		if(StringUtils.hasText(searchUserCriteria.getUsername())){
-			criteria.add(Restrictions.eq("u.id", searchUserCriteria.getUsername()));
+			criteria.add(Restrictions.like("u.id", "%"+searchUserCriteria.getUsername()+"%"));
 		}
 		
 		if(searchUserCriteria.getCompany() != null){

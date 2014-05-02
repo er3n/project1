@@ -19,6 +19,9 @@ public class CompanyEntity extends StaticEntity {
 
 	@Column(name = "level", nullable = false)
 	private Integer level;
+	//Level1:Holding
+	//Level2:Company
+	//Level3:Project
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")

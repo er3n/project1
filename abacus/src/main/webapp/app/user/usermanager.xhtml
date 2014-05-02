@@ -12,7 +12,7 @@
 		<h:form id="userQueryPanel">
 			<p:panel header="Kullanici Islemleri">
 
-				<h:panelGrid columns="4" cellspacing="2" style="vertical-align:top">
+				<h:panelGrid columns="6" cellspacing ="10" style="vertical-align:top">
 
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.searchUserCriteria.username}" />
@@ -87,17 +87,20 @@
 			</h:form>
 		</h:panelGrid>
 
-		<p:dialog header="Kullanici" widgetVar="userDialog" resizable="false"
+		<p:dialog header="Kullanici Tanimla / Guncelle" widgetVar="userDialog" resizable="false"
 			showEffect="fade" modal="true" appendToBody="@(body)">
 			<h:form id="userDetailForm">
 				<h:panelGrid id="userDetailDialog" columns="2" cellpadding="2">
 
-					<h:panelGrid id="userDetailDialogHeader" columns="6" cellpadding="2">
+					<h:outputText value="" />
+					<h:panelGrid id="userDetailDialogHeader" columns="4" cellpadding="2">
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.selectedUser.id}"
 						disabled="#{not empty userViewBean.selectedUser.id}"
 						required="true" requiredMessage="Kullanici adi bos olamaz" />
-
+					<h:outputText value="" />
+					<h:outputText value="" />
+	
 					<h:outputLabel for="password" value="#{lbl.password}"
 						rendered="#{empty userViewBean.selectedUser.id}" />
 					<p:password id="password"

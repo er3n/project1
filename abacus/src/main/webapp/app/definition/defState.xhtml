@@ -9,13 +9,65 @@
 
 			<!-- stateGrid -->
 			<h:panelGrid id="stateGrid" columns="1">
-				<h:form id="stateForm" rendered="#{definitionViewBean.renderGroupS}">
+				<h:form id="stateForm" rendered="#{definitionViewBean.groupEnumName=='S'}">
+				
 					<p:panel id="statePanel" header="State">
-						STATE ???
+
+						<h:panelGrid id="stateGrid" columns="8" cellpadding="4"
+							cellspacing="4">
+
+							<h:outputLabel value="State Kod:" />
+							<p:inputText value="#{defStateViewBean.selState.code}"
+								required="true" requiredMessage="State.Code Bos olamaz"
+								validatorMessage="State.Code"/>
+
+							<h:outputLabel value="State Ad:" />
+							<p:inputText value="#{defStateViewBean.selState.name}"
+								required="true" requiredMessage="State Bos olamaz"
+								validatorMessage="State.Ack" />
+						</h:panelGrid>
+
+						<f:facet name="footer">
+							<p:commandButton id="saveState" update=":stateForm" ajax="true"
+								value="#{defStateViewBean.selState.id == null ? 'Kaydet' : 'Guncelle'}"
+								actionListener="#{defStateViewBean.saveState}"/>
+							<p:commandButton id="deleteState" update=":stateForm"
+								ajax="true"
+								value="#{defStateViewBean.selState.id == null ? '-' : 'Sil'}"
+								actionListener="#{defStateViewBean.deleteState}"
+								immediate="true" />
+							<p:commandButton id="clearState" update=":stateForm"
+								ajax="true"
+								value="#{defStateViewBean.selState.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{defStateViewBean.createState}">
+								<p:resetInput target=":stateForm"/>
+							</p:commandButton>
+						</f:facet>
 					</p:panel>
+
+					<p:dataTable id="stateTable" var="selState"
+						value="#{defStateViewBean.stateList}"
+						selection="#{defStateViewBean.selState}"
+						emptyMessage="Kayit Bulanamadi" selectionMode="single"
+						paginator="true" paginatorPosition="bottom" rowKey="#{selState.id}"
+						rows="10" resizableColumns="true">
+						
+						<p:ajax event="rowSelect" update=":stateForm"
+							listener="#{defStateViewBean.stateRowSelectListener}">
+						</p:ajax>
+
+						<p:column headerText="Kod">  
+            					#{selState.code}  
+        					</p:column>
+
+						<p:column headerText="Aciklama">  
+            					#{selState.name}  
+        					</p:column>
+
+					</p:dataTable>
+
 				</h:form>
 			</h:panelGrid>
-			<!-- paramGrid -->
-
+			<!-- stateGrid -->
 
 </ui:composition>

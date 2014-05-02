@@ -38,13 +38,13 @@ public class DefinitionViewBean implements Serializable {
 	@ManagedProperty(value = "#{defParamViewBean}")
 	private DefParamViewBean defParamViewBean;
 
+	@ManagedProperty(value = "#{defStateViewBean}")
+	private DefStateViewBean defStateViewBean;
+
+	public String groupEnumName;
 	private DefConstant.GroupEnum[] groupEnums;
 	private DefConstant.GroupEnum selectedGroupEnum;
 	
-	public boolean renderGroupP;
-	public boolean renderGroupS;
-	public boolean renderGroupT;
-	public boolean renderGroupV;
 
 	@PostConstruct
 	public void init() {
@@ -60,17 +60,16 @@ public class DefinitionViewBean implements Serializable {
 	
 	public void groupChangeListener(){
 		this.findTypeList(selectedGroupEnum);
-		renderGroupP = selectedGroupEnum.equals(DefConstant.GroupEnum.P);//Param:--Static: working
-		renderGroupS = selectedGroupEnum.equals(DefConstant.GroupEnum.S);//State:--Static: --
-		renderGroupT = selectedGroupEnum.equals(DefConstant.GroupEnum.T);//Task :--Dynamc: --
-		renderGroupV = selectedGroupEnum.equals(DefConstant.GroupEnum.V);//Value:--Dynamc: OK
-		
+		groupEnumName = selectedGroupEnum.name();
+				
 		clearType();
 	}
 
 	public void typeRowSelectListener() {
 		defValueViewBean.setSelType(selType);
 		defParamViewBean.setSelType(selType);
+		defStateViewBean.setSelType(selType);
+		
 	}
 
 	public void saveOrUpdateType() {
@@ -96,6 +95,7 @@ public class DefinitionViewBean implements Serializable {
 		selType.setGroup(selectedGroupEnum.name());
 		defValueViewBean.setSelType(null);
 		defParamViewBean.setSelType(null);
+		defStateViewBean.setSelType(null);
 	}
 
 	public void findTypeList(DefConstant.GroupEnum groupEnum) {
@@ -162,22 +162,6 @@ public class DefinitionViewBean implements Serializable {
 		this.selectedGroupEnum = selectedGroupEnum;
 	}
 
-	public boolean isRenderGroupP() {
-		return renderGroupP;
-	}
-
-	public boolean isRenderGroupS() {
-		return renderGroupS;
-	}
-
-	public boolean isRenderGroupT() {
-		return renderGroupT;
-	}
-
-	public boolean isRenderGroupV() {
-		return renderGroupV;
-	}
-
 	public DefParamViewBean getDefParamViewBean() {
 		return defParamViewBean;
 	}
@@ -192,6 +176,22 @@ public class DefinitionViewBean implements Serializable {
 
 	public void setDefValueViewBean(DefValueViewBean defValueViewBean) {
 		this.defValueViewBean = defValueViewBean;
+	}
+
+	public DefStateViewBean getDefStateViewBean() {
+		return defStateViewBean;
+	}
+
+	public void setDefStateViewBean(DefStateViewBean defStateViewBean) {
+		this.defStateViewBean = defStateViewBean;
+	}
+
+	public String getGroupEnumName() {
+		return groupEnumName;
+	}
+
+	public void setGroupEnumName(String groupEnumName) {
+		this.groupEnumName = groupEnumName;
 	}
 
 }

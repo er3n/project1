@@ -129,7 +129,7 @@
 					</h:panelGrid>
 
 					<h:outputText value="Gruplar" />
-					<p:pickList value="#{userViewBean.selectedGroupMemberDL}"
+					<p:pickList value="#{userViewBean.selectedUserGroupDL}"
 						var="group" itemValue="#{group}" itemLabel="#{group.name}"
 						converter="groupEntityConverter" showCheckbox="true"
 						showSourceFilter="true" showTargetFilter="true"
@@ -146,7 +146,7 @@
 					</p:pickList>
 
 					<h:outputText value="Sirketler" />
-					<p:pickList value="#{userViewBean.selectedUserCompaniesDL}"
+					<p:pickList value="#{userViewBean.selectedUserCompanyDL}"
 						var="company" itemValue="#{company}" itemLabel="#{company.name}"
 						converter="companyEntityConverter" showCheckbox="true"
 						required="true" requiredMessage="En az bir sirket secilmelidir."

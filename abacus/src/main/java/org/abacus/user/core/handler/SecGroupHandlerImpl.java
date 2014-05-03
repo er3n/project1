@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
-import org.abacus.user.core.persistance.repository.GroupMemberRepository;
+import org.abacus.user.core.persistance.repository.UserGroupRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
@@ -32,7 +32,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 	private AuthorityRepository authorityRepository;
 	
 	@Autowired
-	private GroupMemberRepository groupMemberRepository;
+	private UserGroupRepository userGroupRepository;
 	
 	@Autowired
 	private GroupAuthorityRepository groupAuthorityRepository;
@@ -69,7 +69,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public void removeGroup(Long groupId) throws UserExistsInGroupException {
 		
-		Long count = groupMemberRepository.userCount(groupId);
+		Long count = userGroupRepository.userCount(groupId);
 		boolean isGroupHasAnyMember = count > 0;
 		
 		if(isGroupHasAnyMember){

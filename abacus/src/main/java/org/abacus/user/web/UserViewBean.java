@@ -50,9 +50,9 @@ public class UserViewBean implements Serializable {
 
 	private List<CompanyEntity> allCompanies;
 
-	private DualListModel<SecGroupEntity> selectedGroupMemberDL;
+	private DualListModel<SecGroupEntity> selectedUserGroupDL;
 
-	private DualListModel<CompanyEntity> selectedUserCompaniesDL;
+	private DualListModel<CompanyEntity> selectedUserCompanyDL;
 
 	@ManagedProperty(value = "#{userEventHandler}")
 	private UserService userService;
@@ -76,8 +76,8 @@ public class UserViewBean implements Serializable {
 
 	public void createUser() {
 		String currentUser = sessionInfoHelper.currentUserName();
-		List<SecGroupEntity> selectedGroups = selectedGroupMemberDL.getTarget();
-		List<CompanyEntity> userCompanies = selectedUserCompaniesDL.getTarget();
+		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
+		List<CompanyEntity> userCompanies = selectedUserCompanyDL.getTarget();
 		try {
 			UserCreatedEvent createdEvent = userService
 					.createUser(new CreateUserEvent(selectedUser,
@@ -92,8 +92,8 @@ public class UserViewBean implements Serializable {
 
 	public void updateUser() {
 		String currentUser = sessionInfoHelper.currentUserName();
-		List<SecGroupEntity> selectedGroups = selectedGroupMemberDL.getTarget();
-		List<CompanyEntity> userCompanies = selectedUserCompaniesDL.getTarget();
+		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
+		List<CompanyEntity> userCompanies = selectedUserCompanyDL.getTarget();
 		UserUpdatedEvent updatedEvent = userService
 				.updateUser(new UpdateUserEvent(selectedUser, selectedGroups,
 						userCompanies, currentUser));
@@ -124,9 +124,9 @@ public class UserViewBean implements Serializable {
 		userSearchResults = readUserEvent.getUserEntityList();
 	}
 
-	public DualListModel<CompanyEntity> selectedUserCompanies() {
+	public DualListModel<CompanyEntity> selectedUserCompany() {
 
-		selectedUserCompaniesDL = new DualListModel<CompanyEntity>();
+		selectedUserCompanyDL = new DualListModel<CompanyEntity>();
 
 		String selectedUserName = selectedUser.getId();
 
@@ -147,15 +147,15 @@ public class UserViewBean implements Serializable {
 			sourceUserCompanies = allCompanies;
 		}
 
-		selectedUserCompaniesDL.setSource(sourceUserCompanies);
-		selectedUserCompaniesDL.setTarget(targetUserCompanies);
+		selectedUserCompanyDL.setSource(sourceUserCompanies);
+		selectedUserCompanyDL.setTarget(targetUserCompanies);
 
-		return selectedUserCompaniesDL;
+		return selectedUserCompanyDL;
 	}
 
 	public DualListModel<SecGroupEntity> selectedUserGroups() {
 
-		selectedGroupMemberDL = new DualListModel<SecGroupEntity>();
+		selectedUserGroupDL = new DualListModel<SecGroupEntity>();
 
 		String selectedUserName = selectedUser.getId();
 
@@ -177,9 +177,9 @@ public class UserViewBean implements Serializable {
 
 		}
 
-		selectedGroupMemberDL.setSource(sourceUserGroups);
-		selectedGroupMemberDL.setTarget(targetUserGroups);
-		return selectedGroupMemberDL;
+		selectedUserGroupDL.setSource(sourceUserGroups);
+		selectedUserGroupDL.setTarget(targetUserGroups);
+		return selectedUserGroupDL;
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -230,14 +230,14 @@ public class UserViewBean implements Serializable {
 		this.allGroups = allGroups;
 	}
 
-	public DualListModel<SecGroupEntity> getSelectedGroupMemberDL() {
-		this.selectedGroupMemberDL = selectedUserGroups();
-		return selectedGroupMemberDL;
+	public DualListModel<SecGroupEntity> getSelectedUserGroupDL() {
+		this.selectedUserGroupDL = selectedUserGroups();
+		return selectedUserGroupDL;
 	}
 
-	public void setSelectedGroupMemberDL(
-			DualListModel<SecGroupEntity> selectedGroupMemberDL) {
-		this.selectedGroupMemberDL = selectedGroupMemberDL;
+	public void setSelectedUserGroupDL(
+			DualListModel<SecGroupEntity> selectedUserGroupDL) {
+		this.selectedUserGroupDL = selectedUserGroupDL;
 	}
 
 	public UserService getUserService() {
@@ -248,14 +248,14 @@ public class UserViewBean implements Serializable {
 		this.userService = userService;
 	}
 
-	public DualListModel<CompanyEntity> getSelectedUserCompaniesDL() {
-		this.selectedUserCompaniesDL = this.selectedUserCompanies();
-		return selectedUserCompaniesDL;
+	public DualListModel<CompanyEntity> getSelectedUserCompanyDL() {
+		this.selectedUserCompanyDL = this.selectedUserCompany();
+		return selectedUserCompanyDL;
 	}
 
-	public void setSelectedUserCompaniesDL(
-			DualListModel<CompanyEntity> selectedUserCompaniesDL) {
-		this.selectedUserCompaniesDL = selectedUserCompaniesDL;
+	public void setSelectedUserCompanyDL(
+			DualListModel<CompanyEntity> selectedUserCompanyDL) {
+		this.selectedUserCompanyDL = selectedUserCompanyDL;
 	}
 
 	public List<CompanyEntity> getAllCompanies() {

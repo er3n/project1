@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.user.core.persistance.UserDao;
-import org.abacus.user.core.persistance.repository.GroupMemberRepository;
+import org.abacus.user.core.persistance.repository.UserGroupRepository;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserNameExistsException;
 import org.abacus.user.shared.entity.SecGroupEntity;
-import org.abacus.user.shared.entity.SecGroupMemberEntity;
+import org.abacus.user.shared.entity.SecUserGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.holder.SearchUserCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class SecUserHandlerImpl implements SecUserHandler {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private GroupMemberRepository groupMemberRepository;
+	private UserGroupRepository userGroupRepository;
 	
 	@Autowired
 	private Md5PasswordEncoder md5PasswordEncoder;
@@ -66,16 +66,16 @@ public class SecUserHandlerImpl implements SecUserHandler {
 		selectedUser.setActive(true);
 		userRepository.save(selectedUser);
 
-		List<SecGroupMemberEntity> memberships = new ArrayList<>();
+		List<SecUserGroupEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
-			SecGroupMemberEntity membership = new SecGroupMemberEntity();
+			SecUserGroupEntity membership = new SecUserGroupEntity();
 			membership.setUser(selectedUser);
 			membership.setGroup(group);
 			membership.createHook(creatingUser);
 			memberships.add(membership);
 		}
 		
-		groupMemberRepository.save(memberships);
+		userGroupRepository.save(memberships);
 
 	}
 
@@ -85,16 +85,16 @@ public class SecUserHandlerImpl implements SecUserHandler {
 			List<SecGroupEntity> userGroups, String updatingUser) {
 		userRepository.save(selectedUser);
 		
-		List<SecGroupMemberEntity> memberships = new ArrayList<>();
+		List<SecUserGroupEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
-			SecGroupMemberEntity membership = new SecGroupMemberEntity();
+			SecUserGroupEntity membership = new SecUserGroupEntity();
 			membership.setUser(selectedUser);
 			membership.setGroup(group);
 			membership.updateHook(updatingUser);
 			memberships.add(membership);
 		}
 		
-		groupMemberRepository.save(memberships);
+		userGroupRepository.save(memberships);
 
 	}
 

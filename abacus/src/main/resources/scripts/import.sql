@@ -20,7 +20,7 @@ insert into sec_group_authority (id, group_id, authority_id, version) values (ne
 
 insert into sec_user( id, is_active, password) values ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e');
 
-insert into sec_group_member (id, user_id, group_id, version) values (nextval('seq_id'), 'admin', 1, 0);
+insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin', 1, 0);
 
 insert into sec_user_company (id, user_id, company_id, version) values (nextval('seq_id'), 'admin','01', 0);
 insert into sec_user_company (id, user_id, company_id, version) values (nextval('seq_id'), 'admin','01.01', 0);

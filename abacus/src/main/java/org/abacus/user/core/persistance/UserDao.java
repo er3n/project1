@@ -35,7 +35,7 @@ public class UserDao implements Serializable {
 
 		Session session = em.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(SecUserEntity.class,"u");
-		criteria.createAlias("u.groupMemberList", "gm",JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("u.userGroupList", "gm",JoinType.LEFT_OUTER_JOIN);
 		criteria.createAlias("u.companyList", "uc",JoinType.LEFT_OUTER_JOIN);
 		
 		if(StringUtils.hasText(searchUserCriteria.getUsername())){

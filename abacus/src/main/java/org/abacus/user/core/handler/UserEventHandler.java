@@ -8,7 +8,7 @@ import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.user.core.persistance.UserDao;
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
-import org.abacus.user.core.persistance.repository.GroupMemberRepository;
+import org.abacus.user.core.persistance.repository.UserGroupRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
 import org.abacus.user.core.persistance.repository.UserCompanyRepository;
 import org.abacus.user.core.persistance.repository.UserRepository;
@@ -18,7 +18,7 @@ import org.abacus.user.shared.UserNameExistsException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
-import org.abacus.user.shared.entity.SecGroupMemberEntity;
+import org.abacus.user.shared.entity.SecUserGroupEntity;
 import org.abacus.user.shared.entity.SecUserCompanyEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateGroupEvent;
@@ -59,7 +59,7 @@ public class UserEventHandler implements UserService{
 	private Md5PasswordEncoder md5PasswordEncoder;
 	
 	@Autowired
-	private GroupMemberRepository groupMemberRepository;
+	private UserGroupRepository userGroupRepository;
 	
 	@Autowired
 	private GroupRepository groupRepository;
@@ -118,16 +118,16 @@ public class UserEventHandler implements UserService{
 		
 		
 
-		List<SecGroupMemberEntity> memberships = new ArrayList<>();
+		List<SecUserGroupEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
-			SecGroupMemberEntity membership = new SecGroupMemberEntity();
+			SecUserGroupEntity membership = new SecUserGroupEntity();
 			membership.setUser(secUser);
 			membership.setGroup(group);
 			membership.createHook(userCreated);
 			memberships.add(membership);
 		}
 		
-		groupMemberRepository.save(memberships);
+		userGroupRepository.save(memberships);
 		
 		UserCreatedEvent createdEvent = new UserCreatedEvent(secUser);
 		
@@ -159,18 +159,18 @@ public class UserEventHandler implements UserService{
 		userCompaniesRepository.save(userCompaines);
 		
 		
-		groupMemberRepository.delete(updatingUser.getId());
+		userGroupRepository.delete(updatingUser.getId());
 		
-		List<SecGroupMemberEntity> memberships = new ArrayList<>();
+		List<SecUserGroupEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
-			SecGroupMemberEntity membership = new SecGroupMemberEntity();
+			SecUserGroupEntity membership = new SecUserGroupEntity();
 			membership.setUser(updatingUser);
 			membership.setGroup(group);
 			membership.updateHook(userUpdated);
 			memberships.add(membership);
 		}
 		
-		groupMemberRepository.save(memberships);
+		userGroupRepository.save(memberships);
 		
 		UserUpdatedEvent updatedEvent = new UserUpdatedEvent(updatingUser);
 
@@ -259,7 +259,7 @@ public class UserEventHandler implements UserService{
 		
 		Long groupId = event.getGroupId();
 		
-		Long count = groupMemberRepository.userCount(groupId);
+		Long count = userGroupRepository.userCount(groupId);
 		boolean isGroupHasAnyMember = count > 0;
 		
 		if(isGroupHasAnyMember){

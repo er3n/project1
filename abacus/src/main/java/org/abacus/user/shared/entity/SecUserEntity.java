@@ -31,7 +31,7 @@ public class SecUserEntity extends StaticEntity {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
-	private Set<SecGroupMemberEntity> groupMemberList;
+	private Set<SecUserGroupEntity> userGroupList;
 
 	public String getPassword() {
 		return password;
@@ -57,12 +57,12 @@ public class SecUserEntity extends StaticEntity {
 		this.companyList = companyList;
 	}
 
-	public Set<SecGroupMemberEntity> getGroupMemberList() {
-		return groupMemberList;
+	public Set<SecUserGroupEntity> getUserGroupList() {
+		return userGroupList;
 	}
 
-	public void setGroupMemberList(Set<SecGroupMemberEntity> groupMemberList) {
-		this.groupMemberList = groupMemberList;
+	public void setUserGroupList(Set<SecUserGroupEntity> sertGroupList) {
+		this.userGroupList = sertGroupList;
 	}
 
 }

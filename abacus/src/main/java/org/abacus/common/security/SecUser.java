@@ -15,7 +15,6 @@ public class SecUser implements UserDetails {
 	private String username;
 	private String password;
 	private boolean isActive;
-	private String company;
 
 	private List<String> authorityNames;
 
@@ -101,14 +100,6 @@ public class SecUser implements UserDetails {
 		this.password = password;
 	}
 
-	public String getCompany() {
-		return company;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
 	public List<CompanyEntity> getCompanies() {
 		return companies;
 	}
@@ -123,7 +114,10 @@ public class SecUser implements UserDetails {
 
 	public void setSelectedCompany(CompanyEntity selectedCompany) {
 		this.selectedCompany = selectedCompany;
-		this.company = selectedCompany.getId();
+	}
+
+	public String setSelectedCompanyId() {
+		return getSelectedCompany().getId();
 	}
 
 }

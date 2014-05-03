@@ -69,7 +69,7 @@ public class UserViewBean implements Serializable {
 
 		ReadCompaniesEvent allCompaniesEvent = userService
 				.requestCompany(new RequestReadCompaniesEvent(null,
-						sessionInfoHelper.currentCompany()));
+						sessionInfoHelper.currentCompanyId()));
 		allCompanies = allCompaniesEvent.getCompanyList();
 
 	}
@@ -114,9 +114,9 @@ public class UserViewBean implements Serializable {
 
 	public void findUser() {
 		if (searchUserCriteria.getCompany() == null || !StringUtils.hasText(searchUserCriteria.getCompany().getId())) {
-			String company = sessionInfoHelper.currentCompany();
+			String companyId = sessionInfoHelper.currentCompanyId();
 			CompanyEntity companyEntity = new CompanyEntity();
-			companyEntity.setId(company);
+			companyEntity.setId(companyId);
 			searchUserCriteria.setCompany(companyEntity);
 		}
 		ReadUserEvent readUserEvent = userService

@@ -52,7 +52,7 @@ public class DefinitionViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompany());
+		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompanyId());
 		
 		groupEnums = DefConstant.DefTypeGroupEnum.values();
 		try{

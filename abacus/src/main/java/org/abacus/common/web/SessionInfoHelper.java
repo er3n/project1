@@ -10,9 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+@SuppressWarnings("serial")
 @Component
 public class SessionInfoHelper implements Serializable {
-
 
 	public SecUser currentUser(){
 		SecUser secUser = (SecUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -32,8 +32,8 @@ public class SessionInfoHelper implements Serializable {
 		return false;
 	}
 
-	public String currentCompany() {
-		return currentUser().getCompany();
+	public String currentCompanyId() {
+		return currentUser().setSelectedCompanyId();
 	}
 	
 	public void redirect(){

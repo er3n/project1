@@ -10,7 +10,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.organization.core.handler.CompanyHandler;
+import org.abacus.organization.core.persistance.repository.CompanyRepository;
 import org.abacus.organization.shared.entity.CompanyEntity;
 
 @ManagedBean
@@ -21,8 +21,8 @@ public class OrganizationViewBean implements Serializable {
 	private CompanyEntity selCompany;
 	private List<CompanyEntity> companyList;
 
-	@ManagedProperty(value = "#{companyHandler}")
-	private CompanyHandler companyHandler;
+	@ManagedProperty(value = "#{companyRepository}")
+	private CompanyRepository companyRepository;
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
@@ -33,7 +33,7 @@ public class OrganizationViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompany());
+		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompanyId());
 		findCompanyList();
 	}
 	
@@ -50,13 +50,13 @@ public class OrganizationViewBean implements Serializable {
 		} else {
 			jsfMessageHelper.addInfo("companyGuncellemeIslemiBasarili");
 		}
-		selCompany = companyHandler.saveCompanyEntity(selCompany);
+		selCompany = companyRepository.save(selCompany);
 		findCompanyList();
 	}
 
 	public void deleteCompany() {
 		if (!selCompany.isNew()) {
-			companyHandler.deleteCompanyEntity(selCompany);
+			companyRepository.delete(selCompany);
 			jsfMessageHelper.addInfo("companySilmeIslemiBasarili");
 		}
 		findCompanyList();
@@ -69,7 +69,8 @@ public class OrganizationViewBean implements Serializable {
 	public void findCompanyList() {
 		clearCompany();
 		companyList = null;
-		companyList = companyHandler.findAllOrderById();
+		companyList = companyRepository.findByCompany(sessionInfoHelper.currentCompanyId());
+		System.out.println(companyList);
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {
@@ -78,14 +79,6 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
 		this.sessionInfoHelper = sessionInfoHelper;
-	}
-
-	public CompanyHandler getCompanyHandler() {
-		return companyHandler;
-	}
-
-	public void setCompanyHandler(CompanyHandler companyHandler) {
-		this.companyHandler = companyHandler;
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -112,6 +105,14 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setCompanyList(List<CompanyEntity> companyList) {
 		this.companyList = companyList;
+	}
+
+	public CompanyRepository getCompanyRepository() {
+		return companyRepository;
+	}
+
+	public void setCompanyRepository(CompanyRepository companyRepository) {
+		this.companyRepository = companyRepository;
 	}
 
 }

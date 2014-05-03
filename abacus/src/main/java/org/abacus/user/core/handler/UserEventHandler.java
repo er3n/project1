@@ -298,7 +298,7 @@ public class UserEventHandler implements UserService{
 		if(StringUtils.hasText(event.getUsername())){
 			companies = companyRepository.findByUsername(event.getUsername());
 		}else{
-			companies = companyRepository.findByCompany(event.getCompany());
+			companies = companyRepository.findByCompany(event.getCompanyid());
 		}
 		
 		return new ReadCompaniesEvent(companies);

@@ -35,22 +35,15 @@ public class SecurityHandler implements UserDetailsService {
 
 		SecUser secUser = new SecUser();
 		
-		List<String> authorityNames = userRepository.findUserAuthorities(user.getId());
-		
-		
 		secUser.setUsername(user.getId());
 		secUser.setPassword(user.getPassword());
 		secUser.setActive(user.getActive());
+
+		List<String> authorityNames = userRepository.findUserAuthorities(user.getId());
 		secUser.setAuthorityNames(authorityNames);
 		
 		List<CompanyEntity> userCompanies = companyRepository.findByUsername(username);
-		
-		secUser.setCompany(userCompanies.get(0).getId());
-		
-		List<CompanyEntity> companies = companyRepository.findByUsername(username);
-		CompanyEntity selectedCompany = companyRepository.findOne(secUser.getCompany());
-		
-		secUser.init(companies,selectedCompany);
+		secUser.init(userCompanies, userCompanies.get(0));
 
 		return secUser;
 	}

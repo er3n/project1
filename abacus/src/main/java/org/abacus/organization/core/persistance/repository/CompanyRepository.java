@@ -8,9 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface CompanyRepository extends CrudRepository<CompanyEntity, String> {
-	                      
-	@Query("select g from CompanyEntity g order by g.id")
-	List<CompanyEntity> findAllOrderById();
 
 	@Query("select c from CompanyEntity c where c.id like :company% order by id")
 	List<CompanyEntity> findByCompany(@Param("company")String company);

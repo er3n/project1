@@ -6,16 +6,12 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 >
-
 			<!-- stateGrid -->
 			<h:panelGrid id="stateGrid" columns="1">
 				<h:form id="stateForm" rendered="#{definitionViewBean.groupEnumName=='S'}">
-				
 					<p:panel id="statePanel" header="State">
-
-						<h:panelGrid id="stateGrid" columns="8" cellpadding="4"
+						<h:panelGrid id="stateGrid" columns="8" cellpadding="2"
 							cellspacing="4">
-
 							<h:outputLabel value="State Kod:" />
 							<p:inputText value="#{defStateViewBean.selState.code}"
 								required="true" requiredMessage="State.Code Bos olamaz"
@@ -69,5 +65,4 @@
 				</h:form>
 			</h:panelGrid>
 			<!-- stateGrid -->
-
 </ui:composition>

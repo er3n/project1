@@ -13,6 +13,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
 import org.abacus.definition.shared.constant.DefConstant;
+import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 
 @ManagedBean
@@ -45,8 +46,8 @@ public class DefinitionViewBean implements Serializable {
 	private DefTaskViewBean defTaskViewBean;
 
 	public String groupEnumName;
-	private DefConstant.DefTypeGroupEnum[] groupEnums;
-	private DefConstant.DefTypeGroupEnum selectedGroupEnum;
+	private SelectionEnum[] groupEnums;
+	private SelectionEnum selectedGroupEnum;
 	
 
 	@PostConstruct
@@ -54,10 +55,13 @@ public class DefinitionViewBean implements Serializable {
 		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
 		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompanyId());
 		
-		groupEnums = DefConstant.DefTypeGroupEnum.values();
+		groupEnums = new SelectionEnum[DefConstant.DefTypeGroupEnum.values().length];
+		for (DefConstant.DefTypeGroupEnum ge : DefConstant.DefTypeGroupEnum.values()) {
+			groupEnums[ge.ordinal()] = new SelectionEnum(ge);
+		}
 		try{
 			String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
-			selectedGroupEnum =  DefConstant.DefTypeGroupEnum.valueOf(value.toUpperCase());
+			selectedGroupEnum = new SelectionEnum(DefConstant.DefTypeGroupEnum.valueOf(value.toUpperCase()));
 		}catch(Exception e){
 			selectedGroupEnum = groupEnums[0];
 		}
@@ -105,7 +109,7 @@ public class DefinitionViewBean implements Serializable {
 		defTaskViewBean.setSelType(null);
 	}
 
-	public void findTypeList(DefConstant.DefTypeGroupEnum groupEnum) {
+	public void findTypeList(SelectionEnum groupEnum) {
 		clearType();
 		typeList = null;
 		typeList = defTypeService.getTypeList(groupEnum.name());
@@ -145,19 +149,19 @@ public class DefinitionViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public DefConstant.DefTypeGroupEnum[] getGroupEnums() {
+	public SelectionEnum[] getGroupEnums() {
 		return groupEnums;
 	}
 
-	public void setGroupEnums(DefConstant.DefTypeGroupEnum[] groupEnums) {
+	public void setGroupEnums(SelectionEnum[] groupEnums) {
 		this.groupEnums = groupEnums;
 	}
 
-	public DefConstant.DefTypeGroupEnum getSelectedGroupEnum() {
+	public SelectionEnum getSelectedGroupEnum() {
 		return selectedGroupEnum;
 	}
 
-	public void setSelectedGroupEnum(DefConstant.DefTypeGroupEnum selectedGroupEnum) {
+	public void setSelectedGroupEnum(SelectionEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
 	}
 

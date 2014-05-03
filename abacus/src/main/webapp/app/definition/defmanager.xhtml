@@ -21,7 +21,7 @@
 
 							<h:outputText value="Grup" />
 							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" 
-								converter="enumEntitiyConverter" style="width:145px">
+								converter="selectionEnumConverter" style="width:145px">
 								<f:selectItems value="#{definitionViewBean.groupEnums}"
 									var="groupEnum" itemLabel="#{groupEnum.description}"
 									itemValue="#{groupEnum}" />
@@ -88,15 +88,10 @@
 				</h:form>
 			</h:panelGrid>
 			<!-- typeGrid -->
-
 			<ui:include src="defValue.xhtml"></ui:include>
-
 			<ui:include src="defParam.xhtml"></ui:include>
-
 			<ui:include src="defState.xhtml"></ui:include>
-
 			<ui:include src="defTask.xhtml"></ui:include>
-
 		</h:panelGrid>
 	</ui:define>
 </ui:composition>

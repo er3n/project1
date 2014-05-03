@@ -2,6 +2,11 @@ package org.abacus.definition.shared.constant;
 
 public interface DefConstant {
 
+	public interface ISelectionEnum{
+		String name();
+		String getDescription();
+	}
+	
 	enum OrgCompanyLevelEnum {
 		L1("Holding"),
 		L2("Company"),
@@ -29,7 +34,7 @@ public interface DefConstant {
 		}
 	}
 	
-	enum DefTypeGroupEnum {
+	enum DefTypeGroupEnum implements ISelectionEnum {
 		P("Parameter"),	//(Static)
 		S("State"),		//(Static)
 		T("Task"),		//(Dynamic)

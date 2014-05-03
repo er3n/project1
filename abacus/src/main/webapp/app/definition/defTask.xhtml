@@ -6,16 +6,12 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 >
-
 		<!-- taskGrid -->
 			<h:panelGrid id="taskGrid" columns="1">
 				<h:form id="taskForm" rendered="#{definitionViewBean.groupEnumName=='T'}">
-				
 					<p:panel id="taskPanel" header="Task">
-
-						<h:panelGrid id="taskGrid" columns="8" cellpadding="4"
+						<h:panelGrid id="taskGrid" columns="8" cellpadding="2"
 							cellspacing="4">
-
 							<h:outputLabel value="Task Kod:" />
 							<p:inputText value="#{defTaskViewBean.selTask.code}"
 								required="true" requiredMessage="Task.Code Bos olamaz"
@@ -69,6 +65,4 @@
 				</h:form>
 			</h:panelGrid>
 			<!-- taskGrid -->
-
-
 </ui:composition>

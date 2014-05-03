@@ -6,16 +6,12 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 >
-
 			<!-- paramGrid -->
 			<h:panelGrid id="paramGrid" columns="1">
 				<h:form id="paramForm" rendered="#{definitionViewBean.groupEnumName=='P'}">
-				
 					<p:panel id="paramPanel" header="Parametre">
-
-						<h:panelGrid id="paramGrid" columns="8" cellpadding="4"
+						<h:panelGrid id="paramGrid" columns="8" cellpadding="2"
 							cellspacing="4">
-
 							<h:outputLabel value="Param Kod:" />
 							<p:inputText value="#{defParamViewBean.selParam.code}"
 								required="true" requiredMessage="Param.Code Bos olamaz"
@@ -69,6 +65,4 @@
 				</h:form>
 			</h:panelGrid>
 			<!-- paramGrid -->
-
-
 </ui:composition>

@@ -12,7 +12,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.SelectionEnum;
-import org.abacus.organization.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.core.handler.CompanyHandler;
 import org.abacus.organization.shared.entity.CompanyEntity;
 
 @ManagedBean
@@ -23,14 +23,17 @@ public class OrganizationViewBean implements Serializable {
 	private CompanyEntity selCompany;
 	private List<CompanyEntity> companyList;
 
-	@ManagedProperty(value = "#{companyRepository}")
-	private CompanyRepository companyRepository;
+	@ManagedProperty(value = "#{companyHandler}")
+	private CompanyHandler companyHandler;
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
+	
+	@ManagedProperty(value = "#{orgDepartmentViewBean}")
+	private OrgDepartmentViewBean orgDepartmentViewBean;
 
 	private SelectionEnum[] levelEnums;
 	
@@ -54,6 +57,7 @@ public class OrganizationViewBean implements Serializable {
 	}
 
 	public void companyRowSelectListener() {
+		orgDepartmentViewBean.setSelCompany(selCompany);
 	}
 
 	public void saveOrUpdateCompany() {
@@ -62,13 +66,13 @@ public class OrganizationViewBean implements Serializable {
 		} else {
 			jsfMessageHelper.addInfo("companyGuncellemeIslemiBasarili");
 		}
-		selCompany = companyRepository.save(selCompany);
+		selCompany = companyHandler.saveCompanyEntity(selCompany);
 		findCompanyList();
 	}
 
 	public void deleteCompany() {
 		if (!selCompany.isNew()) {
-			companyRepository.delete(selCompany);
+			companyHandler.deleteCompanyEntity(selCompany);
 			jsfMessageHelper.addInfo("companySilmeIslemiBasarili");
 		}
 		findCompanyList();
@@ -76,12 +80,13 @@ public class OrganizationViewBean implements Serializable {
 
 	public void clearCompany() {
 		selCompany = new CompanyEntity();
+		orgDepartmentViewBean.setSelCompany(null);
 	}
 
 	public void findCompanyList() {
 		clearCompany();
 		companyList = null;
-		companyList = companyRepository.findByCompany(sessionInfoHelper.currentCompanyId());
+		companyList = companyHandler.findByCompany(sessionInfoHelper.currentCompanyId());
 		System.out.println(companyList);
 	}
 
@@ -119,12 +124,12 @@ public class OrganizationViewBean implements Serializable {
 		this.companyList = companyList;
 	}
 
-	public CompanyRepository getCompanyRepository() {
-		return companyRepository;
+	public CompanyHandler getCompanyHandler() {
+		return companyHandler;
 	}
 
-	public void setCompanyRepository(CompanyRepository companyRepository) {
-		this.companyRepository = companyRepository;
+	public void setCompanyHandler(CompanyHandler companyHandler) {
+		this.companyHandler = companyHandler;
 	}
 
 	public SelectionEnum[] getLevelEnums() {
@@ -133,6 +138,14 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setLevelEnums(SelectionEnum[] levelEnums) {
 		this.levelEnums = levelEnums;
+	}
+
+	public OrgDepartmentViewBean getOrgDepartmentViewBean() {
+		return orgDepartmentViewBean;
+	}
+
+	public void setOrgDepartmentViewBean(OrgDepartmentViewBean orgDepartmentViewBean) {
+		this.orgDepartmentViewBean = orgDepartmentViewBean;
 	}
 
 }

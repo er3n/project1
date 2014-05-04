@@ -8,7 +8,7 @@
 >
 		<!-- taskGrid -->
 			<h:panelGrid id="taskGrid" columns="1">
-				<h:form id="taskForm" rendered="#{definitionViewBean.groupEnumName=='T'}">
+				<h:form id="taskForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'T'}">
 					<p:panel id="taskPanel" header="Task">
 						<h:panelGrid id="taskGrid" columns="8" cellpadding="2"
 							cellspacing="4">

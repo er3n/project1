@@ -8,9 +8,12 @@ public interface EnumList {
 		L3("Project"),
 		;
 		private String description;
+		
 		private OrgCompanyLevelEnum(String description) {
 			this.description = description;
 		}
+		
+		@Override
 		public String getDescription() {
 			return this.description;
 		}
@@ -22,12 +25,16 @@ public interface EnumList {
 		S("Store"),
 		;
 		private String description;
+		
 		private OrgDepartmentGroupEnum(String description) {
 			this.description = description;
 		}
+
+		@Override
 		public String getDescription() {
 			return this.description;
 		}
+		
 	}
 	
 	enum DefTypeGroupEnum implements ISelectionEnum {
@@ -37,12 +44,16 @@ public interface EnumList {
 		V("Value"),		//(Dynamic)
 		;
 		private String description;
+		
 		private DefTypeGroupEnum(String description) {
 			this.description = description;
 		}
+		
+		@Override
 		public String getDescription() {
 			return this.description;
 		}
+		
 	}
 
 }

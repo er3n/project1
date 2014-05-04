@@ -8,7 +8,7 @@
 >
 			<!-- stateGrid -->
 			<h:panelGrid id="stateGrid" columns="1">
-				<h:form id="stateForm" rendered="#{definitionViewBean.groupEnumName=='S'}">
+				<h:form id="stateForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'S'}">
 					<p:panel id="statePanel" header="State">
 						<h:panelGrid id="stateGrid" columns="8" cellpadding="2"
 							cellspacing="4">

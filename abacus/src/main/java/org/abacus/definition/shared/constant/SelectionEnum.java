@@ -14,10 +14,16 @@ public class SelectionEnum implements ISelectionEnum {
 		this.description = isEnum.getDescription();
 	}
 
+	@Override
 	public String name() {
 		return name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	@Override
 	public String getDescription() {
 		return description;
 	}

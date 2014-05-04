@@ -8,7 +8,7 @@
 >
 			<!-- valGrid -->
 			<h:panelGrid id="valGrid" columns="1">
-				<h:form id="valForm" rendered="#{definitionViewBean.groupEnumName=='V'}">
+				<h:form id="valForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'V'}">
 					<p:panel id="valPanel" header="Deger">
 						<h:panelGrid id="valGrid" columns="4" cellpadding="2"
 							cellspacing="2">

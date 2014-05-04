@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.ISelectionEnum;
 
 @Entity
 @SuppressWarnings("serial")
@@ -24,9 +26,16 @@ public class DepartmentEntity extends DynamicEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-//	DefConstant.OrgDepartmentGroupEnum
+//	EnumList.OrgDepartmentGroupEnum
 	@Column(name = "group_enum", nullable = false)
 	private String group; 
+
+	public ISelectionEnum getGroupEnum(){
+		if (this.group!=null){
+			return EnumList.OrgDepartmentGroupEnum.valueOf(this.group);
+		}
+		return null;
+	}
 
 	public CompanyEntity getCompany() {
 		return company;

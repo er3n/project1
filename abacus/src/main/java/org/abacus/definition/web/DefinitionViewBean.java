@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
-import org.abacus.definition.shared.constant.DefConstant;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 
@@ -48,24 +48,27 @@ public class DefinitionViewBean implements Serializable {
 	public String groupEnumName;
 	private SelectionEnum[] groupEnums;
 	private SelectionEnum selectedGroupEnum;
-	
 
 	@PostConstruct
 	public void init() {
 		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
 		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompanyId());
 		
-		groupEnums = new SelectionEnum[DefConstant.DefTypeGroupEnum.values().length];
-		for (DefConstant.DefTypeGroupEnum ge : DefConstant.DefTypeGroupEnum.values()) {
-			groupEnums[ge.ordinal()] = new SelectionEnum(ge);
-		}
+		createGrupEnumArray();
 		try{
 			String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
-			selectedGroupEnum = new SelectionEnum(DefConstant.DefTypeGroupEnum.valueOf(value.toUpperCase()));
+			selectedGroupEnum = new SelectionEnum(EnumList.DefTypeGroupEnum.valueOf(value.toUpperCase()));
 		}catch(Exception e){
 			selectedGroupEnum = groupEnums[0];
 		}
 		groupChangeListener();
+	}
+	
+	private void createGrupEnumArray(){
+		groupEnums = new SelectionEnum[EnumList.DefTypeGroupEnum.values().length];
+		for (EnumList.DefTypeGroupEnum ge : EnumList.DefTypeGroupEnum.values()) {
+			groupEnums[ge.ordinal()] = new SelectionEnum(ge);
+		}
 	}
 	
 	public void groupChangeListener(){

@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.ISelectionEnum;
+import org.abacus.definition.shared.constant.SelectionEnum;
 
 @Entity
 @Table(name = "def_type")
@@ -14,7 +17,7 @@ public class DefTypeEntity extends StaticEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-//	DefConstant.DefTypeGroupEnum
+//	EnumList.DefTypeGroupEnum
 	@Column(name = "group_enum", nullable = false)
 	private String group; 
  
@@ -29,6 +32,13 @@ public class DefTypeEntity extends StaticEntity {
 
 	public DefTypeEntity(String id) {
 		this.setId(id);
+	}
+	
+	public ISelectionEnum getGroupEnum(){
+		if (this.group!=null){
+			return EnumList.DefTypeGroupEnum.valueOf(this.group);
+		}
+		return null;
 	}
 	
 	public String getName() {

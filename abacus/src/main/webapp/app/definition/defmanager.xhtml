@@ -57,7 +57,7 @@
 							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{definitionViewBean.clearType}"
+								actionListener="#{definitionViewBean.clearType}" process="@this"
 								>
 								<p:resetInput target=":typeForm" />
 							</p:commandButton>
@@ -76,13 +76,17 @@
 						</p:ajax>
 
 						<p:column headerText="Kod">  
-            					#{selType.id}  
-        					</p:column>
+           					#{selType.id}  
+       					</p:column>
 
 						<p:column headerText="Aciklama">  
-            					#{selType.name}  
-        					</p:column>
+           					#{selType.name}  
+       					</p:column>
 
+						<p:column headerText="Grup">  
+           					#{selType.getGroupEnum().description}  
+       					</p:column>
+       					
 					</p:dataTable>
 
 				</h:form>

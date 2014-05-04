@@ -19,15 +19,24 @@
 						<h:panelGrid id="companyGrid" columns="8" cellpadding="4"
 							cellspacing="4">
 
-							<h:outputLabel value="Company Kod:" />
+							<h:outputLabel value="Kod:" />
 							<p:inputText value="#{organizationViewBean.selCompany.id}"
 								required="true" requiredMessage="company.Code Bos olamaz"
 								validatorMessage="company.Code" />
 
-							<h:outputLabel value="Company Ad:" />
+							<h:outputLabel value="Ad:" />
 							<p:inputText value="#{organizationViewBean.selCompany.name}"
 								required="true" requiredMessage="company.Ack Bos olamaz"
 								validatorMessage="company.Ack" />
+
+							<h:outputLabel value="Seviye:" />
+							<p:selectOneMenu value="#{organizationViewBean.selectedLevelEnum}" 
+								converter="selectionEnumConverter" style="width:145px">
+								<f:selectItems value="#{organizationViewBean.levelEnums}"
+									var="levelEnum" itemLabel="#{levelEnum.description}"
+									itemValue="#{levelEnum}" />
+							</p:selectOneMenu>
+
 						</h:panelGrid>
 
 						<f:facet name="footer">
@@ -62,12 +71,16 @@
 						</p:ajax>
 
 						<p:column headerText="Kod">  
-            					#{selCompany.id}  
-        					</p:column>
+           					#{selCompany.id}  
+       					</p:column>
 
 						<p:column headerText="Aciklama">  
-            					#{selCompany.name}  
-        					</p:column>
+           					#{selCompany.name}  
+       					</p:column>
+
+						<p:column headerText="Seviye">  
+           					#{selCompany.getLevelEnum().description}  
+       					</p:column>
 
 					</p:dataTable>
 

@@ -10,6 +10,8 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.persistance.repository.CompanyRepository;
 import org.abacus.organization.shared.entity.CompanyEntity;
 
@@ -30,11 +32,22 @@ public class OrganizationViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 
+	private SelectionEnum[] levelEnums;
+	private SelectionEnum selectedLevelEnum;
+	
 	@PostConstruct
 	public void init() {
+		createLevelEnumArray();
 		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
 		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompanyId());
 		findCompanyList();
+	}
+	
+	private void createLevelEnumArray(){
+		levelEnums = new SelectionEnum[EnumList.OrgCompanyLevelEnum.values().length];
+		for (EnumList.OrgCompanyLevelEnum ge : EnumList.OrgCompanyLevelEnum.values()) {
+			levelEnums[ge.ordinal()] = new SelectionEnum(ge);
+		}
 	}
 	
 	public void groupChangeListener(){
@@ -113,6 +126,22 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setCompanyRepository(CompanyRepository companyRepository) {
 		this.companyRepository = companyRepository;
+	}
+
+	public SelectionEnum getSelectedLevelEnum() {
+		return selectedLevelEnum;
+	}
+
+	public void setSelectedLevelEnum(SelectionEnum selectedLevelEnum) {
+		this.selectedLevelEnum = selectedLevelEnum;
+	}
+
+	public SelectionEnum[] getLevelEnums() {
+		return levelEnums;
+	}
+
+	public void setLevelEnums(SelectionEnum[] levelEnums) {
+		this.levelEnums = levelEnums;
 	}
 
 }

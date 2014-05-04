@@ -1,6 +1,6 @@
 package org.abacus.definition.shared.constant;
 
-public class SelectionEnum implements DefConstant.ISelectionEnum {
+public class SelectionEnum implements ISelectionEnum {
 
 	private String name;
 	private String description;
@@ -9,9 +9,9 @@ public class SelectionEnum implements DefConstant.ISelectionEnum {
 		this.name = n;
 	}
 
-	public SelectionEnum(DefConstant.ISelectionEnum ise){
-		this.name = ise.name();
-		this.description = ise.getDescription();
+	public SelectionEnum(ISelectionEnum isEnum){
+		this.name = isEnum.name();
+		this.description = isEnum.getDescription();
 	}
 
 	public String name() {
@@ -26,5 +26,5 @@ public class SelectionEnum implements DefConstant.ISelectionEnum {
 	public boolean equals(Object obj){
 		return this.name().equals(((SelectionEnum)obj).name());
 	}
-	
+
 }

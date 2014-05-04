@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.ISelectionEnum;
 
 @Entity
 @SuppressWarnings("serial")
@@ -17,7 +19,7 @@ public class CompanyEntity extends StaticEntity {
 	@Column(name = "name")
 	private String name;
 
-//	DefConstant.OrgCompanyLevelEnum
+//	EnumList.OrgCompanyLevelEnum
 	@Column(name = "level_enum", nullable = false)
 	private String level = "L0";
 	
@@ -25,6 +27,13 @@ public class CompanyEntity extends StaticEntity {
 	@JoinColumn(name = "parent_id")
 	private CompanyEntity parent;
 
+	public ISelectionEnum getLevelEnum(){
+		if (this.level!=null){
+			return EnumList.OrgCompanyLevelEnum.valueOf(this.level);
+		}
+		return null;
+	}
+	
 	public String getName() {
 		return name;
 	}

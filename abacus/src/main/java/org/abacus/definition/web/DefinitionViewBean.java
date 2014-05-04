@@ -65,8 +65,8 @@ public class DefinitionViewBean implements Serializable {
 	
 	private void createGrupEnumArray(){
 		groupEnums = new SelectionEnum[EnumList.DefTypeGroupEnum.values().length];
-		for (EnumList.DefTypeGroupEnum ge : EnumList.DefTypeGroupEnum.values()) {
-			groupEnums[ge.ordinal()] = new SelectionEnum(ge);
+		for (EnumList.DefTypeGroupEnum enm : EnumList.DefTypeGroupEnum.values()) {
+			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
 		}
 	}
 	

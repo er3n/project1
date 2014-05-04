@@ -10,8 +10,7 @@
 			<h:panelGrid id="stateGrid" columns="1">
 				<h:form id="stateForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'S'}">
 					<p:panel id="statePanel" header="State">
-						<h:panelGrid id="stateGrid" columns="8" cellpadding="2"
-							cellspacing="4">
+						<h:panelGrid id="stateGrid" columns="8" cellpadding="2">
 							<h:outputLabel value="State Kod:" />
 							<p:inputText value="#{defStateViewBean.selState.code}"
 								required="true" requiredMessage="State.Code Bos olamaz"
@@ -35,7 +34,7 @@
 							<p:commandButton id="clearState" update=":stateForm"
 								ajax="true"
 								value="#{defStateViewBean.selState.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{defStateViewBean.createState}">
+								actionListener="#{defStateViewBean.createState}" process="@this">
 								<p:resetInput target=":stateForm"/>
 							</p:commandButton>
 						</f:facet>

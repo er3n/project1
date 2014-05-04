@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
@@ -30,11 +32,21 @@ public class OrgDepartmentViewBean implements Serializable {
 	private DepartmentEntity selDepartment;
 	private List<DepartmentEntity> departmentList;
 
-
+	private SelectionEnum[] groupEnums;
+	private SelectionEnum selectedGroupEnum;
+	
 	@PostConstruct
 	public void init() {
+		createGroupEnumArray();
+		selectedGroupEnum = groupEnums[0];
 	}
 	
+	private void createGroupEnumArray(){
+		groupEnums = new SelectionEnum[EnumList.OrgDepartmentGroupEnum.values().length];
+		for (EnumList.OrgDepartmentGroupEnum enm : EnumList.OrgDepartmentGroupEnum.values()) {
+			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
+		}
+	}
 	public void setSelCompany(CompanyEntity selType) {
 		this.selCompany = selType;
 		findCompanyDepartment();
@@ -44,6 +56,10 @@ public class OrgDepartmentViewBean implements Serializable {
 //		System.out.println("taskRowSelectListener");
 	}
 
+	public void groupChangeListener(){
+//		this.findTypeList(selectedGroupEnum);
+//		clearType();
+	}
 	
 	public void saveDepartment() {
 		if (selDepartment.isNew()) {
@@ -66,6 +82,7 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void createDepartment() {
 		selDepartment = new DepartmentEntity();
 		selDepartment.setCompany(selCompany);
+		selDepartment.setTransientGroup(selectedGroupEnum);
 	}
 
 	public void findCompanyDepartment() {
@@ -112,6 +129,26 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	public void setDepartmentList(List<DepartmentEntity> departmentList) {
 		this.departmentList = departmentList;
+	}
+
+	public SelectionEnum getSelectedGroupEnum() {
+		return selectedGroupEnum;
+	}
+
+	public void setSelectedGroupEnum(SelectionEnum selectedGroupEnum) {
+		this.selectedGroupEnum = selectedGroupEnum;
+	}
+
+	public SelectionEnum[] getGroupEnums() {
+		return groupEnums;
+	}
+
+	public void setGroupEnums(SelectionEnum[] groupEnums) {
+		this.groupEnums = groupEnums;
+	}
+
+	public CompanyEntity getSelCompany() {
+		return selCompany;
 	}
 
 

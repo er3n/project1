@@ -10,8 +10,7 @@
 			<h:panelGrid id="taskGrid" columns="1">
 				<h:form id="taskForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'T'}">
 					<p:panel id="taskPanel" header="Task">
-						<h:panelGrid id="taskGrid" columns="8" cellpadding="2"
-							cellspacing="4">
+						<h:panelGrid id="taskGrid" columns="8" cellpadding="2">
 							<h:outputLabel value="Task Kod:" />
 							<p:inputText value="#{defTaskViewBean.selTask.code}"
 								required="true" requiredMessage="Task.Code Bos olamaz"
@@ -35,7 +34,7 @@
 							<p:commandButton id="clearTask" update=":taskForm"
 								ajax="true"
 								value="#{defTaskViewBean.selTask.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{defTaskViewBean.createTask}">
+								actionListener="#{defTaskViewBean.createTask}" process="@this">
 								<p:resetInput target=":taskForm"/>
 							</p:commandButton>
 						</f:facet>

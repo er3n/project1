@@ -10,8 +10,7 @@
 			<h:panelGrid id="paramGrid" columns="1">
 				<h:form id="paramForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'P'}">
 					<p:panel id="paramPanel" header="Parametre">
-						<h:panelGrid id="paramGrid" columns="8" cellpadding="2"
-							cellspacing="4">
+						<h:panelGrid id="paramGrid" columns="8" cellpadding="2">
 							<h:outputLabel value="Param Kod:" />
 							<p:inputText value="#{defParamViewBean.selParam.code}"
 								required="true" requiredMessage="Param.Code Bos olamaz"
@@ -35,7 +34,7 @@
 							<p:commandButton id="clearParam" update=":paramForm"
 								ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{defParamViewBean.createParam}">
+								actionListener="#{defParamViewBean.createParam}" process="@this">
 								<p:resetInput target=":paramForm"/>
 							</p:commandButton>
 						</f:facet>

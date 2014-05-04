@@ -10,8 +10,19 @@
 			<h:panelGrid id="departmentGrid" columns="1">
 				<h:form id="departmentForm">
 					<p:panel id="departmentPanel" header="Department">
-						<h:panelGrid id="departmentGrid" columns="8" cellpadding="2"
-							cellspacing="4">
+						<h:panelGrid id="departmentGrid" columns="8" cellpadding="2">
+							
+							<h:outputLabel value="Birim Tipi:" />
+							<p:selectOneMenu value="#{orgDepartmentViewBean.selectedGroupEnum}" 
+								converter="selectionEnumConverter" style="width:145px">
+								<f:selectItems value="#{orgDepartmentViewBean.groupEnums}"
+									var="groupEnum" itemLabel="#{groupEnum.description}"
+									itemValue="#{groupEnum}" />
+								<p:ajax event="change" update=":departmentForm"
+									listener="#{orgDepartmentViewBean.groupChangeListener}"
+									process="@this" />
+							</p:selectOneMenu>
+							
 							<h:outputLabel value="Department Kod:" />
 							<p:inputText value="#{orgDepartmentViewBean.selDepartment.code}"
 								required="true" requiredMessage="Department.Code Bos olamaz"
@@ -35,7 +46,7 @@
 							<p:commandButton id="clearDepartment" update=":departmentForm"
 								ajax="true"
 								value="#{orgDepartmentViewBean.selDepartment.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{orgDepartmentViewBean.createDepartment}">
+								actionListener="#{orgDepartmentViewBean.createDepartment}" process="@this">
 								<p:resetInput target=":departmentForm"/>
 							</p:commandButton>
 						</f:facet>

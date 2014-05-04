@@ -16,8 +16,7 @@
 				
 					<p:panel id="companyPanel" header="Grup">
 
-						<h:panelGrid id="companyGrid" columns="8" cellpadding="4"
-							cellspacing="4">
+						<h:panelGrid id="companyGrid" columns="8" cellpadding="2">
 
 							<h:outputLabel value="Kod:" />
 							<p:inputText value="#{organizationViewBean.selCompany.id}"
@@ -66,7 +65,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selCompany.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":companyForm"
+						<p:ajax event="rowSelect" update=":companyForm :departmentForm"
 							listener="#{organizationViewBean.companyRowSelectListener}">
 						</p:ajax>
 

@@ -47,8 +47,8 @@ public class OrganizationViewBean implements Serializable {
 	
 	private void createLevelEnumArray(){
 		levelEnums = new SelectionEnum[EnumList.OrgCompanyLevelEnum.values().length];
-		for (EnumList.OrgCompanyLevelEnum ge : EnumList.OrgCompanyLevelEnum.values()) {
-			levelEnums[ge.ordinal()] = new SelectionEnum(ge);
+		for (EnumList.OrgCompanyLevelEnum enm : EnumList.OrgCompanyLevelEnum.values()) {
+			levelEnums[enm.ordinal()] = new SelectionEnum(enm);
 		}
 	}
 	

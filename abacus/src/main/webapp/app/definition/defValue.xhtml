@@ -10,8 +10,7 @@
 			<h:panelGrid id="valGrid" columns="1">
 				<h:form id="valForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'V'}">
 					<p:panel id="valPanel" header="Deger">
-						<h:panelGrid id="valGrid" columns="4" cellpadding="2"
-							cellspacing="2">
+						<h:panelGrid id="valGrid" columns="4" cellpadding="2">
 							<h:outputLabel value="Deger Kod:" />
 							<p:inputText value="#{defValueViewBean.selVal.code}"
 								required="true" requiredMessage="Val.Code Bos olamaz"
@@ -27,10 +26,10 @@
 							<p:commandButton id="saveVal" update=":valForm" ajax="true"
 								value="#{defValueViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{defValueViewBean.saveOrUpdateVal}" />
-							<p:commandButton id="clearVal" process="@this" ajax="true"
+							<p:commandButton id="clearVal" ajax="true"
 								update=":valForm :valForm"
 								value="#{defValueViewBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{defValueViewBean.clearVal}">
+								actionListener="#{defValueViewBean.clearVal}" process="@this">
 								<p:resetInput target=":valForm" />
 							</p:commandButton>
 						</f:facet>

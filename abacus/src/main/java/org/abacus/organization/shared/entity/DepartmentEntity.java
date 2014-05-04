@@ -2,6 +2,8 @@ package org.abacus.organization.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -9,7 +11,6 @@ import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.ISelectionEnum;
 
 @Entity
 @SuppressWarnings("serial")
@@ -26,16 +27,9 @@ public class DepartmentEntity extends DynamicEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-//	EnumList.OrgDepartmentGroupEnum
+	@Enumerated(EnumType.STRING)
 	@Column(name = "group_enum", nullable = false)
-	private String group; 
-
-	public ISelectionEnum getGroupEnum(){
-		if (this.group!=null){
-			return EnumList.OrgDepartmentGroupEnum.valueOf(this.group);
-		}
-		return null;
-	}
+	private EnumList.OrgDepartmentGroupEnum group; 
 
 	public CompanyEntity getCompany() {
 		return company;
@@ -61,11 +55,11 @@ public class DepartmentEntity extends DynamicEntity {
 		this.name = name;
 	}
 
-	public String getGroup() {
+	public EnumList.OrgDepartmentGroupEnum getGroup() {
 		return group;
 	}
 
-	public void setGroup(String group) {
+	public void setGroup(EnumList.OrgDepartmentGroupEnum group) {
 		this.group = group;
 	}
 

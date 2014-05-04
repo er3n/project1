@@ -8,9 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.abacus.common.shared.entity.StaticEntity;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.SelectionEnum;
 
 @Entity
 @SuppressWarnings("serial")
@@ -23,6 +25,9 @@ public class CompanyEntity extends StaticEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "level_enum", nullable = false)
 	private EnumList.OrgCompanyLevelEnum level = EnumList.OrgCompanyLevelEnum.L1;
+
+	@Transient
+	private SelectionEnum transientLevel;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
@@ -50,6 +55,14 @@ public class CompanyEntity extends StaticEntity {
 
 	public void setParent(CompanyEntity parent) {
 		this.parent = parent;
+	}
+
+	public SelectionEnum getTransientLevel() {
+		return new SelectionEnum(level);
+	}
+
+	public void setTransientLevel(SelectionEnum l) {
+		this.level = EnumList.OrgCompanyLevelEnum.valueOf(l.name());
 	}
 
 }

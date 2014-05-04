@@ -5,7 +5,7 @@ public interface EnumList {
 	enum OrgCompanyLevelEnum implements ISelectionEnum {
 		L1("Holding"),
 		L2("Company"),
-		L3("Project"),
+		L3("Project"),//Section
 		;
 		private String description;
 		
@@ -23,7 +23,7 @@ public interface EnumList {
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
 		A("Administrative"),
 		S("InventoryStore"),
-		F("FixedAssetStore"),
+//		F("FixedAssetStore"),
 		;
 		private String description;
 		

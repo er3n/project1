@@ -1,5 +1,8 @@
 package org.abacus.test;
 
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.handler.CompanyHandler;
+import org.abacus.organization.shared.entity.CompanyEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.junit.Test;
@@ -13,13 +16,18 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath*:/appcontext/persistence-context.xml","classpath*:/appcontext/main-context.xml","classpath*:/appcontext/cache-context.xml"})
+@ContextConfiguration(locations={//
+		"classpath*:/appcontext/persistence-context.xml",//
+		"classpath*:/appcontext/main-context.xml",//
+		"classpath*:/appcontext/cache-context.xml"})//
 @TransactionConfiguration(defaultRollback = true)
 public class TestHibernateConfiguration {
 
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private CompanyHandler companyHandler;
 	
 	@Test
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
@@ -53,4 +61,14 @@ public class TestHibernateConfiguration {
 //		secGroupHandler.allAuthorities();
 	}
 
+	@Test
+	@Rollback(value=false)
+	public void findParentCompany(){
+		CompanyEntity child = new CompanyEntity();
+		child.setId("01.01.01");
+		child.setLevel(EnumList.OrgCompanyLevelEnum.L3);
+		
+		CompanyEntity parent = companyHandler.findParentCompany(child);
+		System.out.println("findParentCompany: "+parent);
+	}
 }

@@ -3,6 +3,7 @@ package org.abacus.organization.core.handler;
 import java.util.List;
 
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.organization.core.persistance.CompanyDao;
 import org.abacus.organization.core.persistance.repository.CompanyRepository;
 import org.abacus.organization.shared.entity.CompanyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	private CompanyRepository companyRepository;
 
 	@Autowired
+	private CompanyDao companyDao;
+
+	@Autowired
 	private SessionInfoHelper sessionInfoHelper;		
 
 	@Override
@@ -28,6 +32,8 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public CompanyEntity saveCompanyEntity(CompanyEntity entity) {
+		CompanyEntity parent = companyDao.findParentCompany(entity);
+		entity.setParent(parent);
 		return companyRepository.save(entity);
 	}
 
@@ -35,6 +41,13 @@ public class CompanyHandlerImpl implements CompanyHandler {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public void deleteCompanyEntity(CompanyEntity entity) {
 		companyRepository.delete(entity);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public CompanyEntity findParentCompany(CompanyEntity child) {
+		CompanyEntity cmp = companyDao.findParentCompany(child);
+		return cmp;
 	}
 	
 }

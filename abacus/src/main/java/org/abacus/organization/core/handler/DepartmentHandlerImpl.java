@@ -2,13 +2,16 @@ package org.abacus.organization.core.handler;
 
 import java.util.List;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.repository.DepartmentRepository;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@SuppressWarnings("serial")
 @Service("departmentHandler")
 public class DepartmentHandlerImpl implements DepartmentHandler {
 
@@ -17,8 +20,8 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DepartmentEntity> findByCompany(String company) {
-		List<DepartmentEntity> list = departmentRepository.findByCompany(company);
+	public List<DepartmentEntity> findByCompanyAndGroup(String companyId, EnumList.OrgDepartmentGroupEnum groupEnum) {
+		List<DepartmentEntity> list = departmentRepository.findByCompanyAndGroup(companyId, groupEnum);
 		return list;
 	}
 

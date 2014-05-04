@@ -13,4 +13,6 @@ public interface CompanyHandler extends Serializable{
 	
 	void deleteCompanyEntity(CompanyEntity entity);
 
+	CompanyEntity findParentCompany(CompanyEntity child);
+
 }

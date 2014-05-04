@@ -57,8 +57,7 @@ public class OrgDepartmentViewBean implements Serializable {
 	}
 
 	public void groupChangeListener(){
-//		this.findTypeList(selectedGroupEnum);
-//		clearType();
+		findCompanyDepartment();
 	}
 	
 	public void saveDepartment() {
@@ -89,7 +88,7 @@ public class OrgDepartmentViewBean implements Serializable {
 		createDepartment();
 		departmentList = null;
 		if (selCompany!=null){
-			departmentList = departmentService.findByCompany(selCompany.getId());
+			departmentList = departmentService.findByCompanyAndGroup(selCompany.getId(), EnumList.OrgDepartmentGroupEnum.valueOf(selectedGroupEnum.name()));
 		} else {
 			departmentList = new ArrayList<DepartmentEntity>();
 		}

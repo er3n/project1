@@ -14,5 +14,8 @@ public interface CompanyRepository extends CrudRepository<CompanyEntity, String>
 
 	@Query("select c from CompanyEntity c, SecUserCompanyEntity uc where uc.user.id = :username and uc.company.id = c.id order by c.id")
 	List<CompanyEntity> findByUsername(@Param("username")String username);
+
+//	@Query("select c from CompanyEntity c where :company like c.id% and c.level < :levelEnum order by c.id desc")
+//	List<CompanyEntity> findParentCompany(@Param("company")String company, @Param("levelEnum")EnumList.OrgCompanyLevelEnum levelEnum);
 	
 }

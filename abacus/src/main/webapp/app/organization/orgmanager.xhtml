@@ -30,7 +30,7 @@
 								validatorMessage="company.Ack" />
 
 							<h:outputLabel value="Seviye:" />
-							<p:selectOneMenu value="#{organizationViewBean.selectedLevelEnum}" 
+							<p:selectOneMenu value="#{organizationViewBean.selCompany.level}" 
 								converter="selectionEnumConverter" style="width:145px">
 								<f:selectItems value="#{organizationViewBean.levelEnums}"
 									var="levelEnum" itemLabel="#{levelEnum.description}"
@@ -79,7 +79,7 @@
        					</p:column>
 
 						<p:column headerText="Seviye">  
-           					#{selCompany.getLevelEnum().description}  
+           					#{selCompany.level.description}  
        					</p:column>
 
 					</p:dataTable>

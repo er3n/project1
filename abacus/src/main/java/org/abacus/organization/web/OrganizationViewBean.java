@@ -33,7 +33,6 @@ public class OrganizationViewBean implements Serializable {
 	private JsfMessageHelper jsfMessageHelper;
 
 	private SelectionEnum[] levelEnums;
-	private SelectionEnum selectedLevelEnum;
 	
 	@PostConstruct
 	public void init() {
@@ -126,14 +125,6 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setCompanyRepository(CompanyRepository companyRepository) {
 		this.companyRepository = companyRepository;
-	}
-
-	public SelectionEnum getSelectedLevelEnum() {
-		return selectedLevelEnum;
-	}
-
-	public void setSelectedLevelEnum(SelectionEnum selectedLevelEnum) {
-		this.selectedLevelEnum = selectedLevelEnum;
 	}
 
 	public SelectionEnum[] getLevelEnums() {

@@ -2,6 +2,8 @@ package org.abacus.organization.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -9,7 +11,6 @@ import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.ISelectionEnum;
 
 @Entity
 @SuppressWarnings("serial")
@@ -19,21 +20,14 @@ public class CompanyEntity extends StaticEntity {
 	@Column(name = "name")
 	private String name;
 
-//	EnumList.OrgCompanyLevelEnum
+	@Enumerated(EnumType.STRING)
 	@Column(name = "level_enum", nullable = false)
-	private String level = "L0";
+	private EnumList.OrgCompanyLevelEnum level = EnumList.OrgCompanyLevelEnum.L1;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
 	private CompanyEntity parent;
 
-	public ISelectionEnum getLevelEnum(){
-		if (this.level!=null){
-			return EnumList.OrgCompanyLevelEnum.valueOf(this.level);
-		}
-		return null;
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -42,11 +36,11 @@ public class CompanyEntity extends StaticEntity {
 		this.name = name;
 	}
 	
-	public String getLevel() {
+	public EnumList.OrgCompanyLevelEnum getLevel() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel(EnumList.OrgCompanyLevelEnum level) {
 		this.level = level;
 	}
 

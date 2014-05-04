@@ -5,6 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import org.abacus.definition.shared.constant.ISelectionEnum;
 import org.abacus.definition.shared.constant.SelectionEnum;
 
 
@@ -26,7 +27,7 @@ public class SelectionEnumConverter implements  Converter{
 		if(value == null){
 			return null;
 		}
-		SelectionEnum entitiy = (SelectionEnum) value;
+		ISelectionEnum entitiy = (ISelectionEnum) value;
 		return entitiy.name();
 	}
 

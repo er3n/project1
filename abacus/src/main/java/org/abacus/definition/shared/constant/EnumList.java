@@ -22,7 +22,8 @@ public interface EnumList {
 	
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
 		A("Administrative"),
-		S("Store"),
+		S("InventoryStore"),
+		F("FixedAssetStore"),
 		;
 		private String description;
 		

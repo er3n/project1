@@ -40,16 +40,16 @@ public class OrgDepartmentViewBean implements Serializable {
 		findCompanyDepartment();
 	}
 
-	public void taskRowSelectListener() {
+	public void departmentRowSelectListener() {
 //		System.out.println("taskRowSelectListener");
 	}
 
 	
 	public void saveDepartment() {
 		if (selDepartment.isNew()) {
-			jsfMessageHelper.addInfo("taskKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
 		} else {
-			jsfMessageHelper.addInfo("taskGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
 		}
 		departmentService.saveDepartmentEntity(selDepartment);
 		findCompanyDepartment();
@@ -58,7 +58,7 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void deleteDepartment() {
 		if (!selDepartment.isNew()) {
 			departmentService.deleteDepartmentEntity(selDepartment);
-			jsfMessageHelper.addInfo("taskSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
 		}
 		findCompanyDepartment();
 	}
@@ -98,12 +98,12 @@ public class OrgDepartmentViewBean implements Serializable {
 		}
 	}
 
-	public DepartmentHandler getDefTaskService() {
+	public DepartmentHandler getDepartmentService() {
 		return departmentService;
 	}
 
-	public void setDefTaskService(DepartmentHandler defTaskService) {
-		this.departmentService = defTaskService;
+	public void setDepartmentService(DepartmentHandler departmentService) {
+		this.departmentService = departmentService;
 	}
 
 	public List<DepartmentEntity> getDepartmentList() {

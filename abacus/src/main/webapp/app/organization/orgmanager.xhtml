@@ -52,7 +52,7 @@
 							<p:commandButton id="clearCompany" update=":companyForm"
 								ajax="true"
 								value="#{organizationViewBean.selCompany.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{organizationViewBean.clearCompany}"
+								actionListener="#{organizationViewBean.clearCompany}" process="@this"
 								>
 								<p:resetInput target=":companyForm" />
 							</p:commandButton>

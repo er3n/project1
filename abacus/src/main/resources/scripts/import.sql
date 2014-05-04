@@ -26,7 +26,7 @@ insert into sec_user_company (id, user_id, company_id, version) values (nextval(
 insert into sec_user_company (id, user_id, company_id, version) values (nextval('seq_id'), 'admin','01.01', 0);
 insert into sec_user_company (id, user_id, company_id, version) values (nextval('seq_id'), 'admin','02', 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('.', '.', '.', 0, 0);
+insert into def_type (id, name, group_enum, level, trtype) values ('.', '.', 'V', 0, 0);
 insert into def_type (id, name, group_enum, level, trtype) values ('STKPARAM', 'Stk Param', 'P', 1, 0);
 insert into def_type (id, name, group_enum, level, trtype) values ('STKSTATE', 'Stk Status', 'S', 1, 0);
 insert into def_type (id, name, group_enum, level, trtype) values ('SEHIR', 'Sehir', 'V', 9, 0);

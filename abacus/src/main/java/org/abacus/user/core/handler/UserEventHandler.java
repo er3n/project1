@@ -8,9 +8,9 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.UserDao;
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
-import org.abacus.user.core.persistance.repository.UserGroupRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
-import org.abacus.user.core.persistance.repository.UserCompanyRepository;
+import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
+import org.abacus.user.core.persistance.repository.UserGroupRepository;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
@@ -18,9 +18,9 @@ import org.abacus.user.shared.UserNameExistsException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.entity.SecUserGroupEntity;
 import org.abacus.user.shared.entity.SecUserOrganizationEntity;
-import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateGroupEvent;
 import org.abacus.user.shared.event.CreateUserEvent;
 import org.abacus.user.shared.event.DeleteGroupEvent;
@@ -28,12 +28,12 @@ import org.abacus.user.shared.event.GroupCreatedEvent;
 import org.abacus.user.shared.event.GroupDeletedEvent;
 import org.abacus.user.shared.event.GroupUpdatedEvent;
 import org.abacus.user.shared.event.ReadAuthoritiesEvent;
-import org.abacus.user.shared.event.ReadCompaniesEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
+import org.abacus.user.shared.event.ReadOrganizationsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
 import org.abacus.user.shared.event.RequestReadAuthoritiesEvent;
-import org.abacus.user.shared.event.RequestReadCompaniesEvent;
 import org.abacus.user.shared.event.RequestReadGroupsEvent;
+import org.abacus.user.shared.event.RequestReadOrganizationsEvent;
 import org.abacus.user.shared.event.RequestReadUserEvent;
 import org.abacus.user.shared.event.UpdateGroupEvent;
 import org.abacus.user.shared.event.UpdateUserEvent;
@@ -71,7 +71,7 @@ public class UserEventHandler implements UserService{
 	private GroupAuthorityRepository groupAuthorityRepository;
 	
 	@Autowired
-	private UserCompanyRepository userCompaniesRepository;
+	private UserOrganizationRepository userCompaniesRepository;
 	
 	@Autowired
 	private OrganizationRepository companyRepository;
@@ -291,8 +291,8 @@ public class UserEventHandler implements UserService{
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	public ReadCompaniesEvent requestCompany(
-			RequestReadCompaniesEvent event) {
+	public ReadOrganizationsEvent requestCompany(
+			RequestReadOrganizationsEvent event) {
 		List<OrganizationEntity> companies = null;
 		
 		if(StringUtils.hasText(event.getUsername())){
@@ -301,7 +301,7 @@ public class UserEventHandler implements UserService{
 			companies = companyRepository.findByCompany(event.getCompanyid());
 		}
 		
-		return new ReadCompaniesEvent(companies);
+		return new ReadOrganizationsEvent(companies);
 	}
 
 }

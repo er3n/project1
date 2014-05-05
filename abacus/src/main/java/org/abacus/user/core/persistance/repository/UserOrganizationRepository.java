@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface UserCompanyRepository  extends CrudRepository<SecUserOrganizationEntity, Long>{
+public interface UserOrganizationRepository  extends CrudRepository<SecUserOrganizationEntity, Long>{
 
 
 	@Modifying

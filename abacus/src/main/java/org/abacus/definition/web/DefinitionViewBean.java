@@ -50,8 +50,8 @@ public class DefinitionViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentOrganizationId());
+		System.out.println("ViewBean Session Usr:"+sessionInfoHelper.currentUserName());
+		System.out.println("ViewBean Session Org:"+sessionInfoHelper.currentOrganizationId());
 		
 		createGrupEnumArray();
 		try{

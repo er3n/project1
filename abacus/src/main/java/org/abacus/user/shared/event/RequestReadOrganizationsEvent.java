@@ -2,12 +2,12 @@ package org.abacus.user.shared.event;
 
 import org.abacus.common.shared.event.RequestReadEvent;
 
-public class RequestReadCompaniesEvent extends RequestReadEvent {
+public class RequestReadOrganizationsEvent extends RequestReadEvent {
 
 	private String username;
 	private String companyid;
 
-	public RequestReadCompaniesEvent(String username, String companyid) {
+	public RequestReadOrganizationsEvent(String username, String companyid) {
 		this.username = username;
 		this.companyid = companyid;
 	}

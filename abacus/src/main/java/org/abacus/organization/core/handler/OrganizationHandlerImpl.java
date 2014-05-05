@@ -25,13 +25,13 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<OrganizationEntity> findByCompany(String company) {
+	public List<OrganizationEntity> findByOrganization(String company) {
 		return companyRepository.findByCompany(company);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public OrganizationEntity saveCompanyEntity(OrganizationEntity entity) {
+	public OrganizationEntity saveOrganizationEntity(OrganizationEntity entity) {
 		OrganizationEntity parent = companyDao.findParentCompany(entity);
 		entity.setParent(parent);
 		return companyRepository.save(entity);
@@ -39,7 +39,7 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public void deleteCompanyEntity(OrganizationEntity entity) {
+	public void deleteOrganizationEntity(OrganizationEntity entity) {
 		companyRepository.delete(entity);
 	}
 	

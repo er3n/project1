@@ -17,10 +17,10 @@ import org.abacus.user.shared.UserNameExistsException;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateUserEvent;
-import org.abacus.user.shared.event.ReadCompaniesEvent;
+import org.abacus.user.shared.event.ReadOrganizationsEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
-import org.abacus.user.shared.event.RequestReadCompaniesEvent;
+import org.abacus.user.shared.event.RequestReadOrganizationsEvent;
 import org.abacus.user.shared.event.RequestReadGroupsEvent;
 import org.abacus.user.shared.event.RequestReadUserEvent;
 import org.abacus.user.shared.event.UpdateUserEvent;
@@ -67,8 +67,8 @@ public class UserViewBean implements Serializable {
 		ReadGroupsEvent allGroupsEvent = userService.requestGroup(event);
 		allGroups = allGroupsEvent.getGroupList();
 
-		ReadCompaniesEvent allCompaniesEvent = userService
-				.requestCompany(new RequestReadCompaniesEvent(null,
+		ReadOrganizationsEvent allCompaniesEvent = userService
+				.requestCompany(new RequestReadOrganizationsEvent(null,
 						sessionInfoHelper.currentOrganizationId()));
 		allCompanies = allCompaniesEvent.getCompanyList();
 
@@ -134,8 +134,8 @@ public class UserViewBean implements Serializable {
 		List<OrganizationEntity> sourceUserCompanies = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
-			ReadCompaniesEvent userCompaniesEvent = userService
-					.requestCompany(new RequestReadCompaniesEvent(
+			ReadOrganizationsEvent userCompaniesEvent = userService
+					.requestCompany(new RequestReadOrganizationsEvent(
 							selectedUserName, null));
 			targetUserCompanies = userCompaniesEvent.getCompanyList();
 			for (OrganizationEntity companyEntity : allCompanies) {

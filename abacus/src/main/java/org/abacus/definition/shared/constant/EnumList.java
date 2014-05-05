@@ -2,7 +2,7 @@ package org.abacus.definition.shared.constant;
 
 public interface EnumList {
 
-	enum OrgCompanyLevelEnum implements ISelectionEnum {
+	enum OrgOrganizationLevelEnum implements ISelectionEnum {
 		L1("Holding"),
 		L2("Company"),
 		L3("Section"),
@@ -10,7 +10,7 @@ public interface EnumList {
 		;
 		private String description;
 		
-		private OrgCompanyLevelEnum(String description) {
+		private OrgOrganizationLevelEnum(String description) {
 			this.description = description;
 		}
 		

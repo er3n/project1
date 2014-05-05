@@ -40,14 +40,14 @@ public class OrganizationViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		createLevelEnumArray();
-		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentOrganizationId());
+		System.out.println("ViewBean Session Usr:"+sessionInfoHelper.currentUserName());
+		System.out.println("ViewBean Session Org:"+sessionInfoHelper.currentOrganizationId());
 		findCompanyList();
 	}
 	
 	private void createLevelEnumArray(){
-		levelEnums = new SelectionEnum[EnumList.OrgCompanyLevelEnum.values().length];
-		for (EnumList.OrgCompanyLevelEnum enm : EnumList.OrgCompanyLevelEnum.values()) {
+		levelEnums = new SelectionEnum[EnumList.OrgOrganizationLevelEnum.values().length];
+		for (EnumList.OrgOrganizationLevelEnum enm : EnumList.OrgOrganizationLevelEnum.values()) {
 			levelEnums[enm.ordinal()] = new SelectionEnum(enm);
 		}
 	}
@@ -66,13 +66,13 @@ public class OrganizationViewBean implements Serializable {
 		} else {
 			jsfMessageHelper.addInfo("companyGuncellemeIslemiBasarili");
 		}
-		selCompany = companyHandler.saveCompanyEntity(selCompany);
+		selCompany = companyHandler.saveOrganizationEntity(selCompany);
 		findCompanyList();
 	}
 
 	public void deleteCompany() {
 		if (!selCompany.isNew()) {
-			companyHandler.deleteCompanyEntity(selCompany);
+			companyHandler.deleteOrganizationEntity(selCompany);
 			jsfMessageHelper.addInfo("companySilmeIslemiBasarili");
 		}
 		findCompanyList();
@@ -86,7 +86,7 @@ public class OrganizationViewBean implements Serializable {
 	public void findCompanyList() {
 		clearCompany();
 		companyList = null;
-		companyList = companyHandler.findByCompany(sessionInfoHelper.currentOrganizationId());
+		companyList = companyHandler.findByOrganization(sessionInfoHelper.currentOrganizationId());
 		System.out.println(companyList);
 	}
 

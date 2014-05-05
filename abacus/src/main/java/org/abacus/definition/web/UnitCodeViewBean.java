@@ -47,7 +47,7 @@ public class UnitCodeViewBean implements Serializable {
 			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
 		}
 	}
-	public void setSelCompany(OrganizationEntity selType) {
+	public void setSelOrganization(OrganizationEntity selType) {
 		this.selCompany = selType;
 		findCompanyDepartment();
 	}

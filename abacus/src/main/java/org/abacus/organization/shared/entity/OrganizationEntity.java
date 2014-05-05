@@ -24,7 +24,7 @@ public class OrganizationEntity extends StaticEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "level_enum", nullable = false)
-	private EnumList.OrgCompanyLevelEnum level = EnumList.OrgCompanyLevelEnum.L1;
+	private EnumList.OrgOrganizationLevelEnum level = EnumList.OrgOrganizationLevelEnum.L1;
 
 	@Transient
 	private SelectionEnum transientLevel;
@@ -41,11 +41,11 @@ public class OrganizationEntity extends StaticEntity {
 		this.name = name;
 	}
 	
-	public EnumList.OrgCompanyLevelEnum getLevel() {
+	public EnumList.OrgOrganizationLevelEnum getLevel() {
 		return level;
 	}
 
-	public void setLevel(EnumList.OrgCompanyLevelEnum level) {
+	public void setLevel(EnumList.OrgOrganizationLevelEnum level) {
 		this.level = level;
 	}
 
@@ -62,7 +62,7 @@ public class OrganizationEntity extends StaticEntity {
 	}
 
 	public void setTransientLevel(SelectionEnum l) {
-		this.level = EnumList.OrgCompanyLevelEnum.valueOf(l.name());
+		this.level = EnumList.OrgOrganizationLevelEnum.valueOf(l.name());
 	}
 
 }

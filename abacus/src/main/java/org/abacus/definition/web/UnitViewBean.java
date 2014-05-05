@@ -20,11 +20,11 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 @SuppressWarnings("serial")
 public class UnitViewBean implements Serializable {
 
-	private OrganizationEntity selCompany;
-	private List<OrganizationEntity> companyList;
+	private OrganizationEntity selOrganization;
+	private List<OrganizationEntity> organizationList;
 
-	@ManagedProperty(value = "#{companyHandler}")
-	private OrganizationHandler companyHandler;
+	@ManagedProperty(value = "#{organizationHandler}")
+	private OrganizationHandler organizationHandler;
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
@@ -40,54 +40,54 @@ public class UnitViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		createLevelEnumArray();
-		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentOrganizationId());
-		findCompanyList();
+		System.out.println("ViewBean Session Usr:"+sessionInfoHelper.currentUserName());
+		System.out.println("ViewBean Session Org:"+sessionInfoHelper.currentOrganizationId());
+		findOrganizationList();
 	}
 	
 	private void createLevelEnumArray(){
-		levelEnums = new SelectionEnum[EnumList.OrgCompanyLevelEnum.values().length];
-		for (EnumList.OrgCompanyLevelEnum enm : EnumList.OrgCompanyLevelEnum.values()) {
+		levelEnums = new SelectionEnum[EnumList.OrgOrganizationLevelEnum.values().length];
+		for (EnumList.OrgOrganizationLevelEnum enm : EnumList.OrgOrganizationLevelEnum.values()) {
 			levelEnums[enm.ordinal()] = new SelectionEnum(enm);
 		}
 	}
 	
 	public void groupChangeListener(){
-		clearCompany();
+		clearOrganization();
 	}
 
-	public void companyRowSelectListener() {
-		orgDepartmentViewBean.setSelCompany(selCompany);
+	public void organizationRowSelectListener() {
+		orgDepartmentViewBean.setSelOrganization(selOrganization);
 	}
 
-	public void saveOrUpdateCompany() {
-		if (selCompany.isNew()) {
-			jsfMessageHelper.addInfo("companyKayitIslemiBasarili");
+	public void saveOrUpdateOrganization() {
+		if (selOrganization.isNew()) {
+			jsfMessageHelper.addInfo("organizationKayitIslemiBasarili");
 		} else {
-			jsfMessageHelper.addInfo("companyGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("organizationGuncellemeIslemiBasarili");
 		}
-		selCompany = companyHandler.saveCompanyEntity(selCompany);
-		findCompanyList();
+		selOrganization = organizationHandler.saveOrganizationEntity(selOrganization);
+		findOrganizationList();
 	}
 
-	public void deleteCompany() {
-		if (!selCompany.isNew()) {
-			companyHandler.deleteCompanyEntity(selCompany);
-			jsfMessageHelper.addInfo("companySilmeIslemiBasarili");
+	public void deleteOrganization() {
+		if (!selOrganization.isNew()) {
+			organizationHandler.deleteOrganizationEntity(selOrganization);
+			jsfMessageHelper.addInfo("organizationSilmeIslemiBasarili");
 		}
-		findCompanyList();
+		findOrganizationList();
 	}
 
-	public void clearCompany() {
-		selCompany = new OrganizationEntity();
-		orgDepartmentViewBean.setSelCompany(null);
+	public void clearOrganization() {
+		selOrganization = new OrganizationEntity();
+		orgDepartmentViewBean.setSelOrganization(null);
 	}
 
-	public void findCompanyList() {
-		clearCompany();
-		companyList = null;
-		companyList = companyHandler.findByCompany(sessionInfoHelper.currentOrganizationId());
-		System.out.println(companyList);
+	public void findOrganizationList() {
+		clearOrganization();
+		organizationList = null;
+		organizationList = organizationHandler.findByOrganization(sessionInfoHelper.currentOrganizationId());
+		System.out.println(organizationList);
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {
@@ -107,29 +107,29 @@ public class UnitViewBean implements Serializable {
 	}
 
 	public OrganizationEntity getSelCompany() {
-		return selCompany;
+		return selOrganization;
 	}
 
 	public void setSelCompany(OrganizationEntity selCompany) {
 		if (selCompany!=null){
-			this.selCompany = selCompany;
+			this.selOrganization = selCompany;
 		}
 	}
 
 	public List<OrganizationEntity> getCompanyList() {
-		return companyList;
+		return organizationList;
 	}
 
-	public void setCompanyList(List<OrganizationEntity> companyList) {
-		this.companyList = companyList;
+	public void setCompanyList(List<OrganizationEntity> organizationList) {
+		this.organizationList = organizationList;
 	}
 
 	public OrganizationHandler getCompanyHandler() {
-		return companyHandler;
+		return organizationHandler;
 	}
 
-	public void setCompanyHandler(OrganizationHandler companyHandler) {
-		this.companyHandler = companyHandler;
+	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
+		this.organizationHandler = organizationHandler;
 	}
 
 	public SelectionEnum[] getLevelEnums() {

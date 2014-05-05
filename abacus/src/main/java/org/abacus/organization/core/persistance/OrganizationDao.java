@@ -21,7 +21,7 @@ public class OrganizationDao implements Serializable {
 	public OrganizationEntity findParentCompany(OrganizationEntity child){
 		String parentLevel = "L0";//null
 		if (child.getLevel().ordinal()>0){
-			parentLevel = EnumList.OrgCompanyLevelEnum.values()[child.getLevel().ordinal()-1].name();
+			parentLevel = EnumList.OrgOrganizationLevelEnum.values()[child.getLevel().ordinal()-1].name();
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("select c.* from org_company c ");

@@ -66,7 +66,7 @@ public class TestHibernateConfiguration {
 	public void findParentCompany(){
 		OrganizationEntity child = new OrganizationEntity();
 		child.setId("01.01.01");
-		child.setLevel(EnumList.OrgCompanyLevelEnum.L3);
+		child.setLevel(EnumList.OrgOrganizationLevelEnum.L3);
 		
 		OrganizationEntity parent = companyHandler.findParentCompany(child);
 		System.out.println("findParentCompany: "+parent);

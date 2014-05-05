@@ -7,11 +7,11 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public interface OrganizationHandler extends Serializable{
 
-	List<OrganizationEntity> findByCompany(String company);
+	List<OrganizationEntity> findByOrganization(String company);
 	
-	OrganizationEntity saveCompanyEntity(OrganizationEntity entity);
+	OrganizationEntity saveOrganizationEntity(OrganizationEntity entity);
 	
-	void deleteCompanyEntity(OrganizationEntity entity);
+	void deleteOrganizationEntity(OrganizationEntity entity);
 
 	OrganizationEntity findParentCompany(OrganizationEntity child);
 

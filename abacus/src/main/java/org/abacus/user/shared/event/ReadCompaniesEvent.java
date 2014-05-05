@@ -3,21 +3,21 @@ package org.abacus.user.shared.event;
 import java.util.List;
 
 import org.abacus.common.shared.event.ReadEvent;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public class ReadCompaniesEvent extends ReadEvent {
 
-	private List<CompanyEntity> companyList;
+	private List<OrganizationEntity> companyList;
 
-	public ReadCompaniesEvent(List<CompanyEntity> companyList) {
+	public ReadCompaniesEvent(List<OrganizationEntity> companyList) {
 		this.companyList = companyList;
 	}
 
-	public List<CompanyEntity> getCompanyList() {
+	public List<OrganizationEntity> getCompanyList() {
 		return companyList;
 	}
 
-	public void setCompanyList(List<CompanyEntity> companyList) {
+	public void setCompanyList(List<OrganizationEntity> companyList) {
 		this.companyList = companyList;
 	}
 

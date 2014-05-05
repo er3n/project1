@@ -32,8 +32,8 @@ public class SessionInfoHelper implements Serializable {
 		return false;
 	}
 
-	public String currentCompanyId() {
-		return currentUser().setSelectedCompanyId();
+	public String currentOrganizationId() {
+		return currentUser().setSelectedOrganizationId();
 	}
 	
 	public void redirect(){

@@ -5,7 +5,7 @@ import java.util.List;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.organization.core.persistance.CompanyDao;
 import org.abacus.organization.core.persistance.repository.CompanyRepository;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,28 +25,28 @@ public class CompanyHandlerImpl implements CompanyHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<CompanyEntity> findByCompany(String company) {
+	public List<OrganizationEntity> findByCompany(String company) {
 		return companyRepository.findByCompany(company);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public CompanyEntity saveCompanyEntity(CompanyEntity entity) {
-		CompanyEntity parent = companyDao.findParentCompany(entity);
+	public OrganizationEntity saveCompanyEntity(OrganizationEntity entity) {
+		OrganizationEntity parent = companyDao.findParentCompany(entity);
 		entity.setParent(parent);
 		return companyRepository.save(entity);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public void deleteCompanyEntity(CompanyEntity entity) {
+	public void deleteCompanyEntity(OrganizationEntity entity) {
 		companyRepository.delete(entity);
 	}
 	
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public CompanyEntity findParentCompany(CompanyEntity child) {
-		CompanyEntity cmp = companyDao.findParentCompany(child);
+	public OrganizationEntity findParentCompany(OrganizationEntity child) {
+		OrganizationEntity cmp = companyDao.findParentCompany(child);
 		return cmp;
 	}
 	

@@ -13,7 +13,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.handler.DepartmentHandler;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 
 @ManagedBean
@@ -27,7 +27,7 @@ public class UnitCodeViewBean implements Serializable {
 	@ManagedProperty(value = "#{departmentHandler}")
 	private DepartmentHandler departmentService;
 
-	private CompanyEntity selCompany;
+	private OrganizationEntity selCompany;
 
 	private DepartmentEntity selDepartment;
 	private List<DepartmentEntity> departmentList;
@@ -47,7 +47,7 @@ public class UnitCodeViewBean implements Serializable {
 			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
 		}
 	}
-	public void setSelCompany(CompanyEntity selType) {
+	public void setSelCompany(OrganizationEntity selType) {
 		this.selCompany = selType;
 		findCompanyDepartment();
 	}
@@ -146,7 +146,7 @@ public class UnitCodeViewBean implements Serializable {
 		this.groupEnums = groupEnums;
 	}
 
-	public CompanyEntity getSelCompany() {
+	public OrganizationEntity getSelCompany() {
 		return selCompany;
 	}
 

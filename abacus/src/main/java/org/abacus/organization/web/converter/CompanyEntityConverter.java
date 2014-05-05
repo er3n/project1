@@ -6,7 +6,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import org.abacus.organization.core.persistance.repository.CompanyRepository;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.jsf.FacesContextUtils;
 
@@ -20,15 +20,15 @@ public class CompanyEntityConverter implements Converter {
 			return null;
 		}
 		CompanyRepository repository = FacesContextUtils.getWebApplicationContext(context).getBean(CompanyRepository.class);
-		CompanyEntity entitiy = repository.findOne(value);
+		OrganizationEntity entitiy = repository.findOne(value);
 		return entitiy;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
-		if(value instanceof CompanyEntity){
-			CompanyEntity entitiy = (CompanyEntity) value;
+		if(value instanceof OrganizationEntity){
+			OrganizationEntity entitiy = (OrganizationEntity) value;
 			return entitiy.getId();
 		}
 		return null;

@@ -13,15 +13,15 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.handler.CompanyHandler;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("serial")
 public class UnitViewBean implements Serializable {
 
-	private CompanyEntity selCompany;
-	private List<CompanyEntity> companyList;
+	private OrganizationEntity selCompany;
+	private List<OrganizationEntity> companyList;
 
 	@ManagedProperty(value = "#{companyHandler}")
 	private CompanyHandler companyHandler;
@@ -41,7 +41,7 @@ public class UnitViewBean implements Serializable {
 	public void init() {
 		createLevelEnumArray();
 		System.out.println("ViewBean Session User:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentCompanyId());
+		System.out.println("ViewBean Session Comp:"+sessionInfoHelper.currentOrganizationId());
 		findCompanyList();
 	}
 	
@@ -79,14 +79,14 @@ public class UnitViewBean implements Serializable {
 	}
 
 	public void clearCompany() {
-		selCompany = new CompanyEntity();
+		selCompany = new OrganizationEntity();
 		orgDepartmentViewBean.setSelCompany(null);
 	}
 
 	public void findCompanyList() {
 		clearCompany();
 		companyList = null;
-		companyList = companyHandler.findByCompany(sessionInfoHelper.currentCompanyId());
+		companyList = companyHandler.findByCompany(sessionInfoHelper.currentOrganizationId());
 		System.out.println(companyList);
 	}
 
@@ -106,21 +106,21 @@ public class UnitViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public CompanyEntity getSelCompany() {
+	public OrganizationEntity getSelCompany() {
 		return selCompany;
 	}
 
-	public void setSelCompany(CompanyEntity selCompany) {
+	public void setSelCompany(OrganizationEntity selCompany) {
 		if (selCompany!=null){
 			this.selCompany = selCompany;
 		}
 	}
 
-	public List<CompanyEntity> getCompanyList() {
+	public List<OrganizationEntity> getCompanyList() {
 		return companyList;
 	}
 
-	public void setCompanyList(List<CompanyEntity> companyList) {
+	public void setCompanyList(List<OrganizationEntity> companyList) {
 		this.companyList = companyList;
 	}
 

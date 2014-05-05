@@ -2,7 +2,7 @@ package org.abacus.test;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.CompanyHandler;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.junit.Test;
@@ -64,11 +64,11 @@ public class TestHibernateConfiguration {
 	@Test
 	@Rollback(value=false)
 	public void findParentCompany(){
-		CompanyEntity child = new CompanyEntity();
+		OrganizationEntity child = new OrganizationEntity();
 		child.setId("01.01.01");
 		child.setLevel(EnumList.OrgCompanyLevelEnum.L3);
 		
-		CompanyEntity parent = companyHandler.findParentCompany(child);
+		OrganizationEntity parent = companyHandler.findParentCompany(child);
 		System.out.println("findParentCompany: "+parent);
 	}
 }

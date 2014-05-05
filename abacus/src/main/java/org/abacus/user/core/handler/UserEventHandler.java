@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.organization.core.persistance.repository.CompanyRepository;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.UserDao;
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
@@ -90,7 +90,7 @@ public class UserEventHandler implements UserService{
 		
 		SecUserEntity secUser = event.getUser();
 		List<SecGroupEntity> userGroups = event.getUserGroups();
-		List<CompanyEntity> companies = event.getCompanies();
+		List<OrganizationEntity> companies = event.getCompanies();
 		String userCreated = event.getUserCreated();
 		
 		
@@ -106,7 +106,7 @@ public class UserEventHandler implements UserService{
 		secUser = userRepository.save(secUser);
 		
 		List<SecUserCompanyEntity> userCompaines = new ArrayList<>();
-		for(CompanyEntity company : companies){
+		for(OrganizationEntity company : companies){
 			SecUserCompanyEntity userCompany = new SecUserCompanyEntity();
 			userCompany.setUser(secUser);
 			userCompany.setCompany(company);
@@ -140,7 +140,7 @@ public class UserEventHandler implements UserService{
 
 		SecUserEntity updatingUser = event.getUser();
 		List<SecGroupEntity> userGroups = event.getUserGroupList();
-		List<CompanyEntity> companies = event.getCompanies();
+		List<OrganizationEntity> companies = event.getCompanies();
 		String userUpdated = event.getUserUpdated();
 		
 		updatingUser = userRepository.save(updatingUser);
@@ -148,7 +148,7 @@ public class UserEventHandler implements UserService{
 		userCompaniesRepository.delete(updatingUser.getId());
 		
 		List<SecUserCompanyEntity> userCompaines = new ArrayList<>();
-		for(CompanyEntity company : companies){
+		for(OrganizationEntity company : companies){
 			SecUserCompanyEntity userCompany = new SecUserCompanyEntity();
 			userCompany.setUser(updatingUser);
 			userCompany.setCompany(company);
@@ -293,7 +293,7 @@ public class UserEventHandler implements UserService{
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public ReadCompaniesEvent requestCompany(
 			RequestReadCompaniesEvent event) {
-		List<CompanyEntity> companies = null;
+		List<OrganizationEntity> companies = null;
 		
 		if(StringUtils.hasText(event.getUsername())){
 			companies = companyRepository.findByUsername(event.getUsername());

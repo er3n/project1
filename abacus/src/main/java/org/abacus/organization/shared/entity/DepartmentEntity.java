@@ -21,7 +21,7 @@ public class DepartmentEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
-	private CompanyEntity company;
+	private OrganizationEntity company;
 
 	@Column(name = "code", nullable = false)
 	private String code;
@@ -36,11 +36,11 @@ public class DepartmentEntity extends DynamicEntity {
 	@Transient
 	private SelectionEnum transientGroup; 
 
-	public CompanyEntity getCompany() {
+	public OrganizationEntity getCompany() {
 		return company;
 	}
 
-	public void setCompany(CompanyEntity company) {
+	public void setCompany(OrganizationEntity company) {
 		this.company = company;
 	}
 

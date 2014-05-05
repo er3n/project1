@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
@@ -18,8 +18,8 @@ public class SecUser implements UserDetails {
 
 	private List<String> authorityNames;
 
-	private List<CompanyEntity> companies;
-	private CompanyEntity selectedCompany;
+	private List<OrganizationEntity> organizationList;
+	private OrganizationEntity selectedOrganization;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -40,8 +40,8 @@ public class SecUser implements UserDetails {
 		return authorities;
 	}
 	
-	public void init(List<CompanyEntity> companies,
-			CompanyEntity selectedCompany) {
+	public void init(List<OrganizationEntity> companies,
+			OrganizationEntity selectedCompany) {
 		setCompanies(companies);
 		setSelectedCompany(selectedCompany);
 	}
@@ -100,24 +100,24 @@ public class SecUser implements UserDetails {
 		this.password = password;
 	}
 
-	public List<CompanyEntity> getCompanies() {
-		return companies;
+	public List<OrganizationEntity> getOrganizationList() {
+		return organizationList;
 	}
 
-	public void setCompanies(List<CompanyEntity> companies) {
-		this.companies = companies;
+	public void setCompanies(List<OrganizationEntity> organizationList) {
+		this.organizationList = organizationList;
 	}
 
-	public CompanyEntity getSelectedCompany() {
-		return selectedCompany;
+	public OrganizationEntity getSelectedOrganization() {
+		return selectedOrganization;
 	}
 
-	public void setSelectedCompany(CompanyEntity selectedCompany) {
-		this.selectedCompany = selectedCompany;
+	public void setSelectedCompany(OrganizationEntity selectedCompany) {
+		this.selectedOrganization = selectedCompany;
 	}
 
-	public String setSelectedCompanyId() {
-		return getSelectedCompany().getId();
+	public String setSelectedOrganizationId() {
+		return getSelectedOrganization().getId();
 	}
 
 }

@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @Entity
 @SuppressWarnings("serial")
@@ -20,7 +20,7 @@ public class SecUserCompanyEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
-	private CompanyEntity company;
+	private OrganizationEntity company;
 
 	public SecUserEntity getUser() {
 		return user;
@@ -30,11 +30,11 @@ public class SecUserCompanyEntity extends DynamicEntity {
 		this.user = user;
 	}
 
-	public CompanyEntity getCompany() {
+	public OrganizationEntity getCompany() {
 		return company;
 	}
 
-	public void setCompany(CompanyEntity company) {
+	public void setCompany(OrganizationEntity company) {
 		this.company = company;
 	}
 

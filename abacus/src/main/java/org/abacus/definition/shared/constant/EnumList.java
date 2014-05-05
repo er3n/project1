@@ -5,7 +5,8 @@ public interface EnumList {
 	enum OrgCompanyLevelEnum implements ISelectionEnum {
 		L1("Holding"),
 		L2("Company"),
-		L3("Project"),//Section
+		L3("Section"),
+		L4("Project"),
 		;
 		private String description;
 		

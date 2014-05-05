@@ -3,14 +3,14 @@ package org.abacus.user.shared.holder;
 import java.io.Serializable;
 import java.util.List;
 
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 
 public class SearchUserCriteria implements Serializable {
 
 	private String username;
 	private List<SecGroupEntity> groupList;
-	private CompanyEntity company;
+	private OrganizationEntity company;
 
 	public String getUsername() {
 		return username;
@@ -28,11 +28,11 @@ public class SearchUserCriteria implements Serializable {
 		this.groupList = groupList;
 	}
 
-	public CompanyEntity getCompany() {
+	public OrganizationEntity getCompany() {
 		return company;
 	}
 
-	public void setCompany(CompanyEntity company) {
+	public void setCompany(OrganizationEntity company) {
 		this.company = company;
 	}
 

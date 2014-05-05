@@ -3,16 +3,16 @@ package org.abacus.organization.core.handler;
 import java.io.Serializable;
 import java.util.List;
 
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public interface CompanyHandler extends Serializable{
 
-	List<CompanyEntity> findByCompany(String company);
+	List<OrganizationEntity> findByCompany(String company);
 	
-	CompanyEntity saveCompanyEntity(CompanyEntity entity);
+	OrganizationEntity saveCompanyEntity(OrganizationEntity entity);
 	
-	void deleteCompanyEntity(CompanyEntity entity);
+	void deleteCompanyEntity(OrganizationEntity entity);
 
-	CompanyEntity findParentCompany(CompanyEntity child);
+	OrganizationEntity findParentCompany(OrganizationEntity child);
 
 }

@@ -3,7 +3,7 @@ package org.abacus.user.shared.event;
 import java.util.List;
 
 import org.abacus.common.shared.event.UpdatedEvent;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 
@@ -11,11 +11,11 @@ public class UpdateUserEvent extends UpdatedEvent {
 
 	private SecUserEntity user;
 	private List<SecGroupEntity> userGroupList;
-	private List<CompanyEntity> companies;
+	private List<OrganizationEntity> companies;
 	private String userUpdated;
 
 	public UpdateUserEvent(SecUserEntity user,
-			List<SecGroupEntity> userGroupList,List<CompanyEntity> companies, String userUpdated) {
+			List<SecGroupEntity> userGroupList,List<OrganizationEntity> companies, String userUpdated) {
 		this.user = user;
 		this.userGroupList = userGroupList;
 		this.userUpdated = userUpdated;
@@ -46,11 +46,11 @@ public class UpdateUserEvent extends UpdatedEvent {
 		this.userUpdated = userUpdated;
 	}
 
-	public List<CompanyEntity> getCompanies() {
+	public List<OrganizationEntity> getCompanies() {
 		return companies;
 	}
 
-	public void setCompanies(List<CompanyEntity> companies) {
+	public void setCompanies(List<OrganizationEntity> companies) {
 		this.companies = companies;
 	}
 

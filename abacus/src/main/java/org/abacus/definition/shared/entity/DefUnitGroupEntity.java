@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @Entity
 @Table(name = "def_unit_group")
@@ -17,7 +17,7 @@ public class DefUnitGroupEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
-	private CompanyEntity company;
+	private OrganizationEntity company;
 	
 	@Column(name = "code", nullable = false)
 	private String code;
@@ -44,11 +44,11 @@ public class DefUnitGroupEntity extends DynamicEntity {
 		this.name = name;
 	}
 
-	public CompanyEntity getCompany() {
+	public OrganizationEntity getCompany() {
 		return company;
 	}
 
-	public void setCompany(CompanyEntity company) {
+	public void setCompany(OrganizationEntity company) {
 		this.company = company;
 	}
 

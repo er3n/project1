@@ -11,7 +11,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.handler.UserService;
 import org.abacus.user.shared.UserNameExistsException;
 import org.abacus.user.shared.entity.SecGroupEntity;
@@ -48,11 +48,11 @@ public class UserViewBean implements Serializable {
 
 	private List<SecGroupEntity> allGroups;
 
-	private List<CompanyEntity> allCompanies;
+	private List<OrganizationEntity> allCompanies;
 
 	private DualListModel<SecGroupEntity> selectedUserGroupDL;
 
-	private DualListModel<CompanyEntity> selectedUserCompanyDL;
+	private DualListModel<OrganizationEntity> selectedUserCompanyDL;
 
 	@ManagedProperty(value = "#{userEventHandler}")
 	private UserService userService;
@@ -69,7 +69,7 @@ public class UserViewBean implements Serializable {
 
 		ReadCompaniesEvent allCompaniesEvent = userService
 				.requestCompany(new RequestReadCompaniesEvent(null,
-						sessionInfoHelper.currentCompanyId()));
+						sessionInfoHelper.currentOrganizationId()));
 		allCompanies = allCompaniesEvent.getCompanyList();
 
 	}
@@ -77,7 +77,7 @@ public class UserViewBean implements Serializable {
 	public void createUser() {
 		String currentUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
-		List<CompanyEntity> userCompanies = selectedUserCompanyDL.getTarget();
+		List<OrganizationEntity> userCompanies = selectedUserCompanyDL.getTarget();
 		try {
 			UserCreatedEvent createdEvent = userService
 					.createUser(new CreateUserEvent(selectedUser,
@@ -93,7 +93,7 @@ public class UserViewBean implements Serializable {
 	public void updateUser() {
 		String currentUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
-		List<CompanyEntity> userCompanies = selectedUserCompanyDL.getTarget();
+		List<OrganizationEntity> userCompanies = selectedUserCompanyDL.getTarget();
 		UserUpdatedEvent updatedEvent = userService
 				.updateUser(new UpdateUserEvent(selectedUser, selectedGroups,
 						userCompanies, currentUser));
@@ -114,8 +114,8 @@ public class UserViewBean implements Serializable {
 
 	public void findUser() {
 		if (searchUserCriteria.getCompany() == null || !StringUtils.hasText(searchUserCriteria.getCompany().getId())) {
-			String companyId = sessionInfoHelper.currentCompanyId();
-			CompanyEntity companyEntity = new CompanyEntity();
+			String companyId = sessionInfoHelper.currentOrganizationId();
+			OrganizationEntity companyEntity = new OrganizationEntity();
 			companyEntity.setId(companyId);
 			searchUserCriteria.setCompany(companyEntity);
 		}
@@ -124,21 +124,21 @@ public class UserViewBean implements Serializable {
 		userSearchResults = readUserEvent.getUserEntityList();
 	}
 
-	public DualListModel<CompanyEntity> selectedUserCompany() {
+	public DualListModel<OrganizationEntity> selectedUserCompany() {
 
-		selectedUserCompanyDL = new DualListModel<CompanyEntity>();
+		selectedUserCompanyDL = new DualListModel<OrganizationEntity>();
 
 		String selectedUserName = selectedUser.getId();
 
-		List<CompanyEntity> targetUserCompanies = new ArrayList<>();
-		List<CompanyEntity> sourceUserCompanies = new ArrayList<>();
+		List<OrganizationEntity> targetUserCompanies = new ArrayList<>();
+		List<OrganizationEntity> sourceUserCompanies = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
 			ReadCompaniesEvent userCompaniesEvent = userService
 					.requestCompany(new RequestReadCompaniesEvent(
 							selectedUserName, null));
 			targetUserCompanies = userCompaniesEvent.getCompanyList();
-			for (CompanyEntity companyEntity : allCompanies) {
+			for (OrganizationEntity companyEntity : allCompanies) {
 				if (!targetUserCompanies.contains(companyEntity)) {
 					sourceUserCompanies.add(companyEntity);
 				}
@@ -248,21 +248,21 @@ public class UserViewBean implements Serializable {
 		this.userService = userService;
 	}
 
-	public DualListModel<CompanyEntity> getSelectedUserCompanyDL() {
+	public DualListModel<OrganizationEntity> getSelectedUserCompanyDL() {
 		this.selectedUserCompanyDL = this.selectedUserCompany();
 		return selectedUserCompanyDL;
 	}
 
 	public void setSelectedUserCompanyDL(
-			DualListModel<CompanyEntity> selectedUserCompanyDL) {
+			DualListModel<OrganizationEntity> selectedUserCompanyDL) {
 		this.selectedUserCompanyDL = selectedUserCompanyDL;
 	}
 
-	public List<CompanyEntity> getAllCompanies() {
+	public List<OrganizationEntity> getAllCompanies() {
 		return allCompanies;
 	}
 
-	public void setAllCompanies(List<CompanyEntity> allCompanies) {
+	public void setAllCompanies(List<OrganizationEntity> allCompanies) {
 		this.allCompanies = allCompanies;
 	}
 

@@ -3,7 +3,7 @@ package org.abacus.common.security;
 import java.util.List;
 
 import org.abacus.organization.core.persistance.repository.CompanyRepository;
-import org.abacus.organization.shared.entity.CompanyEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class SecurityHandler implements UserDetailsService {
 		List<String> authorityNames = userRepository.findUserAuthorities(user.getId());
 		secUser.setAuthorityNames(authorityNames);
 		
-		List<CompanyEntity> userCompanies = companyRepository.findByUsername(username);
+		List<OrganizationEntity> userCompanies = companyRepository.findByUsername(username);
 		secUser.init(userCompanies, userCompanies.get(0));
 
 		return secUser;

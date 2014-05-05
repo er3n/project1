@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface CompanyRepository extends CrudRepository<OrganizationEntity, String> {
+public interface OrganizationRepository extends CrudRepository<OrganizationEntity, String> {
 
 	@Query("select c from CompanyEntity c where c.id like :company% order by id")
 	List<OrganizationEntity> findByCompany(@Param("company")String company);

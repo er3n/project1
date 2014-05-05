@@ -1,7 +1,7 @@
 package org.abacus.test;
 
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.organization.core.handler.CompanyHandler;
+import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserExistsInGroupException;
@@ -27,7 +27,7 @@ public class TestHibernateConfiguration {
 	private UserRepository userRepository;
 
 	@Autowired
-	private CompanyHandler companyHandler;
+	private OrganizationHandler companyHandler;
 	
 	@Test
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)

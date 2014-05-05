@@ -27,7 +27,7 @@ public class SecUserEntity extends StaticEntity {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
-	private Set<SecUserCompanyEntity> companyList;
+	private Set<SecUserOrganizationEntity> organizationList;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
@@ -49,12 +49,12 @@ public class SecUserEntity extends StaticEntity {
 		this.active = active;
 	}
 
-	public Set<SecUserCompanyEntity> getCompanyList() {
-		return companyList;
+	public Set<SecUserOrganizationEntity> getOrganizationList() {
+		return organizationList;
 	}
 
-	public void setCompanyList(Set<SecUserCompanyEntity> companyList) {
-		this.companyList = companyList;
+	public void setCompanyList(Set<SecUserOrganizationEntity> organizationList) {
+		this.organizationList = organizationList;
 	}
 
 	public Set<SecUserGroupEntity> getUserGroupList() {

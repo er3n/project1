@@ -20,8 +20,8 @@ import org.abacus.definition.shared.constant.SelectionEnum;
 public class DepartmentEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "company_id")
-	private OrganizationEntity company;
+	@JoinColumn(name = "organization_id")
+	private OrganizationEntity organization;
 
 	@Column(name = "code", nullable = false)
 	private String code;
@@ -36,12 +36,12 @@ public class DepartmentEntity extends DynamicEntity {
 	@Transient
 	private SelectionEnum transientGroup; 
 
-	public OrganizationEntity getCompany() {
-		return company;
+	public OrganizationEntity getOrganization() {
+		return organization;
 	}
 
-	public void setCompany(OrganizationEntity company) {
-		this.company = company;
+	public void setCompany(OrganizationEntity organization) {
+		this.organization = organization;
 	}
 
 	public String getCode() {

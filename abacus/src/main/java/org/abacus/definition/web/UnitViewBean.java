@@ -12,7 +12,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.SelectionEnum;
-import org.abacus.organization.core.handler.CompanyHandler;
+import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
@@ -24,7 +24,7 @@ public class UnitViewBean implements Serializable {
 	private List<OrganizationEntity> companyList;
 
 	@ManagedProperty(value = "#{companyHandler}")
-	private CompanyHandler companyHandler;
+	private OrganizationHandler companyHandler;
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
@@ -124,11 +124,11 @@ public class UnitViewBean implements Serializable {
 		this.companyList = companyList;
 	}
 
-	public CompanyHandler getCompanyHandler() {
+	public OrganizationHandler getCompanyHandler() {
 		return companyHandler;
 	}
 
-	public void setCompanyHandler(CompanyHandler companyHandler) {
+	public void setCompanyHandler(OrganizationHandler companyHandler) {
 		this.companyHandler = companyHandler;
 	}
 

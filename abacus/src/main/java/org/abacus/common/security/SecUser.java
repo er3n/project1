@@ -40,10 +40,10 @@ public class SecUser implements UserDetails {
 		return authorities;
 	}
 	
-	public void init(List<OrganizationEntity> companies,
+	public void init(List<OrganizationEntity> organizationList,
 			OrganizationEntity selectedCompany) {
-		setCompanies(companies);
-		setSelectedCompany(selectedCompany);
+		setOrganizationList(organizationList);
+		setSelectedOrganization(selectedCompany);
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class SecUser implements UserDetails {
 		return organizationList;
 	}
 
-	public void setCompanies(List<OrganizationEntity> organizationList) {
+	public void setOrganizationList(List<OrganizationEntity> organizationList) {
 		this.organizationList = organizationList;
 	}
 
@@ -112,7 +112,7 @@ public class SecUser implements UserDetails {
 		return selectedOrganization;
 	}
 
-	public void setSelectedCompany(OrganizationEntity selectedCompany) {
+	public void setSelectedOrganization(OrganizationEntity selectedCompany) {
 		this.selectedOrganization = selectedCompany;
 	}
 

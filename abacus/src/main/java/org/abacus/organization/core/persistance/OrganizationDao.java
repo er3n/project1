@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @SuppressWarnings("serial")
 @Service
-public class CompanyDao implements Serializable {
+public class OrganizationDao implements Serializable {
 
 	@PersistenceContext
 	private EntityManager em;

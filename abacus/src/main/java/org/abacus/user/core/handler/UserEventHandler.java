@@ -3,7 +3,7 @@ package org.abacus.user.core.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.abacus.organization.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.UserDao;
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
@@ -19,7 +19,7 @@ import org.abacus.user.shared.entity.SecAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserGroupEntity;
-import org.abacus.user.shared.entity.SecUserCompanyEntity;
+import org.abacus.user.shared.entity.SecUserOrganizationEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateGroupEvent;
 import org.abacus.user.shared.event.CreateUserEvent;
@@ -74,7 +74,7 @@ public class UserEventHandler implements UserService{
 	private UserCompanyRepository userCompaniesRepository;
 	
 	@Autowired
-	private CompanyRepository companyRepository;
+	private OrganizationRepository companyRepository;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -105,11 +105,11 @@ public class UserEventHandler implements UserService{
 		
 		secUser = userRepository.save(secUser);
 		
-		List<SecUserCompanyEntity> userCompaines = new ArrayList<>();
+		List<SecUserOrganizationEntity> userCompaines = new ArrayList<>();
 		for(OrganizationEntity company : companies){
-			SecUserCompanyEntity userCompany = new SecUserCompanyEntity();
+			SecUserOrganizationEntity userCompany = new SecUserOrganizationEntity();
 			userCompany.setUser(secUser);
-			userCompany.setCompany(company);
+			userCompany.setOrganization(company);
 			userCompany.createHook(userCreated);
 			userCompaines.add(userCompany);
 		}
@@ -147,11 +147,11 @@ public class UserEventHandler implements UserService{
 		
 		userCompaniesRepository.delete(updatingUser.getId());
 		
-		List<SecUserCompanyEntity> userCompaines = new ArrayList<>();
+		List<SecUserOrganizationEntity> userCompaines = new ArrayList<>();
 		for(OrganizationEntity company : companies){
-			SecUserCompanyEntity userCompany = new SecUserCompanyEntity();
+			SecUserOrganizationEntity userCompany = new SecUserOrganizationEntity();
 			userCompany.setUser(updatingUser);
-			userCompany.setCompany(company);
+			userCompany.setOrganization(company);
 			userCompany.updateHook(userUpdated);
 			userCompaines.add(userCompany);
 		}

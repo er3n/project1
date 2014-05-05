@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
-public interface CompanyHandler extends Serializable{
+public interface OrganizationHandler extends Serializable{
 
 	List<OrganizationEntity> findByCompany(String company);
 	

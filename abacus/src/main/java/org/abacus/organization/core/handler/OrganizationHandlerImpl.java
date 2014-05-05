@@ -3,8 +3,8 @@ package org.abacus.organization.core.handler;
 import java.util.List;
 
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.organization.core.persistance.CompanyDao;
-import org.abacus.organization.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.core.persistance.OrganizationDao;
+import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("companyHandler")
-public class CompanyHandlerImpl implements CompanyHandler {
+public class OrganizationHandlerImpl implements OrganizationHandler {
 
 	@Autowired
-	private CompanyRepository companyRepository;
+	private OrganizationRepository companyRepository;
 
 	@Autowired
-	private CompanyDao companyDao;
+	private OrganizationDao companyDao;
 
 	@Autowired
 	private SessionInfoHelper sessionInfoHelper;		

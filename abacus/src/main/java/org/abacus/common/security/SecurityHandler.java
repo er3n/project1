@@ -2,7 +2,7 @@ package org.abacus.common.security;
  
 import java.util.List;
 
-import org.abacus.organization.core.persistance.repository.CompanyRepository;
+import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.SecUserEntity;
@@ -21,7 +21,7 @@ public class SecurityHandler implements UserDetailsService {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private CompanyRepository companyRepository;
+	private OrganizationRepository companyRepository;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -42,8 +42,8 @@ public class SecurityHandler implements UserDetailsService {
 		List<String> authorityNames = userRepository.findUserAuthorities(user.getId());
 		secUser.setAuthorityNames(authorityNames);
 		
-		List<OrganizationEntity> userCompanies = companyRepository.findByUsername(username);
-		secUser.init(userCompanies, userCompanies.get(0));
+		List<OrganizationEntity> userOrganizationList = companyRepository.findByUsername(username);
+		secUser.init(userOrganizationList, userOrganizationList.get(0));
 
 		return secUser;
 	}

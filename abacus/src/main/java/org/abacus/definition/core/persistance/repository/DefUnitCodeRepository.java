@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 public interface DefUnitCodeRepository extends CrudRepository<DefUnitCodeEntity, Long> {
 
 	@Query("select a from DefUnitCodeEntity a where a.unitGroup.id = :unitGroupId order by a.code")
-	List<DefUnitCodeEntity> getUnitCodeList(@Param("unitGroupId") String unitGroupId);
+	List<DefUnitCodeEntity> getUnitCodeList(@Param("unitGroupId") Long unitGroupId);
 	
 }

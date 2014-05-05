@@ -10,21 +10,19 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.SelectionEnum;
-import org.abacus.organization.core.handler.OrganizationHandler;
-import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.definition.core.handler.DefUnitHandler;
+import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("serial")
 public class UnitViewBean implements Serializable {
 
-	private OrganizationEntity selOrganization;
-	private List<OrganizationEntity> organizationList;
+	private DefUnitGroupEntity selUnitGroup;
+	private List<DefUnitGroupEntity> unitGroupList;
 
-	@ManagedProperty(value = "#{organizationHandler}")
-	private OrganizationHandler organizationHandler;
+	@ManagedProperty(value = "#{defUnitHandler}")
+	private DefUnitHandler defUnitHandler;
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
@@ -32,62 +30,51 @@ public class UnitViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 	
-	@ManagedProperty(value = "#{orgDepartmentViewBean}")
-	private UnitCodeViewBean orgDepartmentViewBean;
+	@ManagedProperty(value = "#{unitCodeViewBean}")
+	private UnitCodeViewBean unitCodeViewBean;
 
-	private SelectionEnum[] levelEnums;
+	private DefUnitGroupEntity rootUnitGroup;
 	
 	@PostConstruct
 	public void init() {
-		createLevelEnumArray();
-		System.out.println("ViewBean Session Usr:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Org:"+sessionInfoHelper.currentOrganizationId());
-		findOrganizationList();
-	}
-	
-	private void createLevelEnumArray(){
-		levelEnums = new SelectionEnum[EnumList.OrgOrganizationLevelEnum.values().length];
-		for (EnumList.OrgOrganizationLevelEnum enm : EnumList.OrgOrganizationLevelEnum.values()) {
-			levelEnums[enm.ordinal()] = new SelectionEnum(enm);
-		}
+//		rootUnitGroup = organizationHandler.findUnitGroupWithLevel(sessionInfoHelper.currentUser().getSelectedOrganization(), EnumList.OrgOrganizationLevelEnum.L0);
 	}
 	
 	public void groupChangeListener(){
-		clearOrganization();
+		clearUnitGroup();
 	}
 
-	public void organizationRowSelectListener() {
-		orgDepartmentViewBean.setSelOrganization(selOrganization);
+	public void unitGroupRowSelectListener() {
 	}
 
-	public void saveOrUpdateOrganization() {
-		if (selOrganization.isNew()) {
+	public void saveOrUpdateUnitGroup() {
+		if (selUnitGroup.isNew()) {
 			jsfMessageHelper.addInfo("organizationKayitIslemiBasarili");
 		} else {
 			jsfMessageHelper.addInfo("organizationGuncellemeIslemiBasarili");
 		}
-		selOrganization = organizationHandler.saveOrganizationEntity(selOrganization);
-		findOrganizationList();
+//		selUnitGroup = organizationHandler.saveUnitGroupEntity(selUnitGroup);
+		findUnitGroupList();
 	}
 
-	public void deleteOrganization() {
-		if (!selOrganization.isNew()) {
-			organizationHandler.deleteOrganizationEntity(selOrganization);
+	public void deleteUnitGroup() {
+		if (!selUnitGroup.isNew()) {
+//			organizationHandler.deleteUnitGroupEntity(selUnitGroup);
 			jsfMessageHelper.addInfo("organizationSilmeIslemiBasarili");
 		}
-		findOrganizationList();
+		findUnitGroupList();
 	}
 
-	public void clearOrganization() {
-		selOrganization = new OrganizationEntity();
-		orgDepartmentViewBean.setSelOrganization(null);
+	public void clearUnitGroup() {
+		selUnitGroup = new DefUnitGroupEntity();
+//		orgDepartmentViewBean.setSelUnitGroup(null);
 	}
 
-	public void findOrganizationList() {
-		clearOrganization();
-		organizationList = null;
-		organizationList = organizationHandler.findByOrganization(sessionInfoHelper.currentOrganizationId());
-		System.out.println(organizationList);
+	public void findUnitGroupList() {
+		clearUnitGroup();
+		unitGroupList = null;
+//		unitGroupList = organizationHandler.findByUnitGroup(sessionInfoHelper.currentUnitGroupId());
+		System.out.println(unitGroupList);
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {
@@ -106,46 +93,47 @@ public class UnitViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public OrganizationEntity getSelOrganization() {
-		return selOrganization;
+	public DefUnitGroupEntity getSelUnitGroup() {
+		return selUnitGroup;
 	}
 
-	public void setSelOrganization(OrganizationEntity selOrganization) {
-		if (selOrganization!=null){
-			this.selOrganization = selOrganization;
+	public void setSelUnitGroup(DefUnitGroupEntity selUnitGroup) {
+		if (selUnitGroup!=null){
+			this.selUnitGroup = selUnitGroup;
 		}
 	}
 
-	public List<OrganizationEntity> getOrganizationList() {
-		return organizationList;
+	public List<DefUnitGroupEntity> getUnitGroupList() {
+		return unitGroupList;
 	}
 
-	public void setOrganizationList(List<OrganizationEntity> organizationList) {
-		this.organizationList = organizationList;
+	public void setUnitGroupList(List<DefUnitGroupEntity> organizationList) {
+		this.unitGroupList = organizationList;
 	}
 
-	public OrganizationHandler getOrganizationHandler() {
-		return organizationHandler;
+	public UnitCodeViewBean getUnitCodeViewBean() {
+		return unitCodeViewBean;
 	}
 
-	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
-		this.organizationHandler = organizationHandler;
+	public void setUnitCodeViewBean(UnitCodeViewBean unitCodeViewBean) {
+		this.unitCodeViewBean = unitCodeViewBean;
 	}
 
-	public SelectionEnum[] getLevelEnums() {
-		return levelEnums;
+	public DefUnitHandler getDefUnitHandler() {
+		return defUnitHandler;
 	}
 
-	public void setLevelEnums(SelectionEnum[] levelEnums) {
-		this.levelEnums = levelEnums;
+	public void setDefUnitHandler(DefUnitHandler defUnitHandler) {
+		this.defUnitHandler = defUnitHandler;
 	}
 
-	public UnitCodeViewBean getOrgDepartmentViewBean() {
-		return orgDepartmentViewBean;
+	public DefUnitGroupEntity getRootUnitGroup() {
+		return rootUnitGroup;
 	}
 
-	public void setOrgDepartmentViewBean(UnitCodeViewBean orgDepartmentViewBean) {
-		this.orgDepartmentViewBean = orgDepartmentViewBean;
+	public void setRootUnitGroup(DefUnitGroupEntity rootUnitGroup) {
+		this.rootUnitGroup = rootUnitGroup;
 	}
+
 
 }

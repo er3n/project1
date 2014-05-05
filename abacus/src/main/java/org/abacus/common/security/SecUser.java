@@ -41,9 +41,9 @@ public class SecUser implements UserDetails {
 	}
 	
 	public void init(List<OrganizationEntity> organizationList,
-			OrganizationEntity selectedCompany) {
+			OrganizationEntity selectedOrganization) {
 		setOrganizationList(organizationList);
-		setSelectedOrganization(selectedCompany);
+		setSelectedOrganization(selectedOrganization);
 	}
 
 	@Override
@@ -112,8 +112,8 @@ public class SecUser implements UserDetails {
 		return selectedOrganization;
 	}
 
-	public void setSelectedOrganization(OrganizationEntity selectedCompany) {
-		this.selectedOrganization = selectedCompany;
+	public void setSelectedOrganization(OrganizationEntity selectedOrganization) {
+		this.selectedOrganization = selectedOrganization;
 	}
 
 	public String setSelectedOrganizationId() {

@@ -11,15 +11,15 @@ public class UpdateUserEvent extends UpdatedEvent {
 
 	private SecUserEntity user;
 	private List<SecGroupEntity> userGroupList;
-	private List<OrganizationEntity> companies;
+	private List<OrganizationEntity> organizationList;
 	private String userUpdated;
 
 	public UpdateUserEvent(SecUserEntity user,
-			List<SecGroupEntity> userGroupList,List<OrganizationEntity> companies, String userUpdated) {
+			List<SecGroupEntity> userGroupList,List<OrganizationEntity> organizationList, String userUpdated) {
 		this.user = user;
 		this.userGroupList = userGroupList;
 		this.userUpdated = userUpdated;
-		this.companies = companies;
+		this.organizationList = organizationList;
 	}
 
 	public SecUserEntity getUser() {
@@ -46,12 +46,12 @@ public class UpdateUserEvent extends UpdatedEvent {
 		this.userUpdated = userUpdated;
 	}
 
-	public List<OrganizationEntity> getCompanies() {
-		return companies;
+	public List<OrganizationEntity> getOrganizationList() {
+		return organizationList;
 	}
 
-	public void setCompanies(List<OrganizationEntity> companies) {
-		this.companies = companies;
+	public void setOrganizationList(List<OrganizationEntity> organizationList) {
+		this.organizationList = organizationList;
 	}
 
 }

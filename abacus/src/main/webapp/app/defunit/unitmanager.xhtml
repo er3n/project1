@@ -11,25 +11,25 @@
 		<style> .topAligned { vertical-align: top;} </style>
 		<h:panelGrid id="mainGrid" columns="1">
 
-			<h:panelGrid id="companyGrid" columns="1">
-				<h:form id="companyForm">
+			<h:panelGrid id="organizationGrid" columns="1">
+				<h:form id="organizationForm">
 				
-					<p:panel id="companyPanel" header="Grup">
+					<p:panel id="organizationPanel" header="Grup">
 
-						<h:panelGrid id="companyGrid" columns="8" cellpadding="2">
+						<h:panelGrid id="organizationGrid" columns="8" cellpadding="2">
 
 							<h:outputLabel value="Kod:" />
-							<p:inputText value="#{organizationViewBean.selCompany.id}"
-								required="true" requiredMessage="company.Code Bos olamaz"
-								validatorMessage="company.Code" />
+							<p:inputText value="#{organizationViewBean.selOrganization.id}"
+								required="true" requiredMessage="organization.Code Bos olamaz"
+								validatorMessage="organization.Code" />
 
 							<h:outputLabel value="Ad:" />
-							<p:inputText value="#{organizationViewBean.selCompany.name}"
-								required="true" requiredMessage="company.Ack Bos olamaz"
-								validatorMessage="company.Ack" />
+							<p:inputText value="#{organizationViewBean.selOrganization.name}"
+								required="true" requiredMessage="organization.Ack Bos olamaz"
+								validatorMessage="organization.Ack" />
 
 							<h:outputLabel value="Seviye:" />
-							<p:selectOneMenu value="#{organizationViewBean.selCompany.transientLevel}" 
+							<p:selectOneMenu value="#{organizationViewBean.selOrganization.transientLevel}" 
 								converter="selectionEnumConverter" style="width:145px">
 								<f:selectItems value="#{organizationViewBean.levelEnums}"
 									var="levelEnum" itemLabel="#{levelEnum.description}"
@@ -39,57 +39,57 @@
 						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveCompany" update=":companyForm" 
+							<p:commandButton id="saveOrganization" update=":organizationForm" 
 								ajax="true"
-								value="#{organizationViewBean.selCompany.id == null ? 'Kaydet' : 'Guncelle'}"
-								actionListener="#{organizationViewBean.saveOrUpdateCompany}" />
-							<p:commandButton id="deleteCompany" update=":companyForm"
+								value="#{organizationViewBean.selOrganization.id == null ? 'Kaydet' : 'Guncelle'}"
+								actionListener="#{organizationViewBean.saveOrUpdateOrganization}" />
+							<p:commandButton id="deleteOrganization" update=":organizationForm"
 								ajax="true"
-								value="#{organizationViewBean.selCompany.id == null ? '-' : 'Sil'}"
-								actionListener="#{organizationViewBean.deleteCompany}"
+								value="#{organizationViewBean.selOrganization.id == null ? '-' : 'Sil'}"
+								actionListener="#{organizationViewBean.deleteOrganization}"
 								immediate="true" />
-							<p:commandButton id="clearCompany" update=":companyForm"
+							<p:commandButton id="clearOrganization" update=":organizationForm"
 								ajax="true"
-								value="#{organizationViewBean.selCompany.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{organizationViewBean.clearCompany}" process="@this"
+								value="#{organizationViewBean.selOrganization.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{organizationViewBean.clearOrganization}" process="@this"
 								>
-								<p:resetInput target=":companyForm" />
+								<p:resetInput target=":organizationForm" />
 							</p:commandButton>
 						</f:facet>
 					</p:panel>
 
-					<p:dataTable id="companyTable" var="selCompany"
-						value="#{organizationViewBean.companyList}"
-						selection="#{organizationViewBean.selCompany}"
+					<p:dataTable id="organizationTable" var="selOrganization"
+						value="#{organizationViewBean.organizationList}"
+						selection="#{organizationViewBean.selOrganization}"
 						emptyMessage="Kayit Bulanamadi" selectionMode="single"
-						paginator="true" paginatorPosition="bottom" rowKey="#{selCompany.id}"
+						paginator="true" paginatorPosition="bottom" rowKey="#{selOrganization.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":companyForm :departmentForm"
-							listener="#{organizationViewBean.companyRowSelectListener}">
+						<p:ajax event="rowSelect" update=":organizationForm :departmentForm"
+							listener="#{organizationViewBean.organizationRowSelectListener}">
 						</p:ajax>
 
 						<p:column headerText="Kod">  
-           					#{selCompany.id}  
+           					#{selOrganization.id}  
        					</p:column>
 
 						<p:column headerText="Aciklama">  
-           					#{selCompany.name}  
+           					#{selOrganization.name}  
        					</p:column>
 
 						<p:column headerText="Seviye">  
-           					#{selCompany.transientLevel.description}  
+           					#{selOrganization.transientLevel.description}  
        					</p:column>
 
 						<p:column headerText="Baglanti">  
-           					#{selCompany.parent.name}  
+           					#{selOrganization.parent.name}  
        					</p:column>
 
 					</p:dataTable>
 
 				</h:form>
 			</h:panelGrid>
-			<!-- companyGrid -->
+			<!-- organizationGrid -->
 
 			<ui:include src="unitCode.xhtml"></ui:include>				
 		</h:panelGrid>

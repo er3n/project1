@@ -8,7 +8,7 @@ import org.abacus.organization.shared.entity.DepartmentEntity;
 
 public interface DepartmentHandler extends Serializable{
 
-	List<DepartmentEntity> findByCompanyAndGroup(String companyId, EnumList.OrgDepartmentGroupEnum groupEnum);
+	List<DepartmentEntity> findByOrganizationAndGroup(String organizationId, EnumList.OrgDepartmentGroupEnum groupEnum);
 
 	DepartmentEntity saveDepartmentEntity(DepartmentEntity entity);
 	

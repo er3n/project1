@@ -7,18 +7,18 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public class ReadOrganizationsEvent extends ReadEvent {
 
-	private List<OrganizationEntity> companyList;
+	private List<OrganizationEntity> organizationList;
 
-	public ReadOrganizationsEvent(List<OrganizationEntity> companyList) {
-		this.companyList = companyList;
+	public ReadOrganizationsEvent(List<OrganizationEntity> organizationList) {
+		this.organizationList = organizationList;
 	}
 
-	public List<OrganizationEntity> getCompanyList() {
-		return companyList;
+	public List<OrganizationEntity> getOrganizationList() {
+		return organizationList;
 	}
 
-	public void setCompanyList(List<OrganizationEntity> companyList) {
-		this.companyList = companyList;
+	public void setOrganizationList(List<OrganizationEntity> organizationList) {
+		this.organizationList = organizationList;
 	}
 
 }

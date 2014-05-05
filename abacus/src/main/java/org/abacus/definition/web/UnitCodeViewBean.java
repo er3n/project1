@@ -27,7 +27,7 @@ public class UnitCodeViewBean implements Serializable {
 	@ManagedProperty(value = "#{departmentHandler}")
 	private DepartmentHandler departmentService;
 
-	private OrganizationEntity selCompany;
+	private OrganizationEntity selOrganization;
 
 	private DepartmentEntity selDepartment;
 	private List<DepartmentEntity> departmentList;
@@ -48,8 +48,8 @@ public class UnitCodeViewBean implements Serializable {
 		}
 	}
 	public void setSelOrganization(OrganizationEntity selType) {
-		this.selCompany = selType;
-		findCompanyDepartment();
+		this.selOrganization = selType;
+		findOrganizationDepartment();
 	}
 
 	public void departmentRowSelectListener() {
@@ -57,7 +57,7 @@ public class UnitCodeViewBean implements Serializable {
 	}
 
 	public void groupChangeListener(){
-		findCompanyDepartment();
+		findOrganizationDepartment();
 	}
 	
 	public void saveDepartment() {
@@ -67,7 +67,7 @@ public class UnitCodeViewBean implements Serializable {
 			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
 		}
 		departmentService.saveDepartmentEntity(selDepartment);
-		findCompanyDepartment();
+		findOrganizationDepartment();
 	}
 
 	public void deleteDepartment() {
@@ -75,20 +75,20 @@ public class UnitCodeViewBean implements Serializable {
 			departmentService.deleteDepartmentEntity(selDepartment);
 			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
 		}
-		findCompanyDepartment();
+		findOrganizationDepartment();
 	}
 
 	public void createDepartment() {
 		selDepartment = new DepartmentEntity();
-		selDepartment.setCompany(selCompany);
+		selDepartment.setOrganization(selOrganization);
 		selDepartment.setTransientGroup(selectedGroupEnum);
 	}
 
-	public void findCompanyDepartment() {
+	public void findOrganizationDepartment() {
 		createDepartment();
 		departmentList = null;
-		if (selCompany!=null){
-			departmentList = departmentService.findByCompanyAndGroup(selCompany.getId(), EnumList.OrgDepartmentGroupEnum.valueOf(selectedGroupEnum.name()));
+		if (selOrganization!=null){
+			departmentList = departmentService.findByOrganizationAndGroup(selOrganization.getId(), EnumList.OrgDepartmentGroupEnum.valueOf(selectedGroupEnum.name()));
 		} else {
 			departmentList = new ArrayList<DepartmentEntity>();
 		}
@@ -146,8 +146,8 @@ public class UnitCodeViewBean implements Serializable {
 		this.groupEnums = groupEnums;
 	}
 
-	public OrganizationEntity getSelCompany() {
-		return selCompany;
+	public OrganizationEntity getSelOrganization() {
+		return selOrganization;
 	}
 
 

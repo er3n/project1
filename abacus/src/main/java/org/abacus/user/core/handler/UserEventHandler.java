@@ -71,10 +71,10 @@ public class UserEventHandler implements UserService{
 	private GroupAuthorityRepository groupAuthorityRepository;
 	
 	@Autowired
-	private UserOrganizationRepository userCompaniesRepository;
+	private UserOrganizationRepository userOrganizationRepository;
 	
 	@Autowired
-	private OrganizationRepository companyRepository;
+	private OrganizationRepository organizationRepository;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -90,7 +90,7 @@ public class UserEventHandler implements UserService{
 		
 		SecUserEntity secUser = event.getUser();
 		List<SecGroupEntity> userGroups = event.getUserGroups();
-		List<OrganizationEntity> companies = event.getCompanies();
+		List<OrganizationEntity> organizationList = event.getOrganizationList();
 		String userCreated = event.getUserCreated();
 		
 		
@@ -105,16 +105,16 @@ public class UserEventHandler implements UserService{
 		
 		secUser = userRepository.save(secUser);
 		
-		List<SecUserOrganizationEntity> userCompaines = new ArrayList<>();
-		for(OrganizationEntity company : companies){
-			SecUserOrganizationEntity userCompany = new SecUserOrganizationEntity();
-			userCompany.setUser(secUser);
-			userCompany.setOrganization(company);
-			userCompany.createHook(userCreated);
-			userCompaines.add(userCompany);
+		List<SecUserOrganizationEntity> userOrganizations = new ArrayList<>();
+		for(OrganizationEntity organization : organizationList){
+			SecUserOrganizationEntity userOrganization = new SecUserOrganizationEntity();
+			userOrganization.setUser(secUser);
+			userOrganization.setOrganization(organization);
+			userOrganization.createHook(userCreated);
+			userOrganizations.add(userOrganization);
 		}
 		
-		userCompaniesRepository.save(userCompaines);
+		userOrganizationRepository.save(userOrganizations);
 		
 		
 
@@ -140,23 +140,23 @@ public class UserEventHandler implements UserService{
 
 		SecUserEntity updatingUser = event.getUser();
 		List<SecGroupEntity> userGroups = event.getUserGroupList();
-		List<OrganizationEntity> companies = event.getCompanies();
+		List<OrganizationEntity> organizationList = event.getOrganizationList();
 		String userUpdated = event.getUserUpdated();
 		
 		updatingUser = userRepository.save(updatingUser);
 		
-		userCompaniesRepository.delete(updatingUser.getId());
+		userOrganizationRepository.delete(updatingUser.getId());
 		
-		List<SecUserOrganizationEntity> userCompaines = new ArrayList<>();
-		for(OrganizationEntity company : companies){
-			SecUserOrganizationEntity userCompany = new SecUserOrganizationEntity();
-			userCompany.setUser(updatingUser);
-			userCompany.setOrganization(company);
-			userCompany.updateHook(userUpdated);
-			userCompaines.add(userCompany);
+		List<SecUserOrganizationEntity> userOrganizations = new ArrayList<>();
+		for(OrganizationEntity organization : organizationList){
+			SecUserOrganizationEntity userOrganization = new SecUserOrganizationEntity();
+			userOrganization.setUser(updatingUser);
+			userOrganization.setOrganization(organization);
+			userOrganization.updateHook(userUpdated);
+			userOrganizations.add(userOrganization);
 		}
 		
-		userCompaniesRepository.save(userCompaines);
+		userOrganizationRepository.save(userOrganizations);
 		
 		
 		userGroupRepository.delete(updatingUser.getId());
@@ -291,17 +291,17 @@ public class UserEventHandler implements UserService{
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	public ReadOrganizationsEvent requestCompany(
+	public ReadOrganizationsEvent requestOrganization(
 			RequestReadOrganizationsEvent event) {
-		List<OrganizationEntity> companies = null;
+		List<OrganizationEntity> organizationList = null;
 		
 		if(StringUtils.hasText(event.getUsername())){
-			companies = companyRepository.findByUsername(event.getUsername());
+			organizationList = organizationRepository.findByUsername(event.getUsername());
 		}else{
-			companies = companyRepository.findByCompany(event.getCompanyid());
+			organizationList = organizationRepository.findByOrganization(event.getOrganizationid());
 		}
 		
-		return new ReadOrganizationsEvent(companies);
+		return new ReadOrganizationsEvent(organizationList);
 	}
 
 }

@@ -27,7 +27,7 @@ public class TestHibernateConfiguration {
 	private UserRepository userRepository;
 
 	@Autowired
-	private OrganizationHandler companyHandler;
+	private OrganizationHandler organizationHandler;
 	
 	@Test
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
@@ -37,9 +37,9 @@ public class TestHibernateConfiguration {
 //		SecUserEntity entity = new SecUserEntity();
 //		
 //		entity.setActive(true);
-//		CompanyEntity companyEntity = new CompanyEntity();
-//		companyEntity.setId("01");
-//		entity.setCompanyEntity(companyEntity );
+//		OrganizationEntity organizationEntity = new OrganizationEntity();
+//		organizationEntity.setId("01");
+//		entity.setOrganizationEntity(organizationEntity );
 //		entity.setId("ADMIN");
 //		
 //		entity.setPassword("wqwe");
@@ -63,12 +63,12 @@ public class TestHibernateConfiguration {
 
 	@Test
 	@Rollback(value=false)
-	public void findParentCompany(){
+	public void findParentOrganization(){
 		OrganizationEntity child = new OrganizationEntity();
 		child.setId("01.01.01");
 		child.setLevel(EnumList.OrgOrganizationLevelEnum.L3);
 		
-		OrganizationEntity parent = companyHandler.findParentCompany(child);
-		System.out.println("findParentCompany: "+parent);
+		OrganizationEntity parent = organizationHandler.findParentOrganization(child);
+		System.out.println("findParentOrganization: "+parent);
 	}
 }

@@ -16,8 +16,8 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 public class DefUnitGroupEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "company_id")
-	private OrganizationEntity company;
+	@JoinColumn(name = "organization_id")
+	private OrganizationEntity organization;
 	
 	@Column(name = "code", nullable = false)
 	private String code;
@@ -44,12 +44,12 @@ public class DefUnitGroupEntity extends DynamicEntity {
 		this.name = name;
 	}
 
-	public OrganizationEntity getCompany() {
-		return company;
+	public OrganizationEntity getOrganization() {
+		return organization;
 	}
 
-	public void setCompany(OrganizationEntity company) {
-		this.company = company;
+	public void setOrganization(OrganizationEntity organization) {
+		this.organization = organization;
 	}
 
 }

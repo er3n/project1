@@ -53,7 +53,7 @@ public class SecUserEntity extends StaticEntity {
 		return organizationList;
 	}
 
-	public void setCompanyList(Set<SecUserOrganizationEntity> organizationList) {
+	public void setOrganizationList(Set<SecUserOrganizationEntity> organizationList) {
 		this.organizationList = organizationList;
 	}
 

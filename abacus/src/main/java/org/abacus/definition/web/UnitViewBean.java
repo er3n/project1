@@ -106,25 +106,25 @@ public class UnitViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public OrganizationEntity getSelCompany() {
+	public OrganizationEntity getSelOrganization() {
 		return selOrganization;
 	}
 
-	public void setSelCompany(OrganizationEntity selCompany) {
-		if (selCompany!=null){
-			this.selOrganization = selCompany;
+	public void setSelOrganization(OrganizationEntity selOrganization) {
+		if (selOrganization!=null){
+			this.selOrganization = selOrganization;
 		}
 	}
 
-	public List<OrganizationEntity> getCompanyList() {
+	public List<OrganizationEntity> getOrganizationList() {
 		return organizationList;
 	}
 
-	public void setCompanyList(List<OrganizationEntity> organizationList) {
+	public void setOrganizationList(List<OrganizationEntity> organizationList) {
 		this.organizationList = organizationList;
 	}
 
-	public OrganizationHandler getCompanyHandler() {
+	public OrganizationHandler getOrganizationHandler() {
 		return organizationHandler;
 	}
 

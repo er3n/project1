@@ -17,11 +17,11 @@ import org.abacus.user.shared.UserNameExistsException;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateUserEvent;
-import org.abacus.user.shared.event.ReadOrganizationsEvent;
 import org.abacus.user.shared.event.ReadGroupsEvent;
+import org.abacus.user.shared.event.ReadOrganizationsEvent;
 import org.abacus.user.shared.event.ReadUserEvent;
-import org.abacus.user.shared.event.RequestReadOrganizationsEvent;
 import org.abacus.user.shared.event.RequestReadGroupsEvent;
+import org.abacus.user.shared.event.RequestReadOrganizationsEvent;
 import org.abacus.user.shared.event.RequestReadUserEvent;
 import org.abacus.user.shared.event.UpdateUserEvent;
 import org.abacus.user.shared.event.UserCreatedEvent;
@@ -48,11 +48,11 @@ public class UserViewBean implements Serializable {
 
 	private List<SecGroupEntity> allGroups;
 
-	private List<OrganizationEntity> allCompanies;
+	private List<OrganizationEntity> allOrganizations;
 
 	private DualListModel<SecGroupEntity> selectedUserGroupDL;
 
-	private DualListModel<OrganizationEntity> selectedUserCompanyDL;
+	private DualListModel<OrganizationEntity> selectedUserOrganizationDL;
 
 	@ManagedProperty(value = "#{userEventHandler}")
 	private UserService userService;
@@ -67,21 +67,21 @@ public class UserViewBean implements Serializable {
 		ReadGroupsEvent allGroupsEvent = userService.requestGroup(event);
 		allGroups = allGroupsEvent.getGroupList();
 
-		ReadOrganizationsEvent allCompaniesEvent = userService
-				.requestCompany(new RequestReadOrganizationsEvent(null,
+		ReadOrganizationsEvent allOrganizationsEvent = userService
+				.requestOrganization(new RequestReadOrganizationsEvent(null,
 						sessionInfoHelper.currentOrganizationId()));
-		allCompanies = allCompaniesEvent.getCompanyList();
+		allOrganizations = allOrganizationsEvent.getOrganizationList();
 
 	}
 
 	public void createUser() {
 		String currentUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
-		List<OrganizationEntity> userCompanies = selectedUserCompanyDL.getTarget();
+		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
 		try {
 			UserCreatedEvent createdEvent = userService
 					.createUser(new CreateUserEvent(selectedUser,
-							selectedGroups, userCompanies, currentUser));
+							selectedGroups, userOrganizations, currentUser));
 			selectedUser = createdEvent.getSecUser();
 			this.reloadSearchCriteria(selectedUser.getId());
 			jsfMessageHelper.addInfo("kullaniciEklendi");
@@ -93,10 +93,10 @@ public class UserViewBean implements Serializable {
 	public void updateUser() {
 		String currentUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
-		List<OrganizationEntity> userCompanies = selectedUserCompanyDL.getTarget();
+		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
 		UserUpdatedEvent updatedEvent = userService
 				.updateUser(new UpdateUserEvent(selectedUser, selectedGroups,
-						userCompanies, currentUser));
+						userOrganizations, currentUser));
 		this.reloadSearchCriteria(updatedEvent.getUser().getId());
 		jsfMessageHelper.addInfo("kullaniciGuncellendi");
 	}
@@ -113,44 +113,44 @@ public class UserViewBean implements Serializable {
 	}
 
 	public void findUser() {
-		if (searchUserCriteria.getCompany() == null || !StringUtils.hasText(searchUserCriteria.getCompany().getId())) {
-			String companyId = sessionInfoHelper.currentOrganizationId();
-			OrganizationEntity companyEntity = new OrganizationEntity();
-			companyEntity.setId(companyId);
-			searchUserCriteria.setCompany(companyEntity);
+		if (searchUserCriteria.getOrganization() == null || !StringUtils.hasText(searchUserCriteria.getOrganization().getId())) {
+			String organizationId = sessionInfoHelper.currentOrganizationId();
+			OrganizationEntity organizationEntity = new OrganizationEntity();
+			organizationEntity.setId(organizationId);
+			searchUserCriteria.setOrganization(organizationEntity);
 		}
 		ReadUserEvent readUserEvent = userService
 				.requestUser(new RequestReadUserEvent(searchUserCriteria));
 		userSearchResults = readUserEvent.getUserEntityList();
 	}
 
-	public DualListModel<OrganizationEntity> selectedUserCompany() {
+	public DualListModel<OrganizationEntity> selectedUserOrganization() {
 
-		selectedUserCompanyDL = new DualListModel<OrganizationEntity>();
+		selectedUserOrganizationDL = new DualListModel<OrganizationEntity>();
 
 		String selectedUserName = selectedUser.getId();
 
-		List<OrganizationEntity> targetUserCompanies = new ArrayList<>();
-		List<OrganizationEntity> sourceUserCompanies = new ArrayList<>();
+		List<OrganizationEntity> targetUserOrganizations = new ArrayList<>();
+		List<OrganizationEntity> sourceUserOrganizations = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
-			ReadOrganizationsEvent userCompaniesEvent = userService
-					.requestCompany(new RequestReadOrganizationsEvent(
+			ReadOrganizationsEvent userOrganizationsEvent = userService
+					.requestOrganization(new RequestReadOrganizationsEvent(
 							selectedUserName, null));
-			targetUserCompanies = userCompaniesEvent.getCompanyList();
-			for (OrganizationEntity companyEntity : allCompanies) {
-				if (!targetUserCompanies.contains(companyEntity)) {
-					sourceUserCompanies.add(companyEntity);
+			targetUserOrganizations = userOrganizationsEvent.getOrganizationList();
+			for (OrganizationEntity organizationEntity : allOrganizations) {
+				if (!targetUserOrganizations.contains(organizationEntity)) {
+					sourceUserOrganizations.add(organizationEntity);
 				}
 			}
 		} else {
-			sourceUserCompanies = allCompanies;
+			sourceUserOrganizations = allOrganizations;
 		}
 
-		selectedUserCompanyDL.setSource(sourceUserCompanies);
-		selectedUserCompanyDL.setTarget(targetUserCompanies);
+		selectedUserOrganizationDL.setSource(sourceUserOrganizations);
+		selectedUserOrganizationDL.setTarget(targetUserOrganizations);
 
-		return selectedUserCompanyDL;
+		return selectedUserOrganizationDL;
 	}
 
 	public DualListModel<SecGroupEntity> selectedUserGroups() {
@@ -248,22 +248,22 @@ public class UserViewBean implements Serializable {
 		this.userService = userService;
 	}
 
-	public DualListModel<OrganizationEntity> getSelectedUserCompanyDL() {
-		this.selectedUserCompanyDL = this.selectedUserCompany();
-		return selectedUserCompanyDL;
+	public DualListModel<OrganizationEntity> getSelectedUserOrganizationDL() {
+		this.selectedUserOrganizationDL = this.selectedUserOrganization();
+		return selectedUserOrganizationDL;
 	}
 
-	public void setSelectedUserCompanyDL(
-			DualListModel<OrganizationEntity> selectedUserCompanyDL) {
-		this.selectedUserCompanyDL = selectedUserCompanyDL;
+	public void setSelectedUserOrganizationDL(
+			DualListModel<OrganizationEntity> selectedUserOrganizationDL) {
+		this.selectedUserOrganizationDL = selectedUserOrganizationDL;
 	}
 
-	public List<OrganizationEntity> getAllCompanies() {
-		return allCompanies;
+	public List<OrganizationEntity> getAllOrganizations() {
+		return allOrganizations;
 	}
 
-	public void setAllCompanies(List<OrganizationEntity> allCompanies) {
-		this.allCompanies = allCompanies;
+	public void setAllOrganizations(List<OrganizationEntity> allOrganizations) {
+		this.allOrganizations = allOrganizations;
 	}
 
 }

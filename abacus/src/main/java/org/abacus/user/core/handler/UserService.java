@@ -40,7 +40,7 @@ public interface UserService {
 	
 	ReadAuthoritiesEvent requestAuthorities(RequestReadAuthoritiesEvent event);
 
-	ReadOrganizationsEvent requestCompany(RequestReadOrganizationsEvent requestReadCompaniesEvent);
+	ReadOrganizationsEvent requestOrganization(RequestReadOrganizationsEvent requestReadOrganizationsEvent);
 	
 	
 }

@@ -5,11 +5,11 @@ import org.abacus.common.shared.event.RequestReadEvent;
 public class RequestReadOrganizationsEvent extends RequestReadEvent {
 
 	private String username;
-	private String companyid;
+	private String organizationid;
 
-	public RequestReadOrganizationsEvent(String username, String companyid) {
+	public RequestReadOrganizationsEvent(String username, String organizationid) {
 		this.username = username;
-		this.companyid = companyid;
+		this.organizationid = organizationid;
 	}
 
 	public String getUsername() {
@@ -20,12 +20,12 @@ public class RequestReadOrganizationsEvent extends RequestReadEvent {
 		this.username = username;
 	}
 
-	public String getCompanyid() {
-		return companyid;
+	public String getOrganizationid() {
+		return organizationid;
 	}
 
-	public void setCompanyid(String companyid) {
-		this.companyid = companyid;
+	public void setOrganizationid(String organization) {
+		this.organizationid = organization;
 	}
 
 }

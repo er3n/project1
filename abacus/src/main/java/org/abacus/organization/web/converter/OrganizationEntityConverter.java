@@ -10,7 +10,7 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.jsf.FacesContextUtils;
 
-@FacesConverter("companyEntityConverter")
+@FacesConverter("organizationEntityConverter")
 public class OrganizationEntityConverter implements Converter {
 
 	@Override

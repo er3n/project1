@@ -12,7 +12,7 @@ public interface UserOrganizationRepository  extends CrudRepository<SecUserOrgan
 
 	@Modifying
 	@Transactional
-	@Query("delete from SecUserCompanyEntity e where e.user.id = :username")
+	@Query("delete from SecUserOrganizationEntity e where e.user.id = :username")
 	void delete(@Param("username")String username);
 
 }

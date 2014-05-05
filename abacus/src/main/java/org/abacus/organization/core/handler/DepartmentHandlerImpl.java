@@ -20,8 +20,8 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DepartmentEntity> findByCompanyAndGroup(String companyId, EnumList.OrgDepartmentGroupEnum groupEnum) {
-		List<DepartmentEntity> list = departmentRepository.findByCompanyAndGroup(companyId, groupEnum);
+	public List<DepartmentEntity> findByOrganizationAndGroup(String organizationId, EnumList.OrgDepartmentGroupEnum groupEnum) {
+		List<DepartmentEntity> list = departmentRepository.findByOrganizationAndGroup(organizationId, groupEnum);
 		return list;
 	}
 

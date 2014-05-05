@@ -10,7 +10,7 @@ public class SearchUserCriteria implements Serializable {
 
 	private String username;
 	private List<SecGroupEntity> groupList;
-	private OrganizationEntity company;
+	private OrganizationEntity organization;
 
 	public String getUsername() {
 		return username;
@@ -28,12 +28,12 @@ public class SearchUserCriteria implements Serializable {
 		this.groupList = groupList;
 	}
 
-	public OrganizationEntity getCompany() {
-		return company;
+	public OrganizationEntity getOrganization() {
+		return organization;
 	}
 
-	public void setCompany(OrganizationEntity company) {
-		this.company = company;
+	public void setOrganization(OrganizationEntity organization) {
+		this.organization = organization;
 	}
 
 }

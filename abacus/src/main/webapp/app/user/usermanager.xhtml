@@ -18,13 +18,13 @@
 					<p:inputText value="#{userViewBean.searchUserCriteria.username}" />
 
 					<h:outputText value="Sirket" /> 
-					<p:selectOneMenu value="#{userViewBean.searchUserCriteria.company}"
-						converter="companyEntityConverter"
+					<p:selectOneMenu value="#{userViewBean.searchUserCriteria.organization}"
+						converter="organizationEntityConverter"
 						style="width:145px">
 						<f:selectItem itemLabel="Seciniz..." itemValue="" />  
-						<f:selectItems value="#{userViewBean.allCompanies}"
-							var="company" itemLabel="#{company.name}"
-							itemValue="#{company}" />
+						<f:selectItems value="#{userViewBean.allOrganizations}"
+							var="organization" itemLabel="#{organization.name}"
+							itemValue="#{organization}" />
 					</p:selectOneMenu>
 
 					<h:outputText value="Grup" />
@@ -146,9 +146,9 @@
 					</p:pickList>
 
 					<h:outputText value="Sirketler" />
-					<p:pickList value="#{userViewBean.selectedUserCompanyDL}"
-						var="company" itemValue="#{company}" itemLabel="#{company.name}"
-						converter="companyEntityConverter" showCheckbox="true"
+					<p:pickList value="#{userViewBean.selectedUserOrganizationDL}"
+						var="organization" itemValue="#{organization}" itemLabel="#{organization.name}"
+						converter="organizationEntityConverter" showCheckbox="true"
 						required="true" requiredMessage="En az bir sirket secilmelidir."
 						showSourceFilter="true" showTargetFilter="true"
 						filterMatchMode="contains">
@@ -158,7 +158,7 @@
 						<f:facet name="targetCaption">Secilen Sirketler</f:facet>
 
 						<p:column>
-							#{company.name}
+							#{organization.name}
 						</p:column>
 
 					</p:pickList>

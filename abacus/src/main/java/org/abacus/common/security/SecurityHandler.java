@@ -21,7 +21,7 @@ public class SecurityHandler implements UserDetailsService {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private OrganizationRepository companyRepository;
+	private OrganizationRepository organizationRepository;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -42,7 +42,7 @@ public class SecurityHandler implements UserDetailsService {
 		List<String> authorityNames = userRepository.findUserAuthorities(user.getId());
 		secUser.setAuthorityNames(authorityNames);
 		
-		List<OrganizationEntity> userOrganizationList = companyRepository.findByUsername(username);
+		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);
 		secUser.init(userOrganizationList, userOrganizationList.get(0));
 
 		return secUser;

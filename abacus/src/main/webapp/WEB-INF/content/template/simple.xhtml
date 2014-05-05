@@ -85,12 +85,12 @@
 							rendered="#{not empty request.remoteUser}">
 
 							<p:selectOneMenu
-								value="#{sessionInfoHelper.currentUser().selectedCompany}"
-								converter="companyEntityConverter" style="width:200px">
+								value="#{sessionInfoHelper.currentUser().selectedOrganization}"
+								converter="organizationEntityConverter" style="width:200px">
 								<f:selectItems
-									value="#{sessionInfoHelper.currentUser().companies}"
-									var="company" itemLabel="#{company.id}: #{company.name}"
-									itemValue="#{company}" />
+									value="#{sessionInfoHelper.currentUser().organizationList}"
+									var="organization" itemLabel="#{organization.id}: #{organization.name}"
+									itemValue="#{organization}" />
 								<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.redirect()}" />
 							</p:selectOneMenu>
 

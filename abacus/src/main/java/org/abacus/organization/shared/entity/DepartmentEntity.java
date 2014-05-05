@@ -40,7 +40,7 @@ public class DepartmentEntity extends DynamicEntity {
 		return organization;
 	}
 
-	public void setCompany(OrganizationEntity organization) {
+	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
 	}
 

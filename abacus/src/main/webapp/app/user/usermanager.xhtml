@@ -12,16 +12,16 @@
 		<h:form id="userQueryPanel">
 			<p:panel header="Kullanici Islemleri">
 
-				<h:panelGrid columns="6" cellpadding ="2" style="vertical-align:top">
+				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.searchUserCriteria.username}" />
 
-					<h:outputText value="Sirket" /> 
-					<p:selectOneMenu value="#{userViewBean.searchUserCriteria.organization}"
-						converter="organizationEntityConverter"
-						style="width:145px">
-						<f:selectItem itemLabel="Seciniz..." itemValue="" />  
+					<h:outputText value="Sirket" />
+					<p:selectOneMenu
+						value="#{userViewBean.searchUserCriteria.organization}"
+						converter="organizationEntityConverter" style="width:145px">
+						<f:selectItem itemLabel="Seciniz..." itemValue="" />
 						<f:selectItems value="#{userViewBean.allOrganizations}"
 							var="organization" itemLabel="#{organization.name}"
 							itemValue="#{organization}" />
@@ -47,8 +47,7 @@
 						actionListener="#{userViewBean.findUser}"
 						update=":searchResultTable" />
 					<p:spacer width="5px" />
-					<p:commandButton value="Yeni Kullanici"
-						update=":userDetailForm:userDetailDialog"
+					<p:commandButton value="Yeni Kullanici" update=":userDetailDialog"
 						oncomplete="PF('userDialog').show()">
 						<p:ajax event="click" listener="#{userViewBean.clear()}" />
 					</p:commandButton>
@@ -74,8 +73,7 @@
 					</p:column>
 
 					<p:column style="width:4%">
-						<p:commandButton id="selectButton"
-							update=":userDetailForm:userDetailDialog"
+						<p:commandButton id="selectButton" update=":userDetailDialog"
 							oncomplete="PF('userDialog').show()" icon="ui-icon-search"
 							title="View">
 							<f:setPropertyActionListener value="#{userSearchResultRecord}"
@@ -87,20 +85,26 @@
 			</h:form>
 		</h:panelGrid>
 
-		<p:dialog header="Kullanici Tanimla / Guncelle" widgetVar="userDialog" resizable="false"
-			showEffect="fade" modal="true" appendToBody="@(body)">
-			<h:form id="userDetailForm">
-				<h:panelGrid id="userDetailDialog" columns="2" cellpadding="2">
+		<h:form id="userDetailDialog">
+			<p:dialog widgetVar="userDialog" resizable="false" showEffect="fade"
+				modal="true" appendToBody="@(body)" height="400px" width="600px">
 
-					<h:outputText value="" />
-					<h:panelGrid id="userDetailDialogHeader" columns="4" cellpadding="2">
+				<f:facet name="header">
+					<h:outputText value="Kullanici Tanimla"
+						rendered="#{empty userViewBean.selectedUser.id}" />
+					<h:outputText value="Kullanici Guncelle"
+						rendered="#{not empty userViewBean.selectedUser.id}" />
+				</f:facet>
+
+				<h:panelGrid columns="2" cellpadding="2">
+
 					<h:outputText value="Kullanici Adi" />
 					<p:inputText value="#{userViewBean.selectedUser.id}"
 						disabled="#{not empty userViewBean.selectedUser.id}"
 						required="true" requiredMessage="Kullanici adi bos olamaz" />
 					<h:outputText value="" />
 					<h:outputText value="" />
-	
+
 					<h:outputLabel for="password" value="#{lbl.password}"
 						rendered="#{empty userViewBean.selectedUser.id}" />
 					<p:password id="password"
@@ -126,11 +130,10 @@
 						<f:selectItem itemLabel="Aktif" itemValue="true" />
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
 					</p:selectOneButton>
-					</h:panelGrid>
 
 					<h:outputText value="Gruplar" />
-					<p:pickList value="#{userViewBean.selectedUserGroupDL}"
-						var="group" itemValue="#{group}" itemLabel="#{group.name}"
+					<p:pickList value="#{userViewBean.selectedUserGroupDL}" var="group"
+						itemValue="#{group}" itemLabel="#{group.name}"
 						converter="groupEntityConverter" showCheckbox="true"
 						showSourceFilter="true" showTargetFilter="true"
 						filterMatchMode="contains">
@@ -147,7 +150,8 @@
 
 					<h:outputText value="Sirketler" />
 					<p:pickList value="#{userViewBean.selectedUserOrganizationDL}"
-						var="organization" itemValue="#{organization}" itemLabel="#{organization.name}"
+						var="organization" itemValue="#{organization}"
+						itemLabel="#{organization.name}"
 						converter="organizationEntityConverter" showCheckbox="true"
 						required="true" requiredMessage="En az bir sirket secilmelidir."
 						showSourceFilter="true" showTargetFilter="true"
@@ -163,23 +167,31 @@
 
 					</p:pickList>
 
-
-					<f:facet name="footer">
-						<p:commandButton value="Guncelle"
-							actionListener="#{userViewBean.updateUser}"
-							rendered="#{not empty userViewBean.selectedUser.id}"
-							oncomplete="PF('userDialog').hide();"
-							update=":searchResultTable :userQueryPanel" />
-						<p:commandButton value="Tanimla"
-							actionListener="#{userViewBean.createUser}"
-							rendered="#{empty userViewBean.selectedUser.id}"
-							oncomplete="PF('userDialog').hide();"
-							update=":searchResultTable :userQueryPanel" />
-					</f:facet>
 				</h:panelGrid>
 
-			</h:form>
-		</p:dialog>
+ 
+
+				<f:facet name="footer">
+					<p:commandButton value="Guncelle"
+						actionListener="#{userViewBean.updateUser}"
+						rendered="#{not empty userViewBean.selectedUser.id}"
+						oncomplete="PF('userDialog').hide();"
+						update=":searchResultTable :userQueryPanel" />
+					<p:commandButton value="Tanimla"
+						actionListener="#{userViewBean.createUser}"
+						rendered="#{empty userViewBean.selectedUser.id}"
+						oncomplete="PF('userDialog').hide();"
+						update=":searchResultTable :userQueryPanel" />						 
+						<p:spacer width="5px" />  
+					<p:commandButton value="Vazgec"
+						oncomplete="PF('userDialog').hide();" immediate="true" />
+				</f:facet>
+
+
+
+
+			</p:dialog>
+		</h:form>
 
 	</ui:define>
 

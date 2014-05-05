@@ -18,8 +18,23 @@ public class OrganizationDao implements Serializable {
 	@PersistenceContext
 	private EntityManager em;
 
+	public OrganizationEntity findOrganizationWithLevel(OrganizationEntity child, EnumList.OrgOrganizationLevelEnum requestLevel){
+		int currentLevelIndex = child.getLevel().ordinal();
+		int requestLevelIndex = requestLevel.ordinal();
+		if (requestLevelIndex > currentLevelIndex){
+			return null;
+		} 
+		OrganizationEntity orgEntity = child;
+		while (requestLevelIndex < currentLevelIndex) {
+			orgEntity = orgEntity.getParent(); 
+			requestLevelIndex++;
+		}
+		return orgEntity;
+	}
+	
+	
 	public OrganizationEntity findParentOrganization(OrganizationEntity child){
-		String parentLevel = "L0";//null
+		String parentLevel = "00";//null
 		if (child.getLevel().ordinal()>0){
 			parentLevel = EnumList.OrgOrganizationLevelEnum.values()[child.getLevel().ordinal()-1].name();
 		}

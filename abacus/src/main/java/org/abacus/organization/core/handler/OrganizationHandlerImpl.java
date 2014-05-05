@@ -3,6 +3,7 @@ package org.abacus.organization.core.handler;
 import java.util.List;
 
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.OrganizationDao;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -22,6 +23,12 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 
 	@Autowired
 	private SessionInfoHelper sessionInfoHelper;		
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public OrganizationEntity findOne(String organizationId) {
+		return organizationRepository.findOne(organizationId);
+	}
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
@@ -46,8 +53,13 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public OrganizationEntity findParentOrganization(OrganizationEntity child) {
-		OrganizationEntity cmp = organizationDao.findParentOrganization(child);
-		return cmp;
+		return organizationDao.findParentOrganization(child);
 	}
 	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public OrganizationEntity findOrganizationWithLevel(OrganizationEntity child, EnumList.OrgOrganizationLevelEnum requestLevel){
+		return organizationDao.findOrganizationWithLevel(child, requestLevel);
+	}
+
 }

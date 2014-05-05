@@ -1,5 +1,8 @@
 package org.abacus.test;
 
+import javax.persistence.EnumType;
+
+import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -28,7 +31,10 @@ public class TestHibernateConfiguration {
 
 	@Autowired
 	private OrganizationHandler organizationHandler;
-	
+
+	@Autowired
+	private SessionInfoHelper SessionInfoHelper;
+
 	@Test
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	@Rollback(value=false)
@@ -66,9 +72,17 @@ public class TestHibernateConfiguration {
 	public void findParentOrganization(){
 		OrganizationEntity child = new OrganizationEntity();
 		child.setId("01.01.01");
-		child.setLevel(EnumList.OrgOrganizationLevelEnum.L3);
+		child.setLevel(EnumList.OrgOrganizationLevelEnum.L2);
 		
 		OrganizationEntity parent = organizationHandler.findParentOrganization(child);
 		System.out.println("findParentOrganization: "+parent);
+	}
+	
+	@Test
+	@Rollback(value=false)
+	public void findParentOrganizationWithLevel(){
+		OrganizationEntity org = organizationHandler.findOne("01.01.01.01");
+		OrganizationEntity root = organizationHandler.findOrganizationWithLevel(org, EnumList.OrgOrganizationLevelEnum.L1);
+		System.out.println("rootOrganization: "+root);
 	}
 }

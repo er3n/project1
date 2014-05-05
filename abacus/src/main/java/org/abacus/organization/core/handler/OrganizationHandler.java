@@ -3,10 +3,13 @@ package org.abacus.organization.core.handler;
 import java.io.Serializable;
 import java.util.List;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public interface OrganizationHandler extends Serializable{
 
+	OrganizationEntity findOne(String organizationId);
+	
 	List<OrganizationEntity> findByOrganization(String organization);
 	
 	OrganizationEntity saveOrganizationEntity(OrganizationEntity entity);
@@ -14,5 +17,7 @@ public interface OrganizationHandler extends Serializable{
 	void deleteOrganizationEntity(OrganizationEntity entity);
 
 	OrganizationEntity findParentOrganization(OrganizationEntity child);
+	
+	OrganizationEntity findOrganizationWithLevel(OrganizationEntity child, EnumList.OrgOrganizationLevelEnum requestLevel);
 
 }

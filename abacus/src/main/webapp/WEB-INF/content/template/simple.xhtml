@@ -53,9 +53,9 @@
 
 				</p:submenu>
 
-				<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
+				<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
 						<p:menuitem value="Birim Tanimlari"
-							url="/app/index.abc?faces-redirect=true"/>
+							url="/app/defunit/unitmanager.abc"/>
 						<p:menuitem value="Malzeme Tanimlari"
 							url="/app/index.abc?faces-redirect=true"/>
 						<p:menuitem value="Yemek Tanimlari"

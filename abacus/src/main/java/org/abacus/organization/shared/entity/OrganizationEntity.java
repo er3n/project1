@@ -24,12 +24,12 @@ public class OrganizationEntity extends StaticEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "level_enum", nullable = false)
-	private EnumList.OrgOrganizationLevelEnum level = EnumList.OrgOrganizationLevelEnum.L1;
+	private EnumList.OrgOrganizationLevelEnum level = EnumList.OrgOrganizationLevelEnum.L0;
 
 	@Transient
 	private SelectionEnum transientLevel;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_id")
 	private OrganizationEntity parent;
 

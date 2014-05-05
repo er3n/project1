@@ -1,10 +1,10 @@
-insert into org_organization (id, name, level_enum, parent_id) values ('01', 'A.HOLDiNG', 'L1', null);
-insert into org_organization (id, name, level_enum, parent_id) values ('01.01', 'A.SiRKET', 'L2', '01');
-insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01', 'A.BÖLGE', 'L3', '01.01');
-insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01.01', 'A.PROJE', 'L4', '01.01.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01', 'A.HOLDiNG', 'L0', null);
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01', 'A.SiRKET', 'L1', '01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01', 'A.BÖLGE', 'L2', '01.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01.01', 'A.PROJE', 'L3', '01.01.01');
 
-insert into org_organization (id, name, level_enum, parent_id) values ('02', 'B.HOLDiNG', 'L1', null);
-insert into org_organization (id, name, level_enum, parent_id) values ('03', 'C.HOLDiNG', 'L1', null);
+insert into org_organization (id, name, level_enum, parent_id) values ('02', 'B.HOLDiNG', 'L0', null);
+insert into org_organization (id, name, level_enum, parent_id) values ('03', 'C.HOLDiNG', 'L0', null);
 
 insert into sec_authority (id) values ('AUTH_SECURITY');
 insert into sec_authority (id) values ('AUTH_ORGANIZATION');
@@ -12,10 +12,10 @@ insert into sec_authority (id) values ('AUTH_DEFINITION');
 insert into sec_authority (id) values ('AUTH_NONE');
 
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'AdminSystem', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L1.Holding Yonet', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L2.Sirket Yonet', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L3.Bolge Yonet', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L4.Proje Yonet', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'L0.Holding Yonet', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'L1.Sirket Yonet', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'L2.Bolge Yonet', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'L3.Proje Yonet', 0);
  
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_SECURITY', 0);
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_ORGANIZATION', 0);

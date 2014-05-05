@@ -3,10 +3,10 @@ package org.abacus.definition.shared.constant;
 public interface EnumList {
 
 	enum OrgOrganizationLevelEnum implements ISelectionEnum {
-		L1("Holding"),
-		L2("Company"),
-		L3("Section"),
-		L4("Project"),
+		L0("Holding"),
+		L1("Company"),
+		L2("Section"),
+		L3("Project"),
 		;
 		private String description;
 		

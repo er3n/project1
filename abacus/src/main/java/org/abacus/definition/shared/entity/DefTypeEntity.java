@@ -21,7 +21,7 @@ public class DefTypeEntity extends StaticEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "group_enum", nullable = false)
-	private EnumList.DefTypeGroupEnum group; 
+	private EnumList.DefTypeGroupEnum typeGroup; 
  
 	@Transient
 	private SelectionEnum transientGroup; 
@@ -47,12 +47,12 @@ public class DefTypeEntity extends StaticEntity {
 		this.name = name;
 	}
 
-	public EnumList.DefTypeGroupEnum getGroup() {
-		return group;
+	public EnumList.DefTypeGroupEnum getTypeGroup() {
+		return typeGroup;
 	}
 
-	public void setGroup(EnumList.DefTypeGroupEnum group) {
-		this.group = group;
+	public void setTypeGroup(EnumList.DefTypeGroupEnum group) {
+		this.typeGroup = group;
 	}
 
 	public Integer getLevel() {
@@ -72,11 +72,11 @@ public class DefTypeEntity extends StaticEntity {
 	}
 
 	public SelectionEnum getTransientGroup() {
-		return new SelectionEnum(group);
+		return new SelectionEnum(typeGroup);
 	}
 
 	public void setTransientGroup(SelectionEnum g) {
-		this.group = EnumList.DefTypeGroupEnum.valueOf(g.name());
+		this.typeGroup = EnumList.DefTypeGroupEnum.valueOf(g.name());
 	}
 
 }

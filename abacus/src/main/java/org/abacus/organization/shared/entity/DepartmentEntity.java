@@ -31,7 +31,7 @@ public class DepartmentEntity extends DynamicEntity {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "group_enum", nullable = false)
-	private EnumList.OrgDepartmentGroupEnum group; 
+	private EnumList.OrgDepartmentGroupEnum departmentGroup; 
 
 	@Transient
 	private SelectionEnum transientGroup; 
@@ -60,20 +60,20 @@ public class DepartmentEntity extends DynamicEntity {
 		this.name = name;
 	}
 
-	public EnumList.OrgDepartmentGroupEnum getGroup() {
-		return group;
+	public EnumList.OrgDepartmentGroupEnum getDepartmentGroup() {
+		return departmentGroup;
 	}
 
-	public void setGroup(EnumList.OrgDepartmentGroupEnum group) {
-		this.group = group;
+	public void setDepartmentGroup(EnumList.OrgDepartmentGroupEnum group) {
+		this.departmentGroup = group;
 	}
 
 	public SelectionEnum getTransientGroup() {
-		return new SelectionEnum(group);
+		return new SelectionEnum(departmentGroup);
 	}
 
 	public void setTransientGroup(SelectionEnum g) {
-		this.group = EnumList.OrgDepartmentGroupEnum.valueOf(g.name());
+		this.departmentGroup = EnumList.OrgDepartmentGroupEnum.valueOf(g.name());
 	}
 
 	

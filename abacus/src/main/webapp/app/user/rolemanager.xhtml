@@ -15,16 +15,16 @@
 }
 
 .ui-picklist .ui-picklist-list {
-    width: 300px;
+	width: 300px;
 }
 </style>
-
+ 
 		<h:panelGrid columns="2" style="width:100%;"
 			columnClasses="topAligned">
 
 			<h:panelGrid style="width:400px;">
 
-				<h:form id="groupListForm">
+				<h:form id="groupListForm" prependId="false">
 
 					<p:dataTable id="groupListDataTable" var="group"
 						value="#{userGroupViewBean.findAllGroups()}"
@@ -40,11 +40,15 @@
 	        			</p:column>
 
 						<f:facet name="footer">
-							<p:commandButton value="Ekle" actionListener="#{userGroupViewBean.newGroup}" update=":groupDetailForm:groupDetailPanel" />
+							<p:commandButton id="newGroupBtn" value="Yeni Grup Olstur"
+								actionListener="#{userGroupViewBean.newGroup}"
+								update=":groupDetailForm:groupDetailPanel :groupListForm" />
 							<p:spacer width="5px" />
-							<p:commandButton value="Sil" ajax="true" actionListener="#{userGroupViewBean.removeGroup}"  update=":groupDetailForm:groupDetailPanel :groupListForm:groupListDataTable" />
+							<p:commandButton value="Sil" ajax="true"
+								actionListener="#{userGroupViewBean.removeGroup}"
+								update=":groupDetailForm:groupDetailPanel :groupListForm:groupListDataTable" />
 						</f:facet>
- 
+
 					</p:dataTable>
 
 				</h:form>
@@ -57,17 +61,17 @@
 					<h:panelGrid id="groupDetailPanel" columns="2">
 
 						<h:outputText value="Grup Adi" style="font-weight:bold" />
-						<p:inputText value="#{userGroupViewBean.selectedGroup.name}" 
-						required="true" requiredMessage="Grup Adi Giriniz" />
+						<p:inputText value="#{userGroupViewBean.selectedGroup.name}"
+							required="true" requiredMessage="Grup Adi Giriniz" />
 
 
 						<h:outputText value="Yetkiler" style="font-weight:bold" />
 
-						<p:pickList  
+						<p:pickList
 							value="#{userGroupViewBean.selectedGroupAuthoritiesDL}"
 							var="authority" itemValue="#{authority}"
 							itemLabel="#{authority.id}" converter="authorityEntityConverter"
-							showCheckbox="true" showSourceFilter="true"
+							 showSourceFilter="true"
 							showTargetFilter="true" filterMatchMode="contains">
 
 							<f:facet name="sourceCaption">Tum Yetkiler</f:facet>
@@ -75,14 +79,20 @@
 							<f:facet name="targetCaption">Secilen Yetkiler</f:facet>
 
 							<p:column>
-							#{authority.id}
-						</p:column>
+								<h:outputText value="#{authority.id}" />
+							</p:column>
 
 						</p:pickList>
 
 						<f:facet name="footer">
-							<p:commandButton value="Kaydet" rendered="#{empty userGroupViewBean.selectedGroup.id}" actionListener="#{userGroupViewBean.saveGroup}" update=":groupListForm" />
-							<p:commandButton value="Guncelle" rendered="#{not empty userGroupViewBean.selectedGroup.id}" actionListener="#{userGroupViewBean.updateGroup}" update=":groupListForm" />
+							<p:commandButton value="Kaydet"
+								rendered="#{empty userGroupViewBean.selectedGroup.id}"
+								actionListener="#{userGroupViewBean.saveGroup}"
+								update=":groupListForm" />
+							<p:commandButton value="Guncelle"
+								rendered="#{not empty userGroupViewBean.selectedGroup.id}"
+								actionListener="#{userGroupViewBean.updateGroup}"
+								update=":groupListForm" />
 						</f:facet>
 
 					</h:panelGrid>

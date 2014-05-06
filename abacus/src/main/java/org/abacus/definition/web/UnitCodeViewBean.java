@@ -40,7 +40,7 @@ public class UnitCodeViewBean implements Serializable {
 	}
 
 	public void unitCodeRowSelectListener() {
-		System.out.println("unitGroupRowSelectListener");
+		System.out.println("unitCodeRowSelectListener");
 	}
 
 	public void groupChangeListener(){
@@ -49,9 +49,9 @@ public class UnitCodeViewBean implements Serializable {
 	
 	public void saveUnitCode() {
 		if (selUnitCode.isNew()) {
-			jsfMessageHelper.addInfo("unitGroupKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("unitCodeKayitIslemiBasarili");
 		} else {
-			jsfMessageHelper.addInfo("unitGroupGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("unitCodeGuncellemeIslemiBasarili");
 		}
 		defUnitHandler.saveUnitCodeEntity(selUnitCode);
 		findUnitCode();
@@ -60,7 +60,7 @@ public class UnitCodeViewBean implements Serializable {
 	public void deleteUnitCode() {
 		if (!selUnitCode.isNew()) {
 			defUnitHandler.deleteUnitCodeEntity(selUnitCode);
-			jsfMessageHelper.addInfo("unitGrouptSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("unitCodeSilmeIslemiBasarili");
 		}
 		findUnitCode();
 	}

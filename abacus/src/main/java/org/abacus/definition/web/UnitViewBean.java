@@ -57,9 +57,9 @@ public class UnitViewBean implements Serializable {
 
 	public void saveOrUpdateUnitGroup() {
 		if (selUnitGroup.isNew()) {
-			jsfMessageHelper.addInfo("unitCodeKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("unitGroupKayitIslemiBasarili");
 		} else {
-			jsfMessageHelper.addInfo("unitCodeGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("unitGroupGuncellemeIslemiBasarili");
 		}
 		selUnitGroup = defUnitHandler.saveUnitGroupEntity(selUnitGroup);
 		findUnitGroupList();
@@ -68,7 +68,7 @@ public class UnitViewBean implements Serializable {
 	public void deleteUnitGroup() {
 		if (!selUnitGroup.isNew()) {
 			defUnitHandler.deleteUnitGroupEntity(selUnitGroup);
-			jsfMessageHelper.addInfo("unitCodeSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("unitGroupSilmeIslemiBasarili");
 		}
 		findUnitGroupList();
 	}

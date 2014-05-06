@@ -23,9 +23,11 @@
 								validatorMessage="UnitCode.Ack" />
 
 							<h:outputLabel value="Katsayi:" />
-							<p:inputText value="#{unitCodeViewBean.selUnitCode.name}"
-								required="true" requiredMessage="UnitCode Bos olamaz"
-								validatorMessage="UnitCode.Ack" />
+							<p:inputText value="#{unitCodeViewBean.selUnitCode.ratio}"
+								required="true" requiredMessage="UnitCode Katsayi bos olamaz"
+								validatorMessage="UnitCode.ratio">
+							<f:validateDoubleRange minimum="0.001" maximum="1000000"/>
+							</p:inputText>
 
 						</h:panelGrid>
 
@@ -55,7 +57,7 @@
 						rows="10" resizableColumns="true">
 						
 						<p:ajax event="rowSelect" update=":unitCodeForm"
-							listener="#{unitCodeViewBean.unitcodeRowSelectListener}">
+							listener="#{unitCodeViewBean.unitCodeRowSelectListener}">
 						</p:ajax>
 
 						<p:column headerText="Kod">  
@@ -66,8 +68,11 @@
            					#{selUnitCode.name}  
        					</p:column>
 
-						<p:column headerText="Katsayi">  
-           					#{selUnitCode.name}  
+						<p:column headerText="Katsayi"> 
+						    <h:outputText value="#{selUnitCode.ratio}" style="float: right;">
+        						<f:convertNumber maxFractionDigits="3" minFractionDigits="3" groupingUsed="true"
+            						currencySymbol="#" type="currency" />
+   							</h:outputText> 
        					</p:column>
 
 					</p:dataTable>

@@ -34,16 +34,16 @@
 							<p:commandButton id="saveOrganization" update=":unitGroupForm" 
 								ajax="true"
 								value="#{unitViewBean.selUnitGroup.id == null ? 'Kaydet' : 'Guncelle'}"
-								actionListener="#{unitViewBean.saveOrUpdateOrganization}" />
+								actionListener="#{unitViewBean.saveOrUpdateUnitGroup}" />
 							<p:commandButton id="deleteOrganization" update=":unitGroupForm"
 								ajax="true"
 								value="#{unitViewBean.selUnitGroup.id == null ? '-' : 'Sil'}"
-								actionListener="#{unitViewBean.deleteOrganization}"
+								actionListener="#{unitViewBean.deleteUnitGroup}"
 								immediate="true" />
 							<p:commandButton id="clearOrganization" update=":unitGroupForm"
 								ajax="true"
 								value="#{unitViewBean.selUnitGroup.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{unitViewBean.clearOrganization}" process="@this"
+								actionListener="#{unitViewBean.clearUnitGroup}" process="@this"
 								>
 								<p:resetInput target=":unitGroupForm" />
 							</p:commandButton>

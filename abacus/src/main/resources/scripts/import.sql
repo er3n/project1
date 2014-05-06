@@ -1,15 +1,15 @@
-insert into org_organization (id, name, level_enum, parent_id) values ('01', 'A.HOLDiNG', 'L0', null);
-insert into org_organization (id, name, level_enum, parent_id) values ('01.01', 'A.SiRKET', 'L1', '01');
-insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01', 'A.BÖLGE', 'L2', '01.01');
-insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01.01', 'A.PROJE', 'L3', '01.01.01');
-
-insert into org_organization (id, name, level_enum, parent_id) values ('02', 'B.HOLDiNG', 'L0', null);
-insert into org_organization (id, name, level_enum, parent_id) values ('03', 'C.HOLDiNG', 'L0', null);
-
 insert into sec_authority (id) values ('AUTH_SECURITY');
 insert into sec_authority (id) values ('AUTH_ORGANIZATION');
 insert into sec_authority (id) values ('AUTH_DEFINITION');
 insert into sec_authority (id) values ('AUTH_NONE');
+
+insert into org_organization (id, name, level_enum, parent_id) values ('01', 'A.HOLDiNG', 'L0', null);
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01', 'A.SiRKET', 'L1', '01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01', 'A.BÖLGE', 'L2', '01.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01.01', 'A.PROJE', 'L3', '01.01.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('02', 'B.HOLDiNG', 'L0', null);
+insert into org_organization (id, name, level_enum, parent_id) values ('03', 'C.HOLDiNG', 'L0', null);
+commit;
 
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'AdminSystem', 0);
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'L0.Holding Yonet', 0);

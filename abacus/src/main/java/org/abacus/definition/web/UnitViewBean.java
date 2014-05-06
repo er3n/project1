@@ -11,7 +11,10 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefUnitHandler;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
+import org.abacus.organization.core.handler.OrganizationHandler;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
 @ViewScoped
@@ -33,11 +36,15 @@ public class UnitViewBean implements Serializable {
 	@ManagedProperty(value = "#{unitCodeViewBean}")
 	private UnitCodeViewBean unitCodeViewBean;
 
-	private DefUnitGroupEntity rootUnitGroup;
+	@ManagedProperty(value = "#{organizationHandler}")
+	private OrganizationHandler organizationHandler;
+
+	private OrganizationEntity rootOrganization;
 	
 	@PostConstruct
 	public void init() {
-//		rootUnitGroup = organizationHandler.findUnitGroupWithLevel(sessionInfoHelper.currentUser().getSelectedOrganization(), EnumList.OrgOrganizationLevelEnum.L0);
+		rootOrganization = organizationHandler.findOrganizationWithLevel(sessionInfoHelper.currentUser().getSelectedOrganization(), EnumList.OrgOrganizationLevelEnum.L0);
+		findUnitGroupList();
 	}
 	
 	public void groupChangeListener(){
@@ -45,35 +52,36 @@ public class UnitViewBean implements Serializable {
 	}
 
 	public void unitGroupRowSelectListener() {
+		unitCodeViewBean.setSelUnitGroup(selUnitGroup);
 	}
 
 	public void saveOrUpdateUnitGroup() {
 		if (selUnitGroup.isNew()) {
-			jsfMessageHelper.addInfo("organizationKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("unitCodeKayitIslemiBasarili");
 		} else {
-			jsfMessageHelper.addInfo("organizationGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("unitCodeGuncellemeIslemiBasarili");
 		}
-//		selUnitGroup = organizationHandler.saveUnitGroupEntity(selUnitGroup);
+		selUnitGroup = defUnitHandler.saveUnitGroupEntity(selUnitGroup);
 		findUnitGroupList();
 	}
 
 	public void deleteUnitGroup() {
 		if (!selUnitGroup.isNew()) {
-//			organizationHandler.deleteUnitGroupEntity(selUnitGroup);
-			jsfMessageHelper.addInfo("organizationSilmeIslemiBasarili");
+			defUnitHandler.deleteUnitGroupEntity(selUnitGroup);
+			jsfMessageHelper.addInfo("unitCodeSilmeIslemiBasarili");
 		}
 		findUnitGroupList();
 	}
 
 	public void clearUnitGroup() {
 		selUnitGroup = new DefUnitGroupEntity();
-//		orgDepartmentViewBean.setSelUnitGroup(null);
+		selUnitGroup.setOrganization(rootOrganization);
 	}
 
 	public void findUnitGroupList() {
 		clearUnitGroup();
 		unitGroupList = null;
-//		unitGroupList = organizationHandler.findByUnitGroup(sessionInfoHelper.currentUnitGroupId());
+		unitGroupList = defUnitHandler.getUnitGroupList(rootOrganization.getId());
 		System.out.println(unitGroupList);
 	}
 
@@ -127,12 +135,20 @@ public class UnitViewBean implements Serializable {
 		this.defUnitHandler = defUnitHandler;
 	}
 
-	public DefUnitGroupEntity getRootUnitGroup() {
-		return rootUnitGroup;
+	public OrganizationEntity getRootOrganization() {
+		return rootOrganization;
 	}
 
-	public void setRootUnitGroup(DefUnitGroupEntity rootUnitGroup) {
-		this.rootUnitGroup = rootUnitGroup;
+	public void setRootOrganization(OrganizationEntity rootOrganization) {
+		this.rootOrganization = rootOrganization;
+	}
+
+	public OrganizationHandler getOrganizationHandler() {
+		return organizationHandler;
+	}
+
+	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
+		this.organizationHandler = organizationHandler;
 	}
 
 

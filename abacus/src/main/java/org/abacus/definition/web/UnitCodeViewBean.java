@@ -10,9 +10,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.definition.core.handler.DefUnitHandler;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
-import org.abacus.organization.core.handler.DepartmentHandler;
 
 @ManagedBean
 @ViewScoped
@@ -22,8 +22,8 @@ public class UnitCodeViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 	
-	@ManagedProperty(value = "#{departmentHandler}")
-	private DepartmentHandler departmentService;
+	@ManagedProperty(value = "#{defUnitHandler}")
+	private DefUnitHandler defUnitHandler;
 
 	private DefUnitGroupEntity selUnitGruop;
 
@@ -36,50 +36,48 @@ public class UnitCodeViewBean implements Serializable {
 	
 	public void setSelUnitGroup(DefUnitGroupEntity unitGroup) {
 		this.selUnitGruop = unitGroup;
-		findOrganizationDepartment();
+		findUnitCode();
 	}
 
-	public void departmentRowSelectListener() {
-//		System.out.println("taskRowSelectListener");
+	public void unitCodeRowSelectListener() {
+		System.out.println("unitGroupRowSelectListener");
 	}
 
 	public void groupChangeListener(){
-		findOrganizationDepartment();
+		findUnitCode();
 	}
 	
-	public void saveDepartment() {
+	public void saveUnitCode() {
 		if (selUnitCode.isNew()) {
-			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("unitGroupKayitIslemiBasarili");
 		} else {
-			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("unitGroupGuncellemeIslemiBasarili");
 		}
-//		departmentService.saveDepartmentEntity(selUnitCode);
-		findOrganizationDepartment();
+		defUnitHandler.saveUnitCodeEntity(selUnitCode);
+		findUnitCode();
 	}
 
-	public void deleteDepartment() {
+	public void deleteUnitCode() {
 		if (!selUnitCode.isNew()) {
-//			departmentService.deleteDepartmentEntity(selUnitCode);
-			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
+			defUnitHandler.deleteUnitCodeEntity(selUnitCode);
+			jsfMessageHelper.addInfo("unitGrouptSilmeIslemiBasarili");
 		}
-		findOrganizationDepartment();
+		findUnitCode();
 	}
 
-	public void createDepartment() {
+	public void createUnitCode() {
 		selUnitCode = new DefUnitCodeEntity();
-//		selUnitCode.setOrganization(selUnitGruop);
-//		selUnitCode.setTransientGroup(selectedGroupEnum);
+		selUnitCode.setUnitGroup(selUnitGruop);
 	}
 
-	public void findOrganizationDepartment() {
-		createDepartment();
+	public void findUnitCode() {
+		createUnitCode();
 		unitCodeList = null;
 		if (selUnitGruop!=null){
-//			unitCodeList = departmentService.findByOrganizationAndGroup(selUnitGruop.getId(), EnumList.OrgDepartmentGroupEnum.valueOf(selectedGroupEnum.name()));
+			unitCodeList = defUnitHandler.getUnitCodeList(selUnitGruop.getId());
 		} else {
 			unitCodeList = new ArrayList<DefUnitCodeEntity>();
 		}
-//		System.out.println(taskList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -99,6 +97,30 @@ public class UnitCodeViewBean implements Serializable {
 		if (selUnitCode!=null){
 			this.selUnitCode = selUnitCode;
 		}
+	}
+
+	public DefUnitGroupEntity getSelUnitGruop() {
+		return selUnitGruop;
+	}
+
+	public void setSelUnitGruop(DefUnitGroupEntity selUnitGruop) {
+		this.selUnitGruop = selUnitGruop;
+	}
+
+	public List<DefUnitCodeEntity> getUnitCodeList() {
+		return unitCodeList;
+	}
+
+	public void setUnitCodeList(List<DefUnitCodeEntity> unitCodeList) {
+		this.unitCodeList = unitCodeList;
+	}
+
+	public DefUnitHandler getDefUnitHandler() {
+		return defUnitHandler;
+	}
+
+	public void setDefUnitHandler(DefUnitHandler defUnitHandler) {
+		this.defUnitHandler = defUnitHandler;
 	}
 
 

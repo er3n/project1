@@ -13,8 +13,8 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.handler.DepartmentHandler;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
 @ViewScoped

@@ -1,5 +1,7 @@
 package org.abacus.definition.shared.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,6 +25,9 @@ public class DefUnitCodeEntity extends DynamicEntity {
 
 	@Column(name = "name", nullable = false)
 	private String name;
+
+	@Column(name = "ratio", nullable = false, precision = 10, scale = 3)
+	private BigDecimal ratio;
 
 	public DefUnitCodeEntity(){
 	}
@@ -49,6 +54,14 @@ public class DefUnitCodeEntity extends DynamicEntity {
 
 	public void setUnitGroup(DefUnitGroupEntity unitGroup) {
 		this.unitGroup = unitGroup;
+	}
+
+	public BigDecimal getRatio() {
+		return ratio;
+	}
+
+	public void setRatio(BigDecimal ratio) {
+		this.ratio = ratio;
 	}
 
 }

@@ -10,12 +10,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 import org.abacus.organization.core.handler.DepartmentHandler;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
 @ViewScoped

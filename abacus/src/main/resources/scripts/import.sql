@@ -67,4 +67,21 @@ insert into org_department (id, organization_id, group_enum, code, name, version
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '01.01', 'S', '01-D','Sirket Merkez Depo',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '01.01.01', 'S', '01-P','Proje Depo',0);
 
+insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '01', 'S', 'Sayilabilen', 0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'AD', 'Adet', 1, 0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-2, 'DS', 'Deste', 10, 0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-3, 'DZ', 'Düzine', 12, 0);
+
+insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '01', 'A', 'Agirlik',0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'GR', 'Gram', 1, 0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-2, 'KG', 'Kilo', 1000, 0);
+
+insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '01', 'H', 'Hacim',0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'LT', 'Litre', 1, 0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-2, 'ML', 'MiliLitre', 0.001, 0);
+
+insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '01', 'U', 'Uzunluk',0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'MT', 'Metre', 1, 0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-2, 'CM', 'SantiMetre', 0.01, 0);
+
 commit;

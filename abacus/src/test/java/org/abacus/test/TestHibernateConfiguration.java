@@ -1,7 +1,5 @@
 package org.abacus.test;
 
-import javax.persistence.EnumType;
-
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.OrganizationHandler;

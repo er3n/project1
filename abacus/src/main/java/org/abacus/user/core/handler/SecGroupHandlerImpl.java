@@ -9,8 +9,8 @@ import javax.persistence.PersistenceContext;
 
 import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.GroupAuthorityRepository;
-import org.abacus.user.core.persistance.repository.UserGroupRepository;
 import org.abacus.user.core.persistance.repository.GroupRepository;
+import org.abacus.user.core.persistance.repository.UserGroupRepository;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.entity.SecAuthorityEntity;

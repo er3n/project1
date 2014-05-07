@@ -35,30 +35,30 @@ insert into org_department (id, organization_id, group_enum, code, name, version
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'A', 'PY','Project Yonetim',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'S', 'PD','Project Depo',0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('.', '.', 'VAL', 0, 0);
+insert into def_type (id, name, level, trtype) values ('.', '.', 0, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('PRM_STOCK', 'Stok Param', 'PRM', 1, 0);
+insert into def_type (id, name, level, trtype) values ('PRM_STOCK', 'Stok Param', 1, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('STT_STOCK', 'Stok State', 'STT', 1, 0);
+insert into def_type (id, name, level, trtype) values ('STT_STOCK', 'Stok State', 1, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('VAL_SEHIR', 'Sehirler', 'VAL', 9, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('VAL_TAT', 'Tat Tipleri', 'VAL', 1, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('VAL_BESIN', 'Besin Tipleri', 'VAL', 1, 0);
+insert into def_type (id, name, level, trtype) values ('VAL_SEHIR', 'Sehirler', 9, 0);
+insert into def_type (id, name, level, trtype) values ('VAL_TAT', 'Tat Tipleri', 1, 0);
+insert into def_type (id, name, level, trtype) values ('VAL_BESIN', 'Besin Tipleri', 1, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_OC', 'Stok Open/Close', 'STK', 1, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_OC_I', 'Stok Open', 'STK', 1, +1);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_IO', 'Stok In/Out', 'STK', 1, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_IO_I', 'Stok Inputs', 'STK', 1, +1);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_IO_O', 'Stok Outputs', 'STK', 1, -1);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_WB', 'Stok WayBill', 'STK', 1, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_WB_I', 'Stok WayBill IN', 'STK', 1, +1);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_WB_O', 'Stok WayBill OUT', 'STK', 1, -1);
-insert into def_type (id, name, group_enum, level, trtype) values ('STK_TT', 'Stok Transfer', 'STK', 1, 0);
+insert into def_type (id, name, level, trtype) values ('STK_OC', 'Stok Open/Close', 1, 0);
+insert into def_type (id, name, level, trtype) values ('STK_OC_I', 'Stok Open', 1, +1);
+insert into def_type (id, name, level, trtype) values ('STK_IO', 'Stok In/Out', 1, 0);
+insert into def_type (id, name, level, trtype) values ('STK_IO_I', 'Stok Inputs', 1, +1);
+insert into def_type (id, name, level, trtype) values ('STK_IO_O', 'Stok Outputs', 1, -1);
+insert into def_type (id, name, level, trtype) values ('STK_WB', 'Stok WayBill', 1, 0);
+insert into def_type (id, name, level, trtype) values ('STK_WB_I', 'Stok WayBill IN', 1, +1);
+insert into def_type (id, name, level, trtype) values ('STK_WB_O', 'Stok WayBill OUT', 1, -1);
+insert into def_type (id, name, level, trtype) values ('STK_TT', 'Stok Transfer', 1, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('FIN_CS', 'Masraf Giris', 'FIN', 1, 0);
+insert into def_type (id, name, level, trtype) values ('FIN_CS', 'Masraf Giris', 1, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('ITM_SRV_FIN', 'Hizmet Tanimlari', 'ITM', 1, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('ITM_SRV_STK', 'Malzeme Tanimlari', 'ITM', 1, 0);
+insert into def_type (id, name, level, trtype) values ('ITM_SRV_FIN', 'Hizmet Tanimlari', 1, 0);
+insert into def_type (id, name, level, trtype) values ('ITM_SRV_STK', 'Malzeme Tanimlari', 1, 0);
 
 
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (0, '#', '.', null, '.', '.', 0, 0);

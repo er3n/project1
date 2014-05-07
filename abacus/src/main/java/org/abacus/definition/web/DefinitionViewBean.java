@@ -102,7 +102,7 @@ public class DefinitionViewBean implements Serializable {
 
 	public void clearType() {
 		selType = new DefTypeEntity();
-		selType.setTransientGroup(selectedGroupEnum);
+//		selType.setTransientGroup(selectedGroupEnum);
 		defValueViewBean.setSelType(null);
 		defParamViewBean.setSelType(null);
 		defStateViewBean.setSelType(null);

@@ -2,30 +2,18 @@ package org.abacus.definition.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.abacus.common.shared.entity.StaticEntity;
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.SelectionEnum;
 
 @Entity
 @Table(name = "def_type")
 @SuppressWarnings("serial")
 public class DefTypeEntity extends StaticEntity {
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "group_enum", nullable = false)
-	private EnumList.DefTypeGroupEnum typeGroup; 
-
 	@Column(name = "name", nullable = false)
 	private String name;
  
-	@Transient
-	private SelectionEnum transientGroup; 
-	
 	@Column(name = "level", nullable = false)
 	private Integer level = 1; 
 
@@ -47,14 +35,6 @@ public class DefTypeEntity extends StaticEntity {
 		this.name = name;
 	}
 
-	public EnumList.DefTypeGroupEnum getTypeGroup() {
-		return typeGroup;
-	}
-
-	public void setTypeGroup(EnumList.DefTypeGroupEnum group) {
-		this.typeGroup = group;
-	}
-
 	public Integer getLevel() {
 		return level;
 	}
@@ -70,13 +50,10 @@ public class DefTypeEntity extends StaticEntity {
 	public void setTrtype(Integer trtype) {
 		this.trtype = trtype;
 	}
-
-	public SelectionEnum getTransientGroup() {
-		return new SelectionEnum(typeGroup);
+	
+	public String getTrType() {
+		return (trtype>0?"(+)":(trtype<0?"(-)":"."));
 	}
 
-	public void setTransientGroup(SelectionEnum g) {
-		this.typeGroup = EnumList.DefTypeGroupEnum.valueOf(g.name());
-	}
 
 }

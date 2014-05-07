@@ -51,11 +51,11 @@ public class DefValueViewBean implements Serializable {
 	public void setSelType(DefTypeEntity selType) {
 		this.selType = selType;
 		this.selVal=null;
-		clearVal();
+		clearValue();
 		findTypeValue();
 	}
 	
-	public void saveOrUpdateVal() {
+	public void saveValue() {
 		int idx = 0;
 		if (selVal.isNew()) {
 			jsfMessageHelper.addInfo("valueKayitIslemiBasarili");
@@ -67,7 +67,7 @@ public class DefValueViewBean implements Serializable {
 		selVal = defValService.saveValueEntity(selVal);
 		valList.add(idx, selVal);
 		selVal = null;
-		clearVal();
+		clearValue();
 		refreshTree();
 	}
 
@@ -75,13 +75,13 @@ public class DefValueViewBean implements Serializable {
 //		System.out.println("valueSelectListener:" + event.getTreeNode().toString());
 		if (selNode == null || selNode.getData() == null) {
 			selVal = null;
-			clearVal();
+			clearValue();
 		} else {
 			selVal = (DefValueEntity) selNode.getData();
 		}
 	}
 
-	public void clearVal() {
+	public void clearValue() {
 		DefValueEntity parentVal = new DefValueEntity();
 		parentVal.setId(0L);
 		if (selVal != null && !selVal.isNew()) {
@@ -93,7 +93,7 @@ public class DefValueViewBean implements Serializable {
 	}
 
 	public void findTypeValue() {
-		clearVal();
+		clearValue();
 		valList = null;
 		if (selType!=null){
 			valList = defValService.getValueList(selType.getId());

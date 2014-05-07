@@ -82,7 +82,7 @@ public class DefinitionViewBean implements Serializable {
 		defTaskViewBean.setSelType(selType);
 	}
 
-	public void saveOrUpdateType() {
+	public void saveType() {
 		if (selType.isNew()) {
 			jsfMessageHelper.addInfo("typeKayitIslemiBasarili");
 		} else {

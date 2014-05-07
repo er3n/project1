@@ -25,11 +25,11 @@
 						<f:facet name="footer">
 							<p:commandButton id="saveVal" update=":valForm" ajax="true"
 								value="#{defValueViewBean.selVal.id == null ? 'Kaydet' : 'Guncelle'}"
-								actionListener="#{defValueViewBean.saveOrUpdateVal}" />
+								actionListener="#{defValueViewBean.saveValue}" />
 							<p:commandButton id="clearVal" ajax="true"
 								update=":valForm :valForm"
 								value="#{defValueViewBean.selVal.id == null ? 'Temizle' : 'Yeni Kayit'}"
-								actionListener="#{defValueViewBean.clearVal}" process="@this">
+								actionListener="#{defValueViewBean.clearValue}" process="@this">
 								<p:resetInput target=":valForm" />
 							</p:commandButton>
 						</f:facet>

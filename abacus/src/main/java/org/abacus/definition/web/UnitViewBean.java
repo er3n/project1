@@ -55,7 +55,7 @@ public class UnitViewBean implements Serializable {
 		unitCodeViewBean.setSelUnitGroup(selUnitGroup);
 	}
 
-	public void saveOrUpdateUnitGroup() {
+	public void saveUnitGroup() {
 		if (selUnitGroup.isNew()) {
 			jsfMessageHelper.addInfo("unitGroupKayitIslemiBasarili");
 		} else {

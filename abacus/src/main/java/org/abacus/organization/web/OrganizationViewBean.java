@@ -60,7 +60,7 @@ public class OrganizationViewBean implements Serializable {
 		orgDepartmentViewBean.setSelOrganization(selOrganization);
 	}
 
-	public void saveOrUpdateOrganization() {
+	public void saveOrganization() {
 		if (selOrganization.isNew()) {
 			jsfMessageHelper.addInfo("organizationKayitIslemiBasarili");
 		} else {

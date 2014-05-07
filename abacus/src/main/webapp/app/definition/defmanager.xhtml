@@ -14,13 +14,13 @@
 			<h:panelGrid id="typeGrid" columns="1">
 				<h:form id="typeForm">
 				
-					<p:panel id="typePanel" header="Grup">
+					<p:panel id="typePanel" header="Tip Tanimlari">
 
 						<h:panelGrid id="typeGrid" columns="8" cellpadding="2">
 
 							<h:outputText value="Grup" />
 							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" 
-								converter="selectionEnumConverter" style="width:145px">
+							 	disabled="true" converter="selectionEnumConverter" style="width:145px">
 								<f:selectItems value="#{definitionViewBean.groupEnums}"
 									var="groupEnum" itemLabel="#{groupEnum.description}"
 									itemValue="#{groupEnum}" />
@@ -47,7 +47,7 @@
 							<p:commandButton id="saveType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid" 
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
-								actionListener="#{definitionViewBean.saveOrUpdateType}" />
+								actionListener="#{definitionViewBean.saveType}" />
 							<p:commandButton id="deleteType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
@@ -82,7 +82,7 @@
            					#{selType.name}  
        					</p:column>
 
-						<p:column headerText="Grup">  
+						<p:column headerText="Tip">  
            					#{selType.typeGroup.description}  
        					</p:column>
        					

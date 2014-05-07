@@ -42,7 +42,7 @@
 							<p:commandButton id="saveOrganization" update=":organizationForm" 
 								ajax="true"
 								value="#{organizationViewBean.selOrganization.id == null ? 'Kaydet' : 'Guncelle'}"
-								actionListener="#{organizationViewBean.saveOrUpdateOrganization}" />
+								actionListener="#{organizationViewBean.saveOrganization}" />
 							<p:commandButton id="deleteOrganization" update=":organizationForm"
 								ajax="true"
 								value="#{organizationViewBean.selOrganization.id == null ? '-' : 'Sil'}"

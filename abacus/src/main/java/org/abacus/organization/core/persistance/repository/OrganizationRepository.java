@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface OrganizationRepository extends CrudRepository<OrganizationEntity, String> {
 
-	@Query("select c from OrganizationEntity c where c.id like :organization% order by id")
+	@Query("select c from OrganizationEntity c where (c.id = :organization or c.id like :organization || '.%') order by id")
 	List<OrganizationEntity> findByOrganization(@Param("organization")String organization);
 
 	@Query("select c from OrganizationEntity c, SecUserOrganizationEntity uc where uc.user.id = :username and uc.organization.id = c.id order by c.id")

@@ -16,12 +16,12 @@ import org.abacus.definition.shared.constant.SelectionEnum;
 @SuppressWarnings("serial")
 public class DefTypeEntity extends StaticEntity {
 
-	@Column(name = "name", nullable = false)
-	private String name;
-
 	@Enumerated(EnumType.STRING)
 	@Column(name = "group_enum", nullable = false)
 	private EnumList.DefTypeGroupEnum typeGroup; 
+
+	@Column(name = "name", nullable = false)
+	private String name;
  
 	@Transient
 	private SelectionEnum transientGroup; 

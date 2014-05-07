@@ -40,17 +40,19 @@ public interface EnumList {
 	}
 	
 	enum DefTypeGroupEnum implements ISelectionEnum {
-		P("Parameter"),	//(Static)
-		S("State"),		//(Static)
-		T("Task"),		//(Dynamic)
-		V("Value"),		//(Dynamic)
+		PRM("Parameter"),	//Static Parameter
+		STT("State"),		//Static State
+		STK("Stk Task"),	//Dynamic Task Stock
+		FIN("Fin Task"),	//Dynamic Task Finance
+		VAL("Value"),		//Dynamic Value Tree
+		ACC("Account"),		//Dynamic Account
 		;
 		private String description;
 		
 		private DefTypeGroupEnum(String description) {
 			this.description = description;
 		}
-		
+
 		@Override
 		public String getDescription() {
 			return this.description;

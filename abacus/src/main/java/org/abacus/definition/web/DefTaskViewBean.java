@@ -35,7 +35,7 @@ public class DefTaskViewBean implements Serializable {
 	private DefTaskEntity selTask;
 	private List<DefTaskEntity> taskList;
 	
-	OrganizationEntity rootOrganization;
+	private OrganizationEntity rootOrganization;
 
 	@PostConstruct
 	public void init() {

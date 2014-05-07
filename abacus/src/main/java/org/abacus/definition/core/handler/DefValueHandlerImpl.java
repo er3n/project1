@@ -22,8 +22,8 @@ public class DefValueHandlerImpl implements DefValueHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefValueEntity> getValueList(String typ){
-		return defValueRepo.getValueList(typ); 
+	public List<DefValueEntity> getValueList(String organizationId, String typ){
+		return defValueRepo.getValueList(organizationId, typ); 
 	}
 	
 	@Override

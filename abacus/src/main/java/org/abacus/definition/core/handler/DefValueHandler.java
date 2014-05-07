@@ -7,7 +7,7 @@ import org.abacus.definition.shared.entity.DefValueEntity;
 
 public interface DefValueHandler extends Serializable{
 
-	List<DefValueEntity> getValueList(String typ);
+	List<DefValueEntity> getValueList(String organizationId, String typ);
 
 	DefValueEntity saveValueEntity(DefValueEntity entity);
 	

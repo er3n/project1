@@ -15,6 +15,8 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
+import org.abacus.organization.core.handler.OrganizationHandler;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -38,13 +40,18 @@ public class DefValueViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
+	
+
+	@ManagedProperty(value = "#{organizationHandler}")
+	private OrganizationHandler organizationHandler;
+	
+	private OrganizationEntity rootOrganization;
 
 	@PostConstruct
 	public void init() {
+		rootOrganization = organizationHandler.findRootOrganization();
 		rootVal = new DefValueEntity();
 		rootVal.setId(0L);
-		rootVal.setCode(".");
-		rootVal.setName(".");
 	}
 	
 	
@@ -90,13 +97,14 @@ public class DefValueViewBean implements Serializable {
 		selVal = new DefValueEntity();
 		selVal.setParent(parentVal);
 		selVal.setType(selType);
+		selVal.setOrganization(rootOrganization);
 	}
 
 	public void findTypeValue() {
 		clearValue();
 		valList = null;
 		if (selType!=null){
-			valList = defValService.getValueList(selType.getId());
+			valList = defValService.getValueList(rootOrganization.getId(), selType.getId());
 		} else {
 			valList = new ArrayList<>();
 		}
@@ -178,6 +186,16 @@ public class DefValueViewBean implements Serializable {
 
 	public void setSelNode(TreeNode selNode) {
 		this.selNode = selNode;
+	}
+
+
+	public OrganizationHandler getOrganizationHandler() {
+		return organizationHandler;
+	}
+
+
+	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
+		this.organizationHandler = organizationHandler;
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -32,6 +33,10 @@ public class DefValueEntity extends DynamicEntity {
 	@Column(name = "is_active", nullable = false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active = true;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_id", nullable = false)
+	private OrganizationEntity organization;
 	
 	public DefValueEntity(){
 	}
@@ -74,6 +79,14 @@ public class DefValueEntity extends DynamicEntity {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public OrganizationEntity getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(OrganizationEntity organization) {
+		this.organization = organization;
 	}
 	
 }

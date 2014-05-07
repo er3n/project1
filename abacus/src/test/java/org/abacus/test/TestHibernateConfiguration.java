@@ -3,6 +3,7 @@ package org.abacus.test;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.OrganizationHandler;
+import org.abacus.organization.core.persistance.OrganizationDao;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserExistsInGroupException;
@@ -30,6 +31,9 @@ public class TestHibernateConfiguration {
 	@Autowired
 	private OrganizationHandler organizationHandler;
 
+	@Autowired
+	private OrganizationDao organizationDao;
+	
 	@Autowired
 	private SessionInfoHelper SessionInfoHelper;
 
@@ -80,7 +84,7 @@ public class TestHibernateConfiguration {
 	@Rollback(value=false)
 	public void findParentOrganizationWithLevel(){
 		OrganizationEntity org = organizationHandler.findOne("01.01.01.01");
-		OrganizationEntity root = organizationHandler.findOrganizationWithLevel(org, EnumList.OrgOrganizationLevelEnum.L1);
+		OrganizationEntity root = organizationDao.findOrganizationWithLevel(org, EnumList.OrgOrganizationLevelEnum.L1);
 		System.out.println("rootOrganization: "+root);
 	}
 }

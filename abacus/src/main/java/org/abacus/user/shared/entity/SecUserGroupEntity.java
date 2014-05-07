@@ -14,11 +14,11 @@ import org.abacus.common.shared.entity.DynamicEntity;
 public class SecUserGroupEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private SecUserEntity user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group_id")
+	@JoinColumn(name = "group_id", nullable = false)
 	private SecGroupEntity group;
 
 	public SecUserEntity getUser() {

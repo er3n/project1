@@ -7,7 +7,7 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 
 public interface DefTaskHandler extends Serializable{
 
-	List<DefTaskEntity> getTaskList(String typeId);
+	List<DefTaskEntity> getTaskList(String organizationId, String typeId);
 
 	DefTaskEntity saveTaskEntity(DefTaskEntity entity);
 	

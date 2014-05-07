@@ -20,7 +20,7 @@ import org.abacus.definition.shared.constant.SelectionEnum;
 public class DepartmentEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "organization_id")
+	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
 
 	@Column(name = "code", nullable = false)

@@ -43,7 +43,7 @@ public class UnitViewBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		rootOrganization = organizationHandler.findOrganizationWithLevel(sessionInfoHelper.currentUser().getSelectedOrganization(), EnumList.OrgOrganizationLevelEnum.L0);
+		rootOrganization = organizationHandler.findRootOrganization();
 		findUnitGroupList();
 	}
 	

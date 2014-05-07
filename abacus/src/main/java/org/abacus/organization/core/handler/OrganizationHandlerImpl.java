@@ -58,8 +58,9 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 	
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public OrganizationEntity findOrganizationWithLevel(OrganizationEntity child, EnumList.OrgOrganizationLevelEnum requestLevel){
-		return organizationDao.findOrganizationWithLevel(child, requestLevel);
+	public OrganizationEntity findRootOrganization(){
+		OrganizationEntity child = sessionInfoHelper.currentUser().getSelectedOrganization();
+		return organizationDao.findOrganizationWithLevel(child, EnumList.OrgOrganizationLevelEnum.L0);
 	}
 
 }

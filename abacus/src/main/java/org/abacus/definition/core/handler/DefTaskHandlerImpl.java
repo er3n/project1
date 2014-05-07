@@ -17,8 +17,8 @@ public class DefTaskHandlerImpl implements DefTaskHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefTaskEntity> getTaskList(String typeId){
-		List<DefTaskEntity> list = defTaskRepository.getTaskList(typeId);
+	public List<DefTaskEntity> getTaskList(String organizationId, String typeId){
+		List<DefTaskEntity> list = defTaskRepository.getTaskList(organizationId, typeId);
 		return list;
 	}
 

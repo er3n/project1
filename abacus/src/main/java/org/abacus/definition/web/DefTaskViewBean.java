@@ -13,6 +13,8 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.abacus.organization.core.handler.OrganizationHandler;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
 @ViewScoped
@@ -25,14 +27,19 @@ public class DefTaskViewBean implements Serializable {
 	@ManagedProperty(value = "#{defTaskHandler}")
 	private DefTaskHandler defTaskService;
 
+	@ManagedProperty(value = "#{organizationHandler}")
+	private OrganizationHandler organizationHandler;
+
 	private DefTypeEntity selType;
 
 	private DefTaskEntity selTask;
 	private List<DefTaskEntity> taskList;
-
+	
+	OrganizationEntity rootOrganization;
 
 	@PostConstruct
 	public void init() {
+		rootOrganization = organizationHandler.findRootOrganization();
 	}
 	
 	public void setSelType(DefTypeEntity selType) {
@@ -66,13 +73,14 @@ public class DefTaskViewBean implements Serializable {
 	public void createTask() {
 		selTask = new DefTaskEntity();
 		selTask.setType(selType);
+		selTask.setOrganization(rootOrganization);
 	}
 
 	public void findTypeTask() {
 		createTask();
 		taskList = null;
 		if (selType!=null){
-			taskList = defTaskService.getTaskList(selType.getId());
+			taskList = defTaskService.getTaskList(rootOrganization.getId(), selType.getId());
 		} else {
 			taskList = new ArrayList<DefTaskEntity>();
 		}
@@ -112,6 +120,14 @@ public class DefTaskViewBean implements Serializable {
 
 	public void setTaskList(List<DefTaskEntity> taskList) {
 		this.taskList = taskList;
+	}
+
+	public OrganizationHandler getOrganizationHandler() {
+		return organizationHandler;
+	}
+
+	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
+		this.organizationHandler = organizationHandler;
 	}
 
 

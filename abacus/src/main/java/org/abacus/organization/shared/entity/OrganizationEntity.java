@@ -19,7 +19,7 @@ import org.abacus.definition.shared.constant.SelectionEnum;
 @Table(name = "org_organization")
 public class OrganizationEntity extends StaticEntity {
 
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Enumerated(EnumType.STRING)

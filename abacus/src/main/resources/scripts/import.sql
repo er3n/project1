@@ -45,7 +45,6 @@ insert into def_type (id, name, group_enum, level, trtype) values ('VAL_SEHIR', 
 insert into def_type (id, name, group_enum, level, trtype) values ('VAL_TAT', 'Tat Tipleri', 'VAL', 1, 0);
 insert into def_type (id, name, group_enum, level, trtype) values ('VAL_BESIN', 'Besin Tipleri', 'VAL', 1, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('STK', 'Stok Islemleri', 'STK', 1, 0);
 insert into def_type (id, name, group_enum, level, trtype) values ('STK_OC', 'Stok Open/Close', 'STK', 1, 0);
 insert into def_type (id, name, group_enum, level, trtype) values ('STK_OC_I', 'Stok Open', 'STK', 1, +1);
 insert into def_type (id, name, group_enum, level, trtype) values ('STK_IO', 'Stok In/Out', 'STK', 1, 0);
@@ -56,12 +55,11 @@ insert into def_type (id, name, group_enum, level, trtype) values ('STK_WB_I', '
 insert into def_type (id, name, group_enum, level, trtype) values ('STK_WB_O', 'Stok WayBill OUT', 'STK', 1, -1);
 insert into def_type (id, name, group_enum, level, trtype) values ('STK_TT', 'Stok Transfer', 'STK', 1, 0);
 
-insert into def_type (id, name, group_enum, level, trtype) values ('ACC', 'Hesap Tanimlari', 'ACC', 1, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('ACC_SRV_FIN', 'Finansal Hizmet Tanimlari', 'ACC', 1, 0);
-insert into def_type (id, name, group_enum, level, trtype) values ('ACC_SRV_STK', 'Malzeme Tanimlari', 'ACC', 1, 0);
-
-insert into def_type (id, name, group_enum, level, trtype) values ('FIN', 'Finans Islemleri', 'FIN', 1, 0);
 insert into def_type (id, name, group_enum, level, trtype) values ('FIN_CS', 'Masraf Giris', 'FIN', 1, 0);
+
+insert into def_type (id, name, group_enum, level, trtype) values ('ITM_SRV_FIN', 'Hizmet Tanimlari', 'ITM', 1, 0);
+insert into def_type (id, name, group_enum, level, trtype) values ('ITM_SRV_STK', 'Malzeme Tanimlari', 'ITM', 1, 0);
+
 
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (0, '#', '.', null, '.', '.', 0, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_TAT', 0, 'TA', 'Tatli', 1, 0);

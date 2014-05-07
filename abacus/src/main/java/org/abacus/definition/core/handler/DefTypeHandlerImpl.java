@@ -26,7 +26,7 @@ public class DefTypeHandlerImpl implements DefTypeHandler {
 		System.out.println("ViewBean Handler Usr:"+sessionInfoHelper.currentUserName());
 		System.out.println("ViewBean Handler Org:"+sessionInfoHelper.currentOrganizationId());
 		
-		return defTypeRepository.getTypeList(groupEnum);
+		return defTypeRepository.getTypeList(groupEnum.name());
 	}
 
 	@Override

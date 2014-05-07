@@ -21,6 +21,25 @@ public interface EnumList {
 		
 	}
 	
+	enum DefItemClassEnum implements ISelectionEnum {
+		STK_M("Material"),	//Stok.Hammadde
+		STK_P("Product"),	//Stok.Urun
+//		FAS_?		
+//		FIN_?
+		;
+		private String description;
+		
+		private DefItemClassEnum(String description) {
+			this.description = description;
+		}
+		
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+		
+	}
+	
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
 		A("Administrative"),
 		S("InventoryStore"),
@@ -45,7 +64,7 @@ public interface EnumList {
 		STK("Stk Task"),	//Dynamic Task Stock
 		FIN("Fin Task"),	//Dynamic Task Finance
 		VAL("Value"),		//Dynamic Value Tree
-		ACC("Account"),		//Dynamic Account
+		ITM("Item"),		//Dynamic Item
 		;
 		private String description;
 		

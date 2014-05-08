@@ -158,13 +158,6 @@ public interface DefConstant {
 		}
 	};
 
-	enum StkState {
-		PRE, // Prepare
-		ENT, // Entry
-		CAN, // Cancel
-		;//
-	}
-
 	enum StkCostType {
 		FIFO(1L), AVG(2L), AVGM(3L);
 		private final Long type;

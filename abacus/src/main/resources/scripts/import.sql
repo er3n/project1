@@ -39,8 +39,6 @@ insert into def_type (id, name, level, trtype) values ('.', '.', 0, 0);
 
 insert into def_type (id, name, level, trtype) values ('PRM_STOCK', 'Stok Param', 1, 0);
 
-insert into def_type (id, name, level, trtype) values ('STT_STOCK', 'Stok State', 1, 0);
-
 insert into def_type (id, name, level, trtype) values ('VAL_SEHIR', 'Sehirler', 9, 0);
 insert into def_type (id, name, level, trtype) values ('VAL_TAT', 'Tat Tipleri', 1, 0);
 insert into def_type (id, name, level, trtype) values ('VAL_BESIN', 'Besin Tipleri', 1, 0);

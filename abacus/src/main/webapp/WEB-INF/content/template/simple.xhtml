@@ -41,18 +41,16 @@
 					</p:submenu>
 						
 					<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
+						<p:menuitem value="Kod Tanimlari"
+							url="/app/definition/defmanager.abc?type=val"/>
 						<p:menuitem value="Paremetre Tanimlari"
 							url="/app/definition/defmanager.abc?type=prm"/>
-						<p:menuitem value="Durum Tanimlari"
-							url="/app/definition/defmanager.abc?type=stt"/>
+						<p:menuitem value="Hesap Tipleri"
+							url="/app/definition/defmanager.abc?type=itm"/>
 						<p:menuitem value="Stok Gorev Tanimlari"
 							url="/app/definition/defmanager.abc?type=stk"/>
 						<p:menuitem value="Finans Gorev Tanimlari"
 							url="/app/definition/defmanager.abc?type=fin"/>
-						<p:menuitem value="Kod Tanimlari"
-							url="/app/definition/defmanager.abc?type=val"/>
-						<p:menuitem value="Hesap Tanimlari"
-							url="/app/definition/defmanager.abc?type=itm"/>
 					</p:submenu>
 
 				</p:submenu>

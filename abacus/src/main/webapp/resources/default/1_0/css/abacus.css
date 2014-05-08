@@ -1,0 +1,17 @@
+body{
+	padding:0px;
+	margin:0 auto;
+	width: 1200px;
+	}
+
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 11px !important;
+}
+
+tr{
+    vertical-align: top;
+    text-align: left;
+}
+
+	
+ 

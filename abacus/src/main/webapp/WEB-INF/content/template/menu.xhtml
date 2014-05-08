@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags">
+
+
+<h:form>
+	<p:menubar>
+		<p:submenu label="Sistem Yonetimi">
+
+			<p:submenu label="Guvenlik" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}">
+				<p:menuitem value="Kullanici Tanimlari" url="/app/user/usermanager.abc" />
+				<p:menuitem value="Grup Tanimlari" url="/app/user/rolemanager.abc" />
+			</p:submenu>
+
+			<p:submenu label="Organizasyon" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}">
+				<p:menuitem value="Sirket Tanimlari" url="/app/organization/orgmanager.abc" />
+			</p:submenu>
+
+			<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
+				<p:menuitem value="Paremetre Tanimlari" url="/app/definition/defmanager.abc?type=prm" />
+				<p:menuitem value="Durum Tanimlari" url="/app/definition/defmanager.abc?type=stt" />
+				<p:menuitem value="Stok Gorev Tanimlari" url="/app/definition/defmanager.abc?type=stk" />
+				<p:menuitem value="Finans Gorev Tanimlari" url="/app/definition/defmanager.abc?type=fin" />
+				<p:menuitem value="Kod Tanimlari" url="/app/definition/defmanager.abc?type=val" />
+				<p:menuitem value="Hesap Tanimlari" url="/app/definition/defmanager.abc?type=itm" />
+			</p:submenu>
+
+		</p:submenu>
+
+		<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
+			<p:menuitem value="Birim Tanimlari" url="/app/defunit/unitmanager.abc" />
+			<p:menuitem value="Malzeme Tanimlari" url="/app/index.abc?faces-redirect=true" />
+			<p:menuitem value="Yemek Tanimlari" url="/app/index.abc?faces-redirect=true" />
+			<p:menuitem value="Menu Tanimlari" url="/app/index.abc?faces-redirect=true" />
+		</p:submenu>
+
+		<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
+			<p:menuitem value="Depo Islemleri" url="/app/index.abc?faces-redirect=true" />
+			<p:menuitem value="Finans Islemleri" url="/app/index.abc?faces-redirect=true" />
+		</p:submenu>
+
+		<p:submenu label="Raporlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
+			<p:menuitem value="Stok Raporları" url="/app/index.abc?faces-redirect=true" />
+		</p:submenu>
+
+		<f:facet name="options">
+			<h:form>
+				<p:button value="Giris" href="/app/user/login.abc" icon="ui-icon-tag" rendered="#{empty request.remoteUser}" />
+
+				<h:panelGrid columns="2" rendered="#{not empty request.remoteUser}">
+
+					<p:selectOneMenu value="#{sessionInfoHelper.currentUser().selectedOrganization}" converter="organizationEntityConverter" style="width:200px">
+						<f:selectItems value="#{sessionInfoHelper.currentUser().organizationList}" var="organization" itemLabel="#{organization.id}: #{organization.name}" itemValue="#{organization}" />
+						<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.redirect()}" />
+					</p:selectOneMenu>
+
+					<p:menuButton value="#{request.remoteUser}" style="text-transform:capitalize;">
+						<p:menuitem value="Cikis" url="/app/logout" icon="ui-icon-extlink" />
+					</p:menuButton>
+				</h:panelGrid>
+			</h:form>
+		</f:facet>
+
+	</p:menubar>
+</h:form>
+
+</html>

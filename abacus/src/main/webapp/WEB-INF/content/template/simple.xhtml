@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:sec="http://www.springframework.org/security/tags">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags">
 
 
 <f:view contentType="text/html">
@@ -14,16 +8,17 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>#{lbl.projectTitle} - #{lbl.projectDescription}</title>
 
-		<h:outputStylesheet library="default" name="css/style.css" />
-
-		<link href='http://fonts.googleapis.com/css?family=Raleway:500'
-			rel='stylesheet' type='text/css' />
+		<h:outputStylesheet library="default" name="css/abacus.css" />
+		<h:outputScript library="default" name="js/abacus.js" />
 
 	</h:head>
-	<h:body style="width:1200px;margin:0 auto">
+	<h:body>
 
 
 
+<<<<<<< .mine
+		<ui:include src="menu.xhtml" />
+=======
 		<h:form>
 			<p:menubar style="margin:5px auto;">
 				<p:submenu label="Sistem Yonetimi">
@@ -52,86 +47,22 @@
 						<p:menuitem value="Finans Gorev Tanimlari"
 							url="/app/definition/defmanager.abc?type=fin"/>
 					</p:submenu>
+>>>>>>> .r114
 
-				</p:submenu>
+		<div id="content">
 
-				<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
-						<p:menuitem value="Birim Tanimlari"
-							url="/app/defunit/unitmanager.abc"/>
-						<p:menuitem value="Malzeme Tanimlari"
-							url="/app/index.abc?faces-redirect=true"/>
-						<p:menuitem value="Yemek Tanimlari"
-							url="/app/index.abc?faces-redirect=true"/>
-						<p:menuitem value="Menu Tanimlari"
-							url="/app/index.abc?faces-redirect=true"/>
-				</p:submenu>
-
-				<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-						<p:menuitem value="Depo Islemleri"
-							url="/app/index.abc?faces-redirect=true"/>
-						<p:menuitem value="Finans Islemleri"
-							url="/app/index.abc?faces-redirect=true"/>
-				</p:submenu>
-
-				<p:submenu label="Raporlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-						<p:menuitem value="Stok Raporları"
-							url="/app/index.abc?faces-redirect=true"/>
-				</p:submenu>
-
-				<f:facet name="options">
-					<h:form>
-						<p:button value="Giris" href="/app/user/login.abc" icon="ui-icon-tag"
-							rendered="#{empty request.remoteUser}" />
-
-						<h:panelGrid columns="2"
-							rendered="#{not empty request.remoteUser}">
-
-							<p:selectOneMenu
-								value="#{sessionInfoHelper.currentUser().selectedOrganization}"
-								converter="organizationEntityConverter" style="width:200px">
-								<f:selectItems
-									value="#{sessionInfoHelper.currentUser().organizationList}"
-									var="organization" itemLabel="#{organization.id}: #{organization.name}"
-									itemValue="#{organization}" />
-								<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.redirect()}" />
-							</p:selectOneMenu>
-
-							<p:menuButton value="#{request.remoteUser}"
-								style="text-transform:capitalize;">
-								<p:menuitem value="Cikis" url="/app/logout"
-									icon="ui-icon-extlink" />
-							</p:menuButton>
-						</h:panelGrid>
-					</h:form>
-				</f:facet>
-
-			</p:menubar>
-		</h:form>
-
-
-
-		<div id="content" style="margin: 15px auto; min-height: 600px">
-
-			<p:growl id="growl" showDetail="true" sticky="false"
-				autoUpdate="true" life="3000" />
+			<p:growl id="growl" showDetail="true" sticky="false" autoUpdate="true" life="3000" />
 
 			<ui:insert name="content" />
 
 		</div>
 
-		<p:ajaxStatus
-			style="width:54px;height:55px;position:fixed;right:5px;bottom:5px">
+		<p:ajaxStatus onstart="lockScreen();" oncomplete="releaseScreen();" />
+		<p:dialog id="busyStatus" widgetVar="busyStatusDialog" modal="true" showHeader="false" draggable="false" visible="false" closable="false" resizable="false">
+			<h:graphicImage library="default" name="img/ajax-loader.gif" />
+		</p:dialog>
 
-			<f:facet name="start">
-				<h:graphicImage library="default" name="img/clock.png" />
-				<img src="${request.contextPath}/app/resources/img/loading.gif" />
-			</f:facet>
-
-			<f:facet name="complete">
-				<h:outputText value="" />
-			</f:facet>
-
-		</p:ajaxStatus>
+	
 
 	</h:body>
 </f:view>

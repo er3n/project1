@@ -57,9 +57,8 @@ insert into def_type (id, name, level, trtype) values ('STK_TT', 'Stok Transfer'
 
 insert into def_type (id, name, level, trtype) values ('FIN_CS', 'Masraf Giris', 1, 0);
 
-insert into def_type (id, name, level, trtype) values ('ITM_SRV_FIN', 'Hizmet Tanimlari', 1, 0);
-insert into def_type (id, name, level, trtype) values ('ITM_SRV_STK', 'Malzeme Tanimlari', 1, 0);
-
+insert into def_type (id, name, level, trtype) values ('ITM_SR_FN', 'Hizmet Tanimlari', 1, 0);
+insert into def_type (id, name, level, trtype) values ('ITM_SR_ST', 'Malzeme Tanimlari', 1, 0);
 
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (0, '#', '.', null, '.', '.', 0, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_TAT', 0, 'TA', 'Tatli', 1, 0);
@@ -73,10 +72,6 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_SEHIR', currval('seq_id')-1, '06.01', 'Cankaya', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_SEHIR', 0, '34', 'Istanbul', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_SEHIR', currval('seq_id')-1, '34.01', 'Fatih', 1, 0);
-
-insert into def_state (id, type_id, code, name) values ('STT_STOCK_PRE', 'STT_STOCK', 'PRE', 'Stk Prepare State');
-insert into def_state (id, type_id, code, name) values ('STT_STOCK_ENT', 'STT_STOCK', 'ENT', 'Stk Entry State');
-insert into def_state (id, type_id, code, name) values ('STT_STOCK_CAN', 'STT_STOCK', 'CAN', 'Stk Cancel State');
 
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
 

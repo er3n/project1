@@ -39,9 +39,6 @@ public class DefinitionViewBean implements Serializable {
 	@ManagedProperty(value = "#{defParamViewBean}")
 	private DefParamViewBean defParamViewBean;
 
-	@ManagedProperty(value = "#{defStateViewBean}")
-	private DefStateViewBean defStateViewBean;
-
 	@ManagedProperty(value = "#{defTaskViewBean}")
 	private DefTaskViewBean defTaskViewBean;
 
@@ -76,10 +73,30 @@ public class DefinitionViewBean implements Serializable {
 	}
 
 	public void typeRowSelectListener() {
-		defValueViewBean.setSelType(selType);
-		defParamViewBean.setSelType(selType);
-		defStateViewBean.setSelType(selType);
-		defTaskViewBean.setSelType(selType);
+		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.VAL.name())){
+			defValueViewBean.setSelType(selType);
+		}
+		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.PRM.name())){
+			defParamViewBean.setSelType(selType);
+		}
+		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.STK.name()) || 
+				selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.FIN.name())){
+			defTaskViewBean.setSelType(selType);
+		}
+	}
+	
+	public void clearType() {
+		selType = new DefTypeEntity();
+		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.VAL.name())){
+			defValueViewBean.setSelType(null);
+		}
+		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.PRM.name())){
+			defParamViewBean.setSelType(null);
+		}
+		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.STK.name()) || 
+				selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.FIN.name())){
+			defTaskViewBean.setSelType(null);
+		}
 	}
 
 	public void saveType() {
@@ -98,15 +115,6 @@ public class DefinitionViewBean implements Serializable {
 			jsfMessageHelper.addInfo("typeSilmeIslemiBasarili");
 		}
 		findTypeList(selectedGroupEnum);
-	}
-
-	public void clearType() {
-		selType = new DefTypeEntity();
-//		selType.setTransientGroup(selectedGroupEnum);
-		defValueViewBean.setSelType(null);
-		defParamViewBean.setSelType(null);
-		defStateViewBean.setSelType(null);
-		defTaskViewBean.setSelType(null);
 	}
 
 	public void findTypeList(SelectionEnum groupEnum) {
@@ -179,14 +187,6 @@ public class DefinitionViewBean implements Serializable {
 
 	public void setDefValueViewBean(DefValueViewBean defValueViewBean) {
 		this.defValueViewBean = defValueViewBean;
-	}
-
-	public DefStateViewBean getDefStateViewBean() {
-		return defStateViewBean;
-	}
-
-	public void setDefStateViewBean(DefStateViewBean defStateViewBean) {
-		this.defStateViewBean = defStateViewBean;
 	}
 
 	public DefTaskViewBean getDefTaskViewBean() {

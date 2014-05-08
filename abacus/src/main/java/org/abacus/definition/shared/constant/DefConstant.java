@@ -3,6 +3,21 @@ package org.abacus.definition.shared.constant;
 public interface DefConstant {
 
 	enum DefTypeEnum {
+
+		// Item Cards (ACC)
+		ITM, //
+		ITM_CS, // Cash
+		ITM_CR, // CreditCard
+		ITM_BN, // Bank
+		ITM_TX, // Tax
+		ITM_SR, // Services
+		ITM_SR_SR, // Service
+		ITM_SR_ST, // Stock
+		ITM_SR_CS, // Cost
+		ITM_SR_FA, // Fas
+		ITM_CU, // Customer
+		ITM_VE, // Vendor
+		ITM_SF, // Staff
 		//
 		// Budget
 		BUD,// 
@@ -46,20 +61,6 @@ public interface DefConstant {
 		JVT_D, // DebitNote (S+) (B-)
 		JVT_C, // CreditNote (B+) (S-)
 		//
-		// Party Cards (ACC)
-		PAR, //
-		PAR_CS, // Cash
-		PAR_CR, // CreditCard
-		PAR_BN, // Bank
-		PAR_TX, // Tax
-		PAR_SR, // Services
-		PAR_SR_SR, // Service
-		PAR_SR_CS, // Cost
-		PAR_SR_FA, // Fas
-		PAR_SR_ST, // Stock
-		PAR_CU, // Customer
-		PAR_VE, // Vendor
-		PAR_SF, // Staff
 		//
 		// Cost (IEC)
 		CST, //

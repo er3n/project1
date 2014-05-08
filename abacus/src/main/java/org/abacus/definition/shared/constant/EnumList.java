@@ -60,11 +60,10 @@ public interface EnumList {
 	
 	enum DefTypeGroupEnum implements ISelectionEnum {
 		PRM("Parameter"),	//Static Parameter
-		STT("State"),		//Static State
-		STK("Stk Task"),	//Dynamic Task Stock
-		FIN("Fin Task"),	//Dynamic Task Finance
 		VAL("Value"),		//Dynamic Value Tree
 		ITM("Item"),		//Dynamic Item
+		STK("Stk Task"),	//Dynamic Task Stock
+		FIN("Fin Task"),	//Dynamic Task Finance
 		;
 		private String description;
 		

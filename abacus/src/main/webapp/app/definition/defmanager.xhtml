@@ -24,7 +24,7 @@
 								<f:selectItems value="#{definitionViewBean.groupEnums}"
 									var="groupEnum" itemLabel="#{groupEnum.description}"
 									itemValue="#{groupEnum}" />
-								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
+								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :taskGrid"
 									listener="#{definitionViewBean.groupChangeListener}"
 									process="@this" />
 							</p:selectOneMenu>
@@ -44,16 +44,16 @@
 						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid" 
+							<p:commandButton id="saveType" update=":typeForm :valGrid :paramGrid :taskGrid" 
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveType}" />
-							<p:commandButton id="deleteType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
+							<p:commandButton id="deleteType" update=":typeForm :valGrid :paramGrid :taskGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
 								actionListener="#{definitionViewBean.deleteType}"
 								immediate="true" />
-							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
+							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :taskGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionViewBean.clearType}" process="@this"
@@ -70,7 +70,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selType.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":typeForm :valGrid :paramGrid :stateGrid :taskGrid"
+						<p:ajax event="rowSelect" update=":typeForm :valGrid :paramGrid :taskGrid"
 							listener="#{definitionViewBean.typeRowSelectListener}">
 						</p:ajax>
 

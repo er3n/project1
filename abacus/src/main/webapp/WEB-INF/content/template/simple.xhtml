@@ -14,40 +14,7 @@
 	</h:head>
 	<h:body>
 
-
-
-<<<<<<< .mine
 		<ui:include src="menu.xhtml" />
-=======
-		<h:form>
-			<p:menubar style="margin:5px auto;">
-				<p:submenu label="Sistem Yonetimi">
-				
-					<p:submenu label="Guvenlik" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}">
-						<p:menuitem value="Kullanici Tanimlari"
-							url="/app/user/usermanager.abc"/>
-						<p:menuitem value="Grup Tanimlari"
-							url="/app/user/rolemanager.abc"/>
-					</p:submenu>
-				
-					<p:submenu label="Organizasyon" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}">
-						<p:menuitem value="Sirket Tanimlari"
-							url="/app/organization/orgmanager.abc"/>
-					</p:submenu>
-						
-					<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
-						<p:menuitem value="Kod Tanimlari"
-							url="/app/definition/defmanager.abc?type=val"/>
-						<p:menuitem value="Paremetre Tanimlari"
-							url="/app/definition/defmanager.abc?type=prm"/>
-						<p:menuitem value="Hesap Tipleri"
-							url="/app/definition/defmanager.abc?type=itm"/>
-						<p:menuitem value="Stok Gorev Tanimlari"
-							url="/app/definition/defmanager.abc?type=stk"/>
-						<p:menuitem value="Finans Gorev Tanimlari"
-							url="/app/definition/defmanager.abc?type=fin"/>
-					</p:submenu>
->>>>>>> .r114
 
 		<div id="content">
 
@@ -61,8 +28,6 @@
 		<p:dialog id="busyStatus" widgetVar="busyStatusDialog" modal="true" showHeader="false" draggable="false" visible="false" closable="false" resizable="false">
 			<h:graphicImage library="default" name="img/ajax-loader.gif" />
 		</p:dialog>
-
-	
 
 	</h:body>
 </f:view>

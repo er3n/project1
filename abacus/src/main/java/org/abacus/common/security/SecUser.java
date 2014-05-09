@@ -21,6 +21,8 @@ public class SecUser implements UserDetails {
 	private List<OrganizationEntity> organizationList;
 	private OrganizationEntity selectedOrganization;
 
+	private OrganizationEntity rootOrganization;
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
@@ -39,11 +41,11 @@ public class SecUser implements UserDetails {
 
 		return authorities;
 	}
-	
-	public void init(List<OrganizationEntity> organizationList,
-			OrganizationEntity selectedOrganization) {
+
+	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, OrganizationEntity rootOrganization) {
 		setOrganizationList(organizationList);
 		setSelectedOrganization(selectedOrganization);
+		setRootOrganization(rootOrganization);
 	}
 
 	@Override
@@ -116,8 +118,12 @@ public class SecUser implements UserDetails {
 		this.selectedOrganization = selectedOrganization;
 	}
 
-	public String setSelectedOrganizationId() {
-		return getSelectedOrganization().getId();
+	public OrganizationEntity getRootOrganization() {
+		return rootOrganization;
+	}
+
+	public void setRootOrganization(OrganizationEntity rootOrganization) {
+		this.rootOrganization = rootOrganization;
 	}
 
 }

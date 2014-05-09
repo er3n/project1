@@ -17,6 +17,6 @@ public interface OrganizationHandler extends Serializable{
 
 	OrganizationEntity findParentOrganization(OrganizationEntity child);
 	
-	OrganizationEntity findRootOrganization();
+
 
 }

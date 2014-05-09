@@ -6,6 +6,7 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 
 import org.abacus.common.security.SecUser;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -33,13 +34,21 @@ public class SessionInfoHelper implements Serializable {
 	}
 
 	public String currentOrganizationId() {
-		return currentUser().setSelectedOrganizationId();
+		return currentUser().getSelectedOrganization().getId();
 	}
 	
 	public void redirect(){
 		FacesContext context = FacesContext.getCurrentInstance();
 	    NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
 	    navigationHandler.handleNavigation(context, null, "/app/index.abc?faces-redirect=true");
+	}
+	
+	public OrganizationEntity currentRootOrganization(){
+		return currentUser().getRootOrganization();
+	}
+
+	public String currentRootOrganizationId() {
+		return currentRootOrganization().getId();
 	}
 	
 }

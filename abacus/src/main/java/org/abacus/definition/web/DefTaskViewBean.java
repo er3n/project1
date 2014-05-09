@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.definition.shared.entity.DefTypeEntity;
@@ -23,35 +24,37 @@ public class DefTaskViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
-	
+
 	@ManagedProperty(value = "#{defTaskHandler}")
 	private DefTaskHandler defTaskService;
 
 	@ManagedProperty(value = "#{organizationHandler}")
 	private OrganizationHandler organizationHandler;
 
+	@ManagedProperty(value = "#{sessionInfoHelper}")
+	private SessionInfoHelper sessionInfoHelper;
+
 	private DefTypeEntity selType;
 
 	private DefTaskEntity selTask;
 	private List<DefTaskEntity> taskList;
-	
+
 	private OrganizationEntity rootOrganization;
 
 	@PostConstruct
 	public void init() {
-		rootOrganization = organizationHandler.findRootOrganization();
+		rootOrganization = sessionInfoHelper.currentRootOrganization();
 	}
-	
+
 	public void setSelType(DefTypeEntity selType) {
 		this.selType = selType;
 		findTypeTask();
 	}
 
 	public void taskRowSelectListener() {
-//		System.out.println("taskRowSelectListener");
+		// System.out.println("taskRowSelectListener");
 	}
 
-	
 	public void saveTask() {
 		if (selTask.isNew()) {
 			jsfMessageHelper.addInfo("taskKayitIslemiBasarili");
@@ -79,14 +82,14 @@ public class DefTaskViewBean implements Serializable {
 	public void findTypeTask() {
 		createTask();
 		taskList = null;
-		if (selType!=null){
+		if (selType != null) {
 			taskList = defTaskService.getTaskList(rootOrganization.getId(), selType.getId());
 		} else {
 			taskList = new ArrayList<DefTaskEntity>();
 		}
-//		System.out.println(taskList);
+		// System.out.println(taskList);
 	}
-	
+
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
 	}
@@ -95,13 +98,12 @@ public class DefTaskViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-
 	public DefTaskEntity getSelTask() {
 		return selTask;
 	}
 
 	public void setSelTask(DefTaskEntity selTask) {
-		if (selTask!=null){
+		if (selTask != null) {
 			this.selTask = selTask;
 		}
 	}
@@ -130,5 +132,12 @@ public class DefTaskViewBean implements Serializable {
 		this.organizationHandler = organizationHandler;
 	}
 
+	public SessionInfoHelper getSessionInfoHelper() {
+		return sessionInfoHelper;
+	}
+
+	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
+		this.sessionInfoHelper = sessionInfoHelper;
+	}
 
 }

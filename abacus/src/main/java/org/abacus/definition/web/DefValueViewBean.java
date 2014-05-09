@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
@@ -40,28 +41,29 @@ public class DefValueViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
-	
 
 	@ManagedProperty(value = "#{organizationHandler}")
 	private OrganizationHandler organizationHandler;
-	
+
+	@ManagedProperty(value = "#{sessionInfoHelper}")
+	private SessionInfoHelper sessionInfoHelper;
+
 	private OrganizationEntity rootOrganization;
 
 	@PostConstruct
 	public void init() {
-		rootOrganization = organizationHandler.findRootOrganization();
+		rootOrganization = sessionInfoHelper.currentRootOrganization();
 		rootVal = new DefValueEntity();
 		rootVal.setId(0L);
 	}
-	
-	
+
 	public void setSelType(DefTypeEntity selType) {
 		this.selType = selType;
-		this.selVal=null;
+		this.selVal = null;
 		clearValue();
 		findTypeValue();
 	}
-	
+
 	public void saveValue() {
 		int idx = 0;
 		if (selVal.isNew()) {
@@ -79,7 +81,8 @@ public class DefValueViewBean implements Serializable {
 	}
 
 	public void valueSelectListener(NodeSelectEvent event) {
-//		System.out.println("valueSelectListener:" + event.getTreeNode().toString());
+		// System.out.println("valueSelectListener:" +
+		// event.getTreeNode().toString());
 		if (selNode == null || selNode.getData() == null) {
 			selVal = null;
 			clearValue();
@@ -103,13 +106,13 @@ public class DefValueViewBean implements Serializable {
 	public void findTypeValue() {
 		clearValue();
 		valList = null;
-		if (selType!=null){
+		if (selType != null) {
 			valList = defValService.getValueList(rootOrganization.getId(), selType.getId());
 		} else {
 			valList = new ArrayList<>();
 		}
 		refreshTree();
-//		System.out.println(valList);
+		// System.out.println(valList);
 	}
 
 	private void newRoot() {
@@ -188,14 +191,28 @@ public class DefValueViewBean implements Serializable {
 		this.selNode = selNode;
 	}
 
-
 	public OrganizationHandler getOrganizationHandler() {
 		return organizationHandler;
 	}
 
-
 	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
 		this.organizationHandler = organizationHandler;
+	}
+
+	public SessionInfoHelper getSessionInfoHelper() {
+		return sessionInfoHelper;
+	}
+
+	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
+		this.sessionInfoHelper = sessionInfoHelper;
+	}
+
+	public OrganizationEntity getRootOrganization() {
+		return rootOrganization;
+	}
+
+	public void setRootOrganization(OrganizationEntity rootOrganization) {
+		this.rootOrganization = rootOrganization;
 	}
 
 }

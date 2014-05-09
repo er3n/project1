@@ -11,7 +11,6 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefUnitHandler;
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -43,7 +42,7 @@ public class UnitViewBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		rootOrganization = organizationHandler.findRootOrganization();
+		rootOrganization = sessionInfoHelper.currentRootOrganization();
 		findUnitGroupList();
 	}
 	
@@ -150,6 +149,8 @@ public class UnitViewBean implements Serializable {
 	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
 		this.organizationHandler = organizationHandler;
 	}
+	
+	
 
 
 }

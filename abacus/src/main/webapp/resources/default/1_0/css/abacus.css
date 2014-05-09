@@ -1,17 +1,50 @@
-body{
-	padding:0px;
-	margin:0 auto;
+body {
+	padding: 0px;
+	margin: 0 auto;
 	width: 1200px;
-	}
-
-.ui-widget, .ui-widget .ui-widget {
-    font-size: 11px !important;
 }
 
-tr{
-    vertical-align: top;
-    text-align: left;
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 11px !important;
 }
 
+tr {
+	vertical-align: top;
+	text-align: left;
+}
+
+.menuStyle {
+	margin: 5px 0 10px 0;
+}
+
+html,body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+}
+
+#main {
+	overflow: auto;
+	padding-bottom: 35px;
+} /* must be same height as the footer */
+#footer {
+	position: relative;
+	margin-top: -30px; /* negative value of footer height */
+	height: 30px;
+	clear: both;
+	text-align:center;
+	color:#888888;
+	border-top:1px dotted;
 	
- 
+}  
+/*Opera Fix*/
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px;
+	/
+}

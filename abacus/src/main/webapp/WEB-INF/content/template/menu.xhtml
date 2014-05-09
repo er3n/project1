@@ -4,8 +4,8 @@
 
 
 <h:form>
-	<p:menubar>
-		<p:submenu label="Sistem Yonetimi">
+	<p:menubar styleClass="menuStyle" >
+		<p:submenu label="Sistem Yonetimi" rendered="#{sec:areAnyGranted('AUTH_SECURITY,AUTH_ORGANIZATION,AUTH_DEFINITION')}">
 
 			<p:submenu label="Guvenlik" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}">
 				<p:menuitem value="Kullanici Tanimlari" url="/app/user/usermanager.abc" />
@@ -17,8 +17,7 @@
 			</p:submenu>
 
 			<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
-				<p:menuitem value="Paremetre Tanimlari" url="/app/definition/defmanager.abc?type=prm" />
-				<p:menuitem value="Durum Tanimlari" url="/app/definition/defmanager.abc?type=stt" />
+				<p:menuitem value="Paremetreler" url="/app/definition/defmanager.abc?type=prm" />
 				<p:menuitem value="Stok Gorev Tanimlari" url="/app/definition/defmanager.abc?type=stk" />
 				<p:menuitem value="Finans Gorev Tanimlari" url="/app/definition/defmanager.abc?type=fin" />
 				<p:menuitem value="Kod Tanimlari" url="/app/definition/defmanager.abc?type=val" />

@@ -16,12 +16,18 @@
 
 		<ui:include src="menu.xhtml" />
 
-		<div id="content">
+		<div id="wrap">
 
 			<p:growl id="growl" showDetail="true" sticky="false" autoUpdate="true" life="3000" />
 
-			<ui:insert name="content" />
+			<div id="main">
+				<ui:insert name="content" />
+			</div>
 
+		</div>
+
+		<div id="footer">
+			<p:outputLabel value="#{lbl.projectFooter}" />
 		</div>
 
 		<p:ajaxStatus onstart="lockScreen();" oncomplete="releaseScreen();" />

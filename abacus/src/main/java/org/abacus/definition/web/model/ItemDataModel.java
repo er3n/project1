@@ -48,7 +48,7 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 
 	@Override
 	public List<DefItemEntity> load(int first, int pageSize, String sortField,
-			SortOrder sortOrder, Map<String, String> filters) {
+			SortOrder sortOrder, Map<String, Object> filters) {
 
 		searchCriteria.setFirst(first);
 		searchCriteria.setPageSize(pageSize);
@@ -57,6 +57,9 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 
 		ReadItemEvent readItemEvent = itemHandler
 				.findItem(new RequestReadItemEvent(searchCriteria));
+		
+		this.clearFilters();
+		
 		currentResult = readItemEvent.getItemList();
 
 		int dataSize = readItemEvent.getTotalCount();
@@ -66,17 +69,31 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 
 	}
 	
-	private void addFilters(Map<String, String> filters){
+	private void clearFilters() {
+		searchCriteria.setCodeLike(null);
+		searchCriteria.setNameLike(null);
+		searchCriteria.setStatus(null);
+		searchCriteria.setCategoryCodeLike(null);
+		
+	}
+
+	private void addFilters(Map<String, Object> filters){
 		if(!CollectionUtils.isEmpty(filters)){
 			
 			Set<String> nameSet = filters.keySet();
 			
 			for(String name : nameSet){
 				if(name.equals("code")){
-					searchCriteria.setCodeLike(filters.get(name));
+					searchCriteria.setCodeLike((String)filters.get(name));
 				}
-				else if(name.equals("name")){
-					searchCriteria.setNameLike(filters.get(name));
+				if(name.equals("name")){
+					searchCriteria.setNameLike((String)filters.get(name));
+				}
+				if(name.equals("category")){
+					searchCriteria.setCategoryCodeLike((String)filters.get(name));
+				}
+				if(name.equals("active")){
+					searchCriteria.setStatus((Boolean)filters.get(name));
 				}
 			}
 			

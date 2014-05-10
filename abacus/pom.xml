@@ -10,7 +10,7 @@
 	<properties>
 		<java-version>1.7</java-version>
 		<jsf-version>2.1.26</jsf-version>
-		<primefaces-version>4.0</primefaces-version>
+		<primefaces-version>5.0</primefaces-version>
 		<javax-servlet-api>3.0.1</javax-servlet-api>
 		<springframework-version>4.0.3.RELEASE</springframework-version>
 		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>

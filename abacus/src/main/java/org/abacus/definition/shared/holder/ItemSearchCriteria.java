@@ -13,6 +13,8 @@ public class ItemSearchCriteria implements Serializable {
 	private DefItemClassEnum itemClass;
 	private String codeLike;
 	private String nameLike;
+	private String categoryCodeLike;
+	private Boolean status;
 
 	private Integer first;
 	private Integer pageSize;
@@ -78,6 +80,22 @@ public class ItemSearchCriteria implements Serializable {
 
 	public void setNameLike(String nameLike) {
 		this.nameLike = nameLike;
+	}
+
+	public String getCategoryCodeLike() {
+		return categoryCodeLike;
+	}
+
+	public void setCategoryCodeLike(String categoryCodeLike) {
+		this.categoryCodeLike = categoryCodeLike;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 }

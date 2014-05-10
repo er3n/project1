@@ -58,6 +58,13 @@ public class DefItemDao implements Serializable {
 		if(StringUtils.hasText(searchCriteria.getNameLike())){
 			criteria.add(Restrictions.ilike("i.name", "%" + searchCriteria.getNameLike() + "%"));
 		}
+		if(StringUtils.hasText(searchCriteria.getCategoryCodeLike())){
+			criteria.createAlias("i.category", "c");
+			criteria.add(Restrictions.ilike("c.code", "%" + searchCriteria.getCategoryCodeLike() + "%"));
+		}
+		if(searchCriteria.getStatus() != null){
+			criteria.add(Restrictions.eq("i.active", searchCriteria.getStatus()));
+		}
 		
 		return criteria;
 	}

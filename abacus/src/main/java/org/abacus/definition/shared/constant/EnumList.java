@@ -77,5 +77,22 @@ public interface EnumList {
 		}
 		
 	}
+	
+	enum DefItemTypeEnum implements ISelectionEnum {
+		ITM_SR_FN("Finans Hizmetleri"), // Fin
+		ITM_SR_ST("Stok Hizmetleri"), // Stock
+		ITM_SR_FA("Demirbaslar"); // Fas;
+		private String description;
+		
+		private DefItemTypeEnum(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+		
+	}
 
 }

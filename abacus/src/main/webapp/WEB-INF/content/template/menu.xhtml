@@ -6,29 +6,19 @@
 <h:form>
 	<p:menubar styleClass="menuStyle" >
 		<p:submenu label="Sistem Yonetimi" rendered="#{sec:areAnyGranted('AUTH_SECURITY,AUTH_ORGANIZATION,AUTH_DEFINITION')}">
-
-			<p:submenu label="Guvenlik" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}">
-				<p:menuitem value="Kullanici Tanimlari" url="/app/user/usermanager.abc" />
-				<p:menuitem value="Grup Tanimlari" url="/app/user/rolemanager.abc" />
-			</p:submenu>
-
-			<p:submenu label="Organizasyon" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}">
-				<p:menuitem value="Sirket Tanimlari" url="/app/organization/orgmanager.abc" />
-			</p:submenu>
-
-			<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
-				<p:menuitem value="Paremetreler" url="/app/definition/defmanager.abc?type=prm" />
-				<p:menuitem value="Stok Gorev Tanimlari" url="/app/definition/defmanager.abc?type=stk" />
-				<p:menuitem value="Finans Gorev Tanimlari" url="/app/definition/defmanager.abc?type=fin" />
-				<p:menuitem value="Kod Tanimlari" url="/app/definition/defmanager.abc?type=val" />
-				<p:menuitem value="Hesap Tanimlari" url="/app/definition/defmanager.abc?type=itm" />
-			</p:submenu>
-
+			<p:menuitem value="Organizasyon Tanimlari" url="/app/organization/orgmanager.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
+			<p:menuitem value="Kullanici Tanimlari" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}"/>
+			<p:menuitem value="Grup Tanimlari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}" />			
+			<p:menuitem value="Paremetre Tanimlari" url="/app/definition/defmanager.abc?type=prm" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}"/>
+			<p:menuitem value="Kod Tanimlari" url="/app/definition/defmanager.abc?type=val" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}"/>
+			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?type=itm" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}"/>
+			<p:menuitem value="Stok Gorev Tanimlari" url="/app/definition/defmanager.abc?type=stk" />
+			<p:menuitem value="Finans Gorev Tanimlari" url="/app/definition/defmanager.abc?type=fin" />
+			<p:menuitem value="Birim Tanimlari" url="/app/defunit/unitmanager.abc" />
 		</p:submenu>
 
 		<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
-			<p:menuitem value="Birim Tanimlari" url="/app/defunit/unitmanager.abc" />
-			<p:menuitem value="Malzeme Tanimlari" url="/app/index.abc?faces-redirect=true" />
+			<p:menuitem value="Malzeme Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" />   
 			<p:menuitem value="Yemek Tanimlari" url="/app/index.abc?faces-redirect=true" />
 			<p:menuitem value="Menu Tanimlari" url="/app/index.abc?faces-redirect=true" />
 		</p:submenu>

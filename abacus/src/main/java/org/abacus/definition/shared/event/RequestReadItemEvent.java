@@ -1,21 +1,22 @@
 package org.abacus.definition.shared.event;
 
+import org.abacus.common.shared.event.RequestReadEvent;
+import org.abacus.definition.shared.holder.ItemSearchCriteria;
 
-public class RequestReadItemEvent {
+public class RequestReadItemEvent extends RequestReadEvent {
 
-	private String organizationId;
+	private ItemSearchCriteria itemSearchCriteria;
 
-
-	public RequestReadItemEvent(String organizationId) {
-		this.organizationId = organizationId;
+	public RequestReadItemEvent(ItemSearchCriteria itemSearchCriteria) {
+		this.itemSearchCriteria = itemSearchCriteria;
 	}
 
-	public String getOrganizationId() {
-		return organizationId;
+	public ItemSearchCriteria getItemSearchCriteria() {
+		return itemSearchCriteria;
 	}
 
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
+	public void setItemSearchCriteria(ItemSearchCriteria itemSearchCriteria) {
+		this.itemSearchCriteria = itemSearchCriteria;
 	}
 
 }

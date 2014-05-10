@@ -134,7 +134,7 @@
 					<h:outputText value="Gruplar" />
 					<p:pickList value="#{userViewBean.selectedUserGroupDL}" var="group"
 						itemValue="#{group}" itemLabel="#{group.name}"
-						converter="groupEntityConverter" showCheckbox="true"
+						converter="groupEntityConverter"
 						showSourceFilter="true" showTargetFilter="true"
 						filterMatchMode="contains">
 
@@ -152,7 +152,7 @@
 					<p:pickList value="#{userViewBean.selectedUserOrganizationDL}"
 						var="organization" itemValue="#{organization}"
 						itemLabel="#{organization.name}"
-						converter="organizationEntityConverter" showCheckbox="true"
+						converter="organizationEntityConverter" 
 						required="true" requiredMessage="En az bir sirket secilmelidir."
 						showSourceFilter="true" showTargetFilter="true"
 						filterMatchMode="contains">

@@ -8,6 +8,10 @@ public class ReadItemEvent {
 
 	private List<DefItemEntity> itemList;
 
+	public ReadItemEvent(List<DefItemEntity> itemList) {
+		this.itemList = itemList;
+	}
+
 	public List<DefItemEntity> getItemList() {
 		return itemList;
 	}

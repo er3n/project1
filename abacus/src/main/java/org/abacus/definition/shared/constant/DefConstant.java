@@ -11,9 +11,8 @@ public interface DefConstant {
 		ITM_BN, // Bank
 		ITM_TX, // Tax
 		ITM_SR, // Services
-		ITM_SR_SR, // Service
+		ITM_SR_FN, // Fin
 		ITM_SR_ST, // Stock
-		ITM_SR_CS, // Cost
 		ITM_SR_FA, // Fas
 		ITM_CU, // Customer
 		ITM_VE, // Vendor

@@ -11,11 +11,11 @@ public class ItemSearchCriteria implements Serializable {
 	private String organization;
 	private DefItemTypeEnum itemType;
 	private DefItemClassEnum itemClass;
+	private String codeLike;
+	private String nameLike;
 
 	private Integer first;
 	private Integer pageSize;
-
-	private Long resultCount;
 
 	public ItemSearchCriteria(String organization, DefItemTypeEnum itemType,
 			DefItemClassEnum itemClass) {
@@ -64,12 +64,20 @@ public class ItemSearchCriteria implements Serializable {
 		this.pageSize = pageSize;
 	}
 
-	public Long getResultCount() {
-		return resultCount;
+	public String getCodeLike() {
+		return codeLike;
 	}
 
-	public void setResultCount(Long resultCount) {
-		this.resultCount = resultCount;
+	public void setCodeLike(String codeLike) {
+		this.codeLike = codeLike;
+	}
+
+	public String getNameLike() {
+		return nameLike;
+	}
+
+	public void setNameLike(String nameLike) {
+		this.nameLike = nameLike;
 	}
 
 }

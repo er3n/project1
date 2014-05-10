@@ -12,21 +12,36 @@
 		<h:form id="form">
 
 			<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}"
-				paginator="true" rows="20"
+				paginator="true" rows="10" paginatorAlwaysVisible="true"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 				rowsPerPageTemplate="10,20" selectionMode="single"
 				selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
 
-	
-
-				<p:column headerText="Kod">
+				<p:column headerText="Kod" filterBy="#{item.code}">
 					<h:outputText value="#{item.code}" />
 				</p:column>
 
-				<p:column headerText="Ad">
+				<p:column headerText="Ad" filterBy="#{item.name}">
 					<h:outputText value="#{item.name}" />
 				</p:column>
-				
+
+				<p:column headerText="Kategori" filterBy="#{item.category}">
+					<h:outputText value="#{item.category.name}" />
+				</p:column>  
+ 
+				<p:column headerText="Durum" filterBy="#{item.active}" filterMatchMode="equals" >
+					<f:facet name="filter"> 
+						<p:selectOneButton >
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="Hepsi" itemValue="" />
+							<f:selectItem itemLabel="Aktif" itemValue="true" />
+							<f:selectItem itemLabel="Pasif" itemValue="false" />
+						</p:selectOneButton>
+					</f:facet>  
+					<h:outputText value="Aktif" rendered="#{item.active}" />
+					<h:outputText value="Pasif" rendered="#{item.active == false}" />
+				</p:column>
+
 			</p:dataTable>
 
 		</h:form>

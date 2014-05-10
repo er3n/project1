@@ -7,9 +7,11 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 public class ReadItemEvent {
 
 	private List<DefItemEntity> itemList;
-
-	public ReadItemEvent(List<DefItemEntity> itemList) {
+	private Integer totalCount;
+	
+	public ReadItemEvent(List<DefItemEntity> itemList, Integer totalCount) {
 		this.itemList = itemList;
+		this.totalCount = totalCount;
 	}
 
 	public List<DefItemEntity> getItemList() {
@@ -18,6 +20,14 @@ public class ReadItemEvent {
 
 	public void setItemList(List<DefItemEntity> itemList) {
 		this.itemList = itemList;
+	}
+
+	public Integer getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
 	}
 
 }

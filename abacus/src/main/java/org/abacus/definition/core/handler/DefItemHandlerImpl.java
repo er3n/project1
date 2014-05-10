@@ -41,7 +41,8 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		ItemSearchCriteria searchCriteria = event.getItemSearchCriteria();
 		if(searchCriteria != null){
 			List<DefItemEntity> resultList = itemDao.requestItems(searchCriteria);
-			return new ReadItemEvent(resultList);
+			Integer totalCount = itemDao.itemCount(searchCriteria);
+			return new ReadItemEvent(resultList,totalCount);
 		}
 		
 		return null;

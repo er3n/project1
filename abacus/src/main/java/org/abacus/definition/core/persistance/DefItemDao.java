@@ -36,10 +36,6 @@ public class DefItemDao implements Serializable {
 		
 		List<DefItemEntity> resultList = criteria.list();
 		
-		Long totalCount = this.itemCount(searchCriteria);
-		
-		searchCriteria.setResultCount(totalCount);
-		
 		return resultList;
 	}
 	
@@ -56,15 +52,21 @@ public class DefItemDao implements Serializable {
 		if(searchCriteria.getItemClass() != null){
 			criteria.add(Restrictions.eq("i.itemClass", searchCriteria.getItemClass()));
 		}
+		if(StringUtils.hasText(searchCriteria.getCodeLike())){
+			criteria.add(Restrictions.ilike("i.code", "%" + searchCriteria.getCodeLike().toLowerCase() + "%"));
+		}
+		if(StringUtils.hasText(searchCriteria.getNameLike())){
+			criteria.add(Restrictions.ilike("i.name", "%" + searchCriteria.getNameLike() + "%"));
+		}
 		
 		return criteria;
 	}
 	
-	public Long itemCount(ItemSearchCriteria searchCriteria){
+	public Integer itemCount(ItemSearchCriteria searchCriteria){
 		Criteria criteria = this.createRequestItemsCriteria(searchCriteria);
 		criteria.setProjection(Projections.rowCount());
 		Long count = (Long) criteria.uniqueResult();
-		return count;
+		return count.intValue();
 	}
 
 	

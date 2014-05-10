@@ -2,14 +2,14 @@ package org.abacus.definition.core.persistance.repository;
 
 import java.util.List;
 
-import org.abacus.definition.shared.entity.DefParamEntity;
+import org.abacus.definition.shared.entity.DefParamAnswerEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface DefParamAnswerRepository extends CrudRepository<DefParamEntity, String> {
+public interface DefParamAnswerRepository extends CrudRepository<DefParamAnswerEntity, Long> {
 
-	@Query("select a from DefParamAnswerEntity a where a.id = :paramId order by a.id")
-	List<DefParamEntity> getParamList(@Param("paramId") String paramId);
+	@Query("select a from DefParamAnswerEntity a where a.param.id = :paramId and a.organization.id like :companyId% order by a.id")
+	List<DefParamAnswerEntity> getParamAnswerList(@Param("paramId") String paramId, @Param("companyId") String companyId);
 	
 }

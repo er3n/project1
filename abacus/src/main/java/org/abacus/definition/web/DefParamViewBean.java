@@ -30,6 +30,8 @@ public class DefParamViewBean implements Serializable {
 	private DefParamEntity selParam;
 	private List<DefParamEntity> paramList;
 
+	@ManagedProperty(value = "#{defParamAnswerViewBean}")
+	private DefParamAnswerViewBean defParamAnswerViewBean;
 
 	@PostConstruct
 	public void init() {
@@ -41,7 +43,7 @@ public class DefParamViewBean implements Serializable {
 	}
 
 	public void paramRowSelectListener() {
-//		System.out.println("paramRowSelectListener");
+		defParamAnswerViewBean.setSelParam(selParam);
 	}
 
 	
@@ -66,6 +68,8 @@ public class DefParamViewBean implements Serializable {
 	public void createParam() {
 		selParam = new DefParamEntity();
 		selParam.setType(selType);
+		
+		defParamAnswerViewBean.setSelParam(null);
 	}
 
 	public void findTypeParam() {
@@ -111,6 +115,15 @@ public class DefParamViewBean implements Serializable {
 
 	public void setParamList(List<DefParamEntity> paramList) {
 		this.paramList = paramList;
+	}
+
+	public DefParamAnswerViewBean getDefParamAnswerViewBean() {
+		return defParamAnswerViewBean;
+	}
+
+	public void setDefParamAnswerViewBean(
+			DefParamAnswerViewBean defParamAnswerViewBean) {
+		this.defParamAnswerViewBean = defParamAnswerViewBean;
 	}
 
 }

@@ -15,16 +15,16 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 @SuppressWarnings("serial")
 public class DefParamAnswerEntity extends DynamicEntity {
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "param_id", nullable = false)
 	private DefParamEntity param;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
 
-	@Column(name = "value", nullable = false)
-	private String value;
+	@Column(name = "answer", nullable = false)
+	private String answer;
 
 	public DefParamAnswerEntity(){
 	}
@@ -45,13 +45,12 @@ public class DefParamAnswerEntity extends DynamicEntity {
 		this.organization = organization;
 	}
 
-	public String getValue() {
-		return value;
+	public String getAnswer() {
+		return answer;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
-	
-	
+
 }

@@ -23,19 +23,19 @@
 						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveParam" update=":paramForm" ajax="true"
+							<p:commandButton id="saveParam" update=":paramForm :paramAnswerForm" ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{defParamViewBean.saveParam}"/>
-							<p:commandButton id="deleteParam" update=":paramForm"
+							<p:commandButton id="deleteParam" update=":paramForm :paramAnswerForm"
 								ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? '-' : 'Sil'}"
 								actionListener="#{defParamViewBean.deleteParam}"
 								immediate="true" />
-							<p:commandButton id="clearParam" update=":paramForm"
+							<p:commandButton id="clearParam" update=":paramForm :paramAnswerForm"
 								ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{defParamViewBean.createParam}" process="@this">
-								<p:resetInput target=":paramForm"/>
+								<p:resetInput target=":paramForm :paramAnswerForm"/>
 							</p:commandButton>
 						</f:facet>
 					</p:panel>
@@ -47,7 +47,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selParam.id}"
 						rows="10" resizableColumns="true">
 						
-						<p:ajax event="rowSelect" update=":paramForm"
+						<p:ajax event="rowSelect" update=":paramForm :paramAnswerForm"
 							listener="#{defParamViewBean.paramRowSelectListener}">
 						</p:ajax>
 
@@ -62,6 +62,7 @@
 					</p:dataTable>
 
 				</h:form>
+				<ui:include src="defParamAnswer.xhtml"></ui:include>
 			</h:panelGrid>
 			<!-- paramGrid -->
 </ui:composition>

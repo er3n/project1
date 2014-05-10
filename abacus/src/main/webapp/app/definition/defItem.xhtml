@@ -9,51 +9,92 @@
 
 	<ui:define name="content">
 
-		<p:panel >
 
-			<h:form id="form">
 
-				<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}"
-					widgetVar="itemsTable" paginator="true" rows="5"
-					paginatorAlwaysVisible="true"
-					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-					rowsPerPageTemplate="5,10,20" selectionMode="single"
-					selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
+		<h:form id="form">
 
-					<p:column headerText="Kod" filterBy="#{item.code}">
-						<h:outputText value="#{item.code}" />
-					</p:column>
+			<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}"
+				widgetVar="itemsTable" paginator="true" rows="5"
+				paginatorAlwaysVisible="true"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,20" selectionMode="single"
+				selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
 
-					<p:column headerText="Ad" filterBy="#{item.name}">
-						<h:outputText value="#{item.name}" />
-					</p:column>
+				<p:ajax event="rowSelect" update=":itemDeatails" listener="#{itemViewBean.itemSelected}"/>
 
-					<p:column headerText="Kategori" filterBy="#{item.category}">
-						<h:outputText value="#{item.category.name}" />
-					</p:column>
+				<p:column headerText="Kod" filterBy="#{item.code}">
+					<h:outputText value="#{item.code}" />
+				</p:column>
 
-					<p:column headerText="Durum" filterBy="#{item.active}">
-						<f:facet name="filter">
-							<p:selectOneButton onchange="PF('itemsTable').filter()">
-								<f:converter converterId="javax.faces.Boolean" />
-								<f:selectItem itemLabel="Hepsi" itemValue="" />
-								<f:selectItem itemLabel="Aktif" itemValue="true" />
-								<f:selectItem itemLabel="Pasif" itemValue="false" />
-							</p:selectOneButton>
-						</f:facet>
-						<h:outputText value="Aktif" rendered="#{item.active}" />
-						<h:outputText value="Pasif" rendered="#{item.active == false}" />
-					</p:column>
+				<p:column headerText="Ad" filterBy="#{item.name}">
+					<h:outputText value="#{item.name}" />
+				</p:column>
 
-					<f:facet name="header">
-						<p:button value="Yeni" />
-						<p:button value="Temizle" />
+				<p:column headerText="Kategori" filterBy="#{item.category}">
+					<h:outputText value="#{item.category.name}" />
+				</p:column>
+
+				<p:column headerText="Durum" filterBy="#{item.active}">
+					<f:facet name="filter">
+						<p:selectOneButton onchange="PF('itemsTable').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="Hepsi" itemValue="" />
+							<f:selectItem itemLabel="Aktif" itemValue="true" />
+							<f:selectItem itemLabel="Pasif" itemValue="false" />
+						</p:selectOneButton>
 					</f:facet>
+					<h:outputText value="Aktif" rendered="#{item.active}" />
+					<h:outputText value="Pasif" rendered="#{item.active == false}" />
+				</p:column>
 
-				</p:dataTable>
+				<f:facet name="header">
+					<p:button value="Yeni" />
+					<p:button value="Temizle" />
+				</f:facet>
 
-			</h:form>
-		</p:panel>
+			</p:dataTable>
+
+		</h:form>
+
+
+		<h:form id="itemDeatails">
+			<p:panel header="Malzeme Detay"
+				rendered="#{not empty itemViewBean.selectedItem}">
+
+				<h:panelGrid columns="6" cellspacing="10">
+
+					<h:outputLabel value="Kod" for="itemCode" />
+					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" />
+
+					<h:outputLabel value="Ad" for="itemName" />
+					<p:inputText id="itemName"
+						value="#{itemViewBean.selectedItem.name}" />
+
+					<h:outputLabel value="Kategori" for="itemCategory" />
+					<p:inputText id="itemCategory"
+						value="#{itemViewBean.selectedItem.category.name}" />
+
+					<h:outputLabel value="Birim" for="itemUnit" />
+					<p:inputText id="itemUnit"
+						value="#{itemViewBean.selectedItem.unitGroup.name}" />
+
+					<h:outputLabel value="Durum" for="itemStatus" />
+					<p:selectOneButton id="itemStatus"
+						value="#{itemViewBean.selectedItem.active}">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="Aktif" itemValue="true" />
+						<f:selectItem itemLabel="Pasif" itemValue="false" />
+					</p:selectOneButton>
+
+				</h:panelGrid>
+
+
+				<f:facet name="footer">
+					<p:commandButton value="Guncelle" />
+				</f:facet>
+  
+			</p:panel>
+		</h:form>
 
 	</ui:define>
 

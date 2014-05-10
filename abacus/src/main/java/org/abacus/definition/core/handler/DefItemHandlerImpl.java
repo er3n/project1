@@ -3,6 +3,7 @@ package org.abacus.definition.core.handler;
 import java.util.List;
 
 import org.abacus.definition.core.persistance.DefItemDao;
+import org.abacus.definition.core.persistance.repository.DefItemRepository;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
 import org.abacus.definition.shared.event.ItemCreatedEvent;
@@ -21,6 +22,9 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	
 	@Autowired
 	private DefItemDao itemDao;
+	
+	@Autowired
+	private DefItemRepository itemRepository;
 
 	@Override
 	public ItemCreatedEvent newItem(CreateItemEvent event) {
@@ -43,6 +47,11 @@ public class DefItemHandlerImpl implements DefItemHandler{
 			List<DefItemEntity> resultList = itemDao.requestItems(searchCriteria);
 			Integer totalCount = itemDao.itemCount(searchCriteria);
 			return new ReadItemEvent(resultList,totalCount);
+		}else if(event.getItemId() != null){
+			DefItemEntity itemEntity = itemRepository.findWithFetch(event.getItemId());
+			itemEntity.getCategory().getName();
+			itemEntity.getUnitGroup().getName();
+			return new ReadItemEvent(itemEntity);
 		}
 		
 		return null;

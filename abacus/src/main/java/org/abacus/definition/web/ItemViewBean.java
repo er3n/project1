@@ -13,6 +13,8 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.event.ReadItemEvent;
+import org.abacus.definition.shared.event.RequestReadItemEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
 
@@ -27,7 +29,7 @@ public class ItemViewBean implements Serializable {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
-	@ManagedProperty(value = "#{itemHandler}")
+	@ManagedProperty(value = "#{defItemHandler}")
 	private DefItemHandler itemHandler;
 
 	private ItemSearchCriteria itemSearchCriteria;
@@ -40,6 +42,11 @@ public class ItemViewBean implements Serializable {
 	public void init() {
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
+	}
+	
+	public void itemSelected(){
+		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(selectedItem.getId()));
+		selectedItem = readItemEvent.getItem();
 	}
 
 	private void initParameters() {

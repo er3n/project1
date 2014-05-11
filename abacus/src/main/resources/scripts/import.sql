@@ -73,8 +73,8 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', '1', 'Stk Giris', 1, 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', '1', 'Stk Cikis', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', '1', 'Stk Giris #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', '1', 'Stk Cikis #', 1, 0);
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'S', 'Sayilabilen', 0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'AD', 'Adet', 1, 0);
@@ -90,18 +90,7 @@ insert into def_unit_group (id, organization_id, code, name, version) values (ne
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'MT', 'Metre', 1, 0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-2, 'CM', 'SantiMetre', 0.01, 0);
 
-commit;
-
-insert into org_organization (id, name, level_enum, parent_id) select replace(id,'#','01') id, replace(name,'#','01') as name, level_enum, replace(parent_id,'#','01') parent_id from org_organization where id like '#%';
-insert into org_department (id, organization_id, group_enum, code, name, version) select nextval('seq_id') id, replace(organization_id,'#','01') organization_id, group_enum, code, name, version from org_department where organization_id like '#%';
-
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','01', 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) select nextval('seq_id') id, '01' organization_id, type_id, code, name, is_active, version from def_task where organization_id = '#';
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) select nextval('seq_id') id, '01' organization_id, type_id, parent_id, code, name, is_active, version from def_value where organization_id = '#' and id>0;
-update def_value v set parent_id = (select p.id from def_value p where p.organization_id = v.organization_id and p.type_id = v.type_id and p.code = (select x.code from def_value x where x.id = v.parent_id)) where v.organization_id = '01' and v.parent_id > 0;
-
-insert into def_unit_group (id, organization_id, code, name, version) select nextval('seq_id'), '01' organization_id, code, name , version from def_unit_group where organization_id='#';
-insert into def_unit_code (id, unit_group_id, code, name, ratio, version) select nextval('seq_id') id, (select g.id from def_unit_group g where g.organization_id = '01' and g.code= (select x.code from def_unit_group x where x.id = y.unit_group_id)) unit_group_id, code, name, ratio, version from  def_unit_code y where unit_group_id in (select id from def_unit_group where organization_id='#');
+insert into def_param_answer (id, version, param_id, organization_id, answer) values (nextval('seq_id'), 0, 'PRM_STOCK_COSTTYPE', '#', 'FIFO');
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_M:'||currval('seq_id'), 'STK_M', 'STK_M:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 33);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_M:'||currval('seq_id'), 'STK_M', 'STK_M:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 33);
@@ -204,4 +193,3 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_M:'||currval('seq_id'), 'STK_M', 'STK_M:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 33);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_M:'||currval('seq_id'), 'STK_M', 'STK_M:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 33);
 
-commit;

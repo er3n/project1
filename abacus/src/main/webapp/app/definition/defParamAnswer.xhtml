@@ -8,7 +8,7 @@
 >
 			<!-- paramAnswerGrid -->
 			<h:panelGrid id="paramAnswerGrid" columns="1">
-				<h:form id="paramAnswerForm">
+				<h:form id="paramAnswerForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'PRM'}">
 					<p:panel id="paramAnswerPanel" header="Parametre">
 						<h:panelGrid id="paramAnswerGrid" columns="8" cellpadding="2">
 							<h:outputLabel value="Organizasyon:" />

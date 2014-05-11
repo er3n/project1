@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,10 +43,9 @@ public class SecUser implements UserDetails {
 		return authorities;
 	}
 
-	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, OrganizationEntity rootOrganization) {
+	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization) {
 		setOrganizationList(organizationList);
 		setSelectedOrganization(selectedOrganization);
-		setRootOrganization(rootOrganization);
 	}
 
 	@Override
@@ -116,6 +116,7 @@ public class SecUser implements UserDetails {
 
 	public void setSelectedOrganization(OrganizationEntity selectedOrganization) {
 		this.selectedOrganization = selectedOrganization;
+		this.rootOrganization = findRootOrganization(this.selectedOrganization);
 	}
 
 	public OrganizationEntity getRootOrganization() {
@@ -124,6 +125,20 @@ public class SecUser implements UserDetails {
 
 	public void setRootOrganization(OrganizationEntity rootOrganization) {
 		this.rootOrganization = rootOrganization;
+	}
+	
+	private OrganizationEntity findRootOrganization(OrganizationEntity child){
+		int currentLevelIndex = child.getLevel().ordinal();
+		int requestLevelIndex = EnumList.OrgOrganizationLevelEnum.L0.ordinal();
+		if (requestLevelIndex > currentLevelIndex){
+			return null;
+		} 
+		OrganizationEntity orgEntity = child;
+		while (requestLevelIndex < currentLevelIndex) {
+			orgEntity = orgEntity.getParent(); 
+			requestLevelIndex++;
+		}
+		return orgEntity;
 	}
 
 }

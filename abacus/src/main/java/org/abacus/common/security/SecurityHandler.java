@@ -43,7 +43,7 @@ public class SecurityHandler implements UserDetailsService {
 		secUser.setAuthorityNames(authorityNames);
 		
 		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);
-		secUser.init(userOrganizationList, userOrganizationList.get(0),userOrganizationList.get(0));
+		secUser.init(userOrganizationList, userOrganizationList.get(0));
 
 		return secUser;
 	}

@@ -29,7 +29,7 @@ public class DefItemDao implements Serializable {
 		
 		if(searchCriteria.getFirst() != null && searchCriteria.getPageSize() != null){
 			criteria.setFirstResult(searchCriteria.getFirst());
-			criteria.setMaxResults(searchCriteria.getFirst() + searchCriteria.getPageSize());
+			criteria.setMaxResults(searchCriteria.getPageSize());
 		}
 		
 		criteria.addOrder(Order.asc("i.code"));

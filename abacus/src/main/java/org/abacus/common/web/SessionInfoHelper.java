@@ -33,6 +33,10 @@ public class SessionInfoHelper implements Serializable {
 		return false;
 	}
 
+	public OrganizationEntity currentOrganization() {
+		return currentUser().getSelectedOrganization();
+	}
+
 	public String currentOrganizationId() {
 		return currentUser().getSelectedOrganization().getId();
 	}

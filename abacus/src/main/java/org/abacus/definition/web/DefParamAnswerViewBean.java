@@ -15,6 +15,9 @@ import org.abacus.definition.core.handler.DefParamAnswerHandler;
 import org.abacus.definition.shared.entity.DefParamAnswerEntity;
 import org.abacus.definition.shared.entity.DefParamEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.core.handler.UserService;
+import org.abacus.user.shared.event.ReadOrganizationsEvent;
+import org.abacus.user.shared.event.RequestReadOrganizationsEvent;
 
 @ManagedBean
 @ViewScoped
@@ -30,16 +33,25 @@ public class DefParamAnswerViewBean implements Serializable {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 	
+	@ManagedProperty(value = "#{userEventHandler}")
+	private UserService userService;
+	
 	private DefParamEntity selParam;
 
 	private DefParamAnswerEntity selParamAnswer;
 	private List<DefParamAnswerEntity> paramAnswerList;
 
 	private OrganizationEntity rootOrganization;
-
+	
+	private List<OrganizationEntity> allOrganizations;
+	
 	@PostConstruct
 	public void init() {
 		rootOrganization = sessionInfoHelper.currentRootOrganization();
+		ReadOrganizationsEvent allOrganizationsEvent = userService
+				.requestOrganization(new RequestReadOrganizationsEvent(null,
+						sessionInfoHelper.currentOrganizationId()));
+		allOrganizations = allOrganizationsEvent.getOrganizationList();
 	}
 	
 	public void setSelParam(DefParamEntity selParam) {
@@ -51,7 +63,6 @@ public class DefParamAnswerViewBean implements Serializable {
 		
 	}
 
-	
 	public void saveParamAnswer() {
 		if (selParamAnswer.isNew()) {
 			jsfMessageHelper.addInfo("paramKayitIslemiBasarili");
@@ -126,6 +137,22 @@ public class DefParamAnswerViewBean implements Serializable {
 
 	public void setDefParamAnswerHandler(DefParamAnswerHandler defParamAnswerHandler) {
 		this.defParamAnswerHandler = defParamAnswerHandler;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public List<OrganizationEntity> getAllOrganizations() {
+		return allOrganizations;
+	}
+
+	public void setAllOrganizations(List<OrganizationEntity> allOrganizations) {
+		this.allOrganizations = allOrganizations;
 	}
 
 }

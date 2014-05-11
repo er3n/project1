@@ -7,7 +7,7 @@ import org.abacus.definition.shared.entity.DefParamAnswerEntity;
 
 public interface DefParamAnswerHandler extends Serializable{
 
-	List<DefParamAnswerEntity> getParamAnswerList(String paramId, String companyId);
+	List<DefParamAnswerEntity> getParamAnswerList(String paramId, String organizationId);
 
 	DefParamAnswerEntity saveParamAnswerEntity(DefParamAnswerEntity entity);
 	

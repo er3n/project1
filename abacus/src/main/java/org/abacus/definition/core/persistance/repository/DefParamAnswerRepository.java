@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface DefParamAnswerRepository extends CrudRepository<DefParamAnswerEntity, Long> {
 
-	@Query("select a from DefParamAnswerEntity a where a.param.id = :paramId and a.organization.id like :companyId% order by a.id")
-	List<DefParamAnswerEntity> getParamAnswerList(@Param("paramId") String paramId, @Param("companyId") String companyId);
+	@Query("select a from DefParamAnswerEntity a where a.param.id = :paramId and a.organization.id like :organizationId% order by a.organization.id")
+	List<DefParamAnswerEntity> getParamAnswerList(@Param("paramId") String paramId, @Param("organizationId") String organizationId);
 	
 }

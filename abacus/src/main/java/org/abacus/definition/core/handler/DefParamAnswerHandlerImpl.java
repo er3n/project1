@@ -17,8 +17,8 @@ public class DefParamAnswerHandlerImpl implements DefParamAnswerHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefParamAnswerEntity> getParamAnswerList(String paramId, String companyId){
-		List<DefParamAnswerEntity> list = defParamAnswerRepository.getParamAnswerList(paramId, companyId);
+	public List<DefParamAnswerEntity> getParamAnswerList(String paramId, String organizationId){
+		List<DefParamAnswerEntity> list = defParamAnswerRepository.getParamAnswerList(paramId, organizationId);
 		return list;
 	}
 

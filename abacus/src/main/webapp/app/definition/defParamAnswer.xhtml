@@ -11,15 +11,21 @@
 				<h:form id="paramAnswerForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'PRM'}">
 					<p:panel id="paramAnswerPanel" header="Parametre">
 						<h:panelGrid id="paramAnswerGrid" columns="8" cellpadding="2">
+							
 							<h:outputLabel value="Organizasyon:" />
-							<p:inputText value="#{defParamAnswerViewBean.selParamAnswer.organization.id}"
-								required="true" requiredMessage="Organizasyon Bos olamaz"
-								validatorMessage="Param.Code"/>
-
+							<p:selectOneMenu
+								value="#{defParamAnswerViewBean.selParamAnswer.organization}"
+								converter="organizationEntityConverter" style="width:145px" required="true">
+								<f:selectItems value="#{defParamAnswerViewBean.allOrganizations}"
+									var="organization" itemLabel="#{organization.name}"
+									itemValue="#{organization}"/>
+								</p:selectOneMenu>
+							
 							<h:outputLabel value="Param Cevap:" />
 							<p:inputText value="#{defParamAnswerViewBean.selParamAnswer.answer}"
 								required="true" requiredMessage="Cevap Bos olamaz"
 								validatorMessage="Param.Ack" />
+								
 						</h:panelGrid>
 
 						<f:facet name="footer">

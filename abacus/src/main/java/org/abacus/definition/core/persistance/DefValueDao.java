@@ -49,7 +49,7 @@ public class DefValueDao implements Serializable {
 		//True : Full Tree Level Insert, Node degistirme ozelligi olursa aktiflestirilecek
 		em.flush();
 		if (isFullChildHierarchy){
-			List<DefValueEntity> resultList = getValueChildren(value.getId());
+			List<DefValueEntity> resultList = getChildValueList(value.getId());
 			for (DefValueEntity val : resultList) {
 				levelDao.insertLevelEntity(val);
 			}
@@ -58,7 +58,7 @@ public class DefValueDao implements Serializable {
 		}
 	}
 
-	private List<DefValueEntity> getValueChildren(Long valueId){
+	public List<DefValueEntity> getChildValueList(Long valueId){
 		StringBuilder sb = new StringBuilder();
 		sb.append("select v.* from def_value v, ");
 		sb.append("	(with recursive r (id) as ( "); //Oracle'da recursive silinecek "with r (id)"
@@ -73,5 +73,11 @@ public class DefValueDao implements Serializable {
 		List<DefValueEntity> resultList = query.getResultList();
 		return resultList;
 	}
-	
+
+	public List<DefValueEntity> getParentValueList(Long valueId){
+		//TODO:
+		return null;
+	}
+
+
 }

@@ -3,13 +3,13 @@ package org.abacus.definition.shared.holder;
 import java.io.Serializable;
 
 import org.abacus.definition.shared.constant.EnumList.DefItemClassEnum;
-import org.abacus.definition.shared.constant.EnumList.DefItemTypeEnum;
+import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
 
 @SuppressWarnings("serial")
 public class ItemSearchCriteria implements Serializable {
 
 	private String organization;
-	private DefItemTypeEnum itemType;
+	private DefTypeEnum itemType;
 	private DefItemClassEnum itemClass;
 	private String codeLike;
 	private String nameLike;
@@ -19,7 +19,7 @@ public class ItemSearchCriteria implements Serializable {
 	private Integer first;
 	private Integer pageSize;
 
-	public ItemSearchCriteria(String organization, DefItemTypeEnum itemType,
+	public ItemSearchCriteria(String organization, DefTypeEnum itemType,
 			DefItemClassEnum itemClass) {
 		this.itemType = itemType;
 		this.itemClass = itemClass;
@@ -34,11 +34,11 @@ public class ItemSearchCriteria implements Serializable {
 		this.organization = organization;
 	}
 
-	public DefItemTypeEnum getItemType() {
+	public DefTypeEnum getItemType() {
 		return itemType;
 	}
 
-	public void setItemType(DefItemTypeEnum itemType) {
+	public void setItemType(DefTypeEnum itemType) {
 		this.itemType = itemType;
 	}
 

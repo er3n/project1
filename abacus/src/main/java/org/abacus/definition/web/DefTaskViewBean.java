@@ -52,7 +52,6 @@ public class DefTaskViewBean implements Serializable {
 	}
 
 	public void taskRowSelectListener() {
-		// System.out.println("taskRowSelectListener");
 	}
 
 	public void saveTask() {
@@ -84,11 +83,10 @@ public class DefTaskViewBean implements Serializable {
 		taskList = null;
 		if (selType != null) {
 			String org = sessionInfoHelper.currentOrganizationId();
-			taskList = defTaskService.getTaskList(rootOrganization.getId(), selType.getId());
+			taskList = defTaskService.getTaskList(rootOrganization.getId(), selType.getTypeEnum());
 		} else {
 			taskList = new ArrayList<DefTaskEntity>();
 		}
-		// System.out.println(taskList);
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

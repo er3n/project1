@@ -61,7 +61,7 @@ public class ItemViewBean implements Serializable {
 				.getExternalContext().getRequestParameterMap().get("type");
 		String itemClassStr = FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap().get("class");
-		EnumList.DefItemTypeEnum type = EnumList.DefItemTypeEnum
+		EnumList.DefTypeEnum type = EnumList.DefTypeEnum
 				.valueOf(itemTypeStr);
 		EnumList.DefItemClassEnum clazz = EnumList.DefItemClassEnum
 				.valueOf(itemClassStr);

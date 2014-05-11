@@ -53,7 +53,6 @@ public class OrgDepartmentViewBean implements Serializable {
 	}
 
 	public void departmentRowSelectListener() {
-//		System.out.println("taskRowSelectListener");
 	}
 
 	public void groupChangeListener(){
@@ -92,7 +91,6 @@ public class OrgDepartmentViewBean implements Serializable {
 		} else {
 			departmentList = new ArrayList<DepartmentEntity>();
 		}
-//		System.out.println(taskList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {

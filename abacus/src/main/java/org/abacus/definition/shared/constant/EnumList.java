@@ -58,6 +58,12 @@ public interface EnumList {
 		
 	}
 	
+	enum DefParameterEnum  {
+		PRM_STOCK_COSTTYPE,
+		;
+	}
+		
+	
 	enum DefTypeGroupEnum implements ISelectionEnum {
 		PRM("Parameter"),	//Static Parameter
 		VAL("Value"),		//Dynamic Value Tree
@@ -78,13 +84,34 @@ public interface EnumList {
 		
 	}
 	
-	enum DefItemTypeEnum implements ISelectionEnum {
-		ITM_SR_FN("Finans Hizmetleri"), // Fin
-		ITM_SR_ST("Stok Hizmetleri"), // Stock
-		ITM_SR_FA("Demirbaslar"); // Fas;
+	
+	enum DefTypeEnum implements ISelectionEnum {
+		//Parameter
+		PRM_STOCK("Stok Parametreleri"),
+		//Value
+		VAL_SEHIR("Sehirler"),
+		VAL_TAT("Tat Tipleri"),
+		VAL_BESIN("Besin Tipleri"),
+		//Item
+		ITM_SR_FN("Finans Hizmetleri"), 
+		ITM_SR_ST("Stok Hizmetleri"), 
+		ITM_SR_FA("Demirbaslar"),
+		//Stock
+		STK_OC("Stok Open/Close"),
+		STK_OC_I("Stok Open"),
+		STK_IO("Stok In/Out"),
+		STK_IO_I("Stok Inputs"),
+		STK_IO_O("Stok Outputs"),
+		STK_WB("Stok WayBill"),
+		STK_WB_I("Stok WayBill IN"),
+		STK_WB_O("Stok WayBill OUT"),
+		STK_TT("Stok Transfer"),
+		//Finance
+		FIN_CS("Masraf Giris"), 
+		;
 		private String description;
 		
-		private DefItemTypeEnum(String description) {
+		private DefTypeEnum(String description) {
 			this.description = description;
 		}
 
@@ -94,5 +121,7 @@ public interface EnumList {
 		}
 		
 	}
+	 
 
+	
 }

@@ -23,9 +23,6 @@ public class DefTypeHandlerImpl implements DefTypeHandler {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public List<DefTypeEntity> getTypeList(EnumList.DefTypeGroupEnum groupEnum){
-		System.out.println("ViewBean Handler Usr:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Handler Org:"+sessionInfoHelper.currentOrganizationId());
-		
 		return defTypeRepository.getTypeList(groupEnum.name());
 	}
 

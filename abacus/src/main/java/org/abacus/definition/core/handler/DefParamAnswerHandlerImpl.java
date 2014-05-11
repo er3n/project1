@@ -3,6 +3,7 @@ package org.abacus.definition.core.handler;
 import java.util.List;
 
 import org.abacus.definition.core.persistance.repository.DefParamAnswerRepository;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefParamAnswerEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class DefParamAnswerHandlerImpl implements DefParamAnswerHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefParamAnswerEntity> getParamAnswerList(String paramId, String organizationId){
-		List<DefParamAnswerEntity> list = defParamAnswerRepository.getParamAnswerList(paramId, organizationId);
+	public List<DefParamAnswerEntity> getParamAnswerList(EnumList.DefParameterEnum paramAnswerEnum, String organizationId){
+		List<DefParamAnswerEntity> list = defParamAnswerRepository.getParamAnswerList(paramAnswerEnum.name(), organizationId);
 		return list;
 	}
 

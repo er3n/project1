@@ -47,13 +47,10 @@ public class DefinitionViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("ViewBean Session Usr:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Org:"+sessionInfoHelper.currentOrganizationId());
-		
 		createGrupEnumArray();
 		try{
-			String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
-			selectedGroupEnum = new SelectionEnum(EnumList.DefTypeGroupEnum.valueOf(value.toUpperCase()));
+			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
+			selectedGroupEnum = new SelectionEnum(EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase()));
 		}catch(Exception e){
 			selectedGroupEnum = groupEnums[0];
 		}

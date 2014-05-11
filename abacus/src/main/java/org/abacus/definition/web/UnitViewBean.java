@@ -81,7 +81,6 @@ public class UnitViewBean implements Serializable {
 		clearUnitGroup();
 		unitGroupList = null;
 		unitGroupList = defUnitHandler.getUnitGroupList(rootOrganization.getId());
-		System.out.println(unitGroupList);
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {

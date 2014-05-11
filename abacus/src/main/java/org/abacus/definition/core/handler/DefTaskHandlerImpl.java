@@ -3,6 +3,7 @@ package org.abacus.definition.core.handler;
 import java.util.List;
 
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class DefTaskHandlerImpl implements DefTaskHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefTaskEntity> getTaskList(String organizationId, String typeId){
-		List<DefTaskEntity> list = defTaskRepository.getTaskList(organizationId, typeId);
+	public List<DefTaskEntity> getTaskList(String organizationId, EnumList.DefTypeEnum typeEnum){
+		List<DefTaskEntity> list = defTaskRepository.getTaskList(organizationId, typeEnum.name());
 		return list;
 	}
 

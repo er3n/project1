@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.abacus.definition.shared.constant.EnumList;
 
 @Entity
 @Table(name = "def_type")
@@ -23,6 +24,13 @@ public class DefTypeEntity extends StaticEntity {
 	public DefTypeEntity() {
 	}
 
+	public EnumList.DefTypeEnum getTypeEnum(){
+		if (this.getId()==null){
+			return null;
+		}
+		return EnumList.DefTypeEnum.valueOf(this.getId());
+	}
+	
 	public DefTypeEntity(String id) {
 		this.setId(id);
 	}

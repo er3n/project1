@@ -76,11 +76,10 @@ public class DefParamViewBean implements Serializable {
 		createParam();
 		paramList = null;
 		if (selType!=null){
-			paramList = defParamService.getParamList(selType.getId());
+			paramList = defParamService.getParamList(selType.getTypeEnum());
 		} else {
 			paramList = new ArrayList<DefParamEntity>();
 		}
-//		System.out.println(paramList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {

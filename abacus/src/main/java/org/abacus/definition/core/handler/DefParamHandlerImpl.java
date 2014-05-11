@@ -3,6 +3,7 @@ package org.abacus.definition.core.handler;
 import java.util.List;
 
 import org.abacus.definition.core.persistance.repository.DefParamRepository;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefParamEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class DefParamHandlerImpl implements DefParamHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefParamEntity> getParamList(String typeId){
-		List<DefParamEntity> list = defParamRepository.getParamList(typeId);
+	public List<DefParamEntity> getParamList(EnumList.DefTypeEnum typeEnum){
+		List<DefParamEntity> list = defParamRepository.getParamList(typeEnum.name());
 		return list;
 	}
 

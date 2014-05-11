@@ -30,8 +30,7 @@ public class CategoryTableViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		String rootOrganization = sessionInfoHelper.currentRootOrganizationId();
-		String typ = EnumList.DefItemClassEnum.STK_M.name();
-		this.categoryList = defValueHandler.getValueList(rootOrganization, "VAL_BESIN");
+		this.categoryList = defValueHandler.getValueList(rootOrganization, EnumList.DefTypeEnum.VAL_BESIN); 
 	}
 
 	public void selectCategoryFromDialog(DefValueEntity category) {

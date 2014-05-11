@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.abacus.definition.core.persistance.DefValueDao;
 import org.abacus.definition.core.persistance.repository.DefValueRepository;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class DefValueHandlerImpl implements DefValueHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefValueEntity> getValueList(String organizationId, String typ){
-		return defValueRepo.getValueList(organizationId, typ); 
+	public List<DefValueEntity> getValueList(String organizationId, EnumList.DefTypeEnum typeEnum){
+		return defValueRepo.getValueList(organizationId, typeEnum.name()); 
 	}
 	
 	@Override

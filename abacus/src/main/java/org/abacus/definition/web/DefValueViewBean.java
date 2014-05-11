@@ -14,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.organization.core.handler.OrganizationHandler;
@@ -81,8 +82,6 @@ public class DefValueViewBean implements Serializable {
 	}
 
 	public void valueSelectListener(NodeSelectEvent event) {
-		// System.out.println("valueSelectListener:" +
-		// event.getTreeNode().toString());
 		if (selNode == null || selNode.getData() == null) {
 			selVal = null;
 			clearValue();
@@ -107,12 +106,11 @@ public class DefValueViewBean implements Serializable {
 		clearValue();
 		valList = null;
 		if (selType != null) {
-			valList = defValService.getValueList(rootOrganization.getId(), selType.getId());
+			valList = defValService.getValueList(rootOrganization.getId(), selType.getTypeEnum());
 		} else {
 			valList = new ArrayList<>();
 		}
 		refreshTree();
-		// System.out.println(valList);
 	}
 
 	private void newRoot() {

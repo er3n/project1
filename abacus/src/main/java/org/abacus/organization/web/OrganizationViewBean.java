@@ -40,8 +40,6 @@ public class OrganizationViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		createLevelEnumArray();
-		System.out.println("ViewBean Session Usr:"+sessionInfoHelper.currentUserName());
-		System.out.println("ViewBean Session Org:"+sessionInfoHelper.currentOrganizationId());
 		findOrganizationList();
 	}
 	
@@ -87,7 +85,6 @@ public class OrganizationViewBean implements Serializable {
 		clearOrganization();
 		organizationList = null;
 		organizationList = organizationHandler.findByOrganization(sessionInfoHelper.currentOrganizationId());
-		System.out.println(organizationList);
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {

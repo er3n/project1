@@ -40,7 +40,6 @@ public class UnitCodeViewBean implements Serializable {
 	}
 
 	public void unitCodeRowSelectListener() {
-		System.out.println("unitCodeRowSelectListener");
 	}
 
 	public void groupChangeListener(){

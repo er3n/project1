@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.abacus.definition.shared.constant.EnumList;
 
 @Entity
 @Table(name = "def_param")
@@ -25,6 +26,13 @@ public class DefParamEntity extends StaticEntity {
 	private String name;
 
 	public DefParamEntity(){
+	}
+	
+	public EnumList.DefParameterEnum getParameterEnum(){
+		if (this.getId()==null){
+			return null;
+		}
+		return EnumList.DefParameterEnum.valueOf(this.getId());
 	}
 	
 	public DefTypeEntity getType() {

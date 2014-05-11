@@ -3,11 +3,12 @@ package org.abacus.definition.core.handler;
 import java.io.Serializable;
 import java.util.List;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
 
 public interface DefValueHandler extends Serializable{
 
-	List<DefValueEntity> getValueList(String organizationId, String typ);
+	List<DefValueEntity> getValueList(String organizationId, EnumList.DefTypeEnum typeEnum);
 
 	DefValueEntity saveValueEntity(DefValueEntity entity);
 	

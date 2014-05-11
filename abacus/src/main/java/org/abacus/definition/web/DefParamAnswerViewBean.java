@@ -90,11 +90,10 @@ public class DefParamAnswerViewBean implements Serializable {
 		createParamAnswer();
 		paramAnswerList = null;
 		if (selParam!=null){
-			paramAnswerList = defParamAnswerHandler.getParamAnswerList(selParam.getId(), rootOrganization.getId());
+			paramAnswerList = defParamAnswerHandler.getParamAnswerList(selParam.getParameterEnum(), rootOrganization.getId());
 		} else {
 			paramAnswerList = new ArrayList<DefParamAnswerEntity>();
 		}
-//		System.out.println(paramList);
 	}
 	
 	public JsfMessageHelper getJsfMessageHelper() {

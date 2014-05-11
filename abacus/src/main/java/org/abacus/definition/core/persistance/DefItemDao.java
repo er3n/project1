@@ -29,7 +29,7 @@ public class DefItemDao implements Serializable {
 		
 		if(searchCriteria.getFirst() != null && searchCriteria.getPageSize() != null){
 			criteria.setFirstResult(searchCriteria.getFirst());
-			criteria.setMaxResults(searchCriteria.getPageSize());
+			criteria.setMaxResults(searchCriteria.getFirst() + searchCriteria.getPageSize());
 		}
 		
 		criteria.addOrder(Order.asc("i.code"));
@@ -60,7 +60,7 @@ public class DefItemDao implements Serializable {
 		}
 		if(StringUtils.hasText(searchCriteria.getCategoryCodeLike())){
 			criteria.createAlias("i.category", "c");
-			criteria.add(Restrictions.ilike("c.code", "%" + searchCriteria.getCategoryCodeLike() + "%"));
+			criteria.add(Restrictions.ilike("c.name", "%" + searchCriteria.getCategoryCodeLike() + "%"));
 		}
 		if(searchCriteria.getStatus() != null){
 			criteria.add(Restrictions.eq("i.active", searchCriteria.getStatus()));

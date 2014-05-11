@@ -20,7 +20,8 @@
 				rowsPerPageTemplate="5,10,20" selectionMode="single"
 				selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
 
-				<p:ajax event="rowSelect" update=":itemDeatails" listener="#{itemViewBean.itemSelected}"/>
+				<p:ajax event="rowSelect" update=":itemDeatails"
+					listener="#{itemViewBean.itemSelected}" />
 
 				<p:column headerText="Kod" filterBy="#{item.code}">
 					<h:outputText value="#{item.code}" />
@@ -64,15 +65,14 @@
 				<h:panelGrid columns="6" cellspacing="10">
 
 					<h:outputLabel value="Kod" for="itemCode" />
-					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" />
+					<p:inputText id="itemCode"
+						value="#{itemViewBean.selectedItem.code}" />
 
 					<h:outputLabel value="Ad" for="itemName" />
 					<p:inputText id="itemName"
 						value="#{itemViewBean.selectedItem.name}" />
 
-					<h:outputLabel value="Kategori" for="itemCategory" />
-					<p:inputText id="itemCategory"
-						value="#{itemViewBean.selectedItem.category.name}" />
+
 
 					<h:outputLabel value="Birim" for="itemUnit" />
 					<p:inputText id="itemUnit"
@@ -86,13 +86,23 @@
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
 					</p:selectOneButton>
 
+
+					<h:outputLabel value="Kategori" for="itemCategory" />
+					<h:panelGrid columns="3">
+						<p:inputText id="itemCategory" disabled="true" value="#{itemViewBean.selectedItem.category.name}" required="true" />
+						<p:commandButton icon="ui-icon-extlink" actionListener="#{itemViewBean.chooseCategory}" process="@this" >
+							<p:ajax event="dialogReturn" listener="#{itemViewBean.onCategoryChosen}" update="itemCategory" />
+						</p:commandButton>
+						<p:commandButton icon="ui-icon-trash"  actionListener="#{itemViewBean.clearCategory}" process="@this" update="itemCategory" />
+					</h:panelGrid>
+
 				</h:panelGrid>
 
 
 				<f:facet name="footer">
 					<p:commandButton value="Guncelle" />
 				</f:facet>
-  
+
 			</p:panel>
 		</h:form>
 

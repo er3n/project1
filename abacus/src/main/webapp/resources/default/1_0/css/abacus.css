@@ -1,7 +1,10 @@
 body {
 	padding: 0px;
 	margin: 0 auto;
-	width: 1200px;
+}
+
+.mainPage{
+	width:1000px	
 }
 
 .ui-widget,.ui-widget .ui-widget {

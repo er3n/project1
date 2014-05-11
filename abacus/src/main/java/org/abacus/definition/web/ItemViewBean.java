@@ -1,6 +1,8 @@
 package org.abacus.definition.web;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,10 +15,13 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -62,6 +67,24 @@ public class ItemViewBean implements Serializable {
 				.valueOf(itemClassStr);
 		itemSearchCriteria = new ItemSearchCriteria(currentOrganization, type,
 				clazz);
+	}
+	
+	public void chooseCategory(){
+		Map<String,Object> options = new HashMap<String, Object>();
+        options.put("modal", true);
+        options.put("draggable", false);
+        options.put("resizable", false);
+        options.put("contentHeight", 320);
+		RequestContext.getCurrentInstance().openDialog("categoryDialog",options,null);
+	}
+	
+	public void onCategoryChosen(SelectEvent event){
+		DefValueEntity category = (DefValueEntity) event.getObject();
+		selectedItem.setCategory(category);
+	}
+	
+	public void clearCategory(){
+		selectedItem.setCategory(null);
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

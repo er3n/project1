@@ -9,12 +9,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean
 @ViewScoped
@@ -34,6 +36,9 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	private SelectionEnum[] groupEnums;
 	private SelectionEnum selectedGroupEnum;
+	
+	@ManagedProperty(value = "#{jsfDialogHelper}")
+	private JsfDialogHelper jsfDialogHelper;
 	
 	@PostConstruct
 	public void init() {
@@ -148,5 +153,24 @@ public class OrgDepartmentViewBean implements Serializable {
 		return selOrganization;
 	}
 
+	public void chooseDepartmentUserAuth() {
+		if (selDepartment!=null && !selDepartment.isNew()){
+			jsfDialogHelper.openDepartmentUserAuthDialog(selDepartment);
+		}
+	}
 
+	public void onDepartmentUserAuthChosen(SelectEvent event) {
+//		DefValueEntity category = (DefValueEntity) event.getObject();
+//		selectedItem.setCategory(category);
+	}
+
+	public JsfDialogHelper getJsfDialogHelper() {
+		return jsfDialogHelper;
+	}
+
+	public void setJsfDialogHelper(JsfDialogHelper jsfDialogHelper) {
+		this.jsfDialogHelper = jsfDialogHelper;
+	}
+
+	
 }

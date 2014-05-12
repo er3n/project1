@@ -36,4 +36,10 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 		departmentRepository.delete(entity);
 	}
 	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public DepartmentEntity getDepartmentEntity(Long id){
+		return departmentRepository.findOne(id);
+	}
+
 }

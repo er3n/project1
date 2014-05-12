@@ -122,6 +122,24 @@ public interface EnumList {
 		
 	}
 	 
+	
+	enum DepartmentAuthEnum implements ISelectionEnum {
+		ALL("Finans"),
+		INP("Depo Giris"),
+		OUT("Depo Cikis"),
+		;
+
+		private String description;
+		
+		private DepartmentAuthEnum(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+	}
 
 	
 }

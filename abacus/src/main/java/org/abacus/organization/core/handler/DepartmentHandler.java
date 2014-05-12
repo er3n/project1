@@ -13,5 +13,7 @@ public interface DepartmentHandler extends Serializable{
 	DepartmentEntity saveDepartmentEntity(DepartmentEntity entity);
 	
 	void deleteDepartmentEntity(DepartmentEntity entity);
-	
+
+	DepartmentEntity getDepartmentEntity(Long id);
+
 }

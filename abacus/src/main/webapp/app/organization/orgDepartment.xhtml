@@ -70,6 +70,12 @@
 						<p:column headerText="Aciklama">  
            					#{selDepartment.name}  
        					</p:column>
+       					
+						<p:column headerText="Yetkili">  
+						<p:commandButton icon="ui-icon-extlink" actionListener="#{orgDepartmentViewBean.chooseDepartmentUserAuth}" process="@this" >
+							<p:ajax event="dialogReturn" listener="#{orgDepartmentViewBean.onDepartmentUserAuthChosen}" />
+						</p:commandButton>
+       					</p:column>
 
 					</p:dataTable>
 

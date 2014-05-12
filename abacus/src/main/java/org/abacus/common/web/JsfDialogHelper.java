@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
+import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.primefaces.context.RequestContext;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +33,13 @@ public class JsfDialogHelper implements Serializable {
 		paramsHashMap.put("type", type.name());
 		this.openDialog("defValueDialog", paramsHashMap);
 	}
+	
+	public void openDepartmentUserAuthDialog(DepartmentEntity department){
+		Map<String, String> paramsHashMap = new HashMap<>();
+		paramsHashMap.put("department_id", String.valueOf(department.getId()));
+		this.openDialog("departmentUserAuthDialog", paramsHashMap);
+	}
+	
 	
 	public void openDialog(String dialog, Map<String, String> paramMap) {
 

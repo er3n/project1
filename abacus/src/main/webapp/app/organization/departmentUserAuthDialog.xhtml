@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Departman Yetkilileri</title>
+
+	<h:outputStylesheet library="default" name="css/abacus.css" />
+	<h:outputScript library="default" name="js/abacus.js" />
+
+
+</h:head>
+
+<h:body>
+	<h:form>
+	 	
+	 	<h:outputLabel value="#{departmentUserAuthViewBean.selDepartment.name}" />
+	
+		<p:commandButton icon="ui-icon-search"
+					actionListener="#{departmentUserAuthViewBean.selectFromDialog()}" />
+	</h:form>
+</h:body>
+
+</html>

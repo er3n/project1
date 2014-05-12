@@ -28,6 +28,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	private DefItemRepository itemRepository;
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public ItemCreatedEvent newItem(CreateItemEvent event) throws ItemAlreadyExistsException {
 		String userCreated = event.getCreatedUser();
 		DefItemEntity item = event.getItem();
@@ -45,6 +46,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public ItemUpdatedEvent updateItem(UpdateItemEvent event) throws ItemAlreadyExistsException {
 		String userUpdated = event.getUserUpdated();
 		DefItemEntity item = event.getItem();

@@ -51,7 +51,7 @@
 				<h:panelGrid columns="6" cellspacing="10">
 
 					<h:outputLabel value="Kod" for="itemCode" /> 
-					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" required="true" requiredMessage="Kod bos olamaz" disabled="true" />
+					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" required="true" requiredMessage="Kod bos olamaz" disabled="#{not empty itemViewBean.selectedItem.id}" />
 
 					<h:outputLabel value="Ad" for="itemName" />
 					<p:inputText id="itemName" value="#{itemViewBean.selectedItem.name}" required="true" requiredMessage="Ad bos olamaz"/>

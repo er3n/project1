@@ -16,19 +16,19 @@
 
 <h:body>
 	<h:form>
-		<p:dataTable var="category"
-			value="#{categoryTableViewBean.categoryList}" >
-			<p:column headerText="Kod">
+		<p:dataTable var="category" paginator="true" rows="10"
+			value="#{defValTableViewBean.categoryList}" >
+			<p:column headerText="Kod"  filterBy="#{category.code}" filterMatchMode="contains">
 				<h:outputText value="#{category.code}" />
 			</p:column>
 
-			<p:column headerText="Ad">
+			<p:column headerText="Ad" filterBy="#{category.name}" filterMatchMode="contains">
 				<h:outputText value="#{category.name}" />
 			</p:column>
 
 			<p:column headerText="Sec">
 				<p:commandButton icon="ui-icon-search"
-					actionListener="#{categoryTableViewBean.selectCategoryFromDialog(category)}" />
+					actionListener="#{defValTableViewBean.selectValueFromDialog(category)}" />
 			</p:column>
 		</p:dataTable>
 	</h:form>

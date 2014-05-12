@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
@@ -17,7 +18,7 @@ import org.primefaces.context.RequestContext;
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class CategoryTableViewBean implements Serializable {
+public class DefValTableViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{defValueHandler}")
 	private DefValueHandler defValueHandler;
@@ -30,10 +31,11 @@ public class CategoryTableViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		String rootOrganization = sessionInfoHelper.currentRootOrganizationId();
-		this.categoryList = defValueHandler.getValueList(rootOrganization, EnumList.DefTypeEnum.VAL_BESIN); 
+		String type= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
+		this.categoryList = defValueHandler.getValueList(rootOrganization, EnumList.DefTypeEnum.valueOf(type)); 
 	}
 
-	public void selectCategoryFromDialog(DefValueEntity category) {
+	public void selectValueFromDialog(DefValueEntity category) {
 		RequestContext.getCurrentInstance().closeDialog(category);
 	}
 

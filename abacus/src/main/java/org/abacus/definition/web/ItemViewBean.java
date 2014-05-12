@@ -1,7 +1,9 @@
 package org.abacus.definition.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +12,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
@@ -37,6 +40,9 @@ public class ItemViewBean implements Serializable {
 	@ManagedProperty(value = "#{defItemHandler}")
 	private DefItemHandler itemHandler;
 
+	@ManagedProperty(value = "#{jsfDialogHelper}")
+	private JsfDialogHelper jsfDialogHelper;
+
 	private ItemSearchCriteria itemSearchCriteria;
 
 	private ItemDataModel itemLazyModel;
@@ -48,42 +54,31 @@ public class ItemViewBean implements Serializable {
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
 	}
-	
-	public void itemSelected(){
+
+	public void itemSelected() {
 		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(selectedItem.getId()));
 		selectedItem = readItemEvent.getItem();
 	}
 
 	private void initParameters() {
-		String currentOrganization = sessionInfoHelper
-				.currentRootOrganizationId();
-		String itemTypeStr = FacesContext.getCurrentInstance()
-				.getExternalContext().getRequestParameterMap().get("type");
-		String itemClassStr = FacesContext.getCurrentInstance()
-				.getExternalContext().getRequestParameterMap().get("class");
-		EnumList.DefTypeEnum type = EnumList.DefTypeEnum
-				.valueOf(itemTypeStr);
-		EnumList.DefItemClassEnum clazz = EnumList.DefItemClassEnum
-				.valueOf(itemClassStr);
-		itemSearchCriteria = new ItemSearchCriteria(currentOrganization, type,
-				clazz);
+		String currentOrganization = sessionInfoHelper.currentRootOrganizationId();
+		String itemTypeStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
+		String itemClassStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("class");
+		EnumList.DefTypeEnum type = EnumList.DefTypeEnum.valueOf(itemTypeStr);
+		EnumList.DefItemClassEnum clazz = EnumList.DefItemClassEnum.valueOf(itemClassStr);
+		itemSearchCriteria = new ItemSearchCriteria(currentOrganization, type, clazz);
 	}
-	
-	public void chooseCategory(){
-		Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        options.put("draggable", false);
-        options.put("resizable", false);
-        options.put("contentHeight", 320);
-		RequestContext.getCurrentInstance().openDialog("categoryDialog",options,null);
+
+	public void chooseCategory() {
+		jsfDialogHelper.openDefValueDialog(EnumList.DefTypeEnum.VAL_BESIN);
 	}
-	
-	public void onCategoryChosen(SelectEvent event){
+
+	public void onCategoryChosen(SelectEvent event) {
 		DefValueEntity category = (DefValueEntity) event.getObject();
 		selectedItem.setCategory(category);
 	}
-	
-	public void clearCategory(){
+
+	public void clearCategory() {
 		selectedItem.setCategory(null);
 	}
 
@@ -133,6 +128,14 @@ public class ItemViewBean implements Serializable {
 
 	public void setSelectedItem(DefItemEntity selectedItem) {
 		this.selectedItem = selectedItem;
+	}
+
+	public JsfDialogHelper getJsfDialogHelper() {
+		return jsfDialogHelper;
+	}
+
+	public void setJsfDialogHelper(JsfDialogHelper jsfDialogHelper) {
+		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
 }

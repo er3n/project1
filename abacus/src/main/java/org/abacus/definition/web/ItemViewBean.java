@@ -1,10 +1,7 @@
 package org.abacus.definition.web;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -16,14 +13,22 @@ import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
+import org.abacus.definition.core.handler.DefUnitHandler;
+import org.abacus.definition.shared.ItemAlreadyExistsException;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
+import org.abacus.definition.shared.event.CreateItemEvent;
+import org.abacus.definition.shared.event.ItemCreatedEvent;
+import org.abacus.definition.shared.event.ItemUpdatedEvent;
 import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;
+import org.abacus.definition.shared.event.UpdateItemEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
-import org.primefaces.context.RequestContext;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.primefaces.event.SelectEvent;
 
 @SuppressWarnings("serial")
@@ -45,32 +50,82 @@ public class ItemViewBean implements Serializable {
 
 	private ItemSearchCriteria itemSearchCriteria;
 
+	@ManagedProperty(value = "#{defUnitHandler}")
+	private DefUnitHandler defUnitHandler;
+
 	private ItemDataModel itemLazyModel;
 
 	private DefItemEntity selectedItem;
+
+	private List<DefUnitGroupEntity> allUnitGroupList;
+	
+	private EnumList.DefTypeEnum type;
+	
+	private EnumList.DefItemClassEnum clazz;
 
 	@PostConstruct
 	public void init() {
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
+		this.initUnitGroups();
+	}
+	
+	public void clear(){
+		allUnitGroupList = null;
+		selectedItem = null;
+		this.init();
+	}
+	
+	public void updateItem(){
+		try {
+			String userUpdated = sessionInfoHelper.currentUserName();
+			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem,userUpdated));
+			selectedItem = updatedEvent.getItem();
+		} catch (ItemAlreadyExistsException e) {
+			jsfMessageHelper.addError("itemExistsWithThisTypeAndCode");
+		}
+	}
+	
+	public void newItem(){
+		try {
+			String createdUser = sessionInfoHelper.currentUserName();
+			ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem,createdUser));
+			selectedItem = createdEvent.getCreatedItem();
+		} catch (ItemAlreadyExistsException e) {
+			jsfMessageHelper.addError("itemExistsWithThisTypeAndCode");
+		}
 	}
 
 	public void itemSelected() {
 		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(selectedItem.getId()));
 		selectedItem = readItemEvent.getItem();
 	}
+	
+	public void newItemSelected(){
+		OrganizationEntity organization = sessionInfoHelper.currentRootOrganization();
+		selectedItem = new DefItemEntity();
+		selectedItem.setOrganization(organization);
+		selectedItem.setType(new DefTypeEntity(type.name()));
+		selectedItem.setItemClass(clazz);
+		selectedItem.setCategory(new DefValueEntity());
+	}
 
 	private void initParameters() {
 		String currentOrganization = sessionInfoHelper.currentRootOrganizationId();
 		String itemTypeStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
 		String itemClassStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("class");
-		EnumList.DefTypeEnum type = EnumList.DefTypeEnum.valueOf(itemTypeStr);
-		EnumList.DefItemClassEnum clazz = EnumList.DefItemClassEnum.valueOf(itemClassStr);
+		type = EnumList.DefTypeEnum.valueOf(itemTypeStr);
+		clazz = EnumList.DefItemClassEnum.valueOf(itemClassStr);
 		itemSearchCriteria = new ItemSearchCriteria(currentOrganization, type, clazz);
 	}
 
 	public void chooseCategory() {
 		jsfDialogHelper.openDefValueDialog(EnumList.DefTypeEnum.VAL_BESIN);
+	}
+
+	private void initUnitGroups() {
+		String rootOrganizationId = sessionInfoHelper.currentRootOrganizationId();
+		this.allUnitGroupList = defUnitHandler.getUnitGroupList(rootOrganizationId);
 	}
 
 	public void onCategoryChosen(SelectEvent event) {
@@ -79,7 +134,7 @@ public class ItemViewBean implements Serializable {
 	}
 
 	public void clearCategory() {
-		selectedItem.setCategory(null);
+		selectedItem.setCategory(new DefValueEntity());
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -136,6 +191,22 @@ public class ItemViewBean implements Serializable {
 
 	public void setJsfDialogHelper(JsfDialogHelper jsfDialogHelper) {
 		this.jsfDialogHelper = jsfDialogHelper;
+	}
+
+	public DefUnitHandler getDefUnitHandler() {
+		return defUnitHandler;
+	}
+
+	public void setDefUnitHandler(DefUnitHandler defUnitHandler) {
+		this.defUnitHandler = defUnitHandler;
+	}
+
+	public List<DefUnitGroupEntity> getAllUnitGroupList() {
+		return allUnitGroupList;
+	}
+
+	public void setAllUnitGroupList(List<DefUnitGroupEntity> allUnitGroupList) {
+		this.allUnitGroupList = allUnitGroupList;
 	}
 
 }

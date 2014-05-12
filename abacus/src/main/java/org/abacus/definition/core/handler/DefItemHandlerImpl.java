@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.abacus.definition.core.persistance.DefItemDao;
 import org.abacus.definition.core.persistance.repository.DefItemRepository;
+import org.abacus.definition.shared.ItemAlreadyExistsException;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
 import org.abacus.definition.shared.event.ItemCreatedEvent;
@@ -27,15 +28,38 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	private DefItemRepository itemRepository;
 
 	@Override
-	public ItemCreatedEvent newItem(CreateItemEvent event) {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemCreatedEvent newItem(CreateItemEvent event) throws ItemAlreadyExistsException {
+		String userCreated = event.getCreatedUser();
+		DefItemEntity item = event.getItem();
+
+		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
+		if(existingItem != null){
+			throw new ItemAlreadyExistsException();
+		}
+		
+		item.createHook(userCreated);
+		
+		item = itemRepository.save(item);
+		
+		return new ItemCreatedEvent(item);
 	}
 
 	@Override
-	public ItemUpdatedEvent updateItem(UpdateItemEvent event) {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemUpdatedEvent updateItem(UpdateItemEvent event) throws ItemAlreadyExistsException {
+		String userUpdated = event.getUserUpdated();
+		DefItemEntity item = event.getItem();
+
+		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
+		boolean isItemExists = existingItem != null && !(existingItem.getId().equals(item.getId()));
+		if(isItemExists){
+			throw new ItemAlreadyExistsException();
+		}
+		
+		item.updateHook(userUpdated);
+		
+		item = itemRepository.save(item);
+		
+		return new ItemUpdatedEvent(item);
 	}
 
 	@Override

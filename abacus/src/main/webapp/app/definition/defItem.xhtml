@@ -84,7 +84,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Guncelle" actionListener="#{itemViewBean.updateItem}" rendered="#{not empty itemViewBean.selectedItem.id}" update=":itemsForm" />
-					<p:commandButton value="Kaydet" actionListener="#{itemViewBean.newItem}" rendered="#{empty itemViewBean.selectedItem.id}" update=":itemsForm" />
+					<p:commandButton value="Kaydet" actionListener="#{itemViewBean.newItem}" rendered="#{empty itemViewBean.selectedItem.id}" update=":itemsForm :itemDetails" />
 				</f:facet>
 
 			</p:panel>

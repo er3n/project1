@@ -7,10 +7,12 @@ public class UpdateItemEvent extends UpdatedEvent {
 
 	private DefItemEntity item;
 	private String userUpdated;
-	
-	public UpdateItemEvent(DefItemEntity item, String userUpdated){
+	private String organization;
+
+	public UpdateItemEvent(DefItemEntity item, String userUpdated, String organization) {
 		this.item = item;
 		this.userUpdated = userUpdated;
+		this.organization = organization;
 	}
 
 	public DefItemEntity getItem() {
@@ -27,6 +29,14 @@ public class UpdateItemEvent extends UpdatedEvent {
 
 	public void setUserUpdated(String userUpdated) {
 		this.userUpdated = userUpdated;
+	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
 	}
 
 }

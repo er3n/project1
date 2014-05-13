@@ -50,8 +50,9 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	public ItemUpdatedEvent updateItem(UpdateItemEvent event) throws ItemAlreadyExistsException {
 		String userUpdated = event.getUserUpdated();
 		DefItemEntity item = event.getItem();
+		String organization = event.getOrganization();
 
-		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
+		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),organization);
 		boolean isItemExists = existingItem != null && !(existingItem.getId().equals(item.getId()));
 		if(isItemExists){
 			throw new ItemAlreadyExistsException();

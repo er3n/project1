@@ -3,6 +3,7 @@ package org.abacus.definition.core.handler;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.abacus.definition.core.persistance.DefItemDao;
 import org.abacus.definition.core.persistance.repository.DefItemRepository;
@@ -40,6 +41,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	public ItemCreatedEvent newItem(CreateItemEvent event) throws ItemAlreadyExistsException {
 		String userCreated = event.getCreatedUser();
 		DefItemEntity item = event.getItem();
+		Set<DefUnitCodeEntity> unitCodeSet = event.getUnitCodeSet();
 
 		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
 		if(existingItem != null){
@@ -50,8 +52,17 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		
 		item = itemRepository.save(item);
 		
+		Set<DefItemUnitEntity> itemUnitSet = new HashSet<>();
+		for(DefUnitCodeEntity unitCode : unitCodeSet){
+			DefItemUnitEntity itemUnitEntity = new DefItemUnitEntity();
+			itemUnitEntity.setItem(item);
+			itemUnitEntity.setUnitCode(unitCode);
+			itemUnitEntity.createHook(userCreated);
+			itemUnitSet.add(itemUnitEntity);
+		}
 		
-		
+		itemUnitRepository.save(itemUnitSet);
+
 		return new ItemCreatedEvent(item);
 	}
 
@@ -83,8 +94,6 @@ public class DefItemHandlerImpl implements DefItemHandler{
 			itemUnitEntity.createHook(userUpdated);
 			itemUnitSet.add(itemUnitEntity);
 		}
-		
-		itemUnitSet = (Set<DefItemUnitEntity>) itemUnitRepository.save(itemUnitSet);
 		
 		return new ItemUpdatedEvent(item);
 	}

@@ -13,11 +13,11 @@ import org.abacus.common.shared.entity.DynamicEntity;
 @SuppressWarnings("serial")
 public class DefItemUnitEntity extends DynamicEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_id", nullable = false)
 	private DefItemEntity item;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "unit_code_id", nullable = false)
 	private DefUnitCodeEntity unitCode;
 

@@ -2,6 +2,7 @@ package org.abacus.definition.web;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -68,7 +69,7 @@ public class ItemViewBean implements Serializable {
 	private EnumList.DefItemClassEnum clazz;
 
 	private Set<DefUnitCodeEntity> selectedUnitGroupsUnitCodeSet;
-	
+
 	private Set<DefUnitCodeEntity> selectedUnitGroupsSelectedUnitCodeSet;
 
 	@PostConstruct
@@ -88,8 +89,8 @@ public class ItemViewBean implements Serializable {
 		try {
 			String userUpdated = sessionInfoHelper.currentUserName();
 			String organization = sessionInfoHelper.currentOrganizationId();
-			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem,selectedUnitGroupsSelectedUnitCodeSet, userUpdated, organization));
-			selectedItem = updatedEvent.getItem();
+			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, userUpdated, organization));
+			this.itemSelected();
 			jsfMessageHelper.addInfo("updateSuccesssful");
 		} catch (ItemAlreadyExistsException e) {
 			jsfMessageHelper.addError("itemExistsWithThisTypeAndCode");
@@ -97,18 +98,18 @@ public class ItemViewBean implements Serializable {
 	}
 
 	public void unitGroupSelected() {
-		if(selectedItem.getUnitGroup() == null){
+		if (selectedItem.getUnitGroup() == null) {
 			selectedUnitGroupsUnitCodeSet = null;
 			return;
 		}
 		List<DefUnitCodeEntity> selectedUnitGroupsUnitCodeList = defUnitHandler.getUnitCodeList(selectedItem.getUnitGroup().getId());
-		selectedUnitGroupsUnitCodeSet = new HashSet<>(selectedUnitGroupsUnitCodeList);
+		selectedUnitGroupsUnitCodeSet = new LinkedHashSet<>(selectedUnitGroupsUnitCodeList);
 	}
 
 	public void newItem() {
 		try {
 			String createdUser = sessionInfoHelper.currentUserName();
-			ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem,selectedUnitGroupsSelectedUnitCodeSet, createdUser));
+			ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, createdUser));
 			selectedItem = null;
 			jsfMessageHelper.addInfo("craeteSuccessful");
 		} catch (ItemAlreadyExistsException e) {
@@ -119,12 +120,12 @@ public class ItemViewBean implements Serializable {
 	public void itemSelected() {
 		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(selectedItem.getId()));
 		selectedItem = readItemEvent.getItem();
-		
+
 		selectedUnitGroupsSelectedUnitCodeSet = new HashSet<>();
-		for(DefItemUnitEntity itemUnit : selectedItem.getItemUnitSet()){
+		for (DefItemUnitEntity itemUnit : selectedItem.getItemUnitSet()) {
 			selectedUnitGroupsSelectedUnitCodeSet.add(itemUnit.getUnitCode());
 		}
-		
+
 		this.unitGroupSelected();
 	}
 
@@ -243,6 +244,14 @@ public class ItemViewBean implements Serializable {
 
 	public void setSelectedUnitGroupsUnitCodeSet(Set<DefUnitCodeEntity> selectedUnitGroupsUnitCodeSet) {
 		this.selectedUnitGroupsUnitCodeSet = selectedUnitGroupsUnitCodeSet;
+	}
+
+	public Set<DefUnitCodeEntity> getSelectedUnitGroupsSelectedUnitCodeSet() {
+		return selectedUnitGroupsSelectedUnitCodeSet;
+	}
+
+	public void setSelectedUnitGroupsSelectedUnitCodeSet(Set<DefUnitCodeEntity> selectedUnitGroupsSelectedUnitCodeSet) {
+		this.selectedUnitGroupsSelectedUnitCodeSet = selectedUnitGroupsSelectedUnitCodeSet;
 	}
 
 }

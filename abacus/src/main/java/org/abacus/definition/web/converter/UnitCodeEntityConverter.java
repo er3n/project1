@@ -1,17 +1,19 @@
-package org.abacus.user.web.converter;
+package org.abacus.definition.web.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import org.abacus.definition.core.persistance.repository.DefUnitCodeRepository;
 import org.abacus.definition.core.persistance.repository.DefUnitGroupRepository;
+import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.jsf.FacesContextUtils;
 
-@FacesConverter("unitGroupEntityConverter")
-public class UnitGroupEntityConverter implements Converter {
+@FacesConverter("unitCodeEntityConverter")
+public class UnitCodeEntityConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
@@ -19,18 +21,18 @@ public class UnitGroupEntityConverter implements Converter {
 		if(!StringUtils.hasText(value)){
 			return null;
 		}
-		DefUnitGroupRepository repository = FacesContextUtils.getWebApplicationContext(context).getBean(DefUnitGroupRepository.class);
-		DefUnitGroupEntity entitiy = repository.findOne(Long.valueOf(value));
+		DefUnitCodeRepository repository = FacesContextUtils.getWebApplicationContext(context).getBean(DefUnitCodeRepository.class);
+		DefUnitCodeEntity entitiy = repository.findOne(Long.valueOf(value));
 		return entitiy;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
-		if(!(value instanceof DefUnitGroupEntity)){
+		if(!(value instanceof DefUnitCodeEntity)){
 			return "";
 		}
-		DefUnitGroupEntity entitiy = (DefUnitGroupEntity) value;
+		DefUnitCodeEntity entitiy = (DefUnitCodeEntity) value;
 		return String.valueOf(entitiy.getId());
 	}
 

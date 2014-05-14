@@ -1,5 +1,8 @@
 package org.abacus.definition.shared.entity;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,11 +10,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -28,7 +35,7 @@ public class DefItemEntity extends DynamicEntity {
 	private OrganizationEntity organization;
 
 	@Column(name = "code", nullable = false)
-	private String code; 
+	private String code;
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -36,22 +43,26 @@ public class DefItemEntity extends DynamicEntity {
 	@Column(name = "is_active", nullable = false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active = true;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "class_enum", nullable = false)
 	private EnumList.DefItemClassEnum itemClass;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", nullable = false)
-	private DefValueEntity category; 
+	private DefValueEntity category;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "unit_group_id", nullable = false)
-	private DefUnitGroupEntity unitGroup; 
+	private DefUnitGroupEntity unitGroup;
 
-	public DefItemEntity(){
+	@OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
+	private Set<DefItemUnitEntity> itemUnitSet;
+
+	public DefItemEntity() {
 	}
-	
+
 	public DefTypeEntity getType() {
 		return type;
 	}
@@ -115,5 +126,13 @@ public class DefItemEntity extends DynamicEntity {
 	public void setUnitGroup(DefUnitGroupEntity unitGroup) {
 		this.unitGroup = unitGroup;
 	}
-	
+
+	public Set<DefItemUnitEntity> getItemUnitSet() {
+		return itemUnitSet;
+	}
+
+	public void setItemUnitSet(Set<DefItemUnitEntity> itemUnitSet) {
+		this.itemUnitSet = itemUnitSet;
+	}
+
 }

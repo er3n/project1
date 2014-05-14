@@ -1,7 +1,9 @@
 package org.abacus.definition.web;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +19,9 @@ import org.abacus.definition.core.handler.DefUnitHandler;
 import org.abacus.definition.shared.ItemAlreadyExistsException;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.entity.DefItemUnitEntity;
 import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
@@ -58,10 +62,14 @@ public class ItemViewBean implements Serializable {
 	private DefItemEntity selectedItem;
 
 	private List<DefUnitGroupEntity> allUnitGroupList;
-	
+
 	private EnumList.DefTypeEnum type;
-	
+
 	private EnumList.DefItemClassEnum clazz;
+
+	private Set<DefUnitCodeEntity> selectedUnitGroupsUnitCodeSet;
+	
+	private Set<DefUnitCodeEntity> selectedUnitGroupsSelectedUnitCodeSet;
 
 	@PostConstruct
 	public void init() {
@@ -69,29 +77,38 @@ public class ItemViewBean implements Serializable {
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
 		this.initUnitGroups();
 	}
-	
-	public void clear(){
+
+	public void clear() {
 		allUnitGroupList = null;
 		selectedItem = null;
 		this.init();
 	}
-	
-	public void updateItem(){
+
+	public void updateItem() {
 		try {
 			String userUpdated = sessionInfoHelper.currentUserName();
 			String organization = sessionInfoHelper.currentOrganizationId();
-			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem,userUpdated,organization));
+			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem,selectedUnitGroupsSelectedUnitCodeSet, userUpdated, organization));
 			selectedItem = updatedEvent.getItem();
 			jsfMessageHelper.addInfo("updateSuccesssful");
 		} catch (ItemAlreadyExistsException e) {
 			jsfMessageHelper.addError("itemExistsWithThisTypeAndCode");
 		}
 	}
-	
-	public void newItem(){
+
+	public void unitGroupSelected() {
+		if(selectedItem.getUnitGroup() == null){
+			selectedUnitGroupsUnitCodeSet = null;
+			return;
+		}
+		List<DefUnitCodeEntity> selectedUnitGroupsUnitCodeList = defUnitHandler.getUnitCodeList(selectedItem.getUnitGroup().getId());
+		selectedUnitGroupsUnitCodeSet = new HashSet<>(selectedUnitGroupsUnitCodeList);
+	}
+
+	public void newItem() {
 		try {
 			String createdUser = sessionInfoHelper.currentUserName();
-			ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem,createdUser));
+			ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem,selectedUnitGroupsSelectedUnitCodeSet, createdUser));
 			selectedItem = null;
 			jsfMessageHelper.addInfo("craeteSuccessful");
 		} catch (ItemAlreadyExistsException e) {
@@ -102,15 +119,23 @@ public class ItemViewBean implements Serializable {
 	public void itemSelected() {
 		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(selectedItem.getId()));
 		selectedItem = readItemEvent.getItem();
+		
+		selectedUnitGroupsSelectedUnitCodeSet = new HashSet<>();
+		for(DefItemUnitEntity itemUnit : selectedItem.getItemUnitSet()){
+			selectedUnitGroupsSelectedUnitCodeSet.add(itemUnit.getUnitCode());
+		}
+		
+		this.unitGroupSelected();
 	}
-	
-	public void newItemSelected(){
+
+	public void newItemSelected() {
 		OrganizationEntity organization = sessionInfoHelper.currentRootOrganization();
 		selectedItem = new DefItemEntity();
 		selectedItem.setOrganization(organization);
 		selectedItem.setType(new DefTypeEntity(type.name()));
 		selectedItem.setItemClass(clazz);
 		selectedItem.setCategory(new DefValueEntity());
+		this.unitGroupSelected();
 	}
 
 	private void initParameters() {
@@ -210,6 +235,14 @@ public class ItemViewBean implements Serializable {
 
 	public void setAllUnitGroupList(List<DefUnitGroupEntity> allUnitGroupList) {
 		this.allUnitGroupList = allUnitGroupList;
+	}
+
+	public Set<DefUnitCodeEntity> getSelectedUnitGroupsUnitCodeSet() {
+		return selectedUnitGroupsUnitCodeSet;
+	}
+
+	public void setSelectedUnitGroupsUnitCodeSet(Set<DefUnitCodeEntity> selectedUnitGroupsUnitCodeSet) {
+		this.selectedUnitGroupsUnitCodeSet = selectedUnitGroupsUnitCodeSet;
 	}
 
 }

@@ -38,7 +38,7 @@
 
 				<f:facet name="header">
 					<p:commandButton value="Yeni" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemsForm" process="@this" />
-				</f:facet> 
+				</f:facet>
 
 			</p:dataTable>
 
@@ -50,17 +50,26 @@
 
 				<h:panelGrid columns="6" cellspacing="10">
 
-					<h:outputLabel value="Kod" for="itemCode" /> 
+					<h:outputLabel value="Kod" for="itemCode" />
 					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" required="true" requiredMessage="Kod bos olamaz" disabled="#{not empty itemViewBean.selectedItem.id}" />
 
 					<h:outputLabel value="Ad" for="itemName" />
-					<p:inputText id="itemName" value="#{itemViewBean.selectedItem.name}" required="true" requiredMessage="Ad bos olamaz"/>
+					<p:inputText id="itemName" value="#{itemViewBean.selectedItem.name}" required="true" requiredMessage="Ad bos olamaz" />
 
-					<h:outputLabel value="Birim" for="itemUnit" />
-					<p:selectOneMenu id="itemUnit" value="#{itemViewBean.selectedItem.unitGroup}" converter="unitGroupEntityConverter" style="width:145px" required="true" requiredMessage="Birim bos olamaz">
-						<f:selectItem itemLabel="Seciniz..." itemValue="" />
-						<f:selectItems value="#{itemViewBean.allUnitGroupList}" var="unitGroup" itemLabel="#{unitGroup.name}" itemValue="#{unitGroup}" />
-					</p:selectOneMenu>
+					<h:outputLabel value="Birim Grubu" for="itemUnit" />
+					<h:panelGrid columns="2" id="itemUnitGrid">
+						<p:selectOneMenu id="itemUnit" value="#{itemViewBean.selectedUnitGroupsSelectedUnitCodeSet}" converter="unitGroupEntityConverter" style="width:145px" required="true" requiredMessage="Birim bos olamaz">
+							<f:selectItem itemLabel="Seciniz..." itemValue="" />
+							<f:selectItems value="#{itemViewBean.allUnitGroupList}" var="unitGroup" itemLabel="#{unitGroup.name}" itemValue="#{unitGroup}" />
+							<p:ajax value="change" listener="#{itemViewBean.unitGroupSelected}" update=":itemDetails:itemUnitGrid" />
+						</p:selectOneMenu>
+						<p:selectCheckboxMenu label="Gecerli Birimler" value="#{itemViewBean.selectedItem.itemUnitSet}" converter="unitCodeEntityConverter" var="u" showCheckbox="true" filter="true" filterMatchMode="contains" rendered="#{not empty itemViewBean.selectedUnitGroupsUnitCodeSet}">
+							<f:selectItems value="#{itemViewBean.selectedUnitGroupsUnitCodeSet}" var="unit" itemLabel="#{unit.name}" itemValue="#{unit}" />
+							<p:column>
+                				#{u.name}
+            				</p:column>
+						</p:selectCheckboxMenu>
+					</h:panelGrid>
 
 					<h:outputLabel value="Durum" for="itemStatus" />
 					<p:selectOneButton id="itemStatus" value="#{itemViewBean.selectedItem.active}" required="true" requiredMessage="Durum bos olamaz">
@@ -68,7 +77,6 @@
 						<f:selectItem itemLabel="Aktif" itemValue="true" />
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
 					</p:selectOneButton>
-
 
 					<h:outputLabel value="Kategori" for="itemCategory" />
 					<h:panelGrid columns="3">
@@ -79,7 +87,13 @@
 						<p:commandButton icon="ui-icon-trash" actionListener="#{itemViewBean.clearCategory}" process="@this" update=":itemDetails:itemCategory" />
 					</h:panelGrid>
 
+
+
+
+
+
 				</h:panelGrid>
+
 
 
 				<f:facet name="footer">

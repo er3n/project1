@@ -94,6 +94,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 			itemUnitEntity.createHook(userUpdated);
 			itemUnitSet.add(itemUnitEntity);
 		}
+		itemUnitRepository.save(itemUnitSet);
 		
 		return new ItemUpdatedEvent(item);
 	}

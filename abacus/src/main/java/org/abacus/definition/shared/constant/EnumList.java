@@ -91,7 +91,8 @@ public interface EnumList {
 		//Value
 		VAL_SEHIR("Sehirler"),
 		VAL_TAT("Tat Tipleri"),
-		VAL_BESIN("Besin Tipleri"),
+		VAL_CATEGORY("Stok Kategorileri"),
+		VAL_MEAL("Yemek Ögünleri"),
 		//Item
 		ITM_SR_FN("Finans Hizmetleri"), 
 		ITM_SR_ST("Stok Hizmetleri"), 
@@ -141,5 +142,22 @@ public interface EnumList {
 		}
 	}
 
+	enum MenuStatusEnum implements ISelectionEnum {
+		WAIT("Beklemede"),
+		DONE("Yapildi"),
+		CANCEL("Iptal"),
+		;
+
+		private String description;
+		
+		private MenuStatusEnum(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+	}
 	
 }

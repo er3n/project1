@@ -149,7 +149,7 @@ public class ItemViewBean implements Serializable {
 	}
 
 	public void chooseCategory() {
-		jsfDialogHelper.openDefValueDialog(EnumList.DefTypeEnum.VAL_BESIN);
+		jsfDialogHelper.openDefValueDialog(EnumList.DefTypeEnum.VAL_CATEGORY);
 	}
 
 	private void initUnitGroups() {

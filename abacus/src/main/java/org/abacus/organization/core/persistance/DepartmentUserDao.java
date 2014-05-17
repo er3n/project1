@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.abacus.organization.core.persistance.repository.DepartmentUserRepository;
 import org.abacus.user.shared.entity.SecUserDepartmentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class DepartmentUserDao implements Serializable {
 
 
 	@Autowired
-	private DepartmentUserDao departmentUserRepository;
+	private DepartmentUserRepository departmentUserRepository;
 	
 	public List<SecUserDepartmentEntity> findByOrganization(String organizationId){
 		List<SecUserDepartmentEntity> list = departmentUserRepository.findByOrganization(organizationId);

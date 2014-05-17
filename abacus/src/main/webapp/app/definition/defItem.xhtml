@@ -1,5 +1,11 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" template="/WEB-INF/content/template/simple.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/content/template/simple.xhtml">
 
 	<ui:define name="content">
 
@@ -7,9 +13,16 @@
 
 		<h:form id="itemsForm">
 
-			<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}" widgetVar="itemsTable" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,20" selectionMode="single" selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
+			<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}"
+				widgetVar="itemsTable" paginator="true" rows="5"
+				paginatorAlwaysVisible="true"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,20" selectionMode="single"
+				selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
 
-				<p:ajax event="rowSelect" update=":itemDetails" listener="#{itemViewBean.itemSelected}" />
+				<p:ajax event="rowSelect"
+					update=":itemDetails :itemProductListForm :itemProductDetailForm"
+					listener="#{itemViewBean.itemSelected}" />
 
 				<p:column headerText="Kod" filterBy="#{item.code}">
 					<h:outputText value="#{item.code}" />
@@ -37,7 +50,10 @@
 				</p:column>
 
 				<f:facet name="header">
-					<p:commandButton value="Yeni" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemsForm" process="@this" />
+					<p:commandButton value="Yeni"
+						actionListener="#{itemViewBean.newItemSelected}"
+						update=":itemDetails :itemsForm :itemProductListForm :itemProductDetailForm"
+						process="@this" />
 				</f:facet>
 
 			</p:dataTable>
@@ -46,20 +62,27 @@
 
 
 		<h:form id="itemDetails">
-			<p:panel header="Malzeme Detay" rendered="#{not empty itemViewBean.selectedItem}">
+			<p:panel header="Malzeme Detay"
+				rendered="#{not empty itemViewBean.selectedItem}">
 
 				<h:panelGrid columns="6" cellspacing="10">
 
-					<h:outputLabel value="Kod" for="itemCode" />  
-					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" required="true" requiredMessage="Kod bos olamaz" />
+					<h:outputLabel value="Kod" for="itemCode" />
+					<p:inputText id="itemCode"
+						value="#{itemViewBean.selectedItem.code}" required="true"
+						requiredMessage="Kod bos olamaz" />
 
 					<h:outputLabel value="Ad" for="itemName" />
-					<p:inputText id="itemName" value="#{itemViewBean.selectedItem.name}" required="true" requiredMessage="Ad bos olamaz" />
+					<p:inputText id="itemName"
+						value="#{itemViewBean.selectedItem.name}" required="true"
+						requiredMessage="Ad bos olamaz" />
 
-					
+
 
 					<h:outputLabel value="Durum" for="itemStatus" />
-					<p:selectOneButton id="itemStatus" value="#{itemViewBean.selectedItem.active}" required="true" requiredMessage="Durum bos olamaz">
+					<p:selectOneButton id="itemStatus"
+						value="#{itemViewBean.selectedItem.active}" required="true"
+						requiredMessage="Durum bos olamaz">
 						<f:converter converterId="javax.faces.Boolean" />
 						<f:selectItem itemLabel="Aktif" itemValue="true" />
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
@@ -67,26 +90,46 @@
 
 					<h:outputLabel value="Kategori" for="itemCategory" />
 					<h:panelGrid columns="3">
-						<p:inputText id="itemCategory" value="#{itemViewBean.selectedItem.category.name}" required="true" requiredMessage="Kategori bos olamaz" />
-						<p:commandButton icon="ui-icon-extlink" actionListener="#{itemViewBean.chooseCategory}" process="@this">
-							<p:ajax event="dialogReturn" listener="#{itemViewBean.onCategoryChosen}" update=":itemDetails:itemCategory" />
+						<p:inputText id="itemCategory"
+							value="#{itemViewBean.selectedItem.category.name}"
+							required="true" requiredMessage="Kategori bos olamaz" />
+						<p:commandButton icon="ui-icon-extlink"
+							actionListener="#{itemViewBean.chooseCategory}" process="@this">
+							<p:ajax event="dialogReturn"
+								listener="#{itemViewBean.onCategoryChosen}"
+								update=":itemDetails:itemCategory" />
 						</p:commandButton>
-						<p:commandButton icon="ui-icon-trash" actionListener="#{itemViewBean.clearCategory}" process="@this" update=":itemDetails:itemCategory" />
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{itemViewBean.clearCategory}" process="@this"
+							update=":itemDetails:itemCategory" />
 					</h:panelGrid>
 
 					<h:outputLabel value="Birim Grubu" for="itemUnit" />
 					<h:panelGrid columns="2" id="itemUnitGrid">
-						<p:selectOneMenu id="itemUnit" value="#{itemViewBean.selectedItem.unitGroup}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="true" requiredMessage="Birim bos olamaz">
+						<p:selectOneMenu id="itemUnit"
+							value="#{itemViewBean.selectedItem.unitGroup}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="true" requiredMessage="Birim bos olamaz">
 							<f:selectItem itemLabel="Seciniz..." itemValue="" />
-							<f:selectItems value="#{itemViewBean.allUnitGroupList}" var="unitGroup" itemLabel="#{unitGroup.name}" itemValue="#{unitGroup}" />
-							<p:ajax value="change" listener="#{itemViewBean.unitGroupSelected}" update=":itemDetails:itemUnitGrid" />
+							<f:selectItems value="#{itemViewBean.allUnitGroupList}"
+								var="unitGroup" itemLabel="#{unitGroup.name}"
+								itemValue="#{unitGroup}" />
+							<p:ajax value="change"
+								listener="#{itemViewBean.unitGroupSelected}"
+								update=":itemDetails:itemUnitGrid" />
 						</p:selectOneMenu>
-						<p:selectManyMenu label="Gecerli Birimler" value="#{itemViewBean.selectedUnitGroupsSelectedUnitCodeSet}" converter="omnifaces.SelectItemsConverter" var="u" showCheckbox="true" filter="false" filterMatchMode="contains" rendered="#{not empty itemViewBean.selectedUnitGroupsUnitCodeSet}">
-							<f:selectItems value="#{itemViewBean.selectedUnitGroupsUnitCodeSet}" var="unit" itemLabel="#{unit.name}" itemValue="#{unit}" />
+						<p:selectManyMenu label="Gecerli Birimler"
+							value="#{itemViewBean.selectedUnitGroupsSelectedUnitCodeSet}"
+							converter="omnifaces.SelectItemsConverter" var="u"
+							showCheckbox="true" filter="false" filterMatchMode="contains"
+							rendered="#{not empty itemViewBean.selectedUnitGroupsUnitCodeSet}">
+							<f:selectItems
+								value="#{itemViewBean.selectedUnitGroupsUnitCodeSet}" var="unit"
+								itemLabel="#{unit.name}" itemValue="#{unit}" />
 							<p:column> 
                 				#{u.name}
             				</p:column>
-            				<p:column>
+							<p:column>
                 				#{u.ratio}
             				</p:column>
 						</p:selectManyMenu>
@@ -97,17 +140,91 @@
 
 
 				<f:facet name="footer">
-					<p:commandButton value="Guncelle" actionListener="#{itemViewBean.updateItem}" rendered="#{not empty itemViewBean.selectedItem.id}" update=":itemsForm" />
-					<p:commandButton value="Kaydet" actionListener="#{itemViewBean.newItem}" rendered="#{empty itemViewBean.selectedItem.id}" update=":itemsForm :itemDetails" />
+					<p:commandButton value="Guncelle"
+						actionListener="#{itemViewBean.updateItem}"
+						rendered="#{not empty itemViewBean.selectedItem.id}"
+						update=":itemsForm" />
+					<p:commandButton value="Kaydet"
+						actionListener="#{itemViewBean.newItem}"
+						rendered="#{empty itemViewBean.selectedItem.id}"
+						update=":itemsForm :itemDetails" />
 				</f:facet>
 
 			</p:panel>
-			
-			
-			<p:panel header="Icerik" rendered="#{not empty itemViewBean.selectedItem}">
-			
+		</h:form>
+
+		<h:form id="itemProductListForm">
+			<p:dataTable var="product"
+				emptyMessage="Kayitli urun bulunmamaktadir."
+				rendered="#{itemViewBean.displayProductInfo and not empty itemViewBean.selectedItem and not empty itemViewBean.selectedItem.id}"
+				value="#{itemViewBean.selectedItem.itemProductSet}">
+
+				<f:facet name="header">
+						Malzemeler
+					</f:facet>
+
+				<p:column headerText="Urun">
+					<h:outputText value="#{product.materialItem.name}" />
+				</p:column>
+
+				<p:column headerText="Birim">
+					<h:outputText value="#{product.materialUnitCode.name}" />
+				</p:column>
+
+				<p:column headerText="Miktar">
+					<h:outputText value="#{product.materialCount}" />
+				</p:column>
+
+				<p:column style="width:4%">
+					<p:commandButton id="selectButton" update=":itemProductDetailForm"
+						icon="ui-icon-search" title="Detay">
+						<f:setPropertyActionListener value="#{product}"
+							target="#{itemViewBean.selectedItemProduct}" />
+					</p:commandButton>
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Yeni Ekle"
+						actionListener="#{itemViewBean.newItemProductSelected}"
+						update=":itemProductDetailForm" />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+		<h:form id="itemProductDetailForm">
+			<p:panel header="Malzeme Detay"
+				rendered="#{not empty itemViewBean.selectedItemProduct}">
+				<h:panelGrid columns="4" cellpadding="10">
+
+					<h:outputLabel value="Malzeme" />
+					<p:inputText id="itemCode"
+						value="#{itemViewBean.selectedItemProduct.materialItem.name}"
+						disabled="true" />
+
+					<h:outputLabel value="Malzeme" />
+					<h:panelGrid columns="3">
+						<p:inputText id="itemMaterial"
+							value="#{itemViewBean.selectedItemProduct.materialItem.name}"
+							required="true" requiredMessage="Malzeme bos olamaz" />
+						<p:commandButton icon="ui-icon-extlink"
+							actionListener="#{itemViewBean.chooseItem}" process="@this">
+							<p:ajax event="dialogReturn"
+								listener="#{itemViewBean.onMaterialChosen}"
+								update=":itemProductDetailForm:itemMaterial" />
+						</p:commandButton>
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{itemViewBean.clearMaterial}" process="@this"
+							update=":itemProductDetailForm:itemMaterial" />
+					</h:panelGrid>
+
+
+				</h:panelGrid>
 			</p:panel>
 		</h:form>
+
+
+
 
 	</ui:define>
 

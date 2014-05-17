@@ -60,6 +60,10 @@ public class DefItemEntity extends DynamicEntity {
 	@Fetch(FetchMode.SELECT)
 	private Set<DefItemUnitEntity> itemUnitSet;
 
+	@OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
+	private Set<DefItemProductEntity> itemProductSet;
+
 	public DefItemEntity() {
 	}
 
@@ -133,6 +137,14 @@ public class DefItemEntity extends DynamicEntity {
 
 	public void setItemUnitSet(Set<DefItemUnitEntity> itemUnitSet) {
 		this.itemUnitSet = itemUnitSet;
+	}
+
+	public Set<DefItemProductEntity> getItemProductSet() {
+		return itemProductSet;
+	}
+
+	public void setItemProductSet(Set<DefItemProductEntity> itemProductSet) {
+		this.itemProductSet = itemProductSet;
 	}
 
 }

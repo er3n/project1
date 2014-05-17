@@ -20,6 +20,7 @@ import org.abacus.definition.core.handler.DefUnitHandler;
 import org.abacus.definition.shared.ItemAlreadyExistsException;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.entity.DefItemProductEntity;
 import org.abacus.definition.shared.entity.DefItemUnitEntity;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
@@ -72,11 +73,19 @@ public class ItemViewBean implements Serializable {
 
 	private Set<DefUnitCodeEntity> selectedUnitGroupsSelectedUnitCodeSet;
 
+	private DefItemProductEntity selectedItemProduct;
+
+	private Boolean displayProductInfo;
+
 	@PostConstruct
 	public void init() {
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
 		this.initUnitGroups();
+	}
+
+	public void initNewProduct() {
+
 	}
 
 	public void clear() {
@@ -126,6 +135,8 @@ public class ItemViewBean implements Serializable {
 			selectedUnitGroupsSelectedUnitCodeSet.add(itemUnit.getUnitCode());
 		}
 
+		this.itemChange();
+
 		this.unitGroupSelected();
 	}
 
@@ -136,7 +147,19 @@ public class ItemViewBean implements Serializable {
 		selectedItem.setType(new DefTypeEntity(type.name()));
 		selectedItem.setItemClass(clazz);
 		selectedItem.setCategory(new DefValueEntity());
+
+		this.itemChange();
+
 		this.unitGroupSelected();
+	}
+
+	public void newItemProductSelected() {
+		selectedItemProduct = new DefItemProductEntity();
+		selectedItemProduct.setItem(selectedItem);
+	}
+
+	private void itemChange() {
+		selectedItemProduct = null;
 	}
 
 	private void initParameters() {
@@ -146,10 +169,25 @@ public class ItemViewBean implements Serializable {
 		type = EnumList.DefTypeEnum.valueOf(itemTypeStr);
 		clazz = EnumList.DefItemClassEnum.valueOf(itemClassStr);
 		itemSearchCriteria = new ItemSearchCriteria(currentOrganization, type, clazz);
+
+		displayProductInfo = EnumList.DefTypeEnum.ITM_SR_ST.equals(type) && EnumList.DefItemClassEnum.STK_P.equals(clazz);
 	}
 
 	public void chooseCategory() {
 		jsfDialogHelper.openDefValueDialog(EnumList.DefTypeEnum.VAL_CATEGORY);
+	}
+
+	public void chooseItem() {
+		jsfDialogHelper.openItemDialog(EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M);
+	}
+
+	public void onMaterialChosen(SelectEvent event) {
+		DefItemEntity item = (DefItemEntity) event.getObject();
+		selectedItemProduct.setMaterialItem(item);
+	}
+	
+	public void clearMaterial(){
+		selectedItemProduct.setMaterialItem(null);
 	}
 
 	private void initUnitGroups() {
@@ -252,6 +290,22 @@ public class ItemViewBean implements Serializable {
 
 	public void setSelectedUnitGroupsSelectedUnitCodeSet(Set<DefUnitCodeEntity> selectedUnitGroupsSelectedUnitCodeSet) {
 		this.selectedUnitGroupsSelectedUnitCodeSet = selectedUnitGroupsSelectedUnitCodeSet;
+	}
+
+	public DefItemProductEntity getSelectedItemProduct() {
+		return selectedItemProduct;
+	}
+
+	public void setSelectedItemProduct(DefItemProductEntity selectedItemProduct) {
+		this.selectedItemProduct = selectedItemProduct;
+	}
+
+	public Boolean getDisplayProductInfo() {
+		return displayProductInfo;
+	}
+
+	public void setDisplayProductInfo(Boolean displayProductInfo) {
+		this.displayProductInfo = displayProductInfo;
 	}
 
 }

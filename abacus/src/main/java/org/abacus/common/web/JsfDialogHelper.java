@@ -10,17 +10,19 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.EnumList.DefItemClassEnum;
+import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.primefaces.context.RequestContext;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JsfDialogHelper implements Serializable {
-	
-	private Map<String,Object> defaultDialogOptions;
-	
+
+	private Map<String, Object> defaultDialogOptions;
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		defaultDialogOptions = new HashMap<>();
 		defaultDialogOptions.put("modal", true);
 		defaultDialogOptions.put("draggable", false);
@@ -28,19 +30,25 @@ public class JsfDialogHelper implements Serializable {
 		defaultDialogOptions.put("contentHeight", 320);
 	}
 
-	public void openDefValueDialog(EnumList.DefTypeEnum type){
+	public void openDefValueDialog(EnumList.DefTypeEnum type) {
 		Map<String, String> paramsHashMap = new HashMap<>();
 		paramsHashMap.put("type", type.name());
 		this.openDialog("defValueDialog", paramsHashMap);
 	}
-	
-	public void openDepartmentUserAuthDialog(DepartmentEntity department){
+
+	public void openItemDialog(DefTypeEnum type, DefItemClassEnum clazz) {
+		Map<String, String> paramsHashMap = new HashMap<>();
+		paramsHashMap.put("type", type.name());
+		paramsHashMap.put("clazz", clazz.name());
+		this.openDialog("defItemDialog", paramsHashMap);
+	}
+
+	public void openDepartmentUserAuthDialog(DepartmentEntity department) {
 		Map<String, String> paramsHashMap = new HashMap<>();
 		paramsHashMap.put("department_id", String.valueOf(department.getId()));
 		this.openDialog("departmentUserAuthDialog", paramsHashMap);
 	}
-	
-	
+
 	public void openDialog(String dialog, Map<String, String> paramMap) {
 
 		Map<String, List<String>> params = new HashMap<String, List<String>>();

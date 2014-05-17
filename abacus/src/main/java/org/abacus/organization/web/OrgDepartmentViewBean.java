@@ -12,7 +12,6 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -34,26 +33,27 @@ public class OrgDepartmentViewBean implements Serializable {
 	private DepartmentEntity selDepartment;
 	private List<DepartmentEntity> departmentList;
 
-	private SelectionEnum[] groupEnums;
-	private SelectionEnum selectedGroupEnum;
+//	private SelectionEnum[] groupEnums;
+//	private SelectionEnum selectedGroupEnum;
 
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
-	private EnumList.OrgDepartmentGroupEnum testDepartmentEnum;
+	private EnumList.OrgDepartmentGroupEnum selectedGroupEnum;
+
 
 	@PostConstruct
 	public void init() {
-		createGroupEnumArray();
-		selectedGroupEnum = groupEnums[0];
+//		createGroupEnumArray();
+//		selectedGroupEnum = groupEnums[0];
 	}
 
-	private void createGroupEnumArray() {
-		groupEnums = new SelectionEnum[EnumList.OrgDepartmentGroupEnum.values().length];
-		for (EnumList.OrgDepartmentGroupEnum enm : EnumList.OrgDepartmentGroupEnum.values()) {
-			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
-		}
-	}
+//	private void createGroupEnumArray() {
+//		groupEnums = new SelectionEnum[EnumList.OrgDepartmentGroupEnum.values().length];
+//		for (EnumList.OrgDepartmentGroupEnum enm : EnumList.OrgDepartmentGroupEnum.values()) {
+//			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
+//		}
+//	}
 
 	public void setSelOrganization(OrganizationEntity selType) {
 		this.selOrganization = selType;
@@ -88,14 +88,14 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void createDepartment() {
 		selDepartment = new DepartmentEntity();
 		selDepartment.setOrganization(selOrganization);
-		selDepartment.setTransientGroup(selectedGroupEnum);
+		selDepartment.setDepartmentGroup(selectedGroupEnum);
 	}
 
 	public void findOrganizationDepartment() {
 		createDepartment();
 		departmentList = null;
 		if (selOrganization != null) {
-			departmentList = departmentService.findByOrganizationAndGroup(selOrganization.getId(), EnumList.OrgDepartmentGroupEnum.valueOf(selectedGroupEnum.name()));
+			departmentList = departmentService.findByOrganizationAndGroup(selOrganization.getId(), selectedGroupEnum);
 		} else {
 			departmentList = new ArrayList<DepartmentEntity>();
 		}
@@ -135,21 +135,21 @@ public class OrgDepartmentViewBean implements Serializable {
 		this.departmentList = departmentList;
 	}
 
-	public SelectionEnum getSelectedGroupEnum() {
-		return selectedGroupEnum;
-	}
-
-	public void setSelectedGroupEnum(SelectionEnum selectedGroupEnum) {
-		this.selectedGroupEnum = selectedGroupEnum;
-	}
-
-	public SelectionEnum[] getGroupEnums() {
-		return groupEnums;
-	}
-
-	public void setGroupEnums(SelectionEnum[] groupEnums) {
-		this.groupEnums = groupEnums;
-	}
+//	public SelectionEnum getSelectedGroupEnum() {
+//		return selectedGroupEnum;
+//	}
+//
+//	public void setSelectedGroupEnum(SelectionEnum selectedGroupEnum) {
+//		this.selectedGroupEnum = selectedGroupEnum;
+//	}
+//
+//	public SelectionEnum[] getGroupEnums() {
+//		return groupEnums;
+//	}
+//
+//	public void setGroupEnums(SelectionEnum[] groupEnums) {
+//		this.groupEnums = groupEnums;
+//	}
 
 	public OrganizationEntity getSelOrganization() {
 		return selOrganization;
@@ -174,12 +174,21 @@ public class OrgDepartmentViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	public EnumList.OrgDepartmentGroupEnum getTestDepartmentEnum() {
-		return testDepartmentEnum;
+	public EnumList.OrgDepartmentGroupEnum getSelectedGroupEnum() {
+		return selectedGroupEnum;
 	}
 
-	public void setTestDepartmentEnum(EnumList.OrgDepartmentGroupEnum testDepartmentEnum) {
-		this.testDepartmentEnum = testDepartmentEnum;
+	public void setSelectedGroupEnum(
+			EnumList.OrgDepartmentGroupEnum selectedGroupEnum) {
+		this.selectedGroupEnum = selectedGroupEnum;
 	}
+
+//	public EnumList.OrgDepartmentGroupEnum getTestDepartmentEnum() {
+//		return testDepartmentEnum;
+//	}
+//
+//	public void setTestDepartmentEnum(EnumList.OrgDepartmentGroupEnum testDepartmentEnum) {
+//		this.testDepartmentEnum = testDepartmentEnum;
+//	}
 
 }

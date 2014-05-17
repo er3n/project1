@@ -19,6 +19,11 @@ public interface EnumList {
 			return this.description;
 		}
 		
+		@Override
+		public String getName() {
+			return this.name();
+		}
+		
 	}
 	
 	enum DefItemClassEnum implements ISelectionEnum {
@@ -38,6 +43,10 @@ public interface EnumList {
 			return this.description;
 		}
 		
+		@Override
+		public String getName() {
+			return this.name();
+		}
 	}
 	
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
@@ -54,6 +63,11 @@ public interface EnumList {
 		@Override
 		public String getDescription() {
 			return this.description;
+		}
+		
+		@Override
+		public String getName() {
+			return this.name();
 		}
 		
 	}
@@ -82,6 +96,10 @@ public interface EnumList {
 			return this.description;
 		}
 		
+		@Override
+		public String getName() {
+			return this.name();
+		}
 	}
 	
 	
@@ -121,6 +139,10 @@ public interface EnumList {
 			return this.description;
 		}
 		
+		@Override
+		public String getName() {
+			return this.name();
+		}
 	}
 	 
 	
@@ -140,6 +162,11 @@ public interface EnumList {
 		public String getDescription() {
 			return this.description;
 		}
+		
+		@Override
+		public String getName() {
+			return this.name();
+		}
 	}
 
 	enum MenuStatusEnum implements ISelectionEnum {
@@ -157,6 +184,11 @@ public interface EnumList {
 		@Override
 		public String getDescription() {
 			return this.description;
+		}
+		
+		@Override
+		public String getName() {
+			return this.name();
 		}
 	}
 	

@@ -11,7 +11,6 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
@@ -35,20 +34,23 @@ public class OrganizationViewBean implements Serializable {
 	@ManagedProperty(value = "#{orgDepartmentViewBean}")
 	private OrgDepartmentViewBean orgDepartmentViewBean;
 
-	private SelectionEnum[] levelEnums;
+//	private SelectionEnum[] levelEnums;
+	
+	private EnumList.OrgOrganizationLevelEnum level;
+	private EnumList.OrgDepartmentGroupEnum selectedGroupEnum;
 	
 	@PostConstruct
 	public void init() {
-		createLevelEnumArray();
+//		createLevelEnumArray();
 		findOrganizationList();
 	}
 	
-	private void createLevelEnumArray(){
-		levelEnums = new SelectionEnum[EnumList.OrgOrganizationLevelEnum.values().length];
-		for (EnumList.OrgOrganizationLevelEnum enm : EnumList.OrgOrganizationLevelEnum.values()) {
-			levelEnums[enm.ordinal()] = new SelectionEnum(enm);
-		}
-	}
+//	private void createLevelEnumArray(){
+//		levelEnums = new SelectionEnum[EnumList.OrgOrganizationLevelEnum.values().length];
+//		for (EnumList.OrgOrganizationLevelEnum enm : EnumList.OrgOrganizationLevelEnum.values()) {
+//			levelEnums[enm.ordinal()] = new SelectionEnum(enm);
+//		}
+//	}
 	
 	public void groupChangeListener(){
 		clearOrganization();
@@ -129,13 +131,13 @@ public class OrganizationViewBean implements Serializable {
 		this.organizationHandler = organizationHandler;
 	}
 
-	public SelectionEnum[] getLevelEnums() {
-		return levelEnums;
-	}
-
-	public void setLevelEnums(SelectionEnum[] levelEnums) {
-		this.levelEnums = levelEnums;
-	}
+//	public SelectionEnum[] getLevelEnums() {
+//		return levelEnums;
+//	}
+//
+//	public void setLevelEnums(SelectionEnum[] levelEnums) {
+//		this.levelEnums = levelEnums;
+//	}
 
 	public OrgDepartmentViewBean getOrgDepartmentViewBean() {
 		return orgDepartmentViewBean;
@@ -143,6 +145,23 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setOrgDepartmentViewBean(OrgDepartmentViewBean orgDepartmentViewBean) {
 		this.orgDepartmentViewBean = orgDepartmentViewBean;
+	}
+
+	public EnumList.OrgOrganizationLevelEnum getLevel() {
+		return level;
+	}
+
+	public void setLevel(EnumList.OrgOrganizationLevelEnum level) {
+		this.level = level;
+	}
+
+	public EnumList.OrgDepartmentGroupEnum getSelectedGroupEnum() {
+		return selectedGroupEnum;
+	}
+
+	public void setSelectedGroupEnum(
+			EnumList.OrgDepartmentGroupEnum selectedGroupEnum) {
+		this.selectedGroupEnum = selectedGroupEnum;
 	}
 
 }

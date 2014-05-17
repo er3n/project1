@@ -5,9 +5,15 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	template="/WEB-INF/content/template/simple.xhtml">
-
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	template="/WEB-INF/content/template/simple.xhtml"
+>
+	
 	<ui:define name="content">
+
+	<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgOrganizationLevelEnum" />
+
 		<style> .topAligned { vertical-align: top;} </style>
 		<h:panelGrid id="mainGrid" columns="1">
 
@@ -29,12 +35,22 @@
 								validatorMessage="organization.Ack" />
 
 							<h:outputLabel value="Seviye:" />
-							<p:selectOneMenu value="#{organizationViewBean.selOrganization.transientLevel}" 
-								converter="selectionEnumConverter" style="width:145px">
-								<f:selectItems value="#{organizationViewBean.levelEnums}"
+							<p:selectOneMenu value="#{organizationViewBean.selOrganization.level}" 
+								style="width:145px">
+								<f:selectItems value="#{OrgOrganizationLevelEnum}"
 									var="levelEnum" itemLabel="#{levelEnum.description}"
-									itemValue="#{levelEnum}" />
+									 />
+								<p:ajax event="change" update=":departmentForm"
+									listener="#{orgDepartmentViewBean.groupChangeListener}"
+									process="@this" />									 
 							</p:selectOneMenu>
+							
+							<p:selectOneMenu value="#{organizationViewBean.selectedGroupEnum}" 
+								style="width:145px">
+								<f:selectItems value="#{OrgDepartmentGroupEnum}"
+									var="groupEnum" itemLabel="#{groupEnum.description}"/>
+							</p:selectOneMenu>
+							
 
 						</h:panelGrid>
 
@@ -78,7 +94,7 @@
        					</p:column>
 
 						<p:column headerText="Seviye">  
-           					#{selOrganization.transientLevel.description}  
+           					#{selOrganization.level.description}  
        					</p:column>
 
 						<p:column headerText="Baglanti">  

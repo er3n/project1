@@ -13,7 +13,6 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTypeHandler;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.SelectionEnum;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 
 @ManagedBean
@@ -42,27 +41,26 @@ public class DefinitionViewBean implements Serializable {
 	@ManagedProperty(value = "#{defTaskViewBean}")
 	private DefTaskViewBean defTaskViewBean;
 
-	private SelectionEnum[] groupEnums;
-	private SelectionEnum selectedGroupEnum;
+	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 
 	@PostConstruct
 	public void init() {
-		createGrupEnumArray();
+//		createGrupEnumArray();
 		try{
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
-			selectedGroupEnum = new SelectionEnum(EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase()));
+			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
 		}catch(Exception e){
-			selectedGroupEnum = groupEnums[0];
+			selectedGroupEnum = EnumList.DefTypeGroupEnum.ITM;
 		}
 		groupChangeListener();
 	}
 	
-	private void createGrupEnumArray(){
-		groupEnums = new SelectionEnum[EnumList.DefTypeGroupEnum.values().length];
-		for (EnumList.DefTypeGroupEnum enm : EnumList.DefTypeGroupEnum.values()) {
-			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
-		}
-	}
+//	private void createGrupEnumArray(){
+//		groupEnums = new SelectionEnum[EnumList.DefTypeGroupEnum.values().length];
+//		for (EnumList.DefTypeGroupEnum enm : EnumList.DefTypeGroupEnum.values()) {
+//			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
+//		}
+//	}
 	
 	public void groupChangeListener(){
 		this.findTypeList(selectedGroupEnum);
@@ -70,28 +68,28 @@ public class DefinitionViewBean implements Serializable {
 	}
 
 	public void typeRowSelectListener() {
-		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.VAL.name())){
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.VAL)){
 			defValueViewBean.setSelType(selType);
 		}
-		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.PRM.name())){
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.PRM)){
 			defParamViewBean.setSelType(selType);
 		}
-		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.STK.name()) || 
-				selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.FIN.name())){
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.STK) || 
+				selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.FIN)){
 			defTaskViewBean.setSelType(selType);
 		}
 	}
 	
 	public void clearType() {
 		selType = new DefTypeEntity();
-		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.VAL.name())){
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.VAL)){
 			defValueViewBean.setSelType(null);
 		}
-		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.PRM.name())){
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.PRM)){
 			defParamViewBean.setSelType(null);
 		}
-		if (selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.STK.name()) || 
-				selectedGroupEnum.getName().equals(EnumList.DefTypeGroupEnum.FIN.name())){
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.STK) || 
+				selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.FIN)){
 			defTaskViewBean.setSelType(null);
 		}
 	}
@@ -114,10 +112,10 @@ public class DefinitionViewBean implements Serializable {
 		findTypeList(selectedGroupEnum);
 	}
 
-	public void findTypeList(SelectionEnum groupEnum) {
+	public void findTypeList(EnumList.DefTypeGroupEnum groupEnum) {
 		clearType();
 		typeList = null;
-		typeList = defTypeService.getTypeList(EnumList.DefTypeGroupEnum.valueOf(groupEnum.name()));
+		typeList = defTypeService.getTypeList(groupEnum);
 	}
 
 	public DefTypeEntity getSelType() {
@@ -154,19 +152,19 @@ public class DefinitionViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public SelectionEnum[] getGroupEnums() {
-		return groupEnums;
-	}
+//	public SelectionEnum[] getGroupEnums() {
+//		return groupEnums;
+//	}
+//
+//	public void setGroupEnums(SelectionEnum[] groupEnums) {
+//		this.groupEnums = groupEnums;
+//	}
 
-	public void setGroupEnums(SelectionEnum[] groupEnums) {
-		this.groupEnums = groupEnums;
-	}
-
-	public SelectionEnum getSelectedGroupEnum() {
+	public EnumList.DefTypeGroupEnum getSelectedGroupEnum() {
 		return selectedGroupEnum;
 	}
 
-	public void setSelectedGroupEnum(SelectionEnum selectedGroupEnum) {
+	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
 	}
 

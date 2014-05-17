@@ -5,7 +5,12 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
 >
+
+	<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />	
+
 		<!-- orgDepartment -->
 			<h:panelGrid id="departmentGrid" columns="1">
 				<h:form id="departmentForm">
@@ -14,10 +19,9 @@
 							
 							<h:outputLabel value="Birim Tipi:" />
 							<p:selectOneMenu value="#{orgDepartmentViewBean.selectedGroupEnum}" 
-								converter="selectionEnumConverter" style="width:145px">
-								<f:selectItems value="#{orgDepartmentViewBean.groupEnums}"
-									var="groupEnum" itemLabel="#{groupEnum.description}"
-									itemValue="#{groupEnum}" />
+								style="width:145px">
+								<f:selectItems value="#{OrgDepartmentGroupEnum}"
+									var="groupEnum" itemLabel="#{groupEnum.description}"/>
 								<p:ajax event="change" update=":departmentForm"
 									listener="#{orgDepartmentViewBean.groupChangeListener}"
 									process="@this" />

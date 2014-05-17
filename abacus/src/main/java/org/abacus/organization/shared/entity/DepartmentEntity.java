@@ -8,11 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.SelectionEnum;
 
 @Entity
 @SuppressWarnings("serial")
@@ -32,9 +30,6 @@ public class DepartmentEntity extends DynamicEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "group_enum", nullable = false)
 	private EnumList.OrgDepartmentGroupEnum departmentGroup; 
-
-	@Transient
-	private SelectionEnum transientGroup; 
 
 	public OrganizationEntity getOrganization() {
 		return organization;
@@ -68,13 +63,4 @@ public class DepartmentEntity extends DynamicEntity {
 		this.departmentGroup = group;
 	}
 
-	public SelectionEnum getTransientGroup() {
-		return new SelectionEnum(departmentGroup);
-	}
-
-	public void setTransientGroup(SelectionEnum g) {
-		this.departmentGroup = EnumList.OrgDepartmentGroupEnum.valueOf(g.name());
-	}
-
-	
 }

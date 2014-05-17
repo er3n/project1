@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.handler.UserService;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
@@ -58,10 +59,8 @@ public class UserGroupViewBean implements Serializable {
 	private void newSelectedGroup() {
 		selectedGroupAuthoritiesDL = new DualListModel<SecAuthorityEntity>();
 
-		ReadAuthoritiesEvent authoritiesEvent = userService
-				.requestAuthorities(new RequestReadAuthoritiesEvent());
-		List<SecAuthorityEntity> allAuthorities = authoritiesEvent
-				.getGroupAuthorities();
+		ReadAuthoritiesEvent authoritiesEvent = userService.requestAuthorities(new RequestReadAuthoritiesEvent());
+		List<SecAuthorityEntity> allAuthorities = authoritiesEvent.getGroupAuthorities();
 		List<SecAuthorityEntity> targetSelectedGrupAuthorities = new ArrayList<>();
 		selectedGroupAuthoritiesDL.setSource(allAuthorities);
 		selectedGroupAuthoritiesDL.setTarget(targetSelectedGrupAuthorities);
@@ -70,13 +69,10 @@ public class UserGroupViewBean implements Serializable {
 
 	public void saveGroup() {
 		try {
-			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL
-					.getTarget();
+			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL.getTarget();
 			String username = sessionInfoHelper.currentUserName();
 
-			GroupCreatedEvent groupCreatedEvent = userService
-					.createGroup(new CreateGroupEvent(selectedGroup,
-							selectedAuthorities, username));
+			GroupCreatedEvent groupCreatedEvent = userService.createGroup(new CreateGroupEvent(selectedGroup, selectedAuthorities, username));
 			jsfMessageHelper.addInfo("grupEklendi");
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("grupIsmiKullanimda");
@@ -85,12 +81,9 @@ public class UserGroupViewBean implements Serializable {
 
 	public void updateGroup() {
 		try {
-			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL
-					.getTarget();
+			List<SecAuthorityEntity> selectedAuthorities = selectedGroupAuthoritiesDL.getTarget();
 			String userName = sessionInfoHelper.currentUserName();
-			GroupUpdatedEvent groupUpdatedEvent = userService
-					.updateGroup(new UpdateGroupEvent(selectedGroup,
-							selectedAuthorities, userName));
+			GroupUpdatedEvent groupUpdatedEvent = userService.updateGroup(new UpdateGroupEvent(selectedGroup, selectedAuthorities, userName));
 			selectedGroup = groupUpdatedEvent.getGroup();
 			jsfMessageHelper.addInfo("grupGuncellendi");
 		} catch (GroupNameInUseException e) {
@@ -101,8 +94,7 @@ public class UserGroupViewBean implements Serializable {
 	public void removeGroup() {
 
 		try {
-			GroupDeletedEvent event = userService
-					.deleteGroup(new DeleteGroupEvent(selectedGroup.getId()));
+			GroupDeletedEvent event = userService.deleteGroup(new DeleteGroupEvent(selectedGroup.getId()));
 			jsfMessageHelper.addInfo("kullaniciGrubuSilindi");
 			this.newSelectedGroup();
 		} catch (UserExistsInGroupException e) {
@@ -114,26 +106,27 @@ public class UserGroupViewBean implements Serializable {
 	public void onGroupRowSelected() {
 		Long groupId = selectedGroup.getId();
 		selectedGroupAuthoritiesDL = new DualListModel<>();
-		ReadAuthoritiesEvent groupAuthoritiesEvent = userService
-				.requestAuthorities(new RequestReadAuthoritiesEvent(groupId));
-		List<SecAuthorityEntity> target = groupAuthoritiesEvent
-				.getGroupAuthorities();
-		ReadAuthoritiesEvent allGroupAuthoritiesEvent = userService
-				.requestAuthorities(new RequestReadAuthoritiesEvent());
-		List<SecAuthorityEntity> source = allGroupAuthoritiesEvent
-				.getGroupAuthorities();
+		ReadAuthoritiesEvent groupAuthoritiesEvent = userService.requestAuthorities(new RequestReadAuthoritiesEvent(groupId));
+		List<SecAuthorityEntity> target = groupAuthoritiesEvent.getGroupAuthorities();
+		ReadAuthoritiesEvent allGroupAuthoritiesEvent = userService.requestAuthorities(new RequestReadAuthoritiesEvent());
+		List<SecAuthorityEntity> source = allGroupAuthoritiesEvent.getGroupAuthorities();
 		source.removeAll(target);
 		selectedGroupAuthoritiesDL.setSource(source);
 		selectedGroupAuthoritiesDL.setTarget(target);
 	}
 
 	public DynamicEntityDataModel<SecGroupEntity> findAllGroups() {
-		ReadGroupsEvent allGroups = userService
-				.requestGroup(new RequestReadGroupsEvent());
+		ReadGroupsEvent allGroups = userService.requestGroup(new RequestReadGroupsEvent());
 		List<SecGroupEntity> groupList = allGroups.getGroupList();
-		DynamicEntityDataModel<SecGroupEntity> dataModel = new DynamicEntityDataModel<SecGroupEntity>(
-				groupList);
+		DynamicEntityDataModel<SecGroupEntity> dataModel = new DynamicEntityDataModel<SecGroupEntity>(groupList);
 		return dataModel;
+	}
+
+	public List<SecAuthorityEntity> allAuthorities() {
+		List<SecAuthorityEntity> all = new ArrayList<>();
+		all.addAll(selectedGroupAuthoritiesDL.getSource());
+		all.addAll(selectedGroupAuthoritiesDL.getTarget());
+		return all;
 	}
 
 	public UserService getUserService() {
@@ -156,8 +149,7 @@ public class UserGroupViewBean implements Serializable {
 		return selectedGroupAuthoritiesDL;
 	}
 
-	public void setSelectedGroupAuthoritiesDL(
-			DualListModel<SecAuthorityEntity> selectedGroupAuthoritiesDL) {
+	public void setSelectedGroupAuthoritiesDL(DualListModel<SecAuthorityEntity> selectedGroupAuthoritiesDL) {
 		this.selectedGroupAuthoritiesDL = selectedGroupAuthoritiesDL;
 	}
 

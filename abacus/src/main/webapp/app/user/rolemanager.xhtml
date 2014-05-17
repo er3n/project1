@@ -5,6 +5,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
 	template="/WEB-INF/content/template/simple.xhtml">
 
 	<ui:define name="content">
@@ -18,7 +20,7 @@
 	width: 300px;
 }
 </style>
- 
+
 		<h:panelGrid columns="2" style="width:100%;"
 			columnClasses="topAligned">
 
@@ -70,9 +72,10 @@
 						<p:pickList
 							value="#{userGroupViewBean.selectedGroupAuthoritiesDL}"
 							var="authority" itemValue="#{authority}"
-							itemLabel="#{authority.id}" converter="omnifaces.SelectItemsConverter"
-							 showSourceFilter="true"
-							showTargetFilter="true" filterMatchMode="contains">
+							itemLabel="#{authority.id}"
+							converter="omnifaces.SelectItemsConverter"
+							showSourceFilter="true" showTargetFilter="true"
+							filterMatchMode="contains">
 
 							<f:facet name="sourceCaption">Tum Yetkiler</f:facet>
 
@@ -81,6 +84,9 @@
 							<p:column>
 								<h:outputText value="#{authority.id}" />
 							</p:column>
+
+							<o:converter converterId="omnifaces.ListConverter"
+								list="#{userGroupViewBean.allAuthorities()}" />
 
 						</p:pickList>
 

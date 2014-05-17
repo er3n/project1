@@ -171,6 +171,20 @@ public class UserViewBean implements Serializable {
 		selectedUserGroupDL.setTarget(targetUserGroups);
 		return selectedUserGroupDL;
 	}
+	
+	public List<SecGroupEntity> allUserGroup(){
+		List<SecGroupEntity> all = new ArrayList<>();
+		all.addAll(selectedUserGroupDL.getSource());
+		all.addAll(selectedUserGroupDL.getTarget());
+		return all;
+	}
+	
+	public List<OrganizationEntity> allUserOrganization(){
+		List<OrganizationEntity> all = new ArrayList<>();
+		all.addAll(selectedUserOrganizationDL.getSource());
+		all.addAll(selectedUserOrganizationDL.getTarget());
+		return all;
+	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;

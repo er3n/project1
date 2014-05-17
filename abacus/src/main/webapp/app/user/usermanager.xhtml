@@ -33,7 +33,7 @@
 					<p:selectManyMenu
 						value="#{userViewBean.searchUserCriteria.groupList}"
 						converter="omnifaces.SelectItemsConverter"
-						style="width:250px;height:110px" var="selectedGroup"
+						 var="selectedGroup"
 						showCheckbox="true">
 						<f:selectItems value="#{userViewBean.allGroups}" var="group"
 							itemLabel="#{group.name}" itemValue="#{group}" />
@@ -149,7 +149,7 @@
 						</p:column>
 
 						<o:converter converterId="omnifaces.ListConverter"
-							list="#{userViewBean.selectedUserGroupDL.source}" />
+							list="#{userViewBean.allUserGroup()}" />
 
 					</p:pickList>
 
@@ -170,11 +170,11 @@
 						</p:column>
 
 						<o:converter converterId="omnifaces.ListConverter"
-							list="#{userViewBean.selectedUserOrganizationDL.source}" />
+							list="#{userViewBean.allUserOrganization()}" />
 
 					</p:pickList>
 
-				</h:panelGrid>
+				</h:panelGrid> 
 
 
 

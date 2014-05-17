@@ -63,6 +63,8 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', '1', 'Stk Cikis #', 1, 0);
 
 insert into def_unit_group (id, organization_id, code, name, version) values (0, '#', '*', 'Bilinmeyen', 0);
+insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'S', 'Yemek', 0);
+insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'P', 'Porsiyon', 1, 0);
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'S', 'Sayilabilen', 0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'AD', 'Adet', 1, 0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-2, 'DS', 'Deste', 10, 0);
@@ -199,4 +201,7 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
+
+insert into def_item_product (id,version,material_count,item_id,material_item_id,unit_code_id) values (nextval('seq_id'),0,2,150,110,25);
 

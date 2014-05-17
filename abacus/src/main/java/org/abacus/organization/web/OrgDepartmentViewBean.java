@@ -25,7 +25,7 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
-	
+
 	@ManagedProperty(value = "#{departmentHandler}")
 	private DepartmentHandler departmentService;
 
@@ -36,22 +36,25 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	private SelectionEnum[] groupEnums;
 	private SelectionEnum selectedGroupEnum;
-	
+
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
-	
+
+	private EnumList.OrgDepartmentGroupEnum testDepartmentEnum;
+
 	@PostConstruct
 	public void init() {
 		createGroupEnumArray();
 		selectedGroupEnum = groupEnums[0];
 	}
-	
-	private void createGroupEnumArray(){
+
+	private void createGroupEnumArray() {
 		groupEnums = new SelectionEnum[EnumList.OrgDepartmentGroupEnum.values().length];
 		for (EnumList.OrgDepartmentGroupEnum enm : EnumList.OrgDepartmentGroupEnum.values()) {
 			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
 		}
 	}
+
 	public void setSelOrganization(OrganizationEntity selType) {
 		this.selOrganization = selType;
 		findOrganizationDepartment();
@@ -60,10 +63,10 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void departmentRowSelectListener() {
 	}
 
-	public void groupChangeListener(){
+	public void groupChangeListener() {
 		findOrganizationDepartment();
 	}
-	
+
 	public void saveDepartment() {
 		if (selDepartment.isNew()) {
 			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
@@ -91,13 +94,13 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void findOrganizationDepartment() {
 		createDepartment();
 		departmentList = null;
-		if (selOrganization!=null){
+		if (selOrganization != null) {
 			departmentList = departmentService.findByOrganizationAndGroup(selOrganization.getId(), EnumList.OrgDepartmentGroupEnum.valueOf(selectedGroupEnum.name()));
 		} else {
 			departmentList = new ArrayList<DepartmentEntity>();
 		}
 	}
-	
+
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
 	}
@@ -106,13 +109,12 @@ public class OrgDepartmentViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-
 	public DepartmentEntity getSelDepartment() {
 		return selDepartment;
 	}
 
 	public void setSelDepartment(DepartmentEntity selDepartment) {
-		if (selDepartment!=null){
+		if (selDepartment != null) {
 			this.selDepartment = selDepartment;
 		}
 	}
@@ -154,14 +156,14 @@ public class OrgDepartmentViewBean implements Serializable {
 	}
 
 	public void chooseDepartmentUserAuth() {
-		if (selDepartment!=null && !selDepartment.isNew()){
+		if (selDepartment != null && !selDepartment.isNew()) {
 			jsfDialogHelper.openDepartmentUserAuthDialog(selDepartment);
 		}
 	}
 
 	public void onDepartmentUserAuthChosen(SelectEvent event) {
-//		DefValueEntity category = (DefValueEntity) event.getObject();
-//		selectedItem.setCategory(category);
+		// DefValueEntity category = (DefValueEntity) event.getObject();
+		// selectedItem.setCategory(category);
 	}
 
 	public JsfDialogHelper getJsfDialogHelper() {
@@ -172,5 +174,12 @@ public class OrgDepartmentViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	
+	public EnumList.OrgDepartmentGroupEnum getTestDepartmentEnum() {
+		return testDepartmentEnum;
+	}
+
+	public void setTestDepartmentEnum(EnumList.OrgDepartmentGroupEnum testDepartmentEnum) {
+		this.testDepartmentEnum = testDepartmentEnum;
+	}
+
 }

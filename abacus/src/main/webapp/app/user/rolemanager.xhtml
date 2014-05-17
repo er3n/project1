@@ -70,7 +70,7 @@
 						<p:pickList
 							value="#{userGroupViewBean.selectedGroupAuthoritiesDL}"
 							var="authority" itemValue="#{authority}"
-							itemLabel="#{authority.id}" converter="authorityEntityConverter"
+							itemLabel="#{authority.id}" converter="omnifaces.SelectItemsConverter"
 							 showSourceFilter="true"
 							showTargetFilter="true" filterMatchMode="contains">
 

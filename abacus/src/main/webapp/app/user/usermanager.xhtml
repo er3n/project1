@@ -5,6 +5,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
 	template="/WEB-INF/content/template/simple.xhtml">
 
 	<ui:define name="content">
@@ -20,7 +22,7 @@
 					<h:outputText value="Sirket" />
 					<p:selectOneMenu
 						value="#{userViewBean.searchUserCriteria.organization}"
-						converter="organizationEntityConverter" style="width:145px">
+						converter="omnifaces.SelectItemsConverter" style="width:145px">
 						<f:selectItem itemLabel="Seciniz..." itemValue="" />
 						<f:selectItems value="#{userViewBean.allOrganizations}"
 							var="organization" itemLabel="#{organization.name}"
@@ -30,8 +32,9 @@
 					<h:outputText value="Grup" />
 					<p:selectManyMenu
 						value="#{userViewBean.searchUserCriteria.groupList}"
-						converter="groupEntityConverter" style="width:250px;height:110px"
-						var="selectedGroup" showCheckbox="true">
+						converter="omnifaces.SelectItemsConverter"
+						style="width:250px;height:110px" var="selectedGroup"
+						showCheckbox="true">
 						<f:selectItems value="#{userViewBean.allGroups}" var="group"
 							itemLabel="#{group.name}" itemValue="#{group}" />
 						<p:column>  
@@ -134,7 +137,6 @@
 					<h:outputText value="Gruplar" />
 					<p:pickList value="#{userViewBean.selectedUserGroupDL}" var="group"
 						itemValue="#{group}" itemLabel="#{group.name}"
-						converter="groupEntityConverter"
 						showSourceFilter="true" showTargetFilter="true"
 						filterMatchMode="contains">
 
@@ -146,14 +148,16 @@
 							#{group.name}
 						</p:column>
 
+						<o:converter converterId="omnifaces.ListConverter"
+							list="#{userViewBean.selectedUserGroupDL.source}" />
+
 					</p:pickList>
 
 					<h:outputText value="Sirketler" />
 					<p:pickList value="#{userViewBean.selectedUserOrganizationDL}"
 						var="organization" itemValue="#{organization}"
-						itemLabel="#{organization.name}"
-						converter="organizationEntityConverter" 
-						required="true" requiredMessage="En az bir sirket secilmelidir."
+						itemLabel="#{organization.name}" required="true"
+						requiredMessage="En az bir sirket secilmelidir."
 						showSourceFilter="true" showTargetFilter="true"
 						filterMatchMode="contains">
 
@@ -161,15 +165,18 @@
 
 						<f:facet name="targetCaption">Secilen Sirketler</f:facet>
 
-						<p:column>
+						<p:column> 
 							#{organization.name}
 						</p:column>
+
+						<o:converter converterId="omnifaces.ListConverter"
+							list="#{userViewBean.selectedUserOrganizationDL.source}" />
 
 					</p:pickList>
 
 				</h:panelGrid>
 
- 
+
 
 				<f:facet name="footer">
 					<p:commandButton value="Guncelle"
@@ -181,8 +188,8 @@
 						actionListener="#{userViewBean.createUser}"
 						rendered="#{empty userViewBean.selectedUser.id}"
 						oncomplete="PF('userDialog').hide();"
-						update=":searchResultTable :userQueryPanel" />						 
-						<p:spacer width="5px" />  
+						update=":searchResultTable :userQueryPanel" />
+					<p:spacer width="5px" />
 					<p:commandButton value="Vazgec"
 						oncomplete="PF('userDialog').hide();" immediate="true" />
 				</f:facet>

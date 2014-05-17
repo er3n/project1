@@ -38,7 +38,7 @@
 
 				<h:panelGrid columns="2" rendered="#{not empty request.remoteUser}">
 
-					<p:selectOneMenu value="#{sessionInfoHelper.currentUser().selectedOrganization}" converter="organizationEntityConverter" style="width:200px">
+					<p:selectOneMenu value="#{sessionInfoHelper.currentUser().selectedOrganization}" converter="omnifaces.SelectItemsConverter" style="width:200px">
 						<f:selectItems value="#{sessionInfoHelper.currentUser().organizationList}" var="organization" itemLabel="#{organization.id}: #{organization.name}" itemValue="#{organization}" />
 						<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.redirect()}" />
 					</p:selectOneMenu>

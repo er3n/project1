@@ -47,7 +47,12 @@
 			<artifactId>jstl</artifactId>
 			<version>${jstl-version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>1.7</version>
+		</dependency>
+ 
 		<!-- END OF JSF 2.2 -->
 
 		<!-- PRIMEFACES -->

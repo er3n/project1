@@ -67,9 +67,7 @@ public class UserViewBean implements Serializable {
 		ReadGroupsEvent allGroupsEvent = userService.requestGroup(event);
 		allGroups = allGroupsEvent.getGroupList();
 
-		ReadOrganizationsEvent allOrganizationsEvent = userService
-				.requestOrganization(new RequestReadOrganizationsEvent(null,
-						sessionInfoHelper.currentOrganizationId()));
+		ReadOrganizationsEvent allOrganizationsEvent = userService.requestOrganization(new RequestReadOrganizationsEvent(null, sessionInfoHelper.currentOrganizationId()));
 		allOrganizations = allOrganizationsEvent.getOrganizationList();
 
 	}
@@ -79,9 +77,7 @@ public class UserViewBean implements Serializable {
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
 		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
 		try {
-			UserCreatedEvent createdEvent = userService
-					.createUser(new CreateUserEvent(selectedUser,
-							selectedGroups, userOrganizations, currentUser));
+			UserCreatedEvent createdEvent = userService.createUser(new CreateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
 			selectedUser = createdEvent.getSecUser();
 			this.reloadSearchCriteria(selectedUser.getId());
 			jsfMessageHelper.addInfo("kullaniciEklendi");
@@ -94,9 +90,7 @@ public class UserViewBean implements Serializable {
 		String currentUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
 		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
-		UserUpdatedEvent updatedEvent = userService
-				.updateUser(new UpdateUserEvent(selectedUser, selectedGroups,
-						userOrganizations, currentUser));
+		UserUpdatedEvent updatedEvent = userService.updateUser(new UpdateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
 		this.reloadSearchCriteria(updatedEvent.getUser().getId());
 		jsfMessageHelper.addInfo("kullaniciGuncellendi");
 	}
@@ -119,8 +113,7 @@ public class UserViewBean implements Serializable {
 			organizationEntity.setId(organizationId);
 			searchUserCriteria.setOrganization(organizationEntity);
 		}
-		ReadUserEvent readUserEvent = userService
-				.requestUser(new RequestReadUserEvent(searchUserCriteria));
+		ReadUserEvent readUserEvent = userService.requestUser(new RequestReadUserEvent(searchUserCriteria));
 		userSearchResults = readUserEvent.getUserEntityList();
 	}
 
@@ -134,9 +127,7 @@ public class UserViewBean implements Serializable {
 		List<OrganizationEntity> sourceUserOrganizations = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
-			ReadOrganizationsEvent userOrganizationsEvent = userService
-					.requestOrganization(new RequestReadOrganizationsEvent(
-							selectedUserName, null));
+			ReadOrganizationsEvent userOrganizationsEvent = userService.requestOrganization(new RequestReadOrganizationsEvent(selectedUserName, null));
 			targetUserOrganizations = userOrganizationsEvent.getOrganizationList();
 			for (OrganizationEntity organizationEntity : allOrganizations) {
 				if (!targetUserOrganizations.contains(organizationEntity)) {
@@ -163,8 +154,7 @@ public class UserViewBean implements Serializable {
 		List<SecGroupEntity> sourceUserGroups = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
-			ReadGroupsEvent readUserGroupsEvent = userService
-					.requestGroup(new RequestReadGroupsEvent(selectedUserName));
+			ReadGroupsEvent readUserGroupsEvent = userService.requestGroup(new RequestReadGroupsEvent(selectedUserName));
 			targetUserGroups = readUserGroupsEvent.getGroupList();
 
 			for (SecGroupEntity groupEntity : allGroups) {
@@ -235,8 +225,7 @@ public class UserViewBean implements Serializable {
 		return selectedUserGroupDL;
 	}
 
-	public void setSelectedUserGroupDL(
-			DualListModel<SecGroupEntity> selectedUserGroupDL) {
+	public void setSelectedUserGroupDL(DualListModel<SecGroupEntity> selectedUserGroupDL) {
 		this.selectedUserGroupDL = selectedUserGroupDL;
 	}
 
@@ -253,8 +242,7 @@ public class UserViewBean implements Serializable {
 		return selectedUserOrganizationDL;
 	}
 
-	public void setSelectedUserOrganizationDL(
-			DualListModel<OrganizationEntity> selectedUserOrganizationDL) {
+	public void setSelectedUserOrganizationDL(DualListModel<OrganizationEntity> selectedUserOrganizationDL) {
 		this.selectedUserOrganizationDL = selectedUserOrganizationDL;
 	}
 
@@ -265,5 +253,6 @@ public class UserViewBean implements Serializable {
 	public void setAllOrganizations(List<OrganizationEntity> allOrganizations) {
 		this.allOrganizations = allOrganizations;
 	}
+
 
 }

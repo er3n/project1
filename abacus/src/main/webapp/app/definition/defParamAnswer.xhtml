@@ -15,7 +15,7 @@
 							<h:outputLabel value="Organizasyon:" />
 							<p:selectOneMenu
 								value="#{defParamAnswerViewBean.selParamAnswer.organization}"
-								converter="organizationEntityConverter" style="width:145px" required="true">
+								converter="omnifaces.SelectItemsConverter" style="width:145px" required="true">
 								<f:selectItems value="#{defParamAnswerViewBean.allOrganizations}"
 									var="organization" itemLabel="#{organization.name}"
 									itemValue="#{organization}"/>

@@ -199,6 +199,14 @@ public class ItemViewBean implements Serializable {
 		DefValueEntity category = (DefValueEntity) event.getObject();
 		selectedItem.setCategory(category);
 	}
+	
+	public void newProductItem(){
+		
+	}
+	
+	public void updateProductItem(){
+		
+	}
 
 	public void clearCategory() {
 		selectedItem.setCategory(new DefValueEntity());

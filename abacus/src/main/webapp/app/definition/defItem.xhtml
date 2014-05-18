@@ -155,7 +155,7 @@
 
 		<h:form id="itemProductListForm">
 			<p:dataTable var="product"
-				emptyMessage="Kayitli urun bulunmamaktadir."
+				emptyMessage="Kayitli malzeme bulunmamaktadir."
 				rendered="#{itemViewBean.displayProductInfo and not empty itemViewBean.selectedItem and not empty itemViewBean.selectedItem.id}"
 				value="#{itemViewBean.selectedItem.itemProductSet}">
 
@@ -195,7 +195,7 @@
 		<h:form id="itemProductDetailForm">
 			<p:panel header="Malzeme Detay"
 				rendered="#{not empty itemViewBean.selectedItemProduct}">
-				<h:panelGrid columns="4" cellpadding="10">
+				<h:panelGrid columns="6" cellpadding="10">
 
 					<h:outputLabel value="Malzeme" />
 					<h:panelGrid columns="3">
@@ -219,13 +219,23 @@
 						converter="omnifaces.SelectItemsConverter" style="width:145px"
 						required="true" requiredMessage="Birim bos olamaz">
 						<f:selectItem itemLabel="Seciniz..." itemValue="" />
-						<f:selectItems value="#{itemViewBean.selectedItemProduct.materialItem.itemUnitSet}"
-							var="unitGroup" itemLabel="#{unitGroup.unitCode.name}"
-							itemValue="#{unitGroup}" />
+						<f:selectItems
+							value="#{itemViewBean.selectedItemProduct.materialItem.itemUnitSet}"
+							var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit}" />
 					</p:selectOneMenu>
 
+					<h:outputLabel value="Miktar" />
+					<p:inputText
+						value="#{itemViewBean.selectedItemProduct.materialCount}" required="true"
+						requiredMessage="Miktar bos olamaz" />
 
 				</h:panelGrid>
+				
+				<f:facet name="footer">
+					<p:commandButton value="Kaydet" actionListener="#{itemViewBean.newItemProduct}" update=":itemProductDetailForm :itemProductListForm" rendered="#{empty itemViewBean.selectedItemProduct.id}" />
+					<p:commandButton value="Guncelle" update=":itemProductListForm" actionListener="#{itemViewBean.updateItemProduct}" rendered="#{not empty itemViewBean.selectedItemProduct.id}" />
+				</f:facet>
+				
 			</p:panel>
 		</h:form>
 

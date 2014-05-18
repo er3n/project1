@@ -45,7 +45,6 @@ public class DefinitionViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-//		createGrupEnumArray();
 		try{
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
@@ -54,13 +53,6 @@ public class DefinitionViewBean implements Serializable {
 		}
 		groupChangeListener();
 	}
-	
-//	private void createGrupEnumArray(){
-//		groupEnums = new SelectionEnum[EnumList.DefTypeGroupEnum.values().length];
-//		for (EnumList.DefTypeGroupEnum enm : EnumList.DefTypeGroupEnum.values()) {
-//			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
-//		}
-//	}
 	
 	public void groupChangeListener(){
 		this.findTypeList(selectedGroupEnum);
@@ -151,14 +143,6 @@ public class DefinitionViewBean implements Serializable {
 	public void setJsfMessageHelper(JsfMessageHelper jsfMessageHelper) {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
-
-//	public SelectionEnum[] getGroupEnums() {
-//		return groupEnums;
-//	}
-//
-//	public void setGroupEnums(SelectionEnum[] groupEnums) {
-//		this.groupEnums = groupEnums;
-//	}
 
 	public EnumList.DefTypeGroupEnum getSelectedGroupEnum() {
 		return selectedGroupEnum;

@@ -18,8 +18,6 @@ import org.abacus.common.shared.entity.StaticEntity;
 @Table(name = "org_fiscal")
 public class FiscalEntity extends StaticEntity {
 
-	//id organization:year 
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;

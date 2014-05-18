@@ -45,13 +45,6 @@
 									process="@this" />									 
 							</p:selectOneMenu>
 							
-							<p:selectOneMenu value="#{organizationViewBean.selectedGroupEnum}" 
-								style="width:145px">
-								<f:selectItems value="#{OrgDepartmentGroupEnum}"
-									var="groupEnum" itemLabel="#{groupEnum.description}"/>
-							</p:selectOneMenu>
-							
-
 						</h:panelGrid>
 
 						<f:facet name="footer">
@@ -98,7 +91,7 @@
        					</p:column>
 
 						<p:column headerText="Baglanti">  
-           					#{selOrganization.parent.name}  
+           					#{selOrganization.parent.id}  
        					</p:column>
 
 					</p:dataTable>

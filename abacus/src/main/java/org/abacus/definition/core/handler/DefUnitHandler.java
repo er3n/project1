@@ -15,8 +15,6 @@ public interface DefUnitHandler extends Serializable{
 	
 	void deleteUnitGroupEntity(DefUnitGroupEntity entity);
 
-	//
-	
 	List<DefUnitCodeEntity> getUnitCodeList(Long unitGroupId);
 
 	DefUnitCodeEntity saveUnitCodeEntity(DefUnitCodeEntity entity);

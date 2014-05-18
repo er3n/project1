@@ -42,8 +42,6 @@ public class DefUnitHandlerImpl implements DefUnitHandler {
 		unitGroupRepo.delete(entity);
 	}
 
-	//
-	
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public List<DefUnitCodeEntity> getUnitCodeList(Long unitGroupId){

@@ -33,9 +33,6 @@ public class OrgDepartmentViewBean implements Serializable {
 	private DepartmentEntity selDepartment;
 	private List<DepartmentEntity> departmentList;
 
-//	private SelectionEnum[] groupEnums;
-//	private SelectionEnum selectedGroupEnum;
-
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
@@ -44,16 +41,8 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-//		createGroupEnumArray();
-//		selectedGroupEnum = groupEnums[0];
+		selectedGroupEnum = EnumList.OrgDepartmentGroupEnum.S;
 	}
-
-//	private void createGroupEnumArray() {
-//		groupEnums = new SelectionEnum[EnumList.OrgDepartmentGroupEnum.values().length];
-//		for (EnumList.OrgDepartmentGroupEnum enm : EnumList.OrgDepartmentGroupEnum.values()) {
-//			groupEnums[enm.ordinal()] = new SelectionEnum(enm);
-//		}
-//	}
 
 	public void setSelOrganization(OrganizationEntity selType) {
 		this.selOrganization = selType;
@@ -135,22 +124,6 @@ public class OrgDepartmentViewBean implements Serializable {
 		this.departmentList = departmentList;
 	}
 
-//	public SelectionEnum getSelectedGroupEnum() {
-//		return selectedGroupEnum;
-//	}
-//
-//	public void setSelectedGroupEnum(SelectionEnum selectedGroupEnum) {
-//		this.selectedGroupEnum = selectedGroupEnum;
-//	}
-//
-//	public SelectionEnum[] getGroupEnums() {
-//		return groupEnums;
-//	}
-//
-//	public void setGroupEnums(SelectionEnum[] groupEnums) {
-//		this.groupEnums = groupEnums;
-//	}
-
 	public OrganizationEntity getSelOrganization() {
 		return selOrganization;
 	}
@@ -182,13 +155,5 @@ public class OrgDepartmentViewBean implements Serializable {
 			EnumList.OrgDepartmentGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
 	}
-
-//	public EnumList.OrgDepartmentGroupEnum getTestDepartmentEnum() {
-//		return testDepartmentEnum;
-//	}
-//
-//	public void setTestDepartmentEnum(EnumList.OrgDepartmentGroupEnum testDepartmentEnum) {
-//		this.testDepartmentEnum = testDepartmentEnum;
-//	}
 
 }

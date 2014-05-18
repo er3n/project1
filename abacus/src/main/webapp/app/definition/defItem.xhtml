@@ -221,8 +221,8 @@
 						<f:selectItem itemLabel="Seciniz..." itemValue="" />
 						<f:selectItems
 							value="#{itemViewBean.selectedItemProduct.materialItem.itemUnitSet}"
-							var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit}" />
-					</p:selectOneMenu>
+							var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
+					</p:selectOneMenu>  
 
 					<h:outputLabel value="Miktar" />
 					<p:inputText
@@ -233,7 +233,7 @@
 				
 				<f:facet name="footer">
 					<p:commandButton value="Kaydet" actionListener="#{itemViewBean.newItemProduct}" update=":itemProductDetailForm :itemProductListForm" rendered="#{empty itemViewBean.selectedItemProduct.id}" />
-					<p:commandButton value="Guncelle" update=":itemProductListForm" actionListener="#{itemViewBean.updateItemProduct}" rendered="#{not empty itemViewBean.selectedItemProduct.id}" />
+					<p:commandButton value="Guncelle" update=":itemProductDetailForm :itemProductListForm" actionListener="#{itemViewBean.updateItemProduct}" rendered="#{not empty itemViewBean.selectedItemProduct.id}" />
 				</f:facet>
 				
 			</p:panel>

@@ -7,7 +7,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.swing.plaf.basic.BasicComboBoxUI.ItemHandler;
 
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;

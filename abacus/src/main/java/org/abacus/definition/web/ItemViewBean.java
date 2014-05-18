@@ -27,13 +27,17 @@ import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
+import org.abacus.definition.shared.event.CreateItemProductEvent;
 import org.abacus.definition.shared.event.ItemCreatedEvent;
+import org.abacus.definition.shared.event.ItemProductCreatedEvent;
 import org.abacus.definition.shared.event.ItemUpdatedEvent;
 import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;
 import org.abacus.definition.shared.event.UpdateItemEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
+import org.abacus.definition.web.shared.event.ItemProductUptatedEvent;
+import org.abacus.definition.web.shared.event.UpdateItemProductEvent;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.primefaces.event.SelectEvent;
 
@@ -126,6 +130,24 @@ public class ItemViewBean implements Serializable {
 		}
 	}
 
+	public void newItemProduct() {
+		String createdUser = sessionInfoHelper.currentUserName();
+		ItemProductCreatedEvent createdEvent = itemHandler.newItemProduct(new CreateItemProductEvent(selectedItemProduct,createdUser));
+		selectedItemProduct = null;
+		this.itemSelected();
+		jsfMessageHelper.addInfo("craeteSuccessful");
+	}
+
+	public void updateItemProduct() {
+		String userUpdated = sessionInfoHelper.currentUserName();
+		ItemProductUptatedEvent updatedEvent = itemHandler.updateItemProduct(new UpdateItemProductEvent(selectedItemProduct,userUpdated));
+		selectedItemProduct = null;
+		
+		this.itemSelected();
+		
+		jsfMessageHelper.addInfo("updateSuccesssful");
+	}
+
 	public void itemSelected() {
 		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(selectedItem.getId()));
 		selectedItem = readItemEvent.getItem();
@@ -156,6 +178,7 @@ public class ItemViewBean implements Serializable {
 	public void newItemProductSelected() {
 		selectedItemProduct = new DefItemProductEntity();
 		selectedItemProduct.setItem(selectedItem);
+		selectedItemProduct.setMaterialItem(new DefItemEntity());
 	}
 
 	private void itemChange() {
@@ -185,9 +208,9 @@ public class ItemViewBean implements Serializable {
 		DefItemEntity item = (DefItemEntity) event.getObject();
 		selectedItemProduct.setMaterialItem(item);
 	}
-	
-	public void clearMaterial(){
-		selectedItemProduct.setMaterialItem(null);
+
+	public void clearMaterial() {
+		selectedItemProduct.setMaterialItem(new DefItemEntity());
 	}
 
 	private void initUnitGroups() {
@@ -198,14 +221,6 @@ public class ItemViewBean implements Serializable {
 	public void onCategoryChosen(SelectEvent event) {
 		DefValueEntity category = (DefValueEntity) event.getObject();
 		selectedItem.setCategory(category);
-	}
-	
-	public void newProductItem(){
-		
-	}
-	
-	public void updateProductItem(){
-		
 	}
 
 	public void clearCategory() {

@@ -206,12 +206,23 @@
 							actionListener="#{itemViewBean.chooseItem}" process="@this">
 							<p:ajax event="dialogReturn"
 								listener="#{itemViewBean.onMaterialChosen}"
-								update=":itemProductDetailForm:itemMaterial" />
+								update=":itemProductDetailForm" />
 						</p:commandButton>
 						<p:commandButton icon="ui-icon-trash"
 							actionListener="#{itemViewBean.clearMaterial}" process="@this"
-							update=":itemProductDetailForm:itemMaterial" />
+							update=":itemProductDetailForm" />
 					</h:panelGrid>
+
+					<h:outputLabel value="Birim" />
+					<p:selectOneMenu
+						value="#{itemViewBean.selectedItemProduct.materialUnitCode}"
+						converter="omnifaces.SelectItemsConverter" style="width:145px"
+						required="true" requiredMessage="Birim bos olamaz">
+						<f:selectItem itemLabel="Seciniz..." itemValue="" />
+						<f:selectItems value="#{itemViewBean.selectedItemProduct.materialItem.itemUnitSet}"
+							var="unitGroup" itemLabel="#{unitGroup.unitCode.name}"
+							itemValue="#{unitGroup}" />
+					</p:selectOneMenu>
 
 
 				</h:panelGrid>

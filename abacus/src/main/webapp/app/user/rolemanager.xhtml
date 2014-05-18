@@ -94,7 +94,7 @@
 							<p:commandButton value="Kaydet"
 								rendered="#{empty userGroupViewBean.selectedGroup.id}"
 								actionListener="#{userGroupViewBean.saveGroup}"
-								update=":groupListForm" />
+								update=":groupListForm :groupDetailForm" />
 							<p:commandButton value="Guncelle"
 								rendered="#{not empty userGroupViewBean.selectedGroup.id}"
 								actionListener="#{userGroupViewBean.updateGroup}"

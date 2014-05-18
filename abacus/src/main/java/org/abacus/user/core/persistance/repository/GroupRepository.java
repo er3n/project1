@@ -16,6 +16,7 @@ public interface GroupRepository extends CrudRepository<SecGroupEntity, Long> {
 	@Query("select a from SecGroupAuthorityEntity ga, SecAuthorityEntity a where a.id = ga.authority.id and ga.group.id = :groupId")
 	List<SecAuthorityEntity> findGroupAuthorities(@Param("groupId") Long groupId);
 
-	public SecGroupEntity findByName(String name);
+	@Query("select g from SecGroupEntity g where lower(g.name) = lower(:name)")
+	public SecGroupEntity findByName(@Param("name")String name);
 	
 }

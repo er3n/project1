@@ -73,6 +73,7 @@ public class UserGroupViewBean implements Serializable {
 			String username = sessionInfoHelper.currentUserName();
 
 			GroupCreatedEvent groupCreatedEvent = userService.createGroup(new CreateGroupEvent(selectedGroup, selectedAuthorities, username));
+			this.selectedGroup = groupCreatedEvent.getGroup();
 			jsfMessageHelper.addInfo("grupEklendi");
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("grupIsmiKullanimda");

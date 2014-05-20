@@ -209,5 +209,5 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
 
-insert into def_item_product (id,version,material_count,item_id,material_item_id,unit_code_id) values (nextval('seq_id'),0,2,150,110,25);
+
 

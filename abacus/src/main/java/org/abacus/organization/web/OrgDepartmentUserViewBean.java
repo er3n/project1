@@ -11,12 +11,13 @@ import javax.faces.context.FacesContext;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.user.shared.entity.SecUserDepartmentEntity;
 import org.primefaces.context.RequestContext;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class DepartmentUserAuthViewBean implements Serializable {
+public class OrgDepartmentUserViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
@@ -25,6 +26,7 @@ public class DepartmentUserAuthViewBean implements Serializable {
 	private DepartmentHandler departmentHandler;
 
 	private DepartmentEntity selDepartment;
+	private SecUserDepartmentEntity selDepartmentUser;
 
 	@PostConstruct
 	public void init() {
@@ -33,6 +35,10 @@ public class DepartmentUserAuthViewBean implements Serializable {
 		System.out.println("selDepartment:"+selDepartment.getCode()+":"+selDepartment.getName());
 	}
 
+	public void departmentUserRowSelectListener() {
+	}
+
+	
 	public void selectFromDialog() {
 		RequestContext.getCurrentInstance().closeDialog(null);
 	}
@@ -59,6 +65,14 @@ public class DepartmentUserAuthViewBean implements Serializable {
 
 	public void setSelDepartment(DepartmentEntity selDepartment) {
 		this.selDepartment = selDepartment;
+	}
+
+	public SecUserDepartmentEntity getSelDepartmentUser() {
+		return selDepartmentUser;
+	}
+
+	public void setSelDepartmentUser(SecUserDepartmentEntity selDepartmentUser) {
+		this.selDepartmentUser = selDepartmentUser;
 	}
 
 }

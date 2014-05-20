@@ -3,6 +3,7 @@ package org.abacus.organization.core.handler;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.persistance.DepartmentDao;
 import org.abacus.organization.core.persistance.repository.DepartmentRepository;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 
 	@Autowired
 	private DepartmentRepository departmentRepository;
+
+	@Autowired
+	private DepartmentDao departmentDao;
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
@@ -39,7 +43,7 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public DepartmentEntity getDepartmentEntity(Long id){
-		return departmentRepository.findOne(id);
+		return departmentDao.findDepartment(id); 
 	}
 
 }

@@ -46,7 +46,7 @@ public class JsfDialogHelper implements Serializable {
 	public void openDepartmentUserAuthDialog(DepartmentEntity department) {
 		Map<String, String> paramsHashMap = new HashMap<>();
 		paramsHashMap.put("department_id", String.valueOf(department.getId()));
-		this.openDialog("departmentUserAuthDialog", paramsHashMap);
+		this.openDialog("orgDepartmentUserDialog", paramsHashMap);
 	}
 
 	public void openDialog(String dialog, Map<String, String> paramMap) {

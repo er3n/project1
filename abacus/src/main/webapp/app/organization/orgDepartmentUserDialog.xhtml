@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Departman Yetkilileri</title>
+
+	<h:outputStylesheet library="default" name="css/abacus.css" />
+	<h:outputScript library="default" name="js/abacus.js" />
+
+
+</h:head>
+
+<h:body>
+	<h:form id = "departmentUserForm">
+
+		<p:panel>
+			<h:outputLabel
+				value="#{orgDepartmentUserViewBean.selDepartment.name}" />
+		</p:panel>
+
+		<p:dataTable id="departmentUserTable" var="selDepartmentUser"
+			value="#{orgDepartmentUserViewBean.selDepartment.departmentUserList}"
+			selection="#{orgDepartmentUserViewBean.selDepartmentUser}"
+			emptyMessage="Kayit Bulanamadi" selectionMode="single"
+			paginator="true" paginatorPosition="bottom"
+			rowKey="#{selDepartmentUser.id}" rows="10" resizableColumns="true">
+
+			<p:ajax event="rowSelect" update=":departmentUserForm"
+							listener="#{orgDepartmentUserViewBean.departmentUserRowSelectListener}">
+			</p:ajax>
+						
+			<p:column headerText="Kullanici">  
+           					#{selDepartmentUser.id}  
+       		</p:column>
+
+		</p:dataTable>
+
+
+	</h:form>
+</h:body>
+
+</html>

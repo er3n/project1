@@ -23,8 +23,11 @@ insert into sec_group_authority (id, group_id, authority_id, version) values (ne
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_NONE', 0);
 
 insert into sec_user( id, is_active, password) values ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e');
+insert into sec_user( id, is_active, password) values ('person', 1, 'e10adc3949ba59abbe56e057f20f883e');
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin', 1, 0);
+insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'person', 1, 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'person','#', 0);
 
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'A', 'HY', 'Holding Yonetim',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'S', 'HD', 'Holding Depo',0);
@@ -34,6 +37,9 @@ insert into org_department (id, organization_id, group_enum, code, name, version
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD','Bolge Depo',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'A', 'PY','Project Yonetim',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'S', 'PD','Project Depo',0);
+
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-2, 'person', 0, 1, 1);
 
 insert into def_type (id, name, level, trtype) values ('.', '.', 0, 0);
 

@@ -2,17 +2,14 @@ package org.abacus.user.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.DepartmentEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.hibernate.annotations.Type;
 
 @Entity
 @SuppressWarnings("serial")
@@ -24,16 +21,17 @@ public class SecUserDepartmentEntity extends DynamicEntity {
 	private SecUserEntity user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "organization_id", nullable = false)
-	private OrganizationEntity organization;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id", nullable = false)
 	private DepartmentEntity department;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "department_auth", nullable = false)
-	private EnumList.DepartmentAuthEnum departmentAuth;
+	@Column(name = "auth_input", nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean authInput = false;
+	
+	@Column(name = "auth_output", nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean authOutput = false;
+	
 
 	public SecUserEntity getUser() {
 		return user;
@@ -41,14 +39,6 @@ public class SecUserDepartmentEntity extends DynamicEntity {
 
 	public void setUser(SecUserEntity user) {
 		this.user = user;
-	}
-
-	public OrganizationEntity getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(OrganizationEntity organization) {
-		this.organization = organization;
 	}
 
 	public DepartmentEntity getDepartment() {
@@ -59,11 +49,20 @@ public class SecUserDepartmentEntity extends DynamicEntity {
 		this.department = department;
 	}
 
-	public EnumList.DepartmentAuthEnum getDepartmentAuth() {
-		return departmentAuth;
+	public Boolean getAuthInput() {
+		return authInput;
 	}
 
-	public void setDepartmentAuth(EnumList.DepartmentAuthEnum departmentAuth) {
-		this.departmentAuth = departmentAuth;
+	public void setAuthInput(Boolean authInput) {
+		this.authInput = authInput;
 	}
+
+	public Boolean getAuthOutput() {
+		return authOutput;
+	}
+
+	public void setAuthOutput(Boolean authOutput) {
+		this.authOutput = authOutput;
+	}
+
 }

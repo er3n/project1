@@ -1,4 +1,4 @@
-package org.abacus.organization.shared.entity;
+package org.abacus.catering.shared.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,22 +11,22 @@ import org.abacus.definition.shared.entity.DefValueEntity;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "org_menu_item")
-public class MenuItemEntity extends DynamicEntity {
+@Table(name = "cat_menu_item")
+public class CatMenuItemEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "menu_id", nullable = false)
-	private MenuEntity menu;
+	private CatMenuEntity menu;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_id", nullable = false)
 	private DefValueEntity item;
 
-	public MenuEntity getMenu() {
+	public CatMenuEntity getMenu() {
 		return menu;
 	}
 
-	public void setMenu(MenuEntity menu) {
+	public void setMenu(CatMenuEntity menu) {
 		this.menu = menu;
 	}
 

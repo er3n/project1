@@ -1,4 +1,4 @@
-package org.abacus.organization.shared.entity;
+package org.abacus.catering.shared.entity;
 
 import java.util.Date;
 
@@ -16,11 +16,12 @@ import javax.persistence.TemporalType;
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "org_menu")
-public class MenuEntity extends DynamicEntity {
+@Table(name = "cat_menu")
+public class CatMenuEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "organization_id", nullable = false)

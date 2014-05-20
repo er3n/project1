@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("defParamHandler")
 public class DefParamHandlerImpl implements DefParamHandler {
-
+ 
 	@Autowired
 	private DefParamRepository defParamRepository;
 

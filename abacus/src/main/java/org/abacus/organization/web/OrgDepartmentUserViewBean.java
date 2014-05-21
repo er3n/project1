@@ -63,9 +63,9 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	}
 
 	public void createDepartmentUser() {
-		selDepartmentUser = new Sec ();
-		selDepartmentUser.setOrganization(selOrganization);
-		selDepartmentUser.setDepartmentGroup(selectedGroupEnum);
+//		selDepartmentUser = new Sec ();
+//		selDepartmentUser.setOrganization(selOrganization);
+//		selDepartmentUser.setDepartmentGroup(selectedGroupEnum);
 	}
 	
 	public void selectFromDialog() {

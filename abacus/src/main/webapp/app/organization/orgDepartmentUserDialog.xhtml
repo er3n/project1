@@ -41,20 +41,20 @@
 			<f:facet name="footer">
 				<p:commandButton id="saveDepartmentUser" update=":departmentUserForm"
 					ajax="true"
-					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? 'Kaydet' : 'Guncelle'}"
-					actionListener="#{orgDepartmentUserViewBean.saveDepartmentUser}" />
+					value="Onayla"
+					actionListener="#{orgDepartmentUserViewBean.saveDepartmentUserList}" />
+				<p:commandButton id="createDepartmentUser" update=":departmentUserForm"
+					ajax="true"
+					value="#{'Ekle'}"
+					actionListener="#{orgDepartmentUserViewBean.createDepartmentUser}"
+					process="@this">
+					<p:resetInput target=":departmentUserForm" />
+				</p:commandButton>
 				<p:commandButton id="deleteDepartmentUser" update=":departmentUserForm"
 					ajax="true"
 					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? '-' : 'Sil'}"
 					actionListener="#{orgDepartmentUserViewBean.deleteDepartmentUser}"
 					immediate="true" />
-				<p:commandButton id="clearDepartmentUser" update=":departmentUserForm"
-					ajax="true"
-					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? 'Temizle' : 'Yeni Kayit'}"
-					actionListener="#{orgDepartmentUserViewBean.createDepartmentUser}"
-					process="@this">
-					<p:resetInput target=":departmentUserForm" />
-				</p:commandButton>
 			</f:facet>
 		</p:panel>
 

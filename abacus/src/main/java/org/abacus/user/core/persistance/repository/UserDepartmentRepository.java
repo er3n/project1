@@ -13,11 +13,18 @@ public interface UserDepartmentRepository  extends CrudRepository<SecUserDepartm
 
 	@Modifying
 	@Transactional
+	@Query("delete from SecUserDepartmentEntity e where e.department.id = :departmentId")
+	void deleteDepartmentUsers(@Param("departmentId")Long departmentId);
+
+	@Modifying
+	@Transactional
 	@Query("delete from SecUserDepartmentEntity e where e.user.id = :username")
-	void deleteAll(@Param("username")String username);
+	void deleteUserDepartments(@Param("username")String username);
 	
 	@Query("select c from SecUserDepartmentEntity c where c.department.id = :departmentId order by id")
 	List<SecUserDepartmentEntity> findDepartmentUserList(@Param("departmentId")Long departmentId);
 
+	@Query("select c from SecUserDepartmentEntity c where c.user.id = :username order by id")
+	List<SecUserDepartmentEntity> findUserDepartmentList(@Param("username")String username);
 
 }

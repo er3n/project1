@@ -43,8 +43,8 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	}
 
 	
-	public void saveDepartmentUser() {
-		if (selDepartmentUser.isNew()) {
+	public void saveDepartmentUserList() {
+		if (selDepartment.isNew()) {
 			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
 		} else {
 			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
@@ -54,6 +54,7 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	}
 
 	public void deleteDepartmentUser() {
+		selDepartment.getDepartmentUserList().remove(selDepartmentUser);
 //		if (!selDepartment.isNew()) {
 //			departmentService.deleteDepartmentEntity(selDepartment);
 //			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
@@ -62,9 +63,9 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	}
 
 	public void createDepartmentUser() {
-//		selDepartment = new DepartmentEntity();
-//		selDepartment.setOrganization(selOrganization);
-//		selDepartment.setDepartmentGroup(selectedGroupEnum);
+		selDepartmentUser = new Sec ();
+		selDepartmentUser.setOrganization(selOrganization);
+		selDepartmentUser.setDepartmentGroup(selectedGroupEnum);
 	}
 	
 	public void selectFromDialog() {

@@ -40,9 +40,4 @@ public class DepartmentDao implements Serializable {
 		return null;
 	}
 	
-	public List<SecUserDepartmentEntity> findDepartmentUserList(Long departmentId){
-		List<SecUserDepartmentEntity> list = userDepartmentRepository.findDepartmentUserList(departmentId);
-		return list;
-	}
-	
 }

@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
@@ -28,6 +29,9 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	private DepartmentEntity selDepartment;
 	private SecUserDepartmentEntity selDepartmentUser;
 
+	@ManagedProperty(value = "#{jsfMessageHelper}")
+	private JsfMessageHelper jsfMessageHelper;
+	
 	@PostConstruct
 	public void init() {
 		String department_id= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("department_id");
@@ -38,6 +42,30 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	public void departmentUserRowSelectListener() {
 	}
 
+	
+	public void saveDepartmentUser() {
+		if (selDepartmentUser.isNew()) {
+			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
+		} else {
+			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
+		}
+		departmentHandler.saveDepartmentEntity(selDepartment);
+//		findOrganizationDepartment();
+	}
+
+	public void deleteDepartmentUser() {
+//		if (!selDepartment.isNew()) {
+//			departmentService.deleteDepartmentEntity(selDepartment);
+//			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
+//		}
+//		findOrganizationDepartment();
+	}
+
+	public void createDepartmentUser() {
+//		selDepartment = new DepartmentEntity();
+//		selDepartment.setOrganization(selOrganization);
+//		selDepartment.setDepartmentGroup(selectedGroupEnum);
+	}
 	
 	public void selectFromDialog() {
 		RequestContext.getCurrentInstance().closeDialog(null);
@@ -73,6 +101,14 @@ public class OrgDepartmentUserViewBean implements Serializable {
 
 	public void setSelDepartmentUser(SecUserDepartmentEntity selDepartmentUser) {
 		this.selDepartmentUser = selDepartmentUser;
+	}
+
+	public JsfMessageHelper getJsfMessageHelper() {
+		return jsfMessageHelper;
+	}
+
+	public void setJsfMessageHelper(JsfMessageHelper jsfMessageHelper) {
+		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
 }

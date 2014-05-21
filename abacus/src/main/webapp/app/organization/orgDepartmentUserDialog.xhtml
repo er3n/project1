@@ -15,11 +15,47 @@
 </h:head>
 
 <h:body>
-	<h:form id = "departmentUserForm">
+	<h:form id="departmentUserForm">
 
 		<p:panel>
 			<h:outputLabel
 				value="#{orgDepartmentUserViewBean.selDepartment.name}" />
+		</p:panel>
+
+
+		<p:panel id="departmentUserPanel" header="Department">
+			<h:panelGrid id="departmentGrid" columns="8" cellpadding="2">
+
+				<h:outputLabel value="Kullanıcı:" />
+				<p:selectOneMenu value="#{orgDepartmentViewBean.selectedGroupEnum}"
+					style="width:145px">
+					<f:selectItems value="#{OrgDepartmentGroupEnum}" var="groupEnum"
+						itemLabel="#{groupEnum.description}" />
+					<p:ajax event="change" update=":departmentUserForm"
+						listener="#{orgDepartmentViewBean.groupChangeListener}"
+						process="@this" />
+				</p:selectOneMenu>
+				
+			</h:panelGrid>
+
+			<f:facet name="footer">
+				<p:commandButton id="saveDepartmentUser" update=":departmentUserForm"
+					ajax="true"
+					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? 'Kaydet' : 'Guncelle'}"
+					actionListener="#{orgDepartmentUserViewBean.saveDepartmentUser}" />
+				<p:commandButton id="deleteDepartmentUser" update=":departmentUserForm"
+					ajax="true"
+					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? '-' : 'Sil'}"
+					actionListener="#{orgDepartmentUserViewBean.deleteDepartmentUser}"
+					immediate="true" />
+				<p:commandButton id="clearDepartmentUser" update=":departmentUserForm"
+					ajax="true"
+					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? 'Temizle' : 'Yeni Kayit'}"
+					actionListener="#{orgDepartmentUserViewBean.createDepartmentUser}"
+					process="@this">
+					<p:resetInput target=":departmentUserForm" />
+				</p:commandButton>
+			</f:facet>
 		</p:panel>
 
 		<p:dataTable id="departmentUserTable" var="selDepartmentUser"
@@ -30,12 +66,20 @@
 			rowKey="#{selDepartmentUser.id}" rows="10" resizableColumns="true">
 
 			<p:ajax event="rowSelect" update=":departmentUserForm"
-							listener="#{orgDepartmentUserViewBean.departmentUserRowSelectListener}">
+				listener="#{orgDepartmentUserViewBean.departmentUserRowSelectListener}">
 			</p:ajax>
-						
+
 			<p:column headerText="Kullanici">  
            					#{selDepartmentUser.id}  
        		</p:column>
+
+			<p:column headerText="Depo Giris">
+				<p:selectBooleanCheckbox value="#{selDepartmentUser.authInput}" />
+			</p:column>
+
+			<p:column headerText="Depo Cikis">
+				<p:selectBooleanCheckbox value="#{selDepartmentUser.authOutput}" />
+			</p:column>
 
 		</p:dataTable>
 

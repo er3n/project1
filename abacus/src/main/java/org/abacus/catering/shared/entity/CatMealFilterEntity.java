@@ -39,6 +39,9 @@ public class CatMealFilterEntity extends DynamicEntity {
 	@Column(name = "description", nullable = true)
 	private String description;
 
+	@Column(name = "count_prepare", nullable = false)
+	private Integer countPrepare;
+	
 	public OrganizationEntity getOrganization() {
 		return organization;
 	}
@@ -77,6 +80,14 @@ public class CatMealFilterEntity extends DynamicEntity {
 
 	public void setDateFinish(Date dateFinish) {
 		this.dateFinish = dateFinish;
+	}
+
+	public Integer getCountPrepare() {
+		return countPrepare;
+	}
+
+	public void setCountPrepare(Integer countPrepare) {
+		this.countPrepare = countPrepare;
 	}
 
 	

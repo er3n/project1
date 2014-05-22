@@ -17,6 +17,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 
+@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class CatMenuViewBean implements Serializable {
@@ -27,26 +28,31 @@ public class CatMenuViewBean implements Serializable {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
-	@ManagedProperty(value = "#{menuHandler}")
+	@ManagedProperty(value = "#{catMenuHandler}")
 	private CatMenuHandler menuHandler;
 
 	private CatMenuSearchCriteria searchCriteria;
 
 	private MenuSummary menuSummary;
-	
+
 	private List<CatMealFilterEntity> meals;
 
 	@PostConstruct
 	private void init() {
 		this.searchCriteria = new CatMenuSearchCriteria();
+		this.searchCriteria.setPeriod(EnumList.CatMenuPeriod.WEEKLY);
 		searchCriteria.setDate(Calendar.getInstance().getTime());
-		searchCriteria.setPeriod(EnumList.CatMenuPeriod.WEEKLY);
 		this.initMenuSummary();
 	}
 
 	public void initMenuSummary() {
 		this.menuSummary = menuHandler.findMenuSummary(this.searchCriteria);
 		this.meals = menuSummary.getMeals();
+	}
+	
+	public void menuDateSelected(){
+		searchCriteria.refreshDate();
+		this.initMenuSummary();
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -89,5 +95,14 @@ public class CatMenuViewBean implements Serializable {
 		this.menuSummary = menuSummary;
 	}
 
+	public List<CatMealFilterEntity> getMeals() {
+		return meals;
+	}
+
+	public void setMeals(List<CatMealFilterEntity> meals) {
+		this.meals = meals;
+	}
 	
+	
+
 }

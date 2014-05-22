@@ -1,20 +1,19 @@
 package org.abacus.catering.shared.holder;
 
 import java.util.List;
-import java.util.Map;
 
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 
 public class MenuSummary {
-	private Map<String, MenuDetail> menuDetailMap;
+	private List<DailyMenuDetail> dailyMenuDetails;
 	private List<CatMealFilterEntity> meals;
 
-	public Map<String, MenuDetail> getMenuDetailMap() {
-		return menuDetailMap;
+	public List<DailyMenuDetail> getDailyMenuDetails() {
+		return dailyMenuDetails;
 	}
 
-	public void setMenuDetailMap(Map<String, MenuDetail> menuDetailMap) {
-		this.menuDetailMap = menuDetailMap;
+	public void setDailyMenuDetails(List<DailyMenuDetail> dailyMenuDetails) {
+		this.dailyMenuDetails = dailyMenuDetails;
 	}
 
 	public List<CatMealFilterEntity> getMeals() {

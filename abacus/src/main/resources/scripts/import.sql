@@ -209,9 +209,9 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1, 'STK_P:'||currval('seq_id'), 'STK_P', 'STK_P:'||currval('seq_id'), 0 , '#' , 'ITM_SR_ST' , 0);
 
-insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-01-30', 'sabah ocak', 55, '#.#.#.#', 150);
-insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-05-01', 'oglen', 56, '#.#.#.#', 200);
-insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-31', 'aksam', 57, '#.#.#.#', 175);
-insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-03-01', DATE '2014-03-30', 'sabah mart', 55, '#.#.#.#', 150);
+insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2015-01-01', DATE '2014-01-30', 'sabah ocak', 55, '#.#.#.#', 150);
+insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2015-01-01', DATE '2014-05-01', 'oglen', 56, '#.#.#.#', 200);
+insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2015-01-01', DATE '2014-12-31', 'aksam', 57, '#.#.#.#', 175);
+insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2015-03-01', DATE '2014-03-30', 'sabah mart', 55, '#.#.#.#', 150);
 
 

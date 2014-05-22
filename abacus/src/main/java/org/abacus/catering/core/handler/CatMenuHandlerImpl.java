@@ -1,17 +1,18 @@
 package org.abacus.catering.core.handler;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.TimeZone;
 
 import org.abacus.catering.core.persistance.DefMenuDao;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.holder.CatMenuSearchCriteria;
-import org.abacus.catering.shared.holder.MenuDetail;
+import org.abacus.catering.shared.holder.DailyMenuDetail;
 import org.abacus.catering.shared.holder.MenuSummary;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,13 +30,18 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		List<CatMenuEntity> menuList = menuDao.findMenuList(searchCriteria);
 		
 		MenuSummary sum = new MenuSummary();
-		Map<String, MenuDetail> menuDetailMap = new HashMap<String,MenuDetail>();
-		sum.setMenuDetailMap(menuDetailMap);
-		for(CatMenuEntity menuEntity : menuList){
-			String key = String.valueOf(menuEntity.getMenuDate().getTime());
-			MenuDetail value = new MenuDetail(menuEntity);
-			menuDetailMap.put(key, value);
+
+		List<DailyMenuDetail> dailyMenuDetails = this.createBlankDays(searchCriteria);
+		sum.setDailyMenuDetails(dailyMenuDetails);
+		
+		for(CatMenuEntity menu : menuList){
+			DailyMenuDetail key = new DailyMenuDetail(menu.getMenuDate());
+			int menuDetailIndex = Collections.binarySearch(dailyMenuDetails, key);
+			dailyMenuDetails.get(menuDetailIndex).putMenu(menu);
+			
 		}
+		
+	
 		
 		List<CatMealFilterEntity> meals = menuDao.findMealList(searchCriteria);
 		sum.setMeals(meals);
@@ -43,15 +49,20 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		return sum;
 	}
 	
-	public static void main(String[] args) {
-		LocalDate date = new LocalDate(new Date());
-		LocalDate weekStart = date.dayOfWeek().withMinimumValue();
-		LocalDate weekEnd = date.dayOfWeek().withMaximumValue();
-
-		System.out.println(weekStart);
-		System.out.println(weekEnd);
+	private List<DailyMenuDetail>  createBlankDays(CatMenuSearchCriteria searchCriteria){
+		List<DailyMenuDetail> menuDetails = new ArrayList<>();
+		Date startDate = searchCriteria.getStartDate();
+		Date endDate = searchCriteria.getEndDate();
+		for(Date currDate = startDate; currDate.before(endDate) || currDate.equals(endDate); currDate = new DateTime(currDate).plusDays(1).toDate()){
+			menuDetails.add(new DailyMenuDetail(currDate));
+		}
+		
+		Collections.sort(menuDetails);
+		return menuDetails;
 	}
-
-
+	
+	public static void main(String[] args) {
+		System.out.println(TimeZone.getDefault());
+	}
 
 }

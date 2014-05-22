@@ -1,6 +1,7 @@
 package org.abacus.catering.shared.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,14 +10,18 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemProductEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @SuppressWarnings("serial")
@@ -44,6 +49,10 @@ public class CatMenuEntity extends DynamicEntity {
 
 	@Column(name = "count_spend", nullable = false)
 	private Integer countSpend;
+
+	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
+	private Set<CatMenuItemEntity> menuItemSet;
 
 	public OrganizationEntity getOrganization() {
 		return organization;
@@ -91,6 +100,14 @@ public class CatMenuEntity extends DynamicEntity {
 
 	public void setCountSpend(Integer countSpend) {
 		this.countSpend = countSpend;
+	}
+
+	public Set<CatMenuItemEntity> getMenuItemSet() {
+		return menuItemSet;
+	}
+
+	public void setMenuItemSet(Set<CatMenuItemEntity> menuItemSet) {
+		this.menuItemSet = menuItemSet;
 	}
 
 }

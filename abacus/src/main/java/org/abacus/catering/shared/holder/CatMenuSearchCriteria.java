@@ -65,4 +65,8 @@ public class CatMenuSearchCriteria implements Serializable {
 
 	}
 
+	public void refreshDate() {
+		this.setDate(date);
+	}
+
 }

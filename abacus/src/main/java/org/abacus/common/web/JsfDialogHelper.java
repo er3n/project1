@@ -43,9 +43,8 @@ public class JsfDialogHelper implements Serializable {
 		this.openDialog("defItemDialog", paramsHashMap);
 	}
 
-	public void openUserSelectionDialog(String x) {
+	public void openUserSelectionDialog() {
 		Map<String, String> paramsHashMap = new HashMap<>();
-		paramsHashMap.put("x", x);
 		this.openDialog("userSelectionDialog", paramsHashMap);
 	}
 

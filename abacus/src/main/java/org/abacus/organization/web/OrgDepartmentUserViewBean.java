@@ -142,7 +142,7 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	
 	public void chooseUser() {
 		if (selDepartmentUser!=null) {
-			jsfDialogHelper.openUserSelectionDialog("X");
+			jsfDialogHelper.openUserSelectionDialog();
 		}
 	}
 

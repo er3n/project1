@@ -34,12 +34,12 @@
 						<p:commandButton icon="ui-icon-extlink"
 							actionListener="#{orgDepartmentUserViewBean.chooseUser}" process="@this">
 							<p:ajax event="dialogReturn"
-								listener="#{itemViewBean.onMaterialChosen}"
-								update="departmentUserPanel" />
+								listener="#{orgDepartmentUserViewBean.onUserChosen}"
+								update=":departmentUserForm" />
 						</p:commandButton>
 						<p:commandButton icon="ui-icon-trash"
 							actionListener="#{orgDepartmentUserViewBean.clearUser}" process="@this"
-							update="departmentUserPanel" />
+							update=":departmentUserForm" />
 					</h:panelGrid>
 				
 				

@@ -22,8 +22,9 @@
 						style="font-weigh: bold" />
 					<p:calendar id="menuTimeCal"
 						value="#{catMenuViewBean.searchCriteria.date}">
-						<p:ajax event="dateSelect" 
-							listener="#{catMenuViewBean.menuDateSelected}" update=":menuDetailForm" />
+						<p:ajax event="dateSelect"
+							listener="#{catMenuViewBean.menuDateSelected}"
+							update=":menuDetailForm" />
 					</p:calendar>
 
 					<p:selectOneButton value="#{catMenuViewBean.searchCriteria.period}"
@@ -31,7 +32,8 @@
 						<f:selectItems value="#{CatMenuPeriod}" var="menuEnum"
 							itemLabel="#{menuEnum.description}" itemValue="#{menuEnum}" />
 						<p:ajax event="change"
-							listener="#{catMenuViewBean.menuDateSelected}" update=":menuDetailForm" />
+							listener="#{catMenuViewBean.menuDateSelected}"
+							update=":menuDetailForm" />
 					</p:selectOneButton>
 				</h:panelGrid>
 			</h:form>
@@ -42,7 +44,7 @@
 					<f:facet name="header">
 						<p:row>
 							<p:column
-								colspan="#{catMenuViewBean.menuSummary.meals.size() + 1}"
+								colspan="#{catMenuViewBean.menuSummary.meals.size() + 2}"
 								style="font-weight:bold">Haftalık Yemek Listesi</p:column>
 						</p:row>
 						<p:row>
@@ -51,7 +53,7 @@
 								items="#{catMenuViewBean.menuSummary.meals}">
 								<p:column style="font-weight:bold">#{mealFilter.meal.name}</p:column>
 							</c:forEach>
-
+							<p:column style="font-weight:bold;">Gun Sonu Ozet</p:column>
 						</p:row>
 					</f:facet>
 
@@ -59,10 +61,12 @@
 						items="#{catMenuViewBean.menuSummary.dailyMenuDetails}">
 						<p:row>
 
-							<p:column style="font-weight:bold;width:4%;background-color:#F7F7F7">
+							<p:column
+								style="font-weight:bold;width:4%;background-color:#F7F7F7">
 								<h:outputText value="#{dailyMenu.date}">
-									<f:convertDateTime  timeZone="Turkey" pattern="dd/MM/yyyy (E)" locale="tr_TR"/>
-								</h:outputText> 
+									<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
+										locale="tr_TR" />
+								</h:outputText>
 							</p:column>
 
 							<c:forEach var="mealFilter"
@@ -74,16 +78,41 @@
 
 
 								<p:column style="font-weight:bold;width:4%"> Mercimek (Az Tuzlu)<br></br>Lahana (Taze gelenler)<br></br> Limonata (Sulandirilmis) <br></br>Salata (Havuc, Patetes)<br></br>
-								
-								<p:commandButton icon="ui-icon-search" /> <p:commandButton icon="ui-icon-check" /> <p:commandButton icon="ui-icon-close" />
-								<ui:repeat var="menuItem" value="#{menuEntity.menuItemSet}">
+									<ui:repeat var="menuItem" value="#{menuEntity.menuItemSet}">
 									#{menuItem.name}
-								</ui:repeat>
+									</ui:repeat>
 								</p:column>
 
 
 							</c:forEach>
+							<p:column rowspan="2"
+								style="width:4%;font-weight:bold;background-color:#E6EBFA">250TL</p:column>
+
 						</p:row>
+
+						<p:row styleClass="ui-widget-header">
+							<p:column colspan="1"
+								style="font-weight:bold;background-color:#FFE6E6">Menu Ozeti</p:column>
+							<p:column colspan="1"
+								style="font-weight:bold;background-color:#FFE6E6">
+								<p:commandButton icon="ui-icon-search" />
+								<p:commandButton icon="ui-icon-check" />
+								<p:commandButton icon="ui-icon-close" />
+							</p:column>
+							<p:column colspan="1"
+								style="font-weight:bold;background-color:#FFE6E6">
+								<p:commandButton icon="ui-icon-search" />
+								<p:commandButton icon="ui-icon-check" />
+								<p:commandButton icon="ui-icon-close" />
+							</p:column>
+							<p:column colspan="1"
+								style="font-weight:bold;background-color:#FFE6E6">
+								<p:commandButton icon="ui-icon-search" />
+								<p:commandButton icon="ui-icon-check" />
+								<p:commandButton icon="ui-icon-close" />
+							</p:column>
+						</p:row>
+
 					</c:forEach>
 
 				</p:panelGrid>

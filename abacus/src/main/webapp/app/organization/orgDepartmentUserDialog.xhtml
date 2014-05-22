@@ -26,35 +26,44 @@
 		<p:panel id="departmentUserPanel" header="Department">
 			<h:panelGrid id="departmentGrid" columns="8" cellpadding="2">
 
-				<h:outputLabel value="Kullanıcı:" />
-				<p:selectOneMenu value="#{orgDepartmentViewBean.selectedGroupEnum}"
-					style="width:145px">
-					<f:selectItems value="#{OrgDepartmentGroupEnum}" var="groupEnum"
-						itemLabel="#{groupEnum.description}" />
-					<p:ajax event="change" update=":departmentUserForm"
-						listener="#{orgDepartmentViewBean.groupChangeListener}"
-						process="@this" />
-				</p:selectOneMenu>
+				<ui:remove>
+				<h:outputLabel value="Kullanici:" />
+					<h:panelGrid columns="3">
+						<p:inputText id="itemMaterial"
+							value="#{itemViewBean.selectedItemProduct.materialItem.name}"
+							required="true" requiredMessage="Malzeme bos olamaz" />
+						<p:commandButton icon="ui-icon-extlink"
+							actionListener="#{itemViewBean.chooseItem}" process="@this">
+							<p:ajax event="dialogReturn"
+								listener="#{itemViewBean.onMaterialChosen}"
+								update=":itemProductDetailForm" />
+						</p:commandButton>
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{itemViewBean.clearMaterial}" process="@this"
+							update=":itemProductDetailForm" />
+					</h:panelGrid>
+				</ui:remove>
+				
 				
 			</h:panelGrid>
 
 			<f:facet name="footer">
 				<p:commandButton id="saveDepartmentUser" update=":departmentUserForm"
 					ajax="true"
-					value="Onayla"
+					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? 'Ekle' : 'Guncelle'}"
 					actionListener="#{orgDepartmentUserViewBean.saveDepartmentUserList}" />
-				<p:commandButton id="createDepartmentUser" update=":departmentUserForm"
-					ajax="true"
-					value="#{'Ekle'}"
-					actionListener="#{orgDepartmentUserViewBean.createDepartmentUser}"
-					process="@this">
-					<p:resetInput target=":departmentUserForm" />
-				</p:commandButton>
+				
 				<p:commandButton id="deleteDepartmentUser" update=":departmentUserForm"
 					ajax="true"
 					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? '-' : 'Sil'}"
 					actionListener="#{orgDepartmentUserViewBean.deleteDepartmentUser}"
 					immediate="true" />
+
+				<p:commandButton id="clearDepartmentUser" update=":departmentUserForm"
+					ajax="true"
+					value="#{orgDepartmentUserViewBean.selDepartmentUser.id == null ? 'Temizle' : 'Yeni Kayit'}"
+					actionListener="#{orgDepartmentUserViewBean.createDepartmentUser}">
+				</p:commandButton>					
 			</f:facet>
 		</p:panel>
 

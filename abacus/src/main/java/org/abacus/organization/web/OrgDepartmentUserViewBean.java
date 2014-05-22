@@ -44,8 +44,9 @@ public class OrgDepartmentUserViewBean implements Serializable {
 
 	
 	public void saveDepartmentUserList() {
-		if (selDepartment.isNew()) {
+		if (selDepartmentUser!=null && selDepartmentUser.isNew()) {
 			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
+			selDepartment.getDepartmentUserList().add(selDepartmentUser);
 		} else {
 			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
 		}
@@ -54,7 +55,11 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	}
 
 	public void deleteDepartmentUser() {
-		selDepartment.getDepartmentUserList().remove(selDepartmentUser);
+		if (selDepartmentUser!=null){
+			selDepartment.getDepartmentUserList().remove(selDepartmentUser);
+			selDepartmentUser = null;
+			saveDepartmentUserList();
+		}
 //		if (!selDepartment.isNew()) {
 //			departmentService.deleteDepartmentEntity(selDepartment);
 //			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
@@ -63,9 +68,8 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	}
 
 	public void createDepartmentUser() {
-//		selDepartmentUser = new Sec ();
-//		selDepartmentUser.setOrganization(selOrganization);
-//		selDepartmentUser.setDepartmentGroup(selectedGroupEnum);
+		selDepartmentUser = new SecUserDepartmentEntity();
+		selDepartmentUser.setDepartment(selDepartment);
 	}
 	
 	public void selectFromDialog() {
@@ -101,7 +105,9 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	}
 
 	public void setSelDepartmentUser(SecUserDepartmentEntity selDepartmentUser) {
-		this.selDepartmentUser = selDepartmentUser;
+		if (selDepartmentUser!=null){
+			this.selDepartmentUser = selDepartmentUser;
+		}
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

@@ -8,12 +8,18 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.user.core.handler.SecUserHandler;
 import org.abacus.user.shared.entity.SecUserDepartmentEntity;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -26,17 +32,24 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	@ManagedProperty(value = "#{departmentHandler}")
 	private DepartmentHandler departmentHandler;
 
+	@ManagedProperty(value = "#{secUserHandler}")
+	private SecUserHandler secUserHandler;
+
 	private DepartmentEntity selDepartment;
 	private SecUserDepartmentEntity selDepartmentUser;
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
-	
+
+	@ManagedProperty(value = "#{jsfDialogHelper}")
+	private JsfDialogHelper jsfDialogHelper;
+
 	@PostConstruct
 	public void init() {
 		String department_id= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("department_id");
 		this.selDepartment = departmentHandler.getDepartmentEntity(Long.valueOf(department_id)); 
 		System.out.println("selDepartment:"+selDepartment.getCode()+":"+selDepartment.getName());
+		createDepartmentUser();
 	}
 
 	public void departmentUserRowSelectListener() {
@@ -57,8 +70,8 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	public void deleteDepartmentUser() {
 		if (selDepartmentUser!=null){
 			selDepartment.getDepartmentUserList().remove(selDepartmentUser);
-			selDepartmentUser = null;
 			saveDepartmentUserList();
+			createDepartmentUser();
 		}
 //		if (!selDepartment.isNew()) {
 //			departmentService.deleteDepartmentEntity(selDepartment);
@@ -70,6 +83,7 @@ public class OrgDepartmentUserViewBean implements Serializable {
 	public void createDepartmentUser() {
 		selDepartmentUser = new SecUserDepartmentEntity();
 		selDepartmentUser.setDepartment(selDepartment);
+//		selDepartmentUser.setUser(secUserHandler.getUser("admin"));
 	}
 	
 	public void selectFromDialog() {
@@ -116,6 +130,41 @@ public class OrgDepartmentUserViewBean implements Serializable {
 
 	public void setJsfMessageHelper(JsfMessageHelper jsfMessageHelper) {
 		this.jsfMessageHelper = jsfMessageHelper;
+	}
+
+	public SecUserHandler getSecUserHandler() {
+		return secUserHandler;
+	}
+
+	public void setSecUserHandler(SecUserHandler secUserHandler) {
+		this.secUserHandler = secUserHandler;
+	}
+	
+	public void chooseUser() {
+		if (selDepartmentUser!=null) {
+			jsfDialogHelper.openUserSelectionDialog("X");
+		}
+	}
+
+	public void onUserChosen(SelectEvent event) {
+		if (selDepartmentUser!=null) {
+			SecUserEntity user = (SecUserEntity) event.getObject();
+			selDepartmentUser.setUser(user);
+		}
+	}
+
+	public void clearUser() {
+		if (selDepartmentUser!=null) {
+			selDepartmentUser.setUser(new SecUserEntity());
+		}
+	}
+
+	public JsfDialogHelper getJsfDialogHelper() {
+		return jsfDialogHelper;
+	}
+
+	public void setJsfDialogHelper(JsfDialogHelper jsfDialogHelper) {
+		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
 }

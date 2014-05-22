@@ -105,4 +105,10 @@ public class SecUserHandlerImpl implements SecUserHandler {
 		userRepository.save(selectedUser);
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public SecUserEntity getUser(String id){
+		return userRepository.findOne(id);
+	}
+	
 }

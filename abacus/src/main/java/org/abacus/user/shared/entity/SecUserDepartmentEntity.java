@@ -16,7 +16,7 @@ import org.hibernate.annotations.Type;
 @Table(name = "sec_user_department")
 public class SecUserDepartmentEntity extends DynamicEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	private SecUserEntity user;
 

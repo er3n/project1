@@ -21,6 +21,6 @@ public interface SecUserHandler extends Serializable{
 	
 	void makePassiveUser(SecUserEntity selectedUser, String updatingUser);
 	
-
+	SecUserEntity getUser(String id);
 
 }

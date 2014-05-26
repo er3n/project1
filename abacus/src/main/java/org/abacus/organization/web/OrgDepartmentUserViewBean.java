@@ -43,48 +43,6 @@ public class OrgDepartmentUserViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
-
-	@PostConstruct
-	public void init() {
-		String department_id= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("department_id");
-		this.selDepartment = departmentHandler.getDepartmentEntity(Long.valueOf(department_id)); 
-		System.out.println("selDepartment:"+selDepartment.getCode()+":"+selDepartment.getName());
-		createDepartmentUser();
-	}
-
-	public void departmentUserRowSelectListener() {
-	}
-
-	
-	public void saveDepartmentUserList() {
-		if (selDepartmentUser!=null && selDepartmentUser.isNew()) {
-			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
-			selDepartment.getDepartmentUserList().add(selDepartmentUser);
-		} else {
-			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
-		}
-		departmentHandler.saveDepartmentEntity(selDepartment);
-//		findOrganizationDepartment();
-	}
-
-	public void deleteDepartmentUser() {
-		if (selDepartmentUser!=null){
-			selDepartment.getDepartmentUserList().remove(selDepartmentUser);
-			saveDepartmentUserList();
-			createDepartmentUser();
-		}
-//		if (!selDepartment.isNew()) {
-//			departmentService.deleteDepartmentEntity(selDepartment);
-//			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
-//		}
-//		findOrganizationDepartment();
-	}
-
-	public void createDepartmentUser() {
-		selDepartmentUser = new SecUserDepartmentEntity();
-		selDepartmentUser.setDepartment(selDepartment);
-//		selDepartmentUser.setUser(secUserHandler.getUser("admin"));
-	}
 	
 	public void selectFromDialog() {
 		RequestContext.getCurrentInstance().closeDialog(null);

@@ -1,0 +1,46 @@
+<facelet-taglib version="2.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+
+
+
+	<namespace>http://www.abacus.com/abc</namespace>
+
+	<tag>
+		<tag-name>userSelection</tag-name>
+		<source>../content/component/userSelection.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>userVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<tag-name>userSelectionDialog</tag-name>
+		<source>../content/component/userSelectionDialog.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>userVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>update</name> 
+			<required>true</required>
+		</attribute>
+	</tag>
+</facelet-taglib>

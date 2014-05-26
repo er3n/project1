@@ -15,6 +15,7 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.primefaces.event.SelectEvent;
 
 @ManagedBean
@@ -38,6 +39,7 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	private EnumList.OrgDepartmentGroupEnum selectedGroupEnum;
 
+	private SecUserEntity newSelectedDepartmentUser;
 
 	@PostConstruct
 	public void init() {
@@ -84,7 +86,8 @@ public class OrgDepartmentViewBean implements Serializable {
 		createDepartment();
 		departmentList = null;
 		if (selOrganization != null) {
-			departmentList = departmentService.findByOrganizationAndGroup(selOrganization.getId(), selectedGroupEnum);
+			departmentList = departmentService.findByOrganizationAndGroup(
+					selOrganization.getId(), selectedGroupEnum);
 		} else {
 			departmentList = new ArrayList<DepartmentEntity>();
 		}
@@ -154,6 +157,15 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void setSelectedGroupEnum(
 			EnumList.OrgDepartmentGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
+	}
+
+	public SecUserEntity getNewSelectedDepartmentUser() {
+		return newSelectedDepartmentUser;
+	}
+
+	public void setNewSelectedDepartmentUser(
+			SecUserEntity newSelectedDepartmentUser) {
+		this.newSelectedDepartmentUser = newSelectedDepartmentUser;
 	}
 
 }

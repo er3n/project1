@@ -66,9 +66,7 @@ public class JsfDialogHelper implements Serializable {
 				params.put(key, param);
 			}
 		}
-		
-		defaultDialogOptions.
-		
+
 		RequestContext.getCurrentInstance().openDialog(dialog, defaultDialogOptions, params);
 	}
 

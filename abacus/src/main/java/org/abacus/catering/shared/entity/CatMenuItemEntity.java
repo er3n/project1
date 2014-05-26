@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 
 @Entity
@@ -20,7 +21,7 @@ public class CatMenuItemEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_id", nullable = false)
-	private DefValueEntity item;
+	private DefItemEntity item;
 
 	public CatMenuEntity getMenu() {
 		return menu;
@@ -30,11 +31,11 @@ public class CatMenuItemEntity extends DynamicEntity {
 		this.menu = menu;
 	}
 
-	public DefValueEntity getItem() {
+	public DefItemEntity getItem() {
 		return item;
 	}
 
-	public void setItem(DefValueEntity item) {
+	public void setItem(DefItemEntity item) {
 		this.item = item;
 	}
 

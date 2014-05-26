@@ -111,11 +111,10 @@
 
 				<h:outputLabel value="Malzeme" />
 				<h:panelGrid columns="3">
-					<p:inputText id="itemMaterial" value="#{itemViewBean.selectedItemProduct.materialItem.name}" required="true" requiredMessage="Malzeme bos olamaz" />
-					<p:commandButton icon="ui-icon-extlink" actionListener="#{itemViewBean.chooseItem}" process="@this">
-						<p:ajax event="dialogReturn" listener="#{itemViewBean.onMaterialChosen}" update=":itemProductDetailForm" />
+					<p:inputText id="itemMaterial" value="#{catMenuViewBean.selectedMenuItemName}" required="true" requiredMessage="Malzeme bos olamaz" />
+					<p:commandButton icon="ui-icon-extlink" actionListener="#{catMenuViewBean.chooseItem}" process="@this">
+						<p:ajax event="dialogReturn" listener="#{catMenuViewBean.onMaterialChosen}" update=":menuItem :itemMaterial" />
 					</p:commandButton>
-					<p:commandButton icon="ui-icon-add" value="ekle" actionListener="#{itemViewBean.clearMaterial}" process="@this" update=":itemProductDetailForm" />
 				</h:panelGrid>
 
 

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,10 +19,14 @@ import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.catering.shared.holder.CatMenuSearchCriteria;
 import org.abacus.catering.shared.holder.DailyMenuDetail;
 import org.abacus.catering.shared.holder.MenuSummary;
+import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.primefaces.event.SelectEvent;
+import org.springframework.util.CollectionUtils;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -37,13 +42,18 @@ public class CatMenuViewBean implements Serializable {
 	@ManagedProperty(value = "#{catMenuHandler}")
 	private CatMenuHandler menuHandler;
 
+	@ManagedProperty(value = "#{jsfDialogHelper}")
+	private JsfDialogHelper jsfDialogHelper;
+
 	private CatMenuSearchCriteria searchCriteria;
 
 	private MenuSummary menuSummary;
 
 	private List<CatMealFilterEntity> meals;
-	
+
 	private CatMenuEntity selectedMenu;
+
+	private String selectedMenuItemName;
 
 	@PostConstruct
 	private void init() {
@@ -53,15 +63,35 @@ public class CatMenuViewBean implements Serializable {
 		this.initMenuSummary();
 	}
 
+	public void chooseItem() {
+		jsfDialogHelper.openItemDialog(EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P);
+	}
+
+	public void onMaterialChosen(SelectEvent event) {
+		DefItemEntity item = (DefItemEntity) event.getObject();
+		Set<CatMenuItemEntity> menuItemSet = selectedMenu.getMenuItemSet();
+
+		CatMenuItemEntity menuItem = new CatMenuItemEntity();
+		menuItem.setMenu(selectedMenu);
+		menuItem.setItem(item);
+
+		if (CollectionUtils.isEmpty(menuItemSet)) {
+			menuItemSet = new HashSet<>();
+		}
+		menuItemSet.add(menuItem);
+
+		selectedMenuItemName = menuItem.getItem().getName();
+	}
+
 	public void initMenuSummary() {
 		this.menuSummary = menuHandler.findMenuSummary(this.searchCriteria);
 		this.meals = menuSummary.getMeals();
 	}
-	
-	public void initCreateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu){
+
+	public void initCreateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
 		Integer expectedCountPrepare = mealFilterEntity.getCountPrepare();
-		
+
 		selectedMenu = new CatMenuEntity();
 		selectedMenu.setOrganization(organization);
 		selectedMenu.setCountPrepare(expectedCountPrepare);
@@ -70,8 +100,8 @@ public class CatMenuViewBean implements Serializable {
 		selectedMenu.setMenuStatus(EnumList.MenuStatusEnum.WAIT);
 		selectedMenu.setMenuItemSet(new HashSet<CatMenuItemEntity>());
 	}
-	
-	public void removeMenuItemFromMenu(CatMenuItemEntity item){
+
+	public void removeMenuItemFromMenu(CatMenuItemEntity item) {
 		this.selectedMenu.getMenuItemSet().remove(item);
 	}
 
@@ -133,6 +163,30 @@ public class CatMenuViewBean implements Serializable {
 
 	public void setMeals(List<CatMealFilterEntity> meals) {
 		this.meals = meals;
+	}
+
+	public JsfDialogHelper getJsfDialogHelper() {
+		return jsfDialogHelper;
+	}
+
+	public void setJsfDialogHelper(JsfDialogHelper jsfDialogHelper) {
+		this.jsfDialogHelper = jsfDialogHelper;
+	}
+
+	public CatMenuEntity getSelectedMenu() {
+		return selectedMenu;
+	}
+
+	public void setSelectedMenu(CatMenuEntity selectedMenu) {
+		this.selectedMenu = selectedMenu;
+	}
+
+	public String getSelectedMenuItemName() {
+		return selectedMenuItemName;
+	}
+
+	public void setSelectedMenuItemName(String selectedMenuItemName) {
+		this.selectedMenuItemName = selectedMenuItemName;
 	}
 
 }

@@ -53,7 +53,7 @@ public class CatMenuViewBean implements Serializable {
 
 	private CatMenuEntity selectedMenu;
 
-	private String selectedMenuItemName;
+	private DefItemEntity selectedItem;
 
 	@PostConstruct
 	private void init() {
@@ -62,25 +62,38 @@ public class CatMenuViewBean implements Serializable {
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();
 	}
-
-	public void chooseItem() {
-		jsfDialogHelper.openItemDialog(EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P);
-	}
-
-	public void onMaterialChosen(SelectEvent event) {
-		DefItemEntity item = (DefItemEntity) event.getObject();
+	
+	public void addItemToMenu(){
 		Set<CatMenuItemEntity> menuItemSet = selectedMenu.getMenuItemSet();
 
 		CatMenuItemEntity menuItem = new CatMenuItemEntity();
 		menuItem.setMenu(selectedMenu);
-		menuItem.setItem(item);
+		menuItem.setItem(selectedItem);
 
 		if (CollectionUtils.isEmpty(menuItemSet)) {
 			menuItemSet = new HashSet<>();
+			selectedMenu.setMenuItemSet(menuItemSet);
 		}
-		menuItemSet.add(menuItem);
-
-		selectedMenuItemName = menuItem.getItem().getName();
+		
+		boolean isItemExistsInMenu = !this.validateAddItemToMenu(menuItemSet);
+		if(!isItemExistsInMenu){
+			menuItemSet.add(menuItem);
+		}else{
+			jsfMessageHelper.addError("itemExistsInMenu");
+		}
+		
+		
+	}
+	
+	private boolean validateAddItemToMenu(Set<CatMenuItemEntity> menuItemSet){
+		
+		for(CatMenuItemEntity item : menuItemSet){
+			if(item.getItem().getId().equals(selectedItem.getId())){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	public void initMenuSummary() {
@@ -181,12 +194,12 @@ public class CatMenuViewBean implements Serializable {
 		this.selectedMenu = selectedMenu;
 	}
 
-	public String getSelectedMenuItemName() {
-		return selectedMenuItemName;
+	public DefItemEntity getSelectedItem() {
+		return selectedItem;
 	}
 
-	public void setSelectedMenuItemName(String selectedMenuItemName) {
-		this.selectedMenuItemName = selectedMenuItemName;
+	public void setSelectedItem(DefItemEntity selectedItem) {
+		this.selectedItem = selectedItem;
 	}
 
 }

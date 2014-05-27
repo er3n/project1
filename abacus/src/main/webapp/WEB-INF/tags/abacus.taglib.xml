@@ -39,8 +39,55 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>update</name> 
+			<name>update</name>
 			<required>true</required>
 		</attribute>
 	</tag>
+
+	<tag>
+		<tag-name>itemSelection</tag-name>
+		<source>../content/component/itemSelection.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<tag-name>itemSelectionDialog</tag-name>
+		<source>../content/component/itemSelectionDialog.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>update</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>itemType</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>itemClass</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
 </facelet-taglib>

@@ -34,11 +34,8 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 	@Override
 	public DefItemEntity getRowData(String rowKey) {
 		Long longRowKey = Long.valueOf(rowKey);
-		for (DefItemEntity item : currentResult) {
-			if (item.getId().equals(longRowKey))
-				return item;
-		}
-		return null;
+		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(longRowKey));
+		return readItemEvent.getItem();
 	}
 
 	@Override

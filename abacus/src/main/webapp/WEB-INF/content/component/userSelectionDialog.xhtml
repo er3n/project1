@@ -18,9 +18,9 @@
 		<p:dataTable var="user" paginator="true" rows="10"
 			value="#{userTableViewBean.userList}">
 
-			<p:column headerText="Kullanici" filterBy="#{userVar.id}"
+			<p:column headerText="Kullanici" filterBy="#{user.id}"
 				filterMatchMode="contains">
-				<h:outputText value="#{userVar.id}" />
+				<h:outputText value="#{user.id}" />
 			</p:column>
 
 			<p:column headerText="Sec">

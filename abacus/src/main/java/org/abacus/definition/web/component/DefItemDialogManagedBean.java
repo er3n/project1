@@ -1,5 +1,7 @@
 package org.abacus.definition.web.component;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -12,7 +14,7 @@ import org.abacus.definition.web.model.ItemDataModel;
 
 @ManagedBean
 @ViewScoped
-public class DefItemDialogManagedBean {
+public class DefItemDialogManagedBean implements Serializable {
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;

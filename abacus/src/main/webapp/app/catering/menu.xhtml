@@ -54,7 +54,6 @@
 								items="#{catMenuViewBean.menuSummary.meals}">
 								<p:column style="font-weight:bold">#{mealFilter.meal.name}</p:column>
 							</c:forEach>
-							<p:column style="font-weight:bold;">Gun Sonu Ozet</p:column>
 						</p:row>
 					</f:facet>
 
@@ -78,16 +77,17 @@
 
 
 
-								<p:column style="font-weight:bold;width:4%"> Mercimek (Az Tuzlu)<br></br>Lahana (Taze gelenler)<br></br> Limonata (Sulandirilmis) <br></br>Salata (Havuc, Patetes)<br></br>
-									<ui:repeat var="menuItem" value="#{menuEntity.menuItemSet}">
-									#{menuItem.name}
+								<p:column style="font-weight:bold;width:4%">
+									<h:outputText value="Malzeme bulunmakaktadir"
+										rendered="#{empty menuEntitys.menuItemList}" />
+									<ui:repeat var="menuItem" value="#{menuEntitys.menuItemList}">
+									#{menuItem.item.name}
+									<br></br>
 									</ui:repeat>
 								</p:column>
 
 
 							</c:forEach>
-							<p:column rowspan="2"
-								style="width:4%;font-weight:bold;background-color:#E6EBFA">250TL</p:column>
 
 						</p:row>
 
@@ -104,11 +104,15 @@
 										value="#{catMenuViewBean.isMealActiveAtGivenDate(mealFilter,dailyMenu.date)}"
 										var="isMealActive" />
 
-									<p:commandButton icon="ui-icon-search"
+									<p:commandButton icon="ui-icon-plus"
 										rendered="#{isMealActive and empty menuEntity}"
+										actionListener="#{catMenuViewBean.initCreateMenu(mealFilter,dailyMenu)}"
 										update=":menuDialogFrm" oncomplete="PF('menuDialog').show()">
-										<p:ajax event="click"
-											listener="#{catMenuViewBean.initCreateMenu(mealFilter,dailyMenu)}" />
+									</p:commandButton>
+									<p:commandButton icon="ui-icon-pencil"
+										rendered="#{isMealActive and not empty menuEntity}"
+										update=":menuDialogFrm" oncomplete="PF('menuDialog').show()"
+										actionListener="#{catMenuViewBean.initUpdateMenu(mealFilter,dailyMenu)}">
 									</p:commandButton>
 									<p:commandButton icon="ui-icon-check" />
 									<p:commandButton icon="ui-icon-close" />
@@ -127,10 +131,16 @@
 
 		<h:form id="menuDialogFrm">
 			<p:dialog widgetVar="menuDialog" resizable="true" showEffect="fade"
-				modal="true" appendToBody="@(body)" height="60%" width="600px">
+				modal="true" appendToBody="@(body)" width="600px">
 
 				<f:facet name="header">
-					<p:outputLabel value="Menu" />
+					<p:outputLabel
+						value="Menu - " />
+					<h:outputText value="#{catMenuViewBean.selectedMenu.menuDate}">
+						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
+							locale="tr_TR" />
+					</h:outputText>
+					<h:outputText value=" #{catMenuViewBean.selectedMenu.meal.name}" />
 				</f:facet>
 
 				<p:dataTable id="menuItems" var="menuItem"
@@ -163,10 +173,28 @@
 						update=":menuDialogFrm:menuItems" process="@form" />
 				</h:panelGrid>
 
+				<p:spacer height="10px" />
 
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
+					<p:outputLabel value="Tahmini miktar" />
+					<p:inputText value="#{catMenuViewBean.selectedMenu.countPrepare}"
+						required="true" requiredMessage="Tahmini miktar bos olamaz" />
+
+					<p:outputLabel value="Kullanilan miktar" />
+					<p:inputText value="#{catMenuViewBean.selectedMenu.countSpend}"
+						required="false" requiredMessage="Kullanilan miktar bos olamaz" />
+
+				</h:panelGrid>
 
 				<f:facet name="footer">
-					<p:commandButton value="Kaydet" />
+					<p:commandButton value="Kaydet"
+						actionListener="#{catMenuViewBean.saveMenu()}"
+						update=":menuDetailForm" oncomplete="PF('menuDialog').hide();"
+						rendered="#{empty catMenuViewBean.selectedMenu.id}" />
+					<p:commandButton value="Guncelle"
+						actionListener="#{catMenuViewBean.updateMenu()}"
+						update=":menuDetailForm" oncomplete="PF('menuDialog').hide();"
+						rendered="#{not empty catMenuViewBean.selectedMenu.id}" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Vazgec"
 						oncomplete="PF('menuDialog').hide();" immediate="true" />

@@ -16,6 +16,12 @@ import org.abacus.catering.core.handler.CatMenuHandler;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
+import org.abacus.catering.shared.event.CreateMenuEvent;
+import org.abacus.catering.shared.event.MenuCreatedEvent;
+import org.abacus.catering.shared.event.MenuUpdatedEvent;
+import org.abacus.catering.shared.event.ReadMenuEvent;
+import org.abacus.catering.shared.event.RequestReadMenuEvent;
+import org.abacus.catering.shared.event.UpdateMenuEvent;
 import org.abacus.catering.shared.holder.CatMenuSearchCriteria;
 import org.abacus.catering.shared.holder.DailyMenuDetail;
 import org.abacus.catering.shared.holder.MenuSummary;
@@ -64,6 +70,11 @@ public class CatMenuViewBean implements Serializable {
 	}
 	
 	public void addItemToMenu(){
+		
+		if(selectedItem == null){
+			return;
+		}
+		
 		Set<CatMenuItemEntity> menuItemSet = selectedMenu.getMenuItemSet();
 
 		CatMenuItemEntity menuItem = new CatMenuItemEntity();
@@ -114,6 +125,12 @@ public class CatMenuViewBean implements Serializable {
 		selectedMenu.setMenuItemSet(new HashSet<CatMenuItemEntity>());
 	}
 
+	public void initUpdateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
+		CatMenuEntity menu = dailyMenu.getMenuMap().get(mealFilterEntity.getMeal().getCode());
+		ReadMenuEvent readMenuEvent = menuHandler.findMenu(new RequestReadMenuEvent(menu.getId()));
+		this.selectedMenu = readMenuEvent.getMenu();
+	}
+
 	public void removeMenuItemFromMenu(CatMenuItemEntity item) {
 		this.selectedMenu.getMenuItemSet().remove(item);
 	}
@@ -126,9 +143,25 @@ public class CatMenuViewBean implements Serializable {
 	}
 
 	public void menuDateSelected() {
-		searchCriteria.refreshDate();
+		searchCriteria.refreshDate(); 
 		this.initMenuSummary();
 	}
+	
+	public void saveMenu(){
+		String username = sessionInfoHelper.currentUserName();
+		MenuCreatedEvent menuCreatedEvent = menuHandler.newMenu(new CreateMenuEvent(this.selectedMenu,username));
+		this.selectedMenu = menuCreatedEvent.getMenu();
+		this.initMenuSummary();
+		jsfMessageHelper.addInfo("craeteSuccessful");
+	}
+	
+	public void updateMenu(){
+		String username = sessionInfoHelper.currentUserName();
+		MenuUpdatedEvent updateMenuEvent = menuHandler.updateMenu(new UpdateMenuEvent(this.selectedMenu,username));
+		this.selectedMenu = updateMenuEvent.getMenu();
+		this.initMenuSummary();
+		jsfMessageHelper.addInfo("updateSuccesssful");
+	} 
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;

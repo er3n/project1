@@ -1,6 +1,8 @@
 package org.abacus.catering.shared.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -44,15 +46,20 @@ public class CatMenuEntity extends DynamicEntity {
 	@Column(name = "menu_status", nullable = false)
 	private EnumList.MenuStatusEnum menuStatus;
 
-	@Column(name = "count_prepare", nullable = false)
+	@Column(name = "count_prepare")
 	private Integer countPrepare;
 
-	@Column(name = "count_spend", nullable = false)
+	@Column(name = "count_spend")
 	private Integer countSpend;
 
 	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	private Set<CatMenuItemEntity> menuItemSet;
+	
+	
+	public List<CatMenuItemEntity> getMenuItemList(){
+		return new ArrayList<CatMenuItemEntity>(menuItemSet);
+	}
 
 	public OrganizationEntity getOrganization() {
 		return organization;

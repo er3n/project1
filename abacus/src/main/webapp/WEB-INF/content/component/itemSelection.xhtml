@@ -9,9 +9,13 @@
 
 <h:panelGrid id="#{id}" columns="4" cellspacing="0">
 
+	<c:if test="#{empty required}">
+		<c:set var="#{required}" value="false" />
+	</c:if>
+
 	<p:selectOneMenu id="#{id}_txt"
 		value="#{value}"
-		converter="omnifaces.SelectItemsConverter" style="width:145px" required="true" requiredMessage="Malzeme bos olamaz" >
+		converter="omnifaces.SelectItemsConverter" style="width:145px" required="#{required}" requiredMessage="Malzeme bos olamaz" >
 		<f:selectItem itemLabel="#{value.name}" itemValue="#{value}"  />
 	</p:selectOneMenu> 
 	<p:commandButton icon="ui-icon-extlink" 

@@ -99,10 +99,8 @@
 
 			<p:dataTable id="departmentUserTable" var="selDepartmentUser"
 				value="#{orgDepartmentViewBean.selDepartment.departmentUserList}"
-				selection="#{orgDepartmentViewBean.selDepartmentUser}"
-				emptyMessage="Kayit Bulanamadi" selectionMode="single"
-				paginator="true" paginatorPosition="bottom"
-				rowKey="#{selDepartmentUser.id}" rows="10" resizableColumns="false">
+				emptyMessage="Kayit Bulanamadi" paginator="true"
+				paginatorPosition="bottom" rows="10" resizableColumns="false">
 
 				<p:column headerText="Kullanici">  
         			#{selDepartmentUser.user.id}  
@@ -111,7 +109,7 @@
 				<p:column headerText="Islem">
 					<p:commandButton icon="ui-icon-close"
 						action="#{orgDepartmentViewBean.removeItem(selDepartmentUser)}"
-						update=":departmentUserForm:departmentUserTable" />
+						update=":departmentUserForm:departmentUserTable" process="@this"/>
 				</p:column>
 
 			</p:dataTable>
@@ -123,7 +121,7 @@
 
 				<p:commandButton value="ekle"
 					actionListener="#{orgDepartmentViewBean.addItemToList}"
-					update=":departmentUserForm:departmentUserTable"/>
+					update=":departmentUserForm:departmentUserTable" />
 			</h:panelGrid>
 
 

@@ -75,7 +75,7 @@
 
 				<p:column headerText="Yetkili">
 					<p:commandButton icon="ui-icon-extlink" process="@this"
-						oncomplete="PF('deparmentUserWdg').show()"
+						oncomplete="PF('dlg').show()"
 						update=":departmentUserForm">
 						<f:setPropertyActionListener
 							target="#{orgDepartmentViewBean.selDepartment}"
@@ -90,7 +90,7 @@
 	<!-- orgDepartment -->
 
 	<h:form id="departmentUserForm">
-		<p:dialog widgetVar="deparmentUserWdg" resizable="true"
+		<p:dialog widgetVar="dlg" resizable="true"
 			showEffect="fade" modal="true" height="400px" width="600px">
 
 			<p:panel>
@@ -121,17 +121,17 @@
 
 				<p:commandButton value="ekle"
 					actionListener="#{orgDepartmentViewBean.addItemToList}"
-					update=":departmentUserForm:departmentUserTable" />
+					update=":departmentUserForm:departmentUserTable" process="@this"/>
 			</h:panelGrid>
 
 
 			<f:facet name="footer">
 				<p:commandButton value="Kaydet"
 					actionListener="#{orgDepartmentViewBean.saveDepartment}"
-					update=":departmentUserForm" oncomplete="PF('menuDialog').hide();" />
+					update=":departmentUserForm" process="@this" oncomplete="PF('dlg').hide();" />
 				<p:spacer width="5px" />
 				<p:commandButton value="Vazgec"
-					oncomplete="PF('menuDialog').hide();" immediate="true" />
+					oncomplete="PF('dlg').hide();" process="@this" />
 			</f:facet>
 
 		</p:dialog>

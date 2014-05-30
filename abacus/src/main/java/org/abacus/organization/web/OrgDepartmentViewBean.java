@@ -68,7 +68,7 @@ public class OrgDepartmentViewBean implements Serializable {
 			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
 		}
 		departmentService.saveDepartmentEntity(selDepartment);
-		findOrganizationDepartment();
+//		findOrganizationDepartment();
 	}
 
 	public void deleteDepartment() {
@@ -76,7 +76,7 @@ public class OrgDepartmentViewBean implements Serializable {
 			departmentService.deleteDepartmentEntity(selDepartment);
 			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
 		}
-		findOrganizationDepartment();
+//		findOrganizationDepartment();
 	}
 
 	public void createDepartment() {

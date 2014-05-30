@@ -110,7 +110,7 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	public void setSelDepartment(DepartmentEntity selDepartment) {
 		if (selDepartment != null) {
-			this.selDepartment = selDepartment;
+			this.selDepartment = departmentService.getDepartmentEntity(selDepartment.getId()); 
 		}
 	}
 
@@ -207,5 +207,34 @@ public class OrgDepartmentViewBean implements Serializable {
 		}
 		
 	}
-	
+
+	public void saveDepartmentUserList() {
+		if (selDepartmentUser!=null && selDepartmentUser.isNew()) {
+			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
+			selDepartment.getDepartmentUserList().add(selDepartmentUser);
+		} else {
+			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
+		}
+		departmentService.saveDepartmentEntity(selDepartment);
+//		findOrganizationDepartment();
+	}
+
+	public void deleteDepartmentUser() {
+		if (selDepartmentUser!=null){
+			selDepartment.getDepartmentUserList().remove(selDepartmentUser);
+			saveDepartmentUserList();
+			createDepartmentUser();
+		}
+//		if (!selDepartment.isNew()) {
+//			departmentService.deleteDepartmentEntity(selDepartment);
+//			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
+//		}
+//		findOrganizationDepartment();
+	}
+
+	public void createDepartmentUser() {
+		selDepartmentUser = new SecUserDepartmentEntity();
+		selDepartmentUser.setDepartment(selDepartment);
+//		selDepartmentUser.setUser(secUserHandler.getUser("admin"));
+	}
 }

@@ -179,62 +179,31 @@ public class OrgDepartmentViewBean implements Serializable {
 		this.selDepartmentUser = selDepartmentUser;
 	}
 
-	
 	public void addItemToList(){
-		
-		if(selDepartmentUser == null){
+		if(newSecUser == null){
 			return;
 		}
-		
+		selDepartmentUser = new SecUserDepartmentEntity();
+		selDepartmentUser.setDepartment(selDepartment);
+		selDepartmentUser.setUser(newSecUser);
 		if(true){
 			selDepartment.getDepartmentUserList().add(selDepartmentUser);
 		}else{
-			jsfMessageHelper.addError("itemExistsInMenu");
+			jsfMessageHelper.addError("itemExistsInList");
 		}
 		
 	}
 
 	public void removeItem(SecUserDepartmentEntity sel){
-		
 		if(sel == null){
 			return;
 		}
-		
 		if(true){
 			selDepartment.getDepartmentUserList().remove(sel);
 		}else{
-			jsfMessageHelper.addError("itemExistsInMenu");
+			jsfMessageHelper.addError("itemNotSelected");
 		}
 		
 	}
 
-	public void saveDepartmentUserList() {
-		if (selDepartmentUser!=null && selDepartmentUser.isNew()) {
-			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
-			selDepartment.getDepartmentUserList().add(selDepartmentUser);
-		} else {
-			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
-		}
-		departmentService.saveDepartmentEntity(selDepartment);
-//		findOrganizationDepartment();
-	}
-
-	public void deleteDepartmentUser() {
-		if (selDepartmentUser!=null){
-			selDepartment.getDepartmentUserList().remove(selDepartmentUser);
-			saveDepartmentUserList();
-			createDepartmentUser();
-		}
-//		if (!selDepartment.isNew()) {
-//			departmentService.deleteDepartmentEntity(selDepartment);
-//			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
-//		}
-//		findOrganizationDepartment();
-	}
-
-	public void createDepartmentUser() {
-		selDepartmentUser = new SecUserDepartmentEntity();
-		selDepartmentUser.setDepartment(selDepartment);
-//		selDepartmentUser.setUser(secUserHandler.getUser("admin"));
-	}
 }

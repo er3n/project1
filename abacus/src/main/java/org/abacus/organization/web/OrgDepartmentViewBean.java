@@ -15,6 +15,7 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.shared.entity.SecUserDepartmentEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.primefaces.event.SelectEvent;
 
@@ -39,7 +40,9 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	private EnumList.OrgDepartmentGroupEnum selectedGroupEnum;
 
-	private SecUserEntity newSelectedDepartmentUser;
+	private SecUserDepartmentEntity selDepartmentUser;
+	
+	private SecUserEntity newSecUser;
 
 	@PostConstruct
 	public void init() {
@@ -132,9 +135,9 @@ public class OrgDepartmentViewBean implements Serializable {
 	}
 
 	public void chooseDepartmentUserAuth() {
-		if (selDepartment != null && !selDepartment.isNew()) {
-			jsfDialogHelper.openDepartmentUserAuthDialog(selDepartment);
-		}
+//		if (selDepartment != null && !selDepartment.isNew()) {
+//			jsfDialogHelper.openDepartmentUserAuthDialog(selDepartment);
+//		}
 	}
 
 	public void onDepartmentUserAuthChosen(SelectEvent event) {
@@ -159,13 +162,50 @@ public class OrgDepartmentViewBean implements Serializable {
 		this.selectedGroupEnum = selectedGroupEnum;
 	}
 
-	public SecUserEntity getNewSelectedDepartmentUser() {
-		return newSelectedDepartmentUser;
+	public SecUserEntity getNewSecUser() {
+		return newSecUser;
 	}
 
-	public void setNewSelectedDepartmentUser(
-			SecUserEntity newSelectedDepartmentUser) {
-		this.newSelectedDepartmentUser = newSelectedDepartmentUser;
+	public void setNewSecUser(
+			SecUserEntity newSecUser) {
+		this.newSecUser = newSecUser;
 	}
 
+	public SecUserDepartmentEntity getSelDepartmentUser() {
+		return selDepartmentUser;
+	}
+
+	public void setSelDepartmentUser(SecUserDepartmentEntity selDepartmentUser) {
+		this.selDepartmentUser = selDepartmentUser;
+	}
+
+	
+	public void addItemToList(){
+		
+		if(selDepartmentUser == null){
+			return;
+		}
+		
+		if(true){
+			selDepartment.getDepartmentUserList().add(selDepartmentUser);
+		}else{
+			jsfMessageHelper.addError("itemExistsInMenu");
+		}
+		
+	}
+
+	public void removeItem(SecUserDepartmentEntity sel){
+		
+		if(sel == null){
+			return;
+		}
+		
+		if(true){
+			selDepartment.getDepartmentUserList().remove(sel);
+		}else{
+			jsfMessageHelper.addError("itemExistsInMenu");
+		}
+		
+	}
+	
 }

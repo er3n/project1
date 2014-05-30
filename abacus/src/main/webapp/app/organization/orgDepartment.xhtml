@@ -97,12 +97,49 @@
 				<h:outputLabel value="#{orgDepartmentViewBean.selDepartment.name}" />
 			</p:panel>
 
-			<p:panel header="Department">
+			<p:dataTable id="departmentUserTable" var="selDepartmentUser"
+				value="#{orgDepartmentViewBean.selDepartment.departmentUserList}"
+				selection="#{orgDepartmentViewBean.selDepartmentUser}"
+				emptyMessage="Kayit Bulanamadi" selectionMode="single"
+				paginator="true" paginatorPosition="bottom"
+				rowKey="#{selDepartmentUser.id}" rows="10" resizableColumns="true">
+
+				<p:column headerText="Kullanici">  
+        			#{selDepartmentUser.user.id}  
+	       		</p:column>
+
+				<p:column headerText="Islem">
+						<p:commandButton icon="ui-icon-close"
+							action="#{orgDepartmentViewBean.removeItem(selDepartmentUser)}"
+							update=":departmentUserForm" />
+					</p:column>
+
+			</p:dataTable>
+
+			<p:panel header="Kullanicilar">
 				<abc:userSelection id="userSelectionInput"
 					widgetVar="userSelectionDialogWdg"
-					userVar="#{orgDepartmentViewBean.newSelectedDepartmentUser}" />
+					userVar="#{orgDepartmentViewBean.newSecUser}" />
 			</p:panel>
 
+			<p:commandButton value="ekle"
+				actionListener="#{orgDepartmentViewBean.addItemToList}"
+				update=":departmentUserForm" process="@form" />
+
+
+			<f:facet name="footer">
+				<p:commandButton value="Kaydet"
+					actionListener="#{orgDepartmentViewBean.saveDepartmentUserList()}"
+					update=":departmentUserForm" oncomplete="PF('menuDialog').hide();"
+					rendered="#{empty orgDepartmentViewBean.selDepartmentUser.id}" />
+				<p:commandButton value="Guncelle"
+					actionListener="#{orgDepartmentViewBean.saveDepartmentUserList()}"
+					update=":departmentUserForm" oncomplete="PF('menuDialog').hide();"
+					rendered="#{not empty orgDepartmentViewBean.selDepartmentUser.id}" />
+				<p:spacer width="5px" />
+				<p:commandButton value="Vazgec"
+					oncomplete="PF('menuDialog').hide();" immediate="true" />
+			</f:facet>
 
 		</p:dialog>
 	</h:form>
@@ -110,6 +147,6 @@
 	<abc:userSelectionDialog id="userSelectionDialog"
 		update=":departmentUserForm:userSelectionInput"
 		widgetVar="userSelectionDialogWdg"
-		userVar="#{orgDepartmentViewBean.newSelectedDepartmentUser}" />
+		userVar="#{orgDepartmentViewBean.newSecUser}" />
 
 </ui:composition>

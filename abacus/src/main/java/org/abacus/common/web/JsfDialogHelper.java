@@ -36,22 +36,12 @@ public class JsfDialogHelper implements Serializable {
 		this.openDialog("defValueDialog", paramsHashMap);
 	}
 	
+	//Component Oldu
 	public void openItemDialog(DefTypeEnum type, DefItemClassEnum clazz) {
 		Map<String, String> paramsHashMap = new HashMap<>();
 		paramsHashMap.put("type", type.name());
 		paramsHashMap.put("clazz", clazz.name());
 		this.openDialog("defItemDialog", paramsHashMap);
-	}
-
-	public void openUserSelectionDialog() {
-		Map<String, String> paramsHashMap = new HashMap<>();
-		this.openDialog("userSelectionDialog", paramsHashMap);
-	}
-
-	public void openDepartmentUserAuthDialog(DepartmentEntity department) {
-		Map<String, String> paramsHashMap = new HashMap<>();
-		paramsHashMap.put("department_id", String.valueOf(department.getId()));
-		this.openDialog("orgDepartmentUserDialog", paramsHashMap);
 	}
 
 	public void openDialog(String dialog, Map<String, String> paramMap) {

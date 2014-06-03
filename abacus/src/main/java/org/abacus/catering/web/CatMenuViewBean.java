@@ -33,6 +33,7 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.joda.time.MutableDateTime;
 import org.springframework.util.CollectionUtils;
 
 @SuppressWarnings("serial")
@@ -72,6 +73,40 @@ public class CatMenuViewBean implements Serializable {
 		this.initMenuSummary();
 
 		menuItems = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P));;
+	}
+	
+	public void nextMenu(){
+		Date selectedDate = searchCriteria.getDate();
+		MutableDateTime mdt = new MutableDateTime(selectedDate);
+		
+		
+		if(searchCriteria.getPeriod().equals(EnumList.CatMenuPeriod.MOUNTHLY)){
+			mdt.addMonths(1);
+		}else{
+			mdt.addWeeks(1);
+		}
+			
+		selectedDate =  mdt.toDate();
+		searchCriteria.setDate(selectedDate);
+		
+		this.menuDateSelected();
+	}
+	
+	public void prevMenu(){
+		Date selectedDate = searchCriteria.getDate();
+		MutableDateTime mdt = new MutableDateTime(selectedDate);
+		
+		
+		if(searchCriteria.getPeriod().equals(EnumList.CatMenuPeriod.MOUNTHLY)){
+			mdt.addMonths(-1);
+		}else{
+			mdt.addWeeks(-1);
+		}
+			
+		selectedDate =  mdt.toDate();
+		searchCriteria.setDate(selectedDate);
+		
+		this.menuDateSelected();
 	}
 
 	public void addItemToMenu() {

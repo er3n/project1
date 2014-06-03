@@ -17,6 +17,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
 import org.abacus.definition.core.handler.DefUnitHandler;
+import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.ItemAlreadyExistsException;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
@@ -39,7 +40,6 @@ import org.abacus.definition.web.model.ItemDataModel;
 import org.abacus.definition.web.shared.event.ItemProductUptatedEvent;
 import org.abacus.definition.web.shared.event.UpdateItemProductEvent;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.primefaces.event.SelectEvent;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -63,6 +63,9 @@ public class ItemViewBean implements Serializable {
 	@ManagedProperty(value = "#{defUnitHandler}")
 	private DefUnitHandler defUnitHandler;
 
+	@ManagedProperty(value = "#{defValueHandler}")
+	private DefValueHandler defValueHandler;
+
 	private ItemDataModel itemLazyModel;
 
 	private DefItemEntity selectedItem;
@@ -81,11 +84,21 @@ public class ItemViewBean implements Serializable {
 
 	private Boolean displayProductInfo;
 
+	private ItemDataModel itemMaterialsDataModel;
+
+	private List<DefValueEntity> allCategoryClasses;
+
 	@PostConstruct
 	public void init() {
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
 		this.initUnitGroups();
+
+		allCategoryClasses = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_CATEGORY);
+		if (displayProductInfo) {
+			itemMaterialsDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M));
+		}
+
 	}
 
 	public void initNewProduct() {
@@ -132,7 +145,7 @@ public class ItemViewBean implements Serializable {
 
 	public void newItemProduct() {
 		String createdUser = sessionInfoHelper.currentUserName();
-		ItemProductCreatedEvent createdEvent = itemHandler.newItemProduct(new CreateItemProductEvent(selectedItemProduct,createdUser));
+		ItemProductCreatedEvent createdEvent = itemHandler.newItemProduct(new CreateItemProductEvent(selectedItemProduct, createdUser));
 		selectedItemProduct = null;
 		this.itemSelected();
 		jsfMessageHelper.addInfo("craeteSuccessful");
@@ -140,11 +153,11 @@ public class ItemViewBean implements Serializable {
 
 	public void updateItemProduct() {
 		String userUpdated = sessionInfoHelper.currentUserName();
-		ItemProductUptatedEvent updatedEvent = itemHandler.updateItemProduct(new UpdateItemProductEvent(selectedItemProduct,userUpdated));
+		ItemProductUptatedEvent updatedEvent = itemHandler.updateItemProduct(new UpdateItemProductEvent(selectedItemProduct, userUpdated));
 		selectedItemProduct = null;
-		
+
 		this.itemSelected();
-		
+
 		jsfMessageHelper.addInfo("updateSuccesssful");
 	}
 
@@ -196,35 +209,9 @@ public class ItemViewBean implements Serializable {
 		displayProductInfo = EnumList.DefTypeEnum.ITM_SR_ST.equals(type) && EnumList.DefItemClassEnum.STK_P.equals(clazz);
 	}
 
-	public void chooseCategory() {
-		jsfDialogHelper.openDefValueDialog(EnumList.DefTypeEnum.VAL_CATEGORY);
-	}
-
-	public void chooseItem() {
-		jsfDialogHelper.openItemDialog(EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M);
-	}
-
-	public void onMaterialChosen(SelectEvent event) {
-		DefItemEntity item = (DefItemEntity) event.getObject();
-		selectedItemProduct.setMaterialItem(item);
-	}
-
-	public void clearMaterial() {
-		selectedItemProduct.setMaterialItem(new DefItemEntity());
-	}
-
 	private void initUnitGroups() {
 		String rootOrganizationId = sessionInfoHelper.currentRootOrganizationId();
 		this.allUnitGroupList = defUnitHandler.getUnitGroupList(rootOrganizationId);
-	}
-
-	public void onCategoryChosen(SelectEvent event) {
-		DefValueEntity category = (DefValueEntity) event.getObject();
-		selectedItem.setCategory(category);
-	}
-
-	public void clearCategory() {
-		selectedItem.setCategory(new DefValueEntity());
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -329,6 +316,46 @@ public class ItemViewBean implements Serializable {
 
 	public void setDisplayProductInfo(Boolean displayProductInfo) {
 		this.displayProductInfo = displayProductInfo;
+	}
+
+	public EnumList.DefTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(EnumList.DefTypeEnum type) {
+		this.type = type;
+	}
+
+	public EnumList.DefItemClassEnum getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(EnumList.DefItemClassEnum clazz) {
+		this.clazz = clazz;
+	}
+
+	public ItemDataModel getItemMaterialsDataModel() {
+		return itemMaterialsDataModel;
+	}
+
+	public void setItemMaterialsDataModel(ItemDataModel itemMaterialsDataModel) {
+		this.itemMaterialsDataModel = itemMaterialsDataModel;
+	}
+
+	public List<DefValueEntity> getAllCategoryClasses() {
+		return allCategoryClasses;
+	}
+
+	public void setAllCategoryClasses(List<DefValueEntity> allCategoryClasses) {
+		this.allCategoryClasses = allCategoryClasses;
+	}
+
+	public DefValueHandler getDefValueHandler() {
+		return defValueHandler;
+	}
+
+	public void setDefValueHandler(DefValueHandler defValueHandler) {
+		this.defValueHandler = defValueHandler;
 	}
 
 }

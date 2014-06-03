@@ -24,7 +24,12 @@ public class DefItemDialogManagedBean implements Serializable {
 
 	public ItemDataModel items(EnumList.DefTypeEnum type, EnumList.DefItemClassEnum clazz) {
 		String currentOrganization = sessionInfoHelper.currentRootOrganizationId();
-		return new ItemDataModel(new ItemSearchCriteria(currentOrganization, type, clazz));
+		ItemDataModel model =  new ItemDataModel(new ItemSearchCriteria(currentOrganization, type, clazz));
+		
+		System.out.println(model.getPageSize());
+		System.out.println(model.getRowCount());
+		System.out.println(model.getRowIndex());
+		return model;
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {

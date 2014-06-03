@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>Kategoriler</title>
@@ -16,9 +12,8 @@
 
 <h:body>
 	<h:form>
-		<p:dataTable var="category" paginator="true" rows="10"
-			value="#{defValTableViewBean.categoryList}" >
-			<p:column headerText="Kod"  filterBy="#{category.code}" filterMatchMode="contains">
+		<p:dataTable var="category" paginator="true" rows="10" value="#{defValTableViewBean.categoryList}">
+			<p:column headerText="Kod" filterBy="#{category.code}" filterMatchMode="contains">
 				<h:outputText value="#{category.code}" />
 			</p:column>
 
@@ -26,10 +21,10 @@
 				<h:outputText value="#{category.name}" />
 			</p:column>
 
-			<p:column headerText="Sec">
-				<p:commandButton icon="ui-icon-search"
-					actionListener="#{defValTableViewBean.selectValueFromDialog(category)}" />
-			</p:column>
+			<p:commandButton icon="ui-icon-search" oncomplete="PF('#{widgetVar}').hide();" update="#{update}" process="@this">
+				<f:setPropertyActionListener target="#{value}" value="#{var}" />
+			</p:commandButton>
+			
 		</p:dataTable>
 	</h:form>
 </h:body>

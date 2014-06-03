@@ -1,6 +1,4 @@
-<facelet-taglib version="2.0"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+<facelet-taglib version="2.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
 
 
 
@@ -85,11 +83,53 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>itemType</name>
+			<name>items</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<tag-name>valueSelection</tag-name>
+		<source>../content/component/valueSelection.xhtml</source>
+		<attribute>
+			<name>id</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>itemClass</name>
+			<name>value</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>required</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<tag-name>valueSelectionDialog</tag-name>
+		<source>../content/component/valueSelectionDialog.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>update</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>values</name>
 			<required>true</required>
 		</attribute>
 	</tag>

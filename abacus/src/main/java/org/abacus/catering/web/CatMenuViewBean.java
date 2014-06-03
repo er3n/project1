@@ -30,8 +30,9 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.holder.ItemSearchCriteria;
+import org.abacus.definition.web.model.ItemDataModel;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.primefaces.event.SelectEvent;
 import org.springframework.util.CollectionUtils;
 
 @SuppressWarnings("serial")
@@ -61,20 +62,24 @@ public class CatMenuViewBean implements Serializable {
 
 	private DefItemEntity selectedItem;
 
+	private ItemDataModel menuItems;
+
 	@PostConstruct
 	private void init() {
 		this.searchCriteria = new CatMenuSearchCriteria();
 		this.searchCriteria.setPeriod(EnumList.CatMenuPeriod.WEEKLY);
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();
+
+		menuItems = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P));;
 	}
-	
-	public void addItemToMenu(){
-		
-		if(selectedItem == null){
+
+	public void addItemToMenu() {
+
+		if (selectedItem == null) {
 			return;
 		}
-		
+
 		Set<CatMenuItemEntity> menuItemSet = selectedMenu.getMenuItemSet();
 
 		CatMenuItemEntity menuItem = new CatMenuItemEntity();
@@ -85,25 +90,24 @@ public class CatMenuViewBean implements Serializable {
 			menuItemSet = new HashSet<>();
 			selectedMenu.setMenuItemSet(menuItemSet);
 		}
-		
+
 		boolean isItemExistsInMenu = !this.validateAddItemToMenu(menuItemSet);
-		if(!isItemExistsInMenu){
+		if (!isItemExistsInMenu) {
 			menuItemSet.add(menuItem);
-		}else{
+		} else {
 			jsfMessageHelper.addError("itemExistsInMenu");
 		}
-		
-		
+
 	}
-	
-	private boolean validateAddItemToMenu(Set<CatMenuItemEntity> menuItemSet){
-		
-		for(CatMenuItemEntity item : menuItemSet){
-			if(item.getItem().getId().equals(selectedItem.getId())){
+
+	private boolean validateAddItemToMenu(Set<CatMenuItemEntity> menuItemSet) {
+
+		for (CatMenuItemEntity item : menuItemSet) {
+			if (item.getItem().getId().equals(selectedItem.getId())) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -143,25 +147,25 @@ public class CatMenuViewBean implements Serializable {
 	}
 
 	public void menuDateSelected() {
-		searchCriteria.refreshDate(); 
+		searchCriteria.refreshDate();
 		this.initMenuSummary();
 	}
-	
-	public void saveMenu(){
+
+	public void saveMenu() {
 		String username = sessionInfoHelper.currentUserName();
-		MenuCreatedEvent menuCreatedEvent = menuHandler.newMenu(new CreateMenuEvent(this.selectedMenu,username));
+		MenuCreatedEvent menuCreatedEvent = menuHandler.newMenu(new CreateMenuEvent(this.selectedMenu, username));
 		this.selectedMenu = menuCreatedEvent.getMenu();
 		this.initMenuSummary();
 		jsfMessageHelper.addInfo("craeteSuccessful");
 	}
-	
-	public void updateMenu(){
+
+	public void updateMenu() {
 		String username = sessionInfoHelper.currentUserName();
-		MenuUpdatedEvent updateMenuEvent = menuHandler.updateMenu(new UpdateMenuEvent(this.selectedMenu,username));
+		MenuUpdatedEvent updateMenuEvent = menuHandler.updateMenu(new UpdateMenuEvent(this.selectedMenu, username));
 		this.selectedMenu = updateMenuEvent.getMenu();
 		this.initMenuSummary();
 		jsfMessageHelper.addInfo("updateSuccesssful");
-	} 
+	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
@@ -234,5 +238,15 @@ public class CatMenuViewBean implements Serializable {
 	public void setSelectedItem(DefItemEntity selectedItem) {
 		this.selectedItem = selectedItem;
 	}
+
+	public ItemDataModel getMenuItems() {
+		return menuItems;
+	}
+
+	public void setMenuItems(ItemDataModel menuItems) {
+		this.menuItems = menuItems;
+	}
+	
+	
 
 }

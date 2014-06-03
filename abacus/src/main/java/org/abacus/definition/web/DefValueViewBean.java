@@ -14,7 +14,6 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.organization.core.handler.OrganizationHandler;

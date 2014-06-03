@@ -167,6 +167,7 @@
 				<h:panelGrid columns="5">
 					<abc:itemSelection id="itemSelectionInput"
 						widgetVar="itemSelectionWdg"
+						dialogId="itemSelectionDialog"
 						value="#{catMenuViewBean.selectedItem}" />
 					<p:commandButton value="ekle"
 						actionListener="#{catMenuViewBean.addItemToMenu}"
@@ -206,14 +207,10 @@
 	</ui:define>
 
 	<ui:define name="model">
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<abc:itemSelectionDialog id="itemSelectionDialog"
 			update=":menuDialogFrm:itemSelectionInput"
-			itemClass="#{DefItemClassEnum.STK_P}" widgetVar="itemSelectionWdg"
-			itemType="#{DefTypeEnum.ITM_SR_ST}"
+			widgetVar="itemSelectionWdg"
+			items="#{catMenuViewBean.menuItems}"
 			value="#{catMenuViewBean.selectedItem}" />
 	</ui:define>
 

@@ -1,6 +1,5 @@
 package org.abacus.definition.shared.entity;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,7 +15,6 @@ import javax.persistence.Table;
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.abacus.user.shared.entity.SecGroupAuthorityEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;

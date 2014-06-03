@@ -29,21 +29,7 @@ public class JsfDialogHelper implements Serializable {
 		defaultDialogOptions.put("resizable", false);
 		defaultDialogOptions.put("contentHeight", 320);
 	}
-
-	public void openDefValueDialog(EnumList.DefTypeEnum type) {
-		Map<String, String> paramsHashMap = new HashMap<>();
-		paramsHashMap.put("type", type.name());
-		this.openDialog("defValueDialog", paramsHashMap);
-	}
 	
-	//Component Oldu
-	public void openItemDialog(DefTypeEnum type, DefItemClassEnum clazz) {
-		Map<String, String> paramsHashMap = new HashMap<>();
-		paramsHashMap.put("type", type.name());
-		paramsHashMap.put("clazz", clazz.name());
-		this.openDialog("defItemDialog", paramsHashMap);
-	}
-
 	public void openDialog(String dialog, Map<String, String> paramMap) {
 
 		Map<String, List<String>> params = new HashMap<String, List<String>>();

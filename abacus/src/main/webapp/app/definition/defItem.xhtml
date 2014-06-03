@@ -73,8 +73,8 @@
 							<f:selectItems value="#{itemViewBean.allUnitGroupList}" var="unitGroup" itemLabel="#{unitGroup.name}" itemValue="#{unitGroup}" />
 							<p:ajax value="change" listener="#{itemViewBean.unitGroupSelected}" update=":itemDetails:itemUnitGrid" />
 						</p:selectOneMenu>
-						<p:selectManyMenu label="Gecerli Birimler" value="#{itemViewBean.selectedUnitGroupsSelectedUnitCodeSet}" converter="omnifaces.SelectItemsConverter" var="u" showCheckbox="true" filter="false" filterMatchMode="contains" rendered="#{not empty itemViewBean.selectedUnitGroupsUnitCodeSet}">
-							<f:selectItems value="#{itemViewBean.selectedUnitGroupsUnitCodeSet}" var="unit" itemLabel="#{unit.name}" itemValue="#{unit}" />
+						<p:selectManyMenu label="Gecerli Birimler" value="#{itemViewBean.selectedUnitGroupsSelectedUnitCodeSet}" converter="omnifaces.SelectItemsConverter" var="u" showCheckbox="true" filter="false" filterMatchMode="contains" rendered="#{not empty itemViewBean.selectedUnitGroupsUnitCodeSet}"  scrollHeight="150">
+							<f:selectItems value="#{itemViewBean.selectedUnitGroupsUnitCodeSet}" var="unit" itemLabel="#{unit.name}" itemValue="#{unit}" /> 
 							<p:column> 
                 				#{u.name}
             				</p:column>
@@ -136,9 +136,9 @@
 					<h:panelGrid columns="1">
 						<abc:itemSelection id="materialSelectionInput" widgetVar="materialSelectionWdg" dialogId="materialSelectionDialog" value="#{itemViewBean.selectedItemProduct.materialItem}" required="true" />
 					</h:panelGrid>
-
+ 
 					<h:outputLabel value="Birim" />
-					<p:selectOneMenu value="#{itemViewBean.selectedItemProduct.materialUnitCode}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="true" requiredMessage="Birim bos olamaz">
+					<p:selectOneMenu value="#{itemViewBean.selectedItemProduct.materialUnitCode}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="true" requiredMessage="Birim bos olamaz" >
 						<f:selectItem itemLabel="Seciniz..." itemValue="" />
 						<f:selectItems value="#{itemViewBean.selectedItemProduct.materialItem.itemUnitSet}" var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
 					</p:selectOneMenu>

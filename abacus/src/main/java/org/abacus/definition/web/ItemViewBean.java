@@ -191,7 +191,6 @@ public class ItemViewBean implements Serializable {
 	public void newItemProductSelected() {
 		selectedItemProduct = new DefItemProductEntity();
 		selectedItemProduct.setItem(selectedItem);
-		selectedItemProduct.setMaterialItem(new DefItemEntity());
 	}
 
 	private void itemChange() {

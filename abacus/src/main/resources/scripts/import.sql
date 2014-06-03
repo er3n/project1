@@ -110,9 +110,9 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_MEAL', 0, '3', 'Aksam Yemegi', 1, 0);
 commit;
 
-insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2013-01-01', DATE '2015-01-30', 'Sabah', 55, '#.#.#.#', 150);
-insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2013-01-01', DATE '2015-05-01', 'Öğlen', 56, '#.#.#.#', 200);
-insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2013-01-01', DATE '2015-12-31', 'Akşam', 57, '#.#.#.#', 175);
+insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-12', 'Sabah', 60, '#.#.#.#', 150);
+insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-12', 'Öğlen', 61, '#.#.#.#', 200);
+insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-12', 'Akşam', 62, '#.#.#.#', 175);
 commit;
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0001', 'STK_M', 'İyotlu Tuz', (select v.id from def_value v where v.code='H0001' and organization_id='#'), '#', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));

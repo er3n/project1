@@ -14,6 +14,10 @@ public class CatMenuSearchCriteria implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private String organization;
+	
+	public CatMenuSearchCriteria(String organization){
+		this.organization = organization;
+	}
 
 	public EnumList.CatMenuPeriod getPeriod() {
 		return period;

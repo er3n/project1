@@ -120,7 +120,7 @@ public interface EnumList {
 		// Parameter
 		PRM_STOCK("Stok Parametreleri"),
 		// Value
-		VAL_SEHIR("Sehirler"), VAL_TAT("Tat Tipleri"), VAL_CATEGORY("Stok Kategorileri"), VAL_MEAL("Yemek Ögünleri"),
+		VAL_SEHIR("Sehirler"), VAL_TAT("Tat Tipleri"), VAL_CATEGORY("Stok Kategorileri"), VAL_MEAL("Yemek Ogunleri"),
 		// Item
 		ITM_SR_FN("Finans Hizmetleri"), ITM_SR_ST("Stok Hizmetleri"), ITM_SR_FA("Demirbaslar"),
 		// Stock

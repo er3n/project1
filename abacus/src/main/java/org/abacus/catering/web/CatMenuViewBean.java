@@ -68,7 +68,7 @@ public class CatMenuViewBean implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		this.searchCriteria = new CatMenuSearchCriteria();
+		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.currentOrganizationId());
 		this.searchCriteria.setPeriod(EnumList.CatMenuPeriod.WEEKLY);
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();

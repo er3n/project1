@@ -4,6 +4,7 @@
 	<ui:define name="content">
 
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.CatMenuPeriod" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.MenuStatusEnum" />
 
 		<p:panel header="Menu">
 
@@ -29,7 +30,7 @@
 						<p:row>
 							<p:column colspan="#{catMenuViewBean.menuSummary.meals.size() + 2}" style="font-weight:bold">Haftalık Yemek Listesi
 								<p:commandButton style="float:right" value="ileri" actionListener="#{catMenuViewBean.nextMenu}" update=":menuDetailForm :menuTimeForm" />
-								<p:commandButton style="float:right" value="geri" actionListener="#{catMenuViewBean.prevMenu}" update=":menuDetailForm :menuTimeForm" /> 
+								<p:commandButton style="float:right" value="geri" actionListener="#{catMenuViewBean.prevMenu}" update=":menuDetailForm :menuTimeForm" />
 							</p:column>
 						</p:row>
 						<p:row>
@@ -74,20 +75,20 @@
 								<p:column colspan="1" style="font-weight:bold;background-color:#FFE6E6">
 									<c:set value="#{dailyMenu.menuMap.get(mealFilter.meal.code)}" var="menuEntity" />
 									<c:set value="#{catMenuViewBean.isMealActiveAtGivenDate(mealFilter,dailyMenu.date)}" var="isMealActive" />
+									<c:set value="#{isMealActive and not empty menuEntity and ( MenuStatusEnum.WAIT.equals(menuEntity.menuStatus) )}" var="isMenuEditable" />
 
-									<p:commandButton icon="ui-icon-plus" rendered="#{isMealActive and empty menuEntity}" actionListener="#{catMenuViewBean.initCreateMenu(mealFilter,dailyMenu)}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()">
-									</p:commandButton>
-									<p:commandButton icon="ui-icon-pencil" rendered="#{isMealActive and not empty menuEntity}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()" actionListener="#{catMenuViewBean.initUpdateMenu(mealFilter,dailyMenu)}">
-									</p:commandButton>
-									<p:commandButton icon="ui-icon-check" />
-									<p:commandButton icon="ui-icon-close" />
+									<p:commandButton icon="ui-icon-plus" rendered="#{isMealActive and empty menuEntity}" actionListener="#{catMenuViewBean.initCreateMenu(mealFilter,dailyMenu)}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()" />
+									<p:commandButton icon="ui-icon-pencil" rendered="#{isMenuEditable}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()" actionListener="#{catMenuViewBean.initUpdateMenu(mealFilter,dailyMenu)}" />
+									<p:commandButton icon="ui-icon-check" rendered="#{isMenuEditable}" /> 
+									<p:commandButton icon="ui-icon-close" rendered="#{isMenuEditable}" update=":cancelMenuForm" oncomplete="PF('cancelMenuWdg').show()" actionListener="#{catMenuViewBean.initCancelMenu(mealFilter,dailyMenu)}" />
+									<h:outputText value="IPTAL - #{menuEntity.cancelReason}"  rendered="#{ MenuStatusEnum.CANCEL.equals(menuEntity.menuStatus) }" /> 
 								</p:column>
-							</c:forEach>
+							</c:forEach> 
 
 						</p:row>
 
 
-					</c:forEach>
+					</c:forEach> 
 
 				</p:panelGrid>
 
@@ -95,7 +96,7 @@
 		</p:panel>
 
 		<h:form id="menuDialogFrm">
-			<p:dialog widgetVar="menuDialog" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" width="600px">
+			<p:dialog widgetVar="menuDialog" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" width="600px" closeOnEscape="true">
 
 				<f:facet name="header">
 					<p:outputLabel value="Menu - " />
@@ -145,6 +146,33 @@
 				</f:facet>
 
 			</p:dialog>
+		</h:form>
+
+		<h:form id="cancelMenuForm">
+
+			<p:dialog widgetVar="cancelMenuWdg" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" closeOnEscape="true" dynamic="true">
+
+				<f:facet name="header">
+					<p:outputLabel value="Menu Iptal Et - " />
+					<h:outputText value="#{catMenuViewBean.selectedMenu.menuDate}">
+						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)" locale="tr_TR" />
+					</h:outputText>
+					<h:outputText value=" #{catMenuViewBean.selectedMenu.meal.name}" />
+				</f:facet>
+
+				<h:panelGrid columns="2">
+					<p:outputLabel value="iptal sebebi" style="font-weight:bold" /> 
+					<p:inputTextarea rows="10" cols="50" value="#{catMenuViewBean.selectedMenu.cancelReason}" required="true"  requiredMessage="Aciklama bos olamaz" />
+				</h:panelGrid>  
+ 
+				<f:facet name="footer">
+					<p:commandButton value="Kaydet" actionListener="#{catMenuViewBean.cancelMenu()}" process="@form" update=":menuDetailForm" oncomplete="PF('cancelMenuWdg').hide();"  />
+					<p:spacer width="5px" /> 
+					<p:commandButton value="Vazgec" oncomplete="PF('cancelMenuWdg').hide();" immediate="true" />
+				</f:facet>
+
+			</p:dialog>
+
 		</h:form>
 
 	</ui:define>

@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.persistence.EnumType;
 
 import org.abacus.catering.core.handler.CatMenuHandler;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
@@ -73,6 +74,15 @@ public class CatMenuViewBean implements Serializable {
 		this.initMenuSummary();
 
 		menuItems = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P));;
+	}
+	
+	public void initCancelMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu){
+		this.initUpdateMenu(mealFilterEntity, dailyMenu);
+	}
+	
+	public void cancelMenu(){
+		this.selectedMenu.setMenuStatus(EnumList.MenuStatusEnum.CANCEL);
+		this.updateMenu();
 	}
 	
 	public void nextMenu(){

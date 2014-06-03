@@ -55,9 +55,11 @@ public class CatMenuEntity extends DynamicEntity {
 	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	private Set<CatMenuItemEntity> menuItemSet;
-	
-	
-	public List<CatMenuItemEntity> getMenuItemList(){
+
+	@Column(name = "cancel_reason", nullable = true)
+	private String cancelReason;
+
+	public List<CatMenuItemEntity> getMenuItemList() {
 		return new ArrayList<CatMenuItemEntity>(menuItemSet);
 	}
 
@@ -115,6 +117,14 @@ public class CatMenuEntity extends DynamicEntity {
 
 	public void setMenuItemSet(Set<CatMenuItemEntity> menuItemSet) {
 		this.menuItemSet = menuItemSet;
+	}
+
+	public String getCancelReason() {
+		return cancelReason;
+	}
+
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
 	}
 
 }

@@ -31,6 +31,9 @@ public class DefItemProductEntity extends DynamicEntity {
 	@Column(name = "material_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal materialCount;
 
+	@Column(name = "material_order", nullable = false)
+	private Long materialOrder = 0L;
+
 	public DefItemProductEntity(){
 	}
 
@@ -64,6 +67,14 @@ public class DefItemProductEntity extends DynamicEntity {
 
 	public void setMaterialCount(BigDecimal materialCount) {
 		this.materialCount = materialCount;
+	}
+
+	public Long getMaterialOrder() {
+		return materialOrder;
+	}
+
+	public void setMaterialOrder(Long materialOrder) {
+		this.materialOrder = materialOrder;
 	}
 
 	

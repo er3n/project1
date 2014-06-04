@@ -6,6 +6,25 @@
 		<welcome-file>app/index.abc</welcome-file>
 	</welcome-file-list>
 	
+	<!--  SECURITY -->
+		<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>No Access</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>DELETE</http-method>
+			<http-method>PUT</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>TRACE</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>CONNECT</http-method>
+		</web-resource-collection>
+		<auth-constraint />
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	<!-- END OF SECURITY -->
+	
 	<!-- SPRING -->
 	
 	<context-param>

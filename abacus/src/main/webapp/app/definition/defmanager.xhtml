@@ -24,20 +24,6 @@
 
 						<h:panelGrid id="typeGrid" columns="8" cellpadding="2">
 
-							<h:outputText value="Grup" />
-							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" 
-							 	style="width:145px">
-								<f:selectItems value="#{DefTypeGroupEnum}"
-									var="groupEnum" itemLabel="#{groupEnum.description}"
-									itemValue="#{groupEnum}" />
-								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :taskGrid"
-									listener="#{definitionViewBean.groupChangeListener}"
-									process="@this" />
-							</p:selectOneMenu>
-
-							<h:outputLabel value="" />
-							<h:outputLabel value="" />
-
 							<h:outputLabel value="Tip Kod:" />
 							<p:inputText value="#{definitionViewBean.selType.id}"
 								required="true" requiredMessage="Type.Code Bos olamaz"
@@ -47,6 +33,17 @@
 							<p:inputText value="#{definitionViewBean.selType.name}"
 								required="true" requiredMessage="Type.Ack Bos olamaz"
 								validatorMessage="Type.Ack" />
+
+							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" 
+							 	style="width:145px" rendered="false">
+								<f:selectItems value="#{DefTypeGroupEnum}"
+									var="groupEnum" itemLabel="#{groupEnum.description}"
+									itemValue="#{groupEnum}" />
+								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :taskGrid"
+									listener="#{definitionViewBean.groupChangeListener}"
+									process="@this" />
+							</p:selectOneMenu>
+
 						</h:panelGrid>
 
 						<f:facet name="footer">

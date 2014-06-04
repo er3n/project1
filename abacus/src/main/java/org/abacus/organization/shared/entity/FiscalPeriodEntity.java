@@ -20,7 +20,7 @@ public class FiscalPeriodEntity extends StaticEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fiscal_id", nullable = false)
-	private FiscalEntity fiscal;
+	private FiscalYearEntity fiscalYear;
 	
 	@Column(name = "period_no", nullable = false, length=2)
 	private String periodNo;
@@ -32,14 +32,6 @@ public class FiscalPeriodEntity extends StaticEntity {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_finish", nullable = true)
 	private Date dateFinish;
-
-	public FiscalEntity getFiscal() {
-		return fiscal;
-	}
-
-	public void setFiscal(FiscalEntity fiscal) {
-		this.fiscal = fiscal;
-	}
 
 	public String getPeriodNo() {
 		return periodNo;
@@ -63,6 +55,14 @@ public class FiscalPeriodEntity extends StaticEntity {
 
 	public void setDateFinish(Date dateFinish) {
 		this.dateFinish = dateFinish;
+	}
+
+	public FiscalYearEntity getFiscalYear() {
+		return fiscalYear;
+	}
+
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
+		this.fiscalYear = fiscalYear;
 	}
 
 	

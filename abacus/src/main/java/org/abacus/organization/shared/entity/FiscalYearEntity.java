@@ -15,8 +15,8 @@ import org.abacus.common.shared.entity.StaticEntity;
 
 @Entity
 @SuppressWarnings("serial")
-@Table(name = "org_fiscal")
-public class FiscalEntity extends StaticEntity {
+@Table(name = "org_fiscal_year")
+public class FiscalYearEntity extends StaticEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = false)

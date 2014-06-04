@@ -6,6 +6,7 @@ import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
 import org.abacus.definition.shared.constant.EnumList;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "def_type")
@@ -18,8 +19,9 @@ public class DefTypeEntity extends StaticEntity {
 	@Column(name = "level", nullable = false)
 	private Integer level = 1; 
 
-	@Column(name = "trtype", nullable = false)
-	private Integer trtype = 0; 
+	@Column(name = "tr_state_typ", nullable = false)
+	@Range(min=-1, max=+1)
+	private Integer trStateTyp;
 
 	public DefTypeEntity() {
 	}
@@ -51,17 +53,16 @@ public class DefTypeEntity extends StaticEntity {
 		this.level = level;
 	}
 
-	public Integer getTrtype() {
-		return trtype;
-	}
-
-	public void setTrtype(Integer trtype) {
-		this.trtype = trtype;
-	}
-	
 	public String getTrType() {
-		return (trtype>0?"(+)":(trtype<0?"(-)":"."));
+		return (trStateTyp>0?"(+)":(trStateTyp<0?"(-)":"."));
 	}
 
+	public Integer getTrStateTyp() {
+		return trStateTyp;
+	}
+
+	public void setTrStateTyp(Integer trStateTyp) {
+		this.trStateTyp = trStateTyp;
+	}
 
 }

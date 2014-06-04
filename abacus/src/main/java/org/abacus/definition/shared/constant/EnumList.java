@@ -3,7 +3,9 @@ package org.abacus.definition.shared.constant;
 public interface EnumList {
 
 	enum CatMenuPeriod implements ISelectionEnum {
-		WEEKLY("Haftalik"), MOUNTHLY("Aylik");
+		WEEKLY("Haftalik"), //
+		MOUNTHLY("Aylik"), //
+		;
 
 		private CatMenuPeriod(String desc) {
 			this.descripion = desc;
@@ -24,7 +26,11 @@ public interface EnumList {
 	}
 
 	enum OrgOrganizationLevelEnum implements ISelectionEnum {
-		L0("Holding"), L1("Company"), L2("Section"), L3("Project"), ;
+		L0("Holding"), //
+		L1("Sirket"), //
+		L2("Bolge"), //
+		L3("Proje"), //
+		;
 		private String description;
 
 		private OrgOrganizationLevelEnum(String description) {
@@ -44,10 +50,10 @@ public interface EnumList {
 	}
 
 	enum DefItemClassEnum implements ISelectionEnum {
-		STK_M("Material"), // Stok.Hammadde
-		STK_P("Product"), // Stok.Urun
-		// FAS_?
-		// FIN_?
+		STK_M("Malzeme"), // Stok.Hammadde
+		STK_P("Urun"), // Stok.Urun
+		// FAS_?, //
+		// FIN_?, //
 		;
 		private String description;
 
@@ -67,8 +73,9 @@ public interface EnumList {
 	}
 
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
-		A("Administrative"), S("InventoryStore"),
-		// F("FixedAssetStore"),
+		S("Stok Deposu"), //
+		A("Finansal Birim"), //
+		// F("Demirbas Deposu"), //
 		;
 		private String description;
 
@@ -89,15 +96,16 @@ public interface EnumList {
 	}
 
 	enum DefParameterEnum {
-		PRM_STOCK_COSTTYPE, ;
+		PRM_STOCK_COSTTYPE, //
+		;
 	}
 
 	enum DefTypeGroupEnum implements ISelectionEnum {
-		PRM("Parameter"), // Static Parameter
-		VAL("Value"), // Dynamic Value Tree
-		ITM("Item"), // Dynamic Item
-		STK("Stk Task"), // Dynamic Task Stock
-		FIN("Fin Task"), // Dynamic Task Finance
+		PRM("Parametre"), // Static Parameter
+		VAL("Kod"), // Dynamic Value Tree
+		ITM("Kalem"), // Dynamic Item
+		STK("Stok Islem"), // Dynamic Task Stock
+		FIN("Finans Islem"), // Dynamic Task Finance
 		;
 		private String description;
 
@@ -118,15 +126,29 @@ public interface EnumList {
 
 	enum DefTypeEnum implements ISelectionEnum {
 		// Parameter
-		PRM_STOCK("Stok Parametreleri"),
+		PRM_STOCK("Stok Parametreleri"), //
 		// Value
-		VAL_SEHIR("Sehirler"), VAL_TAT("Tat Tipleri"), VAL_CATEGORY("Stok Kategorileri"), VAL_MEAL("Yemek Ogunleri"),
+		VAL_SEHIR("Sehirler"), //
+		VAL_TAT("Tat Tipleri"), //
+		VAL_CATEGORY("Stok Kategorileri"), //
+		VAL_MEAL("Yemek Ogunleri"), //
 		// Item
-		ITM_SR_FN("Finans Hizmetleri"), ITM_SR_ST("Stok Hizmetleri"), ITM_SR_FA("Demirbaslar"),
+		ITM_SR_FN("Finans Hizmetleri"), //
+		ITM_SR_ST("Stok Hizmetleri"), //
+		ITM_SR_FA("Demirbas Hizmetleri"), //
 		// Stock
-		STK_OC("Stok Open/Close"), STK_OC_I("Stok Open"), STK_IO("Stok In/Out"), STK_IO_I("Stok Inputs"), STK_IO_O("Stok Outputs"), STK_WB("Stok WayBill"), STK_WB_I("Stok WayBill IN"), STK_WB_O("Stok WayBill OUT"), STK_TT("Stok Transfer"),
+		STK_OC("Stok Open/Close"), //
+		STK_OC_I("Stok Open"), //
+		STK_IO("Stok In/Out"), //
+		STK_IO_I("Stok Inputs"), //
+		STK_IO_O("Stok Outputs"), //
+		STK_WB("Stok WayBill"), //
+		STK_WB_I("Stok WayBill IN"), //
+		STK_WB_O("Stok WayBill OUT"), //
+		STK_TT("Stok Transfer"), //
 		// Finance
-		FIN_CS("Masraf Giris"), ;
+		FIN_CS("Masraf Giris"), //
+		;
 		private String description;
 
 		private DefTypeEnum(String description) {
@@ -145,7 +167,10 @@ public interface EnumList {
 	}
 
 	enum DepartmentAuthEnum implements ISelectionEnum {
-		ALL("Finans"), INP("Depo Giris"), OUT("Depo Cikis"), ;
+		ALL("Finans Islem"), //
+		INP("Depo Giris"), //
+		OUT("Depo Cikis"), //
+		;
 
 		private String description;
 
@@ -165,7 +190,10 @@ public interface EnumList {
 	}
 
 	enum MenuStatusEnum implements ISelectionEnum {
-		WAIT("Beklemede"), DONE("Yapildi"), CANCEL("Iptal"), ;
+		WAIT("Beklemede"), //
+		DONE("Yapildi"), //
+		CANCEL("Iptal"), //
+		;
 
 		private String description;
 

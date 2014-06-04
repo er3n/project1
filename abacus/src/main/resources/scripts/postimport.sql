@@ -1,5 +1,7 @@
-insert into def_item_unit(id,version,item_id,unit_code_id) select nextval('seq_id'), 0, id, (select c.id from def_unit_code c where c.code ='B1000') from def_item where organization_id='#' and type_id ='ITM_SR_ST' and class_enum='STK_P';
+insert into def_item_value(id, version, item_id, value_type_enum, value_id) select nextval('seq_id'), 0, id, 'VAL_RECEIPT', (select v.id from def_value v where v.code='T0001' and organization_id='#') from def_item where organization_id='#' and type_id ='ITM_SR_ST' and class_enum='STK_P';
+commit;
 
+insert into def_item_unit(id, version, item_id, unit_code_id) select nextval('seq_id'), 0, id, (select c.id from def_unit_code c where c.code ='B1000') from def_item where organization_id='#' and type_id ='ITM_SR_ST' and class_enum='STK_P';
 commit;
 
 insert into org_organization (id, name, level_enum, parent_id) select replace(id,'#','01') id, replace(name,'#','01') as name, level_enum, replace(parent_id,'#','01') parent_id from org_organization where id like '#%';

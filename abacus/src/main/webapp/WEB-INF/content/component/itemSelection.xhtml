@@ -16,7 +16,7 @@
 
 	<p:inputText id="#{id}_txt" value="#{value.name}" disabled="true"
 		onclick="PF('#{widgetVar}').show()" />
-	<h:inputHidden id="#{id}_txtH"  required="#{empty value and required}"
+	<h:inputHidden id="#{id}_txtH"  required="#{empty value.id and required}"
 		requiredMessage="Malzeme bos olamaz" />
 	<p:commandButton icon="ui-icon-extlink"
 		oncomplete="PF('#{widgetVar}').show()" process="@this" />

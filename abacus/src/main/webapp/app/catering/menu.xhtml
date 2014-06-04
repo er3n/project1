@@ -57,7 +57,7 @@
 
 
 								<p:column style="font-weight:bold;width:4%">
-									<h:outputText value="Malzeme bulunmakaktadir" rendered="#{empty menuEntitys.menuItemList}" />
+									<h:outputText value="-" rendered="#{empty menuEntitys.menuItemList}" />
 									<ui:repeat var="menuItem" value="#{menuEntitys.menuItemList}">
 									#{menuItem.item.name}
 									<br></br>

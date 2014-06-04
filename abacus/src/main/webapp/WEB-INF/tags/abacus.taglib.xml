@@ -12,7 +12,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>userVar</name>
+			<name>value</name>
 			<required>true</required>
 		</attribute>
 		<attribute>

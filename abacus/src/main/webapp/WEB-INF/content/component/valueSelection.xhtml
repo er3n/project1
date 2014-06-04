@@ -13,15 +13,14 @@
 		<c:set var="#{required}" value="false" />
 	</c:if>
 
-	<p:selectOneMenu id="#{id}_txt"
-		value="#{value}"
-		converter="omnifaces.SelectItemsConverter" style="width:145px" required="#{required}" requiredMessage="Deger bos olamaz" >
-		<f:selectItem itemLabel="#{value.name}" itemValue="#{value}"  />
-	</p:selectOneMenu> 
+	<p:inputText id="#{id}_txt" value="#{value.name}" disabled="true"
+		onclick="PF('#{widgetVar}').show()" />
+	<h:inputHidden id="#{id}_txtH"  required="#{empty value.id and required}"
+		requiredMessage="Deger bos olamaz" />
 	<p:commandButton icon="ui-icon-extlink" 
 		oncomplete="PF('#{widgetVar}').show()" process="@this" />
 	<p:commandButton icon="ui-icon-trash" process="@this"
-		update="@parent:#{id}_txt">
+		update="@parent:#{id}_txt @parent:#{id}_txtH">
 		<f:setPropertyActionListener target="#{value}" value="" />
 	</p:commandButton>
 	<p:watermark value="Sec.." for="@parent:#{id}_txt"></p:watermark>

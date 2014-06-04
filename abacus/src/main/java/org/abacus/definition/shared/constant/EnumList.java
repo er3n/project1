@@ -51,7 +51,7 @@ public interface EnumList {
 
 	enum DefItemClassEnum implements ISelectionEnum {
 		STK_M("Malzeme"), // Stok.Hammadde
-		STK_P("Ürün"), // Stok.Urun
+		STK_P("Yemek"), // Stok.Urun
 		// FAS_?, //
 		// FIN_?, //
 		;

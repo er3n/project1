@@ -9,7 +9,7 @@
 
 				<p:ajax event="rowSelect" update=":itemDetails :itemProductListForm :itemProductDetailForm" listener="#{itemViewBean.itemSelected}" />
 
-				<p:column headerText="Kod" filterBy="#{item.code}">
+				<p:column headerText="#{itemViewBean.clazz.description} Kod" filterBy="#{item.code}">
 					<h:outputText value="#{item.code}" />
 				</p:column>
 
@@ -35,7 +35,7 @@
 				</p:column>
 
 				<f:facet name="header">
-					<p:commandButton value="Yeni" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemsForm :itemProductListForm :itemProductDetailForm" process="@this" />
+					<p:commandButton value="Yeni #{itemViewBean.clazz.description} Ekle" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemsForm :itemProductListForm :itemProductDetailForm" process="@this" />
 				</f:facet>
 
 			</p:dataTable>
@@ -44,7 +44,7 @@
 
 
 		<h:form id="itemDetails">
-			<p:panel header="Malzeme Detay" rendered="#{not empty itemViewBean.selectedItem}">
+			<p:panel header="#{itemViewBean.clazz.description} Detay" rendered="#{not empty itemViewBean.selectedItem}">
 
 				<h:panelGrid columns="6" cellspacing="10">
 
@@ -103,7 +103,7 @@
 						Malzemeler
 					</f:facet>
 
-				<p:column headerText="Urun">
+				<p:column headerText="Malzeme">
 					<h:outputText value="#{product.materialItem.name}" />
 				</p:column>
 
@@ -122,7 +122,7 @@
 				</p:column>
 
 				<f:facet name="footer">
-					<p:commandButton value="Yeni Ekle" actionListener="#{itemViewBean.newItemProductSelected}" update=":itemProductDetailForm" />
+					<p:commandButton value="Yeni Malzeme Ekle" actionListener="#{itemViewBean.newItemProductSelected}" update=":itemProductDetailForm" />
 				</f:facet>
 
 			</p:dataTable>

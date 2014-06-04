@@ -86,6 +86,8 @@ public class ItemViewBean implements Serializable {
 
 	private ItemDataModel itemMaterialsDataModel;
 
+	private List<DefValueEntity> allReceiptList;
+
 	private List<DefValueEntity> allCategoryClasses;
 
 	@PostConstruct
@@ -97,6 +99,7 @@ public class ItemViewBean implements Serializable {
 		allCategoryClasses = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_CATEGORY);
 		if (displayProductInfo) {
 			itemMaterialsDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M));
+			allReceiptList = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_RECEIPT);
 		}
 
 	}
@@ -355,6 +358,14 @@ public class ItemViewBean implements Serializable {
 
 	public void setDefValueHandler(DefValueHandler defValueHandler) {
 		this.defValueHandler = defValueHandler;
+	}
+
+	public List<DefValueEntity> getAllReceiptList() {
+		return allReceiptList;
+	}
+
+	public void setAllReceiptList(List<DefValueEntity> allReceiptList) {
+		this.allReceiptList = allReceiptList;
 	}
 
 }

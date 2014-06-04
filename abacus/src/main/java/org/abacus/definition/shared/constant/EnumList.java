@@ -130,7 +130,7 @@ public interface EnumList {
 		// Value
 		VAL_CATEGORY("Stok Grupları"), //
 		VAL_MEAL("Yemek Öğünleri"), //
-		VAL_SEGMENT("Yemek Tipleri"), //
+		VAL_RECEIPT("Yemek Tipleri"), //
 		// Item
 		ITM_SR_FN("Finans Hizmetleri"), //
 		ITM_SR_ST("Stok Hizmetleri"), //

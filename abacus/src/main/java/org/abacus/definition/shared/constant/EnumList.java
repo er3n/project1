@@ -3,8 +3,8 @@ package org.abacus.definition.shared.constant;
 public interface EnumList {
 
 	enum CatMenuPeriod implements ISelectionEnum {
-		WEEKLY("Haftalik"), //
-		MOUNTHLY("Aylik"), //
+		WEEKLY("Haftalık"), //
+		MOUNTHLY("Aylık"), //
 		;
 
 		private CatMenuPeriod(String desc) {
@@ -27,8 +27,8 @@ public interface EnumList {
 
 	enum OrgOrganizationLevelEnum implements ISelectionEnum {
 		L0("Holding"), //
-		L1("Sirket"), //
-		L2("Bolge"), //
+		L1("Şirket"), //
+		L2("Bölge"), //
 		L3("Proje"), //
 		;
 		private String description;
@@ -51,7 +51,7 @@ public interface EnumList {
 
 	enum DefItemClassEnum implements ISelectionEnum {
 		STK_M("Malzeme"), // Stok.Hammadde
-		STK_P("Urun"), // Stok.Urun
+		STK_P("Ürün"), // Stok.Urun
 		// FAS_?, //
 		// FIN_?, //
 		;
@@ -104,8 +104,8 @@ public interface EnumList {
 		PRM("Parametre"), // Static Parameter
 		VAL("Kod"), // Dynamic Value Tree
 		ITM("Kalem"), // Dynamic Item
-		STK("Stok Islem"), // Dynamic Task Stock
-		FIN("Finans Islem"), // Dynamic Task Finance
+		STK("Stok"), // Dynamic Task Stock
+		FIN("Finans"), // Dynamic Task Finance
 		;
 		private String description;
 
@@ -128,14 +128,13 @@ public interface EnumList {
 		// Parameter
 		PRM_STOCK("Stok Parametreleri"), //
 		// Value
-		VAL_SEHIR("Sehirler"), //
-		VAL_TAT("Tat Tipleri"), //
-		VAL_CATEGORY("Stok Kategorileri"), //
-		VAL_MEAL("Yemek Ogunleri"), //
+		VAL_CATEGORY("Stok Grupları"), //
+		VAL_MEAL("Yemek Öğünleri"), //
+		VAL_SEGMENT("Yemek Tipleri"), //
 		// Item
 		ITM_SR_FN("Finans Hizmetleri"), //
 		ITM_SR_ST("Stok Hizmetleri"), //
-		ITM_SR_FA("Demirbas Hizmetleri"), //
+		ITM_SR_FA("Demirbaş Hizmetleri"), //
 		// Stock
 		STK_OC("Stok Open/Close"), //
 		STK_OC_I("Stok Open"), //
@@ -147,7 +146,7 @@ public interface EnumList {
 		STK_WB_O("Stok WayBill OUT"), //
 		STK_TT("Stok Transfer"), //
 		// Finance
-		FIN_CS("Masraf Giris"), //
+		FIN_CS("Masraf Giriş"), //
 		;
 		private String description;
 
@@ -167,9 +166,9 @@ public interface EnumList {
 	}
 
 	enum DepartmentAuthEnum implements ISelectionEnum {
-		ALL("Finans Islem"), //
-		INP("Depo Giris"), //
-		OUT("Depo Cikis"), //
+		ALL("Finans İşlem"), //
+		INP("Depo Giriş"), //
+		OUT("Depo Cikiş"), //
 		;
 
 		private String description;
@@ -191,7 +190,7 @@ public interface EnumList {
 
 	enum MenuStatusEnum implements ISelectionEnum {
 		WAIT("Beklemede"), //
-		DONE("Yapildi"), //
+		DONE("Yapıldı"), //
 		CANCEL("Iptal"), //
 		;
 

@@ -9,20 +9,20 @@
 		<!-- unitCodeGrid -->
 			<h:panelGrid id="unitCodeGrid" columns="1">
 				<h:form id="unitCodeForm">
-					<p:panel id="unitCodePanel" header="UnitCode">
+					<p:panel id="unitCodePanel" header="Birim Tanımları">
 						<h:panelGrid id="unitCodeGrid" columns="8" cellpadding="2">
 							
-							<h:outputLabel value="UnitCode Kod:" />
+							<h:outputLabel value="Birim Kodu : " />
 							<p:inputText value="#{unitCodeViewBean.selUnitCode.code}"
 								required="true" requiredMessage="UnitCode.Code Bos olamaz"
 								validatorMessage="UnitCode.Code"/>
 
-							<h:outputLabel value="UnitCode Ad:" />
+							<h:outputLabel value="Birim Adı : " />
 							<p:inputText value="#{unitCodeViewBean.selUnitCode.name}"
 								required="true" requiredMessage="UnitCode Bos olamaz"
 								validatorMessage="UnitCode.Ack" />
 
-							<h:outputLabel value="Katsayi:" />
+							<h:outputLabel value="Katsayı / Çarpan : " />
 							<p:inputText value="#{unitCodeViewBean.selUnitCode.ratio}"
 								required="true" requiredMessage="UnitCode Katsayi bos olamaz"
 								validatorMessage="UnitCode.ratio">
@@ -60,15 +60,15 @@
 							listener="#{unitCodeViewBean.unitCodeRowSelectListener}">
 						</p:ajax>
 
-						<p:column headerText="Kod">  
+						<p:column headerText="Birim Kodu">  
            					#{selUnitCode.code}  
        					</p:column>
 
-						<p:column headerText="Aciklama">  
+						<p:column headerText="Birim Adı">  
            					#{selUnitCode.name}  
        					</p:column>
 
-						<p:column headerText="Katsayi"> 
+						<p:column headerText="Katsayı / Çarpan"> 
 						    <h:outputText value="#{selUnitCode.ratio}" style="float: right;">
         						<f:convertNumber maxFractionDigits="3" minFractionDigits="3" groupingUsed="true"
             						currencySymbol="#" type="currency" />

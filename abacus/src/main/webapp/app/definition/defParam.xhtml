@@ -9,7 +9,7 @@
 			<!-- paramGrid -->
 			<h:panelGrid id="paramGrid" columns="1">
 				<h:form id="paramForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'PRM'}">
-					<p:panel id="paramPanel" header="Parametre">
+					<p:panel id="paramPanel" header="#{definitionViewBean.selType.name} Parametreleri">
 						<h:panelGrid id="paramGrid" columns="8" cellpadding="2">
 							<h:outputLabel value="Param Kod:" />
 							<p:inputText value="#{defParamViewBean.selParam.code}"

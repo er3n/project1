@@ -20,16 +20,16 @@
 			<h:panelGrid id="typeGrid" columns="1">
 				<h:form id="typeForm">
 				
-					<p:panel id="typePanel" header="Tip Tanimlari">
+					<p:panel id="typePanel" header="#{definitionViewBean.selectedGroupEnum.description} Tanimlari">
 
 						<h:panelGrid id="typeGrid" columns="8" cellpadding="2">
 
-							<h:outputLabel value="Tip Kod:" />
+							<h:outputLabel value="#{definitionViewBean.selectedGroupEnum.description} Tip Kodu:" />
 							<p:inputText value="#{definitionViewBean.selType.id}"
 								required="true" requiredMessage="Type.Code Bos olamaz"
 								validatorMessage="Type.Code" />
 
-							<h:outputLabel value="Tip Ad:" />
+							<h:outputLabel value="#{definitionViewBean.selectedGroupEnum.description} Tip Adı:" />
 							<p:inputText value="#{definitionViewBean.selType.name}"
 								required="true" requiredMessage="Type.Ack Bos olamaz"
 								validatorMessage="Type.Ack" />
@@ -77,11 +77,11 @@
 							listener="#{definitionViewBean.typeRowSelectListener}">
 						</p:ajax>
 
-						<p:column headerText="Kod">  
+						<p:column headerText="#{definitionViewBean.selectedGroupEnum.description} Tip Kodu">  
            					#{selType.id}  
        					</p:column>
 
-						<p:column headerText="Aciklama">  
+						<p:column headerText="#{definitionViewBean.selectedGroupEnum.description} Tip Adı">  
            					#{selType.name}  
        					</p:column>
 

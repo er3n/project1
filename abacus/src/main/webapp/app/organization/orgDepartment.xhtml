@@ -15,10 +15,10 @@
 	<!-- orgDepartment -->
 	<h:panelGrid id="departmentGrid" columns="1">
 		<h:form id="departmentForm">
-			<p:panel id="departmentPanel" header="Department">
+			<p:panel id="departmentPanel" header="Organizasyona Bağlı Birimler   (Stok Deposu / Finansal Birim)">
 				<h:panelGrid id="departmentGrid" columns="8" cellpadding="2">
 
-					<h:outputLabel value="Birim Tipi:" />
+					<h:outputLabel value="Tipi:" />
 					<p:selectOneMenu value="#{orgDepartmentViewBean.selectedGroupEnum}"
 						style="width:145px">
 						<f:selectItems value="#{OrgDepartmentGroupEnum}" var="groupEnum"
@@ -28,12 +28,12 @@
 							process="@this" />
 					</p:selectOneMenu>
 
-					<h:outputLabel value="Department Kod:" />
+					<h:outputLabel value="Kod : " />
 					<p:inputText value="#{orgDepartmentViewBean.selDepartment.code}"
 						required="true" requiredMessage="Department.Code Bos olamaz"
 						validatorMessage="Department.Code" />
 
-					<h:outputLabel value="Department Ad:" />
+					<h:outputLabel value="Ad : " />
 					<p:inputText value="#{orgDepartmentViewBean.selDepartment.name}"
 						required="true" requiredMessage="Department Bos olamaz"
 						validatorMessage="Department.Ack" />
@@ -65,15 +65,15 @@
 				paginatorPosition="bottom" rowKey="#{selDepartment.id}" rows="10"
 				resizableColumns="true">
 
-				<p:column headerText="Kod">  
+				<p:column headerText="Birim Kodu">  
            					#{selDepartment.code}  
        					</p:column>
 
-				<p:column headerText="Aciklama">  
+				<p:column headerText="Birim Adı">  
            					#{selDepartment.name}  
        					</p:column>
 
-				<p:column headerText="Yetkili">
+				<p:column headerText="Yetkili Kullanıcıları">
 					<p:commandButton icon="ui-icon-extlink" process="@this"
 						oncomplete="PF('dlg').show()"
 						update=":departmentUserForm">

@@ -20,21 +20,21 @@
 			<h:panelGrid id="organizationGrid" columns="1">
 				<h:form id="organizationForm">
 				
-					<p:panel id="organizationPanel" header="Grup">
+					<p:panel id="organizationPanel" header="Organizasyon Yapısı">
 
 						<h:panelGrid id="organizationGrid" columns="8" cellpadding="2">
 
-							<h:outputLabel value="Kod:" />
+							<h:outputLabel value="Kod : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.id}"
 								required="true" requiredMessage="organization.Code Bos olamaz"
 								validatorMessage="organization.Code" />
 
-							<h:outputLabel value="Ad:" />
+							<h:outputLabel value="Ad : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.name}"
 								required="true" requiredMessage="organization.Ack Bos olamaz"
 								validatorMessage="organization.Ack" />
 
-							<h:outputLabel value="Seviye:" />
+							<h:outputLabel value="Seviye : " />
 							<p:selectOneMenu value="#{organizationViewBean.selOrganization.level}" 
 								style="width:145px">
 								<f:selectItems value="#{OrgOrganizationLevelEnum}"
@@ -78,11 +78,11 @@
 							listener="#{organizationViewBean.organizationRowSelectListener}">
 						</p:ajax>
 
-						<p:column headerText="Kod">  
+						<p:column headerText="Organizasyon Kodu">  
            					#{selOrganization.id}  
        					</p:column>
 
-						<p:column headerText="Aciklama">  
+						<p:column headerText="Organizasyon Adı">  
            					#{selOrganization.name}  
        					</p:column>
 
@@ -90,7 +90,7 @@
            					#{selOrganization.level.description}  
        					</p:column>
 
-						<p:column headerText="Baglanti">  
+						<p:column headerText="Bağlı Organizasyon">  
            					#{selOrganization.parent.id}  
        					</p:column>
 

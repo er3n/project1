@@ -9,14 +9,14 @@
 		<!-- taskGrid -->
 			<h:panelGrid id="taskGrid" columns="1">
 				<h:form id="taskForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'STK' or definitionViewBean.selectedGroupEnum.name == 'FIN'}">
-					<p:panel id="taskPanel" header="Task">
+					<p:panel id="taskPanel" header="#{definitionViewBean.selType.name} Görevleri">
 						<h:panelGrid id="taskGrid" columns="8" cellpadding="2">
-							<h:outputLabel value="Task Kod:" />
+							<h:outputLabel value="Görev Kodu:" />
 							<p:inputText value="#{defTaskViewBean.selTask.code}"
 								required="true" requiredMessage="Task.Code Bos olamaz"
 								validatorMessage="Task.Code"/>
 
-							<h:outputLabel value="Task Adi:" />
+							<h:outputLabel value="Görev Adi:" />
 							<p:inputText value="#{defTaskViewBean.selTask.name}"
 								required="true" requiredMessage="Task Bos olamaz"
 								validatorMessage="Task.Ack" />
@@ -51,11 +51,11 @@
 							listener="#{defTaskViewBean.taskRowSelectListener}">
 						</p:ajax>
 
-						<p:column headerText="Kod">  
+						<p:column headerText="Görev Kodu">  
            					#{selTask.code}  
        					</p:column>
 
-						<p:column headerText="Aciklama">  
+						<p:column headerText="Görev Adı">  
            					#{selTask.name}  
        					</p:column>
 

@@ -14,16 +14,16 @@
 			<h:panelGrid id="unitGroupGrid" columns="1">
 				<h:form id="unitGroupForm">
 				
-					<p:panel id="unitGroupPanel" header="Grup">
+					<p:panel id="unitGroupPanel" header="Birim Grupları">
 
 						<h:panelGrid id="unitGroupGrid" columns="4" cellpadding="2">
 
-							<h:outputLabel value="Kod:" />
+							<h:outputLabel value="Grup Kodu : " />
 							<p:inputText value="#{unitViewBean.selUnitGroup.code}"
 								required="true" requiredMessage="unitGroup.Code Bos olamaz"
 								validatorMessage="unitGroup.Code" />
 
-							<h:outputLabel value="Ad:" />
+							<h:outputLabel value="Grup Adı : " />
 							<p:inputText value="#{unitViewBean.selUnitGroup.name}"
 								required="true" requiredMessage="unitGroup.Ack Bos olamaz"
 								validatorMessage="unitGroup.Ack" />
@@ -61,11 +61,11 @@
 							listener="#{unitViewBean.unitGroupRowSelectListener}">
 						</p:ajax>
 
-						<p:column headerText="Kod">  
+						<p:column headerText="Grup Kodu">  
            					#{selUnitGroup.code}  
        					</p:column>
 
-						<p:column headerText="Aciklama">  
+						<p:column headerText="Grup Adı">  
            					#{selUnitGroup.name}  
        					</p:column>
 

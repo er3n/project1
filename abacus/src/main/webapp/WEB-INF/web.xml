@@ -104,6 +104,19 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>bluesky</param-value>
 	</context-param>
+	
+	<error-page>
+    	<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+    	<location>/WEB-INF/errorpages/expired.xhtml</location>
+	</error-page>
+	<error-page>
+    	<exception-type>java.sql.SQLException</exception-type>
+    	<location>/WEB-INF/errorpages/database.xhtml</location>
+	</error-page>
+	<error-page>
+    	<exception-type>java.lang.RuntimeException</exception-type>
+    	<location>/WEB-INF/errorpages/bug.xhtml</location>
+	</error-page>
 
 	<!-- END OF PRIMEFACES -->
 	

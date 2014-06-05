@@ -8,7 +8,7 @@ import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDocumentEvent;
-import org.abacus.transaction.shared.event.DetailCreadEvent;
+import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DetailDeletedEvent;
 import org.abacus.transaction.shared.event.DetailUpdatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
@@ -29,7 +29,7 @@ public interface TraHandler {
 	DocumentDeletedEvent deleteDocument(DeleteDocumentEvent event) throws UnableToDeleteDocumentException;
 	
 	ReadDetailEvent readDetail(RequestReadDetailEvent event);
-	DetailCreadEvent newDetail(CreateDetailEvent event);
+	DetailCreatedEvent newDetail(CreateDetailEvent event);
 	DetailUpdatedEvent updateDetail(UpdateDetailEvent evet) throws UnableToUpdateDetailException;
 	DetailDeletedEvent deleteDetail(DeleteDetailEvent event) throws UnableToDeleteDetailException;
 	

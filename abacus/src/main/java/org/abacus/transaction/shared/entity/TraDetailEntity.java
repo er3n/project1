@@ -39,9 +39,9 @@ public class TraDetailEntity extends DynamicEntity {
 	@JoinColumn(name = "fiscal_year_id", nullable = false)
 	private FiscalYearEntity fiscalYear;
 	
-	@Column(name = "tr_state_doc", nullable = false)
+	@Column(name = "tr_state_detail", nullable = false)
 	@Range(min=-1, max=+1)
-	private Integer trStateDoc;
+	private Integer trStateDetail;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "item_id", nullable = false)
@@ -106,14 +106,6 @@ public class TraDetailEntity extends DynamicEntity {
 		this.fiscalYear = fiscalYear;
 	}
 
-	public Integer getTrStateDoc() {
-		return trStateDoc;
-	}
-
-	public void setTrStateDoc(Integer trStateDoc) {
-		this.trStateDoc = trStateDoc;
-	}
-
 	public DefItemEntity getItem() {
 		return item;
 	}
@@ -176,6 +168,14 @@ public class TraDetailEntity extends DynamicEntity {
 
 	public void setBaseDetailAmount(BigDecimal baseDetailAmount) {
 		this.baseDetailAmount = baseDetailAmount;
+	}
+
+	public Integer getTrStateDetail() {
+		return trStateDetail;
+	}
+
+	public void setTrStateDetail(Integer trStateDetail) {
+		this.trStateDetail = trStateDetail;
 	}
 
 }

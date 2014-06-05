@@ -44,9 +44,9 @@ public class TraDocumentEntity extends DynamicEntity {
 	@JoinColumn(name = "task_id", nullable = false)
 	private DefTaskEntity task;
 
-	@Column(name = "tr_state_doc", nullable = false)
+	@Column(name = "tr_state_document", nullable = false)
 	@Range(min=-1, max=+1)
-	private Integer trStateDoc;
+	private Integer trStateDocument;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fiscal_period_id", nullable = false)
@@ -98,14 +98,6 @@ public class TraDocumentEntity extends DynamicEntity {
 		this.task = task;
 	}
 
-	public Integer getTrStateDoc() {
-		return trStateDoc;
-	}
-
-	public void setTrStateDoc(Integer trStateDoc) {
-		this.trStateDoc = trStateDoc;
-	}
-
 	public FiscalPeriodEntity getFiscalPeriod() {
 		return fiscalPeriod;
 	}
@@ -120,6 +112,14 @@ public class TraDocumentEntity extends DynamicEntity {
 
 	public void setDocNote(String docNote) {
 		this.docNote = docNote;
+	}
+
+	public Integer getTrStateDocument() {
+		return trStateDocument;
+	}
+
+	public void setTrStateDocument(Integer trStateDocument) {
+		this.trStateDocument = trStateDocument;
 	}
 
 }

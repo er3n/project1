@@ -19,9 +19,9 @@ public class DefTypeEntity extends StaticEntity {
 	@Column(name = "level", nullable = false)
 	private Integer level = 1; 
 
-	@Column(name = "tr_state_typ", nullable = false)
+	@Column(name = "tr_state_type", nullable = false)
 	@Range(min=-1, max=+1)
-	private Integer trStateTyp;
+	private Integer trStateType;
 
 	public DefTypeEntity() {
 	}
@@ -33,6 +33,10 @@ public class DefTypeEntity extends StaticEntity {
 		return EnumList.DefTypeEnum.valueOf(this.getId());
 	}
 	
+	public String getTrState() {
+		return (trStateType>0?"(+)":(trStateType<0?"(-)":"?"));
+	}
+
 	public DefTypeEntity(String id) {
 		this.setId(id);
 	}
@@ -53,16 +57,12 @@ public class DefTypeEntity extends StaticEntity {
 		this.level = level;
 	}
 
-	public String getTrType() {
-		return (trStateTyp>0?"(+)":(trStateTyp<0?"(-)":"."));
+	public Integer getTrStateType() {
+		return trStateType;
 	}
 
-	public Integer getTrStateTyp() {
-		return trStateTyp;
-	}
-
-	public void setTrStateTyp(Integer trStateTyp) {
-		this.trStateTyp = trStateTyp;
+	public void setTrStateType(Integer trStateType) {
+		this.trStateType = trStateType;
 	}
 
 }

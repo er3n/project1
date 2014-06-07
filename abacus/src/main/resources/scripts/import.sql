@@ -49,7 +49,7 @@ insert into sec_user_department (id, department_id, user_id, version, auth_input
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-2, 'person', 0, 0, 1);
 commit;
 
-insert into def_type (id, name, level, tr_state_typee) values ('.', '.', 0, 0);
+insert into def_type (id, name, level, tr_state_type) values ('.', '.', 0, 0);
 insert into def_type (id, name, level, tr_state_type) values ('PRM_STOCK', 'Stok Param', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('VAL_CATEGORY', 'Stok Kategorileri', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('VAL_MEAL', 'Yemek Öğünleri', 1, 0);

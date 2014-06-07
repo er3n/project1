@@ -3,7 +3,6 @@ package org.abacus.organization.core.handler;
 import java.util.List;
 
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.OrganizationDao;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.shared.entity.OrganizationEntity;

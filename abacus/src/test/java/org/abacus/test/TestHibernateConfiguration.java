@@ -2,11 +2,8 @@ package org.abacus.test;
 
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.persistance.DefParamAnswerDao;
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefParamAnswerEntity;
 import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.core.persistance.OrganizationDao;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.junit.Test;

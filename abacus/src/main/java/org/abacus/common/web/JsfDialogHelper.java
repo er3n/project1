@@ -9,10 +9,6 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.EnumList.DefItemClassEnum;
-import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
-import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.primefaces.context.RequestContext;
 import org.springframework.stereotype.Component;
 

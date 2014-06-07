@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefItemProductEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.annotations.Fetch;

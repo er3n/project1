@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.user.core.persistance.repository.UserDepartmentRepository;
-import org.abacus.user.shared.entity.SecUserDepartmentEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;

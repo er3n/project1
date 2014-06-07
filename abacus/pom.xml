@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.abacus</groupId>
 	<artifactId>abacus</artifactId>
@@ -16,7 +18,7 @@
 		<hibernate-version>4.3.5.Final</hibernate-version>
 		<hibernate-validator-version>5.1.1.Final</hibernate-validator-version>
 		<postgresql-driver-version>9.3-1101-jdbc41</postgresql-driver-version>
-		<spring-data-jpa-version>1.5.2.RELEASE</spring-data-jpa-version>
+		<spring-data-jpa-version>1.6.0.RELEASE</spring-data-jpa-version>
 		<spring-faces-version>2.3.3.RELEASE</spring-faces-version>
 		<jstl-version>1.2</jstl-version>
 		<cglib-version>3.1</cglib-version>

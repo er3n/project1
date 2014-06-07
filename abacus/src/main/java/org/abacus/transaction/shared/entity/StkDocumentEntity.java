@@ -21,9 +21,9 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-@Table(name = "tra_document")
+@Table(name = "stk_document")
 @SuppressWarnings("serial")
-public class TraDocumentEntity extends DynamicEntity {
+public class StkDocumentEntity extends DynamicEntity {
 
 	@Column(name = "doc_no", nullable = false)
 	private String docNo;
@@ -55,7 +55,7 @@ public class TraDocumentEntity extends DynamicEntity {
 	@Column(name = "doc_note", nullable = true)
 	private String docNote;
 
-	public TraDocumentEntity() {
+	public StkDocumentEntity() {
 	}
 
 	public String getDocNo() {

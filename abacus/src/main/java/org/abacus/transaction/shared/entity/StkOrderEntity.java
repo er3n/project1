@@ -15,13 +15,13 @@ import javax.persistence.TemporalType;
 import org.abacus.common.shared.entity.DynamicEntity;
 
 @Entity
-@Table(name = "tra_order")
+@Table(name = "stk_order")
 @SuppressWarnings("serial")
-public class TraOrderEntity extends DynamicEntity {
+public class StkOrderEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "detail_id", nullable = false)
-	private TraDetailEntity detail;
+	private StkDetailEntity detail;
 	
 	@Column(name = "parent_order_id", nullable = false)
 	private Long parentOrderId;
@@ -51,14 +51,14 @@ public class TraOrderEntity extends DynamicEntity {
 	@Column(name = "lot_order_date", nullable = false)
 	private Date lotOrderDate;
 
-	public TraOrderEntity() {
+	public StkOrderEntity() {
 	}
 
-	public TraDetailEntity getDetail() {
+	public StkDetailEntity getDetail() {
 		return detail;
 	}
 
-	public void setDetail(TraDetailEntity detail) {
+	public void setDetail(StkDetailEntity detail) {
 		this.detail = detail;
 	}
 

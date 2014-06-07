@@ -1,21 +1,21 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.UpdatedEvent;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 
 public class DocumentUpdatedEvent extends UpdatedEvent {
 
-	private TraDocumentEntity document;
+	private StkDocumentEntity document;
 
-	public DocumentUpdatedEvent(TraDocumentEntity document) {
+	public DocumentUpdatedEvent(StkDocumentEntity document) {
 		this.document = document;
 	}
 
-	public TraDocumentEntity getDocument() {
+	public StkDocumentEntity getDocument() {
 		return document;
 	}
 
-	public void setDocument(TraDocumentEntity document) {
+	public void setDocument(StkDocumentEntity document) {
 		this.document = document;
 	}
 	

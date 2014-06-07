@@ -3,21 +3,21 @@ package org.abacus.transaction.shared.event;
 import java.util.List;
 
 import org.abacus.common.shared.event.ReadEvent;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 
 public class ReadDocumentEvent extends ReadEvent {
 
-	List<TraDocumentEntity> document;
+	List<StkDocumentEntity> document;
 
-	public ReadDocumentEvent(List<TraDocumentEntity> document) {
+	public ReadDocumentEvent(List<StkDocumentEntity> document) {
 		this.document = document;
 	}
 
-	public List<TraDocumentEntity> getDocument() {
+	public List<StkDocumentEntity> getDocument() {
 		return document;
 	}
 
-	public void setDocument(List<TraDocumentEntity> document) {
+	public void setDocument(List<StkDocumentEntity> document) {
 		this.document = document;
 	}
 

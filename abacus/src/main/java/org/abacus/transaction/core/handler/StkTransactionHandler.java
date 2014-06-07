@@ -21,7 +21,7 @@ import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 
-public interface TraHandler {
+public interface StkTransactionHandler {
 	
 	ReadDocumentEvent readDocument(RequestReadDocumentEvent event);
 	DocumentCreatedEvent newDocument(CreateDocumentEvent event);

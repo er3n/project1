@@ -1,7 +1,7 @@
 insert into org_organization (id, name, level_enum, parent_id) values ('#', '# Holdingi', 'L0', null);
 insert into org_organization (id, name, level_enum, parent_id) values ('#.#', '# Şirketi', 'L1', '#');
-insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#', '# Bölgesi', 'L2', '#.#');
-insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#.#', '# Projesi', 'L3', '#.#.#');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#', '# Projesi', 'L2', '#.#');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#.#', '# Bölgesi', 'L3', '#.#.#');
 commit;
 
 insert into sec_authority (id) values ('AUTH_SECURITY');
@@ -13,8 +13,8 @@ commit;
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'Administrator', 0);
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'L0.Holding', 0);
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'L1.Şirket', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L2.Bölge', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L3.Proje', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'L2.Proje', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'L3.Bölge', 0);
 commit;
  
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_SECURITY', 0);
@@ -39,10 +39,10 @@ insert into org_department (id, organization_id, group_enum, code, name, version
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'S', 'HD', 'Holding Depo',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'A', 'SY','Şirket Yönetimi',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD','Şirket Depo',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'A', 'BY','Bölge Yönetimi',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD','Bölge Depo',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'A', 'PY','Proje Yönetimi',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'S', 'PD','Proje Depo',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'A', 'BY','Proje Yönetimi',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD','Proje Depo',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'A', 'PY','Bölge Yönetimi',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'S', 'PD','Bölge Depo',0);
 commit;
 
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 0);

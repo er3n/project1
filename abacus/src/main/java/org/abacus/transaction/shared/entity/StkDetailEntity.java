@@ -20,13 +20,13 @@ import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-@Table(name = "tra_detail")
+@Table(name = "stk_detail")
 @SuppressWarnings("serial")
-public class TraDetailEntity extends DynamicEntity {
+public class StkDetailEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_id", nullable = false)
-	private TraDocumentEntity document;
+	private StkDocumentEntity document;
 	
 	@Column(name = "det_note", nullable = true)
 	private String detNote;
@@ -71,14 +71,14 @@ public class TraDetailEntity extends DynamicEntity {
 	@Column(name = "base_detail_amount", nullable = false, precision = 12, scale = 2)
 	private BigDecimal baseDetailAmount;
 	
-	public TraDetailEntity() {
+	public StkDetailEntity() {
 	}
 
-	public TraDocumentEntity getDocument() {
+	public StkDocumentEntity getDocument() {
 		return document;
 	}
 
-	public void setDocument(TraDocumentEntity document) {
+	public void setDocument(StkDocumentEntity document) {
 		this.document = document;
 	}
 

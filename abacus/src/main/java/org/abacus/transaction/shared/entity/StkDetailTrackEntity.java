@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 import org.abacus.common.shared.entity.DynamicEntity;
 
 @Entity
-@Table(name = "stk_detail_transition")
+@Table(name = "stk_detail_track")
 @SuppressWarnings("serial")
 public class StkDetailTrackEntity extends DynamicEntity {
 

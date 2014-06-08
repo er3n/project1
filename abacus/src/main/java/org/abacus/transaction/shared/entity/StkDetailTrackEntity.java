@@ -17,7 +17,7 @@ import org.abacus.common.shared.entity.DynamicEntity;
 @Entity
 @Table(name = "stk_detail_transition")
 @SuppressWarnings("serial")
-public class StkDetailTransitionEntity extends DynamicEntity {
+public class StkDetailTrackEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "detail_id", nullable = false)
@@ -51,7 +51,7 @@ public class StkDetailTransitionEntity extends DynamicEntity {
 	@Column(name = "lot_order_date", nullable = false)
 	private Date lotOrderDate;
 
-	public StkDetailTransitionEntity() {
+	public StkDetailTrackEntity() {
 	}
 
 	public StkDetailEntity getDetail() {

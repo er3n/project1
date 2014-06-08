@@ -23,33 +23,33 @@ public class StkDetailTrackEntity extends DynamicEntity {
 	@JoinColumn(name = "detail_id", nullable = false)
 	private StkDetailEntity detail;
 	
-	@Column(name = "parent_order_id", nullable = false)
-	private Long parentOrderId;
+	@Column(name = "parent_track_id", nullable = false)
+	private Long parentTrackId;
 
-	@Column(name = "root_order_id", nullable = false)
-	private Long rootOrderId;
+	@Column(name = "root_track_id", nullable = false)
+	private Long rootTrackId;
 
 	@Column(name = "root_detail_id", nullable = false)
 	private Long rootDetailId;
 	
-	@Column(name = "base_order_count", nullable = false, precision = 10, scale = 3)
-	private BigDecimal baseOrderCount;
+	@Column(name = "base_track_count", nullable = false, precision = 10, scale = 3)
+	private BigDecimal baseTrackCount;
 
 	@Column(name = "base_used_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal baseUsedCount;
 
-	@Column(name = "batch_order_no", nullable = true)
-	private String batchOrderNo;
-	
-	@Column(name = "unit_order_price", nullable = false, precision = 12, scale = 2)
+	@Column(name = "unit_track_price", nullable = false, precision = 12, scale = 2)
 	private BigDecimal unitOrderPrice;
 
-	@Column(name = "base_order_price", nullable = false, precision = 12, scale = 2)
-	private BigDecimal baseOrderPrice;
+	@Column(name = "unit_cost_price", nullable = false, precision = 12, scale = 2)
+	private BigDecimal unitCostPrice;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "lot_order_date", nullable = false)
-	private Date lotOrderDate;
+	@Column(name = "lot_track_date", nullable = false)
+	private Date lotTrackDate;
+
+	@Column(name = "batch_track_no", nullable = true)
+	private String batchTrackNo;
 
 	public StkDetailTrackEntity() {
 	}
@@ -62,20 +62,20 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.detail = detail;
 	}
 
-	public Long getParentOrderId() {
-		return parentOrderId;
+	public Long getParentTrackId() {
+		return parentTrackId;
 	}
 
-	public void setParentOrderId(Long parentOrderId) {
-		this.parentOrderId = parentOrderId;
+	public void setParentTrackId(Long parentTrackId) {
+		this.parentTrackId = parentTrackId;
 	}
 
-	public Long getRootOrderId() {
-		return rootOrderId;
+	public Long getRootTrackId() {
+		return rootTrackId;
 	}
 
-	public void setRootOrderId(Long rootOrderId) {
-		this.rootOrderId = rootOrderId;
+	public void setRootTrackId(Long rootTrackId) {
+		this.rootTrackId = rootTrackId;
 	}
 
 	public Long getRootDetailId() {
@@ -86,12 +86,12 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.rootDetailId = rootDetailId;
 	}
 
-	public BigDecimal getBaseOrderCount() {
-		return baseOrderCount;
+	public BigDecimal getBaseTrackCount() {
+		return baseTrackCount;
 	}
 
-	public void setBaseOrderCount(BigDecimal baseOrderCount) {
-		this.baseOrderCount = baseOrderCount;
+	public void setBaseTrackCount(BigDecimal baseTrackCount) {
+		this.baseTrackCount = baseTrackCount;
 	}
 
 	public BigDecimal getBaseUsedCount() {
@@ -102,14 +102,6 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.baseUsedCount = baseUsedCount;
 	}
 
-	public String getBatchOrderNo() {
-		return batchOrderNo;
-	}
-
-	public void setBatchOrderNo(String batchOrderNo) {
-		this.batchOrderNo = batchOrderNo;
-	}
-
 	public BigDecimal getUnitOrderPrice() {
 		return unitOrderPrice;
 	}
@@ -118,20 +110,29 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.unitOrderPrice = unitOrderPrice;
 	}
 
-	public BigDecimal getBaseOrderPrice() {
-		return baseOrderPrice;
+	public BigDecimal getUnitCostPrice() {
+		return unitCostPrice;
 	}
 
-	public void setBaseOrderPrice(BigDecimal baseOrderPrice) {
-		this.baseOrderPrice = baseOrderPrice;
+	public void setUnitCostPrice(BigDecimal unitCostPrice) {
+		this.unitCostPrice = unitCostPrice;
 	}
 
-	public Date getLotOrderDate() {
-		return lotOrderDate;
+	public Date getLotTrackDate() {
+		return lotTrackDate;
 	}
 
-	public void setLotOrderDate(Date lotOrderDate) {
-		this.lotOrderDate = lotOrderDate;
+	public void setLotTrackDate(Date lotTrackDate) {
+		this.lotTrackDate = lotTrackDate;
 	}
+
+	public String getBatchTrackNo() {
+		return batchTrackNo;
+	}
+
+	public void setBatchTrackNo(String batchTrackNo) {
+		this.batchTrackNo = batchTrackNo;
+	}
+
 
 }

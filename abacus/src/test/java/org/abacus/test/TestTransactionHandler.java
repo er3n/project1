@@ -2,10 +2,15 @@ package org.abacus.test;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
+
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.test.fixture.TransactionFixture;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
+import org.abacus.transaction.core.persistance.repository.StkDetailTrackRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
+import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
@@ -22,75 +27,106 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={//
-		"classpath*:/appcontext/persistence-context.xml",//
+@ContextConfiguration(locations = {//
+"classpath*:/appcontext/persistence-context.xml",//
 		"classpath*:/appcontext/main-context.xml",//
-		"classpath*:/appcontext/cache-context.xml"})//
+		"classpath*:/appcontext/cache-context.xml" })
+//
 @TransactionConfiguration(defaultRollback = true)
 public class TestTransactionHandler {
-	
+
 	@Autowired
 	@Qualifier("stkTransactionHandler")
 	private TraTransactionHandler stkTransaction;
-	
+
 	@Autowired
 	@Qualifier("finTransactionHandler")
 	private TraTransactionHandler finTransaction;
-	
+
 	@Autowired
 	private TransactionFixture transactionFixture;
-	
+
 	@Autowired
 	private StkDocumentRepository documentRepository;
-	
+
 	@Autowired
 	private StkDetailRepository detailRepository;
 	
+	@Autowired
+	private StkDetailTrackRepository detailTrackRepository;
+
 	private String user = "admin";
-	
+
 	private String organization = "#";
-	
+
 	@Before
-	public void init(){
-		
-	}
-	
-	private DocumentCreatedEvent newStkTransaction(){
-		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user,organization));
-		return createdEvent;
-	}
-		 
-	@Test
-	public void testNewStkTransaction(){
-		
-		DocumentCreatedEvent createdEvent = this.newStkTransaction();
-		
-		Long documentId = createdEvent.getDocument().getId();
-		
-		StkDocumentEntity document = documentRepository.findOne(documentId);
-		 
-		assertNotNull(document);
-		 
-	}
-	
-	@Test
-	public void testNewStkDetail(){
-		
-		TraDocumentEntity document = this.newStkTransaction().getDocument();
-		
-		document = documentRepository.findWithFetch(document.getId());
-		
-		CreateDetailEvent createDetailEvent = transactionFixture.newDetail(document,user);
-		
-		DetailCreatedEvent event = stkTransaction.newDetail(createDetailEvent);
-		
-		Long detailId = event.getDetail().getId();
-		
-		StkDetailEntity detail = detailRepository.findOne(detailId);
-		
-		assertNotNull(detail);
-		
+	public void init() {
+
 	}
 
+	private DocumentCreatedEvent newStkTransaction(EnumList.DefTypeEnum documentType) {
+		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user, organization, documentType));
+		return createdEvent;
+	}
+
+	@Test
+	public void testNewStkTransaction() {
+
+		DocumentCreatedEvent createdEvent = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_I);
+
+		Long documentId = createdEvent.getDocument().getId();
+
+		StkDocumentEntity document = documentRepository.findOne(documentId);
+
+		assertNotNull(document);
+
+	}
+
+	@Test
+	public void testNewStkDetailInput() throws UnableToCreateDetailException {
+
+		TraDocumentEntity document = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_I).getDocument();
+
+		document = documentRepository.findWithFetch(document.getId());
+
+		CreateDetailEvent createDetailEvent = transactionFixture.newDetail(document, user,new BigDecimal(3000));
+
+		DetailCreatedEvent event = stkTransaction.newDetail(createDetailEvent);
+
+		Long detailId = event.getDetail().getId();
+
+		StkDetailEntity detail = detailRepository.findOne(detailId);
+
+		assertNotNull(detail);
+
+	}
+
+	@Test
+	public void testNewStkDetailOutput() throws UnableToCreateDetailException {
+
+		TraDocumentEntity inDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_I).getDocument();
+
+		inDocument = documentRepository.findWithFetch(inDocument.getId());
+
+		for (int i = 0; i < 3; i++) {
+			CreateDetailEvent createDetailEvent = transactionFixture.newDetail(inDocument, user, new BigDecimal(3000));
+			DetailCreatedEvent event = stkTransaction.newDetail(createDetailEvent);
+		}
+
+		TraDocumentEntity outDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_O).getDocument();
+
+		outDocument = documentRepository.findWithFetch(outDocument.getId());
+		
+		CreateDetailEvent createDetailEvent = transactionFixture.newDetail(outDocument, user, new BigDecimal(7000));
+		DetailCreatedEvent event = stkTransaction.newDetail(createDetailEvent);
+
+		StkDetailEntity outDetail = (StkDetailEntity) event.getDetail(); 
+		BigDecimal restCount = detailTrackRepository.currentItemCount(outDetail.getItem().getId(), outDetail.getDepartment().getId(),outDetail.getFiscalYear().getId());
+		
+		boolean result = restCount.compareTo(new BigDecimal(2)) == 0;
+		assertTrue(result);
+		
+
+	}
 
 }

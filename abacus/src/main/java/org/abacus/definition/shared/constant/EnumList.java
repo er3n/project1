@@ -1,5 +1,6 @@
 package org.abacus.definition.shared.constant;
 
+
 public interface EnumList {
 
 	enum CatMenuPeriod implements ISelectionEnum {
@@ -126,32 +127,32 @@ public interface EnumList {
 
 	enum DefTypeEnum implements ISelectionEnum {
 		// Parameter
-		PRM_STOCK("Stok Parametreleri",0), //
+		PRM_STOCK("Stok Parametreleri", 0), //
 		// Value
-		VAL_CATEGORY("Stok Grupları",0), //
-		VAL_MEAL("Yemek Öğünleri",0), //
-		VAL_RECEIPT("Yemek Tipleri",0), //
+		VAL_CATEGORY("Stok Grupları", 0), //
+		VAL_MEAL("Yemek Öğünleri", 0), //
+		VAL_RECEIPT("Yemek Tipleri", 0), //
 		// Item
-		ITM_SR_FN("Finans Hizmetleri",0), //
-		ITM_SR_ST("Stok Hizmetleri",0), //
-		ITM_SR_FA("Demirbaş Hizmetleri",0), //
+		ITM_SR_FN("Finans Hizmetleri", 0), //
+		ITM_SR_ST("Stok Hizmetleri", 0), //
+		ITM_SR_FA("Demirbaş Hizmetleri", 0), //
 		// Stock
-		STK_OC("Stok Open/Close",0), //
-		STK_OC_I("Stok Open",1), //
-		STK_IO("Stok In/Out",0), //
-		STK_IO_I("Stok Inputs",1), //
-		STK_IO_O("Stok Outputs",-1), //
-		STK_WB("Stok WayBill",0), //
-		STK_WB_I("Stok WayBill IN",1), //
-		STK_WB_O("Stok WayBill OUT",-1), //
-		STK_TT("Stok Transfer",0), //
+		STK_OC("Stok Open/Close", 0), //
+		STK_OC_I("Stok Open", 1), //
+		STK_IO("Stok In/Out", 0), //
+		STK_IO_I("Stok Inputs", 1), //
+		STK_IO_O("Stok Outputs", -1), //
+		STK_WB("Stok WayBill", 0), //
+		STK_WB_I("Stok WayBill IN", 1), //
+		STK_WB_O("Stok WayBill OUT", -1), //
+		STK_TT("Stok Transfer", 0), //
 		// Finance
-		FIN_CS("Masraf Giriş",0), //
+		FIN_CS("Masraf Giriş", 0), //
 		;
 		private String description;
 		private Integer state;
-		
-		private DefTypeEnum(String description,Integer state) {
+
+		private DefTypeEnum(String description, Integer state) {
 			this.description = description;
 			this.state = state;
 		}
@@ -165,12 +166,11 @@ public interface EnumList {
 		public String getName() {
 			return this.name();
 		}
-		
-		public Integer getState(){
+
+		public Integer getState() {
 			return this.state;
 		}
-		
-		
+
 	}
 
 	enum DepartmentAuthEnum implements ISelectionEnum {
@@ -218,10 +218,9 @@ public interface EnumList {
 			return this.name();
 		}
 	}
-	
+
 	enum TraState implements ISelectionEnum {
-		INP("Giriş"),
-		OUT("Çıkış");
+		INP("Giriş"), OUT("Çıkış");
 
 		private String description;
 
@@ -238,15 +237,28 @@ public interface EnumList {
 		public String getName() {
 			return this.name();
 		}
-		
-		public Integer value(){
-			if(this.equals(INP)){
+
+		public Integer value() {
+			if (this.equals(INP)) {
 				return +1;
-			}else if(this.equals(OUT)){
+			} else if (this.equals(OUT)) {
 				return -1;
 			}
 			return 0;
 		}
 	}
+
+	enum RoundScale {
+		NUM(0), ACC(2), STK(3), ;
+		private int val;
+
+		private RoundScale(int val) {
+			this.val = val;
+		}
+
+		public int getValue() {
+			return val;
+		}
+	};
 
 }

@@ -40,16 +40,16 @@ public class TransactionFixture {
 	@Autowired
 	private DefItemDao itemDao;
 	
-	private void enrichDocument(TraDocumentEntity entity, String organization){
+	private void enrichDocument(TraDocumentEntity entity, String organization, EnumList.DefTypeEnum documentType){
 		entity.setDocDate(Calendar.getInstance().getTime());
 		entity.setDocNo("123456");
 		entity.setDocNote("New stock item added");
 		entity.setFiscalPeriod(new FiscalPeriodEntity("#.#:2014:01"));
-		List<DefTaskEntity> taskList = taskRepository.getTaskList(organization, EnumList.DefTypeEnum.STK_IO_I.name());
+		List<DefTaskEntity> taskList = taskRepository.getTaskList(organization, documentType.name());
 		entity.setTask(taskList.get(0));
 	}
 	
-	private void enrichDetail(TraDetailEntity detail,TraDocumentEntity document,String user){
+	private void enrichDetail(TraDetailEntity detail,TraDocumentEntity document,String user,BigDecimal itemDetailCount){
 		detail.setBaseDetailAmount(new BigDecimal(250));
 		detail.setBatchDetailNo("BATCHDETNO");
 		
@@ -62,18 +62,16 @@ public class TransactionFixture {
 		
 		detail.setItem(item);
 		detail.setLotDetailDate(document.getDateCreated());
-		//detail.setTrStateDetail(document.getTrStateDocument() * document.getTypeEnum().getState());
-		//detail.setBaseDetailCount(baseDetailCount);
-		detail.setItemDetailCount(new BigDecimal(10));
+		detail.setItemDetailCount(itemDetailCount);
 		
 		detail.setItemUnit(item.getItemUnitSet().iterator().next().getUnitCode());
 		
 	}
 	
-	public CreateDocumentEvent newDocument(String user, String organization) {
+	public CreateDocumentEvent newDocument(String user, String organization,EnumList.DefTypeEnum documentType) {
 		StkDocumentEntity document = new StkDocumentEntity();
 		
-		enrichDocument(document,organization);
+		enrichDocument(document,organization, documentType);
 		
 		CreateDocumentEvent event = new CreateDocumentEvent(document,user,organization);
 		
@@ -81,10 +79,10 @@ public class TransactionFixture {
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	public CreateDetailEvent newDetail(TraDocumentEntity document, String user) {
+	public CreateDetailEvent newDetail(TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
 		StkDetailEntity detail = new StkDetailEntity();
 		
-		enrichDetail(detail,document,user);
+		enrichDetail(detail,document,user,itemDetailCount);
 		detail.setStkNote("Stok not");
 		
 		return new CreateDetailEvent(detail, user);

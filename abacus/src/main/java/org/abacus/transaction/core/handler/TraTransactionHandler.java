@@ -1,5 +1,6 @@
 package org.abacus.transaction.core.handler;
 
+import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
 import org.abacus.transaction.shared.UnableToUpdateDetailException;
@@ -29,7 +30,7 @@ public interface TraTransactionHandler {
 	DocumentDeletedEvent deleteDocument(DeleteDocumentEvent event) throws UnableToDeleteDocumentException;
 	
 	ReadDetailEvent readDetail(RequestReadDetailEvent event);
-	DetailCreatedEvent newDetail(CreateDetailEvent event);
+	DetailCreatedEvent newDetail(CreateDetailEvent event) throws UnableToCreateDetailException;
 	DetailUpdatedEvent updateDetail(UpdateDetailEvent evet) throws UnableToUpdateDetailException;
 	DetailDeletedEvent deleteDetail(DeleteDetailEvent event) throws UnableToDeleteDetailException;
 	

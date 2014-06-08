@@ -7,6 +7,7 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.TransactionDao;
+import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
 import org.abacus.transaction.shared.UnableToUpdateDetailException;
@@ -82,7 +83,7 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DetailCreatedEvent newDetail(CreateDetailEvent event) {
+	public DetailCreatedEvent newDetail(CreateDetailEvent event) throws UnableToCreateDetailException {
 		TraDetailEntity detail = event.getDetail();
 		TraDocumentEntity document = detail.getDocument();
 		String batchNo = detail.getBatchDetailNo();
@@ -91,10 +92,6 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 		
 		FiscalYearEntity fiscalYear =  document.getFiscalPeriod().getFiscalYear();
 		detail.setFiscalYear(fiscalYear);
-		 
-		
-		Integer trStateDetail = document.getTrStateDocument() * document.getTypeEnum().getState();
-		detail.setTrStateDetail(trStateDetail);
 
 		BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 		detail.setBaseDetailCount(baseDetailCount);

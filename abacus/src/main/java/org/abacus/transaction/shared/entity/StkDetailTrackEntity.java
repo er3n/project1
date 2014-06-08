@@ -22,16 +22,13 @@ public class StkDetailTrackEntity extends DynamicEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "detail_id", nullable = false)
 	private StkDetailEntity detail;
-	
-	@Column(name = "parent_track_id", nullable = false)
+
+	@Column(name = "parent_track_id", nullable = true)
 	private Long parentTrackId;
 
-	@Column(name = "root_track_id", nullable = false)
-	private Long rootTrackId;
-
-	@Column(name = "root_detail_id", nullable = false)
+	@Column(name = "root_detail_id", nullable = true)
 	private Long rootDetailId;
-	
+
 	@Column(name = "base_track_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal baseTrackCount;
 
@@ -39,11 +36,11 @@ public class StkDetailTrackEntity extends DynamicEntity {
 	private BigDecimal baseUsedCount;
 
 	@Column(name = "unit_track_price", nullable = false, precision = 12, scale = 2)
-	private BigDecimal unitOrderPrice;
+	private BigDecimal unitTrackPrice;
 
 	@Column(name = "unit_cost_price", nullable = false, precision = 12, scale = 2)
 	private BigDecimal unitCostPrice;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "lot_track_date", nullable = false)
 	private Date lotTrackDate;
@@ -70,14 +67,6 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.parentTrackId = parentTrackId;
 	}
 
-	public Long getRootTrackId() {
-		return rootTrackId;
-	}
-
-	public void setRootTrackId(Long rootTrackId) {
-		this.rootTrackId = rootTrackId;
-	}
-
 	public Long getRootDetailId() {
 		return rootDetailId;
 	}
@@ -100,14 +89,6 @@ public class StkDetailTrackEntity extends DynamicEntity {
 
 	public void setBaseUsedCount(BigDecimal baseUsedCount) {
 		this.baseUsedCount = baseUsedCount;
-	}
-
-	public BigDecimal getUnitOrderPrice() {
-		return unitOrderPrice;
-	}
-
-	public void setUnitOrderPrice(BigDecimal unitOrderPrice) {
-		this.unitOrderPrice = unitOrderPrice;
 	}
 
 	public BigDecimal getUnitCostPrice() {
@@ -134,5 +115,12 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.batchTrackNo = batchTrackNo;
 	}
 
+	public BigDecimal getUnitTrackPrice() {
+		return unitTrackPrice;
+	}
+
+	public void setUnitTrackPrice(BigDecimal unitTrackPrice) {
+		this.unitTrackPrice = unitTrackPrice;
+	}
 
 }

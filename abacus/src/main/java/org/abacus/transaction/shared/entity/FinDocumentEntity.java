@@ -4,12 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "stk_document")
+@Table(name = "fin_document")
 @SuppressWarnings("serial")
-public class StkDocumentEntity extends TraDocumentEntity {
+public class FinDocumentEntity extends TraDocumentEntity {
 
 	
-	public StkDocumentEntity() {
+	public FinDocumentEntity() {
 	}
 
 	

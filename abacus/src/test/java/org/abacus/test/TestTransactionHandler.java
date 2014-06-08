@@ -46,11 +46,16 @@ public class TestTransactionHandler {
 	public void init(){
 		
 	}
+	
+	private DocumentCreatedEvent newStkTransaction(){
+		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user,organization));
+		return createdEvent;
+	}
 		 
 	@Test
-	public void newStkTransaction(){
+	public void testNewStkTransaction(){
 		
-		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user,organization));
+		DocumentCreatedEvent createdEvent = this.newStkTransaction();
 		
 		Long documentId = createdEvent.getDocument().getId();
 		
@@ -58,6 +63,10 @@ public class TestTransactionHandler {
 		 
 		assertTrue("Docment can not created",document != null);
 		 
+	}
+	
+	public void testNewStkDetail(){
+		
 	}
 
 

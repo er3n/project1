@@ -1,11 +1,16 @@
 package org.abacus.test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.abacus.test.fixture.TransactionFixture;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
+import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
+import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.entity.TraDocumentEntity;
+import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +43,9 @@ public class TestTransactionHandler {
 	@Autowired
 	private StkDocumentRepository documentRepository;
 	
+	@Autowired
+	private StkDetailRepository detailRepository;
+	
 	private String user = "admin";
 	
 	private String organization = "#";
@@ -61,11 +69,26 @@ public class TestTransactionHandler {
 		
 		StkDocumentEntity document = documentRepository.findOne(documentId);
 		 
-		assertTrue("Docment can not created",document != null);
+		assertNotNull(document);
 		 
 	}
 	
+	@Test
 	public void testNewStkDetail(){
+		
+		TraDocumentEntity document = this.newStkTransaction().getDocument();
+		
+		document = documentRepository.findWithFetch(document.getId());
+		
+		CreateDetailEvent createDetailEvent = transactionFixture.newDetail(document,user);
+		
+		DetailCreatedEvent event = stkTransaction.newDetail(createDetailEvent);
+		
+		Long detailId = event.getDetail().getId();
+		
+		StkDetailEntity detail = detailRepository.findOne(detailId);
+		
+		assertNotNull(detail);
 		
 	}
 

@@ -126,32 +126,34 @@ public interface EnumList {
 
 	enum DefTypeEnum implements ISelectionEnum {
 		// Parameter
-		PRM_STOCK("Stok Parametreleri"), //
+		PRM_STOCK("Stok Parametreleri",0), //
 		// Value
-		VAL_CATEGORY("Stok Grupları"), //
-		VAL_MEAL("Yemek Öğünleri"), //
-		VAL_RECEIPT("Yemek Tipleri"), //
+		VAL_CATEGORY("Stok Grupları",0), //
+		VAL_MEAL("Yemek Öğünleri",0), //
+		VAL_RECEIPT("Yemek Tipleri",0), //
 		// Item
-		ITM_SR_FN("Finans Hizmetleri"), //
-		ITM_SR_ST("Stok Hizmetleri"), //
-		ITM_SR_FA("Demirbaş Hizmetleri"), //
+		ITM_SR_FN("Finans Hizmetleri",0), //
+		ITM_SR_ST("Stok Hizmetleri",0), //
+		ITM_SR_FA("Demirbaş Hizmetleri",0), //
 		// Stock
-		STK_OC("Stok Open/Close"), //
-		STK_OC_I("Stok Open"), //
-		STK_IO("Stok In/Out"), //
-		STK_IO_I("Stok Inputs"), //
-		STK_IO_O("Stok Outputs"), //
-		STK_WB("Stok WayBill"), //
-		STK_WB_I("Stok WayBill IN"), //
-		STK_WB_O("Stok WayBill OUT"), //
-		STK_TT("Stok Transfer"), //
+		STK_OC("Stok Open/Close",0), //
+		STK_OC_I("Stok Open",1), //
+		STK_IO("Stok In/Out",0), //
+		STK_IO_I("Stok Inputs",1), //
+		STK_IO_O("Stok Outputs",-1), //
+		STK_WB("Stok WayBill",0), //
+		STK_WB_I("Stok WayBill IN",1), //
+		STK_WB_O("Stok WayBill OUT",-1), //
+		STK_TT("Stok Transfer",0), //
 		// Finance
-		FIN_CS("Masraf Giriş"), //
+		FIN_CS("Masraf Giriş",0), //
 		;
 		private String description;
-
-		private DefTypeEnum(String description) {
+		private Integer state;
+		
+		private DefTypeEnum(String description,Integer state) {
 			this.description = description;
+			this.state = state;
 		}
 
 		@Override
@@ -163,6 +165,12 @@ public interface EnumList {
 		public String getName() {
 			return this.name();
 		}
+		
+		public Integer getState(){
+			return this.state;
+		}
+		
+		
 	}
 
 	enum DepartmentAuthEnum implements ISelectionEnum {

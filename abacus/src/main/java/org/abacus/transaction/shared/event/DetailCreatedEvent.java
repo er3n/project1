@@ -1,24 +1,22 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.CreatedEvent;
-import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.abacus.transaction.shared.entity.TraDetailEntity;
 
 public class DetailCreatedEvent extends CreatedEvent {
-	
-	public StkDetailEntity detail;
 
-	public DetailCreatedEvent(StkDetailEntity detail) {
+	public TraDetailEntity detail;
+
+	public DetailCreatedEvent(TraDetailEntity detail) {
 		this.detail = detail;
 	}
 
-	public StkDetailEntity getDetail() {
+	public TraDetailEntity getDetail() {
 		return detail;
 	}
 
-	public void setDetail(StkDetailEntity detail) {
+	public void setDetail(TraDetailEntity detail) {
 		this.detail = detail;
 	}
-	
-	
 
 }

@@ -22,10 +22,6 @@ import org.hibernate.validator.constraints.Range;
 @MappedSuperclass
 public abstract class TraDetailEntity extends DynamicEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "document_id", nullable = false)
-	private StkDocumentEntity document;
-	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "lot_detail_date", nullable = false)
 	private Date lotDetailDate;
@@ -60,7 +56,7 @@ public abstract class TraDetailEntity extends DynamicEntity {
 	private DepartmentEntity department;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "department_opp_id", nullable = false)
+	@JoinColumn(name = "department_opp_id", nullable = true)
 	private DepartmentEntity departmentOpp;
 	
 	@Column(name = "base_detail_amount", nullable = false, precision = 12, scale = 2)
@@ -69,13 +65,9 @@ public abstract class TraDetailEntity extends DynamicEntity {
 	public TraDetailEntity() {
 	}
 
-	public StkDocumentEntity getDocument() {
-		return document;
-	}
+	public abstract TraDocumentEntity getDocument();
+	public abstract void setDocument(TraDocumentEntity document);
 
-	public void setDocument(StkDocumentEntity document) {
-		this.document = document;
-	}
 
 	public Date getLotDetailDate() {
 		return lotDetailDate;

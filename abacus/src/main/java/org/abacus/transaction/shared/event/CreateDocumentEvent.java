@@ -1,25 +1,25 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.CreatedEvent;
-import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
-public class CreateDocumentEvent extends CreatedEvent{
+public class CreateDocumentEvent extends CreatedEvent {
 
-	private StkDocumentEntity document;
+	private TraDocumentEntity document;
 	private String user;
 	private String organization;
 
-	public CreateDocumentEvent(StkDocumentEntity document, String user, String organization) {
+	public CreateDocumentEvent(TraDocumentEntity document, String user, String organization) {
 		this.document = document;
 		this.user = user;
 		this.organization = organization;
 	}
 
-	public StkDocumentEntity getDocument() {
+	public TraDocumentEntity getDocument() {
 		return document;
 	}
 
-	public void setDocument(StkDocumentEntity document) {
+	public void setDocument(TraDocumentEntity document) {
 		this.document = document;
 	}
 

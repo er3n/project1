@@ -210,5 +210,35 @@ public interface EnumList {
 			return this.name();
 		}
 	}
+	
+	enum TraState implements ISelectionEnum {
+		INP("Giriş"),
+		OUT("Çıkış");
+
+		private String description;
+
+		private TraState(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+
+		@Override
+		public String getName() {
+			return this.name();
+		}
+		
+		public Integer value(){
+			if(this.equals(INP)){
+				return +1;
+			}else if(this.equals(OUT)){
+				return -1;
+			}
+			return 0;
+		}
+	}
 
 }

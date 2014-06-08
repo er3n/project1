@@ -33,6 +33,12 @@ public class FiscalPeriodEntity extends StaticEntity {
 	@Column(name = "date_finish", nullable = true)
 	private Date dateFinish;
 
+	public FiscalPeriodEntity(String id) {
+		super.id = id;
+	}
+	
+	public FiscalPeriodEntity(){}
+
 	public String getPeriodNo() {
 		return periodNo;
 	}

@@ -141,6 +141,12 @@ insert into cat_meal_filter (id, version, date_start, date_finish, description, 
 insert into cat_meal_filter (id, version, date_start, date_finish, description, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-31', 'Akşam', (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='3' and organization_id='#'), '#', 175);
 commit;
 
+
+INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, organization_id) VALUES ('#.#:2014', 'FIFO', DATE '2014-12-31', DATE '2014-01-01', '2014 Finansal Yili', '2014', '#.#');
+INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id) VALUES ('#.#:2014:01', DATE '2014-12-31', DATE '2014-01-01','01', '#.#:2014');
+commit;
+
+
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0001', 'STK_M', 'İyotlu Tuz', (select v.id from def_value v where v.code='H0001' and organization_id='#'), '#', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0002', 'STK_M', 'İyotsuz Tuz', (select v.id from def_value v where v.code='H0001' and organization_id='#'), '#', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0003', 'STK_M', 'Toz Şeker', (select v.id from def_value v where v.code='H0001' and organization_id='#'), '#', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));

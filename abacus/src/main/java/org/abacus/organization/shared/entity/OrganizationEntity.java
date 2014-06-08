@@ -28,6 +28,14 @@ public class OrganizationEntity extends StaticEntity {
 	@JoinColumn(name = "parent_id")
 	private OrganizationEntity parent;
 
+	public OrganizationEntity(String id) {
+		this.id = id;
+	} 
+	
+	public OrganizationEntity(){
+		
+	}
+
 	public String getName() {
 		return name;
 	}

@@ -10,7 +10,7 @@ public class StaticEntity implements RootEntity {
 
 	@Id
 	@Column(name = "id")
-	private String id;
+	protected String id;
 
 	public String getId() {
 		return id;

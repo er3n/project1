@@ -86,7 +86,7 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 	public DetailCreatedEvent newDetail(CreateDetailEvent event) throws UnableToCreateDetailException {
 		TraDetailEntity detail = event.getDetail();
 		TraDocumentEntity document = detail.getDocument();
-		String batchNo = detail.getBatchDetailNo();
+//		String batchNo = detail.getBatchDetailNo();
 		String user = event.getUser();
 		
 		
@@ -96,9 +96,9 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 		BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 		detail.setBaseDetailCount(baseDetailCount);
 		
-		if(StringUtils.isEmpty(batchNo)){
-			batchNo = UUID.randomUUID().toString();
-		}
+//		if(StringUtils.isEmpty(batchNo)){
+//			batchNo = UUID.randomUUID().toString();
+//		}
 		
 		detail.createHook(user);
 		

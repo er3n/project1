@@ -3,6 +3,7 @@ package org.abacus.test;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.test.fixture.TransactionFixture;
@@ -28,7 +29,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {//
-"classpath*:/appcontext/persistence-context.xml",//
+		"classpath*:/appcontext/persistence-context.xml",//
 		"classpath*:/appcontext/main-context.xml",//
 		"classpath*:/appcontext/cache-context.xml" })
 //
@@ -103,30 +104,33 @@ public class TestTransactionHandler {
 
 	@Test
 	public void testNewStkDetailOutput() throws UnableToCreateDetailException {
-
+		//INPUT
 		TraDocumentEntity inDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_I).getDocument();
-
 		inDocument = documentRepository.findWithFetch(inDocument.getId());
 
 		for (int i = 0; i < 3; i++) {
-			CreateDetailEvent createDetailEvent = transactionFixture.newDetail(inDocument, user, new BigDecimal(3000));
-			DetailCreatedEvent event = stkTransaction.newDetail(createDetailEvent);
+			CreateDetailEvent createDetailEventIn = transactionFixture.newDetail(inDocument, user, new BigDecimal(3000));
+			DetailCreatedEvent eventIn = stkTransaction.newDetail(createDetailEventIn);
 		}
 
+		//OUTPUT
 		TraDocumentEntity outDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_O).getDocument();
-
 		outDocument = documentRepository.findWithFetch(outDocument.getId());
 		
-		CreateDetailEvent createDetailEvent = transactionFixture.newDetail(outDocument, user, new BigDecimal(7000));
-		DetailCreatedEvent event = stkTransaction.newDetail(createDetailEvent);
+		CreateDetailEvent createDetailEventOut1 = transactionFixture.newDetail(outDocument, user, new BigDecimal(5000));
+		DetailCreatedEvent eventOut1 = stkTransaction.newDetail(createDetailEventOut1);
 
-		StkDetailEntity outDetail = (StkDetailEntity) event.getDetail(); 
+		CreateDetailEvent createDetailEventOut2 = transactionFixture.newDetail(outDocument, user, new BigDecimal(1200));
+		DetailCreatedEvent eventOut2 = stkTransaction.newDetail(createDetailEventOut2);
+
+		//TEST
+		StkDetailEntity outDetail = (StkDetailEntity) eventOut2.getDetail(); 
 		BigDecimal restCount = detailTrackRepository.currentItemCount(outDetail.getItem().getId(), outDetail.getDepartment().getId(),outDetail.getFiscalYear().getId());
 		
-		boolean result = restCount.compareTo(new BigDecimal(2)) == 0;
+		BigDecimal testCount = new BigDecimal(2.8).setScale(EnumList.RoundScale.STK.getValue(), RoundingMode.HALF_EVEN);
+		boolean result = restCount.compareTo(testCount) == 0;
 		assertTrue(result);
 		
-
 	}
 
 }

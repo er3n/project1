@@ -48,19 +48,18 @@ public abstract class TraDetailEntity extends DynamicEntity {
 	@Column(name = "base_detail_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal baseDetailCount;
 	
-	@Column(name = "batch_detail_no", nullable = true)
-	private String batchDetailNo;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id", nullable = false)
 	private DepartmentEntity department;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "department_opp_id", nullable = true)
-	private DepartmentEntity departmentOpp;
-	
 	@Column(name = "base_detail_amount", nullable = false, precision = 12, scale = 2)
 	private BigDecimal baseDetailAmount;
+
+	@Column(name = "det_note", nullable = true)
+	private String detNote;
+	
+	@Column(name = "ref_detail_id", nullable = true)
+	private Long refDetailId;
 	
 	public TraDetailEntity() {
 	}
@@ -117,28 +116,12 @@ public abstract class TraDetailEntity extends DynamicEntity {
 		this.baseDetailCount = baseDetailCount;
 	}
 
-	public String getBatchDetailNo() {
-		return batchDetailNo;
-	}
-
-	public void setBatchDetailNo(String batchDetailNo) {
-		this.batchDetailNo = batchDetailNo;
-	}
-
 	public DepartmentEntity getDepartment() {
 		return department;
 	}
 
 	public void setDepartment(DepartmentEntity department) {
 		this.department = department;
-	}
-
-	public DepartmentEntity getDepartmentOpp() {
-		return departmentOpp;
-	}
-
-	public void setDepartmentOpp(DepartmentEntity departmentOpp) {
-		this.departmentOpp = departmentOpp;
 	}
 
 	public BigDecimal getBaseDetailAmount() {
@@ -155,6 +138,22 @@ public abstract class TraDetailEntity extends DynamicEntity {
 
 	public void setTrStateDetail(Integer trStateDetail) {
 		this.trStateDetail = trStateDetail;
+	}
+
+	public String getDetNote() {
+		return detNote;
+	}
+
+	public void setDetNote(String detNote) {
+		this.detNote = detNote;
+	}
+
+	public Long getRefDetailId() {
+		return refDetailId;
+	}
+
+	public void setRefDetailId(Long refDetailId) {
+		this.refDetailId = refDetailId;
 	}
 
 }

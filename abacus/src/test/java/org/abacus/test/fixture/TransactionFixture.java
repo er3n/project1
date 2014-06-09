@@ -51,7 +51,6 @@ public class TransactionFixture {
 	
 	private void enrichDetail(TraDetailEntity detail,TraDocumentEntity document,String user,BigDecimal itemDetailCount){
 		detail.setBaseDetailAmount(new BigDecimal(250));
-		detail.setBatchDetailNo("BATCHDETNO");
 		
 		DepartmentEntity department = departmentRepository.findByOrganizationAndGroup(document.getOrganization().getId(),EnumList.OrgDepartmentGroupEnum.S).get(0);
 		detail.setDepartment(department);
@@ -83,7 +82,8 @@ public class TransactionFixture {
 		StkDetailEntity detail = new StkDetailEntity();
 		
 		enrichDetail(detail,document,user,itemDetailCount);
-		detail.setStkNote("Stok not");
+		detail.setDetNote("Stok not");
+		detail.setBatchDetailNo("BathNo");
 		
 		return new CreateDetailEvent(detail, user);
 	}

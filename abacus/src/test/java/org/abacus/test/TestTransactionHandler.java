@@ -132,5 +132,28 @@ public class TestTransactionHandler {
 		assertTrue(result);
 		
 	}
+	@Test
+	public void testTransferStkDetails() throws UnableToCreateDetailException{
+		
+		//INPUT
+		TraDocumentEntity inDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_I).getDocument();
+		inDocument = documentRepository.findWithFetch(inDocument.getId());
+
+		for (int i = 0; i < 3; i++) {
+			CreateDetailEvent createDetailEventIn = transactionFixture.newDetail(inDocument, user, new BigDecimal(3000));
+			DetailCreatedEvent eventIn = stkTransaction.newDetail(createDetailEventIn);
+		}
+		
+		//TRANSFER
+		TraDocumentEntity transferDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_TT).getDocument();
+		transferDocument = documentRepository.findWithFetch(transferDocument.getId());
+		
+		CreateDetailEvent createDetailEventTransfer = transactionFixture.newTransfer(transferDocument, user, new BigDecimal(15000));
+		
+		stkTransaction.newDetail(createDetailEventTransfer);
+		
+		System.out.println("Bitti");
+		
+	}
 
 }

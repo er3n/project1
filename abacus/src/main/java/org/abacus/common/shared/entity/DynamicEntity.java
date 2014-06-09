@@ -50,6 +50,20 @@ public class DynamicEntity implements RootEntity {
 		this.dateCreated = Calendar.getInstance().getTime();
 		this.userCreated = userCreated;
 	}
+	
+	public void cleanHook(){
+		this.id = null;
+		this.dateCreated = null;
+		this.userCreated = null;
+		this.dateUpdated = null;
+		this.userUpdated = null;
+		this.version = null;
+	}
+	
+	public void cleanCreateHook(String userCreated){
+		this.cleanHook();
+		this.createHook(userCreated);
+	}
 
 	@Override
 	public boolean equals(final Object obj) {

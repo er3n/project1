@@ -1,7 +1,6 @@
 package org.abacus.transaction.core.handler;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -33,7 +32,6 @@ import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 public abstract class TraTransactionSupport implements TraTransactionHandler {
 
@@ -86,19 +84,14 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 	public DetailCreatedEvent newDetail(CreateDetailEvent event) throws UnableToCreateDetailException {
 		TraDetailEntity detail = event.getDetail();
 		TraDocumentEntity document = detail.getDocument();
-//		String batchNo = detail.getBatchDetailNo();
+
 		String user = event.getUser();
-		
 		
 		FiscalYearEntity fiscalYear =  document.getFiscalPeriod().getFiscalYear();
 		detail.setFiscalYear(fiscalYear);
 
 		BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 		detail.setBaseDetailCount(baseDetailCount);
-		
-//		if(StringUtils.isEmpty(batchNo)){
-//			batchNo = UUID.randomUUID().toString();
-//		}
 		
 		detail.createHook(user);
 		

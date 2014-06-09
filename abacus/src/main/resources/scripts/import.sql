@@ -36,14 +36,16 @@ insert into sec_user_organization (id, user_id, organization_id, version) values
 commit;
 
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'A', 'HY', 'Holding Yönetimi',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'S', 'HD', 'Holding Depo',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'S', 'HD1', 'Holding Depo 1',0); 
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'S', 'HD2', 'Holding Depo 2',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'A', 'SY','Şirket Yönetimi',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD','Şirket Depo',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD1','Şirket Depo 1',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD2','Şirket Depo 2',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'A', 'BY','Proje Yönetimi',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD','Proje Depo',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'A', 'PY','Bölge Yönetimi',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'S', 'PD','Bölge Depo',0);
-commit;
+commit; 
 
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-2, 'person', 0, 0, 1);
@@ -71,8 +73,9 @@ commit;
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
 commit;
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', '1', 'Stk Giris #', 1, 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', '1', 'Stk Cikis #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', 'G', 'Stk Giris #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', 'C', 'Stk Cikis #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_TT', 'T', 'Stk Transfer #', 1, 0);
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);

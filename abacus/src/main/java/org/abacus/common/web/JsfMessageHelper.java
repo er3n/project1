@@ -38,6 +38,13 @@ public class JsfMessageHelper implements Serializable {
 						label(message)));
 	}
 
+	public void addTest(String message) {
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Test",
+						message));
+	}
+
 	public String label(String key,String... params) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = context.getApplication().getResourceBundle(context, "lbl");

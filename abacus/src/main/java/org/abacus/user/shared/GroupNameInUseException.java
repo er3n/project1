@@ -1,5 +1,7 @@
 package org.abacus.user.shared;
 
-public class GroupNameInUseException extends Exception {
+import org.abacus.common.shared.AbcBusinessException;
 
-}
+public class GroupNameInUseException extends AbcBusinessException {
+
+} 

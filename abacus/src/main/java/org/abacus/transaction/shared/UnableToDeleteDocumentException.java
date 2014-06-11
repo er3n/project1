@@ -1,6 +1,8 @@
 package org.abacus.transaction.shared;
 
+import org.abacus.common.shared.AbcBusinessException;
+
 @SuppressWarnings("serial")
-public class UnableToDeleteDocumentException extends Exception {
+public class UnableToDeleteDocumentException extends AbcBusinessException {
 
 }

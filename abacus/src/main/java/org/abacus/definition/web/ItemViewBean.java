@@ -136,14 +136,15 @@ public class ItemViewBean implements Serializable {
 	}
 
 	public void newItem() {
-		try {
-			String createdUser = sessionInfoHelper.currentUserName();
-			ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, createdUser));
-			selectedItem = null;
-			jsfMessageHelper.addInfo("craeteSuccessful");
-		} catch (ItemAlreadyExistsException e) {
-			jsfMessageHelper.addError("itemExistsWithThisTypeAndCode");
-		}
+			try {
+				String createdUser = sessionInfoHelper.currentUserName();
+				ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, createdUser));
+				selectedItem = null;
+				jsfMessageHelper.addInfo("craeteSuccessful");
+			} catch (ItemAlreadyExistsException e) {
+				jsfMessageHelper.addError(e);
+			}
+			
 	}
 
 	public void newItemProduct() {

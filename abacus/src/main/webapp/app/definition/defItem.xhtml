@@ -8,6 +8,8 @@
 			<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}" widgetVar="itemsTable" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,20" selectionMode="single" selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
 
 				<p:ajax event="rowSelect" update=":itemDetails :itemProductListForm :itemProductDetailForm" listener="#{itemViewBean.itemSelected}" />
+				
+				<p:ajax event="filter" update=":itemDetails :itemProductListForm :itemProductDetailForm" />
 
 				<p:column headerText="#{itemViewBean.clazz.description} Kod" filterBy="#{item.code}">
 					<h:outputText value="#{item.code}" />
@@ -35,7 +37,7 @@
 				</p:column>
 
 				<f:facet name="header">
-					<p:commandButton value="Yeni #{itemViewBean.clazz.description} Ekle" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemsForm :itemProductListForm :itemProductDetailForm" process="@this" />
+					<p:commandButton value="Yeni #{itemViewBean.clazz.description} Ekle" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemProductListForm :itemProductDetailForm" process="@this" />
 				</f:facet>
 
 			</p:dataTable>

@@ -1,5 +1,7 @@
 package org.abacus.user.shared;
 
-public class UserNameExistsException extends Exception {
+import org.abacus.common.shared.AbcBusinessException;
+
+public class UserNameExistsException extends AbcBusinessException {
 
 }

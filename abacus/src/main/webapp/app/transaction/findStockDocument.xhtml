@@ -1,0 +1,79 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	template="/WEB-INF/content/template/simple.xhtml"
+	xmlns:abc="http://www.abacus.com/abc">
+
+	<ui:define name="content">
+
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findDocumentViewBean.hasFiscalYear}" />
+
+		<h:form>
+			<p:panel id="queryDocumentPanel" header="Fiş Sorgulama" rendered="#{findDocumentViewBean.hasFiscalYear}">
+
+				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
+
+					<p:outputLabel value="Döküman Numarası" />
+					<p:inputText
+						value="#{findDocumentViewBean.documentSearchCriteria.docNo}" />
+
+					<p:outputLabel value="Döküman Zamanı (Başlangıç) :"
+						style="font-weigh: bold" />
+					<p:calendar
+						value="#{findDocumentViewBean.documentSearchCriteria.docStartDate}" />
+
+					<p:outputLabel value="Döküman Zamanı (Bitiş) :"
+						style="font-weigh: bold" />
+					<p:calendar
+						value="#{findDocumentViewBean.documentSearchCriteria.docEndDate}" />
+
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<p:commandButton value="Sorgula"
+						actionListener="#{findDocumentViewBean.findDocument}"
+						update=":documentResultTable" />
+					<p:spacer width="5px" />
+					<p:commandButton value="Temizle">
+						<p:ajax update="queryDocumentPanel :documentResultTable" resetValues="true" />
+					</p:commandButton>
+				</f:facet>
+
+			</p:panel>
+
+		</h:form>
+
+		<h:panelGrid id="documentResultTable" columns="1" style="width:100%">
+			<h:form>
+				<p:dataTable
+					rendered="#{findDocumentViewBean.documentSearchResultList != null}"
+					emptyMessage="Kayit Bulunamadi"
+					value="#{findDocumentViewBean.documentSearchResultList}" var="var">
+
+					<p:column headerText="No">
+						<h:outputText value="#{var.docNo}" />
+					</p:column>
+
+					<p:column headerText="Tip">
+						<h:outputText value="#{var.typeEnum.description}" />
+					</p:column>
+
+
+					<p:column headerText="İşlem">
+						<h:outputText value="#{var.task.type.name}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</h:panelGrid>
+
+
+	</ui:define>
+
+</ui:composition>

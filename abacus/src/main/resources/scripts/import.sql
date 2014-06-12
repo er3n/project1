@@ -1895,6 +1895,6 @@ insert into def_item_product (id,version, material_count, item_id, material_item
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 0.5, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0008'), (select i.id from def_unit_code i where i.code='B0003'),9);
 commit;
 
-insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKACILIS', 'Açılış Fişi 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#', 29);
+insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO', 'Açılış Fişi 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#', 29);
 commit;
 

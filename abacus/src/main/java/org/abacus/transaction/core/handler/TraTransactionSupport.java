@@ -1,6 +1,7 @@
 package org.abacus.transaction.core.handler;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -29,6 +30,7 @@ import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
+import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +41,15 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 	protected TransactionDao transactionDao;
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadDocumentEvent readDocument(RequestReadDocumentEvent event) {
-		return null;
+		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
+		String username = event.getOrganization();
+		String fiscalYearId = event.getFiscalYearId();
+		
+		List<TraDocumentEntity> documentList = transactionDao.readDocument(documentSearchCriteria,username,fiscalYearId);
+		
+		return new ReadDocumentEvent(documentList);
 	}
 
 	@Override

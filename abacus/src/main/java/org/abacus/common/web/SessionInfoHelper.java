@@ -78,5 +78,9 @@ public class SessionInfoHelper implements Serializable {
 	public String currentRootOrganizationId() {
 		return currentRootOrganization().getId();
 	}
+
+	public String selectedFiscalYearId() {
+		return currentUser().getSelectedFiscalYear().getId();
+	}
 	
 }

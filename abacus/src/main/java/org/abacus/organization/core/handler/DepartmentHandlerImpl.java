@@ -38,9 +38,11 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public DepartmentEntity saveDepartmentEntity(DepartmentEntity entity) {
 		List<SecUserDepartmentEntity> list = new ArrayList<>();
-		for (SecUserDepartmentEntity user : entity.getDepartmentUserList()) {
-			user.setId(null);
-			list.add(user);
+		if (entity.getDepartmentUserList()!=null){
+			for (SecUserDepartmentEntity user : entity.getDepartmentUserList()) {
+				user.setId(null);
+				list.add(user);
+			}
 		}
 		entity = departmentRepository.save(entity);
 		userDepartmentRepository.deleteDepartmentUsers(entity.getId());

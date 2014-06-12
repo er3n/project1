@@ -41,7 +41,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton id="saveDepartment" update=":departmentForm"
-						ajax="true"
+						ajax="true" process="@form"
 						value="#{orgDepartmentViewBean.selDepartment.id == null ? 'Kaydet' : 'Guncelle'}"
 						actionListener="#{orgDepartmentViewBean.saveDepartment}" />
 					<p:commandButton id="deleteDepartment" update=":departmentForm"
@@ -61,10 +61,15 @@
 
 			<p:dataTable id="departmentTable" var="selDepartment"
 				value="#{orgDepartmentViewBean.departmentList}"
-				emptyMessage="Kayit Bulanamadi" paginator="true"
+				emptyMessage="Kayit Bulanamadi" paginator="true" selectionMode="single"
+				selection="#{orgDepartmentViewBean.selDepartment}"
 				paginatorPosition="bottom" rowKey="#{selDepartment.id}" rows="10"
 				resizableColumns="true">
 
+				<p:ajax event="rowSelect" update=":departmentForm"
+						listener="#{orgDepartmentViewBean.departmentRowSelectListener}">
+				</p:ajax>
+						
 				<p:column headerText="Birim Kodu">  
            					#{selDepartment.code}  
        					</p:column>
@@ -76,7 +81,7 @@
 				<p:column headerText="Yetkili Kullanıcıları">
 					<p:commandButton icon="ui-icon-extlink" process="@this"
 						oncomplete="PF('dlg').show()"
-						update=":departmentUserForm">
+						update=":departmentForm :departmentUserForm">
 						<f:setPropertyActionListener
 							target="#{orgDepartmentViewBean.selDepartment}"
 							value="#{selDepartment}" />

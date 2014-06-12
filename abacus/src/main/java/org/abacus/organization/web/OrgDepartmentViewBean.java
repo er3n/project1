@@ -47,6 +47,7 @@ public class OrgDepartmentViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		selectedGroupEnum = EnumList.OrgDepartmentGroupEnum.S;
+		createDepartment();
 	}
 
 	public void setSelOrganization(OrganizationEntity selType) {
@@ -55,6 +56,7 @@ public class OrgDepartmentViewBean implements Serializable {
 	}
 
 	public void departmentRowSelectListener() {
+		System.out.println((selDepartment==null)?"?":selDepartment.getName());
 	}
 
 	public void groupChangeListener() {
@@ -73,7 +75,7 @@ public class OrgDepartmentViewBean implements Serializable {
 			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
 		}
 		departmentService.saveDepartmentEntity(selDepartment);
-//		findOrganizationDepartment();
+		findOrganizationDepartment();
 	}
 
 	public void deleteDepartment() {
@@ -81,7 +83,7 @@ public class OrgDepartmentViewBean implements Serializable {
 			departmentService.deleteDepartmentEntity(selDepartment);
 			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
 		}
-//		findOrganizationDepartment();
+		findOrganizationDepartment();
 	}
 
 	public void createDepartment() {
@@ -115,7 +117,14 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	public void setSelDepartment(DepartmentEntity selDepartment) {
 		if (selDepartment != null) {
-			this.selDepartment = departmentService.getDepartmentEntity(selDepartment.getId()); 
+			if (this.selDepartment!=null && !this.selDepartment.isNew() && this.selDepartment.getId().equals(selDepartment.getId())){
+				DepartmentEntity fullDepartment = departmentService.getDepartmentEntity(selDepartment.getId()); 
+				this.selDepartment.setDepartmentUserList(fullDepartment.getDepartmentUserList());
+			} else {
+				this.selDepartment = departmentService.getDepartmentEntity(selDepartment.getId()); 
+			}
+		} else {
+			createDepartment();
 		}
 	}
 

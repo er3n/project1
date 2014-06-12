@@ -74,7 +74,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selOrganization.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":organizationForm :departmentForm"
+						<p:ajax event="rowSelect" update=":departmentForm"
 							listener="#{organizationViewBean.organizationRowSelectListener}">
 						</p:ajax>
 

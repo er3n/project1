@@ -15,4 +15,7 @@ public interface OrganizationRepository extends CrudRepository<OrganizationEntit
 	@Query("select c from OrganizationEntity c, SecUserOrganizationEntity uc where uc.user.id = :username and uc.organization.id = c.id order by c.id")
 	List<OrganizationEntity> findByUsername(@Param("username")String username);
 
+	@Query("select c from OrganizationEntity c left outer join fetch c.fiscalYearSet f where c.id = :id")
+	OrganizationEntity fetchOrganization(@Param("id")String id);
+
 }

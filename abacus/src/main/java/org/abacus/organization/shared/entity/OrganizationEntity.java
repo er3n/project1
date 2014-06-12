@@ -35,7 +35,7 @@ public class OrganizationEntity extends StaticEntity {
 
 	@OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
-	private Set<FiscalYearEntity> fiscalYearList;
+	private Set<FiscalYearEntity> fiscalYearSet;
 
 	public OrganizationEntity(String id) {
 		this.id = id;
@@ -69,12 +69,12 @@ public class OrganizationEntity extends StaticEntity {
 		this.parent = parent;
 	}
 
-	public Set<FiscalYearEntity> getFiscalYearList() {
-		return fiscalYearList;
+	public Set<FiscalYearEntity> getFiscalYearSet() {
+		return fiscalYearSet;
 	}
 
-	public void setFiscalYearList(Set<FiscalYearEntity> fiscalYearList) {
-		this.fiscalYearList = fiscalYearList;
+	public void setFiscalYearSet(Set<FiscalYearEntity> fiscalYearSet) {
+		this.fiscalYearSet = fiscalYearSet;
 	}
 
 }

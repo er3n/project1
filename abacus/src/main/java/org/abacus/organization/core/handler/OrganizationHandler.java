@@ -3,6 +3,7 @@ package org.abacus.organization.core.handler;
 import java.io.Serializable;
 import java.util.List;
 
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public interface OrganizationHandler extends Serializable{

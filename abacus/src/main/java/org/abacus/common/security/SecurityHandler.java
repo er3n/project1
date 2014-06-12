@@ -1,8 +1,11 @@
 package org.abacus.common.security;
  
 import java.util.List;
+import java.util.Set;
 
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
+import org.abacus.organization.core.util.OrganizationUtils;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.SecUserEntity;
@@ -22,6 +25,9 @@ public class SecurityHandler implements UserDetailsService {
 	
 	@Autowired
 	private OrganizationRepository organizationRepository;
+	
+	@Autowired
+	private OrganizationUtils organizationUtils;
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
@@ -43,7 +49,13 @@ public class SecurityHandler implements UserDetailsService {
 		secUser.setAuthorityNames(authorityNames);
 		
 		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);
-		secUser.init(userOrganizationList, userOrganizationList.get(0));
+		
+		OrganizationEntity defaultOrganization = userOrganizationList.get(0);
+		
+		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findCompanyFiscalYearSet(defaultOrganization);
+		FiscalYearEntity defaultFiscalYear = organizationUtils.findDefaultFiscalYear(companyFiscalYearSet);
+		
+		secUser.init(userOrganizationList, defaultOrganization,companyFiscalYearSet,defaultFiscalYear);
 
 		return secUser;
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +28,8 @@ public class SecUser implements UserDetails {
 	private OrganizationEntity rootOrganization;
 	
 	private FiscalYearEntity selectedFiscalYear;
+	
+	private Set<FiscalYearEntity> companyFiscalYearSet;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -47,9 +50,11 @@ public class SecUser implements UserDetails {
 		return authorities;
 	}
 
-	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization) {
+	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear) {
 		setOrganizationList(organizationList);
 		setSelectedOrganization(selectedOrganization);
+		setCompanyFiscalYearSet(companyFiscalYearSet);
+		setSelectedFiscalYear(defaultFiscalYear);
 	}
 
 	@Override
@@ -120,7 +125,7 @@ public class SecUser implements UserDetails {
 
 	public void setSelectedOrganization(OrganizationEntity selectedOrganization) {
 		this.selectedOrganization = selectedOrganization;
-		this.rootOrganization = findRootOrganization(this.selectedOrganization);
+		this.rootOrganization = OrganizationUtils.findRootOrganization(this.selectedOrganization);
 	}
 
 	public OrganizationEntity getRootOrganization() {
@@ -130,19 +135,22 @@ public class SecUser implements UserDetails {
 	public void setRootOrganization(OrganizationEntity rootOrganization) {
 		this.rootOrganization = rootOrganization;
 	}
-	
-	private OrganizationEntity findRootOrganization(OrganizationEntity child){
-		int currentLevelIndex = child.getLevel().ordinal();
-		int requestLevelIndex = EnumList.OrgOrganizationLevelEnum.L0.ordinal();
-		if (requestLevelIndex > currentLevelIndex){
-			return null;
-		} 
-		OrganizationEntity orgEntity = child;
-		while (requestLevelIndex < currentLevelIndex) {
-			orgEntity = orgEntity.getParent(); 
-			requestLevelIndex++;
-		}
-		return orgEntity;
+
+	public FiscalYearEntity getSelectedFiscalYear() {
+		return selectedFiscalYear;
 	}
+
+	public void setSelectedFiscalYear(FiscalYearEntity selectedFiscalYear) {
+		this.selectedFiscalYear = selectedFiscalYear;
+	}
+
+	public Set<FiscalYearEntity> getCompanyFiscalYearSet() {
+		return companyFiscalYearSet;
+	}
+
+	public void setCompanyFiscalYearSet(Set<FiscalYearEntity> companyFiscalYearSet) {
+		this.companyFiscalYearSet = companyFiscalYearSet;
+	}
+	
 
 }

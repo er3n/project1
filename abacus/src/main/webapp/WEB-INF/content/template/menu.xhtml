@@ -37,11 +37,16 @@
 			<h:form>
 				<p:button value="Giris" href="/app/user/login.abc" icon="ui-icon-tag" rendered="#{empty request.remoteUser}" />
 
-				<h:panelGrid columns="2" rendered="#{not empty request.remoteUser}">
-
+				<h:panelGrid columns="3" rendered="#{not empty request.remoteUser}">
+					
 					<p:selectOneMenu value="#{sessionInfoHelper.currentUser().selectedOrganization}" converter="omnifaces.SelectItemsConverter" style="width:200px">
 						<f:selectItems value="#{sessionInfoHelper.currentUser().organizationList}" var="organization" itemLabel="#{organization.id}: #{organization.name}" itemValue="#{organization}" />
-						<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.redirect()}" />
+						<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.companyChanged()}" update="menu_fiscal_year_combo" />
+					</p:selectOneMenu>
+					
+					<p:selectOneMenu id="menu_fiscal_year_combo" value="#{sessionInfoHelper.currentUser().selectedFiscalYear}" converter="omnifaces.SelectItemsConverter" style="width:200px">
+						<f:selectItems value="#{sessionInfoHelper.currentUser().companyFiscalYearSet}" var="fiscalYear" itemLabel="#{fiscalYear.year}" itemValue="#{fiscalYear}" />
+						<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.fiscalYearChanged()}" />
 					</p:selectOneMenu>
 
 					<p:menuButton value="#{request.remoteUser}" style="text-transform:capitalize;">

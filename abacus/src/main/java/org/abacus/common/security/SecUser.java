@@ -3,8 +3,10 @@ package org.abacus.common.security;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,8 @@ public class SecUser implements UserDetails {
 	private OrganizationEntity selectedOrganization;
 
 	private OrganizationEntity rootOrganization;
+	
+	private FiscalYearEntity selectedFiscalYear;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -32,7 +32,8 @@ insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_
 commit;
 
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'person','#', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'person','#.#', 0);
 commit;
 
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#', 'A', 'HY', 'Holding Yönetimi',0);

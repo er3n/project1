@@ -33,7 +33,7 @@ public class OrganizationEntity extends StaticEntity {
 	@JoinColumn(name = "parent_id")
 	private OrganizationEntity parent;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
 	private Set<FiscalYearEntity> fiscalYearList;
 

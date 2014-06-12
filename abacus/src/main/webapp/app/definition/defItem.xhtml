@@ -123,6 +123,11 @@
 					</p:commandButton>
 				</p:column>
 
+				<p:column style="width:4%">
+					<p:commandButton id="deleteButton" update=":itemProductDetailForm" icon="ui-icon-close" title="Sil" process="@this" actionListener="#{itemViewBean.deleteItemProduct(product)}">
+					</p:commandButton>
+				</p:column>
+
 				<f:facet name="footer">
 					<p:commandButton value="Yeni Malzeme Ekle" actionListener="#{itemViewBean.newItemProductSelected}" update=":itemProductDetailForm" />
 				</f:facet>

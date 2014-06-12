@@ -62,6 +62,11 @@ public class OrgDepartmentViewBean implements Serializable {
 	}
 
 	public void saveDepartment() {
+		if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
+			jsfMessageHelper.addInfo("departmentHoldinSeviyesindeTanimlanmaz");
+			return;
+		}
+		
 		if (selDepartment.isNew()) {
 			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
 		} else {

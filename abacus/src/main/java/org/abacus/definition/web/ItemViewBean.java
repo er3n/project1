@@ -165,6 +165,18 @@ public class ItemViewBean implements Serializable {
 		jsfMessageHelper.addInfo("updateSuccesssful");
 	}
 
+	public void deleteItemProduct(DefItemProductEntity prodItem) {
+		if (prodItem != null){
+			System.out.println(prodItem.getMaterialItem().getName());
+		}
+		
+//		ItemProductUptatedEvent updatedEvent = itemHandler.updateItemProduct(new UpdateItemProductEvent(selectedItemProduct, userUpdated));
+//
+//		this.itemSelected();
+//
+//		jsfMessageHelper.addInfo("updateSuccesssful");
+	}
+	
 	public void itemSelected() {
 		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(selectedItem.getId()));
 		selectedItem = readItemEvent.getItem();

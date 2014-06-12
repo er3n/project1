@@ -7,7 +7,7 @@ commit;
 insert into org_organization (id, name, level_enum, parent_id) select replace(id,'#','01') id, replace(name,'#','01') as name, level_enum, replace(parent_id,'#','01') parent_id from org_organization where id like '#%';
 insert into org_department (id, organization_id, group_enum, code, name, version) select nextval('seq_id') id, replace(organization_id,'#','01') organization_id, group_enum, code, name, version from org_department where organization_id like '#%';
 
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) select nextval('seq_id'), 'admin', replace(organization_id,'#','01'), 0 from sec_user_organization where  organization_id like '#%' and user_id = 'admin';
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) select nextval('seq_id') id, '01' organization_id, type_id, code, replace(name,'#','01'), is_active, version from def_task where organization_id = '#';
 
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) select nextval('seq_id') id, '01' organization_id, type_id, parent_id, code, name, is_active, version from def_value where organization_id = '#' and id>0;

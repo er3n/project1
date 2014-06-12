@@ -77,9 +77,10 @@ commit;
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
 commit;
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', 'G', 'Stk Giris #', 1, 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', 'C', 'Stk Cikis #', 1, 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_TT', 'T', 'Stk Transfer #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_OC_I', 'OC-I', 'Stk Acilis #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', 'IO-I', 'Stk Giris #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', 'IO-O', 'Stk Cikis #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_TT', 'TT-T', 'Stk Transfer #', 1, 0);
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);
@@ -1892,5 +1893,8 @@ insert into def_item_product (id,version, material_count, item_id, material_item
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 10, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0016'), (select i.id from def_unit_code i where i.code='B0003'),7);
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 0.02, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0122'), (select i.id from def_unit_code i where i.code='B0005'),8);
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 0.5, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0008'), (select i.id from def_unit_code i where i.code='B0003'),9);
+commit;
+
+insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKACILIS', 'Açılış Fişi 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#', 29);
 commit;
 

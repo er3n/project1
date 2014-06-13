@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.abacus.definition.shared.ItemAlreadyExistsException;
+import org.abacus.common.shared.AbcBusinessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -57,8 +57,7 @@ public class JsfMessageHelper implements Serializable {
 		return message;
 	}
 
-	public void addError(ItemAlreadyExistsException e) {
-		
+	public void addError(AbcBusinessException e) {
 		this.addError(e.getMessage(),e.getParameters());
 	}
 

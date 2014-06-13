@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
@@ -50,13 +51,14 @@ public class OrganizationViewBean implements Serializable {
 	}
 
 	public void saveOrganization() {
-		if (selOrganization.isNew()) {
+		try{
+			selOrganization = organizationHandler.saveOrganizationEntity(selOrganization);
 			jsfMessageHelper.addInfo("organizationKayitIslemiBasarili");
-		} else {
-			jsfMessageHelper.addInfo("organizationGuncellemeIslemiBasarili");
+//			jsfMessageHelper.addInfo("organizationGuncellemeIslemiBasarili");
+			findOrganizationList();
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
 		}
-		selOrganization = organizationHandler.saveOrganizationEntity(selOrganization);
-		findOrganizationList();
 	}
 
 	public void deleteOrganization() {

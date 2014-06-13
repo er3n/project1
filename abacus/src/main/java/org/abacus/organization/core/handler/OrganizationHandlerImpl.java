@@ -2,9 +2,18 @@ package org.abacus.organization.core.handler;
 
 import java.util.List;
 
+import org.abacus.common.shared.AbcBusinessException;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.OrganizationDao;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
+import org.abacus.organization.shared.ParentOrganizationNotFoundException;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.core.handler.SecUserHandlerImpl;
+import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
+import org.abacus.user.core.persistance.repository.UserRepository;
+import org.abacus.user.shared.UserExistsInGroupException;
+import org.abacus.user.shared.entity.SecUserEntity;
+import org.abacus.user.shared.entity.SecUserOrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,6 +27,12 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 
 	@Autowired
 	private OrganizationDao organizationDao;
+
+	@Autowired
+	private UserRepository userRepo;
+
+	@Autowired
+	private UserOrganizationRepository userOrgRepo;
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
@@ -33,10 +48,30 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public OrganizationEntity saveOrganizationEntity(OrganizationEntity entity) {
+	public OrganizationEntity saveOrganizationEntity(OrganizationEntity entity)  throws AbcBusinessException {
 		OrganizationEntity parent = organizationDao.findParentOrganization(entity);
 		entity.setParent(parent);
-		return organizationRepository.save(entity);
+		boolean newRootOrg = false;
+		if (entity.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)){
+			newRootOrg = !organizationRepository.exists(entity.getId());
+		}
+		
+		if (!entity.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0) && entity.getParent()==null){
+			throw new ParentOrganizationNotFoundException();
+		}
+			
+		entity = organizationRepository.save(entity);
+		
+		if (newRootOrg){
+			SecUserEntity adminUser = new SecUserEntity();
+			adminUser.setId("admin");
+			SecUserOrganizationEntity userOrg = new SecUserOrganizationEntity();
+			userOrg.setUser(adminUser);
+			userOrg.setOrganization(entity);
+			userOrgRepo.save(userOrg);
+		}
+		
+		return entity;
 	}
 
 	@Override

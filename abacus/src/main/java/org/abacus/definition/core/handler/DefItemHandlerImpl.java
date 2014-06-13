@@ -15,15 +15,17 @@ import org.abacus.definition.shared.entity.DefItemUnitEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
 import org.abacus.definition.shared.event.CreateItemProductEvent;
+import org.abacus.definition.shared.event.DeleteItemProductEvent;
 import org.abacus.definition.shared.event.ItemCreatedEvent;
 import org.abacus.definition.shared.event.ItemProductCreatedEvent;
+import org.abacus.definition.shared.event.ItemProductDeletedEvent;
+import org.abacus.definition.shared.event.ItemProductUpdatedEvent;
 import org.abacus.definition.shared.event.ItemUpdatedEvent;
 import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;
 import org.abacus.definition.shared.event.UpdateItemEvent;
+import org.abacus.definition.shared.event.UpdateItemProductEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
-import org.abacus.definition.web.shared.event.ItemProductUptatedEvent;
-import org.abacus.definition.web.shared.event.UpdateItemProductEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -139,7 +141,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	}
 
 	@Override
-	public ItemProductUptatedEvent updateItemProduct(UpdateItemProductEvent updateItemProductEvent) {
+	public ItemProductUpdatedEvent updateItemProduct(UpdateItemProductEvent updateItemProductEvent) {
 		String userUpdated = updateItemProductEvent.getUserUpdated();
 		DefItemProductEntity product = updateItemProductEvent.getProduct();
 		
@@ -147,8 +149,16 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		
 		product = itemProductRepository.save(product);
 		
-		return new ItemProductUptatedEvent(product);
+		return new ItemProductUpdatedEvent(product);
 	}
 	
+	@Override
+	public ItemProductDeletedEvent deleteItemProduct(DeleteItemProductEvent deleteItemProductEvent) {
+		DefItemProductEntity product = deleteItemProductEvent.getProduct();
+		
+		itemProductRepository.delete(product.getId());
+		
+		return new ItemProductDeletedEvent(product);
+	}
 
 }

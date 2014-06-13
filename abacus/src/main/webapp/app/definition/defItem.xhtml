@@ -124,7 +124,9 @@
 				</p:column>
 
 				<p:column style="width:4%">
-					<p:commandButton id="deleteButton" update=":itemProductDetailForm" icon="ui-icon-close" title="Sil" process="@this" actionListener="#{itemViewBean.deleteItemProduct(product)}">
+					<p:commandButton id="deleteButton" update=":itemProductListForm" icon="ui-icon-close" title="Sil" 
+						process="@this" actionListener="#{itemViewBean.deleteItemProduct(product)}">
+						<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
 					</p:commandButton>
 				</p:column>
 

@@ -1,13 +1,13 @@
-package org.abacus.definition.web.shared.event;
+package org.abacus.definition.shared.event;
 
 import org.abacus.common.shared.event.UpdatedEvent;
 import org.abacus.definition.shared.entity.DefItemProductEntity;
 
-public class ItemProductUptatedEvent extends UpdatedEvent {
+public class DeleteItemProductEvent extends UpdatedEvent {
 
 	private DefItemProductEntity product;
-	
-	public ItemProductUptatedEvent(DefItemProductEntity product){
+
+	public DeleteItemProductEvent(DefItemProductEntity product) {
 		this.product = product;
 	}
 
@@ -18,5 +18,5 @@ public class ItemProductUptatedEvent extends UpdatedEvent {
 	public void setProduct(DefItemProductEntity product) {
 		this.product = product;
 	}
-
+	
 }

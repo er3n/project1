@@ -208,7 +208,7 @@ public class CatMenuViewBean implements Serializable {
 		MenuUpdatedEvent updateMenuEvent = menuHandler.updateMenu(new UpdateMenuEvent(this.selectedMenu, username));
 		this.selectedMenu = updateMenuEvent.getMenu();
 		this.initMenuSummary();
-		jsfMessageHelper.addInfo("updateSuccesssful");
+		jsfMessageHelper.addInfo("updateSuccessful");
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

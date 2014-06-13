@@ -29,16 +29,18 @@ import org.abacus.definition.shared.entity.DefUnitGroupEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
 import org.abacus.definition.shared.event.CreateItemProductEvent;
+import org.abacus.definition.shared.event.DeleteItemProductEvent;
 import org.abacus.definition.shared.event.ItemCreatedEvent;
 import org.abacus.definition.shared.event.ItemProductCreatedEvent;
+import org.abacus.definition.shared.event.ItemProductDeletedEvent;
+import org.abacus.definition.shared.event.ItemProductUpdatedEvent;
 import org.abacus.definition.shared.event.ItemUpdatedEvent;
 import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;
 import org.abacus.definition.shared.event.UpdateItemEvent;
+import org.abacus.definition.shared.event.UpdateItemProductEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
-import org.abacus.definition.web.shared.event.ItemProductUptatedEvent;
-import org.abacus.definition.web.shared.event.UpdateItemProductEvent;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @SuppressWarnings("serial")
@@ -120,7 +122,7 @@ public class ItemViewBean implements Serializable {
 			String organization = sessionInfoHelper.currentOrganizationId();
 			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, userUpdated, organization));
 			this.itemSelected();
-			jsfMessageHelper.addInfo("updateSuccesssful");
+			jsfMessageHelper.addInfo("updateSuccessful");
 		} catch (ItemAlreadyExistsException e) {
 			jsfMessageHelper.addError("itemExistsWithThisTypeAndCode");
 		}
@@ -157,24 +159,24 @@ public class ItemViewBean implements Serializable {
 
 	public void updateItemProduct() {
 		String userUpdated = sessionInfoHelper.currentUserName();
-		ItemProductUptatedEvent updatedEvent = itemHandler.updateItemProduct(new UpdateItemProductEvent(selectedItemProduct, userUpdated));
+		ItemProductUpdatedEvent updatedEvent = itemHandler.updateItemProduct(new UpdateItemProductEvent(selectedItemProduct, userUpdated));
 		selectedItemProduct = null;
 
 		this.itemSelected();
 
-		jsfMessageHelper.addInfo("updateSuccesssful");
+		jsfMessageHelper.addInfo("updateSuccessful");
 	}
 
 	public void deleteItemProduct(DefItemProductEntity prodItem) {
 		if (prodItem != null){
+			this.selectedItemProduct = prodItem;
 			System.out.println(prodItem.getMaterialItem().getName());
+			ItemProductDeletedEvent deletedEvent = itemHandler.deleteItemProduct(new DeleteItemProductEvent(this.selectedItemProduct));
+			jsfMessageHelper.addInfo("deleteSuccessful");
+			selectedItem.getItemProductSet().remove(this.selectedItemProduct);
+			this.selectedItemProduct = null;
 		}
 		
-//		ItemProductUptatedEvent updatedEvent = itemHandler.updateItemProduct(new UpdateItemProductEvent(selectedItemProduct, userUpdated));
-//
-//		this.itemSelected();
-//
-//		jsfMessageHelper.addInfo("updateSuccesssful");
 	}
 	
 	public void itemSelected() {

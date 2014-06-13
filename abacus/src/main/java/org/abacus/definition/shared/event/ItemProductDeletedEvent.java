@@ -2,15 +2,15 @@ package org.abacus.definition.shared.event;
 
 import java.util.List;
 
-import org.abacus.common.shared.event.UpdatedEvent;
+import org.abacus.common.shared.event.DeletedEvent;
 import org.abacus.definition.shared.entity.DefItemProductEntity;
 
-public class ItemProductUpdatedEvent extends UpdatedEvent {
+public class ItemProductDeletedEvent extends DeletedEvent {
 
 	private List<DefItemProductEntity> updatedProductEntities;
 	private DefItemProductEntity product;
 	
-	public ItemProductUpdatedEvent(DefItemProductEntity product){
+	public ItemProductDeletedEvent(DefItemProductEntity product){
 		this.product = product;
 	}
 

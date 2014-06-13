@@ -137,15 +137,12 @@ public interface EnumList {
 		ITM_SR_ST("Stok Hizmetleri", 0), //
 		ITM_SR_FA("Demirbaş Hizmetleri", 0), //
 		// Stock
-		STK_OC("Stok Open/Close Tip", 0), //
-		STK_OC_I("Stok Open Tip", 1), //
-		STK_IO("Stok In/Out Tip", 0), //
-		STK_IO_I("Stok Input Tip", 1), //
-		STK_IO_O("Stok Output Tip", -1), //
-		STK_WB("Stok WayBill Tip", 0), //
-		STK_WB_I("Stok WayBill In Tip", 1), //
-		STK_WB_O("Stok WayBill Out Tip", -1), //
-		STK_TT("Stok Transfer Tip", 0), //
+		STK_OC_I("Stok Açılış Tip", 1), //
+		STK_IO_I("Stok İşlem Giriş Tip", 1), //
+		STK_IO_O("Stok İşlem Çıkış Tip", -1), //
+		STK_WB_I("Stok İrsaliye Giriş Tip", 1), //
+		STK_WB_O("Stok Satış Çıkş Tip", -1), //
+		STK_TT_T("Stok Transfer Tip", 0), //
 		// Finance
 		FIN_CS("Masraf Giriş", 0), //
 		;

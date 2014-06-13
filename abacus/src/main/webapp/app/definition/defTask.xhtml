@@ -30,7 +30,9 @@
 								ajax="true"
 								value="#{defTaskViewBean.selTask.id == null ? '-' : 'Sil'}"
 								actionListener="#{defTaskViewBean.deleteTask}"
-								immediate="true" />
+								immediate="true">
+								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+							</p:commandButton>
 							<p:commandButton id="clearTask" update=":taskForm"
 								ajax="true"
 								value="#{defTaskViewBean.selTask.id == null ? 'Temizle' : 'Yeni Kayit'}"

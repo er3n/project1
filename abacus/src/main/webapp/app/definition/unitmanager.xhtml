@@ -39,7 +39,9 @@
 								ajax="true"
 								value="#{unitViewBean.selUnitGroup.id == null ? '-' : 'Sil'}"
 								actionListener="#{unitViewBean.deleteUnitGroup}"
-								immediate="true" />
+								immediate="true">
+								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+							</p:commandButton>
 							<p:commandButton id="clearOrganization" update=":unitGroupForm"
 								ajax="true"
 								value="#{unitViewBean.selUnitGroup.id == null ? 'Temizle' : 'Yeni Kayit'}"

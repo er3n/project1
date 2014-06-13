@@ -39,7 +39,9 @@
 								ajax="true"
 								value="#{unitCodeViewBean.selUnitCode.id == null ? '-' : 'Sil'}"
 								actionListener="#{unitCodeViewBean.deleteUnitCode}"
-								immediate="true" />
+								immediate="true">
+								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+							</p:commandButton>
 							<p:commandButton id="clearUnitCode" update=":unitCodeForm"
 								ajax="true"
 								value="#{unitCodeViewBean.selUnitCode.id == null ? 'Temizle' : 'Yeni Kayit'}"

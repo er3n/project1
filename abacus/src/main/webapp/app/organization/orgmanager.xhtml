@@ -56,7 +56,9 @@
 								ajax="true"
 								value="#{organizationViewBean.selOrganization.id == null ? '-' : 'Sil'}"
 								actionListener="#{organizationViewBean.deleteOrganization}"
-								immediate="true" />
+								immediate="true">
+								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+							</p:commandButton>
 							<p:commandButton id="clearOrganization" update=":organizationForm"
 								ajax="true"
 								value="#{organizationViewBean.selOrganization.id == null ? 'Temizle' : 'Yeni Kayit'}"

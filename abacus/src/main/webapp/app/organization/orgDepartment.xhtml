@@ -48,7 +48,9 @@
 						ajax="true"
 						value="#{orgDepartmentViewBean.selDepartment.id == null ? '-' : 'Sil'}"
 						actionListener="#{orgDepartmentViewBean.deleteDepartment}"
-						immediate="true" />
+						immediate="true">
+						<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+					</p:commandButton>
 					<p:commandButton id="clearDepartment" update=":departmentForm"
 						ajax="true"
 						value="#{orgDepartmentViewBean.selDepartment.id == null ? 'Temizle' : 'Yeni Kayit'}"
@@ -114,7 +116,9 @@
 				<p:column headerText="Islem">
 					<p:commandButton icon="ui-icon-close"
 						action="#{orgDepartmentViewBean.removeItem(selDepartmentUser)}"
-						update=":departmentUserForm:departmentUserTable" process="@this"/>
+						update=":departmentUserForm:departmentUserTable" process="@this">
+						<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+					</p:commandButton>
 				</p:column>
 
 			</p:dataTable>

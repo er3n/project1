@@ -1902,5 +1902,7 @@ insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_docu
 insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO3', 'Açılış 3 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#.#.#', 29);
 insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO4', 'Açılış 4 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#.#.#', 29);
 
+insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2013-01-01', 'STKN2013-1', 'Açılış 2013-1', 1, 'STK_OC_I', null, '#.#:2013:01', '#.#.#.#', 29);
+
 commit;
 

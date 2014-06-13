@@ -30,7 +30,9 @@
 								ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? '-' : 'Sil'}"
 								actionListener="#{defParamViewBean.deleteParam}"
-								immediate="true" />
+								immediate="true">
+								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+								</p:commandButton>
 							<p:commandButton id="clearParam" update=":paramForm :paramAnswerForm"
 								ajax="true"
 								value="#{defParamViewBean.selParam.id == null ? 'Temizle' : 'Yeni Kayit'}"

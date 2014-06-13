@@ -19,16 +19,16 @@
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
-					<p:outputLabel value="Döküman Numarası" />
+					<p:outputLabel value="Belge No:" />
 					<p:inputText
 						value="#{findDocumentViewBean.documentSearchCriteria.docNo}" />
 
-					<p:outputLabel value="Döküman Zamanı (Başlangıç) :"
+					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
 						value="#{findDocumentViewBean.documentSearchCriteria.docStartDate}" />
 
-					<p:outputLabel value="Döküman Zamanı (Bitiş) :"
+					<p:outputLabel value="Bitiş Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
 						value="#{findDocumentViewBean.documentSearchCriteria.docEndDate}" />
@@ -60,13 +60,24 @@
 						<h:outputText value="#{var.docNo}" />
 					</p:column>
 
+					<p:column headerText="Tarih">
+						<h:outputText value="#{var.docDate}" />
+					</p:column>
+
+					<p:column headerText="Aciklama">
+						<h:outputText value="#{var.docNote}" />
+					</p:column>
+
+					<p:column headerText="Org">
+						<h:outputText value="#{var.organization.id}" />
+					</p:column>
+
 					<p:column headerText="Tip">
 						<h:outputText value="#{var.typeEnum.description}" />
 					</p:column>
 
-
 					<p:column headerText="İşlem">
-						<h:outputText value="#{var.task.type.name}" />
+						<h:outputText value="#{var.task.name}" />
 					</p:column>
 
 				</p:dataTable>

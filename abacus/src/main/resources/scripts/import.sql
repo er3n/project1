@@ -60,16 +60,16 @@ insert into def_type (id, name, level, tr_state_type) values ('PRM_STOCK', 'Stok
 insert into def_type (id, name, level, tr_state_type) values ('VAL_CATEGORY', 'Stok Kategorileri', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('VAL_MEAL', 'Yemek Öğünleri', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('VAL_RECEIPT', 'Yemek Tipleri', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('STK_OC', 'Stok Open/Close', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('STK_OC_I', 'Stok Open', 1, +1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_IO', 'Stok In/Out', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('STK_IO_I', 'Stok Inputs', 1, +1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_IO_O', 'Stok Outputs', 1, -1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_WB', 'Stok WayBill', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('STK_WB_I', 'Stok WayBill IN', 1, +1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_WB_O', 'Stok WayBill OUT', 1, -1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_TT', 'Stok Transfer', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('FIN_CS', 'Masraf Girişi', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('STK_OC', 'Stok Open/Close Tip', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('STK_OC_I', 'Stok Open Tip', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO', 'Stok In/Out Tip', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO_I', 'Stok Input Tip', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO_O', 'Stok Output Tip', 1, -1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_WB', 'Stok WayBill Tip', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('STK_WB_I', 'Stok WayBill In Tip ', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_WB_O', 'Stok WayBill Out Tip', 1, -1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_TT', 'Stok Transfer Tip', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('FIN_CS', 'Masraf Girişi Tip', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Hizmet Tanımları', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Malzeme Tanımları', 1, 0);
 commit;
@@ -77,10 +77,10 @@ commit;
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
 commit;
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_OC_I', 'OC-I', 'Stk Acilis #', 1, 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', 'IO-I', 'Stk Giris #', 1, 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', 'IO-O', 'Stk Cikis #', 1, 0);
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_TT', 'TT-T', 'Stk Transfer #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_OC_I', 'OC-I', 'Stk Acilis Task #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', 'IO-I', 'Stk Giris Task #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', 'IO-O', 'Stk Cikis Task #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_TT', 'TT-T', 'Stk Transfer Task #', 1, 0);
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);
@@ -1895,6 +1895,10 @@ insert into def_item_product (id,version, material_count, item_id, material_item
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 0.5, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0008'), (select i.id from def_unit_code i where i.code='B0003'),9);
 commit;
 
-insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO', 'Açılış Fişi 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#', 29);
+insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO1', 'Açılış 1 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#', 29);
+insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO2', 'Açılış 2 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#.#', 29);
+insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO3', 'Açılış 3 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#.#.#', 29);
+insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STKNO4', 'Açılış 4 2014', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#.#.#', 29);
+
 commit;
 

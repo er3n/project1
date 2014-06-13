@@ -50,7 +50,7 @@ public class TransactionDao {
 		criteria.createAlias("s.fiscalPeriod", "fp");
 		
 		if(StringUtils.hasText(organization)){
-			criteria.add(Restrictions.eq("s.organization.id", organization));
+			criteria.add(Restrictions.like("s.organization.id", organization+"%"));
 		}
 		
 		if(StringUtils.hasText(fiscalYearId)){
@@ -58,7 +58,7 @@ public class TransactionDao {
 		}
 		
 		if(StringUtils.hasText(documentSearchCriteria.getDocNo())){
-			criteria.add(Restrictions.eq("s.docNo",documentSearchCriteria.getDocNo()));
+			criteria.add(Restrictions.like("s.docNo","%"+documentSearchCriteria.getDocNo()+"%"));
 		}
 		
 		criteria.addOrder(Order.desc("s.docDate"));

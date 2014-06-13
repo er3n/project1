@@ -30,7 +30,7 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	@Column(name = "doc_date", nullable = false)
 	private Date docDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
 	

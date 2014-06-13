@@ -123,9 +123,7 @@ public class OrgDepartmentViewBean implements Serializable {
 			} else {
 				this.selDepartment = departmentService.getDepartmentEntity(selDepartment.getId()); 
 			}
-		} else {
-			createDepartment();
-		}
+		} 
 	}
 
 	public DepartmentHandler getDepartmentService() {

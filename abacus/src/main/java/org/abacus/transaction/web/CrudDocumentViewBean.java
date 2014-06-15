@@ -82,10 +82,6 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private void initNewDocument() {
 		document = new StkDocumentEntity();
-		// entity.setDocDate(Calendar.getInstance().getTime());
-		// entity.setDocNo("123456");
-		// entity.setDocNote("New stock item added");
-		// entity.setFiscalPeriod(new FiscalPeriodEntity("#.#:2014:01"));s
 	}
 
 	public void saveDocument() {

@@ -16,22 +16,24 @@
 			closable="true" rendered="#{!crudDocumentViewBean.hasFiscalYear}" />
 
 		<c:if test="#{crudDocumentViewBean.hasFiscalYear}">
-			<h:form>
-				<p:panel id="crudDocumentPanel" header="Fiş Sorgulama"
+			<h:form id="crudDocumentFrm">
+				<p:panel
 					rendered="#{not empty crudDocumentViewBean.document}">
 
-					<f:facet name="header">
+				<f:facet name="header">
 					Fiş İşlemleri
 				</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
 						<p:outputLabel value="Belge No:" />
-						<p:inputText value="#{crudDocumentViewBean.document.docNo}" required="true" requiredMessage="Döküman numarası boş olamaz." />
+						<p:inputText value="#{crudDocumentViewBean.document.docNo}"
+							required="true" requiredMessage="Döküman numarası boş olamaz." />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar value="#{crudDocumentViewBean.document.docDate}" required="true" requiredMessage="Döküman tarihi boş olamaz" />
-						
+						<p:calendar value="#{crudDocumentViewBean.document.docDate}"
+							required="true" requiredMessage="Döküman tarihi boş olamaz" />
+
 						<p:outputLabel value="İşlem:" style="font-weigh: bold" />
 						<p:selectOneMenu value="#{crudDocumentViewBean.document.task}"
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
@@ -44,19 +46,34 @@
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
 							value="#{crudDocumentViewBean.document.docNote}" />
-							
-							
+
+
 
 					</h:panelGrid>
 
 					<f:facet name="footer">
 						<p:commandButton value="Kaydet"
 							actionListener="#{crudDocumentViewBean.saveDocument}"
-							update="crudDocumentPanel" rendered="#{not empty crudDocumentViewBean.document.id}" />
+							update="crudDocumentFrm"
+							rendered="#{not empty crudDocumentViewBean.document.id}" />
 						<p:spacer width="5px" />
 					</f:facet>
 
 				</p:panel>
+
+			</h:form>
+
+
+			<h:form id="crudDocumentDetailFrm">
+
+				<p:panel header="Fiş Detay"
+					rendered="#{not empty crudDocumentViewBean.document}" >
+					
+					
+
+
+				</p:panel>
+
 
 			</h:form>
 

@@ -76,7 +76,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selOrganization.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":departmentForm"
+						<p:ajax event="rowSelect" update=":organizationForm :departmentForm"
 							listener="#{organizationViewBean.organizationRowSelectListener}">
 						</p:ajax>
 
@@ -103,6 +103,8 @@
 			<!-- organizationGrid -->
 
 			<ui:include src="orgDepartment.xhtml"></ui:include>				
+			<ui:include src="orgFiscal.xhtml"></ui:include>				
+
 		</h:panelGrid>
 	</ui:define>
 </ui:composition>

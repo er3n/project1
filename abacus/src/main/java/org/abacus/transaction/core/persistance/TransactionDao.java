@@ -49,6 +49,11 @@ public class TransactionDao {
 		Criteria criteria = currentSession.createCriteria(StkDocumentEntity.class,"s");
 		criteria.createAlias("s.fiscalPeriod", "fp");
 		
+		
+		if(documentSearchCriteria.getDocumentId() != null){
+			criteria.add(Restrictions.eq("s.id", documentSearchCriteria.getDocumentId()));
+		}
+		
 		if(StringUtils.hasText(organization)){
 			criteria.add(Restrictions.like("s.organization.id", organization+"%"));
 		}

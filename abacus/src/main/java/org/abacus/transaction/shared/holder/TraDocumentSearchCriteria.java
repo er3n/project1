@@ -6,11 +6,21 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class TraDocumentSearchCriteria implements Serializable {
 
+	private Long documentId;
+
 	private String docNo;
 
 	private Date docStartDate;
 
 	private Date docEndDate;
+
+	public TraDocumentSearchCriteria() {
+
+	}
+
+	public TraDocumentSearchCriteria(Long documentId) {
+		this.documentId = documentId;
+	}
 
 	public String getDocNo() {
 		return docNo;
@@ -36,6 +46,12 @@ public class TraDocumentSearchCriteria implements Serializable {
 		this.docEndDate = docEndDate;
 	}
 
+	public Long getDocumentId() {
+		return documentId;
+	}
 
-	
+	public void setDocumentId(Long documentId) {
+		this.documentId = documentId;
+	}
+
 }

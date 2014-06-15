@@ -107,6 +107,7 @@ public interface EnumList {
 		ITM("Kalem"), // Dynamic Item
 		STK("Stok"), // Dynamic Task Stock
 		FIN("Finans"), // Dynamic Task Finance
+		ACC("Muhasebe"), // Dynamic Task Account
 		;
 		private String description;
 

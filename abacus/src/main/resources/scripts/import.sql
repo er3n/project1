@@ -156,9 +156,9 @@ INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, 
 INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, organization_id) VALUES ('#.#:2014', 'FIFO', DATE '2014-12-31', DATE '2014-01-01', '2014 Fin.Yil', '2014', '#.#');
 INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, organization_id) VALUES ('#.#:2015', 'FIFO', DATE '2015-12-31', DATE '2015-01-01', '2015 Fin.Yil', '2015', '#.#');
 
-INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id) VALUES ('#.#:2013:01', DATE '2013-12-31', DATE '2013-01-01','01', '#.#:2013');
-INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id) VALUES ('#.#:2014:01', DATE '2014-12-31', DATE '2014-01-01','01', '#.#:2014');
-INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id) VALUES ('#.#:2015:01', DATE '2015-12-31', DATE '2015-01-01','01', '#.#:2015');
+INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2013:01', DATE '2013-12-31', DATE '2013-01-01','01', '#.#:2013', 1, 1, 1);
+INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2014:01', DATE '2014-12-31', DATE '2014-01-01','01', '#.#:2014', 1, 1, 1);
+INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2015:01', DATE '2015-12-31', DATE '2015-01-01','01', '#.#:2015', 1, 1, 1);
 
 commit;
 

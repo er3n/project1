@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.hibernate.annotations.Type;
 
 @Entity
 @SuppressWarnings("serial")
@@ -32,6 +33,18 @@ public class FiscalPeriodEntity extends StaticEntity {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_finish", nullable = true)
 	private Date dateFinish;
+
+	@Column(name = "is_acc_active", nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean isAccActive;
+
+	@Column(name = "is_fin_active", nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean isFinActive;
+
+	@Column(name = "is_stk_active", nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean isStkActive;
 
 	public FiscalPeriodEntity(String id) {
 		super.id = id;
@@ -71,5 +84,28 @@ public class FiscalPeriodEntity extends StaticEntity {
 		this.fiscalYear = fiscalYear;
 	}
 
-	
+	public Boolean getIsAccActive() {
+		return isAccActive;
+	}
+
+	public void setIsAccActive(Boolean isAccActive) {
+		this.isAccActive = isAccActive;
+	}
+
+	public Boolean getIsFinActive() {
+		return isFinActive;
+	}
+
+	public void setIsFinActive(Boolean isFinActive) {
+		this.isFinActive = isFinActive;
+	}
+
+	public Boolean getIsStkActive() {
+		return isStkActive;
+	}
+
+	public void setIsStkActive(Boolean isStkActive) {
+		this.isStkActive = isStkActive;
+	}
+
 }

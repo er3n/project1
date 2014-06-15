@@ -4,8 +4,13 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.persistance.FiscalDao;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.test.fixture.TransactionFixture;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
@@ -55,6 +60,9 @@ public class TestTransactionHandler {
 	
 	@Autowired
 	private StkDetailTrackRepository detailTrackRepository;
+
+	@Autowired
+	private FiscalDao fiscalDao;
 
 	private String user = "admin";
 
@@ -156,4 +164,12 @@ public class TestTransactionHandler {
 		
 	}
 
+	@Test
+	public void testFiscalPeriod() throws AbcBusinessException{
+		FiscalYearEntity fiscalYear = fiscalDao.findFiscalYear("#.#:2014");
+		Date now = new Date();
+		FiscalPeriodEntity period = fiscalDao.findFiscalPeriod(fiscalYear, now, EnumList.DefTypeEnum.STK_IO_I);
+		System.out.println(period.getId());
+	}
+	
 }

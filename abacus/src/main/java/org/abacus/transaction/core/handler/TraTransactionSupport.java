@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.persistance.FiscalDao;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.TransactionDao;
@@ -39,6 +41,9 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 
 	@Autowired
 	protected TransactionDao transactionDao;
+	
+	@Autowired
+	protected FiscalDao fiscalDao;
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -64,7 +69,10 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 		document.createHook(user);
 		document.setTrStateDocument(EnumList.TraState.INP.value());
 		document.setTypeEnum(document.getTask().getType().getTypeEnum());
-
+		
+		FiscalPeriodEntity fiscalPeriod = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
+		document.setFiscalPeriod(fiscalPeriod);
+		
 		document = transactionDao.save(document);
 
 		return new DocumentCreatedEvent(document);

@@ -39,7 +39,10 @@ public class FiscalDao implements Serializable {
 	}
 
 		
-	public FiscalPeriodEntity findFiscalPeriod(FiscalYearEntity fiscalYearEntity, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException {
+	public FiscalPeriodEntity findFiscalPeriod(String fiscalYearId, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException {
+		
+		FiscalYearEntity fiscalYearEntity = fiscalYearRepository.findOne(fiscalYearId);
+		
 		if (!String.valueOf(new DateTime(docDate).getYear()).equals(fiscalYearEntity.getYear())){
 			throw new FiscalYearDocumentDateNotMatchedException();
 		}

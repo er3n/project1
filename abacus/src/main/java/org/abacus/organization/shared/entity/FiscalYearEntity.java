@@ -39,6 +39,12 @@ public class FiscalYearEntity extends StaticEntity {
 	@Column(name = "cost_type", nullable = true)
 	private String costType; // enum olacak
 	
+	public FiscalYearEntity(String id) {
+		super.id = id;
+	}
+	
+	public FiscalYearEntity() {}
+
 	public OrganizationEntity getOrganization() {
 		return organization;
 	}

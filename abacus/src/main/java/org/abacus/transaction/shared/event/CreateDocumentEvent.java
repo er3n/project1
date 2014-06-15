@@ -1,6 +1,7 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.CreatedEvent;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
 public class CreateDocumentEvent extends CreatedEvent {
@@ -8,11 +9,13 @@ public class CreateDocumentEvent extends CreatedEvent {
 	private TraDocumentEntity document;
 	private String user;
 	private String organization;
+	private String fiscalYear;
 
-	public CreateDocumentEvent(TraDocumentEntity document, String user, String organization) {
+	public CreateDocumentEvent(TraDocumentEntity document, String user, String organization, String fiscalYear) {
 		this.document = document;
 		this.user = user;
 		this.organization = organization;
+		this.fiscalYear = fiscalYear;
 	}
 
 	public TraDocumentEntity getDocument() {
@@ -37,6 +40,14 @@ public class CreateDocumentEvent extends CreatedEvent {
 
 	public void setOrganization(String organization) {
 		this.organization = organization;
+	}
+
+	public String getFiscalYear() {
+		return fiscalYear;
+	}
+
+	public void setFiscalYear(String fiscalYear) {
+		this.fiscalYear = fiscalYear;
 	}
 
 }

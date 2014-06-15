@@ -15,7 +15,7 @@ public class JsfMessageHelper implements Serializable {
 
 	public void addInfo(String message,String... params) {
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Bilgi", label(message)));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Bilgi", label(message,params)));
 	}
 
 	public void addWarn(String message,String... params) {
@@ -23,19 +23,19 @@ public class JsfMessageHelper implements Serializable {
 				.addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN, "Dikkat",
-								label(message)));
+								label(message,params)));
 	}
 
 	public void addError(String message,String... params) {
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hata", label(message)));
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hata", label(message,params)));
 	}
 
 	public void addFatal(String message,String... params) {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_FATAL, "Olumcul Hata",
-						label(message)));
+						label(message,params)));
 	}
 
 	public void addTest(String message) {
@@ -51,7 +51,7 @@ public class JsfMessageHelper implements Serializable {
 		String message = bundle.getString(key);
 		
 		if(params != null && params.length > 0){
-			MessageFormat.format(message, params);
+			message = MessageFormat.format(message, params);
 		}
 		
 		return message;

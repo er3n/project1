@@ -13,7 +13,6 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.organization.core.persistance.repository.DepartmentRepository;
 import org.abacus.organization.shared.entity.DepartmentEntity;
-import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
@@ -44,7 +43,6 @@ public class TransactionFixture {
 		entity.setDocDate(Calendar.getInstance().getTime());
 		entity.setDocNo("123456");
 		entity.setDocNote("New stock item added");
-		entity.setFiscalPeriod(new FiscalPeriodEntity("#.#:2014:01"));
 		List<DefTaskEntity> taskList = taskRepository.getTaskList(organization, documentType.name());
 		entity.setTask(taskList.get(0));
 	}
@@ -70,9 +68,9 @@ public class TransactionFixture {
 	public CreateDocumentEvent newDocument(String user, String organization, EnumList.DefTypeEnum documentType) {
 		StkDocumentEntity document = new StkDocumentEntity();
 
-		enrichDocument(document, organization, documentType);
+		enrichDocument(document, organization, documentType); 
 
-		CreateDocumentEvent event = new CreateDocumentEvent(document, user, organization);
+		CreateDocumentEvent event = new CreateDocumentEvent(document, user, organization,"#.#:2014");
 
 		return event;
 	}

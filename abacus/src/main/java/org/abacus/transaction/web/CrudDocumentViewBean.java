@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
@@ -88,9 +89,15 @@ public class CrudDocumentViewBean implements Serializable {
 	}
 
 	public void saveDocument() {
-		DocumentCreatedEvent documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId()));
-		document = (StkDocumentEntity) documentCreatedEvent.getDocument();
-		this.findDocument(document.getId());
+		try{
+			DocumentCreatedEvent documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+			document = (StkDocumentEntity) documentCreatedEvent.getDocument();
+			this.findDocument(document.getId());
+			jsfMessageHelper.addInfo("createSuccessfull","Fiş");
+		}catch(AbcBusinessException e){
+			jsfMessageHelper.addError(e);
+		}
+
 	}
 
 	private void findDocument(Long documentId) {

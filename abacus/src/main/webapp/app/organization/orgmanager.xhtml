@@ -40,9 +40,6 @@
 								<f:selectItems value="#{OrgOrganizationLevelEnum}"
 									var="levelEnum" itemLabel="#{levelEnum.description}"
 									 />
-								<p:ajax event="change" update=":departmentForm"
-									listener="#{orgDepartmentViewBean.groupChangeListener}"
-									process="@this" />									 
 							</p:selectOneMenu>
 							
 						</h:panelGrid>
@@ -76,7 +73,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selOrganization.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":organizationForm :departmentForm"
+						<p:ajax event="rowSelect" update=":organizationForm :departmentForm :fiscalForm"
 							listener="#{organizationViewBean.organizationRowSelectListener}">
 						</p:ajax>
 

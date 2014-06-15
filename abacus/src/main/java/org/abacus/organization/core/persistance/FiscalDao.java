@@ -1,7 +1,10 @@
 package org.abacus.organization.core.persistance;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,15 +37,22 @@ public class FiscalDao implements Serializable {
 	@Autowired
 	private FiscalPeriodRepository fiscalPeriodRepository;
 
-	public FiscalYearEntity findFiscalYear(String id) throws AbcBusinessException {
+	public FiscalYearEntity getFiscalYear(String id) throws AbcBusinessException {
 		return fiscalYearRepository.findOne(id);
 	}
 
-		
+	public List<FiscalYearEntity> findFiscalYearList(String organizationId) throws AbcBusinessException {
+		Set<FiscalYearEntity> fiscalSet = fiscalYearRepository.findCompanyFiscalYearSet(organizationId);
+		List<FiscalYearEntity> fiscalList = new ArrayList<FiscalYearEntity>(fiscalSet);
+		return fiscalList;
+	}
+
+	public FiscalPeriodEntity getFiscalPeriod(String id) throws AbcBusinessException {
+		return fiscalPeriodRepository.findOne(id);
+	}
+
 	public FiscalPeriodEntity findFiscalPeriod(String fiscalYearId, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException {
-		
 		FiscalYearEntity fiscalYearEntity = fiscalYearRepository.findOne(fiscalYearId);
-		
 		if (!String.valueOf(new DateTime(docDate).getYear()).equals(fiscalYearEntity.getYear())){
 			throw new FiscalYearDocumentDateNotMatchedException();
 		}

@@ -35,6 +35,9 @@ public class OrganizationViewBean implements Serializable {
 	@ManagedProperty(value = "#{orgDepartmentViewBean}")
 	private OrgDepartmentViewBean orgDepartmentViewBean;
 
+	@ManagedProperty(value = "#{orgFiscalViewBean}")
+	private OrgFiscalViewBean orgFiscalViewBean;
+
 	private EnumList.OrgOrganizationLevelEnum level;
 	
 	@PostConstruct
@@ -48,6 +51,7 @@ public class OrganizationViewBean implements Serializable {
 
 	public void organizationRowSelectListener() {
 		orgDepartmentViewBean.setSelOrganization(selOrganization);
+		orgFiscalViewBean.setSelOrganization(selOrganization);
 	}
 
 	public void saveOrganization() {
@@ -136,6 +140,14 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setLevel(EnumList.OrgOrganizationLevelEnum level) {
 		this.level = level;
+	}
+
+	public OrgFiscalViewBean getOrgFiscalViewBean() {
+		return orgFiscalViewBean;
+	}
+
+	public void setOrgFiscalViewBean(OrgFiscalViewBean orgFiscalViewBean) {
+		this.orgFiscalViewBean = orgFiscalViewBean;
 	}
 
 }

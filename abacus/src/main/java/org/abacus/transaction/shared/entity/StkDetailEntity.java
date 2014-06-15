@@ -66,4 +66,6 @@ public class StkDetailEntity extends TraDetailEntity {
 	public void setRefFinDetailId(Long refFinDetailId) {
 		this.refFinDetailId = refFinDetailId;
 	}
+	
+	
 }

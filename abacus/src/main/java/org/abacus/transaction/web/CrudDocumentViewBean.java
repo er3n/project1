@@ -16,11 +16,16 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.definition.shared.holder.ItemSearchCriteria;
+import org.abacus.definition.web.model.ItemDataModel;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
+import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
+import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
+import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.springframework.util.CollectionUtils;
@@ -51,10 +56,21 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private boolean hasFiscalYear;;
 
+	private List<StkDetailEntity> detailList;
+
+	private StkDetailEntity selectedDetail;
+
+	private ItemDataModel itemDataModel;
+
 	@PostConstruct
 	private void init() {
 
 		this.checkFiscalYear();
+		if (!hasFiscalYear){
+			jsfMessageHelper.addWarn("noFiscalYearDefined");
+			return;
+		}
+			
 
 		String operation = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("operation");
 		this.initSelections();
@@ -71,12 +87,11 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private void checkFiscalYear() {
 		this.hasFiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
-		if(!hasFiscalYear)
-			jsfMessageHelper.addWarn("noFiscalYearDefined");
 	}
 
 	private void initSelections() {
 		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		itemDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, null));
 
 	}
 
@@ -85,12 +100,12 @@ public class CrudDocumentViewBean implements Serializable {
 	}
 
 	public void saveDocument() {
-		try{
+		try {
 			DocumentCreatedEvent documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 			document = (StkDocumentEntity) documentCreatedEvent.getDocument();
 			this.findDocument(document.getId());
-			jsfMessageHelper.addInfo("createSuccessfull","Fiş");
-		}catch(AbcBusinessException e){
+			jsfMessageHelper.addInfo("createSuccessfull", "Fiş");
+		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
 
@@ -102,7 +117,14 @@ public class CrudDocumentViewBean implements Serializable {
 			document = null;
 		} else {
 			document = (StkDocumentEntity) readDocumentEvent.getDocumentList().get(0);
+			ReadDetailEvent readDetailEvent =  transactionHandler.readDetail(new RequestReadDetailEvent(document.getId()));
+			detailList = readDetailEvent.getDetails();
 		}
+	}
+
+	public void initNewDetail() {
+		selectedDetail = new StkDetailEntity();
+		selectedDetail.setDocument(document);
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -167,6 +189,30 @@ public class CrudDocumentViewBean implements Serializable {
 
 	public void setHasFiscalYear(boolean hasFiscalYear) {
 		this.hasFiscalYear = hasFiscalYear;
+	}
+
+	public List<StkDetailEntity> getDetailList() {
+		return detailList;
+	}
+
+	public void setDetailList(List<StkDetailEntity> detailList) {
+		this.detailList = detailList;
+	}
+
+	public StkDetailEntity getSelectedDetail() {
+		return selectedDetail;
+	}
+
+	public void setSelectedDetail(StkDetailEntity selectedDetail) {
+		this.selectedDetail = selectedDetail;
+	}
+
+	public ItemDataModel getItemDataModel() {
+		return itemDataModel;
+	}
+
+	public void setItemDataModel(ItemDataModel itemDataModel) {
+		this.itemDataModel = itemDataModel;
 	}
 
 }

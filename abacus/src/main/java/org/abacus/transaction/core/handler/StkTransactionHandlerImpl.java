@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDetailTrackRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToOutputDetail;
@@ -13,6 +14,8 @@ import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
+import org.abacus.transaction.shared.event.ReadDetailEvent;
+import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.StkDetailCreatedEvent;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 
 	@Autowired
 	private StkDetailTrackRepository detailTrackRepository;
+	
+	@Autowired
+	private StkDetailRepository stkDetailRepository;  
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -185,6 +191,12 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		
 		return new StkDetailCreatedEvent(detail, detailTrackList);
 
+	}
+
+	@Override
+	public ReadDetailEvent readDetail(RequestReadDetailEvent event) {
+		List<StkDetailEntity> details = stkDetailRepository.findByDocumentId(event.getDocumentId());
+		return new ReadDetailEvent(details);
 	}
 	
 }

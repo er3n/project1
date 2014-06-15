@@ -97,5 +97,7 @@ public class TransactionFixture {
 		
 		return createDetailEvent;
 	}
+	
+	
 
 }

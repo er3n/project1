@@ -43,6 +43,8 @@
 					<p:commandButton value="Temizle">
 						<p:ajax update="queryDocumentPanel :documentResultTable" resetValues="true" />
 					</p:commandButton>
+					<p:spacer width="5px" />
+					<p:button href="/app/transaction/crudStockDocument.abc?operation=create" value="Yeni Fiş"  />
 				</f:facet>
 
 			</p:panel>
@@ -76,11 +78,11 @@
 						<h:outputText value="#{var.typeEnum.description}" />
 					</p:column>
 
-					<p:column headerText="İşlem">
-						<h:outputText value="#{var.task.name}" />
+					<p:column headerText="İşlem"> 
+						<p:button href="/app/transaction/crudStockDocument.abc?operation=update&amp;document=#{var.id}" value="Güncelle"  />
 					</p:column>
 
-				</p:dataTable>
+				</p:dataTable> 
 			</h:form>
 		</h:panelGrid>
 

@@ -17,10 +17,9 @@
 
 		<c:if test="#{crudDocumentViewBean.hasFiscalYear}">
 			<h:form id="crudDocumentFrm">
-				<p:panel
-					rendered="#{not empty crudDocumentViewBean.document}">
+				<p:panel rendered="#{not empty crudDocumentViewBean.document}">
 
-				<f:facet name="header">
+					<f:facet name="header">
 					Fiş İşlemleri
 				</f:facet>
 
@@ -47,15 +46,13 @@
 						<p:inputTextarea rows="10" cols="50"
 							value="#{crudDocumentViewBean.document.docNote}" />
 
-
-
 					</h:panelGrid>
 
 					<f:facet name="footer">
 						<p:commandButton value="Kaydet"
 							actionListener="#{crudDocumentViewBean.saveDocument}"
 							update="crudDocumentFrm"
-							rendered="#{not empty crudDocumentViewBean.document.id}" />
+							rendered="#{empty crudDocumentViewBean.document.id}" />
 						<p:spacer width="5px" />
 					</f:facet>
 
@@ -67,19 +64,104 @@
 			<h:form id="crudDocumentDetailFrm">
 
 				<p:panel header="Fiş Detay"
-					rendered="#{not empty crudDocumentViewBean.document}" >
-					
-					
+					rendered="#{not empty crudDocumentViewBean.document.id}">
+
+					<p:dataTable var="var"
+						emptyMessage="Kayitli fiş detay bulunmamaktadir."
+						value="#{crudDocumentViewBean.detailList}">
+
+						<f:facet name="header">
+							<p:commandButton value="Detay Ekle"
+								actionListener="#{crudDocumentViewBean.initNewDetail()}"
+								update=":crudDocumentDetailSelectionFrm" process="@this" />
+						</f:facet>
+
+						<p:column headerText="Son Kullanma Tarihi">
+							<p:outputLabel value="#{var.lotDetailDate}" />
+						</p:column>
+
+						<p:column headerText="Malzeme">
+							<p:outputLabel value="#{var.item.name}" />
+						</p:column>
+
+						<p:column headerText="Depo">
+							<p:outputLabel value="#{var.department.name}" />
+						</p:column>
+
+						<p:column headerText="Transfer Edilen Depo">
+							<p:outputLabel value="#{var.departmentOpp}" />
+						</p:column>
+
+						<p:column headerText="Miktar">
+							<p:outputLabel value="#{var.itemDetailCount}" />
+						</p:column>
+
+						<p:column headerText="Birim">
+							<p:outputLabel value="#{var.itemUnit.code}" />
+						</p:column>
+
+						<p:column headerText="Birim Fiyat">
+							<p:outputLabel value="#{var.baseDetailAmount}" />
+						</p:column>
+
+					</p:dataTable>
 
 
 				</p:panel>
 
+			</h:form>
+
+
+			<h:form id="crudDocumentDetailSelectionFrm">
+
+				<p:panel header="Fiş Detay Düzenleme"
+					rendered="#{not empty crudDocumentViewBean.selectedDetail}">
+
+					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
+
+						<h:outputLabel value="Malzeme" />
+						<h:panelGrid columns="1">
+							<abc:itemSelection id="itemSelectionInput"
+								widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
+								value="#{crudDocumentViewBean.selectedDetail.item}"
+								required="true" />
+						</h:panelGrid>
+
+						<p:outputLabel value="Seri No:" />
+						<p:inputText
+							value="#{crudDocumentViewBean.selectedDetail.batchDetailNo}"
+							required="true" requiredMessage="Seri numarası boş olamaz." />
+
+						<p:outputLabel value="Toplam Tutar" />
+						<p:inputText
+							value="#{crudDocumentViewBean.selectedDetail.baseDetailAmount}"
+							required="true" requiredMessage="Seri numarası boş olamaz." />
+
+						<p:outputLabel value="Toplam Miktar" />
+						<p:inputText
+							value="#{crudDocumentViewBean.selectedDetail.itemDetailCount}"
+							required="true" requiredMessage="Seri numarası boş olamaz." />
+
+						<p:outputLabel value="Not" style="font-weigh: bold" />
+						<p:inputTextarea rows="10" cols="50"
+							value="#{crudDocumentViewBean.selectedDetail.detNote}" />
+
+					</h:panelGrid>
+
+				</p:panel>
 
 			</h:form>
 
 		</c:if>
 
 
+	</ui:define>
+
+	<ui:define name="model">
+		<abc:itemSelectionDialog id="itemSelectionDialog"
+			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
+			items="#{crudDocumentViewBean.itemDataModel}"
+			value="#{crudDocumentViewBean.selectedDetail.item}" />
 	</ui:define>
 
 </ui:composition>

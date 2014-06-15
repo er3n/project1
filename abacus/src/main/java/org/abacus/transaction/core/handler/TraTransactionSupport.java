@@ -91,12 +91,6 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 	}
 
 	@Override
-	public ReadDetailEvent readDetail(RequestReadDetailEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailCreatedEvent newDetail(CreateDetailEvent event) throws UnableToCreateDetailException {
 		TraDetailEntity detail = event.getDetail();

@@ -10,8 +10,7 @@ import org.abacus.user.shared.holder.SearchUserCriteria;
 
 public interface SecUserHandler extends Serializable{
 
-	List<SecUserEntity> findUser(
-			SearchUserCriteria searchUserCriteria);
+	List<SecUserEntity> findUser(SearchUserCriteria searchUserCriteria);
 
 	List<SecGroupEntity> findUserGroups(String selectedUserName);
 	

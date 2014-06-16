@@ -8,9 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.persistence.EnumType;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.handler.UserService;
 import org.abacus.user.shared.UserNameExistsException;
@@ -112,6 +114,7 @@ public class UserViewBean implements Serializable {
 			OrganizationEntity organizationEntity = new OrganizationEntity();
 			organizationEntity.setId(organizationId);
 			searchUserCriteria.setOrganization(organizationEntity);
+			searchUserCriteria.setHierarchy(EnumList.Hierachy.CHILD);
 		}
 		ReadUserEvent readUserEvent = userService.requestUser(new RequestReadUserEvent(searchUserCriteria));
 		userSearchResults = readUserEvent.getUserEntityList();

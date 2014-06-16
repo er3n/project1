@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
@@ -42,7 +43,11 @@ public class UserDao implements Serializable {
 			criteria.add(Restrictions.like("u.id", "%"+searchUserCriteria.getUsername()+"%"));
 		}
 		
-		if(searchUserCriteria.getOrganization() != null){
+		if(searchUserCriteria.getHierarchy().equals(EnumList.Hierachy.PARENT) && searchUserCriteria.getOrganization() != null){
+			criteria.add(Restrictions.in("uc.organization", searchUserCriteria.getOrganization().getParentList()));
+		}
+
+		if(searchUserCriteria.getHierarchy().equals(EnumList.Hierachy.CHILD) && searchUserCriteria.getOrganization() != null){
 			criteria.add(Restrictions.like("uc.organization.id", searchUserCriteria.getOrganization().getId() + "%"));
 		}
 		

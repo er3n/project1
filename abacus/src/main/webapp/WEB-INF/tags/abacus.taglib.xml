@@ -40,6 +40,10 @@
 			<name>update</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>paramOrg</name>
+			<required>true</required>
+		</attribute>
 	</tag>
 
 	<tag>

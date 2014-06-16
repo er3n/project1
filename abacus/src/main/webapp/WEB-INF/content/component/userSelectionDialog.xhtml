@@ -16,7 +16,7 @@
 		</f:facet>
 
 		<p:dataTable var="user" paginator="true" rows="10"
-			value="#{userTableViewBean.userList}">
+			value="#{userTableViewBean.getUserList(paramOrg)}">
 
 			<p:column headerText="Kullanici" filterBy="#{user.id}"
 				filterMatchMode="contains">

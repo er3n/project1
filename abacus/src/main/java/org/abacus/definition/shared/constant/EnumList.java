@@ -259,4 +259,8 @@ public interface EnumList {
 		}
 	};
 
+	enum Hierachy {
+		PARENT, CHILD
+	};
+
 }

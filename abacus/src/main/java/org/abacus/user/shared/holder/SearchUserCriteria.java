@@ -3,6 +3,7 @@ package org.abacus.user.shared.holder;
 import java.io.Serializable;
 import java.util.List;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.shared.entity.SecGroupEntity;
 
@@ -11,7 +12,8 @@ public class SearchUserCriteria implements Serializable {
 	private String username;
 	private List<SecGroupEntity> groupList;
 	private OrganizationEntity organization;
-
+	private EnumList.Hierachy hierarchy;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -34,6 +36,14 @@ public class SearchUserCriteria implements Serializable {
 
 	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
+	}
+
+	public EnumList.Hierachy getHierarchy() {
+		return hierarchy;
+	}
+
+	public void setHierarchy(EnumList.Hierachy hierarchy) {
+		this.hierarchy = hierarchy;
 	}
 
 }

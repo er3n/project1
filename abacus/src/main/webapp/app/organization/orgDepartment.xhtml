@@ -144,11 +144,13 @@
 			</f:facet>
 
 		</p:dialog>
-	</h:form>
 
 	<abc:userSelectionDialog id="userSelectionDialog"
 		update=":departmentUserForm:userSelectionInput"
 		widgetVar="userSelectionDialogWdg"
+		paramOrg="#{orgDepartmentViewBean.selOrganization}"
 		userVar="#{orgDepartmentViewBean.newSecUser}" />
+
+	</h:form>
 
 </ui:composition>

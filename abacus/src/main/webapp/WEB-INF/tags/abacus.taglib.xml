@@ -13,7 +13,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>value</name>
+			<name>targetVar</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
@@ -55,7 +55,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>value</name>
+			<name>targetVar</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
@@ -76,7 +76,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>value</name>
+			<name>targetVar</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
@@ -105,7 +105,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>value</name>
+			<name>targetVar</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
@@ -151,7 +151,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>value</name>
+			<name>targetVar</name>
 			<required>true</required>
 		</attribute>
 		<attribute>

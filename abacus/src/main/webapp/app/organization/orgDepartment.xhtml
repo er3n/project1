@@ -126,7 +126,7 @@
 			<h:panelGrid id="departmentGrid" columns="5">
 				<abc:userSelection id="userSelectionInput"
 					widgetVar="userSelectionDialogWdg" required="true"
-					value="#{orgDepartmentViewBean.newSecUser}" />
+					targetVar="#{orgDepartmentViewBean.newSecUser}" />
 
 				<p:commandButton value="ekle"
 					actionListener="#{orgDepartmentViewBean.addItemToList}"

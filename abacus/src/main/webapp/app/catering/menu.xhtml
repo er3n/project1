@@ -123,7 +123,7 @@
 				<p:spacer width="5px" />
 
 				<h:panelGrid columns="5">
-					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" value="#{catMenuViewBean.selectedItem}" />
+					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{catMenuViewBean.selectedItem}" />
 					<p:commandButton value="ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems" process="@form" />
 				</h:panelGrid>
 
@@ -186,7 +186,7 @@
 			update=":menuDialogFrm:itemSelectionInput" 
 			widgetVar="itemSelectionWdg" 
 			paramType="#{DefTypeEnum.ITM_SR_ST}"
-			value="#{catMenuViewBean.selectedItem}"
+			targetVar="#{catMenuViewBean.selectedItem}"
 			rendered="true" />
 	</ui:define>
 

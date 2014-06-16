@@ -123,7 +123,7 @@
 						<h:panelGrid columns="1">
 							<abc:itemSelection id="itemSelectionInput"
 								widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
-								value="#{crudDocumentViewBean.selectedDetail.item}"
+								targetVar="#{crudDocumentViewBean.selectedDetail.item}"
 								required="true" />
 						</h:panelGrid>
 
@@ -131,7 +131,7 @@
 						<h:panelGrid columns="1">
 							<abc:departmentSelection id="departmentSelectionInput"
 								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
-								value="#{crudDocumentViewBean.selectedDetail.department}"
+								targetVar="#{crudDocumentViewBean.selectedDetail.department}"
 								required="true" />
 						</h:panelGrid>
 
@@ -168,13 +168,13 @@
 	<ui:define name="model">
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
-
+								
 		<abc:itemSelectionDialog 
 			id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" 
 			widgetVar="itemSelectionWdg"
 			paramType="#{DefTypeEnum.ITM_SR_ST}"
-			value="#{crudDocumentViewBean.selectedDetail.item}" 
+			targetVar="#{crudDocumentViewBean.selectedDetail.item}" 
 			rendered="true"/>
 
 		<abc:departmentSelectionDialog 

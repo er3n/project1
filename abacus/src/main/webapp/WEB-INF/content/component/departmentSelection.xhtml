@@ -11,15 +11,15 @@
 </c:if>
 
 <h:panelGrid id="#{id}" columns="4">
-	<p:inputText id="#{id}_txt" value="#{value.name}" disabled="true"
+	<p:inputText id="#{id}_txt" value="#{targetVar.name}" disabled="true"
 		onclick="PF('#{widgetVar}').show()" />
-	<h:inputHidden id="#{id}_txtH"  required="#{empty value.id and required}"
+	<h:inputHidden id="#{id}_txtH"  required="#{empty targetVar.id and required}"
 		requiredMessage="Birim bos olamaz" />
 	<p:commandButton icon="ui-icon-extlink"
 		oncomplete="PF('#{widgetVar}').show()" process="@this" />
 	<p:commandButton icon="ui-icon-trash" process="@this"
 		update="@parent:#{id}_txt #{id}_txtH">
-		<f:setPropertyActionListener target="#{value}" value="" />
+		<f:setPropertyActionListener target="#{targetVar}" value="" />
 	</p:commandButton>
 	<p:watermark value="Birim Sec..." for="@parent:#{id}_txt"></p:watermark>
 </h:panelGrid>

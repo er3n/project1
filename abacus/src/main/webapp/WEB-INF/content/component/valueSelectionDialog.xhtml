@@ -24,7 +24,7 @@
 
 			<p:column headerText="Sec">
 				<p:commandButton icon="ui-icon-search" oncomplete="PF('#{widgetVar}').hide();" update="#{update}" process="@this">
-					<f:setPropertyActionListener target="#{value}" value="#{val}" />
+					<f:setPropertyActionListener target="#{targetVar}" value="#{val}" />
 				</p:commandButton>
 			</p:column>
 

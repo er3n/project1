@@ -6,8 +6,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-<h:outputLabel value="Kullanici:" />
-
 <c:if test="#{empty required}">
 	<c:set var="#{required}" value="false" />
 </c:if>
@@ -23,6 +21,7 @@
 		update="@parent:#{id}_txt #{id}_txtH">
 		<f:setPropertyActionListener target="#{value}" value="" />
 	</p:commandButton>
+	<p:watermark value="Kullanici Sec..." for="@parent:#{id}_txt"></p:watermark>
 </h:panelGrid>
 
 </html>

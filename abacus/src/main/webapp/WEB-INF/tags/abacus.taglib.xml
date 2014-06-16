@@ -30,7 +30,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>userVar</name>
+			<name>targetVar</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
@@ -126,7 +126,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>value</name>
+			<name>targetVar</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
@@ -139,6 +139,48 @@
 		</attribute>
 		<attribute>
 			<name>paramType</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<tag-name>departmentSelection</tag-name>
+		<source>../content/component/departmentSelection.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<tag-name>departmentSelectionDialog</tag-name>
+		<source>../content/component/departmentSelectionDialog.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>targetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>update</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>paramUser</name>
 			<required>true</required>
 		</attribute>
 	</tag>

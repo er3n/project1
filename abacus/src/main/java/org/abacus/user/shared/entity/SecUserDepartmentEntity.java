@@ -20,7 +20,7 @@ public class SecUserDepartmentEntity extends DynamicEntity {
 	@JoinColumn(name = "user_id", nullable = false)
 	private SecUserEntity user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "department_id", nullable = false)
 	private DepartmentEntity department;
 

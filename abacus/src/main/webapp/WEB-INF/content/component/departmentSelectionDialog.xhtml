@@ -12,21 +12,26 @@
 		showEffect="fade" modal="true" height="400px" width="600px">
 
 		<f:facet name="header">
-			<h:outputText value="Kullanıcı Secim" />
+			<h:outputText value="Birim Secim" />
 		</f:facet>
 
-		<p:dataTable var="user" paginator="true" rows="10"
-			value="#{userSelectionViewBean.getUserList(paramOrg)}">
+		<p:dataTable var="department" paginator="true" rows="10"
+			value="#{departmentSelectionViewBean.getDepartmentList(paramUser)}">
 
-			<p:column headerText="Kullanici" filterBy="#{user.id}"
+			<p:column headerText="Birim Kod" filterBy="#{department.code}"
 				filterMatchMode="contains">
-				<h:outputText value="#{user.id}" />
+				<h:outputText value="#{department.code}" />
+			</p:column>
+
+			<p:column headerText="Birim Adı" filterBy="#{department.name}"
+				filterMatchMode="contains">
+				<h:outputText value="#{department.name}" />
 			</p:column>
 
 			<p:column headerText="Sec">
 				<p:commandButton icon="ui-icon-search"
 					oncomplete="PF('#{widgetVar}').hide();" update="#{update}" process="@this">
-					<f:setPropertyActionListener target="#{targetVar}" value="#{user}" />
+					<f:setPropertyActionListener target="#{targetVar}" value="#{department}" />
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>

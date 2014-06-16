@@ -127,6 +127,14 @@
 								required="true" />
 						</h:panelGrid>
 
+						<h:outputLabel value="Birim" />
+						<h:panelGrid columns="1">
+							<abc:departmentSelection id="departmentSelectionInput"
+								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
+								value="#{crudDocumentViewBean.selectedDetail.department}"
+								required="true" />
+						</h:panelGrid>
+
 						<p:outputLabel value="Seri No:" />
 						<p:inputText
 							value="#{crudDocumentViewBean.selectedDetail.batchDetailNo}"
@@ -168,6 +176,15 @@
 			paramType="#{DefTypeEnum.ITM_SR_ST}"
 			value="#{crudDocumentViewBean.selectedDetail.item}" 
 			rendered="true"/>
+
+		<abc:departmentSelectionDialog 
+			id="departmentSelectionDialog"
+			update=":crudDocumentDetailSelectionFrm" 
+			widgetVar="departmentSelectionWdg"
+			paramUser="#{sessionInfoHelper.currentUser().username}"
+			targetVar="#{crudDocumentViewBean.selectedDetail.department}" 
+			rendered="true"/>
+
 	</ui:define>
 
 </ui:composition>

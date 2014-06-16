@@ -29,6 +29,17 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public List<DepartmentEntity> findUserDepartmentList(String username){
+		List<DepartmentEntity> depList = new ArrayList<>();
+		List<SecUserDepartmentEntity> userDepList = userDepartmentRepository.findUserDepartmentList(username);
+		for (SecUserDepartmentEntity ent : userDepList) {
+			depList.add(ent.getDepartment());
+		}
+		return depList;
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public List<DepartmentEntity> findByOrganizationAndGroup(String organizationId, EnumList.OrgDepartmentGroupEnum groupEnum) {
 		List<DepartmentEntity> list = departmentRepository.findByOrganizationAndGroup(organizationId, groupEnum);
 		return list;
@@ -62,4 +73,34 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 		return departmentDao.findDepartment(id); 
 	}
 
+	public DepartmentRepository getDepartmentRepository() {
+		return departmentRepository;
+	}
+
+	public void setDepartmentRepository(DepartmentRepository departmentRepository) {
+		this.departmentRepository = departmentRepository;
+	}
+
+	public UserDepartmentRepository getUserDepartmentRepository() {
+		return userDepartmentRepository;
+	}
+
+	public void setUserDepartmentRepository(
+			UserDepartmentRepository userDepartmentRepository) {
+		this.userDepartmentRepository = userDepartmentRepository;
+	}
+
+	public DepartmentDao getDepartmentDao() {
+		return departmentDao;
+	}
+
+	public void setDepartmentDao(DepartmentDao departmentDao) {
+		this.departmentDao = departmentDao;
+	}
+
 }
+
+
+
+
+	

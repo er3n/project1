@@ -178,7 +178,7 @@
 	</ui:define>
 
 	<ui:define name="model">
-		<abc:itemSelectionDialog id="itemSelectionDialog" update=":menuDialogFrm:itemSelectionInput" widgetVar="itemSelectionWdg" items="#{catMenuViewBean.menuItems}" value="#{catMenuViewBean.selectedItem}" />
+		<abc:itemSelectionDialog id="itemSelectionDialog" update=":menuDialogFrm:itemSelectionInput" widgetVar="itemSelectionWdg" valueList="#{catMenuViewBean.menuItems}" value="#{catMenuViewBean.selectedItem}" />
 	</ui:define>
 
 </ui:composition>

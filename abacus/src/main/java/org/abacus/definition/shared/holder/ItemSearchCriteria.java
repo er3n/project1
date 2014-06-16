@@ -4,11 +4,12 @@ import java.io.Serializable;
 
 import org.abacus.definition.shared.constant.EnumList.DefItemClassEnum;
 import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @SuppressWarnings("serial")
 public class ItemSearchCriteria implements Serializable {
 
-	private String organization;
+	private OrganizationEntity organization;
 	private DefTypeEnum itemType;
 	private DefItemClassEnum itemClass;
 	private String codeLike;
@@ -19,18 +20,18 @@ public class ItemSearchCriteria implements Serializable {
 	private Integer first;
 	private Integer pageSize;
 
-	public ItemSearchCriteria(String organization, DefTypeEnum itemType,
+	public ItemSearchCriteria(OrganizationEntity organization, DefTypeEnum itemType,
 			DefItemClassEnum itemClass) {
 		this.itemType = itemType;
 		this.itemClass = itemClass;
 		this.organization = organization;
 	}
 
-	public String getOrganization() {
+	public OrganizationEntity getOrganization() {
 		return organization;
 	}
 
-	public void setOrganization(String organization) {
+	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
 	}
 

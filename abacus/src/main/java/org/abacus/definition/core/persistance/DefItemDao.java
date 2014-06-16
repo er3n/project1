@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -43,8 +44,9 @@ public class DefItemDao implements Serializable {
 		Session currentSession = em.unwrap(Session.class);
 		Criteria criteria  = currentSession.createCriteria(DefItemEntity.class,"i");
 		
-		if(StringUtils.hasText(searchCriteria.getOrganization())){
-			criteria.add(Restrictions.eq("i.organization.id", searchCriteria.getOrganization()));
+		if(searchCriteria.getOrganization()!=null){
+			List<OrganizationEntity> list = searchCriteria.getOrganization().getParentList();
+			criteria.add(Restrictions.in("i.organization", list));
 		}
 		if(searchCriteria.getItemType() != null){
 			criteria.add(Restrictions.eq("i.type.id", searchCriteria.getItemType().name()));

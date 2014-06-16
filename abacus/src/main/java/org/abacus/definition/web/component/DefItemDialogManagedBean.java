@@ -11,6 +11,7 @@ import org.abacus.definition.core.handler.DefItemHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
 @ViewScoped
@@ -23,8 +24,8 @@ public class DefItemDialogManagedBean implements Serializable {
 	private DefItemHandler itemHandler;
 
 	public ItemDataModel items(EnumList.DefTypeEnum type, EnumList.DefItemClassEnum clazz) {
-		String currentOrganization = sessionInfoHelper.currentRootOrganizationId();
-		ItemDataModel model =  new ItemDataModel(new ItemSearchCriteria(currentOrganization, type, clazz));
+		OrganizationEntity rootOrganization = sessionInfoHelper.currentRootOrganization();
+		ItemDataModel model =  new ItemDataModel(new ItemSearchCriteria(rootOrganization, type, clazz));
 		
 		System.out.println(model.getPageSize());
 		System.out.println(model.getRowCount());

@@ -91,7 +91,7 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private void initSelections() {
 		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
-		itemDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, null));
+		itemDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentRootOrganization(), EnumList.DefTypeEnum.ITM_SR_ST, null));
 
 	}
 

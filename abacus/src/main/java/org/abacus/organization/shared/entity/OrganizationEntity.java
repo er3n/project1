@@ -1,5 +1,7 @@
 package org.abacus.organization.shared.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -43,6 +45,20 @@ public class OrganizationEntity extends StaticEntity {
 
 	public OrganizationEntity() {
 
+	}
+	
+	public List<OrganizationEntity> getParentList(){
+		OrganizationEntity orgEntity = this;
+		List<OrganizationEntity> list = new ArrayList<>();
+		list.add(orgEntity);
+		int currentLevelIndex = this.getLevel().ordinal();
+		int requestLevelIndex = 0;
+		while (requestLevelIndex < currentLevelIndex) {
+			orgEntity = orgEntity.getParent();
+			list.add(orgEntity);
+			requestLevelIndex++;
+		}
+		return list;
 	}
 
 	public String getName() {

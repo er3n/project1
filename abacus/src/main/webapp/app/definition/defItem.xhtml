@@ -168,8 +168,8 @@
 	</ui:define>
  
 	<ui:define name="model">
-		<abc:itemSelectionDialog id="materialSelectionDialog" update=":itemProductDetailForm" widgetVar="materialSelectionWdg" items="#{itemViewBean.itemMaterialsDataModel}" value="#{itemViewBean.selectedItemProduct.materialItem}" rendered="#{itemViewBean.displayProductInfo}" />
-		<abc:valueSelectionDialog update=":itemDetails:materialCategorySelection" id="materialCategorySelectionDialog" values="#{itemViewBean.allCategoryClasses}" widgetVar="categorySelectionWidget" value="#{itemViewBean.selectedItem.category}" />
+		<abc:itemSelectionDialog id="materialSelectionDialog" update=":itemProductDetailForm" widgetVar="materialSelectionWdg" valueList="#{itemViewBean.itemMaterialsDataModel}" value="#{itemViewBean.selectedItemProduct.materialItem}" rendered="#{itemViewBean.displayProductInfo}" />
+		<abc:valueSelectionDialog update=":itemDetails:materialCategorySelection" id="materialCategorySelectionDialog" valueList="#{itemViewBean.allCategoryClasses}" widgetVar="categorySelectionWidget" value="#{itemViewBean.selectedItem.category}" />
 	</ui:define> 
 
 </ui:composition>

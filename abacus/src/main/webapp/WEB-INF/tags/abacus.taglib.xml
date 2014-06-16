@@ -83,7 +83,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>items</name>
+			<name>valueList</name>
 			<required>true</required>
 		</attribute>
 	</tag>
@@ -129,7 +129,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>values</name>
+			<name>valueList</name>
 			<required>true</required>
 		</attribute>
 	</tag>

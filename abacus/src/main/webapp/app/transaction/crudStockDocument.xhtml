@@ -159,8 +159,9 @@
 
 	<ui:define name="model">
 		<abc:itemSelectionDialog id="itemSelectionDialog"
-			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
-			items="#{crudDocumentViewBean.itemDataModel}"
+			update=":crudDocumentDetailSelectionFrm" 
+			widgetVar="itemSelectionWdg"
+			valueList="#{crudDocumentViewBean.itemDataModel}"
 			value="#{crudDocumentViewBean.selectedDetail.item}" />
 	</ui:define>
 

@@ -55,7 +55,7 @@ public class TransactionFixture {
 
 		detail.setDocument(document);
 
-		DefItemEntity item = itemDao.requestItems(new ItemSearchCriteria(document.getOrganization().getId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M)).get(0);
+		DefItemEntity item = itemDao.requestItems(new ItemSearchCriteria(document.getOrganization(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M)).get(0);
 
 		detail.setItem(item);
 		detail.setLotDetailDate(document.getDateCreated());

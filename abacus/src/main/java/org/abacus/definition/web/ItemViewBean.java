@@ -100,7 +100,7 @@ public class ItemViewBean implements Serializable {
 
 		allCategoryClasses = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_CATEGORY);
 		if (displayProductInfo) {
-			itemMaterialsDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M));
+			itemMaterialsDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M));
 			allReceiptList = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_RECEIPT);
 		}
 
@@ -216,12 +216,12 @@ public class ItemViewBean implements Serializable {
 	}
 
 	private void initParameters() {
-		String currentOrganization = sessionInfoHelper.currentRootOrganizationId();
+		OrganizationEntity rootOrganization = sessionInfoHelper.currentRootOrganization();
 		String itemTypeStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
 		String itemClassStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("class");
 		type = EnumList.DefTypeEnum.valueOf(itemTypeStr);
 		clazz = EnumList.DefItemClassEnum.valueOf(itemClassStr);
-		itemSearchCriteria = new ItemSearchCriteria(currentOrganization, type, clazz);
+		itemSearchCriteria = new ItemSearchCriteria(rootOrganization, type, clazz);
 
 		displayProductInfo = EnumList.DefTypeEnum.ITM_SR_ST.equals(type) && EnumList.DefItemClassEnum.STK_P.equals(clazz);
 	}

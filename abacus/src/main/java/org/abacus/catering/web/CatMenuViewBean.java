@@ -72,7 +72,7 @@ public class CatMenuViewBean implements Serializable {
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();
 
-		menuItems = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganizationId(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P));;
+		menuItems = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P));;
 	}
 	
 	public void initCancelMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu){

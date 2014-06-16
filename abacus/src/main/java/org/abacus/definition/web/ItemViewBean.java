@@ -86,11 +86,7 @@ public class ItemViewBean implements Serializable {
 
 	private Boolean displayProductInfo;
 
-	private ItemDataModel itemMaterialsDataModel;
-
-	private List<DefValueEntity> allReceiptList;
-
-	private List<DefValueEntity> allCategoryClasses;
+//	private List<DefValueEntity> allReceiptList;
 
 	@PostConstruct
 	public void init() {
@@ -98,11 +94,9 @@ public class ItemViewBean implements Serializable {
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
 		this.initUnitGroups();
 
-		allCategoryClasses = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_CATEGORY);
-		if (displayProductInfo) {
-			itemMaterialsDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_M));
-			allReceiptList = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_RECEIPT);
-		}
+//		if (displayProductInfo) {
+//			allReceiptList = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_RECEIPT);
+//		}
 
 	}
 
@@ -351,22 +345,6 @@ public class ItemViewBean implements Serializable {
 		this.clazz = clazz;
 	}
 
-	public ItemDataModel getItemMaterialsDataModel() {
-		return itemMaterialsDataModel;
-	}
-
-	public void setItemMaterialsDataModel(ItemDataModel itemMaterialsDataModel) {
-		this.itemMaterialsDataModel = itemMaterialsDataModel;
-	}
-
-	public List<DefValueEntity> getAllCategoryClasses() {
-		return allCategoryClasses;
-	}
-
-	public void setAllCategoryClasses(List<DefValueEntity> allCategoryClasses) {
-		this.allCategoryClasses = allCategoryClasses;
-	}
-
 	public DefValueHandler getDefValueHandler() {
 		return defValueHandler;
 	}
@@ -375,12 +353,12 @@ public class ItemViewBean implements Serializable {
 		this.defValueHandler = defValueHandler;
 	}
 
-	public List<DefValueEntity> getAllReceiptList() {
-		return allReceiptList;
-	}
-
-	public void setAllReceiptList(List<DefValueEntity> allReceiptList) {
-		this.allReceiptList = allReceiptList;
-	}
+//	public List<DefValueEntity> getAllReceiptList() {
+//		return allReceiptList;
+//	}
+//
+//	public void setAllReceiptList(List<DefValueEntity> allReceiptList) {
+//		this.allReceiptList = allReceiptList;
+//	}
 
 }

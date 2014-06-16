@@ -16,8 +16,6 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
-import org.abacus.definition.shared.holder.ItemSearchCriteria;
-import org.abacus.definition.web.model.ItemDataModel;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
@@ -60,8 +58,6 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private StkDetailEntity selectedDetail;
 
-	private ItemDataModel itemDataModel;
-
 	@PostConstruct
 	private void init() {
 
@@ -91,8 +87,6 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private void initSelections() {
 		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
-		itemDataModel = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentRootOrganization(), EnumList.DefTypeEnum.ITM_SR_ST, null));
-
 	}
 
 	private void initNewDocument() {
@@ -205,14 +199,6 @@ public class CrudDocumentViewBean implements Serializable {
 
 	public void setSelectedDetail(StkDetailEntity selectedDetail) {
 		this.selectedDetail = selectedDetail;
-	}
-
-	public ItemDataModel getItemDataModel() {
-		return itemDataModel;
-	}
-
-	public void setItemDataModel(ItemDataModel itemDataModel) {
-		this.itemDataModel = itemDataModel;
 	}
 
 }

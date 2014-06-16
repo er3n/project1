@@ -30,8 +30,6 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
-import org.abacus.definition.shared.holder.ItemSearchCriteria;
-import org.abacus.definition.web.model.ItemDataModel;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.joda.time.MutableDateTime;
 import org.springframework.util.CollectionUtils;
@@ -63,16 +61,12 @@ public class CatMenuViewBean implements Serializable {
 
 	private DefItemEntity selectedItem;
 
-	private ItemDataModel menuItems;
-
 	@PostConstruct
 	private void init() {
 		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.currentOrganizationId());
 		this.searchCriteria.setPeriod(EnumList.CatMenuPeriod.WEEKLY);
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();
-
-		menuItems = new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.ITM_SR_ST, EnumList.DefItemClassEnum.STK_P));;
 	}
 	
 	public void initCancelMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu){
@@ -282,15 +276,5 @@ public class CatMenuViewBean implements Serializable {
 	public void setSelectedItem(DefItemEntity selectedItem) {
 		this.selectedItem = selectedItem;
 	}
-
-	public ItemDataModel getMenuItems() {
-		return menuItems;
-	}
-
-	public void setMenuItems(ItemDataModel menuItems) {
-		this.menuItems = menuItems;
-	}
 	
-	
-
 }

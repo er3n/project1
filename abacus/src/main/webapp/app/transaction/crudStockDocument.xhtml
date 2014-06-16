@@ -158,11 +158,16 @@
 	</ui:define>
 
 	<ui:define name="model">
-		<abc:itemSelectionDialog id="itemSelectionDialog"
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
+
+		<abc:itemSelectionDialog 
+			id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" 
 			widgetVar="itemSelectionWdg"
-			valueList="#{crudDocumentViewBean.itemDataModel}"
-			value="#{crudDocumentViewBean.selectedDetail.item}" />
+			paramType="#{DefTypeEnum.ITM_SR_ST}"
+			value="#{crudDocumentViewBean.selectedDetail.item}" 
+			rendered="true"/>
 	</ui:define>
 
 </ui:composition>

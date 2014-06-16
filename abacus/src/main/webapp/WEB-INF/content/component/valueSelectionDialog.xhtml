@@ -12,7 +12,7 @@
 		<f:facet name="header">
 			<h:outputText value="Deger Sec" />
 		</f:facet>
-		<p:dataTable var="val" value="#{valueList}" widgetVar="#{widgetVar}_DT" paginator="true" rows="10">
+		<p:dataTable var="val" value="#{valueSelectionViewBean.getValueList(paramType)}" widgetVar="#{widgetVar}_DT" paginator="true" rows="10">
 
 			<p:column headerText="Kod" filterBy="#{val.code}" filterMatchMode="contains">
 				<h:outputText value="#{val.code}" />

@@ -12,10 +12,9 @@
 		<f:facet name="header">
 			<h:outputText value="Malzeme Secim" />
 		</f:facet>
-		<p:dataTable var="item" value="#{valueList}" widgetVar="#{widgetVar}_DT" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5" selectionMode="single" lazy="true" selection="#{value}">
+		<p:dataTable var="item" value="#{itemSelectionViewBean.getItemDataModel(paramType,paramClass)}" widgetVar="#{widgetVar}_DT" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5" selectionMode="single" lazy="true" selection="#{value}">
 
 			<p:ajax event="rowSelect" oncomplete="PF('#{widgetVar}').hide();" update="#{update}" />
-
 
 			<p:column headerText="Kod" filterBy="#{item.code}">
 				<h:outputText value="#{item.code}" />

@@ -178,7 +178,16 @@
 	</ui:define>
 
 	<ui:define name="model">
-		<abc:itemSelectionDialog id="itemSelectionDialog" update=":menuDialogFrm:itemSelectionInput" widgetVar="itemSelectionWdg" valueList="#{catMenuViewBean.menuItems}" value="#{catMenuViewBean.selectedItem}" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
+		
+		<abc:itemSelectionDialog 
+			id="itemSelectionDialog" 
+			update=":menuDialogFrm:itemSelectionInput" 
+			widgetVar="itemSelectionWdg" 
+			paramType="#{DefTypeEnum.ITM_SR_ST}"
+			value="#{catMenuViewBean.selectedItem}"
+			rendered="true" />
 	</ui:define>
 
 </ui:composition>

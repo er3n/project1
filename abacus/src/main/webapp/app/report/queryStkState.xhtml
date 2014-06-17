@@ -34,22 +34,29 @@
 						value="#{queryStkStateViewBean.documentSearchCriteria.docEndDate}" />
 
 
-				
-					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}" required="false" />
-
-					<abc:departmentSelection id="departmentSelectionInput"
+					<h:outputLabel value="Malzeme" />
+					<h:panelGrid columns="1">
+						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}" required="false" />
+					</h:panelGrid>
+					
+					<h:outputLabel value="Depo" />
+					<h:panelGrid columns="1">
+						<abc:departmentSelection id="departmentSelectionInput"
 								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
 								targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}"
 								required="false" />
+					</h:panelGrid>
 
 					<p:outputLabel value="İşlem:" />
-					<p:selectOneMenu value="#{queryStkStateViewBean.documentSearchCriteria.docTask}"
+					<h:panelGrid columns="1">
+						<p:selectOneMenu value="#{queryStkStateViewBean.documentSearchCriteria.docTask}"
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
 							required="false" requiredMessage="İşlem boş olamaz">
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
 							<f:selectItems value="#{queryStkStateViewBean.allTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
+					</h:panelGrid>
 
 					<p:outputLabel value="Miktar:" />
 					<p:inputText value="#{queryStkStateViewBean.documentSearchCriteria.detailCount}" />

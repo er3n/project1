@@ -35,14 +35,15 @@ public class UserSelectionViewBean implements Serializable {
 		if (org==null){
 			return new ArrayList<SecUserEntity>();
 		}
-		if (resultMap.containsKey(org.getId())) {
-			return resultMap.get(org.getId());
+		String key = org.getId();
+		if (resultMap.containsKey(key)) {
+			return resultMap.get(key);
 		} else {
 			SearchUserCriteria cri = new SearchUserCriteria();
 			cri.setHierarchy(EnumList.Hierachy.PARENT);
 			cri.setOrganization(org);
 			List<SecUserEntity> userList = secUserHandler.findUser(cri);
-			resultMap.put(org.getId(), userList);
+			resultMap.put(key, userList);
 			return userList;
 		}
 	}

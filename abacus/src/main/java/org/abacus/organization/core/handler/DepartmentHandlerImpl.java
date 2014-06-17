@@ -29,11 +29,13 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DepartmentEntity> findUserDepartmentList(String username){
+	public List<DepartmentEntity> findUserDepartmentList(String username, EnumList.OrgDepartmentGroupEnum depGroup){
 		List<DepartmentEntity> depList = new ArrayList<>();
 		List<SecUserDepartmentEntity> userDepList = userDepartmentRepository.findUserDepartmentList(username);
 		for (SecUserDepartmentEntity ent : userDepList) {
-			depList.add(ent.getDepartment());
+			if (ent.getDepartment().getDepartmentGroup().equals(depGroup)){
+				depList.add(ent.getDepartment());
+			}
 		}
 		return depList;
 	}

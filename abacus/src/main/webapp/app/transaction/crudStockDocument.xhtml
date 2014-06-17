@@ -168,6 +168,7 @@
 	<ui:define name="model">
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 								
 		<abc:itemSelectionDialog 
 			id="itemSelectionDialog"
@@ -182,6 +183,7 @@
 			update=":crudDocumentDetailSelectionFrm" 
 			widgetVar="departmentSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
+			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			targetVar="#{crudDocumentViewBean.selectedDetail.department}" 
 			rendered="true"/>
 

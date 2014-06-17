@@ -183,6 +183,10 @@
 			<name>paramUser</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>paramDepGroup</name>
+			<required>true</required>
+		</attribute>		
 	</tag>
 
 </facelet-taglib>

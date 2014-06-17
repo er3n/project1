@@ -35,11 +35,12 @@ public class ValueSelectionViewBean implements Serializable {
 		if (typeEnum==null){
 			return new ArrayList<DefValueEntity>();
 		}
-		if (resultMap.containsKey(typeEnum.name())) {
-			return resultMap.get(typeEnum.name());
+		String key = typeEnum.name();
+		if (resultMap.containsKey(key)) {
+			return resultMap.get(key);
 		} else {
 			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), typeEnum);
-			resultMap.put(typeEnum.name(), list);
+			resultMap.put(key, list);
 			return list;
 		}
 	}

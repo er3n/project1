@@ -16,7 +16,7 @@
 		</f:facet>
 
 		<p:dataTable var="department" paginator="true" rows="10"
-			value="#{departmentSelectionViewBean.getDepartmentList(paramUser)}">
+			value="#{departmentSelectionViewBean.getDepartmentList(paramUser,paramDepGroup)}">
 
 			<p:column headerText="Birim Kod" filterBy="#{department.code}"
 				filterMatchMode="contains">

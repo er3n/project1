@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 
@@ -28,15 +29,16 @@ public class DepartmentSelectionViewBean implements Serializable {
 	public void init() {
 	}
 
-	public List<DepartmentEntity> getDepartmentList(String username) {
+	public List<DepartmentEntity> getDepartmentList(String username, EnumList.OrgDepartmentGroupEnum depGroup) {
 		if (username==null){
 			return new ArrayList<DepartmentEntity>();
 		}
-		if (resultMap.containsKey(username)) {
-			return resultMap.get(username);
+		String key = username+":"+((depGroup==null)?"*":depGroup.name());
+		if (resultMap.containsKey(key)) {
+			return resultMap.get(key);
 		} else {
-			List<DepartmentEntity> depList = departmentHandler.findUserDepartmentList(username);
-			resultMap.put(username, depList);
+			List<DepartmentEntity> depList = departmentHandler.findUserDepartmentList(username, depGroup);
+			resultMap.put(key, depList);
 			return depList;
 		}
 	}

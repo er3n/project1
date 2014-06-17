@@ -50,6 +50,10 @@ public class DefItemEntity extends DynamicEntity {
 	@JoinColumn(name = "category_id", nullable = false)
 	private DefValueEntity category;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "category_id_test", nullable = true)
+	private DefValueEntity categoryTest;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "unit_group_id", nullable = false)
 	private DefUnitGroupEntity unitGroup;
@@ -143,6 +147,14 @@ public class DefItemEntity extends DynamicEntity {
 
 	public void setItemProductSet(Set<DefItemProductEntity> itemProductSet) {
 		this.itemProductSet = itemProductSet;
+	}
+
+	public DefValueEntity getCategoryTest() {
+		return categoryTest;
+	}
+
+	public void setCategoryTest(DefValueEntity categoryTest) {
+		this.categoryTest = categoryTest;
 	}
 
 }

@@ -2,6 +2,7 @@ package org.abacus.report.web;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,19 +10,25 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
-import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.report.core.handler.ReportHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
-import org.abacus.transaction.shared.UnableToCreateDetailException;
+import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
+import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
-import org.abacus.transaction.shared.event.ReadDocumentEvent;
-import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.CreateDocumentEvent;
+import org.abacus.transaction.shared.event.DetailCreatedEvent;
+import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 
 @SuppressWarnings("serial")
@@ -38,18 +45,22 @@ public class QueryStkStateViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
-	private TraDocumentSearchCriteria documentSearchCriteria;
-
 	@ManagedProperty(value = "#{stkTransactionHandler}")
 	private TraTransactionHandler transactionHandler;
-
-	private List<TraDocumentEntity> documentSearchResultList;
-
-	private boolean hasFiscalYear;
-	private List<DefTaskEntity> allTaskList;
+	
+	@ManagedProperty(value = "#{stkDocumentRepository}")
+	private StkDocumentRepository documentRepository;
 	
 	@ManagedProperty(value = "#{defTaskRepository}")
 	private DefTaskRepository taskRepository;
+
+	@ManagedProperty(value = "#{reportHandler}")
+	private ReportHandler reportHandler;
+
+	private TraDocumentSearchCriteria documentSearchCriteria;
+	private List<StkDetailEntity> searchResultList;
+	private boolean hasFiscalYear;
+	private List<DefTaskEntity> allTaskList;
 	
 	@PostConstruct
 	private void init() {
@@ -60,9 +71,8 @@ public class QueryStkStateViewBean implements Serializable {
 
 	}
 
-	public void findDocument() {
-		ReadDocumentEvent readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
-		documentSearchResultList = readDocumentEvent.getDocumentList();
+	public void searchResult() {
+		searchResultList = reportHandler.getStkState(sessionInfoHelper.currentUser().getSelectedFiscalYear().getId());
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -105,14 +115,6 @@ public class QueryStkStateViewBean implements Serializable {
 		this.transactionHandler = transactionHandler;
 	}
 
-	public List<TraDocumentEntity> getDocumentSearchResultList() {
-		return documentSearchResultList;
-	}
-
-	public void setDocumentSearchResultList(List<TraDocumentEntity> documentSearchResultList) {
-		this.documentSearchResultList = documentSearchResultList;
-	}
-
 	public boolean isHasFiscalYear() {
 		return hasFiscalYear;
 	}
@@ -122,41 +124,77 @@ public class QueryStkStateViewBean implements Serializable {
 	}
 
 	
-	public void createStkTestData() throws UnableToCreateDetailException{
+	public void testCreateStkData() throws AbcBusinessException {
 		System.out.println("createStkTestData");
 		if (documentSearchCriteria.getDocTask()==null||
 				documentSearchCriteria.getDetailCount()==null||
 				documentSearchCriteria.getDetailDepartment()==null||
 				documentSearchCriteria.getDetailItem()==null){
-			jsfMessageHelper.addTest("createStkTestData Eksik Bilgi");
 			System.out.println("createStkTestData Eksik Bilgi");
+			jsfMessageHelper.addTest("createStkTestData Eksik Bilgi");
 			return;
 		}
-		jsfMessageHelper.addTest("createStkTestData Islem Tamam");
-		System.out.println("createStkTestData Islem Tamam");
+		try{
+			CreateDocumentEvent createDocumentEvent = testCreateDocumentEvent();
+			DocumentCreatedEvent documentCreatedEvent = transactionHandler.newDocument(createDocumentEvent);
+			
+			TraDocumentEntity newTraDocument = documentCreatedEvent.getDocument();
+			StkDocumentEntity newStkDocument = documentRepository.findWithFetch(newTraDocument.getId());
+			
+			CreateDetailEvent createDetailEvent = testCreateDetailEvent(newStkDocument);
+			DetailCreatedEvent detailCreatedEvent = transactionHandler.newDetail(createDetailEvent);
+			
+			System.out.println("createStkTestData Islem Tamam");
+			jsfMessageHelper.addTest("createStkTestData Islem Tamam");
+			
+		} catch (AbcBusinessException e){
+			System.out.println("createStkTestData AbcBusinessException");
+			jsfMessageHelper.addError(e);
+		} catch (Exception e) {
+			System.out.println("createStkTestData Exception");
+			jsfMessageHelper.addTest("createStkTestData Exception");
+		}
 
-		
-//		//INPUT
-//		TraDocumentEntity inDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_I).getDocument();
-//		inDocument = documentRepository.findWithFetch(inDocument.getId());
-//
-//		for (int i = 0; i < 3; i++) {
-//			CreateDetailEvent createDetailEventIn = transactionFixture.newDetail(inDocument, user, new BigDecimal(3000));
-//			DetailCreatedEvent eventIn = stkTransaction.newDetail(createDetailEventIn);
-//		}
-//		
-//		//TRANSFER
-//		TraDocumentEntity transferDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_TT_T).getDocument();
-//		transferDocument = documentRepository.findWithFetch(transferDocument.getId());
-//		
-//		CreateDetailEvent createDetailEventTransfer = transactionFixture.newTransfer(transferDocument, user, new BigDecimal(15000));
-//		
-//		stkTransaction.newDetail(createDetailEventTransfer);
-//		
-//		System.out.println("Bitti");
-		
 	}
 
+	private CreateDocumentEvent testCreateDocumentEvent() {
+		String user = sessionInfoHelper.currentUser().getUsername();
+		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
+		FiscalYearEntity fiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear();
+		
+		StkDocumentEntity doc = new StkDocumentEntity();
+
+		doc.setDocDate(Calendar.getInstance().getTime());
+		doc.setDocNo("test:"+doc.getDocDate().getTime());
+		doc.setDocNote("test:"+doc.getDocDate().getTime());
+		doc.setTask(documentSearchCriteria.getDocTask());
+		doc.setTypeEnum(documentSearchCriteria.getDocTask().getType().getTypeEnum());
+		doc.setOrganization(organization);
+		
+		CreateDocumentEvent event = new CreateDocumentEvent(doc, user, organization.getId(), fiscalYear.getId());		
+		return event;
+	}
+	
+	public CreateDetailEvent testCreateDetailEvent(TraDocumentEntity document) {
+		String user = sessionInfoHelper.currentUser().getUsername();
+
+		StkDetailEntity dtl = new StkDetailEntity();
+		
+		dtl.setDocument(document);
+		dtl.setBaseDetailAmount(BigDecimal.ONE);
+		dtl.setDepartment(documentSearchCriteria.getDetailDepartment());
+		dtl.setItem(documentSearchCriteria.getDetailItem());
+		dtl.setLotDetailDate(document.getDocDate());
+		dtl.setItemDetailCount(documentSearchCriteria.getDetailCount());
+		dtl.setItemUnit(documentSearchCriteria.getDetailItem().getItemUnitSet().iterator().next().getUnitCode());
+		dtl.setDetNote("test:"+document.getId());
+		dtl.setBatchDetailNo("test:"+document.getId());
+
+		CreateDetailEvent event = new CreateDetailEvent(dtl, user);
+		return event;
+	}
+	
+	
 	public List<DefTaskEntity> getAllTaskList() {
 		return allTaskList;
 	}
@@ -172,5 +210,29 @@ public class QueryStkStateViewBean implements Serializable {
 	public void setTaskRepository(DefTaskRepository taskRepository) {
 		this.taskRepository = taskRepository;
 	}
-	
+
+	public StkDocumentRepository getDocumentRepository() {
+		return documentRepository;
+	}
+
+	public void setDocumentRepository(StkDocumentRepository documentRepository) {
+		this.documentRepository = documentRepository;
+	}
+
+	public ReportHandler getReportHandler() {
+		return reportHandler;
+	}
+
+	public void setReportHandler(ReportHandler reportHandler) {
+		this.reportHandler = reportHandler;
+	}
+
+	public List<StkDetailEntity> getSearchResultList() {
+		return searchResultList;
+	}
+
+	public void setSearchResultList(List<StkDetailEntity> searchResultList) {
+		this.searchResultList = searchResultList;
+	}
+
 }

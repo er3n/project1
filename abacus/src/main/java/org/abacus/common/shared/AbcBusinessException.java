@@ -13,7 +13,7 @@ public class AbcBusinessException extends RuntimeException {
 	}
 
 	public AbcBusinessException() {
-		this.message = this.getClass().getName();
+		this.message = this.getClass().getSimpleName();
 	}
 
 	public String getMessage() {

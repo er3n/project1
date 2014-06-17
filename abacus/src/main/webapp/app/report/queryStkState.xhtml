@@ -35,17 +35,17 @@
 
 
 				
-					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}" />
+					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}" required="false" />
 
 					<abc:departmentSelection id="departmentSelectionInput"
 								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
 								targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}"
-								required="true" />
+								required="false" />
 
 					<p:outputLabel value="İşlem:" />
 					<p:selectOneMenu value="#{queryStkStateViewBean.documentSearchCriteria.docTask}"
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
-							required="true" requiredMessage="İşlem boş olamaz">
+							required="false" requiredMessage="İşlem boş olamaz">
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
 							<f:selectItems value="#{queryStkStateViewBean.allTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
@@ -58,7 +58,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Sorgula"
-						actionListener="#{queryStkStateViewBean.findDocument}"
+						actionListener="#{queryStkStateViewBean.searchResult}"
 						update=":documentResultTable" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Temizle">
@@ -66,7 +66,7 @@
 					</p:commandButton>
 
 					<p:commandButton value="CreateTestDoc"
-						actionListener="#{queryStkStateViewBean.createStkTestData}"
+						actionListener="#{queryStkStateViewBean.testCreateStkData}"
 						update=":documentResultTable"> 
 					</p:commandButton>
 				</f:facet>
@@ -78,29 +78,21 @@
 		<h:panelGrid id="documentResultTable" columns="1" style="width:100%">
 			<h:form>
 				<p:dataTable
-					rendered="#{queryStkStateViewBean.documentSearchResultList != null}"
+					rendered="#{queryStkStateViewBean.searchResultList != null}"
 					emptyMessage="Kayit Bulunamadi"
-					value="#{queryStkStateViewBean.documentSearchResultList}" var="var"
+					value="#{queryStkStateViewBean.searchResultList}" var="var"
 					 paginator="true" rows="30">
 
-					<p:column headerText="No" filterBy="#{var.docNo}" filterMatchMode="contains">
-						<h:outputText value="#{var.docNo}" />
+					<p:column headerText="Depo" filterBy="#{var.department.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.department.name}" />
 					</p:column>
 
-					<p:column headerText="Tarih" filterBy="#{var.docDate}" filterMatchMode="contains">
-						<h:outputText value="#{var.docDate}" />
+					<p:column headerText="Malzeme" filterBy="#{var.item.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.item.name}" />
 					</p:column>
 
-					<p:column headerText="Aciklama" filterBy="#{var.docNote}" filterMatchMode="contains">
-						<h:outputText value="#{var.docNote}" />
-					</p:column>
-
-					<p:column headerText="Org" filterBy="#{var.organization.id}" filterMatchMode="contains">
-						<h:outputText value="#{var.organization.id}" />
-					</p:column>
-
-					<p:column headerText="Tip" filterBy="#{var.typeEnum.description}" filterMatchMode="contains">
-						<h:outputText value="#{var.typeEnum.description}" />
+					<p:column headerText="Miktar" filterBy="#{var.baseDetailCount}" filterMatchMode="contains">
+						<h:outputText value="#{var.baseDetailCount}" />
 					</p:column>
 
 				</p:dataTable> 

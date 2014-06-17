@@ -51,7 +51,7 @@
 					<f:facet name="footer">
 						<p:commandButton value="Kaydet"
 							actionListener="#{crudDocumentViewBean.saveDocument}"
-							update="crudDocumentFrm"
+							update="crudDocumentFrm :crudDocumentDetailFrm"
 							rendered="#{empty crudDocumentViewBean.document.id}" />
 						<p:spacer width="5px" />
 					</f:facet>
@@ -63,51 +63,52 @@
 
 			<h:form id="crudDocumentDetailFrm">
 
-				<p:panel header="Fiş Detay"
+
+				<p:dataTable var="var"
+					emptyMessage="Kayitli fiş detay bulunmamaktadir."
+					value="#{crudDocumentViewBean.detailList}"
 					rendered="#{not empty crudDocumentViewBean.document.id}">
 
-					<p:dataTable var="var"
-						emptyMessage="Kayitli fiş detay bulunmamaktadir."
-						value="#{crudDocumentViewBean.detailList}">
+					<f:facet name="header">
+						<p:outputLabel value="Fiş Detay"/>
+					</f:facet>
+ 
+					<f:facet name="footer">
+						<p:commandButton value="Detay Ekle"
+							actionListener="#{crudDocumentViewBean.initNewDetail()}"
+							update=":crudDocumentDetailSelectionFrm" process="@this" />
+					</f:facet>
 
-						<f:facet name="header">
-							<p:commandButton value="Detay Ekle"
-								actionListener="#{crudDocumentViewBean.initNewDetail()}"
-								update=":crudDocumentDetailSelectionFrm" process="@this" />
-						</f:facet>
+					<p:column headerText="SKT">
+						<p:outputLabel value="#{var.lotDetailDate}" />
+					</p:column>
+ 
+					<p:column headerText="Malzeme">
+						<p:outputLabel value="#{var.item.name}" />
+					</p:column>
 
-						<p:column headerText="Son Kullanma Tarihi">
-							<p:outputLabel value="#{var.lotDetailDate}" />
-						</p:column>
+					<p:column headerText="Depo">
+						<p:outputLabel value="#{var.department.name}" />
+					</p:column>
 
-						<p:column headerText="Malzeme">
-							<p:outputLabel value="#{var.item.name}" />
-						</p:column>
+					<p:column headerText="Karşı Depo">
+						<p:outputLabel value="#{var.departmentOpp}" />
+					</p:column>
 
-						<p:column headerText="Depo">
-							<p:outputLabel value="#{var.department.name}" />
-						</p:column>
+					<p:column headerText="Miktar">
+						<p:outputLabel value="#{var.itemDetailCount}" />
+					</p:column>
 
-						<p:column headerText="Transfer Edilen Depo">
-							<p:outputLabel value="#{var.departmentOpp}" />
-						</p:column>
+					<p:column headerText="Birim">
+						<p:outputLabel value="#{var.itemUnit.code}" />
+					</p:column>
 
-						<p:column headerText="Miktar">
-							<p:outputLabel value="#{var.itemDetailCount}" />
-						</p:column>
+					<p:column headerText="Birim Fiyat">
+						<p:outputLabel value="#{var.baseDetailAmount}" />
+					</p:column>
 
-						<p:column headerText="Birim">
-							<p:outputLabel value="#{var.itemUnit.code}" />
-						</p:column>
+				</p:dataTable>
 
-						<p:column headerText="Birim Fiyat">
-							<p:outputLabel value="#{var.baseDetailAmount}" />
-						</p:column>
-
-					</p:dataTable>
-
-
-				</p:panel>
 
 			</h:form>
 
@@ -117,27 +118,50 @@
 				<p:panel header="Fiş Detay Düzenleme"
 					rendered="#{not empty crudDocumentViewBean.selectedDetail}">
 
-					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
+					<h:panelGrid columns="2" cellpadding="2" style="vertical-align:top">
 
-						<h:outputLabel value="Malzeme" />
+						<p:outputLabel value="Depo" />
 						<h:panelGrid columns="1">
+							<abc:departmentSelection id="departmentSelectionInput"
+								widgetVar="departmentSelectionWdg"
+								dialogId="departmentSelectionDialog"
+								targetVar="#{crudDocumentViewBean.selectedDetail.department}"
+								required="true" />
+						</h:panelGrid>
+
+						<p:outputLabel value="Malzeme" />
+						<h:panelGrid columns="6">
 							<abc:itemSelection id="itemSelectionInput"
 								widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
 								targetVar="#{crudDocumentViewBean.selectedDetail.item}"
 								required="true" />
 						</h:panelGrid>
 
-						<h:outputLabel value="Birim" />
-						<h:panelGrid columns="1">
-							<abc:departmentSelection id="departmentSelectionInput"
-								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
-								targetVar="#{crudDocumentViewBean.selectedDetail.department}"
-								required="true" />
-						</h:panelGrid>
 
 						<p:outputLabel value="Seri No:" />
 						<p:inputText
 							value="#{crudDocumentViewBean.selectedDetail.batchDetailNo}"
+							required="true" requiredMessage="Seri numarası boş olamaz." />
+
+						<p:outputLabel value="Birim"
+							rendered="#{not empty crudDocumentViewBean.selectedDetail.item}" />
+						<p:selectOneMenu required="true"
+							requiredMessage="Birim boş olamaz" style="width:145px"
+							value="#{crudDocumentViewBean.selectedDetail.itemUnit}"
+							converter="omnifaces.SelectItemsConverter"
+							rendered="#{not empty crudDocumentViewBean.selectedDetail.item}">
+
+							<f:selectItem itemValue="" itemLabel="Seciniz..."></f:selectItem>
+							<f:selectItems
+								value="#{crudDocumentViewBean.selectedDetail.item.itemUnitSet}"
+								var="itemUnit" itemLabel="#{itemUnit.unitCode.name}"
+								itemValue="#{itemUnit.unitCode}" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel value="Toplam Miktar" />
+						<p:inputText
+							value="#{crudDocumentViewBean.selectedDetail.itemDetailCount}"
 							required="true" requiredMessage="Seri numarası boş olamaz." />
 
 						<p:outputLabel value="Toplam Tutar" />
@@ -145,17 +169,25 @@
 							value="#{crudDocumentViewBean.selectedDetail.baseDetailAmount}"
 							required="true" requiredMessage="Seri numarası boş olamaz." />
 
-						<p:outputLabel value="Toplam Miktar" />
-						<p:inputText
-							value="#{crudDocumentViewBean.selectedDetail.itemDetailCount}"
-							required="true" requiredMessage="Seri numarası boş olamaz." />
-						<abc:valueSelection id="X" widgetVar="" targetVar="" />
+						<p:outputLabel value="Son Kullanma Tarihi"  />
+						<p:calendar
+							value="#{crudDocumentViewBean.selectedDetail.lotDetailDate}" required="true" >
+
+						</p:calendar>
 
 						<p:outputLabel value="Not" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
 							value="#{crudDocumentViewBean.selectedDetail.detNote}" />
 
 					</h:panelGrid>
+
+					<f:facet name="footer">
+						<p:commandButton value="Kaydet"
+							actionListener="#{crudDocumentViewBean.saveDetail}"
+							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm"
+							rendered="#{empty crudDocumentViewBean.selectedDetail.id}" />
+					</f:facet>
+
 
 				</p:panel>
 
@@ -167,26 +199,26 @@
 	</ui:define>
 
 	<ui:define name="model">
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
-								
-		<abc:itemSelectionDialog 
-			id="itemSelectionDialog"
-			update=":crudDocumentDetailSelectionFrm" 
-			widgetVar="itemSelectionWdg"
-			paramType="#{DefTypeEnum.ITM_SR_ST}"
-			targetVar="#{crudDocumentViewBean.selectedDetail.item}" 
-			rendered="true"/>
+		<o:importConstants
+			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants
+			type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
+		<o:importConstants
+			type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
-		<abc:departmentSelectionDialog 
-			id="departmentSelectionDialog"
-			update=":crudDocumentDetailSelectionFrm" 
+		<abc:itemSelectionDialog id="itemSelectionDialog"
+			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
+			paramType="#{DefTypeEnum.ITM_SR_ST}"
+			targetVar="#{crudDocumentViewBean.selectedDetail.item}"
+			rendered="true" />
+
+		<abc:departmentSelectionDialog id="departmentSelectionDialog"
+			update=":crudDocumentDetailSelectionFrm"
 			widgetVar="departmentSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
-			targetVar="#{crudDocumentViewBean.selectedDetail.department}" 
-			rendered="true"/>
+			targetVar="#{crudDocumentViewBean.selectedDetail.department}"
+			rendered="true" />
 
 	</ui:define>
 

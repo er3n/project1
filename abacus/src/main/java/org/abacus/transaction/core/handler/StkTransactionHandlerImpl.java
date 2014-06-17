@@ -107,8 +107,8 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		BigDecimal detailCount =  detail.getBaseDetailCount();
 		
 		BigDecimal currentItemCount = detailTrackRepository.currentItemCount(detail.getItem().getId(),detail.getDepartment().getId(), detail.getFiscalYear().getId());
-		
-		boolean isNotEnoughtItemStock = detailCount.compareTo(currentItemCount) > 0;
+		  
+		boolean isNotEnoughtItemStock = currentItemCount == null || detailCount.compareTo(currentItemCount) > 0;
 		if(isNotEnoughtItemStock){
 			throw new UnableToOutputDetail();
 		}

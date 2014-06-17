@@ -19,7 +19,10 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.entity.TraDetailEntity;
+import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
+import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
@@ -62,11 +65,10 @@ public class CrudDocumentViewBean implements Serializable {
 	private void init() {
 
 		this.checkFiscalYear();
-		if (!hasFiscalYear){
+		if (!hasFiscalYear) {
 			jsfMessageHelper.addWarn("noFiscalYearDefined");
 			return;
 		}
-			
 
 		String operation = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("operation");
 		this.initSelections();
@@ -105,13 +107,24 @@ public class CrudDocumentViewBean implements Serializable {
 
 	}
 
+	public void saveDetail() {
+		try {
+			DetailCreatedEvent event = transactionHandler.newDetail(new CreateDetailEvent(selectedDetail, sessionInfoHelper.currentUserName()));
+			this.findDocument(document.getId());
+			selectedDetail = null;
+			jsfMessageHelper.addInfo("createSuccessfull", "Fiş Detay");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
 	private void findDocument(Long documentId) {
 		ReadDocumentEvent readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent(new TraDocumentSearchCriteria(documentId), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
 			document = (StkDocumentEntity) readDocumentEvent.getDocumentList().get(0);
-			ReadDetailEvent readDetailEvent =  transactionHandler.readDetail(new RequestReadDetailEvent(document.getId()));
+			ReadDetailEvent readDetailEvent = transactionHandler.readDetail(new RequestReadDetailEvent(document.getId()));
 			detailList = readDetailEvent.getDetails();
 		}
 	}

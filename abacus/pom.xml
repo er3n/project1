@@ -12,10 +12,10 @@
 		<jsf-version>2.1.28</jsf-version>
 		<primefaces-version>5.0</primefaces-version>
 		<javax-servlet-api>3.0.1</javax-servlet-api>
-		<springframework-version>4.0.5.RELEASE</springframework-version>
-		<springsecurity-version>3.2.4.RELEASE</springsecurity-version>
-		<hibernate-version>4.3.5.Final</hibernate-version>
-		<hibernate-validator-version>5.1.1.Final</hibernate-validator-version>
+		<springframework-version>4.0.3.RELEASE</springframework-version>
+		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>
+		<hibernate-version>4.3.0.Final</hibernate-version>
+		<hibernate-validator-version>5.0.1.Final</hibernate-validator-version> 
 		<postgresql-driver-version>9.3-1101-jdbc41</postgresql-driver-version>
 		<spring-data-jpa-version>1.6.0.RELEASE</spring-data-jpa-version>
 		<spring-faces-version>2.3.3.RELEASE</spring-faces-version>

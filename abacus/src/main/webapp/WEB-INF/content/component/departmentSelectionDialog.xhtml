@@ -28,6 +28,11 @@
 				<h:outputText value="#{department.name}" />
 			</p:column>
 
+			<p:column headerText="Tip" filterBy="#{department.departmentGroup.description}"
+				filterMatchMode="contains">
+				<h:outputText value="#{department.departmentGroup.description}" />
+			</p:column>
+
 			<p:column headerText="Sec">
 				<p:commandButton icon="ui-icon-search"
 					oncomplete="PF('#{widgetVar}').hide();" update="#{update}" process="@this">

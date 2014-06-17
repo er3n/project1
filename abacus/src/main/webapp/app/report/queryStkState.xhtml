@@ -14,8 +14,8 @@
 
 		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryStkStateViewBean.hasFiscalYear}" />
 
-		<h:form>
-			<p:panel id="queryDocumentPanel" header="Stok Durum Sorgulama" rendered="#{queryStkStateViewBean.hasFiscalYear}">
+		<h:form id="queryStkStateForm"> 
+			<p:panel id="queryStkStatePanel" header="Stok Durum Sorgulama" rendered="#{queryStkStateViewBean.hasFiscalYear}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
@@ -33,6 +33,27 @@
 					<p:calendar
 						value="#{queryStkStateViewBean.documentSearchCriteria.docEndDate}" />
 
+
+				
+					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}" />
+
+					<abc:departmentSelection id="departmentSelectionInput"
+								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
+								targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}"
+								required="true" />
+
+					<p:outputLabel value="İşlem:" />
+					<p:selectOneMenu value="#{queryStkStateViewBean.documentSearchCriteria.docTask}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="true" requiredMessage="İşlem boş olamaz">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{queryStkStateViewBean.allTaskList}"
+								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
+						</p:selectOneMenu>
+
+					<p:outputLabel value="Miktar:" />
+					<p:inputText value="#{queryStkStateViewBean.documentSearchCriteria.detailCount}" />
+
 				</h:panelGrid>
 
 				<f:facet name="footer">
@@ -41,7 +62,12 @@
 						update=":documentResultTable" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Temizle">
-						<p:ajax update="queryDocumentPanel :documentResultTable" resetValues="true" />
+						<p:ajax update="queryStkStatePanel :documentResultTable" resetValues="true" />
+					</p:commandButton>
+
+					<p:commandButton value="CreateTestDoc"
+						actionListener="#{queryStkStateViewBean.createStkTestData}"
+						update=":documentResultTable"> 
 					</p:commandButton>
 				</f:facet>
 
@@ -84,4 +110,28 @@
 
 	</ui:define>
 
+	<ui:define name="model">
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
+		
+		<abc:itemSelectionDialog 
+			id="itemSelectionDialog" 
+			update=":queryStkStateForm:itemSelectionInput" 
+			widgetVar="itemSelectionWdg" 
+			paramType="#{DefTypeEnum.ITM_SR_ST}"
+			targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}"
+			rendered="true" />
+
+		<abc:departmentSelectionDialog 
+			id="departmentSelectionDialog"
+			update=":queryStkStateForm" 
+			widgetVar="departmentSelectionWdg"
+			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
+			paramUser="#{sessionInfoHelper.currentUser().username}"
+			targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}" 
+			rendered="true"/>			
+			
+	</ui:define>
+	
 </ui:composition>

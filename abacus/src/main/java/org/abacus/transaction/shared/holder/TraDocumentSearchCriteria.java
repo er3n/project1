@@ -1,7 +1,12 @@
 package org.abacus.transaction.shared.holder;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+
+import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.organization.shared.entity.DepartmentEntity;
 
 @SuppressWarnings("serial")
 public class TraDocumentSearchCriteria implements Serializable {
@@ -14,6 +19,14 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	private Date docEndDate;
 
+	private DefTaskEntity docTask;
+	
+	private DepartmentEntity detailDepartment;
+	
+	private DefItemEntity detailItem;
+	
+	private BigDecimal detailCount;
+	
 	public TraDocumentSearchCriteria() {
 
 	}
@@ -52,6 +65,38 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	public void setDocumentId(Long documentId) {
 		this.documentId = documentId;
+	}
+
+	public DefTaskEntity getDocTask() {
+		return docTask;
+	}
+
+	public void setDocTask(DefTaskEntity docTask) {
+		this.docTask = docTask;
+	}
+
+	public DepartmentEntity getDetailDepartment() {
+		return detailDepartment;
+	}
+
+	public void setDetailDepartment(DepartmentEntity detailDepartment) {
+		this.detailDepartment = detailDepartment;
+	}
+
+	public DefItemEntity getDetailItem() {
+		return detailItem;
+	}
+
+	public void setDetailItem(DefItemEntity detailItem) {
+		this.detailItem = detailItem;
+	}
+
+	public BigDecimal getDetailCount() {
+		return detailCount;
+	}
+
+	public void setDetailCount(BigDecimal detailCount) {
+		this.detailCount = detailCount;
 	}
 
 }

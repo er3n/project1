@@ -9,8 +9,10 @@ import java.util.Date;
 
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.core.persistance.FiscalDao;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.test.fixture.TransactionFixture;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
@@ -46,6 +48,10 @@ public class TestTransactionHandler {
 	private TraTransactionHandler stkTransaction;
 
 	@Autowired
+	@Qualifier("organizationHandler")
+	private OrganizationHandler organizationHandler;
+
+	@Autowired
 	@Qualifier("finTransactionHandler")
 	private TraTransactionHandler finTransaction;
 
@@ -65,8 +71,8 @@ public class TestTransactionHandler {
 	private FiscalDao fiscalDao;
 
 	private String user = "admin";
-
-	private String organization = "#";
+	private String organizationId = "#.#";
+	private String fiscalYearId = "#.#:2014";
 
 	@Before
 	public void init() {
@@ -74,7 +80,8 @@ public class TestTransactionHandler {
 	}
 
 	private DocumentCreatedEvent newStkTransaction(EnumList.DefTypeEnum documentType) {
-		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user, organization, documentType));
+		OrganizationEntity organization = organizationHandler.findOne(organizationId);
+		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user, organization, documentType, fiscalYearId));
 		return createdEvent;
 	}
 
@@ -116,26 +123,31 @@ public class TestTransactionHandler {
 		TraDocumentEntity inDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_I).getDocument();
 		inDocument = documentRepository.findWithFetch(inDocument.getId());
 
-		for (int i = 0; i < 3; i++) {
-			CreateDetailEvent createDetailEventIn = transactionFixture.newDetail(inDocument, user, new BigDecimal(3000));
-			DetailCreatedEvent eventIn = stkTransaction.newDetail(createDetailEventIn);
-		}
+		CreateDetailEvent createDetailEventIn1 = transactionFixture.newDetail(inDocument, user, new BigDecimal(1000));
+		DetailCreatedEvent eventIn1 = stkTransaction.newDetail(createDetailEventIn1);
+		
+		CreateDetailEvent createDetailEventIn2 = transactionFixture.newDetail(inDocument, user, new BigDecimal(2000));
+		DetailCreatedEvent eventIn2 = stkTransaction.newDetail(createDetailEventIn2);
+		
+		CreateDetailEvent createDetailEventIn3 = transactionFixture.newDetail(inDocument, user, new BigDecimal(3000));
+		DetailCreatedEvent eventIn3 = stkTransaction.newDetail(createDetailEventIn3);
+		
 
 		//OUTPUT
 		TraDocumentEntity outDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_O).getDocument();
 		outDocument = documentRepository.findWithFetch(outDocument.getId());
 		
-		CreateDetailEvent createDetailEventOut1 = transactionFixture.newDetail(outDocument, user, new BigDecimal(5000));
+		CreateDetailEvent createDetailEventOut1 = transactionFixture.newDetail(outDocument, user, new BigDecimal(1200));
 		DetailCreatedEvent eventOut1 = stkTransaction.newDetail(createDetailEventOut1);
 
-		CreateDetailEvent createDetailEventOut2 = transactionFixture.newDetail(outDocument, user, new BigDecimal(1200));
+		CreateDetailEvent createDetailEventOut2 = transactionFixture.newDetail(outDocument, user, new BigDecimal(2500));
 		DetailCreatedEvent eventOut2 = stkTransaction.newDetail(createDetailEventOut2);
 
 		//TEST
 		StkDetailEntity outDetail = (StkDetailEntity) eventOut2.getDetail(); 
 		BigDecimal restCount = detailTrackRepository.currentItemCount(outDetail.getItem().getId(), outDetail.getDepartment().getId(),outDetail.getFiscalYear().getId());
 		
-		BigDecimal testCount = new BigDecimal(2.8).setScale(EnumList.RoundScale.STK.getValue(), RoundingMode.HALF_EVEN);
+		BigDecimal testCount = new BigDecimal(2.3).setScale(EnumList.RoundScale.STK.getValue(), RoundingMode.HALF_EVEN);
 		boolean result = restCount.compareTo(testCount) == 0;
 		assertTrue(result);
 		
@@ -167,8 +179,16 @@ public class TestTransactionHandler {
 	@Test
 	public void testFiscalPeriod() throws AbcBusinessException{
 		Date now = new Date();
-		FiscalPeriodEntity period = fiscalDao.findFiscalPeriod("#.#:2014", now, EnumList.DefTypeEnum.STK_IO_I);
+		FiscalPeriodEntity period = fiscalDao.findFiscalPeriod(fiscalYearId, now, EnumList.DefTypeEnum.STK_IO_I);
 		System.out.println(period.getId());
+	}
+
+	public OrganizationHandler getOrganizationHandler() {
+		return organizationHandler;
+	}
+
+	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
+		this.organizationHandler = organizationHandler;
 	}
 	
 }

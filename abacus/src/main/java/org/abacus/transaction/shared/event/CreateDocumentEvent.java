@@ -1,7 +1,6 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.CreatedEvent;
-import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
 public class CreateDocumentEvent extends CreatedEvent {

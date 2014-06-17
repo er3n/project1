@@ -12,7 +12,9 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.organization.core.persistance.repository.DepartmentRepository;
+import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
@@ -38,12 +40,13 @@ public class TransactionFixture {
 
 	@Autowired
 	private DefItemDao itemDao;
-
-	private void enrichDocument(TraDocumentEntity entity, String organization, EnumList.DefTypeEnum documentType) {
+	
+	private void enrichDocument(TraDocumentEntity entity, OrganizationEntity organization, EnumList.DefTypeEnum documentType) {
 		entity.setDocDate(Calendar.getInstance().getTime());
 		entity.setDocNo("123456");
 		entity.setDocNote("New stock item added");
-		List<DefTaskEntity> taskList = taskRepository.getTaskList(organization, documentType.name());
+		OrganizationEntity rootOrg = OrganizationUtils.findRootOrganization(organization);
+		List<DefTaskEntity> taskList = taskRepository.getTaskList(rootOrg.getId(), documentType.name());
 		entity.setTask(taskList.get(0));
 	}
 
@@ -65,12 +68,12 @@ public class TransactionFixture {
 
 	}
 
-	public CreateDocumentEvent newDocument(String user, String organization, EnumList.DefTypeEnum documentType) {
+	public CreateDocumentEvent newDocument(String user, OrganizationEntity organization, EnumList.DefTypeEnum documentType, String fiscalYearId) {
 		StkDocumentEntity document = new StkDocumentEntity();
 
 		enrichDocument(document, organization, documentType); 
 
-		CreateDocumentEvent event = new CreateDocumentEvent(document, user, organization,"#.#:2014");
+		CreateDocumentEvent event = new CreateDocumentEvent(document, user, organization.getId(), fiscalYearId);
 
 		return event;
 	}
@@ -97,7 +100,5 @@ public class TransactionFixture {
 		
 		return createDetailEvent;
 	}
-	
-	
 
 }

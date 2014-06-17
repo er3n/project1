@@ -30,7 +30,8 @@
 		</p:submenu>
 
 		<p:submenu label="Raporlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-			<p:menuitem value="Stok Raporları" url="/app/index.abc?faces-redirect=true" />
+			<p:menuitem value="Stok Durum Sorgula" url="/app/report/queryStkState.abc" />
+			<p:menuitem value="Stok Hareket Sorgula" url="/app/index.abc?faces-redirect=true" />
 		</p:submenu>
 
 		<f:facet name="options">

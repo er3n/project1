@@ -38,18 +38,19 @@ insert into sec_user_organization (id, user_id, organization_id, version) values
 commit;
 
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'A', 'SY','Şirket Yönetimi',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD1','Şirket Depo 1',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD2','Şirket Depo 2',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'A', 'BY','Proje Yönetimi',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD1','Proje Depo 1',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD2','Proje Depo 2',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'A', 'PY','Bölge Yönetimi',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'S', 'PD1','Bölge Depo 1',0);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#.#', 'S', 'PD2','Bölge Depo 2',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD1','Şirket Depo 1',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD2','Şirket Depo 2',0);
 commit; 
 
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-2, 'person', 0, 0, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-2, 'admin', 0, 1, 0);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-2, 'admin', 0, 1, 0);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-3, 'person', 0, 0, 1);
 commit;
 
 insert into def_type (id, name, level, tr_state_type) values ('.', '.', 0, 0);

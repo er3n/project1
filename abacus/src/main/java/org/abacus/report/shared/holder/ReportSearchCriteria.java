@@ -7,14 +7,16 @@ import java.util.Date;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @SuppressWarnings("serial")
 public class ReportSearchCriteria implements Serializable {
 
-	private Long documentId;
-
-	private String docNo;
-
+	private OrganizationEntity organization; 
+	
+	private FiscalYearEntity fiscalYear;
+	
 	private Date docStartDate;
 
 	private Date docEndDate;
@@ -31,18 +33,6 @@ public class ReportSearchCriteria implements Serializable {
 
 	}
 
-	public ReportSearchCriteria(Long documentId) {
-		this.documentId = documentId;
-	}
-
-	public String getDocNo() {
-		return docNo;
-	}
-
-	public void setDocNo(String docNo) {
-		this.docNo = docNo;
-	}
-
 	public Date getDocStartDate() {
 		return docStartDate;
 	}
@@ -57,14 +47,6 @@ public class ReportSearchCriteria implements Serializable {
 
 	public void setDocEndDate(Date docEndDate) {
 		this.docEndDate = docEndDate;
-	}
-
-	public Long getDocumentId() {
-		return documentId;
-	}
-
-	public void setDocumentId(Long documentId) {
-		this.documentId = documentId;
 	}
 
 	public DefTaskEntity getDocTask() {
@@ -97,6 +79,22 @@ public class ReportSearchCriteria implements Serializable {
 
 	public void setDetailCount(BigDecimal detailCount) {
 		this.detailCount = detailCount;
+	}
+
+	public OrganizationEntity getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(OrganizationEntity organization) {
+		this.organization = organization;
+	}
+
+	public FiscalYearEntity getFiscalYear() {
+		return fiscalYear;
+	}
+
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
+		this.fiscalYear = fiscalYear;
 	}
 
 }

@@ -6,7 +6,6 @@ import org.abacus.report.core.persistance.FinReportDao;
 import org.abacus.report.core.persistance.StkReportDao;
 import org.abacus.report.shared.event.ReadReportEvent;
 import org.abacus.report.shared.event.RequestReadReportEvent;
-import org.abacus.report.shared.holder.ReportSearchCriteria;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class ReportHandlerImpl implements ReportHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public ReadReportEvent getStkState(RequestReadReportEvent requestReadReportEvent) {
-		List<StkDetailEntity> detailList = stkReportDao.getStkState(requestReadReportEvent.getFiscalYearId());
+		List<StkDetailEntity> detailList = stkReportDao.getStkState(requestReadReportEvent.getReportSearchCriteria());
 		ReadReportEvent readEvent = new ReadReportEvent(detailList);
 		return readEvent;
 	}
@@ -34,7 +33,7 @@ public class ReportHandlerImpl implements ReportHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public ReadReportEvent getStkDetail(RequestReadReportEvent requestReadReportEvent) {
-		List<StkDetailEntity> detailList = stkReportDao.getStkDetail(requestReadReportEvent.getFiscalYearId());
+		List<StkDetailEntity> detailList = stkReportDao.getStkDetail(requestReadReportEvent.getReportSearchCriteria());
 		ReadReportEvent readEvent = new ReadReportEvent(detailList);
 		return readEvent;
 	}

@@ -23,11 +23,10 @@ public class JsfDialogHelper implements Serializable {
 		defaultDialogOptions.put("modal", true);
 		defaultDialogOptions.put("draggable", false);
 		defaultDialogOptions.put("resizable", false);
-		defaultDialogOptions.put("contentHeight", 320);
+		defaultDialogOptions.put("contentHeight", 600);
 	}
 	
 	public void openDialog(String dialog, Map<String, String> paramMap) {
-
 		Map<String, List<String>> params = new HashMap<String, List<String>>();
 		if (paramMap != null) {
 			Set<String> keySet = paramMap.keySet();
@@ -38,8 +37,12 @@ public class JsfDialogHelper implements Serializable {
 				params.put(key, param);
 			}
 		}
-
 		RequestContext.getCurrentInstance().openDialog(dialog, defaultDialogOptions, params);
 	}
 
+	public void openTestDocDialog() {
+		Map<String, String> paramsHashMap = new HashMap<>();
+		this.openDialog("/app/test/testDocDialog", paramsHashMap);
+	}
+	
 }

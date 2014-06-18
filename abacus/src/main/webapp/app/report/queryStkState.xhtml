@@ -19,10 +19,6 @@
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
-					<p:outputLabel value="Belge No:" />
-					<p:inputText
-						value="#{queryStkStateViewBean.reportSearchCriteria.docNo}" />
-
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
@@ -32,20 +28,6 @@
 						style="font-weigh: bold" />
 					<p:calendar
 						value="#{queryStkStateViewBean.reportSearchCriteria.docEndDate}" />
-
-
-					<h:outputLabel value="Malzeme" />
-					<h:panelGrid columns="1">
-						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailItem}" required="false" />
-					</h:panelGrid>
-					
-					<h:outputLabel value="Depo" />
-					<h:panelGrid columns="1">
-						<abc:departmentSelection id="departmentSelectionInput"
-								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
-								targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailDepartment}"
-								required="false" />
-					</h:panelGrid>
 
 					<p:outputLabel value="İşlem:" />
 					<h:panelGrid columns="1">
@@ -57,9 +39,19 @@
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+					
+					<h:outputLabel value="Depo" />
+					<h:panelGrid columns="1">
+						<abc:departmentSelection id="departmentSelectionInput"
+								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
+								targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailDepartment}"
+								required="false" />
+					</h:panelGrid>
 
-					<p:outputLabel value="Miktar:" />
-					<p:inputText value="#{queryStkStateViewBean.reportSearchCriteria.detailCount}" />
+					<h:outputLabel value="Malzeme" />
+					<h:panelGrid columns="1">
+						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailItem}" required="false" />
+					</h:panelGrid>
 
 				</h:panelGrid>
 
@@ -72,10 +64,11 @@
 						<p:ajax update="queryStkStatePanel :documentResultTable" resetValues="true" />
 					</p:commandButton>
 
-					<p:commandButton value="CreateTestDoc"
-						actionListener="#{queryStkStateViewBean.testCreateStkData}"
+					<p:commandButton value="OpenTestDialog"
+						actionListener="#{queryStkStateViewBean.openTestDocDialog}"
 						update=":documentResultTable"> 
 					</p:commandButton>
+
 				</f:facet>
 
 			</p:panel>

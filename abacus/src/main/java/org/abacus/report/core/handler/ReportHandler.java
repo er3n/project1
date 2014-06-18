@@ -1,14 +1,14 @@
 package org.abacus.report.core.handler;
 
 import java.io.Serializable;
-import java.util.List;
 
-import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.abacus.report.shared.event.ReadReportEvent;
+import org.abacus.report.shared.event.RequestReadReportEvent;
 
 public interface ReportHandler extends Serializable{
 	
-	List<StkDetailEntity> getStkState(String fiscalYearId);
+	ReadReportEvent getStkState(RequestReadReportEvent requestReadReportEvent);
 
-	List<StkDetailEntity> getStkDetail(String fiscalYearId);
+	ReadReportEvent getStkDetail(RequestReadReportEvent requestReadReportEvent);
 		
 }

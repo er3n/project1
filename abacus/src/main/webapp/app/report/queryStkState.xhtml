@@ -21,35 +21,35 @@
 
 					<p:outputLabel value="Belge No:" />
 					<p:inputText
-						value="#{queryStkStateViewBean.documentSearchCriteria.docNo}" />
+						value="#{queryStkStateViewBean.reportSearchCriteria.docNo}" />
 
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{queryStkStateViewBean.documentSearchCriteria.docStartDate}" />
+						value="#{queryStkStateViewBean.reportSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{queryStkStateViewBean.documentSearchCriteria.docEndDate}" />
+						value="#{queryStkStateViewBean.reportSearchCriteria.docEndDate}" />
 
 
 					<h:outputLabel value="Malzeme" />
 					<h:panelGrid columns="1">
-						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}" required="false" />
+						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailItem}" required="false" />
 					</h:panelGrid>
 					
 					<h:outputLabel value="Depo" />
 					<h:panelGrid columns="1">
 						<abc:departmentSelection id="departmentSelectionInput"
 								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
-								targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}"
+								targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailDepartment}"
 								required="false" />
 					</h:panelGrid>
 
 					<p:outputLabel value="İşlem:" />
 					<h:panelGrid columns="1">
-						<p:selectOneMenu value="#{queryStkStateViewBean.documentSearchCriteria.docTask}"
+						<p:selectOneMenu value="#{queryStkStateViewBean.reportSearchCriteria.docTask}"
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
 							required="false" requiredMessage="İşlem boş olamaz">
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
@@ -59,7 +59,7 @@
 					</h:panelGrid>
 
 					<p:outputLabel value="Miktar:" />
-					<p:inputText value="#{queryStkStateViewBean.documentSearchCriteria.detailCount}" />
+					<p:inputText value="#{queryStkStateViewBean.reportSearchCriteria.detailCount}" />
 
 				</h:panelGrid>
 
@@ -119,7 +119,7 @@
 			update=":queryStkStateForm:itemSelectionInput" 
 			widgetVar="itemSelectionWdg" 
 			paramType="#{DefTypeEnum.ITM_SR_ST}"
-			targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}"
+			targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailItem}"
 			rendered="true" />
 
 		<abc:departmentSelectionDialog 
@@ -128,7 +128,7 @@
 			widgetVar="departmentSelectionWdg"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
-			targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}" 
+			targetVar="#{queryStkStateViewBean.reportSearchCriteria.detailDepartment}" 
 			rendered="true"/>			
 			
 	</ui:define>

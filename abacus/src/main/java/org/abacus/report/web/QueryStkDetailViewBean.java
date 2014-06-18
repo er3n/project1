@@ -20,6 +20,9 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.report.core.handler.ReportHandler;
+import org.abacus.report.shared.event.ReadReportEvent;
+import org.abacus.report.shared.event.RequestReadReportEvent;
+import org.abacus.report.shared.holder.ReportSearchCriteria;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
@@ -29,7 +32,6 @@ import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
-import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -57,14 +59,14 @@ public class QueryStkDetailViewBean implements Serializable {
 	@ManagedProperty(value = "#{reportHandler}")
 	private ReportHandler reportHandler;
 
-	private TraDocumentSearchCriteria documentSearchCriteria;
+	private ReportSearchCriteria reportSearchCriteria;
 	private List<StkDetailEntity> searchResultList;
 	private boolean hasFiscalYear;
 	private List<DefTaskEntity> allTaskList;
 	
 	@PostConstruct
 	private void init() {
-		documentSearchCriteria = new TraDocumentSearchCriteria();
+		reportSearchCriteria = new ReportSearchCriteria();
 		this.hasFiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 		jsfMessageHelper.addWarn("noFiscalYearDefined");
 		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
@@ -72,7 +74,9 @@ public class QueryStkDetailViewBean implements Serializable {
 	}
 
 	public void searchResult() {
-		searchResultList = reportHandler.getStkDetail(sessionInfoHelper.currentUser().getSelectedFiscalYear().getId());
+		RequestReadReportEvent requestReadReportEvent = new RequestReadReportEvent(reportSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.currentUser().getSelectedFiscalYear().getId());
+		ReadReportEvent readReportEvent = reportHandler.getStkDetail(requestReadReportEvent);
+		searchResultList = readReportEvent.getDetailList();
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -99,14 +103,6 @@ public class QueryStkDetailViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	public TraDocumentSearchCriteria getDocumentSearchCriteria() {
-		return documentSearchCriteria;
-	}
-
-	public void setDocumentSearchCriteria(TraDocumentSearchCriteria documentSearchCriteria) {
-		this.documentSearchCriteria = documentSearchCriteria;
-	}
-
 	public TraTransactionHandler getTransactionHandler() {
 		return transactionHandler;
 	}
@@ -126,10 +122,10 @@ public class QueryStkDetailViewBean implements Serializable {
 	
 	public void testCreateStkData() throws AbcBusinessException {
 		System.out.println("createStkTestData");
-		if (documentSearchCriteria.getDocTask()==null||
-				documentSearchCriteria.getDetailCount()==null||
-				documentSearchCriteria.getDetailDepartment()==null||
-				documentSearchCriteria.getDetailItem()==null){
+		if (reportSearchCriteria.getDocTask()==null||
+				reportSearchCriteria.getDetailCount()==null||
+				reportSearchCriteria.getDetailDepartment()==null||
+				reportSearchCriteria.getDetailItem()==null){
 			System.out.println("createStkTestData Eksik Bilgi");
 			jsfMessageHelper.addTest("createStkTestData Eksik Bilgi");
 			return;
@@ -165,10 +161,10 @@ public class QueryStkDetailViewBean implements Serializable {
 		StkDocumentEntity doc = new StkDocumentEntity();
 
 		doc.setDocDate(Calendar.getInstance().getTime());
-		doc.setDocNo("test:"+doc.getDocDate().getTime());
-		doc.setDocNote("test:"+doc.getDocDate().getTime());
-		doc.setTask(documentSearchCriteria.getDocTask());
-		doc.setTypeEnum(documentSearchCriteria.getDocTask().getType().getTypeEnum());
+		doc.setDocNo("d:"+doc.getDocDate().getTime());
+		doc.setDocNote("n:"+doc.getDocDate().getTime());
+		doc.setTask(reportSearchCriteria.getDocTask());
+		doc.setTypeEnum(reportSearchCriteria.getDocTask().getType().getTypeEnum());
 		doc.setOrganization(organization);
 		
 		CreateDocumentEvent event = new CreateDocumentEvent(doc, user, organization.getId(), fiscalYear.getId());		
@@ -182,13 +178,13 @@ public class QueryStkDetailViewBean implements Serializable {
 		
 		dtl.setDocument(document);
 		dtl.setBaseDetailAmount(BigDecimal.ONE);
-		dtl.setDepartment(documentSearchCriteria.getDetailDepartment());
-		dtl.setItem(documentSearchCriteria.getDetailItem());
+		dtl.setDepartment(reportSearchCriteria.getDetailDepartment());
+		dtl.setItem(reportSearchCriteria.getDetailItem());
 		dtl.setLotDetailDate(document.getDocDate());
-		dtl.setItemDetailCount(documentSearchCriteria.getDetailCount());
-		dtl.setItemUnit(documentSearchCriteria.getDetailItem().getItemUnitSet().iterator().next().getUnitCode());
-		dtl.setDetNote("test:"+document.getId());
-		dtl.setBatchDetailNo("test:"+document.getId());
+		dtl.setItemDetailCount(reportSearchCriteria.getDetailCount());
+		dtl.setItemUnit(reportSearchCriteria.getDetailItem().getItemUnitSet().iterator().next().getUnitCode());
+		dtl.setDetNote("n:"+document.getId());
+		dtl.setBatchDetailNo("b:"+document.getId());
 
 		CreateDetailEvent event = new CreateDetailEvent(dtl, user);
 		return event;
@@ -233,6 +229,14 @@ public class QueryStkDetailViewBean implements Serializable {
 
 	public void setSearchResultList(List<StkDetailEntity> searchResultList) {
 		this.searchResultList = searchResultList;
+	}
+
+	public ReportSearchCriteria getReportSearchCriteria() {
+		return reportSearchCriteria;
+	}
+
+	public void setReportSearchCriteria(ReportSearchCriteria reportSearchCriteria) {
+		this.reportSearchCriteria = reportSearchCriteria;
 	}
 
 }

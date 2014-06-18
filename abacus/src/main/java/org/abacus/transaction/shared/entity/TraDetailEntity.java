@@ -156,4 +156,13 @@ public abstract class TraDetailEntity extends DynamicEntity {
 		this.refDetailId = refDetailId;
 	}
 
+	public String getTrStateSign() {
+		String sign = "?";
+		switch (trStateDetail.intValue()) {
+			case -1: sign = "-"; break;
+			case +1: sign = "+"; break;
+		};
+		return sign;
+	}
+
 }

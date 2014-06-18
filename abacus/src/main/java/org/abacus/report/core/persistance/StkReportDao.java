@@ -8,22 +8,32 @@ import javax.persistence.PersistenceContext;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.BigDecimalType;
-import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
-
-
 
 @Service
 public class StkReportDao {
 
 	@PersistenceContext
 	private EntityManager em;
+
+	public List<StkDetailEntity> getStkDetail(String fiscalYearId) {
+		Session session = em.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(StkDetailEntity.class,"d");
+		criteria.createAlias("d.document", "document");
+		criteria.createAlias("d.item", "item");
+		criteria.createAlias("d.department", "department");
+		criteria.add(Restrictions.eq("d.fiscalYear.id", fiscalYearId));
+		List<StkDetailEntity> result = criteria.list();
+		return result;
+	}
 
 	public List<StkDetailEntity> getStkState(String fiscalYearId) {
 		Session session = em.unwrap(Session.class);
@@ -45,6 +55,5 @@ public class StkReportDao {
 		List<StkDetailEntity> result = q.list();
 		return result;
 	}
-
 
 }

@@ -8,5 +8,7 @@ import org.abacus.transaction.shared.entity.StkDetailEntity;
 public interface ReportHandler extends Serializable{
 	
 	List<StkDetailEntity> getStkState(String fiscalYearId);
+
+	List<StkDetailEntity> getStkDetail(String fiscalYearId);
 		
 }

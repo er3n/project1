@@ -26,6 +26,7 @@ public class DefItemEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id", nullable = false)
+	@Fetch(FetchMode.JOIN)
 	private DefTypeEntity type;
 
 	@ManyToOne(fetch = FetchType.LAZY)

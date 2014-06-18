@@ -12,68 +12,68 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryStkStateViewBean.hasFiscalYear}" />
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryStkDetailViewBean.hasFiscalYear}" />
 
-		<h:form id="queryStkStateForm"> 
-			<p:panel id="queryStkStatePanel" header="Stok Durum Sorgulama" rendered="#{queryStkStateViewBean.hasFiscalYear}">
+		<h:form id="queryStkDetailForm"> 
+			<p:panel id="queryStkDetailPanel" header="Stok Hareket Sorgulama" rendered="#{queryStkDetailViewBean.hasFiscalYear}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
 					<p:outputLabel value="Belge No:" />
 					<p:inputText
-						value="#{queryStkStateViewBean.documentSearchCriteria.docNo}" />
+						value="#{queryStkDetailViewBean.documentSearchCriteria.docNo}" />
 
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{queryStkStateViewBean.documentSearchCriteria.docStartDate}" />
+						value="#{queryStkDetailViewBean.documentSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{queryStkStateViewBean.documentSearchCriteria.docEndDate}" />
+						value="#{queryStkDetailViewBean.documentSearchCriteria.docEndDate}" />
 
 
 					<h:outputLabel value="Malzeme" />
 					<h:panelGrid columns="1">
-						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}" required="false" />
+						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryStkDetailViewBean.documentSearchCriteria.detailItem}" required="false" />
 					</h:panelGrid>
 					
 					<h:outputLabel value="Depo" />
 					<h:panelGrid columns="1">
 						<abc:departmentSelection id="departmentSelectionInput"
 								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
-								targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}"
+								targetVar="#{queryStkDetailViewBean.documentSearchCriteria.detailDepartment}"
 								required="false" />
 					</h:panelGrid>
 
 					<p:outputLabel value="İşlem:" />
 					<h:panelGrid columns="1">
-						<p:selectOneMenu value="#{queryStkStateViewBean.documentSearchCriteria.docTask}"
+						<p:selectOneMenu value="#{queryStkDetailViewBean.documentSearchCriteria.docTask}"
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
 							required="false" requiredMessage="İşlem boş olamaz">
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
-							<f:selectItems value="#{queryStkStateViewBean.allTaskList}"
+							<f:selectItems value="#{queryStkDetailViewBean.allTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 
 					<p:outputLabel value="Miktar:" />
-					<p:inputText value="#{queryStkStateViewBean.documentSearchCriteria.detailCount}" />
+					<p:inputText value="#{queryStkDetailViewBean.documentSearchCriteria.detailCount}" />
 
 				</h:panelGrid>
 
 				<f:facet name="footer">
 					<p:commandButton value="Sorgula"
-						actionListener="#{queryStkStateViewBean.searchResult}"
+						actionListener="#{queryStkDetailViewBean.searchResult}"
 						update=":documentResultTable" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Temizle">
-						<p:ajax update="queryStkStatePanel :documentResultTable" resetValues="true" />
+						<p:ajax update="queryStkDetailPanel :documentResultTable" resetValues="true" />
 					</p:commandButton>
 
 					<p:commandButton value="CreateTestDoc"
-						actionListener="#{queryStkStateViewBean.testCreateStkData}"
+						actionListener="#{queryStkDetailViewBean.testCreateStkData}"
 						update=":documentResultTable"> 
 					</p:commandButton>
 				</f:facet>
@@ -85,9 +85,9 @@
 		<h:panelGrid id="documentResultTable" columns="1" style="width:100%">
 			<h:form>
 				<p:dataTable
-					rendered="#{queryStkStateViewBean.searchResultList != null}"
+					rendered="#{queryStkDetailViewBean.searchResultList != null}"
 					emptyMessage="Kayit Bulunamadi"
-					value="#{queryStkStateViewBean.searchResultList}" var="var"
+					value="#{queryStkDetailViewBean.searchResultList}" var="var"
 					 paginator="true" rows="30">
 
 					<p:column headerText="Depo" filterBy="#{var.department.name}" filterMatchMode="contains">
@@ -98,10 +98,22 @@
 						<h:outputText value="#{var.item.name}" />
 					</p:column>
 
-					<p:column headerText="Miktar" filterBy="#{var.baseDetailCount}" filterMatchMode="contains" style="text-align: right;">
-						<h:outputText value="#{var.baseDetailCount}" />
+					<p:column headerText="Miktar" filterBy="#{var.getTrStateSign()} #{var.baseDetailCount}" filterMatchMode="contains" style="text-align: right;">
+						<h:outputText value="#{var.getTrStateSign()} #{var.baseDetailCount}" />
 					</p:column>
 
+					<p:column headerText="Belge Tarih" filterBy="#{var.document.docDate}" filterMatchMode="contains">
+						<h:outputText value="#{var.document.docDate}" />
+					</p:column>
+
+					<p:column headerText="Belge No" filterBy="#{var.document.docNo}" filterMatchMode="contains">
+						<h:outputText value="#{var.document.docNo}" />
+					</p:column>
+
+					<p:column headerText="İşlem"> 
+						<p:button href="/app/transaction/crudStockDocument.abc?operation=update&amp;document=#{var.document.id}" value="Belge"  />
+					</p:column>
+					
 				</p:dataTable> 
 			</h:form>
 		</h:panelGrid>
@@ -116,19 +128,19 @@
 		
 		<abc:itemSelectionDialog 
 			id="itemSelectionDialog" 
-			update=":queryStkStateForm:itemSelectionInput" 
+			update=":queryStkDetailForm:itemSelectionInput" 
 			widgetVar="itemSelectionWdg" 
 			paramType="#{DefTypeEnum.ITM_SR_ST}"
-			targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailItem}"
+			targetVar="#{queryStkDetailViewBean.documentSearchCriteria.detailItem}"
 			rendered="true" />
 
 		<abc:departmentSelectionDialog 
 			id="departmentSelectionDialog"
-			update=":queryStkStateForm" 
+			update=":queryStkDetailForm" 
 			widgetVar="departmentSelectionWdg"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
-			targetVar="#{queryStkStateViewBean.documentSearchCriteria.detailDepartment}" 
+			targetVar="#{queryStkDetailViewBean.documentSearchCriteria.detailDepartment}" 
 			rendered="true"/>			
 			
 	</ui:define>

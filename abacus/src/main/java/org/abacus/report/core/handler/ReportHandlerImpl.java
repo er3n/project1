@@ -25,5 +25,11 @@ public class ReportHandlerImpl implements ReportHandler {
 	public List<StkDetailEntity> getStkState(String fiscalYearId) {
 		return stkReportDao.getStkState(fiscalYearId);
 	}
-		
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<StkDetailEntity> getStkDetail(String fiscalYearId) {
+		return stkReportDao.getStkDetail(fiscalYearId);
+	}
+
 }

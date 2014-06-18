@@ -9,6 +9,8 @@ import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -18,6 +20,7 @@ public class DefValueEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id", nullable = false)
+	@Fetch(FetchMode.JOIN)
 	private DefTypeEntity type;
 
 	@ManyToOne(fetch = FetchType.EAGER)

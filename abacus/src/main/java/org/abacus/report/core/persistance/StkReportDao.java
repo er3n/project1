@@ -16,6 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.BigDecimalType;
+import org.hibernate.type.DateType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,12 @@ public class StkReportDao {
 		if (reportSearchCriteria.getDetailDepartment()!=null){
 			criteria.add(Restrictions.eq("d.department.id", reportSearchCriteria.getDetailDepartment().getId()));
 		}
+		if(reportSearchCriteria.getDocStartDate()!=null ){
+			criteria.add(Restrictions.ge("document.docDate", reportSearchCriteria.getDocStartDate()));
+		}
+		if(reportSearchCriteria.getDocEndDate()!=null ){
+			criteria.add(Restrictions.le("document.docDate", reportSearchCriteria.getDocEndDate()));
+		}
 		List<StkDetailEntity> result = criteria.list();
 		return result;
 	}
@@ -49,10 +56,13 @@ public class StkReportDao {
 		sb.append("select {item.*}, {department.*}, v.baseDetailCount ");
 		sb.append("  from org_department department, def_item item,");
 		sb.append("     (select item_id, department_id, sum(d.base_detail_count*d.tr_state_detail) baseDetailCount ");
-		sb.append("        from stk_detail d");
-		sb.append("       where d.fiscal_year_id = :p_fiscal_year_id");
+		sb.append("        from stk_detail d, stk_document c");
+		sb.append("       where c.id = d.document_id");
+		sb.append("         and d.fiscal_year_id = :p_fiscal_year_id");
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
 		sb.append("         and d.department_id = coalesce(:p_department_id, d.department_id)");
+		sb.append("         and c.doc_date >= coalesce(:p_date_start, c.doc_date)");
+		sb.append("         and c.doc_date <= coalesce(:p_date_end, c.doc_date)");
 		sb.append("       group by item_id,department_id) v");
 		sb.append(" where item.id = v.item_id");
 		sb.append("   and department.id = v.department_id");
@@ -63,6 +73,8 @@ public class StkReportDao {
 		sq.setParameter("p_fiscal_year_id", reportSearchCriteria.getFiscalYear().getId(), StringType.INSTANCE);
 		sq.setParameter("p_item_id", reportSearchCriteria.getDetailItem()==null?null:reportSearchCriteria.getDetailItem().getId(), LongType.INSTANCE);
 		sq.setParameter("p_department_id", reportSearchCriteria.getDetailDepartment()==null?null:reportSearchCriteria.getDetailDepartment().getId(), LongType.INSTANCE);
+		sq.setParameter("p_date_start", reportSearchCriteria.getDocStartDate()==null?null:reportSearchCriteria.getDocStartDate(), DateType.INSTANCE);
+		sq.setParameter("p_date_end", reportSearchCriteria.getDocEndDate()==null?null:reportSearchCriteria.getDocEndDate(), DateType.INSTANCE);
 		Query q = sq.setResultTransformer(Transformers.aliasToBean(StkDetailEntity.class));
 		List<StkDetailEntity> result = q.list();
 		return result;

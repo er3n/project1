@@ -65,7 +65,15 @@ public class TransactionDao {
 		if(StringUtils.hasText(documentSearchCriteria.getDocNo())){
 			criteria.add(Restrictions.like("s.docNo","%"+documentSearchCriteria.getDocNo()+"%"));
 		}
-		
+
+		if(documentSearchCriteria.getDocStartDate()!=null ){
+			criteria.add(Restrictions.ge("s.docDate", documentSearchCriteria.getDocStartDate()));
+		}
+
+		if(documentSearchCriteria.getDocEndDate()!=null ){
+			criteria.add(Restrictions.le("s.docDate", documentSearchCriteria.getDocEndDate()));
+		}
+
 		criteria.addOrder(Order.desc("s.docDate"));
 		
 		List<TraDocumentEntity> result = criteria.list();

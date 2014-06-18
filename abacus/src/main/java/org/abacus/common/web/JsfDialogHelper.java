@@ -21,9 +21,10 @@ public class JsfDialogHelper implements Serializable {
 	public void init() {
 		defaultDialogOptions = new HashMap<>();
 		defaultDialogOptions.put("modal", true);
-		defaultDialogOptions.put("draggable", false);
-		defaultDialogOptions.put("resizable", false);
+		defaultDialogOptions.put("draggable", true);
+		defaultDialogOptions.put("resizable", true);
 		defaultDialogOptions.put("contentHeight", 600);
+		defaultDialogOptions.put("contentWidth", 1050);
 	}
 	
 	public void openDialog(String dialog, Map<String, String> paramMap) {

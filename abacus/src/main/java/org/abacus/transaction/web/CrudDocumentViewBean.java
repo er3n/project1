@@ -8,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.EnumType;
 
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
@@ -20,6 +19,8 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.entity.TraDetailEntity;
+import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
@@ -51,7 +52,7 @@ public class CrudDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{defTaskRepository}")
 	private DefTaskRepository taskRepository;
 
-	private StkDocumentEntity document;
+	private TraDocumentEntity document;
 
 	private List<DefTaskEntity> allTaskList;
 
@@ -59,7 +60,7 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private List<StkDetailEntity> detailList;
 
-	private StkDetailEntity selectedDetail;
+	private TraDetailEntity selectedDetail;
 
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 	
@@ -85,7 +86,7 @@ public class CrudDocumentViewBean implements Serializable {
 			String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
 			this.findDocument(Long.valueOf(documentId));
 			if (document == null) {
-				jsfMessageHelper.addError("noDocumentFind");
+				jsfMessageHelper.addError("noDocumentFind", selectedGroupEnum.getDescription());
 			}
 		}
 	}
@@ -123,13 +124,13 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private void findDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
-		traDocumentSearchCriteria.setDocumentGroupEnum(EnumList.DefTypeGroupEnum.STK);//FIXME:parametrik 
+		traDocumentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
 		
 		ReadDocumentEvent readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
-			document = (StkDocumentEntity) readDocumentEvent.getDocumentList().get(0);
+			document = readDocumentEvent.getDocumentList().get(0);
 			ReadDetailEvent readDetailEvent = transactionHandler.readDetail(new RequestReadDetailEvent(document.getId()));
 			detailList = readDetailEvent.getDetails();
 		}
@@ -180,7 +181,7 @@ public class CrudDocumentViewBean implements Serializable {
 		this.taskRepository = taskRepository;
 	}
 
-	public StkDocumentEntity getDocument() {
+	public TraDocumentEntity getDocument() {
 		return document;
 	}
 
@@ -212,7 +213,7 @@ public class CrudDocumentViewBean implements Serializable {
 		this.detailList = detailList;
 	}
 
-	public StkDetailEntity getSelectedDetail() {
+	public TraDetailEntity getSelectedDetail() {
 		return selectedDetail;
 	}
 

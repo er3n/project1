@@ -137,12 +137,6 @@
 								required="true" />
 						</h:panelGrid>
 
-
-						<p:outputLabel value="Seri No:" />
-						<p:inputText
-							value="#{crudDocumentViewBean.selectedDetail.batchDetailNo}"
-							required="true" requiredMessage="Seri numarası boş olamaz." />
-
 						<p:outputLabel value="Birim"
 							rendered="#{not empty crudDocumentViewBean.selectedDetail.item}" />
 						<p:selectOneMenu required="true"
@@ -163,17 +157,22 @@
 						<p:inputText
 							value="#{crudDocumentViewBean.selectedDetail.itemDetailCount}"
 							required="true" requiredMessage="Seri numarası boş olamaz." />
-
-						<p:outputLabel value="Toplam Tutar" />
-						<p:inputText
-							value="#{crudDocumentViewBean.selectedDetail.baseDetailAmount}"
-							required="true" requiredMessage="Seri numarası boş olamaz." />
-
+							
 						<p:outputLabel value="Son Kullanma Tarihi"  />
 						<p:calendar
 							value="#{crudDocumentViewBean.selectedDetail.lotDetailDate}" required="true" >
 
 						</p:calendar>
+
+						<p:outputLabel value="Seri No:" />
+						<p:inputText
+							value="#{crudDocumentViewBean.selectedDetail.batchDetailNo}"
+							required="true" requiredMessage="Seri numarası boş olamaz." />
+
+						<p:outputLabel value="Toplam Tutar" />
+						<p:inputText
+							value="#{crudDocumentViewBean.selectedDetail.baseDetailAmount}"
+							required="true" requiredMessage="Seri numarası boş olamaz." />
 
 						<p:outputLabel value="Not" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"

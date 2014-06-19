@@ -36,7 +36,10 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailCreatedEvent newDetail(CreateDetailEvent detailCreateEvent) throws UnableToCreateDetailException {
 		
-		boolean createStkTrack = detailCreateEvent.getDetail().getDocument().getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name());
+		boolean createStkTrack = //
+				detailCreateEvent.getDetail().getDocument().getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && 	//Stk Document
+				detailCreateEvent.getDetail().getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name()); 				//Stk Item
+		
 		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
 		DetailCreatedEvent detailCreatedEvent=null;
 		

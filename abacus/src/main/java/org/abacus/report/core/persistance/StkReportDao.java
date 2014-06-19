@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.report.shared.holder.ReportSearchCriteria;
@@ -34,6 +35,7 @@ public class StkReportDao {
 		criteria.createAlias("d.item", "item");
 		criteria.createAlias("d.department", "department");
 		criteria.add(Restrictions.eq("d.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
+		criteria.add(Restrictions.eq("item.type.id", EnumList.DefTypeEnum.ITM_SR_ST.name()));
 		if (reportSearchCriteria.getDetailItem()!=null){
 			criteria.add(Restrictions.eq("d.item.id", reportSearchCriteria.getDetailItem().getId()));
 		}
@@ -59,14 +61,16 @@ public class StkReportDao {
 		sb.append("select {item.*}, {department.*}, v.baseDetailCount ");
 		sb.append("  from org_department department, def_item item,");
 		sb.append("     (select item_id, department_id, sum(d.base_detail_count*d.tr_state_detail) baseDetailCount ");
-		sb.append("        from stk_detail d, stk_document c");
-		sb.append("       where c.id = d.document_id");
-		sb.append("         and d.fiscal_year_id = :p_fiscal_year_id");
+		sb.append("        from stk_detail d, stk_document c, def_item i");
+		sb.append("       where d.fiscal_year_id = :p_fiscal_year_id");
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
 		sb.append("         and d.department_id = coalesce(:p_department_id, d.department_id)");
+		sb.append("         and c.id = d.document_id");
 		sb.append("         and c.doc_date >= coalesce(:p_date_start, c.doc_date)");
 		sb.append("         and c.doc_date <= coalesce(:p_date_end, c.doc_date)");
 		sb.append("         and c.task_id = coalesce(:p_task_id, c.task_id)");
+		sb.append("         and i.id = d.item_id");
+		sb.append("         and i.type_id = '"+EnumList.DefTypeEnum.ITM_SR_ST+"'");
 		sb.append("       group by item_id,department_id) v");
 		sb.append(" where item.id = v.item_id");
 		sb.append("   and department.id = v.department_id");

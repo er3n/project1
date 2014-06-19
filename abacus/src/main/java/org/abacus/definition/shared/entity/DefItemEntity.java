@@ -44,16 +44,12 @@ public class DefItemEntity extends DynamicEntity {
 	private Boolean active = true;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "class_enum", nullable = false)
+	@Column(name = "class_enum", nullable = true)
 	private EnumList.DefItemClassEnum itemClass;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", nullable = false)
 	private DefValueEntity category;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_id_test", nullable = true)
-	private DefValueEntity categoryTest;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "unit_group_id", nullable = false)
@@ -148,14 +144,6 @@ public class DefItemEntity extends DynamicEntity {
 
 	public void setItemProductSet(Set<DefItemProductEntity> itemProductSet) {
 		this.itemProductSet = itemProductSet;
-	}
-
-	public DefValueEntity getCategoryTest() {
-		return categoryTest;
-	}
-
-	public void setCategoryTest(DefValueEntity categoryTest) {
-		this.categoryTest = categoryTest;
 	}
 
 }

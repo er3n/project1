@@ -36,27 +36,33 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailCreatedEvent newDetail(CreateDetailEvent detailCreateEvent) throws UnableToCreateDetailException {
 		
-
+		boolean createStkTrack = detailCreateEvent.getDetail().getDocument().getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name());
 		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
 		DetailCreatedEvent detailCreatedEvent=null;
 		
 		if(trStateDetail.equals(EnumList.TraState.INP.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
 			detailCreatedEvent = super.newDetail(detailCreateEvent);
-			this.addInputDetail(detailCreatedEvent);
+			if (createStkTrack){
+				this.addInputDetailTrack(detailCreatedEvent);
+			}
 		}else if(trStateDetail.equals(EnumList.TraState.OUT.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
 			detailCreatedEvent = super.newDetail(detailCreateEvent);
-			this.addOutputDetail(detailCreatedEvent);
+			if (createStkTrack){
+				this.addOutputDetailTrack(detailCreatedEvent);
+			}
 		}else{
-			detailCreatedEvent = this.addTransferDetail(detailCreateEvent);
+			if (createStkTrack){
+				detailCreatedEvent = this.addStkTransferDetailsAndTracks(detailCreateEvent);
+			}
 		}
 
 		return detailCreatedEvent;
 		
 	}
 
-	private StkDetailCreatedEvent addTransferDetail(CreateDetailEvent detailCreateEvent) throws UnableToCreateDetailException {
+	private StkDetailCreatedEvent addStkTransferDetailsAndTracks(CreateDetailEvent detailCreateEvent) throws UnableToCreateDetailException {
 		
 		List<StkDetailTrackEntity> detailTrackList = new ArrayList<StkDetailTrackEntity>();
 		
@@ -65,7 +71,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		detailCreateEvent.getDetail().setTrStateDetail(trStateDetailOut);
 		DetailCreatedEvent detailCreatedEvent = super.newDetail(detailCreateEvent);
 		
-		StkDetailCreatedEvent stockDetailCreatedEvent = this.addOutputDetail(detailCreatedEvent);
+		StkDetailCreatedEvent stockDetailCreatedEvent = this.addOutputDetailTrack(detailCreatedEvent);
 		StkDetailEntity outDetail = (StkDetailEntity) detailCreatedEvent.getDetail();
 		List<StkDetailTrackEntity> outDetailTrackList = stockDetailCreatedEvent.getDetailTrackList();
 		
@@ -100,7 +106,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		return new StkDetailCreatedEvent(outDetail, detailTrackList);
 	}
 
-	private StkDetailCreatedEvent addOutputDetail(DetailCreatedEvent event) throws UnableToOutputDetail {
+	private StkDetailCreatedEvent addOutputDetailTrack(DetailCreatedEvent event) throws UnableToOutputDetail {
 		
 		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
 		String user = event.getDetail().getUserCreated();
@@ -163,7 +169,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		
 	}
 
-	private StkDetailCreatedEvent addInputDetail(DetailCreatedEvent event) {
+	private StkDetailCreatedEvent addInputDetailTrack(DetailCreatedEvent event) {
 		
 		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
 		String user = event.getDetail().getUserCreated();

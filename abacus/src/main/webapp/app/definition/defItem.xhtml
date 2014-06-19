@@ -86,17 +86,7 @@
 						</p:selectManyMenu>
 					</h:panelGrid>
 
-
-					<h:outputLabel value=""/>
-					<h:outputLabel value=""/>
-					<h:outputLabel value="KategoriTest"/>
-					<h:panelGrid columns="3">
-						<abc:valueSelection id="materialCategoryTestSelection" widgetVar="categorySelectionTestWidget" targetVar="#{itemViewBean.selectedItem.categoryTest}" required="false" />
-					</h:panelGrid>
-
 				</h:panelGrid>
-
-
 
 				<f:facet name="footer">
 					<p:commandButton value="Guncelle" actionListener="#{itemViewBean.updateItem}" rendered="#{not empty itemViewBean.selectedItem.id}" update=":itemsForm" />
@@ -196,14 +186,6 @@
 			paramType="#{DefTypeEnum.VAL_CATEGORY}"
 		 />
 
-		<abc:valueSelectionDialog 
-			update=":itemDetails:materialCategoryTestSelection" 
-			id="materialCategoryTestSelectionDialog" 
-			widgetVar="categorySelectionTestWidget" 
-			targetVar="#{itemViewBean.selectedItem.categoryTest}"
-			paramType="#{DefTypeEnum.VAL_CATEGORY}"
-		 />
-	
 	</ui:define> 
 
 </ui:composition>

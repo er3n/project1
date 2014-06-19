@@ -153,8 +153,8 @@ public class TestViewBean implements Serializable {
 		StkDocumentEntity doc = new StkDocumentEntity();
 
 		doc.setDocDate(Calendar.getInstance().getTime());
-		doc.setDocNo("d:"+doc.getDocDate().getTime());
-		doc.setDocNote("n:"+doc.getDocDate().getTime());
+		doc.setDocNo(String.valueOf(doc.getDocDate().getTime()));
+		doc.setDocNote("doc note:"+doc.getDocDate().getTime());
 		doc.setTask(reportSearchCriteria.getDocTask());
 		doc.setTypeEnum(reportSearchCriteria.getDocTask().getType().getTypeEnum());
 		doc.setOrganization(organization);
@@ -175,8 +175,8 @@ public class TestViewBean implements Serializable {
 		dtl.setLotDetailDate(document.getDocDate());
 		dtl.setItemDetailCount(reportSearchCriteria.getDetailCount());
 		dtl.setItemUnit(reportSearchCriteria.getDetailItem().getItemUnitSet().iterator().next().getUnitCode());
-		dtl.setDetNote("n:"+document.getId());
-		dtl.setBatchDetailNo("b:"+document.getId());
+		dtl.setDetNote("dtl note:"+document.getId());
+		dtl.setBatchDetailNo("batch:"+document.getId());
 
 		CreateDetailEvent event = new CreateDetailEvent(dtl, user);
 		return event;

@@ -134,6 +134,7 @@ public interface EnumList {
 		VAL_MEAL("Yemek Öğünleri", 0), //
 		VAL_RECEIPT("Yemek Tipleri", 0), //
 		// Item
+		ITM_SR("Tüm Hizmetler", 0), //
 		ITM_SR_FN("Finans Hizmetleri", 0), //
 		ITM_SR_ST("Stok Hizmetleri", 0), //
 		ITM_SR_FA("Demirbaş Hizmetleri", 0), //

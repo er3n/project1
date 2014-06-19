@@ -91,7 +91,7 @@
 						<h:outputText value="#{var.item.name}" />
 					</p:column>
 
-					<p:column headerText="Miktar" filterBy="#{var.getTrStateSign()} #{var.baseDetailCount}" filterMatchMode="contains" style="text-align: right;">
+					<p:column headerText="Miktar" filterBy="#{var.getTrStateSign()} #{var.baseDetailCount}" filterMatchMode="contains" style="text-align: right; width:100px" >
 						<h:outputText value="#{var.getTrStateSign()} #{var.baseDetailCount}" />
 					</p:column>
 
@@ -99,11 +99,15 @@
 						<h:outputText value="#{var.document.docDate}" />
 					</p:column>
 
-					<p:column headerText="Belge No" filterBy="#{var.document.docNo}" filterMatchMode="contains">
+					<p:column headerText="Belge No" filterBy="#{var.document.docNo}" filterMatchMode="contains" style="width:125px">
 						<h:outputText value="#{var.document.docNo}" />
 					</p:column>
 
-					<p:column headerText="İşlem"> 
+					<p:column headerText="İşlem" filterBy="#{var.document.task.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.document.task.name}" />
+					</p:column>
+
+					<p:column headerText="" style="width:55px"> 
 						<p:button href="/app/transaction/crudStockDocument.abc?operation=update&amp;document=#{var.document.id}" value="Belge"  />
 					</p:column>
 					

@@ -46,6 +46,9 @@ public class StkReportDao {
 		if(reportSearchCriteria.getDocEndDate()!=null ){
 			criteria.add(Restrictions.le("document.docDate", reportSearchCriteria.getDocEndDate()));
 		}
+		if(reportSearchCriteria.getDocTask()!=null ){
+			criteria.add(Restrictions.eq("document.task", reportSearchCriteria.getDocTask()));
+		}
 		List<StkDetailEntity> result = criteria.list();
 		return result;
 	}
@@ -63,6 +66,7 @@ public class StkReportDao {
 		sb.append("         and d.department_id = coalesce(:p_department_id, d.department_id)");
 		sb.append("         and c.doc_date >= coalesce(:p_date_start, c.doc_date)");
 		sb.append("         and c.doc_date <= coalesce(:p_date_end, c.doc_date)");
+		sb.append("         and c.task_id = coalesce(:p_task_id, c.task_id)");
 		sb.append("       group by item_id,department_id) v");
 		sb.append(" where item.id = v.item_id");
 		sb.append("   and department.id = v.department_id");
@@ -75,6 +79,7 @@ public class StkReportDao {
 		sq.setParameter("p_department_id", reportSearchCriteria.getDetailDepartment()==null?null:reportSearchCriteria.getDetailDepartment().getId(), LongType.INSTANCE);
 		sq.setParameter("p_date_start", reportSearchCriteria.getDocStartDate()==null?null:reportSearchCriteria.getDocStartDate(), DateType.INSTANCE);
 		sq.setParameter("p_date_end", reportSearchCriteria.getDocEndDate()==null?null:reportSearchCriteria.getDocEndDate(), DateType.INSTANCE);
+		sq.setParameter("p_task_id", reportSearchCriteria.getDocTask()==null?null:reportSearchCriteria.getDocTask().getId(), LongType.INSTANCE);
 		Query q = sq.setResultTransformer(Transformers.aliasToBean(StkDetailEntity.class));
 		List<StkDetailEntity> result = q.list();
 		return result;

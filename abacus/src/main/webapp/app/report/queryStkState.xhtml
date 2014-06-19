@@ -17,7 +17,7 @@
 		<h:form id="queryStkStateForm"> 
 			<p:panel id="queryStkStatePanel" header="Stok Durum Sorgulama" rendered="#{queryStkStateViewBean.hasFiscalYear}">
 
-				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
+				<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
@@ -29,6 +29,7 @@
 					<p:calendar
 						value="#{queryStkStateViewBean.reportSearchCriteria.docEndDate}" />
 
+					<ui:remove>
 					<p:outputLabel value="İşlem:" />
 					<h:panelGrid columns="1">
 						<p:selectOneMenu value="#{queryStkStateViewBean.reportSearchCriteria.docTask}"
@@ -39,6 +40,7 @@
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+					</ui:remove>
 					
 					<h:outputLabel value="Depo" />
 					<h:panelGrid columns="1">
@@ -91,7 +93,7 @@
 						<h:outputText value="#{var.item.name}" />
 					</p:column>
 
-					<p:column headerText="Miktar" filterBy="#{var.baseDetailCount}" filterMatchMode="contains" style="text-align: right;">
+					<p:column headerText="Miktar" filterBy="#{var.baseDetailCount}" filterMatchMode="contains" style="text-align: right; width:150px">
 						<h:outputText value="#{var.baseDetailCount}" />
 					</p:column>
 

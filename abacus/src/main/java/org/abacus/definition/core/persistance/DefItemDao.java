@@ -49,7 +49,7 @@ public class DefItemDao implements Serializable {
 			criteria.add(Restrictions.in("i.organization", list));
 		}
 		if(searchCriteria.getItemType() != null){
-			criteria.add(Restrictions.eq("i.type.id", searchCriteria.getItemType().name()));
+			criteria.add(Restrictions.like("i.type.id", searchCriteria.getItemType().name()+"%"));
 		}
 		if(searchCriteria.getItemClass() != null){
 			criteria.add(Restrictions.eq("i.itemClass", searchCriteria.getItemClass()));

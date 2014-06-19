@@ -12,10 +12,10 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryStkStateViewBean.hasFiscalYear}" />
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryStkStateViewBean.showDocument}" />
 
 		<h:form id="queryStkStateForm"> 
-			<p:panel id="queryStkStatePanel" header="Stok Durum Sorgulama" rendered="#{queryStkStateViewBean.hasFiscalYear}">
+			<p:panel id="queryStkStatePanel" header="Stok Durum Sorgulama" rendered="#{queryStkStateViewBean.showDocument}">
 
 				<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 

@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.EnumType;
 
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
@@ -19,7 +20,6 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
@@ -55,19 +55,26 @@ public class CrudDocumentViewBean implements Serializable {
 
 	private List<DefTaskEntity> allTaskList;
 
-	private boolean hasFiscalYear;;
+	private Boolean showDocument = true;
 
 	private List<StkDetailEntity> detailList;
 
 	private StkDetailEntity selectedDetail;
 
+	private EnumList.DefTypeGroupEnum selectedGroupEnum;
+	
 	@PostConstruct
 	private void init() {
-
-		this.checkFiscalYear();
-		if (!hasFiscalYear) {
+		try{
+			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
+			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
+		}catch(Exception e){
+			jsfMessageHelper.addWarn("noDocumentGroupDefined");
+			this.showDocument = false;
+		}
+		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null){
 			jsfMessageHelper.addWarn("noFiscalYearDefined");
-			return;
+			this.showDocument = false;
 		}
 
 		String operation = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("operation");
@@ -81,10 +88,6 @@ public class CrudDocumentViewBean implements Serializable {
 				jsfMessageHelper.addError("noDocumentFind");
 			}
 		}
-	}
-
-	private void checkFiscalYear() {
-		this.hasFiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 	}
 
 	private void initSelections() {
@@ -119,7 +122,10 @@ public class CrudDocumentViewBean implements Serializable {
 	}
 
 	private void findDocument(Long documentId) {
-		ReadDocumentEvent readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent(new TraDocumentSearchCriteria(documentId), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
+		traDocumentSearchCriteria.setDocumentGroupEnum(EnumList.DefTypeGroupEnum.STK);//FIXME:parametrik 
+		
+		ReadDocumentEvent readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
@@ -190,12 +196,12 @@ public class CrudDocumentViewBean implements Serializable {
 		this.allTaskList = allTaskList;
 	}
 
-	public boolean isHasFiscalYear() {
-		return hasFiscalYear;
+	public Boolean getShowDocument() {
+		return showDocument;
 	}
 
-	public void setHasFiscalYear(boolean hasFiscalYear) {
-		this.hasFiscalYear = hasFiscalYear;
+	public void setShowDocument(Boolean showDocument) {
+		this.showDocument = showDocument;
 	}
 
 	public List<StkDetailEntity> getDetailList() {
@@ -212,6 +218,14 @@ public class CrudDocumentViewBean implements Serializable {
 
 	public void setSelectedDetail(StkDetailEntity selectedDetail) {
 		this.selectedDetail = selectedDetail;
+	}
+
+	public EnumList.DefTypeGroupEnum getSelectedGroupEnum() {
+		return selectedGroupEnum;
+	}
+
+	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
+		this.selectedGroupEnum = selectedGroupEnum;
 	}
 
 }

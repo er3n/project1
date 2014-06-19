@@ -51,7 +51,7 @@ public class TestViewBean implements Serializable {
 	private DefTaskRepository taskRepository;
 
 	private ReportSearchCriteria reportSearchCriteria;
-	private boolean hasFiscalYear;
+	private Boolean showDocument = true; 
 	private List<DefTaskEntity> allTaskList;
 	
 	@PostConstruct
@@ -59,7 +59,7 @@ public class TestViewBean implements Serializable {
 		reportSearchCriteria = new ReportSearchCriteria();
 		reportSearchCriteria.setOrganization(sessionInfoHelper.currentOrganization());
 		reportSearchCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
-		this.hasFiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
+		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 		jsfMessageHelper.addWarn("noFiscalYearDefined");
 		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
 	}
@@ -100,12 +100,12 @@ public class TestViewBean implements Serializable {
 		this.transactionHandler = transactionHandler;
 	}
 
-	public boolean isHasFiscalYear() {
-		return hasFiscalYear;
+	public Boolean getShowDocument() {
+		return showDocument;
 	}
 
-	public void setHasFiscalYear(boolean hasFiscalYear) {
-		this.hasFiscalYear = hasFiscalYear;
+	public void setShowDocument(Boolean showDocument) {
+		this.showDocument = showDocument;
 	}
 
 	public void showTestMessage(String msg) {

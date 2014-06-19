@@ -1,8 +1,6 @@
 package org.abacus.report.web;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,28 +8,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
-import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.report.core.handler.ReportHandler;
 import org.abacus.report.shared.event.ReadReportEvent;
 import org.abacus.report.shared.event.RequestReadReportEvent;
 import org.abacus.report.shared.holder.ReportSearchCriteria;
-import org.abacus.transaction.core.handler.TraTransactionHandler;
-import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
-import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
-import org.abacus.transaction.shared.event.CreateDetailEvent;
-import org.abacus.transaction.shared.event.CreateDocumentEvent;
-import org.abacus.transaction.shared.event.DetailCreatedEvent;
-import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -55,7 +42,7 @@ public class QueryStkStateViewBean implements Serializable {
 
 	private ReportSearchCriteria reportSearchCriteria;
 	private List<StkDetailEntity> searchResultList;
-	private boolean hasFiscalYear;
+	private Boolean showDocument = true; 
 	private List<DefTaskEntity> allTaskList;
 	
 	@PostConstruct
@@ -63,7 +50,7 @@ public class QueryStkStateViewBean implements Serializable {
 		reportSearchCriteria = new ReportSearchCriteria();
 		reportSearchCriteria.setOrganization(sessionInfoHelper.currentOrganization());
 		reportSearchCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
-		this.hasFiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
+		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 		jsfMessageHelper.addWarn("noFiscalYearDefined");
 		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
 	}
@@ -102,12 +89,12 @@ public class QueryStkStateViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	public boolean isHasFiscalYear() {
-		return hasFiscalYear;
+	public Boolean getShowDocument() {
+		return showDocument;
 	}
 
-	public void setHasFiscalYear(boolean hasFiscalYear) {
-		this.hasFiscalYear = hasFiscalYear;
+	public void setShowDocument(Boolean showDocument) {
+		this.showDocument = showDocument;
 	}
 	
 	public List<DefTaskEntity> getAllTaskList() {

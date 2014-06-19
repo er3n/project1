@@ -5,17 +5,16 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
-import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -45,11 +44,18 @@ public class TransactionDao {
 
 	public List<TraDocumentEntity> readDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
 		Session currentSession = em.unwrap(Session.class);
+		Criteria criteria = null;
+		if (documentSearchCriteria.getDocumentGroupEnum().equals(EnumList.DefTypeGroupEnum.STK)){
+			criteria = currentSession.createCriteria(StkDocumentEntity.class,"s");
+		}
+		if (documentSearchCriteria.getDocumentGroupEnum().equals(EnumList.DefTypeGroupEnum.FIN)){
+			criteria = currentSession.createCriteria(FinDocumentEntity.class,"s");
+		}
 		
-		Criteria criteria = currentSession.createCriteria(StkDocumentEntity.class,"s");
 		criteria.createAlias("s.fiscalPeriod", "fp");
-		
-		
+
+		criteria.add(Restrictions.like("s.typeStr", documentSearchCriteria.getDocumentGroupEnum().name()+"%"));
+
 		if(documentSearchCriteria.getDocumentId() != null){
 			criteria.add(Restrictions.eq("s.id", documentSearchCriteria.getDocumentId()));
 		}

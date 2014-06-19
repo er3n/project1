@@ -38,6 +38,9 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	@Column(name = "type_id", nullable = false)
 	private EnumList.DefTypeEnum typeEnum;
 
+	@Column(name = "type_id", updatable=false, insertable=false)
+	private String typeStr;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "task_id", nullable = false)
 	private DefTaskEntity task;

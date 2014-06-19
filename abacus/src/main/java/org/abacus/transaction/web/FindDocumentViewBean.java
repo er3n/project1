@@ -7,10 +7,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
@@ -37,15 +39,25 @@ public class FindDocumentViewBean implements Serializable {
 	private TraTransactionHandler transactionHandler;
 
 	private List<TraDocumentEntity> documentSearchResultList;
+	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 
-	private boolean hasFiscalYear;
+	private Boolean showDocument = true; 
 
 	@PostConstruct
 	private void init() {
+		try{
+			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
+			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
+		}catch(Exception e){
+			jsfMessageHelper.addWarn("noDocumentGroupDefined");
+			this.showDocument = false;
+		}
+		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null){
+			jsfMessageHelper.addWarn("noFiscalYearDefined");
+			this.showDocument = false;
+		}
 		documentSearchCriteria = new TraDocumentSearchCriteria();
-		this.hasFiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
-		jsfMessageHelper.addWarn("noFiscalYearDefined");
-
+		documentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
 	}
 
 	public void findDocument() {
@@ -101,12 +113,20 @@ public class FindDocumentViewBean implements Serializable {
 		this.documentSearchResultList = documentSearchResultList;
 	}
 
-	public boolean isHasFiscalYear() {
-		return hasFiscalYear;
+	public Boolean getShowDocument() {
+		return showDocument;
 	}
 
-	public void setHasFiscalYear(boolean hasFiscalYear) {
-		this.hasFiscalYear = hasFiscalYear;
+	public void setShowDocument(Boolean showDocument) {
+		this.showDocument = showDocument;
+	}
+
+	public EnumList.DefTypeGroupEnum getSelectedGroupEnum() {
+		return selectedGroupEnum;
+	}
+
+	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
+		this.selectedGroupEnum = selectedGroupEnum;
 	}
 
 }

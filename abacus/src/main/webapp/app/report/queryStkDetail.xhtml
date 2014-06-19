@@ -12,10 +12,10 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryStkDetailViewBean.hasFiscalYear}" />
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryStkDetailViewBean.showDocument}" />
 
 		<h:form id="queryStkDetailForm"> 
-			<p:panel id="queryStkDetailPanel" header="Stok Hareket Sorgulama" rendered="#{queryStkDetailViewBean.hasFiscalYear}">
+			<p:panel id="queryStkDetailPanel" header="Stok Hareket Sorgulama" rendered="#{queryStkDetailViewBean.showDocument}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
@@ -108,7 +108,7 @@
 					</p:column>
 
 					<p:column headerText="" style="width:55px"> 
-						<p:button href="/app/transaction/crudStockDocument.abc?operation=update&amp;document=#{var.document.id}" value="Belge"  />
+						<p:button href="/app/transaction/crudStockDocument.abc?grp=STK&amp;operation=update&amp;document=#{var.document.id}" value="Belge"  />
 					</p:column>
 					
 				</p:dataTable> 

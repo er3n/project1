@@ -12,10 +12,10 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!testViewBean.hasFiscalYear}" />
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!testViewBean.showDocument}" />
 
 		<h:form id="dialogForm"> 
-			<p:panel id="dialodPanel" header="Stok Hareket Sorgulama" rendered="#{testViewBean.hasFiscalYear}">
+			<p:panel id="dialodPanel" header="Stok Hareket Sorgulama" rendered="#{testViewBean.showDocument}">
 
 				<h:panelGrid columns="2" cellpadding="2" style="vertical-align:top">
 

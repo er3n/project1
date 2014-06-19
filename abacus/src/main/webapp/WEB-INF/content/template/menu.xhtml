@@ -26,8 +26,8 @@
 		</p:submenu>
 
 		<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-			<p:menuitem value="Depo Islemleri" url="/app/transaction/findStockDocument.abc" />
-			<p:menuitem value="Finans Islemleri" url="/app/index.abc?faces-redirect=true" />
+			<p:menuitem value="Depo Islemleri" url="/app/transaction/findStockDocument.abc?grp=STK" />
+			<p:menuitem value="Finans Islemleri" url="/app/transaction/findFinanceDocument.abc?grp=FIN" />
 		</p:submenu>
 
 		<p:submenu label="Raporlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">

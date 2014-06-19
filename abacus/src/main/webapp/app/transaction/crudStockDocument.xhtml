@@ -13,9 +13,9 @@
 	<ui:define name="content">
 
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
-			closable="true" rendered="#{!crudDocumentViewBean.hasFiscalYear}" />
+			closable="true" rendered="#{!crudDocumentViewBean.showDocument}" />
 
-		<c:if test="#{crudDocumentViewBean.hasFiscalYear}">
+		<c:if test="#{crudDocumentViewBean.showDocument}">
 			<h:form id="crudDocumentFrm">
 				<p:panel rendered="#{not empty crudDocumentViewBean.document}">
 

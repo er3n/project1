@@ -1,8 +1,9 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.DeletedEvent;
+import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class DeleteDetailEvent extends DeletedEvent {
+public class DeleteDetailEvent<T extends TraDetailEntity> extends DeletedEvent {
 	private Long detailId;
 
 	public DeleteDetailEvent(Long detailId) {

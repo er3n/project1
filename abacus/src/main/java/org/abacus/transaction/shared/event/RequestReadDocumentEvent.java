@@ -1,9 +1,10 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.RequestReadEvent;
+import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 
-public class RequestReadDocumentEvent extends RequestReadEvent {
+public class RequestReadDocumentEvent<T extends TraDocumentEntity> extends RequestReadEvent {
 
 	private TraDocumentSearchCriteria documentSearchCriteria;
 	private String organization;

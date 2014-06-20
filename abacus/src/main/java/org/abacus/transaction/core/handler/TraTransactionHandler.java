@@ -5,6 +5,8 @@ import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
 import org.abacus.transaction.shared.UnableToUpdateDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
+import org.abacus.transaction.shared.entity.TraDetailEntity;
+import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
@@ -22,16 +24,16 @@ import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 
-public interface TraTransactionHandler {
+public interface TraTransactionHandler<T extends TraDocumentEntity, D extends TraDetailEntity> {
 	
-	ReadDocumentEvent readDocument(RequestReadDocumentEvent event);
-	DocumentCreatedEvent newDocument(CreateDocumentEvent event);
-	DocumentUpdatedEvent updateDocument(UpdateDocumentEvent event) throws UnableToUpdateDocumentExpception;
-	DocumentDeletedEvent deleteDocument(DeleteDocumentEvent event) throws UnableToDeleteDocumentException;
+	ReadDocumentEvent<T> readDocument(RequestReadDocumentEvent<T> event);
+	DocumentCreatedEvent<T> newDocument(CreateDocumentEvent<T> event);
+	DocumentUpdatedEvent<T> updateDocument(UpdateDocumentEvent<T> event) throws UnableToUpdateDocumentExpception;
+	DocumentDeletedEvent<T> deleteDocument(DeleteDocumentEvent<T> event) throws UnableToDeleteDocumentException;
 	
-	ReadDetailEvent readDetail(RequestReadDetailEvent event);
-	DetailCreatedEvent newDetail(CreateDetailEvent event) throws UnableToCreateDetailException;
-	DetailUpdatedEvent updateDetail(UpdateDetailEvent evet) throws UnableToUpdateDetailException;
-	DetailDeletedEvent deleteDetail(DeleteDetailEvent event) throws UnableToDeleteDetailException;
+	ReadDetailEvent<D> readDetail(RequestReadDetailEvent<D> event);
+	DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException;
+	DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> evet) throws UnableToUpdateDetailException;
+	DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException;
 	
 }

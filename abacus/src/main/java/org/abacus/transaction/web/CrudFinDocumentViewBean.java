@@ -17,10 +17,9 @@ import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
-import org.abacus.transaction.shared.entity.StkDetailEntity;
-import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.entity.FinDetailEntity;
+import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
@@ -35,7 +34,7 @@ import org.springframework.util.CollectionUtils;
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class CrudDocumentViewBean implements Serializable {
+public class CrudFinDocumentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -46,21 +45,21 @@ public class CrudDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
-	@ManagedProperty(value = "#{stkTransactionHandler}")
-	private TraTransactionHandler transactionHandler;
+	@ManagedProperty(value = "#{finTransactionHandler}")
+	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> transactionHandler;
 
 	@ManagedProperty(value = "#{defTaskRepository}")
 	private DefTaskRepository taskRepository;
 
-	private TraDocumentEntity document;
+	private FinDocumentEntity document;
 
-	private List<DefTaskEntity> allTaskList;
+	private List<DefTaskEntity> finTaskList;
 
 	private Boolean showDocument = true;
 
-	private List<StkDetailEntity> detailList;
+	private List<FinDetailEntity> detailList;
 
-	private TraDetailEntity selectedDetail;
+	private FinDetailEntity selectedDetail;
 
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 	
@@ -84,7 +83,7 @@ public class CrudDocumentViewBean implements Serializable {
 			this.initNewDocument();
 		} else if (operation.equals("detail") || operation.equals("update")) {
 			String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
-			this.findDocument(Long.valueOf(documentId));
+			this.findFinDocument(Long.valueOf(documentId));
 			if (document == null) {
 				jsfMessageHelper.addError("noDocumentFind", selectedGroupEnum.getDescription());
 			}
@@ -92,18 +91,18 @@ public class CrudDocumentViewBean implements Serializable {
 	}
 
 	private void initSelections() {
-		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.FIN.name());
 	}
 
 	private void initNewDocument() {
-		document = new StkDocumentEntity();
+		document = new FinDocumentEntity();
 	}
 
 	public void saveDocument() {
 		try {
-			DocumentCreatedEvent documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
-			document = (StkDocumentEntity) documentCreatedEvent.getDocument();
-			this.findDocument(document.getId());
+			DocumentCreatedEvent<FinDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+			document = (FinDocumentEntity) documentCreatedEvent.getDocument();
+			this.findFinDocument(document.getId());
 			jsfMessageHelper.addInfo("createSuccessfull", "Fiş");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
@@ -113,8 +112,8 @@ public class CrudDocumentViewBean implements Serializable {
 
 	public void saveDetail() {
 		try {
-			DetailCreatedEvent event = transactionHandler.newDetail(new CreateDetailEvent(selectedDetail, sessionInfoHelper.currentUserName()));
-			this.findDocument(document.getId());
+			DetailCreatedEvent<FinDetailEntity> event = transactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
+			this.findFinDocument(document.getId());
 			selectedDetail = null;
 			jsfMessageHelper.addInfo("createSuccessfull", "Fiş Detay");
 		} catch (AbcBusinessException e) {
@@ -122,22 +121,22 @@ public class CrudDocumentViewBean implements Serializable {
 		}
 	}
 
-	private void findDocument(Long documentId) {
+	private void findFinDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 		traDocumentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
 		
-		ReadDocumentEvent readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
 			document = readDocumentEvent.getDocumentList().get(0);
-			ReadDetailEvent readDetailEvent = transactionHandler.readDetail(new RequestReadDetailEvent(document.getId()));
+			ReadDetailEvent<FinDetailEntity> readDetailEvent = transactionHandler.readDetail(new RequestReadDetailEvent<FinDetailEntity>(document.getId()));
 			detailList = readDetailEvent.getDetails();
 		}
 	}
 
 	public void initNewDetail() {
-		selectedDetail = new StkDetailEntity();
+		selectedDetail = new FinDetailEntity();
 		selectedDetail.setDocument(document);
 	}
 
@@ -165,11 +164,11 @@ public class CrudDocumentViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	public TraTransactionHandler getTransactionHandler() {
+	public TraTransactionHandler<FinDocumentEntity, FinDetailEntity> getTransactionHandler() {
 		return transactionHandler;
 	}
 
-	public void setTransactionHandler(TraTransactionHandler transactionHandler) {
+	public void setTransactionHandler(TraTransactionHandler<FinDocumentEntity, FinDetailEntity> transactionHandler) {
 		this.transactionHandler = transactionHandler;
 	}
 
@@ -181,20 +180,20 @@ public class CrudDocumentViewBean implements Serializable {
 		this.taskRepository = taskRepository;
 	}
 
-	public TraDocumentEntity getDocument() {
+	public FinDocumentEntity getDocument() {
 		return document;
 	}
 
-	public void setDocument(StkDocumentEntity document) {
+	public void setDocument(FinDocumentEntity document) {
 		this.document = document;
 	}
 
-	public List<DefTaskEntity> getAllTaskList() {
-		return allTaskList;
+	public List<DefTaskEntity> getFinTaskList() {
+		return finTaskList;
 	}
 
-	public void setAllTaskList(List<DefTaskEntity> allTaskList) {
-		this.allTaskList = allTaskList;
+	public void setFinTaskList(List<DefTaskEntity> finTaskList) {
+		this.finTaskList = finTaskList;
 	}
 
 	public Boolean getShowDocument() {
@@ -205,11 +204,11 @@ public class CrudDocumentViewBean implements Serializable {
 		this.showDocument = showDocument;
 	}
 
-	public List<StkDetailEntity> getDetailList() {
+	public List<FinDetailEntity> getDetailList() {
 		return detailList;
 	}
 
-	public void setDetailList(List<StkDetailEntity> detailList) {
+	public void setDetailList(List<FinDetailEntity> detailList) {
 		this.detailList = detailList;
 	}
 
@@ -217,7 +216,7 @@ public class CrudDocumentViewBean implements Serializable {
 		return selectedDetail;
 	}
 
-	public void setSelectedDetail(StkDetailEntity selectedDetail) {
+	public void setSelectedDetail(FinDetailEntity selectedDetail) {
 		this.selectedDetail = selectedDetail;
 	}
 

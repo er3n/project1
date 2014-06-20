@@ -21,34 +21,29 @@ import org.springframework.util.StringUtils;
 
 
 @Service
-public class TransactionDao {
+public class TransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity> {
 
 	@PersistenceContext
 	private EntityManager em;
-
-	public TraDocumentEntity save(TraDocumentEntity document) {
+	
+	public T documentSave(T document) {
 		Session currentSession = em.unwrap(Session.class);
-		
 		currentSession.save(document);
-		
 		return document;
 	}
 
-	public TraDetailEntity save(TraDetailEntity detail) {
+	public D detailSave(D detail) {
 		Session currentSession = em.unwrap(Session.class);
-		
 		currentSession.save(detail);
-		
 		return detail;		
 	}
 
-	public List<TraDocumentEntity> readDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
+	public List<T> readDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
 		Session currentSession = em.unwrap(Session.class);
 		Criteria criteria = null;
 		if (documentSearchCriteria.getDocumentGroupEnum().equals(EnumList.DefTypeGroupEnum.STK)){
 			criteria = currentSession.createCriteria(StkDocumentEntity.class,"s");
-		}
-		if (documentSearchCriteria.getDocumentGroupEnum().equals(EnumList.DefTypeGroupEnum.FIN)){
+		} else if (documentSearchCriteria.getDocumentGroupEnum().equals(EnumList.DefTypeGroupEnum.FIN)){
 			criteria = currentSession.createCriteria(FinDocumentEntity.class,"s");
 		}
 		
@@ -82,7 +77,7 @@ public class TransactionDao {
 
 		criteria.addOrder(Order.desc("s.docDate"));
 		
-		List<TraDocumentEntity> result = criteria.list();
+		List<T> result = criteria.list();
 		
 		return result;
 	}

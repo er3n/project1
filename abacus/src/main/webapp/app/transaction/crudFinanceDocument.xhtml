@@ -13,46 +13,46 @@
 	<ui:define name="content">
 
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
-			closable="true" rendered="#{!crudStkDocumentViewBean.showDocument}" />
+			closable="true" rendered="#{!crudFinDocumentViewBean.showDocument}" />
 
-		<c:if test="#{crudStkDocumentViewBean.showDocument}">
+		<c:if test="#{crudFinDocumentViewBean.showDocument}">
 			<h:form id="crudDocumentFrm">
-				<p:panel rendered="#{not empty crudStkDocumentViewBean.document}">
+				<p:panel rendered="#{not empty crudFinDocumentViewBean.document}">
 
 				<f:facet name="header">
-					Stok Fişi
+					Finans Fişi
 				</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
 						<p:outputLabel value="Belge No:" />
-						<p:inputText value="#{crudStkDocumentViewBean.document.docNo}"
+						<p:inputText value="#{crudFinDocumentViewBean.document.docNo}"
 							required="true" requiredMessage="Döküman numarası boş olamaz." />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar value="#{crudStkDocumentViewBean.document.docDate}"
+						<p:calendar value="#{crudFinDocumentViewBean.document.docDate}"
 							required="true" requiredMessage="Döküman tarihi boş olamaz" />
 
 						<p:outputLabel value="İşlem:" style="font-weigh: bold" />
-						<p:selectOneMenu value="#{crudStkDocumentViewBean.document.task}"
+						<p:selectOneMenu value="#{crudFinDocumentViewBean.document.task}"
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
 							required="true" requiredMessage="İşlem boş olamaz">
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
-							<f:selectItems value="#{crudStkDocumentViewBean.stkTaskList}"
+							<f:selectItems value="#{crudFinDocumentViewBean.finTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
-							value="#{crudStkDocumentViewBean.document.docNote}" />
+							value="#{crudFinDocumentViewBean.document.docNote}" />
 
 					</h:panelGrid>
 
 					<f:facet name="footer">
 						<p:commandButton value="Kaydet"
-							actionListener="#{crudStkDocumentViewBean.saveDocument}"
+							actionListener="#{crudFinDocumentViewBean.saveDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm"
-							rendered="#{empty crudStkDocumentViewBean.document.id}" />
+							rendered="#{empty crudFinDocumentViewBean.document.id}" />
 						<p:spacer width="5px" />
 					</f:facet>
 
@@ -66,8 +66,8 @@
 
 				<p:dataTable var="var"
 					emptyMessage="Kayitli fiş detay bulunmamaktadir."
-					value="#{crudStkDocumentViewBean.detailList}"
-					rendered="#{not empty crudStkDocumentViewBean.document.id}">
+					value="#{crudFinDocumentViewBean.detailList}"
+					rendered="#{not empty crudFinDocumentViewBean.document.id}">
 
 					<f:facet name="header">
 						<p:outputLabel value="Fiş Detay"/>
@@ -75,7 +75,7 @@
  
 					<f:facet name="footer">
 						<p:commandButton value="Detay Ekle"
-							actionListener="#{crudStkDocumentViewBean.initNewDetail()}"
+							actionListener="#{crudFinDocumentViewBean.initNewDetail()}"
 							update=":crudDocumentDetailSelectionFrm" process="@this" />
 					</f:facet>
 
@@ -116,7 +116,7 @@
 			<h:form id="crudDocumentDetailSelectionFrm">
 
 				<p:panel header="Fiş Detay Düzenleme"
-					rendered="#{not empty crudStkDocumentViewBean.selectedDetail}">
+					rendered="#{not empty crudFinDocumentViewBean.selectedDetail}">
 
 					<h:panelGrid columns="2" cellpadding="2" style="vertical-align:top">
 
@@ -125,7 +125,7 @@
 							<abc:departmentSelection id="departmentSelectionInput"
 								widgetVar="departmentSelectionWdg"
 								dialogId="departmentSelectionDialog"
-								targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
+								targetVar="#{crudFinDocumentViewBean.selectedDetail.department}"
 								required="true" />
 						</h:panelGrid>
 
@@ -133,21 +133,21 @@
 						<h:panelGrid columns="6">
 							<abc:itemSelection id="itemSelectionInput"
 								widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
-								targetVar="#{crudStkDocumentViewBean.selectedDetail.item}"
+								targetVar="#{crudFinDocumentViewBean.selectedDetail.item}"
 								required="true" />
 						</h:panelGrid>
 
 						<p:outputLabel value="Birim"
-							rendered="#{not empty crudStkDocumentViewBean.selectedDetail.item}" />
+							rendered="#{not empty crudFinDocumentViewBean.selectedDetail.item}" />
 						<p:selectOneMenu required="true"
 							requiredMessage="Birim boş olamaz" style="width:145px"
-							value="#{crudStkDocumentViewBean.selectedDetail.itemUnit}"
+							value="#{crudFinDocumentViewBean.selectedDetail.itemUnit}"
 							converter="omnifaces.SelectItemsConverter"
-							rendered="#{not empty crudStkDocumentViewBean.selectedDetail.item}">
+							rendered="#{not empty crudFinDocumentViewBean.selectedDetail.item}">
 
 							<f:selectItem itemValue="" itemLabel="Seciniz..."></f:selectItem>
 							<f:selectItems
-								value="#{crudStkDocumentViewBean.selectedDetail.item.itemUnitSet}"
+								value="#{crudFinDocumentViewBean.selectedDetail.item.itemUnitSet}"
 								var="itemUnit" itemLabel="#{itemUnit.unitCode.name}"
 								itemValue="#{itemUnit.unitCode}" />
 						</p:selectOneMenu>
@@ -155,36 +155,38 @@
 
 						<p:outputLabel value="Toplam Miktar" />
 						<p:inputText
-							value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
+							value="#{crudFinDocumentViewBean.selectedDetail.itemDetailCount}"
 							required="true" requiredMessage="Seri numarası boş olamaz." />
 							
 						<p:outputLabel value="Son Kullanma Tarihi"  />
 						<p:calendar
-							value="#{crudStkDocumentViewBean.selectedDetail.lotDetailDate}" required="true" >
+							value="#{crudFinDocumentViewBean.selectedDetail.lotDetailDate}" required="true" >
 
 						</p:calendar>
 
+						<ui:remove>
 						<p:outputLabel value="Seri No:" />
 						<p:inputText
-							value="#{crudStkDocumentViewBean.selectedDetail.batchDetailNo}"
+							value="#{crudFinDocumentViewBean.selectedDetail.batchDetailNo}"
 							required="true" requiredMessage="Seri numarası boş olamaz." />
+						</ui:remove>
 
 						<p:outputLabel value="Toplam Tutar" />
 						<p:inputText
-							value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
+							value="#{crudFinDocumentViewBean.selectedDetail.baseDetailAmount}"
 							required="true" requiredMessage="Seri numarası boş olamaz." />
 
 						<p:outputLabel value="Not" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
-							value="#{crudStkDocumentViewBean.selectedDetail.detNote}" />
+							value="#{crudFinDocumentViewBean.selectedDetail.detNote}" />
 
 					</h:panelGrid>
 
 					<f:facet name="footer">
 						<p:commandButton value="Kaydet"
-							actionListener="#{crudStkDocumentViewBean.saveDetail}"
+							actionListener="#{crudFinDocumentViewBean.saveDetail}"
 							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm"
-							rendered="#{empty crudStkDocumentViewBean.selectedDetail.id}" />
+							rendered="#{empty crudFinDocumentViewBean.selectedDetail.id}" />
 					</f:facet>
 
 
@@ -208,7 +210,7 @@
 		<abc:itemSelectionDialog id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
 			paramType="#{DefTypeEnum.ITM_SR}"
-			targetVar="#{crudStkDocumentViewBean.selectedDetail.item}"
+			targetVar="#{crudFinDocumentViewBean.selectedDetail.item}"
 			rendered="true" />
 
 		<abc:departmentSelectionDialog id="departmentSelectionDialog"
@@ -216,7 +218,7 @@
 			widgetVar="departmentSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
-			targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
+			targetVar="#{crudFinDocumentViewBean.selectedDetail.department}"
 			rendered="true" />
 
 	</ui:define>

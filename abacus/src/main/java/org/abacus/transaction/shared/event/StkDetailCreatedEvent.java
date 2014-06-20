@@ -2,14 +2,14 @@ package org.abacus.transaction.shared.event;
 
 import java.util.List;
 
+import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
-import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class StkDetailCreatedEvent extends DetailCreatedEvent {
+public class StkDetailCreatedEvent extends DetailCreatedEvent<StkDetailEntity> {
 
 	public List<StkDetailTrackEntity> detailTrackList;
 
-	public StkDetailCreatedEvent(TraDetailEntity detail, List<StkDetailTrackEntity> detailTrackList) {
+	public StkDetailCreatedEvent(StkDetailEntity detail, List<StkDetailTrackEntity> detailTrackList) {
 		super(detail);
 		this.detailTrackList = detailTrackList;
 	}

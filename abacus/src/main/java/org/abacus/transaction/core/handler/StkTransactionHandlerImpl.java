@@ -12,6 +12,7 @@ import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToOutputDetail;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
@@ -24,24 +25,30 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("stkTransactionHandler")
-public class StkTransactionHandlerImpl extends TraTransactionSupport {
+public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocumentEntity, StkDetailEntity> {
 
 	@Autowired
 	private StkDetailTrackRepository detailTrackRepository;
 	
 	@Autowired
 	private StkDetailRepository stkDetailRepository;  
+
+	@Override
+	public ReadDetailEvent<StkDetailEntity> readDetail(RequestReadDetailEvent<StkDetailEntity> event) {
+		List<StkDetailEntity> details = stkDetailRepository.findByDocumentId(event.getDocumentId());
+		return new ReadDetailEvent<StkDetailEntity>(details);
+	}
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DetailCreatedEvent newDetail(CreateDetailEvent detailCreateEvent) throws UnableToCreateDetailException {
+	public DetailCreatedEvent<StkDetailEntity> newDetail(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		
 		boolean createStkTrack = //
 				detailCreateEvent.getDetail().getDocument().getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && 	//Stk Document
 				detailCreateEvent.getDetail().getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name()); 				//Stk Item
 		
 		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
-		DetailCreatedEvent detailCreatedEvent=null;
+		DetailCreatedEvent<StkDetailEntity> detailCreatedEvent=null;
 		
 		if(trStateDetail.equals(EnumList.TraState.INP.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
@@ -65,14 +72,14 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		
 	}
 
-	private StkDetailCreatedEvent addStkTransferDetailsAndTracks(CreateDetailEvent detailCreateEvent) throws UnableToCreateDetailException {
+	private StkDetailCreatedEvent addStkTransferDetailsAndTracks(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		
 		List<StkDetailTrackEntity> detailTrackList = new ArrayList<StkDetailTrackEntity>();
 		
 		//Transfer Out
 		Integer trStateDetailOut = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * -1;
 		detailCreateEvent.getDetail().setTrStateDetail(trStateDetailOut);
-		DetailCreatedEvent detailCreatedEvent = super.newDetail(detailCreateEvent);
+		DetailCreatedEvent<StkDetailEntity> detailCreatedEvent = super.newDetail(detailCreateEvent);
 		
 		StkDetailCreatedEvent stockDetailCreatedEvent = this.addOutputDetailTrack(detailCreatedEvent);
 		StkDetailEntity outDetail = (StkDetailEntity) detailCreatedEvent.getDetail();
@@ -92,7 +99,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		inputDetail.setTrStateDetail(trStateDetailIn);
 		inputDetail.setRefDetailId(outDetail.getId());
 		
-		DetailCreatedEvent detailCreatedEventIn = super.newDetail(new CreateDetailEvent(inputDetail, outDetail.getUserCreated()));
+		DetailCreatedEvent<StkDetailEntity> detailCreatedEventIn = super.newDetail(new CreateDetailEvent<StkDetailEntity>(inputDetail, outDetail.getUserCreated()));
 		
 		for(StkDetailTrackEntity outDetailTrack : outDetailTrackList){
 			StkDetailTrackEntity inDetailTrack = new StkDetailTrackEntity();
@@ -109,7 +116,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		return new StkDetailCreatedEvent(outDetail, detailTrackList);
 	}
 
-	private StkDetailCreatedEvent addOutputDetailTrack(DetailCreatedEvent event) throws UnableToOutputDetail {
+	private StkDetailCreatedEvent addOutputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) throws UnableToOutputDetail {
 		
 		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
 		String user = event.getDetail().getUserCreated();
@@ -172,7 +179,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 		
 	}
 
-	private StkDetailCreatedEvent addInputDetailTrack(DetailCreatedEvent event) {
+	private StkDetailCreatedEvent addInputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) {
 		
 		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
 		String user = event.getDetail().getUserCreated();
@@ -202,10 +209,4 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport {
 
 	}
 
-	@Override
-	public ReadDetailEvent readDetail(RequestReadDetailEvent event) {
-		List<StkDetailEntity> details = stkDetailRepository.findByDocumentId(event.getDocumentId());
-		return new ReadDetailEvent(details);
-	}
-	
 }

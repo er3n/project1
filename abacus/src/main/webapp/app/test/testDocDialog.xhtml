@@ -41,7 +41,7 @@
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
 							required="false" requiredMessage="İşlem boş olamaz">
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
-							<f:selectItems value="#{testViewBean.allTaskList}"
+							<f:selectItems value="#{testViewBean.stkTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
 					</h:panelGrid>

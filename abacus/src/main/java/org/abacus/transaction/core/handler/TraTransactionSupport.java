@@ -26,9 +26,7 @@ import org.abacus.transaction.shared.event.DetailUpdatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
-import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
-import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
@@ -37,31 +35,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class TraTransactionSupport implements TraTransactionHandler {
+public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity>  implements TraTransactionHandler<T, D>  {
 
 	@Autowired
-	protected TransactionDao transactionDao;
-	
+	protected TransactionDao<T, D> transactionDao;
+
 	@Autowired
 	protected FiscalDao fiscalDao;
 
-	@Override
+    @Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ReadDocumentEvent readDocument(RequestReadDocumentEvent event) {
+	public ReadDocumentEvent<T> readDocument(RequestReadDocumentEvent<T> event) {
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
 		String username = event.getOrganization();
 		String fiscalYearId = event.getFiscalYearId();
-		
-		List<TraDocumentEntity> documentList = transactionDao.readDocument(documentSearchCriteria,username,fiscalYearId);
-		
-		return new ReadDocumentEvent(documentList);
+		List<T> documentList = transactionDao.readDocument(documentSearchCriteria,username,fiscalYearId);
+		return new ReadDocumentEvent<T>(documentList);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DocumentCreatedEvent newDocument(CreateDocumentEvent event) {
+	public DocumentCreatedEvent<T> newDocument(CreateDocumentEvent<T> event) {
 
-		TraDocumentEntity document = event.getDocument();
+		T document = event.getDocument();
 		String user = event.getUser();
 		String organizationStr = event.getOrganization();
 
@@ -73,27 +69,27 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 		FiscalPeriodEntity fiscalPeriod = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
 		document.setFiscalPeriod(fiscalPeriod);
 		
-		document = transactionDao.save(document);
+		document = transactionDao.documentSave(document);
 
-		return new DocumentCreatedEvent(document);
+		return new DocumentCreatedEvent<T>(document);
 	}
 
 	@Override
-	public DocumentUpdatedEvent updateDocument(UpdateDocumentEvent event) throws UnableToUpdateDocumentExpception {
+	public DocumentUpdatedEvent<T> updateDocument(UpdateDocumentEvent<T> event) throws UnableToUpdateDocumentExpception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DocumentDeletedEvent deleteDocument(DeleteDocumentEvent event) throws UnableToDeleteDocumentException {
+	public DocumentDeletedEvent<T> deleteDocument(DeleteDocumentEvent<T> event) throws UnableToDeleteDocumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DetailCreatedEvent newDetail(CreateDetailEvent event) throws UnableToCreateDetailException {
-		TraDetailEntity detail = event.getDetail();
+	public DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException {
+		D detail = event.getDetail();
 		TraDocumentEntity document = detail.getDocument();
 
 		String user = event.getUser();
@@ -106,19 +102,19 @@ public abstract class TraTransactionSupport implements TraTransactionHandler {
 		
 		detail.createHook(user);
 		
-		detail = transactionDao.save(detail);
+		detail = transactionDao.detailSave(detail);
 		
-		return new DetailCreatedEvent(detail);
+		return new DetailCreatedEvent<D>(detail);
 	}
 
 	@Override
-	public DetailUpdatedEvent updateDetail(UpdateDetailEvent evet) throws UnableToUpdateDetailException {
+	public DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> evet) throws UnableToUpdateDetailException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DetailDeletedEvent deleteDetail(DeleteDetailEvent event) throws UnableToDeleteDetailException {
+	public DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException {
 		// TODO Auto-generated method stub
 		return null;
 	}

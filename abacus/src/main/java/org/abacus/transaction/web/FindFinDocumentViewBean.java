@@ -14,7 +14,8 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
+import org.abacus.transaction.shared.entity.FinDetailEntity;
+import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
@@ -22,7 +23,7 @@ import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class FindDocumentViewBean implements Serializable {
+public class FindFinDocumentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -35,10 +36,10 @@ public class FindDocumentViewBean implements Serializable {
 
 	private TraDocumentSearchCriteria documentSearchCriteria;
 
-	@ManagedProperty(value = "#{stkTransactionHandler}")
-	private TraTransactionHandler transactionHandler;
+	@ManagedProperty(value = "#{finTransactionHandler}")
+	private TraTransactionHandler<FinDocumentEntity,FinDetailEntity> transactionHandler;
 
-	private List<TraDocumentEntity> documentSearchResultList;
+	private List<FinDocumentEntity> documentSearchResultList;
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 
 	private Boolean showDocument = true; 
@@ -60,8 +61,8 @@ public class FindDocumentViewBean implements Serializable {
 		documentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
 	}
 
-	public void findDocument() {
-		ReadDocumentEvent readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+	public void findFinDocument() {
+		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<FinDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 
@@ -97,19 +98,19 @@ public class FindDocumentViewBean implements Serializable {
 		this.documentSearchCriteria = documentSearchCriteria;
 	}
 
-	public TraTransactionHandler getTransactionHandler() {
+	public TraTransactionHandler<FinDocumentEntity,FinDetailEntity> getTransactionHandler() {
 		return transactionHandler;
 	}
 
-	public void setTransactionHandler(TraTransactionHandler transactionHandler) {
+	public void setTransactionHandler(TraTransactionHandler<FinDocumentEntity,FinDetailEntity> transactionHandler) {
 		this.transactionHandler = transactionHandler;
 	}
 
-	public List<TraDocumentEntity> getDocumentSearchResultList() {
+	public List<FinDocumentEntity> getDocumentSearchResultList() {
 		return documentSearchResultList;
 	}
 
-	public void setDocumentSearchResultList(List<TraDocumentEntity> documentSearchResultList) {
+	public void setDocumentSearchResultList(List<FinDocumentEntity> documentSearchResultList) {
 		this.documentSearchResultList = documentSearchResultList;
 	}
 

@@ -5,19 +5,19 @@ import java.util.List;
 import org.abacus.common.shared.event.ReadEvent;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
-public class ReadDocumentEvent extends ReadEvent {
+public class ReadDocumentEvent<T extends TraDocumentEntity> extends ReadEvent {
 
-	private List<TraDocumentEntity> documentList;
+	private List<T> documentList;
 
-	public ReadDocumentEvent(List<TraDocumentEntity> documentList) {
+	public ReadDocumentEvent(List<T> documentList) {
 		this.documentList = documentList;
 	}
 
-	public List<TraDocumentEntity> getDocumentList() {
+	public List<T> getDocumentList() {
 		return documentList;
 	}
 
-	public void setDocumentList(List<TraDocumentEntity> documentList) {
+	public void setDocumentList(List<T> documentList) {
 		this.documentList = documentList;
 	}
 

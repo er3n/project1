@@ -1,5 +1,6 @@
 package org.abacus.report.core.persistance;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,7 +24,7 @@ import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StkReportDao {
+public class StkReportDao implements Serializable {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -61,11 +62,11 @@ public class StkReportDao {
 		sb.append("select {item.*}, {department.*}, v.baseDetailCount ");
 		sb.append("  from org_department department, def_item item,");
 		sb.append("     (select item_id, department_id, sum(d.base_detail_count*d.tr_state_detail) baseDetailCount ");
-		sb.append("        from stk_detail d, stk_document c, def_item i");
+		sb.append("        from tra_detail d, stk_document c, def_item i");
 		sb.append("       where d.fiscal_year_id = :p_fiscal_year_id");
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
 		sb.append("         and d.department_id = coalesce(:p_department_id, d.department_id)");
-		sb.append("         and c.id = d.document_id");
+		sb.append("         and c.id = d.document_stk_id");
 		sb.append("         and c.doc_date >= coalesce(:p_date_start, c.doc_date)");
 		sb.append("         and c.doc_date <= coalesce(:p_date_end, c.doc_date)");
 		sb.append("         and c.task_id = coalesce(:p_task_id, c.task_id)");

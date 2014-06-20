@@ -42,7 +42,7 @@ public class TestViewBean implements Serializable {
 	private JsfDialogHelper jsfDialogHelper;
 
 	@ManagedProperty(value = "#{stkTransactionHandler}")
-	private TraTransactionHandler transactionHandler;
+	private TraTransactionHandler<StkDocumentEntity,StkDetailEntity> transactionHandler;
 	
 	@ManagedProperty(value = "#{stkDocumentRepository}")
 	private StkDocumentRepository documentRepository;
@@ -52,7 +52,7 @@ public class TestViewBean implements Serializable {
 
 	private ReportSearchCriteria reportSearchCriteria;
 	private Boolean showDocument = true; 
-	private List<DefTaskEntity> allTaskList;
+	private List<DefTaskEntity> stkTaskList;
 	
 	@PostConstruct
 	private void init() {
@@ -61,7 +61,7 @@ public class TestViewBean implements Serializable {
 		reportSearchCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
 		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 		jsfMessageHelper.addWarn("noFiscalYearDefined");
-		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
 	}
 
 	public void openTestDocDialog() {
@@ -92,11 +92,11 @@ public class TestViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	public TraTransactionHandler getTransactionHandler() {
+	public TraTransactionHandler<StkDocumentEntity,StkDetailEntity> getTransactionHandler() {
 		return transactionHandler;
 	}
 
-	public void setTransactionHandler(TraTransactionHandler transactionHandler) {
+	public void setTransactionHandler(TraTransactionHandler<StkDocumentEntity,StkDetailEntity> transactionHandler) {
 		this.transactionHandler = transactionHandler;
 	}
 
@@ -183,12 +183,12 @@ public class TestViewBean implements Serializable {
 	}
 	
 	
-	public List<DefTaskEntity> getAllTaskList() {
-		return allTaskList;
+	public List<DefTaskEntity> getStkTaskList() {
+		return stkTaskList;
 	}
 
-	public void setAllTaskList(List<DefTaskEntity> allTaskList) {
-		this.allTaskList = allTaskList;
+	public void setStkTaskList(List<DefTaskEntity> stkTaskList) {
+		this.stkTaskList = stkTaskList;
 	}
 
 	public DefTaskRepository getTaskRepository() {

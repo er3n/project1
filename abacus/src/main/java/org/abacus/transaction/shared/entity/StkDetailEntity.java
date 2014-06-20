@@ -10,12 +10,12 @@ import javax.persistence.Table;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 
 @Entity
-@Table(name = "stk_detail")
+@Table(name = "tra_detail")
 @SuppressWarnings("serial")
 public class StkDetailEntity extends TraDetailEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "document_id", nullable = false)
+	@JoinColumn(name = "document_stk_id", nullable = true)
 	private StkDocumentEntity document;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -26,9 +26,8 @@ public class StkDetailEntity extends TraDetailEntity {
 	private String batchDetailNo;
 	
 	//irsaliye den faturaya
-	@Column(name = "ref_fin_detail_id", nullable = true)
-	private Long refFinDetailId;
-		
+//	@Column(name = "ref_fin_detail_id", nullable = true)
+//	private Long refFinDetailId;
 		
 	public StkDetailEntity() {
 	}
@@ -59,13 +58,4 @@ public class StkDetailEntity extends TraDetailEntity {
 		this.batchDetailNo = batchDetailNo;
 	}
 
-	public Long getRefFinDetailId() {
-		return refFinDetailId;
-	}
-
-	public void setRefFinDetailId(Long refFinDetailId) {
-		this.refFinDetailId = refFinDetailId;
-	}
-	
-	
 }

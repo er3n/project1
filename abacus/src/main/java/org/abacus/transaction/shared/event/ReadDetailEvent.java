@@ -3,21 +3,21 @@ package org.abacus.transaction.shared.event;
 import java.util.List;
 
 import org.abacus.common.shared.event.ReadEvent;
-import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class ReadDetailEvent extends ReadEvent {
+public class ReadDetailEvent<T extends TraDetailEntity> extends ReadEvent {
 
-	List<StkDetailEntity> details;
+	List<T> details;
 
-	public ReadDetailEvent(List<StkDetailEntity> details) {
+	public ReadDetailEvent(List<T> details) {
 		this.details = details;
 	}
 
-	public List<StkDetailEntity> getDetails() {
+	public List<T> getDetails() {
 		return details;
 	}
 
-	public void setDetails(List<StkDetailEntity> details) {
+	public void setDetails(List<T> details) {
 		this.details = details;
 	}
 

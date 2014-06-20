@@ -43,7 +43,7 @@ public class QueryStkDetailViewBean implements Serializable {
 	private ReportSearchCriteria reportSearchCriteria;
 	private List<StkDetailEntity> searchResultList;
 	private Boolean showDocument = true;
-	private List<DefTaskEntity> allTaskList;
+	private List<DefTaskEntity> stkTaskList;
 	
 	@PostConstruct
 	private void init() {
@@ -52,7 +52,7 @@ public class QueryStkDetailViewBean implements Serializable {
 		reportSearchCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
 		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 		jsfMessageHelper.addWarn("noFiscalYearDefined");
-		allTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
 	}
 
 	public void searchResult() {
@@ -97,12 +97,12 @@ public class QueryStkDetailViewBean implements Serializable {
 		this.showDocument = showDocument;
 	}
 	
-	public List<DefTaskEntity> getAllTaskList() {
-		return allTaskList;
+	public List<DefTaskEntity> getStkTaskList() {
+		return stkTaskList;
 	}
 
-	public void setAllTaskList(List<DefTaskEntity> allTaskList) {
-		this.allTaskList = allTaskList;
+	public void setStkTaskList(List<DefTaskEntity> stkTaskList) {
+		this.stkTaskList = stkTaskList;
 	}
 
 	public DefTaskRepository getTaskRepository() {

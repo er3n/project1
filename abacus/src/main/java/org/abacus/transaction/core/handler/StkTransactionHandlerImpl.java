@@ -28,12 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocumentEntity, StkDetailEntity> {
 
 	@Autowired
-	private StkDetailTrackRepository detailTrackRepository;
-	
-	@Autowired
 	private StkDetailRepository stkDetailRepository;  
 
+	@Autowired
+	private StkDetailTrackRepository detailTrackRepository;
+	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public ReadDetailEvent<StkDetailEntity> readDetail(RequestReadDetailEvent<StkDetailEntity> event) {
 		List<StkDetailEntity> details = stkDetailRepository.findByDocumentId(event.getDocumentId());
 		return new ReadDetailEvent<StkDetailEntity>(details);

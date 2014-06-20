@@ -79,7 +79,7 @@
 							update=":crudDocumentDetailSelectionFrm" process="@this" />
 					</f:facet>
 
-					<p:column headerText="SKT">
+					<p:column headerText="VadeTr.">
 						<p:outputLabel value="#{var.lotDetailDate}" />
 					</p:column>
  
@@ -91,9 +91,11 @@
 						<p:outputLabel value="#{var.department.name}" />
 					</p:column>
 
+					<ui:remove>
 					<p:column headerText="Karşı Depo">
 						<p:outputLabel value="#{var.departmentOpp}" />
 					</p:column>
+					</ui:remove>
 
 					<p:column headerText="Miktar">
 						<p:outputLabel value="#{var.itemDetailCount}" />

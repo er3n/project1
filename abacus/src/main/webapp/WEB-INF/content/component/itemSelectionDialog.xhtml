@@ -1,6 +1,8 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
 
+#{itemSelectionViewBean.initItemDataModel(paramType,paramClass)}
+
 <c:if test="#{empty rendered}">
 	<c:set var="rendered" value="true" />
 </c:if>
@@ -10,9 +12,18 @@
 	<p:dialog widgetVar="#{widgetVar}" resizable="true" showEffect="fade" closeOnEscape="true" dynamic="true" modal="true" height="400px" width="600px">
 
 		<f:facet name="header">
-			<h:outputText value="Malzeme Secim" />
+			<h:outputText value="Servis Seçim" />
 		</f:facet>
-		<p:dataTable var="item" value="#{itemSelectionViewBean.getItemDataModel(paramType,paramClass)}" widgetVar="#{widgetVar}_DT" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5" selectionMode="single" lazy="true" selection="#{targetVar}">
+
+		<p:outputLabel value="Servis Tipi:" style="width:25%;"/>
+		<p:selectOneMenu id="item_type_combo" value="#{itemSelectionViewBean.selectedItemType}" converter="omnifaces.SelectItemsConverter" style="width:60%">
+			<f:selectItems value="#{itemSelectionViewBean.itemTypeList}" var="var" itemLabel="#{var.description}" itemValue="#{var}" />
+			<p:ajax event="change" process="@this" listener="#{itemSelectionViewBean.refreshItemDataModel()}" update="itemDataTable"/>
+		</p:selectOneMenu>
+		<p:outputLabel value="#{itemSelectionViewBean.selectedItemClass.description}" style="width:25%;"/>
+		
+
+		<p:dataTable id="itemDataTable" var="item" value="#{itemSelectionViewBean.getItemDataModel()}" widgetVar="#{widgetVar}_DT" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5" selectionMode="single" lazy="true" selection="#{targetVar}">
 
 			<p:ajax event="rowSelect" oncomplete="PF('#{widgetVar}').hide();" update="#{update}" />
 
@@ -42,9 +53,8 @@
 			</p:column>
 
 		</p:dataTable>
-
+		
 	</p:dialog>
 </h:form>
-
 
 </html>

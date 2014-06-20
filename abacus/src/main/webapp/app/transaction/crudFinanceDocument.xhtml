@@ -166,13 +166,6 @@
 
 						</p:calendar>
 
-						<ui:remove>
-						<p:outputLabel value="Seri No:" />
-						<p:inputText
-							value="#{crudFinDocumentViewBean.selectedDetail.batchDetailNo}"
-							required="true" requiredMessage="Seri numarası boş olamaz." />
-						</ui:remove>
-
 						<p:outputLabel value="Toplam Tutar" />
 						<p:inputText
 							value="#{crudFinDocumentViewBean.selectedDetail.baseDetailAmount}"
@@ -211,7 +204,7 @@
 
 		<abc:itemSelectionDialog id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
-			paramType="#{DefTypeEnum.ITM_SR}"
+			paramType="#{DefTypeEnum.ITM_SR_FN}"
 			targetVar="#{crudFinDocumentViewBean.selectedDetail.item}"
 			rendered="true" />
 

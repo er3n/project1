@@ -68,8 +68,9 @@ insert into def_type (id, name, level, tr_state_type) values ('STK_TT_T', 'Stok 
 
 insert into def_type (id, name, level, tr_state_type) values ('FIN_WB_I', 'Masraf Girişi Tip', 1, +1);
 
-insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Finans Gider Tanım', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Finans Gider Tanımları', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Malzeme Tanımları', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_VE', 'Firma Tanımları', 1, 0);
 commit;
 
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
@@ -105,8 +106,6 @@ insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'YMK', 'Yemek',0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'Y1', 'Porsiyon', 1, 0);
-insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'FIN', 'Finans',0);
-insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'F1', 'Adet', 1, 0);
 commit;
 
 insert into def_param_answer (id, version, param_id, organization_id, answer) values (nextval('seq_id'), 0, 'PRM_STOCK_COSTTYPE', '#', 'FIFO');
@@ -142,6 +141,8 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', currval('seq_id')-2, 'F300', 'Ulaşım Giderleri', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', currval('seq_id')-2, 'F400', 'Finansman Giderleri', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', currval('seq_id')-2, 'F500', 'Genel Giderler', 1, 0);
+insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', 0, 'T', 'Tedarikçi Firmalar', 1, 0);
+insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', currval('seq_id')-2, 'T100', 'Gıda Firmaları', 1, 0);
 
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_RECEIPT', 0, 'T0001', 'Normal Yemek', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_RECEIPT', 0, 'T0002', 'Normal Kahvaltı', 1, 0);
@@ -168,14 +169,15 @@ INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, 
 INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2013:01', DATE '2013-12-31', DATE '2013-01-01','01', '#.#:2013', 1, 1, 1);
 INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2014:01', DATE '2014-12-31', DATE '2014-01-01','01', '#.#:2014', 1, 1, 1);
 INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2015:01', DATE '2015-12-31', DATE '2015-01-01','01', '#.#:2015', 1, 1, 1);
-
 commit;
 
-insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F101', null, 'Elektrik', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', (select d.id from def_unit_group d where d.code ='FIN'));
-insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F102', null, 'Su', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', (select d.id from def_unit_group d where d.code ='FIN'));
-insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F103', null, 'Telefon', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', (select d.id from def_unit_group d where d.code ='FIN'));
-insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F104', null, 'Gaz', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', (select d.id from def_unit_group d where d.code ='FIN'));
-insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F201', null, 'Personel Maaş', (select v.id from def_value v where v.code='F200' and organization_id='#'), '#', 'ITM_SR_FN', (select d.id from def_unit_group d where d.code ='FIN'));
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'T101', null, 'TazeGevrek Gıda AŞ.', (select v.id from def_value v where v.code='T100' and organization_id='#'), '#', 'ITM_VE', null);
+
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F101', null, 'Elektrik', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F102', null, 'Su', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F103', null, 'Telefon', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F104', null, 'Gaz', (select v.id from def_value v where v.code='F100' and organization_id='#'), '#', 'ITM_SR_FN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F201', null, 'Personel Maaş', (select v.id from def_value v where v.code='F200' and organization_id='#'), '#', 'ITM_SR_FN', null);
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0001', 'STK_M', 'İyotlu Tuz', (select v.id from def_value v where v.code='H0001' and organization_id='#'), '#', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0002', 'STK_M', 'İyotsuz Tuz', (select v.id from def_value v where v.code='H0001' and organization_id='#'), '#', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));

@@ -2,7 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" template="/WEB-INF/content/template/simple.xhtml" xmlns:abc="http://www.abacus.com/abc" xmlns:o="http://omnifaces.org/ui" xmlns:of="http://omnifaces.org/functions" >
 
 	<ui:define name="content">
-
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<h:form id="itemsForm">
 
 			<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}" widgetVar="itemsTable" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,20" selectionMode="single" selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
@@ -68,9 +68,11 @@
 						<abc:valueSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{itemViewBean.selectedItem.category}" required="true" />
 					</h:panelGrid>
 
-					<h:outputLabel value="Birim Grubu" for="itemUnit" />
+					<h:outputLabel value="Birim Grubu" for="itemUnit" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_SR_ST}" />
 					<h:panelGrid columns="2" id="itemUnitGrid">
-						<p:selectOneMenu id="itemUnit" value="#{itemViewBean.selectedItem.unitGroup}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="true" requiredMessage="Birim bos olamaz">
+						<p:selectOneMenu id="itemUnit" value="#{itemViewBean.selectedItem.unitGroup}" converter="omnifaces.SelectItemsConverter" 
+							style="width:145px" required="true" requiredMessage="Birim bos olamaz" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_SR_ST}"
+							>
 							<f:selectItem itemLabel="Seciniz..." itemValue="" />
 							<f:selectItems value="#{itemViewBean.allUnitGroupList}" var="unitGroup" itemLabel="#{unitGroup.name}" itemValue="#{unitGroup}" />
 							<p:ajax value="change" listener="#{itemViewBean.unitGroupSelected}" update=":itemDetails:itemUnitGrid" />

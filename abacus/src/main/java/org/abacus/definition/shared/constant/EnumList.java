@@ -134,10 +134,9 @@ public interface EnumList {
 		VAL_MEAL("Yemek Öğünleri", 0), //
 		VAL_RECEIPT("Yemek Tipleri", 0), //
 		// Item
-		ITM_SR("Tüm Hizmetler", 0), //
-		ITM_SR_FN("Finans Hizmetleri", 0), //
-		ITM_SR_ST("Stok Hizmetleri", 0), //
-		ITM_SR_FA("Demirbaş Hizmetleri", 0), //
+		ITM_SR_FN("Finans Gider Tanımları", 0), //
+		ITM_SR_ST("Malzeme Tanımları", 0), //
+		ITM_VE("Firma Tanımları", 0), //
 		// Stock
 		STK_OC_I("Stok Açılış Tip", 1), //
 		STK_IO_I("Stok İşlem Giriş Tip", 1), //

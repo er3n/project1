@@ -35,20 +35,20 @@ public class ItemSelectionViewBean implements Serializable {
 	private EnumList.DefItemClassEnum selectedItemClass;
 	
 	public ItemDataModel initItemDataModel(EnumList.DefTypeEnum itemType, EnumList.DefItemClassEnum itemClass) {
-//		System.out.println("initItemDataModel");
-		this.selectedItemType = itemType;
-		this.selectedItemClass = itemClass;
-		return refreshItemDataModel();
+		if (this.selectedItemType==null){
+			this.selectedItemType = itemType;
+			this.selectedItemClass = itemClass;
+			return refreshItemDataModel();
+		}
+		return getItemDataModel();
 	}
 	
 	public ItemDataModel refreshItemDataModel() {
-//		System.out.println("refreshItemDataModel");
 		resultMap.clear();
 		return getItemDataModel();
 	}
 
 	public ItemDataModel getItemDataModel() {
-//		System.out.println("getItemDataModel");
 		String key = selectedItemType.getName()+":"+((selectedItemClass==null)?"*":selectedItemClass.name());
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
@@ -61,7 +61,6 @@ public class ItemSelectionViewBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		itemTypeList.add(EnumList.DefTypeEnum.ITM_SR);//Tum Servisler
 		itemTypeList.add(EnumList.DefTypeEnum.ITM_SR_ST);//Stok
 		itemTypeList.add(EnumList.DefTypeEnum.ITM_SR_FN);//Finans
 //		itemTypeList.add(EnumList.DefTypeEnum.ITM_SR_FA);//Demirbas

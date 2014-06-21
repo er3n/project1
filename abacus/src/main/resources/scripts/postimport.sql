@@ -1,7 +1,6 @@
 insert into def_item_value(id, version, item_id, value_type_enum, value_id) select nextval('seq_id'), 0, id, 'VAL_RECEIPT', (select v.id from def_value v where v.code='T0001' and organization_id='#') from def_item where organization_id='#' and type_id ='ITM_SR_ST' and class_enum='STK_P';
 commit;
 
-insert into def_item_unit(id, version, item_id, unit_code_id) select nextval('seq_id'), 0, id, (select c.id from def_unit_code c where c.code ='F1') from def_item where organization_id='#' and type_id ='ITM_SR_FN';
 insert into def_item_unit(id, version, item_id, unit_code_id) select nextval('seq_id'), 0, id, (select c.id from def_unit_code c where c.code ='Y1') from def_item where organization_id='#' and type_id ='ITM_SR_ST' and class_enum='STK_P';
 commit;
 

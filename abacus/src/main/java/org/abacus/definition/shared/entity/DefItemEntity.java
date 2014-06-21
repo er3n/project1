@@ -52,7 +52,7 @@ public class DefItemEntity extends DynamicEntity {
 	private DefValueEntity category;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "unit_group_id", nullable = false)
+	@JoinColumn(name = "unit_group_id", nullable = true)
 	private DefUnitGroupEntity unitGroup;
 
 	@OneToMany(mappedBy = "item", fetch = FetchType.LAZY)

@@ -15,6 +15,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -48,6 +49,7 @@ public class TransactionDao<T extends TraDocumentEntity, D extends TraDetailEnti
 		}
 		
 		criteria.createAlias("s.fiscalPeriod", "fp");
+		criteria.createAlias("s.item", "itm", JoinType.LEFT_OUTER_JOIN);
 
 		criteria.add(Restrictions.like("s.typeStr", documentSearchCriteria.getDocumentGroupEnum().name()+"%"));
 

@@ -42,6 +42,14 @@
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
 
+						<p:outputLabel value="Firma" rendered="true" />
+						<h:panelGrid columns="1" rendered="true">
+							<abc:itemSelection id="vendorSelectionInput"
+								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
+								targetVar="#{crudFinDocumentViewBean.document.item}"
+								required="false" />
+						</h:panelGrid>
+
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
 							value="#{crudFinDocumentViewBean.document.docNote}" />
@@ -201,6 +209,12 @@
 			type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 		<o:importConstants
 			type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
+
+		<abc:itemSelectionDialog id="vendorSelectionDialog"
+			update=":crudDocumentFrm:vendorSelectionInput" widgetVar="vendorSelectionWdg"
+			paramType="#{DefTypeEnum.ITM_VE}"
+			targetVar="#{crudFinDocumentViewBean.document.item}"
+			rendered="true" />
 
 		<abc:itemSelectionDialog id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"

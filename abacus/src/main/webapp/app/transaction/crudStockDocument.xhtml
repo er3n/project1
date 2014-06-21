@@ -17,7 +17,7 @@
 
 		<c:if test="#{crudStkDocumentViewBean.showDocument}">
 			<h:form id="crudDocumentFrm">
-				<p:panel rendered="#{not empty crudStkDocumentViewBean.document}">
+				<p:panel id="documentPanel" rendered="#{not empty crudStkDocumentViewBean.document}">
 
 				<f:facet name="header">
 					Stok Fişi
@@ -41,6 +41,14 @@
 							<f:selectItems value="#{crudStkDocumentViewBean.stkTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 						</p:selectOneMenu>
+
+						<p:outputLabel value="Firma" rendered="true" />
+						<h:panelGrid columns="1" rendered="true">
+							<abc:itemSelection id="vendorSelectionInput"
+								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
+								targetVar="#{crudStkDocumentViewBean.document.item}"
+								required="false" />
+						</h:panelGrid>
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
@@ -204,6 +212,12 @@
 			type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 		<o:importConstants
 			type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
+
+		<abc:itemSelectionDialog id="vendorSelectionDialog"
+			update=":crudDocumentFrm:vendorSelectionInput" widgetVar="vendorSelectionWdg"
+			paramType="#{DefTypeEnum.ITM_VE}"
+			targetVar="#{crudStkDocumentViewBean.document.item}"
+			rendered="true" />
 
 		<abc:itemSelectionDialog id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"

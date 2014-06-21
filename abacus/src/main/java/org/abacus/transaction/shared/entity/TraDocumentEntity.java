@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -38,6 +39,7 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	@Column(name = "type_id", nullable = false)
 	private EnumList.DefTypeEnum typeEnum;
 
+	//For HQL
 	@Column(name = "type_id", updatable=false, insertable=false)
 	private String typeStr;
 	
@@ -52,7 +54,11 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fiscal_period_id", nullable = false)
 	private FiscalPeriodEntity fiscalPeriod;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "item_id", nullable = true)
+	private DefItemEntity item;
+
 	@Column(name = "doc_note", nullable = true)
 	private String docNote;
 
@@ -121,6 +127,22 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 
 	public void setTrStateDocument(Integer trStateDocument) {
 		this.trStateDocument = trStateDocument;
+	}
+
+	public DefItemEntity getItem() {
+		return item;
+	}
+
+	public void setItem(DefItemEntity item) {
+		this.item = item;
+	}
+
+	private String getTypeStr() {
+		return typeStr;
+	}
+
+	private void setTypeStr(String typeStr) {
+		this.typeStr = typeStr;
 	}
 
 }

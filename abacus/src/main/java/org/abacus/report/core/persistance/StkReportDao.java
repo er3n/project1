@@ -61,7 +61,7 @@ public class StkReportDao implements Serializable {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select {item.*}, {department.*}, v.baseDetailCount ");
 		sb.append("  from org_department department, def_item item,");
-		sb.append("     (select item_id, department_id, sum(d.base_detail_count*d.tr_state_detail) baseDetailCount ");
+		sb.append("     (select d.item_id, d.department_id, sum(d.base_detail_count*d.tr_state_detail) baseDetailCount ");
 		sb.append("        from tra_detail d, stk_document c, def_item i");
 		sb.append("       where d.fiscal_year_id = :p_fiscal_year_id");
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
@@ -72,7 +72,7 @@ public class StkReportDao implements Serializable {
 		sb.append("         and c.task_id = coalesce(:p_task_id, c.task_id)");
 		sb.append("         and i.id = d.item_id");
 		sb.append("         and i.type_id = '"+EnumList.DefTypeEnum.ITM_SR_ST+"'");
-		sb.append("       group by item_id,department_id) v");
+		sb.append("       group by d.item_id, d.department_id) v");
 		sb.append(" where item.id = v.item_id");
 		sb.append("   and department.id = v.department_id");
 		SQLQuery sq = session.createSQLQuery(sb.toString());

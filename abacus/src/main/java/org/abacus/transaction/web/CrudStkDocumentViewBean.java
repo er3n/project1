@@ -46,7 +46,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 	private JsfDialogHelper jsfDialogHelper;
 
 	@ManagedProperty(value = "#{stkTransactionHandler}")
-	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity>  transactionHandler;
+	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
 
 	@ManagedProperty(value = "#{defTaskRepository}")
 	private DefTaskRepository taskRepository;
@@ -62,17 +62,19 @@ public class CrudStkDocumentViewBean implements Serializable {
 	private StkDetailEntity selectedDetail;
 
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
-	
+
+	private EnumList.DefTypeEnum selectedDetailServiceType;
+
 	@PostConstruct
 	private void init() {
-		try{
+		try {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
-		}catch(Exception e){
+		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
 		}
-		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null){
+		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null) {
 			jsfMessageHelper.addWarn("noFiscalYearDefined");
 			this.showDocument = false;
 		}
@@ -92,6 +94,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	private void initSelections() {
 		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
 	}
 
 	private void initNewDocument() {
@@ -124,7 +127,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 	private void findStkDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 		traDocumentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
-		
+
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<StkDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
@@ -136,6 +139,12 @@ public class CrudStkDocumentViewBean implements Serializable {
 	}
 
 	public void initNewDetail() {
+		selectedDetail = new StkDetailEntity();
+		selectedDetail.setDocument(document);
+		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
+	}
+	
+	public void selectedDetailServiceTypeChanged(){
 		selectedDetail = new StkDetailEntity();
 		selectedDetail.setDocument(document);
 	}
@@ -164,11 +173,11 @@ public class CrudStkDocumentViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	public TraTransactionHandler<StkDocumentEntity,StkDetailEntity> getTransactionHandler() {
+	public TraTransactionHandler<StkDocumentEntity, StkDetailEntity> getTransactionHandler() {
 		return transactionHandler;
 	}
 
-	public void setTransactionHandler(TraTransactionHandler<StkDocumentEntity,StkDetailEntity> transactionHandler) {
+	public void setTransactionHandler(TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler) {
 		this.transactionHandler = transactionHandler;
 	}
 
@@ -226,6 +235,14 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
+	}
+
+	public EnumList.DefTypeEnum getSelectedDetailServiceType() {
+		return selectedDetailServiceType;
+	}
+
+	public void setSelectedDetailServiceType(EnumList.DefTypeEnum selectedDetailServiceType) {
+		this.selectedDetailServiceType = selectedDetailServiceType;
 	}
 
 }

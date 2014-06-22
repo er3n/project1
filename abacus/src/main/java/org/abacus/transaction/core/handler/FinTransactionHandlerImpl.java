@@ -4,6 +4,10 @@ import java.util.List;
 
 
 
+
+
+import org.abacus.transaction.core.persistance.FinTransactionDao;
+import org.abacus.transaction.core.persistance.TransactionDao;
 import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
@@ -21,7 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocumentEntity, FinDetailEntity> {
 
 	@Autowired
-	private FinDetailRepository finDetailRepository;  
+	private FinDetailRepository finDetailRepository;
+	
+	@Autowired
+	private FinTransactionDao finTransactionDao;
 
 	@Override
 	public ReadDetailEvent<FinDetailEntity> readDetail(RequestReadDetailEvent<FinDetailEntity> event) {
@@ -38,5 +45,10 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent=null;
 		detailCreatedEvent = super.newDetail(detailCreateEvent);
 		return detailCreatedEvent;
+	}
+
+	@Override
+	protected TransactionDao<FinDocumentEntity, FinDetailEntity> getTransactionDao() {
+		return finTransactionDao;
 	}
 }

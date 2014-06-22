@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.transaction.core.persistance.StkTransactionDao;
+import org.abacus.transaction.core.persistance.TransactionDao;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDetailTrackRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
@@ -32,6 +34,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 
 	@Autowired
 	private StkDetailTrackRepository detailTrackRepository;
+	
+	@Autowired
+	private StkTransactionDao stkTransactionDao;
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -208,6 +213,11 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		
 		return new StkDetailCreatedEvent(detail, detailTrackList);
 
+	}
+
+	@Override
+	protected TransactionDao<StkDocumentEntity, StkDetailEntity> getTransactionDao() {
+		return stkTransactionDao;
 	}
 
 }

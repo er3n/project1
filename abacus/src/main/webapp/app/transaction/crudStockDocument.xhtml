@@ -12,14 +12,18 @@
 
 	<ui:define name="content">
 
+		<o:importConstants
+			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
 			closable="true" rendered="#{!crudStkDocumentViewBean.showDocument}" />
 
 		<c:if test="#{crudStkDocumentViewBean.showDocument}">
 			<h:form id="crudDocumentFrm">
-				<p:panel id="documentPanel" rendered="#{not empty crudStkDocumentViewBean.document}">
+				<p:panel id="documentPanel"
+					rendered="#{not empty crudStkDocumentViewBean.document}">
 
-				<f:facet name="header">
+					<f:facet name="header">
 					Stok Fişi
 				</f:facet>
 
@@ -78,9 +82,9 @@
 					rendered="#{not empty crudStkDocumentViewBean.document.id}">
 
 					<f:facet name="header">
-						<p:outputLabel value="Fiş Detay"/>
+						<p:outputLabel value="Fiş Detay" />
 					</f:facet>
- 
+
 					<f:facet name="footer">
 						<p:commandButton value="Detay Ekle"
 							actionListener="#{crudStkDocumentViewBean.initNewDetail()}"
@@ -90,7 +94,7 @@
 					<p:column headerText="SKT">
 						<p:outputLabel value="#{var.lotDetailDate}" />
 					</p:column>
- 
+
 					<p:column headerText="Malzeme">
 						<p:outputLabel value="#{var.item.name}" />
 					</p:column>
@@ -126,65 +130,126 @@
 				<p:panel header="Fiş Detay Düzenleme"
 					rendered="#{not empty crudStkDocumentViewBean.selectedDetail}">
 
-					<h:panelGrid columns="2" cellpadding="2" style="vertical-align:top">
+					<h:panelGrid columns="1" cellpadding="2" style="vertical-align:top">
 
-						<p:outputLabel value="Depo" />
-						<h:panelGrid columns="1">
-							<abc:departmentSelection id="departmentSelectionInput"
-								widgetVar="departmentSelectionWdg"
-								dialogId="departmentSelectionDialog"
-								targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
-								required="true" />
-						</h:panelGrid>
-
-						<p:outputLabel value="Malzeme" />
-						<h:panelGrid columns="6">
-							<abc:itemSelection id="itemSelectionInput"
-								widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
-								targetVar="#{crudStkDocumentViewBean.selectedDetail.item}"
-								required="true" />
-						</h:panelGrid>
-
-						<p:outputLabel value="Birim"
-							rendered="#{not empty crudStkDocumentViewBean.selectedDetail.item}" />
-						<p:selectOneMenu required="true"
-							requiredMessage="Birim boş olamaz" style="width:145px"
-							value="#{crudStkDocumentViewBean.selectedDetail.itemUnit}"
-							converter="omnifaces.SelectItemsConverter"
-							rendered="#{not empty crudStkDocumentViewBean.selectedDetail.item}">
-
-							<f:selectItem itemValue="" itemLabel="Seciniz..."></f:selectItem>
-							<f:selectItems
-								value="#{crudStkDocumentViewBean.selectedDetail.item.itemUnitSet}"
-								var="itemUnit" itemLabel="#{itemUnit.unitCode.name}"
-								itemValue="#{itemUnit.unitCode}" />
-						</p:selectOneMenu>
+						<p:panelGrid columns="2" cellpadding="2"
+							style="vertical-align:top">
+							<p:outputLabel value="Tip" />
+							<p:selectOneMenu required="true" requiredMessage="Tip boş olamaz"
+								style="width:145px;"
+								value="#{crudStkDocumentViewBean.selectedDetailServiceType}"
+								converter="omnifaces.SelectItemsConverter">
+								<f:selectItem itemValue="#{DefTypeEnum.ITM_SR_ST}"
+									itemLabel="#{DefTypeEnum.ITM_SR_ST.description}" />
+								<f:selectItem itemValue="#{DefTypeEnum.ITM_SR_FN}"
+									itemLabel="#{DefTypeEnum.ITM_SR_FN.description}" />
+								<p:ajax event="change" update=":crudDocumentDetailSelectionFrm"
+									listener="#{crudStkDocumentViewBean.selectedDetailServiceTypeChanged}"
+									process="@this" />
+							</p:selectOneMenu>
+						</p:panelGrid>
 
 
-						<p:outputLabel value="Toplam Miktar" />
-						<p:inputText
-							value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
-							required="true" requiredMessage="Seri numarası boş olamaz." />
-							
-						<p:outputLabel value="Son Kullanma Tarihi"  />
-						<p:calendar
-							value="#{crudStkDocumentViewBean.selectedDetail.lotDetailDate}" required="true" >
+						<p:panelGrid columns="2" cellpadding="2"
+							style="vertical-align:top"
+							rendered="#{crudStkDocumentViewBean.selectedDetailServiceType.equals(DefTypeEnum.ITM_SR_ST)}">
+							<p:outputLabel value="Depo" />
+							<h:panelGrid columns="1">
+								<abc:departmentSelection id="departmentSelectionInput"
+									widgetVar="departmentSelectionWdg"
+									dialogId="departmentSelectionDialog"
+									targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
+									required="true" />
+							</h:panelGrid>
 
-						</p:calendar>
 
-						<p:outputLabel value="Seri No:" />
-						<p:inputText
-							value="#{crudStkDocumentViewBean.selectedDetail.batchDetailNo}"
-							required="true" requiredMessage="Seri numarası boş olamaz." />
+							<p:outputLabel value="Malzeme" />
+							<h:panelGrid columns="6">
+								<abc:itemSelection id="itemSelectionInput"
+									widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
+									targetVar="#{crudStkDocumentViewBean.selectedDetail.item}"
+									required="true" />
+							</h:panelGrid>
 
-						<p:outputLabel value="Toplam Tutar" />
-						<p:inputText
-							value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
-							required="true" requiredMessage="Seri numarası boş olamaz." />
+							<p:outputLabel value="Birim"
+								rendered="#{not empty crudStkDocumentViewBean.selectedDetail.item}" />
+							<p:selectOneMenu required="true"
+								requiredMessage="Birim boş olamaz" style="width:145px"
+								value="#{crudStkDocumentViewBean.selectedDetail.itemUnit}"
+								converter="omnifaces.SelectItemsConverter"
+								rendered="#{not empty crudStkDocumentViewBean.selectedDetail.item}">
 
-						<p:outputLabel value="Not" style="font-weigh: bold" />
-						<p:inputTextarea rows="10" cols="50"
-							value="#{crudStkDocumentViewBean.selectedDetail.detNote}" />
+								<f:selectItem itemValue="" itemLabel="Seciniz..."></f:selectItem>
+								<f:selectItems
+									value="#{crudStkDocumentViewBean.selectedDetail.item.itemUnitSet}"
+									var="itemUnit" itemLabel="#{itemUnit.unitCode.name}"
+									itemValue="#{itemUnit.unitCode}" />
+							</p:selectOneMenu>
+
+
+							<p:outputLabel value="Toplam Miktar" />
+							<p:inputText
+								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
+								required="true" requiredMessage="Seri numarası boş olamaz." />
+
+							<p:outputLabel value="Son Kullanma Tarihi" />
+							<p:calendar
+								value="#{crudStkDocumentViewBean.selectedDetail.lotDetailDate}"
+								required="true">
+
+							</p:calendar>
+
+							<p:outputLabel value="Seri No:" />
+							<p:inputText
+								value="#{crudStkDocumentViewBean.selectedDetail.batchDetailNo}"
+								required="true" requiredMessage="Seri numarası boş olamaz." />
+
+							<p:outputLabel value="Toplam Tutar" />
+							<p:inputText
+								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
+								required="true" requiredMessage="Seri numarası boş olamaz." />
+
+
+							<p:outputLabel value="Not" style="font-weigh: bold" />
+							<p:inputTextarea rows="10" cols="50"
+								value="#{crudStkDocumentViewBean.selectedDetail.detNote}" />
+
+						</p:panelGrid>
+
+						<p:panelGrid columns="2" cellpadding="2"
+							style="vertical-align:top"
+							rendered="#{crudStkDocumentViewBean.selectedDetailServiceType.equals(DefTypeEnum.ITM_SR_FN)}">
+							<p:outputLabel value="Depo" />
+							<h:panelGrid columns="1">
+								<abc:departmentSelection id="finDepartmentSelectionInput"
+									widgetVar="finDepartmentSelectionWdg"
+									dialogId="finDepartmentSelectionDialog"
+									targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
+									required="true" />
+							</h:panelGrid>
+
+
+							<p:outputLabel value="Malzeme" />
+							<h:panelGrid columns="6">
+								<abc:itemSelection id="finItemSelectionInput"
+									widgetVar="finItemSelectionWdg"
+									dialogId="finItemSelectionDialog"
+									targetVar="#{crudStkDocumentViewBean.selectedDetail.item}"
+									required="true" />
+							</h:panelGrid>
+
+							<p:outputLabel value="Toplam Tutar" />
+							<p:inputText
+								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
+								required="true" requiredMessage="Seri numarası boş olamaz." />
+
+
+							<p:outputLabel value="Not" style="font-weigh: bold" />
+							<p:inputTextarea rows="10" cols="50"
+								value="#{crudStkDocumentViewBean.selectedDetail.detNote}" />
+
+						</p:panelGrid>
+
 
 					</h:panelGrid>
 
@@ -214,15 +279,28 @@
 			type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
 		<abc:itemSelectionDialog id="vendorSelectionDialog"
-			update=":crudDocumentFrm:vendorSelectionInput" widgetVar="vendorSelectionWdg"
-			paramType="#{DefTypeEnum.ITM_VE}"
-			targetVar="#{crudStkDocumentViewBean.document.item}"
-			rendered="true" />
+			update=":crudDocumentFrm:vendorSelectionInput"
+			widgetVar="vendorSelectionWdg" paramType="#{DefTypeEnum.ITM_VE}"
+			targetVar="#{crudStkDocumentViewBean.document.item}" rendered="true" />
 
 		<abc:itemSelectionDialog id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
 			paramType="#{DefTypeEnum.ITM_SR_ST}"
 			targetVar="#{crudStkDocumentViewBean.selectedDetail.item}"
+			rendered="true" />
+
+		<abc:itemSelectionDialog id="finItemSelectionDialog"
+			update=":crudDocumentDetailSelectionFrm"
+			widgetVar="finItemSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_FN}"
+			targetVar="#{crudStkDocumentViewBean.selectedDetail.item}"
+			rendered="true" />
+
+		<abc:departmentSelectionDialog id="finDepartmentSelectionDialog"
+			update=":crudDocumentDetailSelectionFrm"
+			widgetVar="finDepartmentSelectionWdg"
+			paramUser="#{sessionInfoHelper.currentUser().username}"
+			paramDepGroup="#{OrgDepartmentGroupEnum.F}"
+			targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
 			rendered="true" />
 
 		<abc:departmentSelectionDialog id="departmentSelectionDialog"

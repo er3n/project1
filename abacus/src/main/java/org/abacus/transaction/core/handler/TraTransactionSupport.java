@@ -37,8 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity>  implements TraTransactionHandler<T, D>  {
 
-	@Autowired
-	protected TransactionDao<T, D> transactionDao;
+	
 
 	@Autowired
 	protected FiscalDao fiscalDao;
@@ -49,7 +48,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
 		String username = event.getOrganization();
 		String fiscalYearId = event.getFiscalYearId();
-		List<T> documentList = transactionDao.readDocument(documentSearchCriteria,username,fiscalYearId);
+		List<T> documentList = getTransactionDao().readDocument(documentSearchCriteria,username,fiscalYearId);
 		return new ReadDocumentEvent<T>(documentList);
 	}
 
@@ -69,7 +68,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		FiscalPeriodEntity fiscalPeriod = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
 		document.setFiscalPeriod(fiscalPeriod);
 		
-		document = transactionDao.documentSave(document);
+		document = getTransactionDao().documentSave(document);
 
 		return new DocumentCreatedEvent<T>(document);
 	}
@@ -102,7 +101,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		
 		detail.createHook(user);
 		
-		detail = transactionDao.detailSave(detail);
+		detail = getTransactionDao().detailSave(detail);
 		
 		return new DetailCreatedEvent<D>(detail);
 	}
@@ -118,5 +117,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	protected abstract TransactionDao<T,D> getTransactionDao();
 
 }

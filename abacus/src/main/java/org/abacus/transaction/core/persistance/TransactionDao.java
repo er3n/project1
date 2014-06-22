@@ -16,13 +16,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 
 
-@Service
-public class TransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity> {
+
+public abstract class TransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity> {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -42,11 +41,7 @@ public class TransactionDao<T extends TraDocumentEntity, D extends TraDetailEnti
 	public List<T> readDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
 		Session currentSession = em.unwrap(Session.class);
 		Criteria criteria = null;
-		if (documentSearchCriteria.getDocumentGroupEnum().equals(EnumList.DefTypeGroupEnum.STK)){
-			criteria = currentSession.createCriteria(StkDocumentEntity.class,"s");
-		} else if (documentSearchCriteria.getDocumentGroupEnum().equals(EnumList.DefTypeGroupEnum.FIN)){
-			criteria = currentSession.createCriteria(FinDocumentEntity.class,"s");
-		}
+		criteria = currentSession.createCriteria(getDocumentClass(),"s");
 		
 		criteria.createAlias("s.fiscalPeriod", "fp");
 		criteria.createAlias("s.item", "itm", JoinType.LEFT_OUTER_JOIN);
@@ -83,6 +78,8 @@ public class TransactionDao<T extends TraDocumentEntity, D extends TraDetailEnti
 		
 		return result;
 	}
+	
+	public abstract Class getDocumentClass();
 
 
 }

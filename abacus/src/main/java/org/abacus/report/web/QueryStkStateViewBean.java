@@ -61,10 +61,6 @@ public class QueryStkStateViewBean implements Serializable {
 		searchResultList = readReportEvent.getDetailList();
 	}
 	
-	public void openTestDocDialog() {
-		jsfDialogHelper.openTestDocDialog();
-	}
-
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
 	}

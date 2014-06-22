@@ -15,7 +15,7 @@
 		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!testViewBean.showDocument}" />
 
 		<h:form id="dialogForm"> 
-			<p:panel id="dialodPanel" header="Stok Hareket Sorgulama" rendered="#{testViewBean.showDocument}">
+			<p:panel id="dialogPanel" header="Stok Hareket Sorgulama" rendered="#{testViewBean.showDocument}">
 
 				<h:panelGrid columns="2" cellpadding="2" style="vertical-align:top">
 
@@ -52,7 +52,8 @@
 
 					<p:commandButton value="CreateTestDoc"
 						actionListener="#{testViewBean.testCreateStkData}"
-						update=":dialogForm"> 
+						update=":dialogForm">
+					<p:confirm header="Onay" message="Emin misin?" icon="ui-icon-alert" /> 
 					</p:commandButton>
 
 				</f:facet>

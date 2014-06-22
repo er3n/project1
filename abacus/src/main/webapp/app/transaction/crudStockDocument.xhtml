@@ -42,8 +42,8 @@
 
 						<p:outputLabel id="firmaIdLabel" value="Firma"
 							rendered="#{crudStkDocumentViewBean.isWBTaskSelected()}" />
-						<h:panelGrid id="firmaSelection" columns="1"
-							rendered="#{crudStkDocumentViewBean.isWBTaskSelected()}">
+						
+						<h:panelGrid id="vendorSelection" columns="1" rendered="#{crudStkDocumentViewBean.isWBTaskSelected()}">
 							<abc:itemSelection id="vendorSelectionInput"
 								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
 								targetVar="#{crudStkDocumentViewBean.document.item}"
@@ -129,10 +129,13 @@
 					<p:column headerText="İşlem">
 						<p:commandButton icon="ui-icon-pencil"
 							actionListener="#{crudStkDocumentViewBean.updateDetailSelected(var)}"
-							update=":crudDocumentDetailSelectionFrm" />
+							update=":crudDocumentDetailSelectionFrm"/>
 						<p:commandButton icon="ui-icon-closethick"
 							actionListener="#{crudStkDocumentViewBean.deleteDetail(var)}"
-							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm" />
+							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm">
+						<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />
+						</p:commandButton>	
+							
 					</p:column>
 
 				</p:dataTable>

@@ -15,7 +15,6 @@
 			<p:menuitem value="Stok Gorev Tanimlari" url="/app/definition/defmanager.abc?grp=STK" />
 			<p:menuitem value="Finans Gorev Tanimlari" url="/app/definition/defmanager.abc?grp=FIN" />
 			<p:menuitem value="Birim Tanimlari" url="/app/definition/unitmanager.abc" />
-			<p:menuitem value="Test" url="/app/test/testmanager.abc" />
 		</p:submenu>
 
 		<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
@@ -34,6 +33,7 @@
 		<p:submenu label="Raporlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
 			<p:menuitem value="Stok Durum Sorgula" url="/app/report/queryStkState.abc" />
 			<p:menuitem value="Stok Hareket Sorgula" url="/app/report/queryStkDetail.abc" />
+			<p:menuitem value="Test" url="/app/test/testmanager.abc" />
 		</p:submenu>
 
 		<f:facet name="options">

@@ -16,16 +16,8 @@
 			
 		<h:form id="form">
 
-			<p:commandButton value="messageButton1"
-				actionListener="#{testViewBean.showTestMessage('Onay Tamam 1')}" update=":form">
-				<p:confirm header="Onay 1" message="Emin misin 1?"
-					icon="ui-icon-alert" />
-			</p:commandButton>
-
-			<p:commandButton value="messageButton2"
-				actionListener="#{testViewBean.showTestMessage('Onay Tamam 2')}" update=":form">
-				<p:confirm header="Onay 2" message="Emin misin 2?"
-					icon="ui-icon-check" />
+			<p:commandButton value="Stok Test Kaydı Oluştur"
+				actionListener="#{testViewBean.openTestDocDialog}">
 			</p:commandButton>
 
 		</h:form>

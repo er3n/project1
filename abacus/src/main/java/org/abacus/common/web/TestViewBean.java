@@ -60,7 +60,7 @@ public class TestViewBean implements Serializable {
 		reportSearchCriteria.setOrganization(sessionInfoHelper.currentOrganization());
 		reportSearchCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
 		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
-		jsfMessageHelper.addWarn("noFiscalYearDefined");
+//		jsfMessageHelper.addWarn("noFiscalYearDefined");
 		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
 	}
 

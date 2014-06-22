@@ -3,6 +3,7 @@ package org.abacus.common.security;
 import java.util.List;
 import java.util.Set;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -51,6 +52,12 @@ public class SecurityHandler implements UserDetailsService {
 		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);
 		
 		OrganizationEntity defaultOrganization = userOrganizationList.get(0);
+		for (OrganizationEntity oe : userOrganizationList) {
+			if (oe.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L1)){
+				defaultOrganization = oe;
+				break;
+			}
+		}		
 		
 		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findCompanyFiscalYearSet(defaultOrganization);
 		FiscalYearEntity defaultFiscalYear = organizationUtils.findDefaultFiscalYear(companyFiscalYearSet);

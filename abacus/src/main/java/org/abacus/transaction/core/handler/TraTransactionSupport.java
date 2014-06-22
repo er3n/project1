@@ -102,9 +102,14 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		
 		FiscalYearEntity fiscalYear =  document.getFiscalPeriod().getFiscalYear();
 		detail.setFiscalYear(fiscalYear);
-
-		BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
-		detail.setBaseDetailCount(baseDetailCount);
+		if (detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
+			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
+			detail.setBaseDetailCount(baseDetailCount);
+		} else { //Fin Defaults
+			detail.setItemDetailCount(BigDecimal.ONE);
+			detail.setBaseDetailCount(BigDecimal.ONE);
+			detail.setLotDetailDate(detail.getDocument().getDocDate());
+		}
 		
 		detail.createHook(user);
 		

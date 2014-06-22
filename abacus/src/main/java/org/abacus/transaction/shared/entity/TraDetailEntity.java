@@ -39,7 +39,7 @@ public abstract class TraDetailEntity extends DynamicEntity {
 	private DefItemEntity item;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "item_unit_id", nullable = false)
+	@JoinColumn(name = "item_unit_id", nullable = true)
 	private DefUnitCodeEntity itemUnit;
 	
 	@Column(name = "item_detail_count", nullable = false, precision = 10, scale = 3)

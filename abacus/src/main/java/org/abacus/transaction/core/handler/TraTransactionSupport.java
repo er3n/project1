@@ -16,6 +16,7 @@ import org.abacus.transaction.shared.UnableToUpdateDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
+import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
@@ -23,6 +24,7 @@ import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DetailDeletedEvent;
 import org.abacus.transaction.shared.event.DetailUpdatedEvent;
+import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
@@ -81,6 +83,11 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 
 	@Override
 	public DocumentDeletedEvent<T> deleteDocument(DeleteDocumentEvent<T> event) throws UnableToDeleteDocumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent){
 		// TODO Auto-generated method stub
 		return null;
 	}

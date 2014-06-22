@@ -14,9 +14,16 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
+import org.abacus.transaction.shared.UnableToDeleteDetailException;
+import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
+import org.abacus.transaction.shared.event.CancelDocumentEvent;
+import org.abacus.transaction.shared.event.DeleteDetailEvent;
+import org.abacus.transaction.shared.event.DeleteDocumentEvent;
+import org.abacus.transaction.shared.event.DocumentCanceledEvent;
+import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
@@ -38,23 +45,23 @@ public class FindStkDocumentViewBean implements Serializable {
 	private TraDocumentSearchCriteria documentSearchCriteria;
 
 	@ManagedProperty(value = "#{stkTransactionHandler}")
-	private TraTransactionHandler<StkDocumentEntity,StkDetailEntity> transactionHandler;
+	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
 
 	private List<StkDocumentEntity> documentSearchResultList;
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 
-	private Boolean showDocument = true; 
+	private Boolean showDocument = true;
 
 	@PostConstruct
 	private void init() {
-		try{
+		try {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
-		}catch(Exception e){
+		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
 		}
-		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null){
+		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null) {
 			jsfMessageHelper.addWarn("noFiscalYearDefined");
 			this.showDocument = false;
 		}
@@ -65,6 +72,24 @@ public class FindStkDocumentViewBean implements Serializable {
 	public void findStkDocument() {
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
+	}
+
+	public void cancelDocument(TraDocumentEntity document) {
+		try {
+			transactionHandler.cancelDocument(new CancelDocumentEvent(document.getId(), sessionInfoHelper.currentUserName()));
+			this.findStkDocument();
+		} catch (UnableToUpdateDocumentExpception e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void deleteDocument(TraDocumentEntity document) {
+		try {
+			transactionHandler.deleteDocument(new DeleteDocumentEvent<StkDocumentEntity>(document.getId()));
+			this.findStkDocument();
+		} catch (UnableToDeleteDetailException e) {
+			jsfMessageHelper.addError(e);
+		}
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -99,11 +124,11 @@ public class FindStkDocumentViewBean implements Serializable {
 		this.documentSearchCriteria = documentSearchCriteria;
 	}
 
-	public TraTransactionHandler<StkDocumentEntity,StkDetailEntity> getTransactionHandler() {
+	public TraTransactionHandler<StkDocumentEntity, StkDetailEntity> getTransactionHandler() {
 		return transactionHandler;
 	}
 
-	public void setTransactionHandler(TraTransactionHandler<StkDocumentEntity,StkDetailEntity> transactionHandler) {
+	public void setTransactionHandler(TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler) {
 		this.transactionHandler = transactionHandler;
 	}
 

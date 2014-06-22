@@ -7,6 +7,7 @@ import org.abacus.transaction.shared.UnableToUpdateDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
+import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
@@ -14,6 +15,7 @@ import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DetailDeletedEvent;
 import org.abacus.transaction.shared.event.DetailUpdatedEvent;
+import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
@@ -35,5 +37,6 @@ public interface TraTransactionHandler<T extends TraDocumentEntity, D extends Tr
 	DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException;
 	DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> evet) throws UnableToUpdateDetailException;
 	DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException;
+	DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent)  throws UnableToUpdateDocumentExpception;;
 	
 }

@@ -78,8 +78,10 @@
 						<h:outputText value="#{var.typeEnum.description}" />
 					</p:column>
 
-					<p:column headerText="İşlem"> 
-						<p:button href="/app/transaction/crudStockDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=update&amp;document=#{var.id}" value="Güncelle"  />
+					<p:column headerText="İşlem">
+						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStockDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
+						<p:commandButton icon="ui-icon-cancel" actionListener="#{findStkDocumentViewBean.cancelDocument(var)}" update=":documentResultTable"  />
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable"  />
 					</p:column>
 
 				</p:dataTable> 

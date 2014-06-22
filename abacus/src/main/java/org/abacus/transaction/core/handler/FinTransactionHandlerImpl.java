@@ -2,13 +2,12 @@ package org.abacus.transaction.core.handler;
 
 import java.util.List;
 
-
-
-
-
 import org.abacus.transaction.core.persistance.FinTransactionDao;
-import org.abacus.transaction.core.persistance.TransactionDao;
+import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
+import org.abacus.transaction.core.persistance.repository.FinDocumentRepository;
+import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
+import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
@@ -26,6 +25,9 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 
 	@Autowired
 	private FinDetailRepository finDetailRepository;
+	
+	@Autowired
+	private FinDocumentRepository finDocumentRepository;  
 	
 	@Autowired
 	private FinTransactionDao finTransactionDao;
@@ -48,7 +50,18 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	}
 
 	@Override
-	protected TransactionDao<FinDocumentEntity, FinDetailEntity> getTransactionDao() {
+	protected TraTransactionDao<FinDocumentEntity, FinDetailEntity> getTransactionDao() {
 		return finTransactionDao;
 	}
+
+	@Override
+	protected TraDocumentRepository<FinDocumentEntity> getDocumentRepository() {
+		return finDocumentRepository;
+	}
+	
+	@Override
+	protected TraDetailRepository<FinDetailEntity> getDetailRepository() {
+		return finDetailRepository;
+	}
+	
 }

@@ -7,9 +7,12 @@ import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.persistance.StkTransactionDao;
-import org.abacus.transaction.core.persistance.TransactionDao;
+import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDetailTrackRepository;
+import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
+import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
+import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToOutputDetail;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
@@ -31,6 +34,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 
 	@Autowired
 	private StkDetailRepository stkDetailRepository;  
+
+	@Autowired
+	private StkDocumentRepository stkDocumentRepository;  
 
 	@Autowired
 	private StkDetailTrackRepository detailTrackRepository;
@@ -216,8 +222,17 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 
 	@Override
-	protected TransactionDao<StkDocumentEntity, StkDetailEntity> getTransactionDao() {
+	protected TraTransactionDao<StkDocumentEntity, StkDetailEntity> getTransactionDao() {
 		return stkTransactionDao;
 	}
 
+	@Override
+	protected TraDocumentRepository<StkDocumentEntity> getDocumentRepository() {
+		return stkDocumentRepository;
+	}
+
+	@Override
+	protected TraDetailRepository<StkDetailEntity> getDetailRepository() {
+		return stkDetailRepository;
+	}
 }

@@ -5,9 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.transaction.shared.entity.FinDocumentEntity;
-import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
@@ -21,7 +18,7 @@ import org.springframework.util.StringUtils;
 
 
 
-public abstract class TransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity> {
+public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity> {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -32,10 +29,22 @@ public abstract class TransactionDao<T extends TraDocumentEntity, D extends TraD
 		return document;
 	}
 
+	public Boolean documentDelete(T document) {
+		Session currentSession = em.unwrap(Session.class);
+		currentSession.delete(document);
+		return true;
+	}
+
 	public D detailSave(D detail) {
 		Session currentSession = em.unwrap(Session.class);
 		currentSession.save(detail);
 		return detail;		
+	}
+
+	public Boolean detailDelete(D detail) {
+		Session currentSession = em.unwrap(Session.class);
+		currentSession.delete(detail);
+		return true;		
 	}
 
 	public List<T> readDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {

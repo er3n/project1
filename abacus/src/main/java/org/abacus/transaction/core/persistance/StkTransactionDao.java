@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class StkTransactionDao extends TransactionDao<StkDocumentEntity, StkDetailEntity> {
+public class StkTransactionDao extends TraTransactionDao<StkDocumentEntity, StkDetailEntity> {
 
 	public Class getDocumentClass(){
 		return StkDocumentEntity.class;
 	}
-
 
 }

@@ -8,7 +8,9 @@ import org.abacus.organization.core.persistance.FiscalDao;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.abacus.transaction.core.persistance.TransactionDao;
+import org.abacus.transaction.core.persistance.TraTransactionDao;
+import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
+import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
@@ -43,6 +45,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 
 	@Autowired
 	protected FiscalDao fiscalDao;
+	
 
     @Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -82,9 +85,15 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DocumentDeletedEvent<T> deleteDocument(DeleteDocumentEvent<T> event) throws UnableToDeleteDocumentException {
-		// TODO Auto-generated method stub
-		return null;
+		T document = getDocumentRepository().findWithFetch(event.getDocumentId());
+		List<D> detailList = getDetailRepository().findByDocumentId(event.getDocumentId());
+		for (D dtl : detailList) {
+			Boolean dIslem = getTransactionDao().detailDelete(dtl);
+		}
+		Boolean tIslem = getTransactionDao().documentDelete(document);
+		return new DocumentDeletedEvent<>();
 	}
 	
 	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent){
@@ -130,6 +139,10 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		return null;
 	}
 	
-	protected abstract TransactionDao<T,D> getTransactionDao();
+	protected abstract TraTransactionDao<T,D> getTransactionDao();
+	
+	protected abstract TraDocumentRepository<T> getDocumentRepository();
+
+	protected abstract TraDetailRepository<D> getDetailRepository();
 
 }

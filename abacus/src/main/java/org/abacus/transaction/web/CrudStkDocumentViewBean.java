@@ -19,15 +19,22 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
+import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
+import org.abacus.transaction.shared.event.DetailDeletedEvent;
+import org.abacus.transaction.shared.event.DetailUpdatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
+import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.UpdateDetailEvent;
+import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.springframework.util.CollectionUtils;
 
@@ -113,6 +120,16 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	}
 
+	public void updateDocument() {
+		try {
+			DocumentUpdatedEvent<StkDocumentEntity> documentUpdatedEvent = transactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(document, sessionInfoHelper.currentUserName()));
+			this.findStkDocument(document.getId());
+			jsfMessageHelper.addInfo("updateSuccessfull", "Fiş");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
 	public void saveDetail() {
 		try {
 			DetailCreatedEvent<StkDetailEntity> event = transactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
@@ -137,14 +154,46 @@ public class CrudStkDocumentViewBean implements Serializable {
 			detailList = readDetailEvent.getDetails();
 		}
 	}
+	
+	public void updateDetailSelected(StkDetailEntity detail){
+		this.selectedDetail = detail;
+	}
+
+	public void updateDetail() {
+		try {
+			DetailUpdatedEvent<StkDetailEntity> detailUpdatedEvent = transactionHandler.updateDetail(new UpdateDetailEvent<StkDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
+			this.findStkDocument(document.getId());
+			jsfMessageHelper.addInfo("updateSuccessfull", "Fiş Detay");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void deleteDetail(TraDetailEntity detail) {
+		try {
+			DetailDeletedEvent<StkDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<StkDetailEntity>(detail.getId()));
+			this.findStkDocument(document.getId());
+			jsfMessageHelper.addInfo("deleteSuccessful");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public boolean isWBTaskSelected() {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean isWBTaskSelected = this.document.getTask().getType().getId().startsWith(EnumList.DefTypeEnum.STK_WB.name());
+		return isWBTaskSelected;
+	}
 
 	public void initNewDetail() {
 		selectedDetail = new StkDetailEntity();
 		selectedDetail.setDocument(document);
 		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
 	}
-	
-	public void selectedDetailServiceTypeChanged(){
+
+	public void selectedDetailServiceTypeChanged() {
 		selectedDetail = new StkDetailEntity();
 		selectedDetail.setDocument(document);
 	}

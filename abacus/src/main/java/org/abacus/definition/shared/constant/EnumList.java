@@ -141,6 +141,7 @@ public interface EnumList {
 		STK_OC_I("Stok Açılış Tip", 1), //
 		STK_IO_I("Stok İşlem Giriş Tip", 1), //
 		STK_IO_O("Stok İşlem Çıkış Tip", -1), //
+		STK_WB("İrsaliye Tip",0), //
 		STK_WB_I("Stok İrsaliye Giriş Tip", 1), //
 		STK_WB_O("Stok Satış Çıkş Tip", -1), //
 		STK_TT_T("Stok Transfer Tip", 0), //

@@ -29,6 +29,27 @@
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
+						<p:outputLabel value="İşlem:" style="font-weigh: bold" />
+						<p:selectOneMenu value="#{crudStkDocumentViewBean.document.task}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="true" requiredMessage="İşlem boş olamaz"
+							disabled="#{not empty crudStkDocumentViewBean.document.id}">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{crudStkDocumentViewBean.stkTaskList}"
+								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
+							<p:ajax event="change" update=":crudDocumentFrm" process="@this" />
+						</p:selectOneMenu>
+
+						<p:outputLabel id="firmaIdLabel" value="Firma"
+							rendered="#{crudStkDocumentViewBean.isWBTaskSelected()}" />
+						<h:panelGrid id="firmaSelection" columns="1"
+							rendered="#{crudStkDocumentViewBean.isWBTaskSelected()}">
+							<abc:itemSelection id="vendorSelectionInput"
+								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
+								targetVar="#{crudStkDocumentViewBean.document.item}"
+								required="false" />
+						</h:panelGrid>
+
 						<p:outputLabel value="Belge No:" />
 						<p:inputText value="#{crudStkDocumentViewBean.document.docNo}"
 							required="true" requiredMessage="Döküman numarası boş olamaz." />
@@ -36,23 +57,6 @@
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
 						<p:calendar value="#{crudStkDocumentViewBean.document.docDate}"
 							required="true" requiredMessage="Döküman tarihi boş olamaz" />
-
-						<p:outputLabel value="İşlem:" style="font-weigh: bold" />
-						<p:selectOneMenu value="#{crudStkDocumentViewBean.document.task}"
-							converter="omnifaces.SelectItemsConverter" style="width:145px"
-							required="true" requiredMessage="İşlem boş olamaz">
-							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
-							<f:selectItems value="#{crudStkDocumentViewBean.stkTaskList}"
-								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Firma" rendered="true" />
-						<h:panelGrid columns="1" rendered="true">
-							<abc:itemSelection id="vendorSelectionInput"
-								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
-								targetVar="#{crudStkDocumentViewBean.document.item}"
-								required="false" />
-						</h:panelGrid>
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
@@ -65,7 +69,10 @@
 							actionListener="#{crudStkDocumentViewBean.saveDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm"
 							rendered="#{empty crudStkDocumentViewBean.document.id}" />
-						<p:spacer width="5px" />
+						<p:commandButton value="Guncelle"
+							actionListener="#{crudStkDocumentViewBean.updateDocument}"
+							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
+							rendered="#{not empty crudStkDocumentViewBean.document.id}" />
 					</f:facet>
 
 				</p:panel>
@@ -117,6 +124,15 @@
 
 					<p:column headerText="Birim Fiyat">
 						<p:outputLabel value="#{var.baseDetailAmount}" />
+					</p:column>
+
+					<p:column headerText="İşlem">
+						<p:commandButton icon="ui-icon-pencil"
+							actionListener="#{crudStkDocumentViewBean.updateDetailSelected(var)}"
+							update=":crudDocumentDetailSelectionFrm" />
+						<p:commandButton icon="ui-icon-closethick"
+							actionListener="#{crudStkDocumentViewBean.deleteDetail(var)}"
+							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm" />
 					</p:column>
 
 				</p:dataTable>
@@ -258,6 +274,11 @@
 							actionListener="#{crudStkDocumentViewBean.saveDetail}"
 							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm"
 							rendered="#{empty crudStkDocumentViewBean.selectedDetail.id}" />
+							
+						<p:commandButton value="Guncelle"
+							actionListener="#{crudStkDocumentViewBean.updateDetail}"
+							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm"
+							rendered="#{not empty crudStkDocumentViewBean.selectedDetail.id}" />
 					</f:facet>
 
 

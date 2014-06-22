@@ -7,12 +7,10 @@ public class UpdateDetailEvent<T extends TraDetailEntity> extends UpdateEvent {
 
 	private T detail;
 	private String user;
-	private String organization;
 
-	public UpdateDetailEvent(T detail, String user, String organization) {
+	public UpdateDetailEvent(T detail, String user) {
 		this.detail = detail;
 		this.user = user;
-		this.organization = organization;
 	}
 
 	public T getDetail() {
@@ -29,14 +27,6 @@ public class UpdateDetailEvent<T extends TraDetailEntity> extends UpdateEvent {
 
 	public void setUser(String user) {
 		this.user = user;
-	}
-
-	public String getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(String organization) {
-		this.organization = organization;
 	}
 
 }

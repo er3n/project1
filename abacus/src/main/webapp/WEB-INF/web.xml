@@ -104,7 +104,7 @@
 	<!-- PRIMEFACES -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>start</param-value>
+		<param-value>delta</param-value>
 	</context-param>
 	
 	<error-page>

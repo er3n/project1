@@ -65,9 +65,9 @@ public class DefParamAnswerViewBean implements Serializable {
 
 	public void saveParamAnswer() {
 		if (selParamAnswer.isNew()) {
-			jsfMessageHelper.addInfo("paramKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Parametre");
 		} else {
-			jsfMessageHelper.addInfo("paramGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("updateSuccessful","Parametre");
 		}
 		defParamAnswerHandler.saveParamAnswerEntity(selParamAnswer);
 		findTypeParamAnswer();
@@ -76,7 +76,7 @@ public class DefParamAnswerViewBean implements Serializable {
 	public void deleteParamAnswer() {
 		if (!selParamAnswer.isNew()) {
 			defParamAnswerHandler.deleteParamAnswerEntity(selParamAnswer);
-			jsfMessageHelper.addInfo("paramSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("deleteSuccessful","Parametre");
 		}
 		findTypeParamAnswer();
 	}

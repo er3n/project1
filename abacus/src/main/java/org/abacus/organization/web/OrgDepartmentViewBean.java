@@ -70,9 +70,9 @@ public class OrgDepartmentViewBean implements Serializable {
 		}
 		
 		if (selDepartment.isNew()) {
-			jsfMessageHelper.addInfo("departmentKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Depo/Birim");
 		} else {
-			jsfMessageHelper.addInfo("departmentGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("updateSuccessful","Depo/Birim");
 		}
 		departmentService.saveDepartmentEntity(selDepartment);
 		findOrganizationDepartment();
@@ -81,7 +81,7 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void deleteDepartment() {
 		if (!selDepartment.isNew()) {
 			departmentService.deleteDepartmentEntity(selDepartment);
-			jsfMessageHelper.addInfo("departmentSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("deleteSuccessful","Depo/Birim");
 		}
 		findOrganizationDepartment();
 	}

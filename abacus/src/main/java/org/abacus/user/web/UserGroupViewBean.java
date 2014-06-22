@@ -73,7 +73,7 @@ public class UserGroupViewBean implements Serializable {
 
 			GroupCreatedEvent groupCreatedEvent = userService.createGroup(new CreateGroupEvent(selectedGroup, selectedAuthorities, username));
 			this.selectedGroup = groupCreatedEvent.getGroup();
-			jsfMessageHelper.addInfo("grupEklendi");
+			jsfMessageHelper.addInfo("createSuccessful","Grup");
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("grupIsmiKullanimda");
 		}
@@ -85,9 +85,9 @@ public class UserGroupViewBean implements Serializable {
 			String userName = sessionInfoHelper.currentUserName();
 			GroupUpdatedEvent groupUpdatedEvent = userService.updateGroup(new UpdateGroupEvent(selectedGroup, selectedAuthorities, userName));
 			selectedGroup = groupUpdatedEvent.getGroup();
-			jsfMessageHelper.addInfo("grupGuncellendi");
+			jsfMessageHelper.addInfo("updateSuccessful","Grup");
 		} catch (GroupNameInUseException e) {
-			jsfMessageHelper.addError("groupIsmiKullanimda");
+			jsfMessageHelper.addError("grupIsmiKullanimda");
 		}
 	}
 
@@ -95,7 +95,7 @@ public class UserGroupViewBean implements Serializable {
 
 		try {
 			GroupDeletedEvent event = userService.deleteGroup(new DeleteGroupEvent(selectedGroup.getId()));
-			jsfMessageHelper.addInfo("kullaniciGrubuSilindi");
+			jsfMessageHelper.addInfo("deleteSuccessful","Kullanıcı Grubu");
 			this.newSelectedGroup();
 		} catch (UserExistsInGroupException e) {
 			jsfMessageHelper.addError("grubaAitKullanicilarBulundu");

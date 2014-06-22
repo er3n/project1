@@ -57,8 +57,7 @@ public class OrganizationViewBean implements Serializable {
 	public void saveOrganization() {
 		try{
 			selOrganization = organizationHandler.saveOrganizationEntity(selOrganization);
-			jsfMessageHelper.addInfo("organizationKayitIslemiBasarili");
-//			jsfMessageHelper.addInfo("organizationGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Organizasyon");
 			findOrganizationList();
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
@@ -68,7 +67,7 @@ public class OrganizationViewBean implements Serializable {
 	public void deleteOrganization() {
 		if (!selOrganization.isNew()) {
 			organizationHandler.deleteOrganizationEntity(selOrganization);
-			jsfMessageHelper.addInfo("organizationSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("deleteSuccessful","Organizasyon");
 		}
 		findOrganizationList();
 	}

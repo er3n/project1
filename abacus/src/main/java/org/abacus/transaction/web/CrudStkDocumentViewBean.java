@@ -113,7 +113,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 			document = (StkDocumentEntity) documentCreatedEvent.getDocument();
 			this.findStkDocument(document.getId());
-			jsfMessageHelper.addInfo("createSuccessfull", "Fiş");
+			jsfMessageHelper.addInfo("createSuccessful", "Fiş");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -124,7 +124,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 		try {
 			DocumentUpdatedEvent<StkDocumentEntity> documentUpdatedEvent = transactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(document, sessionInfoHelper.currentUserName()));
 			this.findStkDocument(document.getId());
-			jsfMessageHelper.addInfo("updateSuccessfull", "Fiş");
+			jsfMessageHelper.addInfo("updateSuccessful", "Fiş");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -135,7 +135,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			DetailCreatedEvent<StkDetailEntity> event = transactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
 			this.findStkDocument(document.getId());
 			selectedDetail = null;
-			jsfMessageHelper.addInfo("createSuccessfull", "Fiş Detay");
+			jsfMessageHelper.addInfo("createSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -164,7 +164,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			DetailUpdatedEvent<StkDetailEntity> detailUpdatedEvent = transactionHandler.updateDetail(new UpdateDetailEvent<StkDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
 			this.findStkDocument(document.getId());
 			this.selectedDetail = null;
-			jsfMessageHelper.addInfo("updateSuccessfull", "Fiş Detay");
+			jsfMessageHelper.addInfo("updateSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -174,7 +174,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 		try {
 			DetailDeletedEvent<StkDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<StkDetailEntity>(detail.getId()));
 			this.findStkDocument(document.getId());
-			jsfMessageHelper.addInfo("deleteSuccessful");
+			jsfMessageHelper.addInfo("deleteSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}

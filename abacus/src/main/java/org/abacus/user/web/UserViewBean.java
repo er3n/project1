@@ -82,7 +82,7 @@ public class UserViewBean implements Serializable {
 			UserCreatedEvent createdEvent = userService.createUser(new CreateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
 			selectedUser = createdEvent.getSecUser();
 			this.reloadSearchCriteria(selectedUser.getId());
-			jsfMessageHelper.addInfo("kullaniciEklendi");
+			jsfMessageHelper.addInfo("createSuccessful","Kullanıcı");
 		} catch (UserNameExistsException e) {
 			jsfMessageHelper.addError("kullaniciAdiKullanimda");
 		}
@@ -94,7 +94,7 @@ public class UserViewBean implements Serializable {
 		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
 		UserUpdatedEvent updatedEvent = userService.updateUser(new UpdateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
 		this.reloadSearchCriteria(updatedEvent.getUser().getId());
-		jsfMessageHelper.addInfo("kullaniciGuncellendi");
+		jsfMessageHelper.addInfo("updateSuccessful","Kullanıcı");
 	}
 
 	private void reloadSearchCriteria(String username) {

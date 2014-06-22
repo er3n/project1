@@ -21,7 +21,7 @@ public class DefTypeEntity extends StaticEntity {
 
 	@Column(name = "tr_state_type", nullable = false)
 	@Range(min=-1, max=+1)
-	private Integer trStateType;
+	private Integer trStateType = 0;
 
 	public DefTypeEntity() {
 	}
@@ -30,7 +30,11 @@ public class DefTypeEntity extends StaticEntity {
 		if (this.getId()==null){
 			return null;
 		}
-		return EnumList.DefTypeEnum.valueOf(this.getId());
+		try{
+			return EnumList.DefTypeEnum.valueOf(this.getId());
+		} catch (Exception e){
+			return EnumList.DefTypeEnum.NULL;
+		}
 	}
 	
 	public String getTrState() {

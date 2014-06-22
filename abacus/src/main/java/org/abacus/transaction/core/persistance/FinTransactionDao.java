@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class FinTransactionDao extends TraTransactionDao<FinDocumentEntity, FinDetailEntity> {
 
-	public Class getDocumentClass(){
+	@Override
+	public Class<FinDocumentEntity> getDocumentClass(){
 		return FinDocumentEntity.class;
 	}
 
+	@Override
+	public Class<FinDetailEntity> getDetailClass(){
+		return FinDetailEntity.class;
+	}
 }

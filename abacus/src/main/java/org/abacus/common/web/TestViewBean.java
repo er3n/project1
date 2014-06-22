@@ -109,7 +109,7 @@ public class TestViewBean implements Serializable {
 	}
 
 	public void showTestMessage(String msg) {
-		jsfMessageHelper.addTest(msg);
+		jsfMessageHelper.addInfo(msg);
     }
 	
 	public void testCreateStkData() throws AbcBusinessException {
@@ -119,7 +119,7 @@ public class TestViewBean implements Serializable {
 				reportSearchCriteria.getDetailDepartment()==null||
 				reportSearchCriteria.getDetailItem()==null){
 			System.out.println("createStkTestData Eksik Bilgi");
-			jsfMessageHelper.addTest("createStkTestData Eksik Bilgi");
+			jsfMessageHelper.addInfo("createStkTestData Eksik Bilgi");
 			return;
 		}
 		try{
@@ -133,14 +133,14 @@ public class TestViewBean implements Serializable {
 			DetailCreatedEvent detailCreatedEvent = transactionHandler.newDetail(createDetailEvent);
 			
 			System.out.println("createStkTestData Islem Tamam");
-			jsfMessageHelper.addTest("createStkTestData Islem Tamam");
+			jsfMessageHelper.addInfo("createStkTestData Islem Tamam");
 			
 		} catch (AbcBusinessException e){
 			System.out.println("createStkTestData AbcBusinessException");
 			jsfMessageHelper.addError(e);
 		} catch (Exception e) {
 			System.out.println("createStkTestData Exception");
-			jsfMessageHelper.addTest("createStkTestData Exception");
+			jsfMessageHelper.addInfo("createStkTestData Exception");
 		}
 
 	}

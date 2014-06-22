@@ -103,7 +103,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 			DocumentCreatedEvent<FinDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 			document = (FinDocumentEntity) documentCreatedEvent.getDocument();
 			this.findFinDocument(document.getId());
-			jsfMessageHelper.addInfo("createSuccessfull", "Fiş");
+			jsfMessageHelper.addInfo("createSuccessful", "Fiş");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -115,7 +115,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 			DetailCreatedEvent<FinDetailEntity> event = transactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
 			this.findFinDocument(document.getId());
 			selectedDetail = null;
-			jsfMessageHelper.addInfo("createSuccessfull", "Fiş Detay");
+			jsfMessageHelper.addInfo("createSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}

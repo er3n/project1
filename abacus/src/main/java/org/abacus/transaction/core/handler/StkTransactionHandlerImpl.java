@@ -14,14 +14,15 @@ import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
 import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
+import org.abacus.transaction.shared.UnableToDeleteDocumentException;
 import org.abacus.transaction.shared.UnableToOutputDetail;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
-import org.abacus.transaction.shared.event.ReadDetailEvent;
-import org.abacus.transaction.shared.event.RequestReadDetailEvent;
+import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.StkDetailCreatedEvent;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,18 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	private StkTransactionDao stkTransactionDao;
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public ReadDetailEvent<StkDetailEntity> readDetail(RequestReadDetailEvent<StkDetailEntity> event) {
-		List<StkDetailEntity> details = stkDetailRepository.findByDocumentId(event.getDocumentId());
-		return new ReadDetailEvent<StkDetailEntity>(details);
+	protected TraTransactionDao<StkDocumentEntity, StkDetailEntity> getTransactionDao() {
+		return stkTransactionDao;
+	}
+
+	@Override
+	protected TraDocumentRepository<StkDocumentEntity> getDocumentRepository() {
+		return stkDocumentRepository;
+	}
+
+	@Override
+	protected TraDetailRepository<StkDetailEntity> getDetailRepository() {
+		return stkDetailRepository;
 	}
 	
 	@Override
@@ -222,17 +231,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 
 	@Override
-	protected TraTransactionDao<StkDocumentEntity, StkDetailEntity> getTransactionDao() {
-		return stkTransactionDao;
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public DocumentDeletedEvent<StkDocumentEntity> deleteDocument(DeleteDocumentEvent<StkDocumentEntity> event) throws UnableToDeleteDocumentException {
+		return null;
 	}
-
-	@Override
-	protected TraDocumentRepository<StkDocumentEntity> getDocumentRepository() {
-		return stkDocumentRepository;
-	}
-
-	@Override
-	protected TraDetailRepository<StkDetailEntity> getDetailRepository() {
-		return stkDetailRepository;
-	}
+	
 }

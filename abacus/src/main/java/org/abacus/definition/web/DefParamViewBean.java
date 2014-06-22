@@ -49,9 +49,9 @@ public class DefParamViewBean implements Serializable {
 	
 	public void saveParam() {
 		if (selParam.isNew()) {
-			jsfMessageHelper.addInfo("paramKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Parametre");
 		} else {
-			jsfMessageHelper.addInfo("paramGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("updateSuccessful","Parametre");
 		}
 		defParamService.saveParamEntity(selParam);
 		findTypeParam();
@@ -60,7 +60,7 @@ public class DefParamViewBean implements Serializable {
 	public void deleteParam() {
 		if (!selParam.isNew()) {
 			defParamService.deleteParamEntity(selParam);
-			jsfMessageHelper.addInfo("paramSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("deleteSuccessful","Parametre");
 		}
 		findTypeParam();
 	}

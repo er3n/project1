@@ -88,9 +88,9 @@ public class DefinitionViewBean implements Serializable {
 
 	public void saveType() {
 		if (selType.isNew()) {
-			jsfMessageHelper.addInfo("typeKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Tip");
 		} else {
-			jsfMessageHelper.addInfo("typeGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("updateSuccessful","Tip");
 		}
 		selType = defTypeService.saveTypeEntity(selType);
 		findTypeList(selectedGroupEnum);
@@ -99,7 +99,7 @@ public class DefinitionViewBean implements Serializable {
 	public void deleteType() {
 		if (!selType.isNew()) {
 			defTypeService.deleteTypeEntity(selType);
-			jsfMessageHelper.addInfo("typeSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("deleteSuccessful","Tip");
 		}
 		findTypeList(selectedGroupEnum);
 	}

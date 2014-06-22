@@ -23,6 +23,10 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 	@PersistenceContext
 	private EntityManager em;
 	
+	public abstract Class<T> getDocumentClass();
+
+	public abstract Class<D> getDetailClass();
+
 	public T documentSave(T document) {
 		Session currentSession = em.unwrap(Session.class);
 		currentSession.save(document);
@@ -88,7 +92,4 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 		return result;
 	}
 	
-	public abstract Class getDocumentClass();
-
-
 }

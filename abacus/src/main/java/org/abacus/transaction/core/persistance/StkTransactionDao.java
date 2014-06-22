@@ -9,8 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class StkTransactionDao extends TraTransactionDao<StkDocumentEntity, StkDetailEntity> {
 
-	public Class getDocumentClass(){
+	@Override
+	public Class<StkDocumentEntity> getDocumentClass(){
 		return StkDocumentEntity.class;
+	}
+
+	@Override
+	public Class<StkDetailEntity> getDetailClass(){
+		return StkDetailEntity.class;
 	}
 
 }

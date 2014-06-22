@@ -56,9 +56,9 @@ public class DefTaskViewBean implements Serializable {
 
 	public void saveTask() {
 		if (selTask.isNew()) {
-			jsfMessageHelper.addInfo("taskKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Görev");
 		} else {
-			jsfMessageHelper.addInfo("taskGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("updateSuccessful","Görev");
 		}
 		defTaskService.saveTaskEntity(selTask);
 		findTypeTask();
@@ -67,7 +67,7 @@ public class DefTaskViewBean implements Serializable {
 	public void deleteTask() {
 		if (!selTask.isNew()) {
 			defTaskService.deleteTaskEntity(selTask);
-			jsfMessageHelper.addInfo("taskSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("deleteSuccessful","Görev");
 		}
 		findTypeTask();
 	}

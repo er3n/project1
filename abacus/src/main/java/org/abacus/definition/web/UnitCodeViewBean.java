@@ -48,9 +48,9 @@ public class UnitCodeViewBean implements Serializable {
 	
 	public void saveUnitCode() {
 		if (selUnitCode.isNew()) {
-			jsfMessageHelper.addInfo("unitCodeKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Birim Katsayı");
 		} else {
-			jsfMessageHelper.addInfo("unitCodeGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("updateSuccessful","Birim Katsayı");
 		}
 		defUnitHandler.saveUnitCodeEntity(selUnitCode);
 		findUnitCode();
@@ -59,7 +59,7 @@ public class UnitCodeViewBean implements Serializable {
 	public void deleteUnitCode() {
 		if (!selUnitCode.isNew()) {
 			defUnitHandler.deleteUnitCodeEntity(selUnitCode);
-			jsfMessageHelper.addInfo("unitCodeSilmeIslemiBasarili");
+			jsfMessageHelper.addInfo("deleteSuccessful","Birim Katsayı");
 		}
 		findUnitCode();
 	}

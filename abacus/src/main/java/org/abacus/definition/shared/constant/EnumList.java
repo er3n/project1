@@ -147,6 +147,8 @@ public interface EnumList {
 		STK_TT_T("Stok Transfer Tip", 0), //
 		// Finance
 		FIN_WB_I("Masraf Giriş", 1), //
+
+		NULL("?",0), //
 		;
 		private String description;
 		private Integer state;

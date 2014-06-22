@@ -67,9 +67,9 @@ public class DefValueViewBean implements Serializable {
 	public void saveValue() {
 		int idx = 0;
 		if (selVal.isNew()) {
-			jsfMessageHelper.addInfo("valueKayitIslemiBasarili");
+			jsfMessageHelper.addInfo("createSuccessful","Kod");
 		} else {
-			jsfMessageHelper.addInfo("valueGuncellemeIslemiBasarili");
+			jsfMessageHelper.addInfo("updateSuccessful","Kod");
 			idx = valList.indexOf(selVal);
 			valList.remove(selVal);
 		}

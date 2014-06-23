@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.Range;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class TraDetailEntity extends DynamicEntity {
+public abstract class TraDetailEntity extends DynamicEntity implements Cloneable {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "lot_detail_date", nullable = false)
@@ -60,6 +60,8 @@ public abstract class TraDetailEntity extends DynamicEntity {
 	
 	@Column(name = "ref_detail_id", nullable = true)
 	private Long refDetailId;
+	
+	private TraDetailEntity memento;
 	
 	public TraDetailEntity() {
 	}
@@ -163,6 +165,23 @@ public abstract class TraDetailEntity extends DynamicEntity {
 			case +1: sign = "+"; break;
 		};
 		return sign;
+	}
+
+	public TraDetailEntity getMemento() {
+		return memento;
+	}
+
+	public void setMemento(TraDetailEntity memento) {
+		try { 	 	
+			TraDetailEntity memo = (TraDetailEntity) this.clone();
+			this.memento = memo;
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace(); 
+		}
+	}
+
+	public void savePoint() {
+		setMemento(this);
 	}
 
 }

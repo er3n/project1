@@ -35,7 +35,7 @@ public interface TraTransactionHandler<T extends TraDocumentEntity, D extends Tr
 	
 	ReadDetailEvent<D> readDetail(RequestReadDetailEvent<D> event);
 	DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException;
-	DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> evet) throws UnableToUpdateDetailException;
+	DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> event) throws UnableToUpdateDetailException;
 	DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException;
 	DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent)  throws UnableToUpdateDocumentExpception;;
 	

@@ -9,13 +9,24 @@ import org.abacus.transaction.core.persistance.repository.FinDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
 import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
+import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
+import org.abacus.transaction.shared.UnableToUpdateDetailException;
+import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
+import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
+import org.abacus.transaction.shared.event.DetailDeletedEvent;
+import org.abacus.transaction.shared.event.DetailUpdatedEvent;
+import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
+import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
+import org.abacus.transaction.shared.event.UpdateDetailEvent;
+import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -71,4 +82,30 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		Boolean tIslem = finTransactionDao.documentDelete(document);
 		return new DocumentDeletedEvent<>();
 	}
+
+	@Override
+	public DocumentUpdatedEvent<FinDocumentEntity> updateDocument(UpdateDocumentEvent<FinDocumentEntity> event) throws UnableToUpdateDocumentExpception {
+		FinDocumentEntity doc = event.getDocument();
+		return null;
+	}
+
+
+	@Override
+	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
+		Long docId = cancelDocumentEvent.getDocumentId();
+		return null;
+	}
+
+	@Override
+	public DetailUpdatedEvent<FinDetailEntity> updateDetail(UpdateDetailEvent<FinDetailEntity> event) throws UnableToUpdateDetailException {
+		FinDetailEntity det = event.getDetail();
+		return null;
+	}
+
+	@Override
+	public DetailDeletedEvent<FinDetailEntity> deleteDetail(DeleteDetailEvent<FinDetailEntity> event) throws UnableToDeleteDetailException {
+		Long detId = event.getDetailId();
+		return null;
+	}
+	
 }

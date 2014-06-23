@@ -14,19 +14,28 @@ import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
 import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
+import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
 import org.abacus.transaction.shared.UnableToOutputDetail;
+import org.abacus.transaction.shared.UnableToUpdateDetailException;
+import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
+import org.abacus.transaction.shared.event.DetailDeletedEvent;
+import org.abacus.transaction.shared.event.DetailUpdatedEvent;
+import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
-import org.abacus.transaction.shared.event.StkDetailCreatedEvent;
+import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
+import org.abacus.transaction.shared.event.UpdateDetailEvent;
+import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,7 +103,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		
 	}
 
-	private StkDetailCreatedEvent addStkTransferDetailsAndTracks(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
+	private DetailCreatedEvent addStkTransferDetailsAndTracks(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		
 		List<StkDetailTrackEntity> detailTrackList = new ArrayList<StkDetailTrackEntity>();
 		
@@ -103,7 +112,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		detailCreateEvent.getDetail().setTrStateDetail(trStateDetailOut);
 		DetailCreatedEvent<StkDetailEntity> detailCreatedEvent = super.newDetail(detailCreateEvent);
 		
-		StkDetailCreatedEvent stockDetailCreatedEvent = this.addOutputDetailTrack(detailCreatedEvent);
+		DetailCreatedEvent stockDetailCreatedEvent = this.addOutputDetailTrack(detailCreatedEvent);
 		StkDetailEntity outDetail = (StkDetailEntity) detailCreatedEvent.getDetail();
 		List<StkDetailTrackEntity> outDetailTrackList = stockDetailCreatedEvent.getDetailTrackList();
 		
@@ -135,10 +144,10 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			detailTrackList.add(inDetailTrack);
 
 		}
-		return new StkDetailCreatedEvent(outDetail, detailTrackList);
+		return new DetailCreatedEvent(outDetail, detailTrackList);
 	}
 
-	private StkDetailCreatedEvent addOutputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) throws UnableToOutputDetail {
+	private DetailCreatedEvent addOutputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) throws UnableToOutputDetail {
 		
 		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
 		String user = event.getDetail().getUserCreated();
@@ -197,11 +206,11 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			
 		}
 		
-		return new StkDetailCreatedEvent(detail, detailTrackList);
+		return new DetailCreatedEvent(detail, detailTrackList);
 		
 	}
 
-	private StkDetailCreatedEvent addInputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) {
+	private DetailCreatedEvent addInputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) {
 		
 		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
 		String user = event.getDetail().getUserCreated();
@@ -227,7 +236,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 
 		detailTrackList.add(detailTrack);
 		
-		return new StkDetailCreatedEvent(detail, detailTrackList);
+		return new DetailCreatedEvent(detail, detailTrackList);
 
 	}
 
@@ -251,6 +260,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	private Boolean stkUpdateControl(StkDetailEntity dtl){
 		//item & depo degismiyor ancak diger degerler degisiyorsa sadece miktar kontrolleri yapilacak
 		//item & depodan biri degisiyor sa eski row tamamen siliniyormus gibi kontrol edilecek
+		printValues(dtl);
 		if (dtl.getTrStateDetail()<0){
 			return stkUpdateOutputControl(dtl);
 		} else if (dtl.getTrStateDetail()>0){
@@ -267,6 +277,45 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	private Boolean stkUpdateOutputControl(StkDetailEntity dtl){
 		// - Cikis kayitlarinda artirma yapilabir mi kontrolu eklenecek
 		return true;
+	}
+	
+	private void printValues(StkDetailEntity new_){
+		StkDetailEntity old_ = (StkDetailEntity)new_.getMemento();
+		System.out.println("--- Eski Degerler ---  Id:"+old_.getId());
+		System.out.println("Item       : "+old_.getItem().getCode());
+		System.out.println("Department : "+old_.getDepartment().getCode());
+		System.out.println("Count      : "+old_.getBaseDetailCount());
+		System.out.println("State      : "+old_.getTrStateSign());
+		System.out.println("--- Yeni Degerler ---  Id:"+new_.getId());
+		System.out.println("Item       : "+new_.getItem().getCode());
+		System.out.println("Department : "+new_.getDepartment().getCode());
+		System.out.println("Count      : "+new_.getBaseDetailCount());
+		System.out.println("State      : "+new_.getTrStateSign());
+	}
+
+	@Override
+	public DocumentUpdatedEvent<StkDocumentEntity> updateDocument(UpdateDocumentEvent<StkDocumentEntity> event) throws UnableToUpdateDocumentExpception {
+		StkDocumentEntity doc = event.getDocument();
+		return null;
+	}
+
+
+	@Override
+	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
+		Long docId = cancelDocumentEvent.getDocumentId();
+		return null;
+	}
+
+	@Override
+	public DetailUpdatedEvent<StkDetailEntity> updateDetail(UpdateDetailEvent<StkDetailEntity> event) throws UnableToUpdateDetailException {
+		StkDetailEntity det = event.getDetail();
+		return null;
+	}
+
+	@Override
+	public DetailDeletedEvent<StkDetailEntity> deleteDetail(DeleteDetailEvent<StkDetailEntity> event) throws UnableToDeleteDetailException {
+		Long detId = event.getDetailId();
+		return null;
 	}
 	
 }

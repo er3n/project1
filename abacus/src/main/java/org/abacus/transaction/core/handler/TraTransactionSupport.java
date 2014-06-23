@@ -53,6 +53,9 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	@Override
 	public ReadDetailEvent<D> readDetail(RequestReadDetailEvent<D> event) {
 		List<D> details = getDetailRepository().findByDocumentId(event.getDocumentId());
+		for (D d : details) {
+			d.savePoint();
+		}
 		return new ReadDetailEvent<D>(details);
 	}
 	
@@ -88,17 +91,6 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	}
 
 	@Override
-	public DocumentUpdatedEvent<T> updateDocument(UpdateDocumentEvent<T> event) throws UnableToUpdateDocumentExpception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent){
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException {
 		D detail = event.getDetail();
@@ -124,16 +116,5 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		return new DetailCreatedEvent<D>(detail);
 	}
 
-	@Override
-	public DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> evet) throws UnableToUpdateDetailException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }

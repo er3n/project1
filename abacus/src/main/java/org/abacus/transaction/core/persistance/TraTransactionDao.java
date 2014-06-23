@@ -42,6 +42,7 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 	public D detailSave(D detail) {
 		Session currentSession = em.unwrap(Session.class);
 		currentSession.save(detail);
+		detail.savePoint();
 		return detail;		
 	}
 

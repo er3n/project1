@@ -62,6 +62,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
+		//TODO: referansta bulunulma (fatura ise tahsilati varmi vb.) durumu ve muhasebeye entegre olma durumu kontrolu eklenecek
 		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocumentId());
 		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocumentId());
 		for (FinDetailEntity dtl : detailList) {

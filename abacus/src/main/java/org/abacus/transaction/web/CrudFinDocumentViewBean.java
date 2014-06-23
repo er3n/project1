@@ -123,7 +123,6 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	private void findFinDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
-		traDocumentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
 		
 		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {

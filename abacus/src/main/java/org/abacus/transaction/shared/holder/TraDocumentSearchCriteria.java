@@ -3,13 +3,9 @@ package org.abacus.transaction.shared.holder;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.abacus.definition.shared.constant.EnumList;
-
 @SuppressWarnings("serial")
 public class TraDocumentSearchCriteria implements Serializable {
 
-	private EnumList.DefTypeGroupEnum documentGroupEnum;
-	
 	private Long documentId;
 
 	private String docNo;
@@ -56,14 +52,6 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	public void setDocumentId(Long documentId) {
 		this.documentId = documentId;
-	}
-
-	public EnumList.DefTypeGroupEnum getDocumentGroupEnum() {
-		return documentGroupEnum;
-	}
-
-	public void setDocumentGroupEnum(EnumList.DefTypeGroupEnum documentGroupEnum) {
-		this.documentGroupEnum = documentGroupEnum;
 	}
 
 }

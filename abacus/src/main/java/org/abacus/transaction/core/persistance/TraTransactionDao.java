@@ -53,13 +53,9 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 
 	public List<T> readDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
 		Session currentSession = em.unwrap(Session.class);
-		Criteria criteria = null;
-		criteria = currentSession.createCriteria(getDocumentClass(),"s");
-		
-		criteria.createAlias("s.fiscalPeriod", "fp");
+		Criteria criteria = currentSession.createCriteria(getDocumentClass(),"s");
+		criteria.createAlias("s.fiscalPeriod", "fp", JoinType.INNER_JOIN);
 		criteria.createAlias("s.item", "itm", JoinType.LEFT_OUTER_JOIN);
-
-		criteria.add(Restrictions.like("s.typeStr", documentSearchCriteria.getDocumentGroupEnum().name()+"%"));
 
 		if(documentSearchCriteria.getDocumentId() != null){
 			criteria.add(Restrictions.eq("s.id", documentSearchCriteria.getDocumentId()));

@@ -66,7 +66,6 @@ public class FindStkDocumentViewBean implements Serializable {
 			this.showDocument = false;
 		}
 		documentSearchCriteria = new TraDocumentSearchCriteria();
-		documentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
 	}
 
 	public void findStkDocument() {

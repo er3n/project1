@@ -26,6 +26,7 @@ import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.StkDetailCreatedEvent;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -233,7 +234,39 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DocumentDeletedEvent<StkDocumentEntity> deleteDocument(DeleteDocumentEvent<StkDocumentEntity> event) throws UnableToDeleteDocumentException {
-		return null;
+		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
+		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocumentId());
+		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocumentId());
+		for (StkDetailEntity dtl : detailList) {
+			if (stkUpdateControl(dtl)){
+				Boolean dIslem = stkTransactionDao.detailDelete(dtl);
+			} else {
+				throw new UnableToDeleteDocumentException();
+			}
+		}
+		Boolean tIslem = stkTransactionDao.documentDelete(document);
+		return new DocumentDeletedEvent<>();
+	}
+	
+	private Boolean stkUpdateControl(StkDetailEntity dtl){
+		//item & depo degismiyor ancak diger degerler degisiyorsa sadece miktar kontrolleri yapilacak
+		//item & depodan biri degisiyor sa eski row tamamen siliniyormus gibi kontrol edilecek
+		if (dtl.getTrStateDetail()<0){
+			return stkUpdateOutputControl(dtl);
+		} else if (dtl.getTrStateDetail()>0){
+			return stkUpdateInputControl(dtl);
+		} 
+		return true;
+	}
+	
+	private Boolean stkUpdateInputControl(StkDetailEntity dtl){
+		// + Giris kayitlarinda eksiltme ve silme yapilabir mi kontrolu eklenecek
+		return true;
+	}
+	
+	private Boolean stkUpdateOutputControl(StkDetailEntity dtl){
+		// - Cikis kayitlarinda artirma yapilabir mi kontrolu eklenecek
+		return true;
 	}
 	
 }

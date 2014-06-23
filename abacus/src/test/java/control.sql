@@ -4,8 +4,8 @@ select dtl.fiscal_year_id, doc.doc_date,
        dtl.item_id, itm.code item_code, itm.name item_name, 
        dtl.department_id, dpr.code department_code, dpr.name department_name,
        dtl.base_detail_count, dtl.tr_state_detail
-  from stk_detail dtl, stk_document doc, def_item itm, org_department dpr
- where doc.id = dtl.document_id
+  from tra_detail dtl, stk_document doc, def_item itm, org_department dpr
+ where doc.id = dtl.document_stk_id
    and itm.id = dtl.item_id
    and dpr.id = dtl.department_id
 

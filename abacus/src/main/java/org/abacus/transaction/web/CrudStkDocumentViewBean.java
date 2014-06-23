@@ -143,7 +143,6 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	private void findStkDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
-		traDocumentSearchCriteria.setDocumentGroupEnum(selectedGroupEnum);
 
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<StkDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {

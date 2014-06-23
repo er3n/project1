@@ -98,10 +98,6 @@
 							update=":crudDocumentDetailSelectionFrm" process="@this" />
 					</f:facet>
 
-					<p:column headerText="SKT">
-						<p:outputLabel value="#{var.lotDetailDate}" />
-					</p:column>
-
 					<p:column headerText="Malzeme">
 						<p:outputLabel value="#{var.item.name}" />
 					</p:column>
@@ -114,15 +110,19 @@
 						<p:outputLabel value="#{var.departmentOpp}" />
 					</p:column>
 
-					<p:column headerText="Miktar">
-						<p:outputLabel value="#{var.itemDetailCount}" />
+					<p:column headerText="SKT">
+						<p:outputLabel value="#{var.lotDetailDate}" />
 					</p:column>
 
 					<p:column headerText="Birim">
 						<p:outputLabel value="#{var.itemUnit.code}" />
 					</p:column>
 
-					<p:column headerText="Birim Fiyat">
+					<p:column headerText="Miktar" style="text-align: right; width:100px">
+						<p:outputLabel value="#{var.itemDetailCount}" />
+					</p:column>
+
+					<p:column headerText="Toplam Tutar" style="text-align: right; width:100px">
 						<p:outputLabel value="#{var.baseDetailAmount}" />
 					</p:column>
 
@@ -168,7 +168,6 @@
 							</p:selectOneMenu>
 						</p:panelGrid>
 
-
 						<p:panelGrid columns="2" cellpadding="2"
 							style="vertical-align:top"
 							rendered="#{crudStkDocumentViewBean.selectedDetailServiceType.equals(DefTypeEnum.ITM_SR_ST)}">
@@ -180,7 +179,6 @@
 									targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
 									required="true" />
 							</h:panelGrid>
-
 
 							<p:outputLabel value="Malzeme" />
 							<h:panelGrid columns="6">
@@ -197,7 +195,6 @@
 								value="#{crudStkDocumentViewBean.selectedDetail.itemUnit}"
 								converter="omnifaces.SelectItemsConverter"
 								rendered="#{not empty crudStkDocumentViewBean.selectedDetail.item}">
-
 								<f:selectItem itemValue="" itemLabel="Seciniz..."></f:selectItem>
 								<f:selectItems
 									value="#{crudStkDocumentViewBean.selectedDetail.item.itemUnitSet}"
@@ -205,22 +202,9 @@
 									itemValue="#{itemUnit.unitCode}" />
 							</p:selectOneMenu>
 
-
-							<p:outputLabel value="Toplam Miktar" />
+							<p:outputLabel value="Miktar" />
 							<p:inputText
 								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
-
-							<p:outputLabel value="Son Kullanma Tarihi" />
-							<p:calendar
-								value="#{crudStkDocumentViewBean.selectedDetail.lotDetailDate}"
-								required="true">
-
-							</p:calendar>
-
-							<p:outputLabel value="Seri No:" />
-							<p:inputText
-								value="#{crudStkDocumentViewBean.selectedDetail.batchDetailNo}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
 							<p:outputLabel value="Toplam Tutar" />
@@ -228,7 +212,17 @@
 								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
+							<p:outputLabel value="Son Kullanma Tarihi" />
+							<p:calendar
+								value="#{crudStkDocumentViewBean.selectedDetail.lotDetailDate}"
+								required="true">
+							</p:calendar>
 
+							<p:outputLabel value="Seri No:" />
+							<p:inputText
+								value="#{crudStkDocumentViewBean.selectedDetail.batchDetailNo}"
+								required="true" requiredMessage="Seri numarası boş olamaz." />
+	
 							<p:outputLabel value="Not" style="font-weigh: bold" />
 							<p:inputTextarea rows="10" cols="50"
 								value="#{crudStkDocumentViewBean.selectedDetail.detNote}" />
@@ -247,7 +241,6 @@
 									required="true" />
 							</h:panelGrid>
 
-
 							<p:outputLabel value="Malzeme" />
 							<h:panelGrid columns="6">
 								<abc:itemSelection id="finItemSelectionInput"
@@ -257,6 +250,11 @@
 									required="true" />
 							</h:panelGrid>
 
+							<p:outputLabel value="Miktar" />
+							<p:inputText
+								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
+								required="true" requiredMessage="Seri numarası boş olamaz." />
+								
 							<p:outputLabel value="Toplam Tutar" />
 							<p:inputText
 								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"

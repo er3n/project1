@@ -1,6 +1,7 @@
 package org.abacus.transaction.core.handler;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
@@ -103,9 +104,10 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		if (detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
 			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 			detail.setBaseDetailCount(baseDetailCount);
+			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
 		} else { //Fin Defaults
-			detail.setItemDetailCount(BigDecimal.ONE);
-			detail.setBaseDetailCount(BigDecimal.ONE);
+			detail.setBaseDetailCount(detail.getItemDetailCount());
+			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
 			detail.setLotDetailDate(detail.getDocument().getDocDate());
 		}
 		

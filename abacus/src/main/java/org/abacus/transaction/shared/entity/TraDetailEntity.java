@@ -52,6 +52,9 @@ public abstract class TraDetailEntity extends DynamicEntity implements Cloneable
 	@JoinColumn(name = "department_id", nullable = false)
 	private DepartmentEntity department;
 	
+	@Column(name = "unit_detail_price", nullable = false, precision = 12, scale = 2)
+	private BigDecimal unitDetailPrice;
+
 	@Column(name = "base_detail_amount", nullable = false, precision = 12, scale = 2)
 	private BigDecimal baseDetailAmount;
 
@@ -182,6 +185,14 @@ public abstract class TraDetailEntity extends DynamicEntity implements Cloneable
 
 	public void savePoint() {
 		setMemento(this);
+	}
+
+	public BigDecimal getUnitDetailPrice() {
+		return unitDetailPrice;
+	}
+
+	public void setUnitDetailPrice(BigDecimal unitDetailPrice) {
+		this.unitDetailPrice = unitDetailPrice;
 	}
 
 }

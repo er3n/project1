@@ -58,11 +58,11 @@
 					emptyMessage="Kayit Bulunamadi"
 					value="#{findStkDocumentViewBean.documentSearchResultList}" var="var">
 
-					<p:column headerText="No">
+					<p:column headerText="Fiş No">
 						<h:outputText value="#{var.docNo}" />
 					</p:column>
 
-					<p:column headerText="Tarih">
+					<p:column headerText="Fiş Tarih">
 						<h:outputText value="#{var.docDate}" />
 					</p:column>
 
@@ -70,12 +70,12 @@
 						<h:outputText value="#{var.docNote}" />
 					</p:column>
 
-					<p:column headerText="Org">
-						<h:outputText value="#{var.organization.id}" />
+					<p:column headerText="Hareket">
+						<h:outputText value="#{var.typeEnum.description}" />
 					</p:column>
 
-					<p:column headerText="Tip">
-						<h:outputText value="#{var.typeEnum.description}" />
+					<p:column headerText="Organizasyon">
+						<h:outputText value="#{var.organization.id}" />
 					</p:column>
 
 					<p:column headerText="İşlem">

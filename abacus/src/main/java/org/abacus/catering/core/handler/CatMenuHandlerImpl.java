@@ -9,10 +9,13 @@ import java.util.Set;
 import org.abacus.catering.core.persistance.DefMenuDao;
 import org.abacus.catering.core.persistance.repository.MenuItemRepository;
 import org.abacus.catering.core.persistance.repository.MenuRepository;
+import org.abacus.catering.shared.NoMenuItemSelectedException;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
+import org.abacus.catering.shared.event.ConfirmMenuEvent;
 import org.abacus.catering.shared.event.CreateMenuEvent;
+import org.abacus.catering.shared.event.MenuConfirmedEvent;
 import org.abacus.catering.shared.event.MenuCreatedEvent;
 import org.abacus.catering.shared.event.MenuUpdatedEvent;
 import org.abacus.catering.shared.event.ReadMenuEvent;
@@ -21,6 +24,15 @@ import org.abacus.catering.shared.event.UpdateMenuEvent;
 import org.abacus.catering.shared.holder.CatMenuSearchCriteria;
 import org.abacus.catering.shared.holder.DailyMenuDetail;
 import org.abacus.catering.shared.holder.MenuSummary;
+import org.abacus.common.shared.AbcBusinessException;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.transaction.core.handler.StkTransactionHandlerImpl;
+import org.abacus.transaction.core.handler.TraTransactionHandler;
+import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +51,9 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	
 	@Autowired
 	private MenuItemRepository menuItemRepository;
+	
+	@Autowired
+	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> stkTransactionHandler;
 	
 	@Override
 	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
@@ -131,6 +146,29 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 			CatMenuEntity menu = menuRepository.findOne(requestReadMenuEvent.getMenuId());
 			return new ReadMenuEvent(menu);
 		}
+		return null;
+	}
+
+	@Override
+	@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
+	public MenuConfirmedEvent confirmMenu(ConfirmMenuEvent confirmMenuEvent) throws AbcBusinessException {
+		
+		String user = confirmMenuEvent.getUsername();
+		CatMenuEntity menu = confirmMenuEvent.getMenu();
+		String fiscalYear = confirmMenuEvent.getFiscalYear();
+		Set<CatMenuItemEntity> menuItemSet = menu.getMenuItemSet();
+		DepartmentEntity department = confirmMenuEvent.getDepartmentEntity();
+		String organization = confirmMenuEvent.getOrganization();
+		
+		if(CollectionUtils.isEmpty(menuItemSet)){
+			throw new NoMenuItemSelectedException();
+		}
+		
+		StkDocumentEntity document = new StkDocumentEntity();
+		
+		stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, organization, fiscalYear));
+		
+		
 		return null;
 	}
 

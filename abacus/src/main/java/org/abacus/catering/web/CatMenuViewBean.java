@@ -30,6 +30,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.joda.time.MutableDateTime;
 import org.springframework.util.CollectionUtils;
@@ -61,6 +62,8 @@ public class CatMenuViewBean implements Serializable {
 
 	private DefItemEntity selectedItem;
 
+	private DepartmentEntity consumedDeparment;
+
 	@PostConstruct
 	private void init() {
 		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.currentOrganizationId());
@@ -68,47 +71,53 @@ public class CatMenuViewBean implements Serializable {
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();
 	}
-	
-	public void initCancelMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu){
+
+	public void initCancelMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		this.initUpdateMenu(mealFilterEntity, dailyMenu);
 	}
-	
-	public void cancelMenu(){
+
+	public void initConfirmMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
+		this.initUpdateMenu(mealFilterEntity, dailyMenu);
+	}
+
+	public void confirmMenu() {
+		System.out.println("onay");
+	}
+
+	public void cancelMenu() {
 		this.selectedMenu.setMenuStatus(EnumList.MenuStatusEnum.CANCEL);
 		this.updateMenu();
 	}
-	
-	public void nextMenu(){
+
+	public void nextMenu() {
 		Date selectedDate = searchCriteria.getDate();
 		MutableDateTime mdt = new MutableDateTime(selectedDate);
-		
-		
-		if(searchCriteria.getPeriod().equals(EnumList.CatMenuPeriod.MOUNTHLY)){
+
+		if (searchCriteria.getPeriod().equals(EnumList.CatMenuPeriod.MOUNTHLY)) {
 			mdt.addMonths(1);
-		}else{
+		} else {
 			mdt.addWeeks(1);
 		}
-			
-		selectedDate =  mdt.toDate();
+
+		selectedDate = mdt.toDate();
 		searchCriteria.setDate(selectedDate);
-		
+
 		this.menuDateSelected();
 	}
-	
-	public void prevMenu(){
+
+	public void prevMenu() {
 		Date selectedDate = searchCriteria.getDate();
 		MutableDateTime mdt = new MutableDateTime(selectedDate);
-		
-		
-		if(searchCriteria.getPeriod().equals(EnumList.CatMenuPeriod.MOUNTHLY)){
+
+		if (searchCriteria.getPeriod().equals(EnumList.CatMenuPeriod.MOUNTHLY)) {
 			mdt.addMonths(-1);
-		}else{
+		} else {
 			mdt.addWeeks(-1);
 		}
-			
-		selectedDate =  mdt.toDate();
+
+		selectedDate = mdt.toDate();
 		searchCriteria.setDate(selectedDate);
-		
+
 		this.menuDateSelected();
 	}
 
@@ -276,5 +285,13 @@ public class CatMenuViewBean implements Serializable {
 	public void setSelectedItem(DefItemEntity selectedItem) {
 		this.selectedItem = selectedItem;
 	}
-	
+
+	public DepartmentEntity getConsumedDeparment() {
+		return consumedDeparment;
+	}
+
+	public void setConsumedDeparment(DepartmentEntity consumedDeparment) {
+		this.consumedDeparment = consumedDeparment;
+	}
+
 }

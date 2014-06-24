@@ -1,5 +1,6 @@
 package org.abacus.catering.core.handler;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -190,9 +191,9 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 			detail.setDepartment(department);
 			detail.setDocument(document);
 			detail.setItem(menuItem.getItem());
-			//detail.setItemDetailCount(itemDetailCount);
-			//detail.setBaseDetailAmount(baseDetailAmount);
-			//detail.setItemUnit(itemUnit);
+			detail.setItemUnit(menuItem.getUnit());
+			detail.setItemDetailCount(menu.getCountSpend());
+			detail.setBaseDetailAmount(BigDecimal.ZERO);
 			detail.setLotDetailDate(Calendar.getInstance().getTime());
 			
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(detail, user));

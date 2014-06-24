@@ -1,5 +1,6 @@
 package org.abacus.catering.shared.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -40,7 +41,7 @@ public class CatMealFilterEntity extends DynamicEntity {
 	private String description;
 
 	@Column(name = "count_prepare", nullable = false)
-	private Integer countPrepare;
+	private BigDecimal countPrepare;
 	
 	public OrganizationEntity getOrganization() {
 		return organization;
@@ -82,11 +83,11 @@ public class CatMealFilterEntity extends DynamicEntity {
 		this.dateFinish = dateFinish;
 	}
 
-	public Integer getCountPrepare() {
+	public BigDecimal getCountPrepare() {
 		return countPrepare;
 	}
 
-	public void setCountPrepare(Integer countPrepare) {
+	public void setCountPrepare(BigDecimal countPrepare) {
 		this.countPrepare = countPrepare;
 	}
 

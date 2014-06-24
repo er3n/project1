@@ -114,6 +114,11 @@
 					<p:column headerText="Yemek">
 						<h:outputLabel value="#{menuItem.item.name} - (#{menuItem.item.code})"></h:outputLabel>
 					</p:column>
+					
+					<p:column headerText="Birim">
+						<h:outputLabel value="#{menuItem.unit.description}}"></h:outputLabel>
+					</p:column>
+					
 					<p:column headerText="Islem">
 						<p:commandButton icon="ui-icon-close" action="#{catMenuViewBean.removeMenuItemFromMenu(menuItem)}" update=":menuDialogFrm:menuItems" />
 					</p:column>
@@ -124,8 +129,14 @@
 
 				<h:panelGrid columns="5">
 					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{catMenuViewBean.selectedItem}" />
-					<p:commandButton value="ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems" process="@form" />
+					<p:commandButton value="ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm :menuDialogFrm:menuItems" process="@form" />
 				</h:panelGrid>
+
+				<h:outputLabel value="Birim" />
+				<p:selectOneMenu value="#{catMenuViewBean.selectedUnit}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="false" requiredMessage="Birim bos olamaz" >
+					<f:selectItem itemLabel="Seciniz..." itemValue="" />
+					<f:selectItems value="#{catMenuViewBean.selectedItem.itemUnitSet}" var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
+				</p:selectOneMenu>
 
 				<p:spacer height="10px" />
 

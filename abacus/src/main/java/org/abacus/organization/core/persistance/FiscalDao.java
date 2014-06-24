@@ -14,9 +14,7 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.repository.FiscalPeriodRepository;
 import org.abacus.organization.core.persistance.repository.FiscalYearRepository;
 import org.abacus.organization.shared.FiscalPeriodNotFoundException;
-import org.abacus.organization.shared.FiscalPeriodNotOpenAccException;
-import org.abacus.organization.shared.FiscalPeriodNotOpenFinException;
-import org.abacus.organization.shared.FiscalPeriodNotOpenStkException;
+import org.abacus.organization.shared.FiscalPeriodNotOpenException;
 import org.abacus.organization.shared.FiscalYearDocumentDateNotMatchedException;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -61,13 +59,13 @@ public class FiscalDao implements Serializable {
 			throw new FiscalPeriodNotFoundException();
 		}
 		if (docTypeEnum.name().startsWith(EnumList.DefTypeGroupEnum.ACC.name()) && !fiscalPeriod.getIsAccActive()){
-			throw new FiscalPeriodNotOpenAccException();
+			throw new FiscalPeriodNotOpenException(EnumList.DefTypeGroupEnum.ACC);
 		}
 		if (docTypeEnum.name().startsWith(EnumList.DefTypeGroupEnum.FIN.name()) && !fiscalPeriod.getIsFinActive()){
-			throw new FiscalPeriodNotOpenFinException();
+			throw new FiscalPeriodNotOpenException(EnumList.DefTypeGroupEnum.FIN);
 		}
 		if (docTypeEnum.name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && !fiscalPeriod.getIsStkActive()){
-			throw new FiscalPeriodNotOpenStkException();
+			throw new FiscalPeriodNotOpenException(EnumList.DefTypeGroupEnum.STK);
 		}
 		return fiscalPeriod;
 	}	

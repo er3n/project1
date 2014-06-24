@@ -1,6 +1,7 @@
 package org.abacus.catering.web;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.joda.time.MutableDateTime;
@@ -61,6 +63,8 @@ public class CatMenuViewBean implements Serializable {
 	private CatMenuEntity selectedMenu;
 
 	private DefItemEntity selectedItem;
+
+	private DefUnitCodeEntity selectedUnit;
 
 	private DepartmentEntity consumedDeparment;
 
@@ -132,6 +136,7 @@ public class CatMenuViewBean implements Serializable {
 		CatMenuItemEntity menuItem = new CatMenuItemEntity();
 		menuItem.setMenu(selectedMenu);
 		menuItem.setItem(selectedItem);
+		menuItem.setUnit(selectedUnit);
 
 		if (CollectionUtils.isEmpty(menuItemSet)) {
 			menuItemSet = new HashSet<>();
@@ -165,7 +170,7 @@ public class CatMenuViewBean implements Serializable {
 
 	public void initCreateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
-		Integer expectedCountPrepare = mealFilterEntity.getCountPrepare();
+		BigDecimal expectedCountPrepare = mealFilterEntity.getCountPrepare();
 
 		selectedMenu = new CatMenuEntity();
 		selectedMenu.setOrganization(organization);
@@ -292,6 +297,14 @@ public class CatMenuViewBean implements Serializable {
 
 	public void setConsumedDeparment(DepartmentEntity consumedDeparment) {
 		this.consumedDeparment = consumedDeparment;
+	}
+
+	public DefUnitCodeEntity getSelectedUnit() {
+		return selectedUnit;
+	}
+
+	public void setSelectedUnit(DefUnitCodeEntity selectedUnit) {
+		this.selectedUnit = selectedUnit;
 	}
 
 }

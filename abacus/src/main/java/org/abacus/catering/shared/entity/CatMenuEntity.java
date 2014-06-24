@@ -1,5 +1,6 @@
 package org.abacus.catering.shared.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,10 +52,10 @@ public class CatMenuEntity extends DynamicEntity {
 	private EnumList.MenuStatusEnum menuStatus;
 
 	@Column(name = "count_prepare")
-	private Integer countPrepare;
+	private BigDecimal countPrepare;
 
 	@Column(name = "count_spend")
-	private Integer countSpend;
+	private BigDecimal countSpend;
 
 	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
@@ -99,19 +100,19 @@ public class CatMenuEntity extends DynamicEntity {
 		this.menuStatus = menuStatus;
 	}
 
-	public Integer getCountPrepare() {
+	public BigDecimal getCountPrepare() {
 		return countPrepare;
 	}
 
-	public void setCountPrepare(Integer countPrepare) {
+	public void setCountPrepare(BigDecimal countPrepare) {
 		this.countPrepare = countPrepare;
 	}
 
-	public Integer getCountSpend() {
+	public BigDecimal getCountSpend() {
 		return countSpend;
 	}
 
-	public void setCountSpend(Integer countSpend) {
+	public void setCountSpend(BigDecimal countSpend) {
 		this.countSpend = countSpend;
 	}
 

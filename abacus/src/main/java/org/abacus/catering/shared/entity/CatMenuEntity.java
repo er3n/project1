@@ -21,6 +21,7 @@ import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -36,6 +37,10 @@ public class CatMenuEntity extends DynamicEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "meal_id", nullable = false)
 	private DefValueEntity meal;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "document_id", nullable = true)
+	private StkDocumentEntity document;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "menu_date", nullable = false)
@@ -124,6 +129,14 @@ public class CatMenuEntity extends DynamicEntity {
 
 	public void setCancelReason(String cancelReason) {
 		this.cancelReason = cancelReason;
+	}
+
+	public StkDocumentEntity getDocument() {
+		return document;
+	}
+
+	public void setDocument(StkDocumentEntity document) {
+		this.document = document;
 	}
 
 }

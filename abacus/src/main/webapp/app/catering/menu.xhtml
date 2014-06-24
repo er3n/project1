@@ -116,7 +116,7 @@
 					</p:column>
 					
 					<p:column headerText="Birim">
-						<h:outputLabel value="#{menuItem.unit.description}}"></h:outputLabel>
+						<h:outputLabel value="#{menuItem.unit.name}"></h:outputLabel>
 					</p:column>
 					
 					<p:column headerText="Islem">
@@ -127,16 +127,14 @@
 
 				<p:spacer width="5px" />
 
-				<h:panelGrid columns="5">
+				<h:panelGrid columns="5" id="itemSelectionGrid">
 					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{catMenuViewBean.selectedItem}" />
-					<p:commandButton value="ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm :menuDialogFrm:menuItems" process="@form" />
-				</h:panelGrid>
-
-				<h:outputLabel value="Birim" />
-				<p:selectOneMenu value="#{catMenuViewBean.selectedUnit}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="false" requiredMessage="Birim bos olamaz" >
-					<f:selectItem itemLabel="Seciniz..." itemValue="" />
-					<f:selectItems value="#{catMenuViewBean.selectedItem.itemUnitSet}" var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
-				</p:selectOneMenu>
+					<p:selectOneMenu value="#{catMenuViewBean.selectedUnit}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="false" requiredMessage="Birim bos olamaz" rendered="#{not empty catMenuViewBean.selectedItem}" >
+						<f:selectItem itemLabel="Birim Seciniz..." itemValue="" />
+						<f:selectItems value="#{catMenuViewBean.selectedItem.itemUnitSet}" var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
+					</p:selectOneMenu>
+					<p:commandButton value="ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems" process="@form" />
+				</h:panelGrid> 
 
 				<p:spacer height="10px" />
 
@@ -238,7 +236,7 @@
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
-		<abc:itemSelectionDialog id="itemSelectionDialog" update=":menuDialogFrm:itemSelectionInput" widgetVar="itemSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_ST}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
+		<abc:itemSelectionDialog id="itemSelectionDialog" update=":menuDialogFrm:itemSelectionGrid" widgetVar="itemSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_ST}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
 
 		<abc:departmentSelectionDialog id="departmentSelectionDialog" update=":confirmMenuForm:departmentSelectionInput" widgetVar="departmentSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.S}" targetVar="#{catMenuViewBean.consumedDeparment}" rendered="true" />
 

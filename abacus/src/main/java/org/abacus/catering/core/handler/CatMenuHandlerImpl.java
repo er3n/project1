@@ -173,7 +173,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		}
 
 		StkDocumentEntity document = new StkDocumentEntity();
-		DefTaskEntity inputTask = taskRepository.getTask(organization, EnumList.DefTypeEnum.STK_IO_I.name());
+		DefTaskEntity inputTask = taskRepository.getTask(organization, EnumList.DefTypeEnum.STK_IO_O.name());
 		
 		document.setDocDate(Calendar.getInstance().getTime());
 		document.setTask(inputTask);

@@ -3,6 +3,7 @@ package org.abacus.catering.core.handler;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import org.abacus.catering.core.persistance.DefMenuDao;
 import org.abacus.catering.core.persistance.repository.MenuItemRepository;
 import org.abacus.catering.core.persistance.repository.MenuRepository;
+import org.abacus.catering.core.util.CatMenuItemToMenuMaterialConverter;
 import org.abacus.catering.shared.NoMenuItemSelectedException;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.catering.shared.entity.CatMenuEntity;
@@ -27,10 +29,12 @@ import org.abacus.catering.shared.event.RequestReadMenuEvent;
 import org.abacus.catering.shared.event.UpdateMenuEvent;
 import org.abacus.catering.shared.holder.CatMenuSearchCriteria;
 import org.abacus.catering.shared.holder.DailyMenuDetail;
+import org.abacus.catering.shared.holder.MenuMaterialHolder;
 import org.abacus.catering.shared.holder.MenuSummary;
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
@@ -183,15 +187,22 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, organization, fiscalYear));
 		document = documentCreatedEvent.getDocument();
 		
+		
 		for(CatMenuItemEntity menuItem : menuItemSet){
+			
+		}
+		
+		Collection<MenuMaterialHolder> menuMaterialSet = CatMenuItemToMenuMaterialConverter.convert(menu,menuItemSet);
+		
+		for(MenuMaterialHolder material : menuMaterialSet){
 			
 			StkDetailEntity detail = new StkDetailEntity();
 			
 			detail.setBatchDetailNo("MD_" + menu.getId());
 			detail.setDepartment(department);
 			detail.setDocument(document);
-			detail.setItem(menuItem.getItem());
-			detail.setItemUnit(menuItem.getUnit());
+			detail.setItem(material.getItem());
+			detail.setItemUnit(material.getUnit());
 			detail.setItemDetailCount(menu.getCountSpend());
 			detail.setBaseDetailAmount(BigDecimal.ZERO);
 			detail.setLotDetailDate(Calendar.getInstance().getTime());

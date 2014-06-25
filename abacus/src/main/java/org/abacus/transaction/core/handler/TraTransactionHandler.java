@@ -26,17 +26,17 @@ import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 
-public interface TraTransactionHandler<T extends TraDocumentEntity, D extends TraDetailEntity> {
+public interface TraTransactionHandler<T extends TraDocumentEntity, D extends TraDetailEntity<D>> {
 	
-	ReadDocumentEvent<T> readDocument(RequestReadDocumentEvent<T> event);
+	ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event);
 	DocumentCreatedEvent<T> newDocument(CreateDocumentEvent<T> event);
 	DocumentUpdatedEvent<T> updateDocument(UpdateDocumentEvent<T> event) throws UnableToUpdateDocumentExpception;
 	DocumentDeletedEvent<T> deleteDocument(DeleteDocumentEvent<T> event) throws UnableToDeleteDocumentException;
+	DocumentCanceledEvent<T> cancelDocument(CancelDocumentEvent<T> cancelDocumentEvent) throws UnableToUpdateDocumentExpception;
 	
-	ReadDetailEvent<D> readDetail(RequestReadDetailEvent<D> event);
+	ReadDetailEvent<D> readDetailList(RequestReadDetailEvent<D> event);
 	DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException;
 	DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> event) throws UnableToUpdateDetailException;
 	DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException;
-	DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent)  throws UnableToUpdateDocumentExpception;;
 	
 }

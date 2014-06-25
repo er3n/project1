@@ -69,7 +69,7 @@ public class FindStkDocumentViewBean implements Serializable {
 	}
 
 	public void findStkDocument() {
-		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 

@@ -124,12 +124,12 @@ public class CrudFinDocumentViewBean implements Serializable {
 	private void findFinDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 		
-		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
 			document = readDocumentEvent.getDocumentList().get(0);
-			ReadDetailEvent<FinDetailEntity> readDetailEvent = transactionHandler.readDetail(new RequestReadDetailEvent<FinDetailEntity>(document.getId()));
+			ReadDetailEvent<FinDetailEntity> readDetailEvent = transactionHandler.readDetailList(new RequestReadDetailEvent<FinDetailEntity>(document.getId()));
 			detailList = readDetailEvent.getDetails();
 		}
 	}
@@ -211,7 +211,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 		this.detailList = detailList;
 	}
 
-	public TraDetailEntity getSelectedDetail() {
+	public FinDetailEntity getSelectedDetail() {
 		return selectedDetail;
 	}
 

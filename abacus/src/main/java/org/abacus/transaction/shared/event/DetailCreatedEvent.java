@@ -6,27 +6,27 @@ import org.abacus.common.shared.event.CreatedEvent;
 import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class DetailCreatedEvent<T extends TraDetailEntity> extends CreatedEvent {
+public class DetailCreatedEvent<D extends TraDetailEntity<D>> extends CreatedEvent {
 
-	public T detail;
+	public D detail;
 	
 	public List<StkDetailTrackEntity> detailTrackList;
 
 
-	public DetailCreatedEvent(T detail) {
+	public DetailCreatedEvent(D detail) {
 		this.detail = detail;
 	}
 	
-	public DetailCreatedEvent(T detail, List<StkDetailTrackEntity> detailTrackList) {
+	public DetailCreatedEvent(D detail, List<StkDetailTrackEntity> detailTrackList) {
 		this.detail = detail;
 		this.detailTrackList = detailTrackList;
 	}
 
-	public T getDetail() {
+	public D getDetail() {
 		return detail;
 	}
 
-	public void setDetail(T detail) {
+	public void setDetail(D detail) {
 		this.detail = detail;
 	}
 

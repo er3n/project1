@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity>  implements TraTransactionHandler<T, D>  {
+public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity<D>>  implements TraTransactionHandler<T, D>  {
 
 	@Autowired
 	protected FiscalDao fiscalDao;
@@ -40,18 +40,23 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	protected abstract TraDetailRepository<D> getDetailRepository();
 
 	
-	@Override
-	public ReadDetailEvent<D> readDetail(RequestReadDetailEvent<D> event) {
-		List<D> details = getDetailRepository().findByDocumentId(event.getDocumentId());
-		for (D d : details) {
-			d.savePoint();
+	protected void setDetailSavePoint(List<D> detailList){
+		for (D dtl : detailList) {
+			dtl.savePoint();
 		}
-		return new ReadDetailEvent<D>(details);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ReadDetailEvent<D> readDetailList(RequestReadDetailEvent<D> event) {
+		List<D> detailList = getDetailRepository().findByDocumentId(event.getDocumentId());
+		setDetailSavePoint(detailList);
+		return new ReadDetailEvent<D>(detailList);
 	}
 	
     @Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ReadDocumentEvent<T> readDocument(RequestReadDocumentEvent<T> event) {
+	public ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event) {
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
 		String username = event.getOrganization();
 		String fiscalYearId = event.getFiscalYearId();
@@ -103,6 +108,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		detail.createHook(user);
 		
 		detail = getDetailRepository().save(detail);
+		detail.savePoint();
 		
 		return new DetailCreatedEvent<D>(detail);
 	}

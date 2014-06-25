@@ -11,7 +11,7 @@ import org.abacus.definition.shared.entity.DefTypeEntity;
 @Entity
 @Table(name = "tra_detail")
 @SuppressWarnings("serial")
-public class FinDetailEntity extends TraDetailEntity {
+public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_fin_id", nullable = true)

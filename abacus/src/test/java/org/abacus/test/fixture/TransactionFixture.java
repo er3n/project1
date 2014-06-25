@@ -50,7 +50,7 @@ public class TransactionFixture {
 		entity.setTask(taskList.get(0));
 	}
 
-	private void enrichDetail(TraDetailEntity detail, TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
+	private void enrichDetail(TraDetailEntity<StkDetailEntity> detail, TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
 		detail.setBaseDetailAmount(new BigDecimal(250));
 
 		DepartmentEntity department = departmentRepository.findByOrganizationAndGroup(document.getOrganization().getId(), EnumList.OrgDepartmentGroupEnum.S).get(0);
@@ -68,30 +68,30 @@ public class TransactionFixture {
 
 	}
 
-	public CreateDocumentEvent newDocument(String user, OrganizationEntity organization, EnumList.DefTypeEnum documentType, String fiscalYearId) {
+	public CreateDocumentEvent<StkDocumentEntity> newDocument(String user, OrganizationEntity organization, EnumList.DefTypeEnum documentType, String fiscalYearId) {
 		StkDocumentEntity document = new StkDocumentEntity();
 
 		enrichDocument(document, organization, documentType); 
 
-		CreateDocumentEvent event = new CreateDocumentEvent(document, user, organization.getId(), fiscalYearId);
+		CreateDocumentEvent<StkDocumentEntity> event = new CreateDocumentEvent<StkDocumentEntity>(document, user, organization.getId(), fiscalYearId);
 
 		return event;
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public CreateDetailEvent newDetail(TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
+	public CreateDetailEvent<StkDetailEntity> newDetail(TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
 		StkDetailEntity detail = new StkDetailEntity();
 
 		enrichDetail(detail, document, user, itemDetailCount);
 		detail.setDetNote("Stok not");
 		detail.setBatchDetailNo("BathNo");
 
-		return new CreateDetailEvent(detail, user);
+		return new CreateDetailEvent<StkDetailEntity>(detail, user);
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public CreateDetailEvent newTransfer(TraDocumentEntity transferDocument, String user, BigDecimal bigDecimal) {
-		CreateDetailEvent createDetailEvent = this.newDetail(transferDocument, user, bigDecimal);
+	public CreateDetailEvent<StkDetailEntity> newTransfer(TraDocumentEntity transferDocument, String user, BigDecimal bigDecimal) {
+		CreateDetailEvent<StkDetailEntity> createDetailEvent = this.newDetail(transferDocument, user, bigDecimal);
 		
 		StkDetailEntity stkDetailEntity = (StkDetailEntity)createDetailEvent.getDetail();
 		

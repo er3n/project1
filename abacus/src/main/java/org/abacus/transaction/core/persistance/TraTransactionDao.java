@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 
 
 
-public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity> {
+public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity<D>> {
 
 	@PersistenceContext
 	private EntityManager em;

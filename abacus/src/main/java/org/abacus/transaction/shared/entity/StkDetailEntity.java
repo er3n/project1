@@ -12,7 +12,7 @@ import org.abacus.organization.shared.entity.DepartmentEntity;
 @Entity
 @Table(name = "tra_detail")
 @SuppressWarnings("serial")
-public class StkDetailEntity extends TraDetailEntity {
+public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_stk_id", nullable = true)

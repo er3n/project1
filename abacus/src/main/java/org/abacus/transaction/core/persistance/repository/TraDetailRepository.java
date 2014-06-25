@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public interface TraDetailRepository<D extends TraDetailEntity> {
+public interface TraDetailRepository<D extends TraDetailEntity<D>> {
 
 	D save(D entity);
 	

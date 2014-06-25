@@ -144,12 +144,12 @@ public class CrudStkDocumentViewBean implements Serializable {
 	private void findStkDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 
-		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocument(new RequestReadDocumentEvent<StkDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
 			document = readDocumentEvent.getDocumentList().get(0);
-			ReadDetailEvent<StkDetailEntity> readDetailEvent = transactionHandler.readDetail(new RequestReadDetailEvent<StkDetailEntity>(document.getId()));
+			ReadDetailEvent<StkDetailEntity> readDetailEvent = transactionHandler.readDetailList(new RequestReadDetailEvent<StkDetailEntity>(document.getId()));
 			detailList = readDetailEvent.getDetails();
 		}
 	}
@@ -169,7 +169,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 		}
 	}
 
-	public void deleteDetail(TraDetailEntity detail) {
+	public void deleteDetail(StkDetailEntity detail) {
 		try {
 			DetailDeletedEvent<StkDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<StkDetailEntity>(detail.getId()));
 			this.findStkDocument(document.getId());

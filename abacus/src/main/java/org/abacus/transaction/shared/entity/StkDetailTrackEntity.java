@@ -23,11 +23,13 @@ public class StkDetailTrackEntity extends DynamicEntity {
 	@JoinColumn(name = "detail_id", nullable = false)
 	private StkDetailEntity detail;
 
-	@Column(name = "parent_track_id", nullable = true)
-	private Long parentTrackId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "root_detail_id", nullable = false)
+	private StkDetailEntity rootDetail;
 
-	@Column(name = "root_detail_id", nullable = true)
-	private Long rootDetailId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_track_id", nullable = true)
+	private StkDetailTrackEntity parentTrack;
 
 	@Column(name = "base_track_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal baseTrackCount;
@@ -45,7 +47,7 @@ public class StkDetailTrackEntity extends DynamicEntity {
 	@Column(name = "lot_track_date", nullable = false)
 	private Date lotTrackDate;
 
-	@Column(name = "batch_track_no", nullable = true)
+	@Column(name = "batch_track_no", nullable = false)
 	private String batchTrackNo;
 
 	public StkDetailTrackEntity() {
@@ -59,20 +61,20 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.detail = detail;
 	}
 
-	public Long getParentTrackId() {
-		return parentTrackId;
+	public StkDetailEntity getRootDetail() {
+		return rootDetail;
 	}
 
-	public void setParentTrackId(Long parentTrackId) {
-		this.parentTrackId = parentTrackId;
+	public void setRootDetail(StkDetailEntity rootDetail) {
+		this.rootDetail = rootDetail;
 	}
 
-	public Long getRootDetailId() {
-		return rootDetailId;
+	public StkDetailTrackEntity getParentTrack() {
+		return parentTrack;
 	}
 
-	public void setRootDetailId(Long rootDetailId) {
-		this.rootDetailId = rootDetailId;
+	public void setParentTrack(StkDetailTrackEntity parentTrack) {
+		this.parentTrack = parentTrack;
 	}
 
 	public BigDecimal getBaseTrackCount() {
@@ -89,6 +91,14 @@ public class StkDetailTrackEntity extends DynamicEntity {
 
 	public void setBaseUsedCount(BigDecimal baseUsedCount) {
 		this.baseUsedCount = baseUsedCount;
+	}
+
+	public BigDecimal getUnitTrackPrice() {
+		return unitTrackPrice;
+	}
+
+	public void setUnitTrackPrice(BigDecimal unitTrackPrice) {
+		this.unitTrackPrice = unitTrackPrice;
 	}
 
 	public BigDecimal getUnitCostPrice() {
@@ -113,14 +123,6 @@ public class StkDetailTrackEntity extends DynamicEntity {
 
 	public void setBatchTrackNo(String batchTrackNo) {
 		this.batchTrackNo = batchTrackNo;
-	}
-
-	public BigDecimal getUnitTrackPrice() {
-		return unitTrackPrice;
-	}
-
-	public void setUnitTrackPrice(BigDecimal unitTrackPrice) {
-		this.unitTrackPrice = unitTrackPrice;
 	}
 
 }

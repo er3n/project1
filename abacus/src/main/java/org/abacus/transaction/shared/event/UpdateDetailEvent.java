@@ -3,21 +3,21 @@ package org.abacus.transaction.shared.event;
 import org.abacus.common.shared.event.UpdateEvent;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class UpdateDetailEvent<T extends TraDetailEntity> extends UpdateEvent {
+public class UpdateDetailEvent<D extends TraDetailEntity<D>> extends UpdateEvent {
 
-	private T detail;
+	private D detail;
 	private String user;
 
-	public UpdateDetailEvent(T detail, String user) {
+	public UpdateDetailEvent(D detail, String user) {
 		this.detail = detail;
 		this.user = user;
 	}
 
-	public T getDetail() {
+	public D getDetail() {
 		return detail;
 	}
 
-	public void setDetail(T detail) {
+	public void setDetail(D detail) {
 		this.detail = detail;
 	}
 

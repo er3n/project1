@@ -13,27 +13,16 @@ import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
 import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
-import org.abacus.transaction.shared.UnableToDeleteDetailException;
-import org.abacus.transaction.shared.UnableToUpdateDetailException;
-import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
-import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
-import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
-import org.abacus.transaction.shared.event.DetailDeletedEvent;
-import org.abacus.transaction.shared.event.DetailUpdatedEvent;
-import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
-import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
-import org.abacus.transaction.shared.event.UpdateDetailEvent;
-import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -66,7 +55,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
 		String username = event.getOrganization();
 		String fiscalYearId = event.getFiscalYearId();
-		List<T> documentList = getTransactionDao().readDocument(documentSearchCriteria,username,fiscalYearId);
+		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria,username,fiscalYearId);
 		return new ReadDocumentEvent<T>(documentList);
 	}
 
@@ -86,7 +75,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		FiscalPeriodEntity fiscalPeriod = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
 		document.setFiscalPeriod(fiscalPeriod);
 		
-		document = getTransactionDao().documentSave(document);
+		document = getDocumentRepository().save(document);
 
 		return new DocumentCreatedEvent<T>(document);
 	}
@@ -113,7 +102,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		
 		detail.createHook(user);
 		
-		detail = getTransactionDao().detailSave(detail);
+		detail = getDetailRepository().save(detail);
 		
 		return new DetailCreatedEvent<D>(detail);
 	}

@@ -71,6 +71,52 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public DocumentUpdatedEvent<StkDocumentEntity> updateDocument(UpdateDocumentEvent<StkDocumentEntity> event) throws UnableToUpdateDocumentExpception {
+		StkDocumentEntity doc = event.getDocument();
+		doc = stkDocumentRepository.save(doc);
+		return new DocumentUpdatedEvent<StkDocumentEntity>(doc);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public DocumentDeletedEvent<StkDocumentEntity> deleteDocument(DeleteDocumentEvent<StkDocumentEntity> event) throws UnableToDeleteDocumentException {
+		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
+		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocumentId());
+		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocumentId());
+		for (StkDetailEntity dtl : detailList) {
+			if (stkUpdateControl(dtl)){
+				//TODO:Control
+				//TODO:deleteTrack
+				stkDetailRepository.delete(dtl);
+			} else {
+				throw new UnableToDeleteDocumentException();
+			}
+		}
+		stkDocumentRepository.delete(document);
+		return new DocumentDeletedEvent<>();
+	}
+	
+	private Boolean stkUpdateControl(StkDetailEntity dtl){
+		//item & depo degismiyor ancak diger degerler degisiyorsa sadece miktar kontrolleri yapilacak
+		//item & depodan biri degisiyor sa eski row tamamen siliniyormus gibi kontrol edilecek
+		printValues(dtl);
+		if (dtl.getTrStateDetail()<0){
+			return stkUpdateOutputControl(dtl);
+		} else if (dtl.getTrStateDetail()>0){
+			return stkUpdateInputControl(dtl);
+		} 
+		return true;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
+		Long docId = cancelDocumentEvent.getDocumentId();
+		return null;
+	}
+
+	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailCreatedEvent<StkDetailEntity> newDetail(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		
@@ -103,6 +149,24 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		
 	}
 
+	@Override
+	public DetailUpdatedEvent<StkDetailEntity> updateDetail(UpdateDetailEvent<StkDetailEntity> event) throws UnableToUpdateDetailException {
+		StkDetailEntity det = event.getDetail();
+		//TODO:Control
+		//TODO:updateTrack
+		det = stkDetailRepository.save(det);
+		return new DetailUpdatedEvent<StkDetailEntity>(det);
+	}
+
+	@Override
+	public DetailDeletedEvent<StkDetailEntity> deleteDetail(DeleteDetailEvent<StkDetailEntity> event) throws UnableToDeleteDetailException {
+		Long detId = event.getDetailId();
+		//TODO:Control
+		//TODO:deleteTrack
+		stkDetailRepository.delete(detId);
+		return new DetailDeletedEvent<StkDetailEntity>();
+	}
+	
 	private DetailCreatedEvent addStkTransferDetailsAndTracks(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		
 		List<StkDetailTrackEntity> detailTrackList = new ArrayList<StkDetailTrackEntity>();
@@ -239,35 +303,6 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		return new DetailCreatedEvent(detail, detailTrackList);
 
 	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DocumentDeletedEvent<StkDocumentEntity> deleteDocument(DeleteDocumentEvent<StkDocumentEntity> event) throws UnableToDeleteDocumentException {
-		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
-		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocumentId());
-		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocumentId());
-		for (StkDetailEntity dtl : detailList) {
-			if (stkUpdateControl(dtl)){
-				Boolean dIslem = stkTransactionDao.detailDelete(dtl);
-			} else {
-				throw new UnableToDeleteDocumentException();
-			}
-		}
-		Boolean tIslem = stkTransactionDao.documentDelete(document);
-		return new DocumentDeletedEvent<>();
-	}
-	
-	private Boolean stkUpdateControl(StkDetailEntity dtl){
-		//item & depo degismiyor ancak diger degerler degisiyorsa sadece miktar kontrolleri yapilacak
-		//item & depodan biri degisiyor sa eski row tamamen siliniyormus gibi kontrol edilecek
-		printValues(dtl);
-		if (dtl.getTrStateDetail()<0){
-			return stkUpdateOutputControl(dtl);
-		} else if (dtl.getTrStateDetail()>0){
-			return stkUpdateInputControl(dtl);
-		} 
-		return true;
-	}
 	
 	private Boolean stkUpdateInputControl(StkDetailEntity dtl){
 		// + Giris kayitlarinda eksiltme ve silme yapilabir mi kontrolu eklenecek
@@ -293,29 +328,5 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		System.out.println("State      : "+new_.getTrStateSign());
 	}
 
-	@Override
-	public DocumentUpdatedEvent<StkDocumentEntity> updateDocument(UpdateDocumentEvent<StkDocumentEntity> event) throws UnableToUpdateDocumentExpception {
-		StkDocumentEntity doc = event.getDocument();
-		return null;
-	}
-
-
-	@Override
-	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
-		Long docId = cancelDocumentEvent.getDocumentId();
-		return null;
-	}
-
-	@Override
-	public DetailUpdatedEvent<StkDetailEntity> updateDetail(UpdateDetailEvent<StkDetailEntity> event) throws UnableToUpdateDetailException {
-		StkDetailEntity det = event.getDetail();
-		return null;
-	}
-
-	@Override
-	public DetailDeletedEvent<StkDetailEntity> deleteDetail(DeleteDetailEvent<StkDetailEntity> event) throws UnableToDeleteDetailException {
-		Long detId = event.getDetailId();
-		return null;
-	}
 	
 }

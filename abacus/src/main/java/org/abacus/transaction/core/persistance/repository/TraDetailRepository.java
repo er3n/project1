@@ -6,6 +6,8 @@ import org.abacus.transaction.shared.entity.TraDetailEntity;
 
 public interface TraDetailRepository<D extends TraDetailEntity> {
 
+	D save(D entity);
+	
 	List<D> findByDocumentId(Long documentId);
 
 }

@@ -61,6 +61,34 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
+		//TODO: referansta bulunulma (fatura ise tahsilati varmi vb.) durumu ve muhasebeye entegre olma durumu kontrolu eklenecek
+		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocumentId());
+		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocumentId());
+		for (FinDetailEntity dtl : detailList) {
+			finDetailRepository.delete(dtl);
+		}
+		finDocumentRepository.delete(document);
+		return new DocumentDeletedEvent<>();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public DocumentUpdatedEvent<FinDocumentEntity> updateDocument(UpdateDocumentEvent<FinDocumentEntity> event) throws UnableToUpdateDocumentExpception {
+		FinDocumentEntity doc = event.getDocument();
+		return null;
+	}
+
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
+		Long docId = cancelDocumentEvent.getDocumentId();
+		return null;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailCreatedEvent<FinDetailEntity> newDetail(CreateDetailEvent<FinDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
 		detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
@@ -72,37 +100,13 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
-		//TODO: referansta bulunulma (fatura ise tahsilati varmi vb.) durumu ve muhasebeye entegre olma durumu kontrolu eklenecek
-		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocumentId());
-		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocumentId());
-		for (FinDetailEntity dtl : detailList) {
-			Boolean dIslem = finTransactionDao.detailDelete(dtl);
-		}
-		Boolean tIslem = finTransactionDao.documentDelete(document);
-		return new DocumentDeletedEvent<>();
-	}
-
-	@Override
-	public DocumentUpdatedEvent<FinDocumentEntity> updateDocument(UpdateDocumentEvent<FinDocumentEntity> event) throws UnableToUpdateDocumentExpception {
-		FinDocumentEntity doc = event.getDocument();
-		return null;
-	}
-
-
-	@Override
-	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
-		Long docId = cancelDocumentEvent.getDocumentId();
-		return null;
-	}
-
-	@Override
 	public DetailUpdatedEvent<FinDetailEntity> updateDetail(UpdateDetailEvent<FinDetailEntity> event) throws UnableToUpdateDetailException {
 		FinDetailEntity det = event.getDetail();
 		return null;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailDeletedEvent<FinDetailEntity> deleteDetail(DeleteDetailEvent<FinDetailEntity> event) throws UnableToDeleteDetailException {
 		Long detId = event.getDetailId();
 		return null;

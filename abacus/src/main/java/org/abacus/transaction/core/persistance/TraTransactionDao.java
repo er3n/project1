@@ -27,32 +27,7 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 
 	public abstract Class<D> getDetailClass();
 
-	public T documentSave(T document) {
-		Session currentSession = em.unwrap(Session.class);
-		currentSession.save(document);
-		return document;
-	}
-
-	public Boolean documentDelete(T document) {
-		Session currentSession = em.unwrap(Session.class);
-		currentSession.delete(document);
-		return true;
-	}
-
-	public D detailSave(D detail) {
-		Session currentSession = em.unwrap(Session.class);
-		currentSession.save(detail);
-		detail.savePoint();
-		return detail;		
-	}
-
-	public Boolean detailDelete(D detail) {
-		Session currentSession = em.unwrap(Session.class);
-		currentSession.delete(detail);
-		return true;		
-	}
-
-	public List<T> readDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
+	public List<T> readTraDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
 		Session currentSession = em.unwrap(Session.class);
 		Criteria criteria = currentSession.createCriteria(getDocumentClass(),"s");
 		criteria.createAlias("s.fiscalPeriod", "fp", JoinType.INNER_JOIN);

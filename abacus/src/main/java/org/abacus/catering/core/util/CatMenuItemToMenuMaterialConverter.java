@@ -1,57 +1,75 @@
 package org.abacus.catering.core.util;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.catering.shared.holder.MenuMaterialHolder;
-import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.definition.core.persistance.repository.DefItemProductRepository;
 import org.abacus.definition.shared.entity.DefItemProductEntity;
-import org.abacus.definition.shared.entity.DefUnitCodeEntity;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+@Service
 public class CatMenuItemToMenuMaterialConverter {
 	
-	public static Collection<MenuMaterialHolder> convert(CatMenuEntity menu,Set<CatMenuItemEntity> menuItemSet){
+	@Autowired
+	private DefItemProductRepository itemProductRepository;
+	
+	
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public Collection<MenuMaterialHolder> convert(CatMenuEntity menu,Set<CatMenuItemEntity> menuItemSet){
+		
+		
 		
 		BigDecimal countSpend = menu.getCountSpend();
 		
-		Map<String, MenuMaterialHolder> menuMetarialMap = new HashMap<>();
+		List<MenuMaterialHolder> menuMetarialSet = new ArrayList<>();
 		for(CatMenuItemEntity menuItem : menuItemSet){
 			
-			DefUnitCodeEntity unit = menuItem.getUnit();
-			Set<DefItemProductEntity> regends = menuItem.getItem().getItemProductSet(); 
+			Set<DefItemProductEntity> regends = itemProductRepository.findItemProducts(menuItem.getItem().getId());
 			if(CollectionUtils.isEmpty(regends)){
 				
-				putMaterial(menuMetarialMap, menuItem,countSpend);
+				putMaterial(menuMetarialSet, menuItem,countSpend);
 				
 			}else{
 				
 				for(DefItemProductEntity regend : regends){
-					putMaterial(menuMetarialMap, regend, null,countSpend);
+					putMaterial(menuMetarialSet, regend, countSpend);
 				}	
 				
-			}
-
-			
+			}	
 		}
 		
-		return menuMetarialMap.values();
+		return menuMetarialSet;
 	}
 
-	private static void putMaterial(Map<String, MenuMaterialHolder> menuMetarialMap, DefItemProductEntity regend, Object object, BigDecimal countSpend) {
-		BigDecimal materialCount = regend.getMaterialCount();
-		DefUnitCodeEntity unit = regend.getMaterialUnitCode();
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, DefItemProductEntity regend, BigDecimal countSpend) {
+		MenuMaterialHolder holder = new MenuMaterialHolder();
+		holder.setItem(regend.getMaterialItem());
+		holder.setUnit(regend.getMaterialUnitCode());
+		countSpend = countSpend.multiply(regend.getMaterialCount());
+		holder.setCountSpend(countSpend);
+		menuMetarialList.add(holder);
 	}
 
-	private static void putMaterial(Map<String, MenuMaterialHolder> menuMetarialMap, CatMenuItemEntity menuItem, BigDecimal countSpend) {
-		// TODO Auto-generated method stub
-		
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, CatMenuItemEntity menuItem, BigDecimal countSpend) {
+		MenuMaterialHolder holder = new MenuMaterialHolder();
+		holder.setItem(menuItem.getItem());
+		holder.setUnit(menuItem.getUnit());
+		holder.setCountSpend(countSpend);
+		menuMetarialList.add(holder);
 	}
 
 

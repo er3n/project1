@@ -17,7 +17,9 @@ import org.abacus.catering.core.handler.CatMenuHandler;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
+import org.abacus.catering.shared.event.ConfirmMenuEvent;
 import org.abacus.catering.shared.event.CreateMenuEvent;
+import org.abacus.catering.shared.event.MenuConfirmedEvent;
 import org.abacus.catering.shared.event.MenuCreatedEvent;
 import org.abacus.catering.shared.event.MenuUpdatedEvent;
 import org.abacus.catering.shared.event.ReadMenuEvent;
@@ -26,6 +28,7 @@ import org.abacus.catering.shared.event.UpdateMenuEvent;
 import org.abacus.catering.shared.holder.CatMenuSearchCriteria;
 import org.abacus.catering.shared.holder.DailyMenuDetail;
 import org.abacus.catering.shared.holder.MenuSummary;
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
@@ -85,7 +88,14 @@ public class CatMenuViewBean implements Serializable {
 	}
 
 	public void confirmMenu() {
-		System.out.println("onay");
+		try{
+			MenuConfirmedEvent confirmedEvent = menuHandler.confirmMenu(new ConfirmMenuEvent(this.selectedMenu,this.consumedDeparment,sessionInfoHelper.currentOrganizationId(),sessionInfoHelper.selectedFiscalYearId(),sessionInfoHelper.currentUserName(),sessionInfoHelper.currentRootOrganizationId()));
+			this.initMenuSummary();
+			jsfMessageHelper.addInfo("menuConfirmedWithDocumentNo", confirmedEvent.getDocument().getDocNo());
+		}catch(AbcBusinessException e){
+			jsfMessageHelper.addError(e);
+		}
+		
 	}
 
 	public void cancelMenu() {

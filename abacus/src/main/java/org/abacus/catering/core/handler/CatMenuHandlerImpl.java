@@ -64,11 +64,14 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	@Autowired
 	private MenuItemRepository menuItemRepository;
 
-	@ManagedProperty(value = "#{defTaskRepository}")
+	@Autowired
 	private DefTaskRepository taskRepository;
 
 	@Autowired
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> stkTransactionHandler;
+	
+	@Autowired
+	private CatMenuItemToMenuMaterialConverter catMenuItemToMenuMaterialConverter;
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -172,13 +175,14 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		Set<CatMenuItemEntity> menuItemSet = menu.getMenuItemSet();
 		DepartmentEntity department = confirmMenuEvent.getDepartmentEntity();
 		String organization = confirmMenuEvent.getOrganization();
+		String rootOrganization = confirmMenuEvent.getRootOrganization();
 
 		if (CollectionUtils.isEmpty(menuItemSet)) {
 			throw new NoMenuItemSelectedException();
 		}
 
 		StkDocumentEntity document = new StkDocumentEntity();
-		DefTaskEntity inputTask = taskRepository.getTask(organization, EnumList.DefTypeEnum.STK_IO_O.name());
+		DefTaskEntity inputTask = taskRepository.getTask(rootOrganization, EnumList.DefTypeEnum.STK_IO_O.name());
 		
 		document.setDocDate(Calendar.getInstance().getTime());
 		document.setTask(inputTask);
@@ -187,12 +191,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, organization, fiscalYear));
 		document = documentCreatedEvent.getDocument();
 		
-		
-		for(CatMenuItemEntity menuItem : menuItemSet){
-			
-		}
-		
-		Collection<MenuMaterialHolder> menuMaterialSet = CatMenuItemToMenuMaterialConverter.convert(menu,menuItemSet);
+		Collection<MenuMaterialHolder> menuMaterialSet = catMenuItemToMenuMaterialConverter.convert(menu,menuItemSet);
 		
 		for(MenuMaterialHolder material : menuMaterialSet){
 			
@@ -203,7 +202,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 			detail.setDocument(document);
 			detail.setItem(material.getItem());
 			detail.setItemUnit(material.getUnit());
-			detail.setItemDetailCount(menu.getCountSpend());
+			detail.setItemDetailCount(material.getCountSpend());
 			detail.setBaseDetailAmount(BigDecimal.ZERO);
 			detail.setLotDetailDate(Calendar.getInstance().getTime());
 			

@@ -82,7 +82,8 @@
 									<p:commandButton icon="ui-icon-check" rendered="#{isMenuEditable}" update=":confirmMenuForm" oncomplete="PF('confirmMenuWdg').show()" actionListener="#{catMenuViewBean.initConfirmMenu(mealFilter,dailyMenu)}" />
 									<p:commandButton icon="ui-icon-close" rendered="#{isMenuEditable}" update=":cancelMenuForm" oncomplete="PF('cancelMenuWdg').show()" actionListener="#{catMenuViewBean.initCancelMenu(mealFilter,dailyMenu)}" />
 									<h:outputText value="IPTAL - #{menuEntity.cancelReason}" rendered="#{ MenuStatusEnum.CANCEL.equals(menuEntity.menuStatus) }" />
-								</p:column>
+									<h:outputText value="TAMAMLANDI" rendered="#{ MenuStatusEnum.DONE.equals(menuEntity.menuStatus) }" />
+								</p:column> 
 							</c:forEach>
 
 						</p:row>
@@ -129,7 +130,7 @@
 
 				<h:panelGrid columns="5" id="itemSelectionGrid">
 					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{catMenuViewBean.selectedItem}" />
-					<p:selectOneMenu value="#{catMenuViewBean.selectedUnit}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="false" requiredMessage="Birim bos olamaz" rendered="#{not empty catMenuViewBean.selectedItem}" >
+					<p:selectOneMenu value="#{catMenuViewBean.selectedUnit}" converter="omnifaces.SelectItemsConverter" style="width:145px" required="true" requiredMessage="Birim bos olamaz" rendered="#{not empty catMenuViewBean.selectedItem}" >
 						<f:selectItem itemLabel="Birim Seciniz..." itemValue="" />
 						<f:selectItems value="#{catMenuViewBean.selectedItem.itemUnitSet}" var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
 					</p:selectOneMenu>

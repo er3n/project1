@@ -11,6 +11,16 @@ public class ConfirmMenuEvent extends UpdatedEvent {
 	private String fiscalYear;
 	private DepartmentEntity departmentEntity;
 	private String organization;
+	private String rootOrganization;
+
+	public ConfirmMenuEvent(CatMenuEntity menu, DepartmentEntity departmentEntity, String organization, String fiscalYear, String username,String rootOrganization) {
+		this.menu = menu;
+		this.departmentEntity = departmentEntity;
+		this.organization = organization;
+		this.fiscalYear = fiscalYear;
+		this.username = username;
+		this.rootOrganization = rootOrganization;
+	}
 
 	public CatMenuEntity getMenu() {
 		return menu;
@@ -50,6 +60,14 @@ public class ConfirmMenuEvent extends UpdatedEvent {
 
 	public void setOrganization(String organization) {
 		this.organization = organization;
+	}
+
+	public String getRootOrganization() {
+		return rootOrganization;
+	}
+
+	public void setRootOrganization(String rootOrganization) {
+		this.rootOrganization = rootOrganization;
 	}
 
 }

@@ -1,5 +1,8 @@
 package org.abacus.catering.shared.entity;
 
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -27,6 +30,9 @@ public class CatMenuItemEntity extends DynamicEntity {
 	@JoinColumn(name = "unit_id", nullable = false)
 	private DefUnitCodeEntity unit;
 
+	@Column(name = "menu_item_count", nullable = false, precision = 10, scale = 3)
+	private BigDecimal menuItemCount = BigDecimal.ONE;
+	
 	public DefUnitCodeEntity getUnit() {
 		return unit;
 	}
@@ -49,6 +55,14 @@ public class CatMenuItemEntity extends DynamicEntity {
 
 	public void setItem(DefItemEntity item) {
 		this.item = item;
+	}
+
+	public BigDecimal getMenuItemCount() {
+		return menuItemCount;
+	}
+
+	public void setMenuItemCount(BigDecimal menuItemCount) {
+		this.menuItemCount = menuItemCount;
 	}
 
 }

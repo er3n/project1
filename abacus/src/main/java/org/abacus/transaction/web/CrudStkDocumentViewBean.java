@@ -179,7 +179,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 		}
 	}
 
-	public boolean isWBTaskSelected() {
+	public Boolean isWBTaskSelected() {
 		if (document == null || document.getTask() == null) {
 			return false;
 		}

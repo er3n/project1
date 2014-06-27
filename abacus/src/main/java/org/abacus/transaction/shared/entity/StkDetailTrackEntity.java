@@ -13,6 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "stk_detail_track")
@@ -42,6 +43,10 @@ public class StkDetailTrackEntity extends DynamicEntity {
 
 	@Column(name = "unit_cost_price", nullable = false, precision = 12, scale = 2)
 	private BigDecimal unitCostPrice;
+	
+	@Column(name = "tr_state_track", nullable = false)
+	@Range(min=-1, max=+1)
+	private Integer trStateTrack;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "lot_track_date", nullable = false)
@@ -123,6 +128,14 @@ public class StkDetailTrackEntity extends DynamicEntity {
 
 	public void setBatchTrackNo(String batchTrackNo) {
 		this.batchTrackNo = batchTrackNo;
+	}
+
+	public Integer getTrStateTrack() {
+		return trStateTrack;
+	}
+
+	public void setTrStateTrack(Integer trStateTrack) {
+		this.trStateTrack = trStateTrack;
 	}
 
 }

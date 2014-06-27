@@ -136,10 +136,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			StkDetailEntity outDetail = detailCreatedEvent.getDetail();
 			StkDetailEntity inDetail = new StkDetailEntity();
 			BeanUtils.copyProperties(outDetail, inDetail);
-			inDetail.setId(null);
+			inDetail.cleanCreateHook(outDetail.getUserCreated());
 			inDetail.setDepartment(outDetail.getDepartmentOpp());
 			inDetail.setDepartmentOpp(outDetail.getDepartment());
-			inDetail.createHook(outDetail.getUserCreated());
 			inDetail.setRefDetailId(outDetail.getId());
 			inDetail.setTrStateDetail(EnumList.TraState.INP.value());
 			detailCreateEvent.setDetail(inDetail);
@@ -229,6 +228,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			inDetailTrack.setLotTrackDate(detail.getLotDetailDate());
 			inDetailTrack.setBatchTrackNo(detail.getBatchDetailNo());
 			inDetailTrack.createHook(user);
+			inDetailTrack.setTrStateTrack(EnumList.TraState.INP.value());
 			inDetailTrack = stkDetailTrackRepository.save(inDetailTrack);
 			event.getDetailTrackList().add(inDetailTrack);
 		} else { // Transferle Gelen Giris = N Eski Track, N Yeni Track Olusacak  
@@ -239,7 +239,8 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				inDetailTrack.setDetail(detail);
 				inDetailTrack.setParentTrack(outDetailTrack);
 				inDetailTrack.setBaseUsedCount(BigDecimal.ZERO);
-				inDetailTrack.createHook(user);
+				inDetailTrack.setBaseTrackCount(outDetailTrack.getBaseUsedCount());
+				inDetailTrack.setTrStateTrack(EnumList.TraState.INP.value());
 				inDetailTrack = stkDetailTrackRepository.save(inDetailTrack);
 //				event.getDetailTrackList().add(inDetailTrack);
 			}
@@ -247,14 +248,12 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 	
 	private void addOutputDetailTrackList(DetailCreatedEvent<StkDetailEntity> event) throws UnableToOutputDetail {
-		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
+		StkDetailEntity detail = event.getDetail();
 
 		List<StkDetailTrackEntity> findAvailableTrack = stkDetailTrackRepository.currentItemList(detail.getItem().getId(),detail.getDepartment().getId(), detail.getFiscalYear().getId());
-		event.setDetailTrackList(findAvailableTrack);
 
 		String user = event.getDetail().getUserCreated();
 		BigDecimal detailCount =  detail.getBaseDetailCount();
-		
 		BigDecimal currentItemCount = stkDetailTrackRepository.currentItemCount(detail.getItem().getId(),detail.getDepartment().getId(), detail.getFiscalYear().getId());
 		  
 		boolean isNotEnoughtItemStock = currentItemCount == null || detailCount.compareTo(currentItemCount) > 0;
@@ -263,14 +262,11 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		}
 		
 		BigDecimal restCount = detailCount;
-		for(StkDetailTrackEntity itemInStock : event.getDetailTrackList()){
-			
+		for(StkDetailTrackEntity itemInStock : findAvailableTrack){
 			if(restCount.compareTo(BigDecimal.ZERO) <= 0){
 				break;
 			}
-			
 			BigDecimal countInStock = itemInStock.getBaseTrackCount().subtract(itemInStock.getBaseUsedCount());
-			
 			BigDecimal countOutStock = null;
 			if(countInStock.compareTo(restCount) >= 0){
 				countOutStock = restCount;
@@ -279,13 +275,12 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				countOutStock = countInStock;
 				restCount = restCount.subtract(countInStock);
 			}
-			
+			//Existing Parent Input Track Update
 			itemInStock.setBaseUsedCount(itemInStock.getBaseUsedCount().add(countOutStock));
-			itemInStock.updateHook(user);
 			itemInStock = stkDetailTrackRepository.save(itemInStock);
 			
+			//New Out Track
 			StkDetailTrackEntity detailTrack = new StkDetailTrackEntity();
-			
 			detailTrack.setDetail(detail);
 			detailTrack.setRootDetail(itemInStock.getRootDetail());
 			detailTrack.setParentTrack(itemInStock);
@@ -295,9 +290,10 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			detailTrack.setUnitCostPrice(itemInStock.getUnitCostPrice());
 			detailTrack.setLotTrackDate(itemInStock.getLotTrackDate());
 			detailTrack.setBatchTrackNo(itemInStock.getBatchTrackNo());
-			
+			detailTrack.setTrStateTrack(EnumList.TraState.OUT.value());
 			detailTrack.createHook(user);
 			detailTrack = stkDetailTrackRepository.save(detailTrack);
+			event.getDetailTrackList().add(detailTrack);
 		}
 	}
 	

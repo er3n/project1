@@ -31,14 +31,14 @@ public class DetailCreatedEvent<D extends TraDetailEntity<D>> extends CreatedEve
 	}
 
 	public List<StkDetailTrackEntity> getDetailTrackList() {
-		if (detailTrackList == null){
+		if (detailTrackList==null){
 			detailTrackList = new ArrayList<StkDetailTrackEntity>();
 		}
 		return detailTrackList;
 	}
 
 	public void setDetailTrackList(List<StkDetailTrackEntity> detailTrackList) {
-		this.detailTrackList = detailTrackList;
+		this.detailTrackList = detailTrackList!=null?detailTrackList:new ArrayList<StkDetailTrackEntity>();
 	}
 
 }

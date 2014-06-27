@@ -22,4 +22,9 @@ public interface StkDetailTrackRepository extends CrudRepository<StkDetailTrackE
 	@Transactional
 	@Query("delete from StkDetailTrackEntity t where t.detail.id = :detailId")
 	void deleteDetailTrack(@Param("detailId")Long detailId);
+
+	@Query("select t from StkDetailTrackEntity t left outer join fetch t.parentTrack p where t.detail.id = :detailId")
+	public List<StkDetailTrackEntity> findDetailTrack(@Param("detailId")Long detailId);
+	
+	
 }

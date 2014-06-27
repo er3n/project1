@@ -18,12 +18,8 @@ import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CancelDocumentEvent;
-import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDocumentEvent;
-import org.abacus.transaction.shared.event.DocumentCanceledEvent;
-import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
@@ -73,18 +69,18 @@ public class FindStkDocumentViewBean implements Serializable {
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 
-	public void cancelDocument(TraDocumentEntity document) {
+	public void cancelDocument(StkDocumentEntity document) {
 		try {
-			transactionHandler.cancelDocument(new CancelDocumentEvent<StkDocumentEntity>(document.getId(), sessionInfoHelper.currentUserName()));
+			transactionHandler.cancelDocument(new CancelDocumentEvent<StkDocumentEntity>(document, sessionInfoHelper.currentUserName()));
 			this.findStkDocument();
 		} catch (UnableToUpdateDocumentExpception e) {
 			jsfMessageHelper.addError(e);
 		}
 	}
 
-	public void deleteDocument(TraDocumentEntity document) {
+	public void deleteDocument(StkDocumentEntity document) {
 		try {
-			transactionHandler.deleteDocument(new DeleteDocumentEvent<StkDocumentEntity>(document.getId()));
+			transactionHandler.deleteDocument(new DeleteDocumentEvent<StkDocumentEntity>(document));
 			this.findStkDocument();
 		} catch (UnableToDeleteDetailException e) {
 			jsfMessageHelper.addError(e);

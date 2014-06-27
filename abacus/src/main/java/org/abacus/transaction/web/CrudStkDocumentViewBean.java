@@ -19,7 +19,6 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
@@ -171,7 +170,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	public void deleteDetail(StkDetailEntity detail) {
 		try {
-			DetailDeletedEvent<StkDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<StkDetailEntity>(detail.getId()));
+			DetailDeletedEvent<StkDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<StkDetailEntity>(detail));
 			this.findStkDocument(document.getId());
 			jsfMessageHelper.addInfo("deleteSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {

@@ -63,8 +63,8 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
 		//TODO: referansta bulunulma (fatura ise tahsilati varmi vb.) durumu ve muhasebeye entegre olma durumu kontrolu eklenecek
-		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocumentId());
-		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocumentId());
+		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocument().getId());
+		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocument().getId());
 		for (FinDetailEntity dtl : detailList) {
 			finDetailRepository.delete(dtl);
 		}
@@ -82,8 +82,8 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DocumentCanceledEvent cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
-		Long docId = cancelDocumentEvent.getDocumentId();
+	public DocumentCanceledEvent<FinDocumentEntity> cancelDocument(CancelDocumentEvent<FinDocumentEntity> cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
+		Long docId = cancelDocumentEvent.getDocument().getId();
 		return null;
 	}
 
@@ -108,7 +108,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailDeletedEvent<FinDetailEntity> deleteDetail(DeleteDetailEvent<FinDetailEntity> event) throws UnableToDeleteDetailException {
-		Long detId = event.getDetailId();
+		Long detId = event.getDetail().getId();
 		return null;
 	}
 	

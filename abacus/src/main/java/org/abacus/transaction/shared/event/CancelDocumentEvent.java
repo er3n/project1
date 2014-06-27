@@ -5,20 +5,20 @@ import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
 public class CancelDocumentEvent<T extends TraDocumentEntity> extends UpdatedEvent {
 
-	private Long documentId;
+	private T document;
 	private String userCanceled;
 
-	public CancelDocumentEvent(Long documentId, String userCanceled) {
-		this.documentId = documentId;
+	public CancelDocumentEvent(T document, String userCanceled) {
+		this.document = document;
 		this.userCanceled = userCanceled;
 	}
 
-	public Long getDocumentId() {
-		return documentId;
+	public T getDocument() {
+		return document;
 	}
 
-	public void setDocumentId(Long documentId) {
-		this.documentId = documentId;
+	public void setDocument(T document) {
+		this.document = document;
 	}
 
 	public String getUserCanceled() {

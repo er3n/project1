@@ -4,18 +4,19 @@ import org.abacus.common.shared.event.DeletedEvent;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
 public class DeleteDetailEvent<D extends TraDetailEntity<D>> extends DeletedEvent {
-	private Long detailId;
+	
+	private D detail;
 
-	public DeleteDetailEvent(Long detailId) {
-		this.detailId = detailId;
+	public DeleteDetailEvent(D detail) {
+		this.detail = detail;
 	}
 
-	public Long getDetailId() {
-		return detailId;
+	public D getDetail() {
+		return detail;
 	}
 
-	public void setDetailId(Long detailId) {
-		this.detailId = detailId;
+	public void setDetail(D detail) {
+		this.detail = detail;
 	}
 
 }

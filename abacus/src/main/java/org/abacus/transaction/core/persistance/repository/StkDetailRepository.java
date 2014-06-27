@@ -12,5 +12,8 @@ public interface StkDetailRepository extends CrudRepository<StkDetailEntity, Lon
 	@Query("select d from StkDetailEntity d inner join fetch d.item i inner join fetch d.department left outer join fetch d.itemUnit u left outer join fetch d.departmentOpp left outer join fetch i.itemUnitSet where d.document.id = :documentId and d.refDetailId is null")
 	List<StkDetailEntity> findByDocumentId(@Param("documentId")Long documentId);
 
+	@Query("select d from StkDetailEntity d where d.refDetailId = :refDetailId")
+	StkDetailEntity findByRefId(@Param("refDetailId")Long refDetailId);
+
 }
  

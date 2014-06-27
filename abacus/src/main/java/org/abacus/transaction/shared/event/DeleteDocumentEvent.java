@@ -5,18 +5,18 @@ import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
 public class DeleteDocumentEvent<T extends TraDocumentEntity> extends DeletedEvent {
 
-	private Long documentId;
+	private T document;
 
-	public DeleteDocumentEvent(Long documentId) {
-		this.documentId = documentId;
+	public DeleteDocumentEvent(T document) {
+		this.document = document;
 	}
 
-	public Long getDocumentId() {
-		return documentId;
+	public T getDocument() {
+		return document;
 	}
 
-	public void setDocumentId(Long documentId) {
-		this.documentId = documentId;
+	public void setDocument(T document) {
+		this.document = document;
 	}
 
 }

@@ -78,14 +78,14 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentDeletedEvent<StkDocumentEntity> deleteDocument(DeleteDocumentEvent<StkDocumentEntity> event) throws UnableToDeleteDocumentException {
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
-		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocumentId());
-		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocumentId());
+		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocument().getId());
+		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocument().getId());
 		savePointDetailList(detailList);
 		for (StkDetailEntity dtl : detailList) {
-			Boolean result = deleteDetailRecord(dtl.getId());
+			Boolean result = deleteDetailRecords(dtl);
 			if (!result){
 				throw new UnableToDeleteDetailException();
 			}
@@ -158,7 +158,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	public DetailUpdatedEvent<StkDetailEntity> updateDetail(UpdateDetailEvent<StkDetailEntity> event) throws UnableToUpdateDetailException {
 		StkDetailEntity det = event.getDetail();
 		if (trackRefreshRequired(det)){
-			Boolean result = deleteDetailRecord(event.getDetail().getId());
+			Boolean result = deleteDetailRecords(event.getDetail());
 			if (!result){
 				throw new UnableToUpdateDetailException();
 			}
@@ -174,7 +174,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailDeletedEvent<StkDetailEntity> deleteDetail(DeleteDetailEvent<StkDetailEntity> event) throws UnableToDeleteDetailException {
-		Boolean result = deleteDetailRecord(event.getDetailId());
+		Boolean result = deleteDetailRecords(event.getDetail());
 		if (!result){
 			throw new UnableToDeleteDetailException();
 		}
@@ -198,10 +198,33 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		return false;
 	}
 	
-	private Boolean deleteDetailRecord(Long detId){
+	private Boolean deleteDetailRecords(StkDetailEntity detail){
 		try{
-			stkDetailTrackRepository.deleteDetailTrack(detId);
-			stkDetailRepository.delete(detId);
+			//Input silerken tracklar silinemez ise kullanilmis demektir, Kontrole gerek yok.
+			if (detail.getTrStateDetail().equals(EnumList.TraState.OUT.value())){
+
+				//Transfer Ise Once TransferInput Kayitlarini Sil, Silemiyor sa kullanilmistir
+				if (detail.getDepartmentOpp()!=null){
+					StkDetailEntity oppDetail = stkDetailRepository.findByRefId(detail.getId());
+					if (oppDetail!=null){
+						stkDetailTrackRepository.deleteDetailTrack(oppDetail.getId());
+						stkDetailRepository.delete(oppDetail.getId());
+					}
+				}
+				
+				//Output silerken ParentTrack kaydinin UsedCount bilgisini output kadar artirmak gereklidir.
+				List<StkDetailTrackEntity> trackList  = stkDetailTrackRepository.findDetailTrack(detail.getId());
+				for (StkDetailTrackEntity track : trackList) {
+					if (track.getParentTrack()!=null){
+						StkDetailTrackEntity parent = track.getParentTrack();
+						parent.setBaseUsedCount(parent.getBaseUsedCount().subtract(track.getBaseTrackCount()));
+						stkDetailTrackRepository.save(parent);
+					}
+				}
+			}
+			stkDetailTrackRepository.deleteDetailTrack(detail.getId());
+			stkDetailRepository.delete(detail.getId());
+			
 			return true;
 		} catch (Exception e){
 			e.printStackTrace();

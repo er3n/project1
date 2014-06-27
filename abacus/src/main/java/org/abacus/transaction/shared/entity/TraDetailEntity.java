@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.entity.DefItemEntity;
@@ -64,6 +65,7 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	@Column(name = "ref_detail_id", nullable = true)
 	private Long refDetailId;
 	
+	@Transient
 	private D memento;
 	
 	public TraDetailEntity() {
@@ -170,21 +172,17 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 		return sign;
 	}
 
-	public D getMemento() {
+	public D getPoint() {
 		return memento;
 	}
 
-	public void setMemento(D memento) {
+	public void savePoint() {
 		try { 	 	
 			D memo = (D)this.clone();
 			this.memento = memo;
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace(); 
 		}
-	}
-
-	public void savePoint() {
-		setMemento((D)this);
 	}
 
 	public BigDecimal getUnitDetailPrice() {

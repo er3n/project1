@@ -19,11 +19,31 @@
 
 				<h:panelGrid columns="2" cellpadding="2" style="vertical-align:top">
 
+					<p:outputLabel value="İşlem:" />
+					<h:panelGrid columns="1">
+						<p:selectOneMenu value="#{testViewBean.reportSearchCriteria.docTask}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="false" requiredMessage="İşlem boş olamaz">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{testViewBean.stkTaskList}"
+								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
+							<p:ajax value="change" update=":dialogForm" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
 					<h:outputLabel value="Depo" />
 					<h:panelGrid columns="1">
 						<abc:departmentSelection id="departmentSelectionInput"
 								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
 								targetVar="#{testViewBean.reportSearchCriteria.detailDepartment}"
+								required="false" />
+					</h:panelGrid>
+
+					<h:outputLabel value="Transfer Depo" id = "departmentOpp1" rendered="#{testViewBean.reportSearchCriteria.docTask.type.trStateType eq 0}" />
+					<h:panelGrid  id = "departmentOpp2" columns="1" rendered="#{testViewBean.reportSearchCriteria.docTask.type.trStateType eq 0}">
+						<abc:departmentSelection id="departmentOppSelectionInput"
+								widgetVar="departmentOppSelectionWdg" dialogId="departmentOppSelectionDialog"
+								targetVar="#{testViewBean.reportSearchCriteria.detailOppDepartment}"
 								required="false" />
 					</h:panelGrid>
 
@@ -34,17 +54,6 @@
 
 					<p:outputLabel value="Miktar:" />
 					<p:inputText value="#{testViewBean.reportSearchCriteria.detailCount}" />
-
-					<p:outputLabel value="İşlem:" />
-					<h:panelGrid columns="1">
-						<p:selectOneMenu value="#{testViewBean.reportSearchCriteria.docTask}"
-							converter="omnifaces.SelectItemsConverter" style="width:145px"
-							required="false" requiredMessage="İşlem boş olamaz">
-							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
-							<f:selectItems value="#{testViewBean.stkTaskList}"
-								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
-						</p:selectOneMenu>
-					</h:panelGrid>
 
 				</h:panelGrid>
 
@@ -84,6 +93,15 @@
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			targetVar="#{testViewBean.reportSearchCriteria.detailDepartment}" 
+			rendered="true"/>			
+
+		<abc:departmentSelectionDialog 
+			id="departmentOppSelectionDialog"
+			update=":dialogForm" 
+			widgetVar="departmentOppSelectionWdg"
+			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
+			paramUser="#{sessionInfoHelper.currentUser().username}"
+			targetVar="#{testViewBean.reportSearchCriteria.detailOppDepartment}" 
 			rendered="true"/>			
 			
 	</ui:define>

@@ -40,7 +40,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	protected abstract TraDetailRepository<D> getDetailRepository();
 
 	
-	protected void setDetailSavePoint(List<D> detailList){
+	protected void savePointDetailList(List<D> detailList){
 		for (D dtl : detailList) {
 			dtl.savePoint();
 		}
@@ -50,7 +50,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadDetailEvent<D> readDetailList(RequestReadDetailEvent<D> event) {
 		List<D> detailList = getDetailRepository().findByDocumentId(event.getDocumentId());
-		setDetailSavePoint(detailList);
+		savePointDetailList(detailList);
 		return new ReadDetailEvent<D>(detailList);
 	}
 	

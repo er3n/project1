@@ -75,7 +75,7 @@ public class FindStkDocumentViewBean implements Serializable {
 
 	public void cancelDocument(TraDocumentEntity document) {
 		try {
-			transactionHandler.cancelDocument(new CancelDocumentEvent(document.getId(), sessionInfoHelper.currentUserName()));
+			transactionHandler.cancelDocument(new CancelDocumentEvent<StkDocumentEntity>(document.getId(), sessionInfoHelper.currentUserName()));
 			this.findStkDocument();
 		} catch (UnableToUpdateDocumentExpception e) {
 			jsfMessageHelper.addError(e);

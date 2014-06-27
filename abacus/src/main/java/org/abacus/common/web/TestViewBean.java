@@ -123,14 +123,14 @@ public class TestViewBean implements Serializable {
 			return;
 		}
 		try{
-			CreateDocumentEvent createDocumentEvent = testCreateDocumentEvent();
-			DocumentCreatedEvent documentCreatedEvent = transactionHandler.newDocument(createDocumentEvent);
+			CreateDocumentEvent<StkDocumentEntity> createDocumentEvent = testCreateDocumentEvent();
+			DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(createDocumentEvent);
 			
 			TraDocumentEntity newTraDocument = documentCreatedEvent.getDocument();
 			StkDocumentEntity newStkDocument = documentRepository.findWithFetch(newTraDocument.getId());
 			
-			CreateDetailEvent createDetailEvent = testCreateDetailEvent(newStkDocument);
-			DetailCreatedEvent detailCreatedEvent = transactionHandler.newDetail(createDetailEvent);
+			CreateDetailEvent<StkDetailEntity> createDetailEvent = testCreateDetailEvent(newStkDocument);
+			DetailCreatedEvent<StkDetailEntity> detailCreatedEvent = transactionHandler.newDetail(createDetailEvent);
 			
 			System.out.println("createStkTestData Islem Tamam");
 			jsfMessageHelper.addInfo("createStkTestData Islem Tamam");
@@ -145,7 +145,7 @@ public class TestViewBean implements Serializable {
 
 	}
 
-	private CreateDocumentEvent testCreateDocumentEvent() {
+	private CreateDocumentEvent<StkDocumentEntity> testCreateDocumentEvent() {
 		String user = sessionInfoHelper.currentUser().getUsername();
 		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
 		FiscalYearEntity fiscalYear = sessionInfoHelper.currentUser().getSelectedFiscalYear();
@@ -159,26 +159,27 @@ public class TestViewBean implements Serializable {
 		doc.setTypeEnum(reportSearchCriteria.getDocTask().getType().getTypeEnum());
 		doc.setOrganization(organization);
 		
-		CreateDocumentEvent event = new CreateDocumentEvent(doc, user, organization.getId(), fiscalYear.getId());		
+		CreateDocumentEvent<StkDocumentEntity> event = new CreateDocumentEvent<StkDocumentEntity>(doc, user, organization.getId(), fiscalYear.getId());		
 		return event;
 	}
 	
-	public CreateDetailEvent testCreateDetailEvent(TraDocumentEntity document) {
+	public CreateDetailEvent<StkDetailEntity> testCreateDetailEvent(TraDocumentEntity document) {
 		String user = sessionInfoHelper.currentUser().getUsername();
 
 		StkDetailEntity dtl = new StkDetailEntity();
 		
 		dtl.setDocument(document);
-		dtl.setBaseDetailAmount(BigDecimal.ONE);
 		dtl.setDepartment(reportSearchCriteria.getDetailDepartment());
 		dtl.setItem(reportSearchCriteria.getDetailItem());
 		dtl.setLotDetailDate(document.getDocDate());
+		dtl.setBaseDetailAmount(reportSearchCriteria.getDetailCount().multiply(new BigDecimal(1000)));
 		dtl.setItemDetailCount(reportSearchCriteria.getDetailCount());
 		dtl.setItemUnit(reportSearchCriteria.getDetailItem().getItemUnitSet().iterator().next().getUnitCode());
 		dtl.setDetNote("dtl note:"+document.getId());
 		dtl.setBatchDetailNo("batch:"+document.getId());
-
-		CreateDetailEvent event = new CreateDetailEvent(dtl, user);
+		dtl.setDepartmentOpp(reportSearchCriteria.getDetailOppDepartment());
+		
+		CreateDetailEvent<StkDetailEntity> event = new CreateDetailEvent<StkDetailEntity>(dtl, user);
 		return event;
 	}
 	

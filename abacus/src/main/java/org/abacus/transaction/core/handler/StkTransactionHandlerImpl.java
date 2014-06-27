@@ -2,7 +2,6 @@ package org.abacus.transaction.core.handler;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
@@ -84,7 +83,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
 		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocumentId());
 		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocumentId());
-		setDetailSavePoint(detailList);
+		savePointDetailList(detailList);
 		for (StkDetailEntity dtl : detailList) {
 			Boolean result = deleteDetailRecord(dtl.getId());
 			if (!result){
@@ -97,8 +96,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public DocumentCanceledEvent<StkDocumentEntity> cancelDocument(CancelDocumentEvent cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
-		Long docId = cancelDocumentEvent.getDocumentId();
+	public DocumentCanceledEvent<StkDocumentEntity> cancelDocument(CancelDocumentEvent<StkDocumentEntity> cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
 		return null;
 	}
 
@@ -117,17 +115,38 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
 			detailCreatedEvent = super.newDetail(detailCreateEvent);
 			if (createStkTrack){
-				this.addInputDetailTrack(detailCreatedEvent);
+				this.addInputDetailTrackList(detailCreatedEvent);
 			}
 		}else if(trStateDetail.equals(EnumList.TraState.OUT.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
 			detailCreatedEvent = super.newDetail(detailCreateEvent);
 			if (createStkTrack){
-				this.addOutputDetailTrack(detailCreatedEvent);
+				this.addOutputDetailTrackList(detailCreatedEvent);
 			}
 		}else{
+			//Transfer Out
+			detailCreateEvent.getDetail().setTrStateDetail(EnumList.TraState.OUT.value());
+			detailCreatedEvent = super.newDetail(detailCreateEvent);
 			if (createStkTrack){
-				detailCreatedEvent = this.addStkTransferDetailsAndTracks(detailCreateEvent);
+				this.addOutputDetailTrackList(detailCreatedEvent);
+			}
+			List<StkDetailTrackEntity> outDetailTrackList = detailCreatedEvent.getDetailTrackList();
+			
+			//Transfer In
+			StkDetailEntity outDetail = detailCreatedEvent.getDetail();
+			StkDetailEntity inDetail = new StkDetailEntity();
+			BeanUtils.copyProperties(outDetail, inDetail);
+			inDetail.setId(null);
+			inDetail.setDepartment(outDetail.getDepartmentOpp());
+			inDetail.setDepartmentOpp(outDetail.getDepartment());
+			inDetail.createHook(outDetail.getUserCreated());
+			inDetail.setRefDetailId(outDetail.getId());
+			inDetail.setTrStateDetail(EnumList.TraState.INP.value());
+			detailCreateEvent.setDetail(inDetail);
+			detailCreatedEvent = super.newDetail(detailCreateEvent);
+			detailCreatedEvent.setDetailTrackList(outDetailTrackList);
+			if (createStkTrack){
+				this.addInputDetailTrackList(detailCreatedEvent);
 			}
 		}
 
@@ -164,7 +183,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 	
 	private Boolean trackRefreshRequired(StkDetailEntity dtl){
-		StkDetailEntity old = dtl.getMemento();
+		StkDetailEntity old = dtl.getPoint();
 		if (dtl.getItemDetailCount().compareTo(old.getItemDetailCount())!=0){
 			return true;
 		}
@@ -191,35 +210,48 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		}
 	}
 	
-	private DetailCreatedEvent<StkDetailEntity> addInputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) {
+	private void addInputDetailTrackList(DetailCreatedEvent<StkDetailEntity> event) {
+		StkDetailEntity detail = event.getDetail();
+		String user = detail.getUserCreated();
 		
-		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
-		String user = event.getDetail().getUserCreated();
-		BigDecimal detailCount =  detail.getBaseDetailCount();
-		BigDecimal unitTrackPrice = detail.getBaseDetailAmount().divide(detailCount,EnumList.RoundScale.STK.getValue(),RoundingMode.HALF_EVEN);
-		List<StkDetailTrackEntity> detailTrackList = new ArrayList<StkDetailTrackEntity>();
+		if (event.getDetailTrackList().size()==0){ // Direk Giris = 0 Eski Track, 1 Yeni Track Olusacak
+			BigDecimal detailCount =  detail.getBaseDetailCount();
+			BigDecimal unitTrackPrice = detail.getBaseDetailAmount().divide(detailCount,EnumList.RoundScale.STK.getValue(),RoundingMode.HALF_EVEN);
 
-		StkDetailTrackEntity detailTrack = new StkDetailTrackEntity();
-		
-		detailTrack.setDetail(detail);
-		detailTrack.setRootDetail(detail);
-		detailTrack.setParentTrack(null);
-		detailTrack.setBaseTrackCount(detailCount);
-		detailTrack.setBaseUsedCount(BigDecimal.ZERO);
-		detailTrack.setUnitTrackPrice(unitTrackPrice);
-		detailTrack.setUnitCostPrice(unitTrackPrice);
-		detailTrack.setLotTrackDate(detail.getLotDetailDate());
-		detailTrack.setBatchTrackNo(detail.getBatchDetailNo());
-		
-		detailTrack.createHook(user);
-		detailTrack = stkDetailTrackRepository.save(detailTrack);
-		detailTrackList.add(detailTrack);
-		return new DetailCreatedEvent<StkDetailEntity>(detail, detailTrackList);
+			StkDetailTrackEntity inDetailTrack = new StkDetailTrackEntity();
+			inDetailTrack.setDetail(detail);
+			inDetailTrack.setRootDetail(detail);
+			inDetailTrack.setParentTrack(null);
+			inDetailTrack.setBaseTrackCount(detailCount);
+			inDetailTrack.setBaseUsedCount(BigDecimal.ZERO);
+			inDetailTrack.setUnitTrackPrice(unitTrackPrice);
+			inDetailTrack.setUnitCostPrice(unitTrackPrice);
+			inDetailTrack.setLotTrackDate(detail.getLotDetailDate());
+			inDetailTrack.setBatchTrackNo(detail.getBatchDetailNo());
+			inDetailTrack.createHook(user);
+			inDetailTrack = stkDetailTrackRepository.save(inDetailTrack);
+			event.getDetailTrackList().add(inDetailTrack);
+		} else { // Transferle Gelen Giris = N Eski Track, N Yeni Track Olusacak  
+			for (StkDetailTrackEntity outDetailTrack : event.getDetailTrackList()) {
+				StkDetailTrackEntity inDetailTrack = new StkDetailTrackEntity();
+				BeanUtils.copyProperties(outDetailTrack, inDetailTrack);
+				inDetailTrack.cleanCreateHook(user);
+				inDetailTrack.setDetail(detail);
+				inDetailTrack.setParentTrack(outDetailTrack);
+				inDetailTrack.setBaseUsedCount(BigDecimal.ZERO);
+				inDetailTrack.createHook(user);
+				inDetailTrack = stkDetailTrackRepository.save(inDetailTrack);
+//				event.getDetailTrackList().add(inDetailTrack);
+			}
+		}
 	}
 	
-	private DetailCreatedEvent<StkDetailEntity> addOutputDetailTrack(DetailCreatedEvent<StkDetailEntity> event) throws UnableToOutputDetail {
-		
+	private void addOutputDetailTrackList(DetailCreatedEvent<StkDetailEntity> event) throws UnableToOutputDetail {
 		StkDetailEntity detail = (StkDetailEntity) event.getDetail();
+
+		List<StkDetailTrackEntity> findAvailableTrack = stkDetailTrackRepository.currentItemList(detail.getItem().getId(),detail.getDepartment().getId(), detail.getFiscalYear().getId());
+		event.setDetailTrackList(findAvailableTrack);
+
 		String user = event.getDetail().getUserCreated();
 		BigDecimal detailCount =  detail.getBaseDetailCount();
 		
@@ -230,11 +262,8 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			throw new UnableToOutputDetail();
 		}
 		
-		List<StkDetailTrackEntity> itemListInStock = stkDetailTrackRepository.currentItemList(detail.getItem().getId(),detail.getDepartment().getId(), detail.getFiscalYear().getId());
-		
 		BigDecimal restCount = detailCount;
-		List<StkDetailTrackEntity> detailTrackList = new ArrayList<StkDetailTrackEntity>();
-		for(StkDetailTrackEntity itemInStock : itemListInStock){
+		for(StkDetailTrackEntity itemInStock : event.getDetailTrackList()){
 			
 			if(restCount.compareTo(BigDecimal.ZERO) <= 0){
 				break;
@@ -269,52 +298,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			
 			detailTrack.createHook(user);
 			detailTrack = stkDetailTrackRepository.save(detailTrack);
-			detailTrackList.add(detailTrack);
 		}
-		return new DetailCreatedEvent<StkDetailEntity>(detail, detailTrackList);
 	}
-
-	
-	private DetailCreatedEvent<StkDetailEntity> addStkTransferDetailsAndTracks(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
-		List<StkDetailTrackEntity> detailTrackList = new ArrayList<StkDetailTrackEntity>();
-		//Transfer Out
-		Integer trStateDetailOut = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * -1;
-		detailCreateEvent.getDetail().setTrStateDetail(trStateDetailOut);
-		DetailCreatedEvent<StkDetailEntity> detailCreatedEvent = super.newDetail(detailCreateEvent);
-		
-		DetailCreatedEvent<StkDetailEntity> stockDetailCreatedEvent = this.addOutputDetailTrack(detailCreatedEvent);
-		StkDetailEntity outDetail = (StkDetailEntity) detailCreatedEvent.getDetail();
-		List<StkDetailTrackEntity> outDetailTrackList = stockDetailCreatedEvent.getDetailTrackList();
-		detailTrackList.addAll(outDetailTrackList);
-		
-		//Transfer In
-		Integer trStateDetailIn = trStateDetailOut * (-1);
-
-		StkDetailEntity inputDetail = new StkDetailEntity();
-		BeanUtils.copyProperties(outDetail, inputDetail);
-		inputDetail.setDepartment(outDetail.getDepartmentOpp());
-		inputDetail.setDepartmentOpp(outDetail.getDepartment());
-		inputDetail.createHook(outDetail.getUserCreated());
-		inputDetail.setTrStateDetail(trStateDetailIn);
-		inputDetail.setRefDetailId(outDetail.getId());
-		
-		DetailCreatedEvent<StkDetailEntity> detailCreatedEventIn = super.newDetail(new CreateDetailEvent<StkDetailEntity>(inputDetail, outDetail.getUserCreated()));
-		
-		for(StkDetailTrackEntity outDetailTrack : outDetailTrackList){
-			StkDetailTrackEntity inDetailTrack = new StkDetailTrackEntity();
-			BeanUtils.copyProperties(outDetailTrack, inDetailTrack);
-			inDetailTrack.cleanCreateHook(outDetail.getUserCreated());
-			inDetailTrack.setDetail(inputDetail);
-			inDetailTrack.setParentTrack(outDetailTrack);
-			inDetailTrack.setBaseUsedCount(BigDecimal.ZERO);
-			inDetailTrack = stkDetailTrackRepository.save(inDetailTrack);
-			
-			detailTrackList.add(inDetailTrack);
-		}
-		return new DetailCreatedEvent<StkDetailEntity>(outDetail, detailTrackList);
-	}
-
-
-
 	
 }

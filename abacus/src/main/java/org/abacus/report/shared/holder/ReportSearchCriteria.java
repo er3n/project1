@@ -25,12 +25,13 @@ public class ReportSearchCriteria implements Serializable {
 	
 	private DepartmentEntity detailDepartment;
 	
+	private DepartmentEntity detailOppDepartment;
+	
 	private DefItemEntity detailItem;
 	
 	private BigDecimal detailCount;
 	
 	public ReportSearchCriteria() {
-
 	}
 
 	public Date getDocStartDate() {
@@ -95,6 +96,14 @@ public class ReportSearchCriteria implements Serializable {
 
 	public void setFiscalYear(FiscalYearEntity fiscalYear) {
 		this.fiscalYear = fiscalYear;
+	}
+
+	public DepartmentEntity getDetailOppDepartment() {
+		return detailOppDepartment;
+	}
+
+	public void setDetailOppDepartment(DepartmentEntity detailOppDepartment) {
+		this.detailOppDepartment = detailOppDepartment;
 	}
 
 }

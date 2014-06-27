@@ -13,16 +13,16 @@
 			<p:menuitem value="Kod Tanimlari" url="/app/definition/defmanager.abc?grp=VAL" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}"/>
 			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}"/>
 			<p:menuitem value="Stok Gorev Tanimlari" url="/app/definition/defmanager.abc?grp=STK" />
+			<p:menuitem value="Stok Birim Tanimlari" url="/app/definition/unitmanager.abc" />
 			<p:menuitem value="Finans Gorev Tanimlari" url="/app/definition/defmanager.abc?grp=FIN" />
-			<p:menuitem value="Birim Tanimlari" url="/app/definition/unitmanager.abc" />
+			<p:menuitem value="Firma Tanınmları" url="/app/definition/defItem.abc?type=ITM_VE" />   
+			<p:menuitem value="Gider Tanınmları" url="/app/definition/defItem.abc?type=ITM_SR_FN" />   
 		</p:submenu>
 
-		<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
+		<p:submenu label="Menu Tanimlari" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
 			<p:menuitem value="Malzeme Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" />   
 			<p:menuitem value="Yemek Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_P" />
 			<p:menuitem value="Menu Tanimlari" url="/app/catering/menu.abc" />
-			<p:menuitem value="Gider Tanınmları" url="/app/definition/defItem.abc?type=ITM_SR_FN" />   
-			<p:menuitem value="Firma Tanınmları" url="/app/definition/defItem.abc?type=ITM_VE" />   
 		</p:submenu>
 
 		<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">

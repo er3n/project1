@@ -99,8 +99,8 @@ public class CrudFinDocumentViewBean implements Serializable {
 	}
 
 	private void initSelections() {
-		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
-		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.FIN.name());
+		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_FN;
 	}
 
 	private void initNewDocument() {
@@ -181,7 +181,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 	public void initNewDetail() {
 		selectedDetail = new FinDetailEntity();
 		selectedDetail.setDocument(document);
-		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
+		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_FN;
 	}
 
 	public void selectedDetailServiceTypeChanged() {

@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
@@ -30,9 +31,9 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fiscal_year_id", nullable = false)
 	private FiscalYearEntity fiscalYear;
-	
+
 	@Column(name = "tr_state_detail", nullable = false)
-	@Range(min=-1, max=+1)
+	@Range(min = -1, max = +1)
 	private Integer trStateDetail;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -42,17 +43,17 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "item_unit_id", nullable = true)
 	private DefUnitCodeEntity itemUnit;
-	
+
 	@Column(name = "item_detail_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal itemDetailCount;
 
 	@Column(name = "base_detail_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal baseDetailCount;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id", nullable = false)
 	private DepartmentEntity department;
-	
+
 	@Column(name = "unit_detail_price", nullable = false, precision = 12, scale = 2)
 	private BigDecimal unitDetailPrice;
 
@@ -61,19 +62,22 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	@Column(name = "det_note", nullable = true)
 	private String detNote;
-	
+
 	@Column(name = "ref_detail_id", nullable = true)
 	private Long refDetailId;
-	
+
 	@Transient
 	private D memento;
-	
+
+	@Transient
+	private EnumList.EntityStatus entityStatus;
+
 	public TraDetailEntity() {
 	}
 
 	public abstract TraDocumentEntity getDocument();
-	public abstract void setDocument(TraDocumentEntity document);
 
+	public abstract void setDocument(TraDocumentEntity document);
 
 	public Date getLotDetailDate() {
 		return lotDetailDate;
@@ -166,9 +170,14 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	public String getTrStateSign() {
 		String sign = "?";
 		switch (trStateDetail.intValue()) {
-			case -1: sign = "-"; break;
-			case +1: sign = "+"; break;
-		};
+		case -1:
+			sign = "-";
+			break;
+		case +1:
+			sign = "+";
+			break;
+		}
+		;
 		return sign;
 	}
 
@@ -177,11 +186,11 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	}
 
 	public void savePoint() {
-		try { 	 	
-			D memo = (D)this.clone();
+		try {
+			D memo = (D) this.clone();
 			this.memento = memo;
 		} catch (CloneNotSupportedException e) {
-			e.printStackTrace(); 
+			e.printStackTrace();
 		}
 	}
 
@@ -191,6 +200,14 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public void setUnitDetailPrice(BigDecimal unitDetailPrice) {
 		this.unitDetailPrice = unitDetailPrice;
+	}
+
+	public EnumList.EntityStatus getEntityStatus() {
+		return entityStatus;
+	}
+
+	public void setEntityStatus(EnumList.EntityStatus entityStatus) {
+		this.entityStatus = entityStatus;
 	}
 
 }

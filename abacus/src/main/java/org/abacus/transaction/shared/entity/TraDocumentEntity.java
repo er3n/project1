@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
@@ -34,21 +35,21 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "type_id", nullable = false)
 	private EnumList.DefTypeEnum typeEnum;
 
-	//For HQL
-	@Column(name = "type_id", updatable=false, insertable=false)
+	// For HQL
+	@Column(name = "type_id", updatable = false, insertable = false)
 	private String typeStr;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "task_id", nullable = false)
 	private DefTaskEntity task;
 
 	@Column(name = "tr_state_document", nullable = false)
-	@Range(min=-1, max=+1)
+	@Range(min = -1, max = +1)
 	private Integer trStateDocument;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -61,6 +62,9 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 
 	@Column(name = "doc_note", nullable = true)
 	private String docNote;
+
+	@Transient
+	private EnumList.EntityStatus entityStatus;
 
 	public TraDocumentEntity() {
 	}
@@ -143,6 +147,14 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 
 	private void setTypeStr(String typeStr) {
 		this.typeStr = typeStr;
+	}
+
+	public EnumList.EntityStatus getEntityStatus() {
+		return entityStatus;
+	}
+
+	public void setEntityStatus(EnumList.EntityStatus entityStatus) {
+		this.entityStatus = entityStatus;
 	}
 
 }

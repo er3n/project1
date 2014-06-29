@@ -265,5 +265,9 @@ public interface EnumList {
 	enum Hierachy {
 		PARENT, CHILD
 	};
+	
+	enum EntityStatus{
+		NEW,UPDATE,DELETE;
+	}
 
 }

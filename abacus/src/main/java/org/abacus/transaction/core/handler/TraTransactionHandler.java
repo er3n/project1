@@ -23,6 +23,8 @@ import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdateEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdatedEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 
@@ -38,5 +40,6 @@ public interface TraTransactionHandler<T extends TraDocumentEntity, D extends Tr
 	DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException;
 	DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> event) throws UnableToUpdateDetailException;
 	DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException;
+	TraBulkUpdatedEvent<T,D> bulkUpdate(TraBulkUpdateEvent<T, D> bulkUpdateEvent); 
 	
 }

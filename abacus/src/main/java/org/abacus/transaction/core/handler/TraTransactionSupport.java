@@ -17,16 +17,23 @@ import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
+import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
+import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdateEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdatedEvent;
+import org.abacus.transaction.shared.event.UpdateDetailEvent;
+import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity<D>>  implements TraTransactionHandler<T, D>  {
 
@@ -111,6 +118,47 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		detail.savePoint();
 		
 		return new DetailCreatedEvent<D>(detail);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public TraBulkUpdatedEvent<T,D> bulkUpdate(TraBulkUpdateEvent<T, D> bulkUpdateEvent){
+		
+		T document = bulkUpdateEvent.getDocument();
+		List<D> detailList = bulkUpdateEvent.getDetailList();
+		String user = bulkUpdateEvent.getUser();
+		String organization = bulkUpdateEvent.getOrganization();
+		String fiscalYear = bulkUpdateEvent.getFiscalYear();
+		
+		if(document.getId() == null){
+			DocumentCreatedEvent<T> documentCreatedEvent = newDocument(new CreateDocumentEvent<T>(document, user, organization, fiscalYear));
+			document = documentCreatedEvent.getDocument();
+		}else{
+			DocumentUpdatedEvent<T> documentUpdatedEvent = updateDocument(new UpdateDocumentEvent<T>(document, user));
+			document = documentUpdatedEvent.getDocument();
+		}
+		
+		if(!CollectionUtils.isEmpty(detailList)){
+			
+			for(D detail : detailList){
+				
+				if(detail.getEntityStatus() == null){
+					continue;
+				}
+				
+				if(detail.getEntityStatus().equals(EnumList.EntityStatus.NEW)){
+					detail.setDocument(document);
+					newDetail(new CreateDetailEvent<D>(detail, user));
+				}else if(detail.getEntityStatus().equals(EnumList.EntityStatus.UPDATE)){
+					updateDetail(new UpdateDetailEvent<D>(detail, user));
+				}else if(detail.getEntityStatus().equals(EnumList.EntityStatus.DELETE)){
+					deleteDetail(new DeleteDetailEvent<D>(detail));
+				}			
+			}
+			
+		}
+		
+		return new TraBulkUpdatedEvent<T,D>(document, detailList);
 	}
 
 	

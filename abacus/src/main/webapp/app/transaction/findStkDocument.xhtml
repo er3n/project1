@@ -12,39 +12,39 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findFinDocumentViewBean.showDocument}" />
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findStkDocumentViewBean.showDocument}" />
 
 		<h:form>
-			<p:panel id="queryDocumentPanel" header="Finans Fiş Sorgulama" rendered="#{findFinDocumentViewBean.showDocument}">
+			<p:panel id="queryDocumentPanel" header="Stok Fiş Sorgulama" rendered="#{findStkDocumentViewBean.showDocument}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
 					<p:outputLabel value="Belge No:" />
 					<p:inputText
-						value="#{findFinDocumentViewBean.documentSearchCriteria.docNo}" />
+						value="#{findStkDocumentViewBean.documentSearchCriteria.docNo}" />
 
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{findFinDocumentViewBean.documentSearchCriteria.docStartDate}" />
+						value="#{findStkDocumentViewBean.documentSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{findFinDocumentViewBean.documentSearchCriteria.docEndDate}" />
+						value="#{findStkDocumentViewBean.documentSearchCriteria.docEndDate}" />
 
 				</h:panelGrid>
 
 				<f:facet name="footer">
 					<p:commandButton value="Sorgula"
-						actionListener="#{findFinDocumentViewBean.findFinDocument}"
+						actionListener="#{findStkDocumentViewBean.findStkDocument}"
 						update=":documentResultTable" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Temizle">
 						<p:ajax update="queryDocumentPanel :documentResultTable" resetValues="true" />
 					</p:commandButton>
 					<p:spacer width="5px" />
-					<p:button href="/app/transaction/crudFinanceDocument.abc?grp=#{findFinDocumentViewBean.selectedGroupEnum.name}&amp;operation=create" value="Yeni Fiş"  />
+					<p:button href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=create" value="Yeni Fiş"  />
 				</f:facet>
 
 			</p:panel>
@@ -54,15 +54,15 @@
 		<h:panelGrid id="documentResultTable" columns="1" style="width:100%">
 			<h:form>
 				<p:dataTable
-					rendered="#{findFinDocumentViewBean.documentSearchResultList != null}"
+					rendered="#{findStkDocumentViewBean.documentSearchResultList != null}"
 					emptyMessage="Kayit Bulunamadi"
-					value="#{findFinDocumentViewBean.documentSearchResultList}" var="var">
+					value="#{findStkDocumentViewBean.documentSearchResultList}" var="var">
 
-					<p:column headerText="No">
+					<p:column headerText="Fiş No">
 						<h:outputText value="#{var.docNo}" />
 					</p:column>
 
-					<p:column headerText="Tarih">
+					<p:column headerText="Fiş Tarih">
 						<h:outputText value="#{var.docDate}" />
 					</p:column>
 
@@ -70,16 +70,21 @@
 						<h:outputText value="#{var.docNote}" />
 					</p:column>
 
-					<p:column headerText="Org">
-						<h:outputText value="#{var.organization.id}" />
-					</p:column>
-
-					<p:column headerText="Tip">
+					<p:column headerText="Hareket">
 						<h:outputText value="#{var.typeEnum.description}" />
 					</p:column>
 
-					<p:column headerText="İşlem"> 
-						<p:button href="/app/transaction/crudFinanceDocument.abc?grp=#{findFinDocumentViewBean.selectedGroupEnum.name}&amp;operation=update&amp;document=#{var.id}" value="Güncelle"  />
+					<p:column headerText="Organizasyon">
+						<h:outputText value="#{var.organization.id}" />
+					</p:column>
+
+					<p:column headerText="İşlem">
+						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
+	
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable">
+							<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />
+						</p:commandButton>
+						
 					</p:column>
 
 				</p:dataTable> 

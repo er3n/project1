@@ -19,15 +19,21 @@ import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDetailEntity;
+import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
+import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
+import org.abacus.transaction.shared.event.DetailDeletedEvent;
+import org.abacus.transaction.shared.event.DetailUpdatedEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
+import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.UpdateDetailEvent;
+import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.springframework.util.CollectionUtils;
 
@@ -62,17 +68,19 @@ public class CrudFinDocumentViewBean implements Serializable {
 	private FinDetailEntity selectedDetail;
 
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
-	
+
+	private EnumList.DefTypeEnum selectedDetailServiceType;
+
 	@PostConstruct
 	private void init() {
-		try{
+		try {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
-		}catch(Exception e){
+		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
 		}
-		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null){
+		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null) {
 			jsfMessageHelper.addWarn("noFiscalYearDefined");
 			this.showDocument = false;
 		}
@@ -91,7 +99,8 @@ public class CrudFinDocumentViewBean implements Serializable {
 	}
 
 	private void initSelections() {
-		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.FIN.name());
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
 	}
 
 	private void initNewDocument() {
@@ -110,6 +119,16 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	}
 
+	public void updateDocument() {
+		try {
+			DocumentUpdatedEvent<FinDocumentEntity> documentUpdatedEvent = transactionHandler.updateDocument(new UpdateDocumentEvent<FinDocumentEntity>(document, sessionInfoHelper.currentUserName()));
+			this.findFinDocument(document.getId());
+			jsfMessageHelper.addInfo("updateSuccessful", "Fiş");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
 	public void saveDetail() {
 		try {
 			DetailCreatedEvent<FinDetailEntity> event = transactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
@@ -123,7 +142,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	private void findFinDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
-		
+
 		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
@@ -133,8 +152,39 @@ public class CrudFinDocumentViewBean implements Serializable {
 			detailList = readDetailEvent.getDetails();
 		}
 	}
+	
+	public void updateDetailSelected(FinDetailEntity detail){
+		this.selectedDetail = detail;
+	}
+
+	public void updateDetail() {
+		try {
+			DetailUpdatedEvent<FinDetailEntity> detailUpdatedEvent = transactionHandler.updateDetail(new UpdateDetailEvent<FinDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
+			this.findFinDocument(document.getId());
+			this.selectedDetail = null;
+			jsfMessageHelper.addInfo("updateSuccessful", "Fiş Detay");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void deleteDetail(FinDetailEntity detail) {
+		try {
+			DetailDeletedEvent<FinDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<FinDetailEntity>(detail));
+			this.findFinDocument(document.getId());
+			jsfMessageHelper.addInfo("deleteSuccessful", "Fiş Detay");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
 
 	public void initNewDetail() {
+		selectedDetail = new FinDetailEntity();
+		selectedDetail.setDocument(document);
+		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
+	}
+
+	public void selectedDetailServiceTypeChanged() {
 		selectedDetail = new FinDetailEntity();
 		selectedDetail.setDocument(document);
 	}
@@ -179,7 +229,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 		this.taskRepository = taskRepository;
 	}
 
-	public FinDocumentEntity getDocument() {
+	public TraDocumentEntity getDocument() {
 		return document;
 	}
 
@@ -225,6 +275,14 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
+	}
+
+	public EnumList.DefTypeEnum getSelectedDetailServiceType() {
+		return selectedDetailServiceType;
+	}
+
+	public void setSelectedDetailServiceType(EnumList.DefTypeEnum selectedDetailServiceType) {
+		this.selectedDetailServiceType = selectedDetailServiceType;
 	}
 
 }

@@ -12,39 +12,39 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findStkDocumentViewBean.showDocument}" />
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findFinDocumentViewBean.showDocument}" />
 
 		<h:form>
-			<p:panel id="queryDocumentPanel" header="Stok Fiş Sorgulama" rendered="#{findStkDocumentViewBean.showDocument}">
+			<p:panel id="queryDocumentPanel" header="Finans Fiş Sorgulama" rendered="#{findFinDocumentViewBean.showDocument}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
 					<p:outputLabel value="Belge No:" />
 					<p:inputText
-						value="#{findStkDocumentViewBean.documentSearchCriteria.docNo}" />
+						value="#{findFinDocumentViewBean.documentSearchCriteria.docNo}" />
 
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{findStkDocumentViewBean.documentSearchCriteria.docStartDate}" />
+						value="#{findFinDocumentViewBean.documentSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
-						value="#{findStkDocumentViewBean.documentSearchCriteria.docEndDate}" />
+						value="#{findFinDocumentViewBean.documentSearchCriteria.docEndDate}" />
 
 				</h:panelGrid>
 
 				<f:facet name="footer">
 					<p:commandButton value="Sorgula"
-						actionListener="#{findStkDocumentViewBean.findStkDocument}"
+						actionListener="#{findFinDocumentViewBean.findFinDocument}"
 						update=":documentResultTable" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Temizle">
 						<p:ajax update="queryDocumentPanel :documentResultTable" resetValues="true" />
 					</p:commandButton>
 					<p:spacer width="5px" />
-					<p:button href="/app/transaction/crudStockDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=create" value="Yeni Fiş"  />
+					<p:button href="/app/transaction/crudFinDocument.abc?grp=#{findFinDocumentViewBean.selectedGroupEnum.name}&amp;operation=create" value="Yeni Fiş"  />
 				</f:facet>
 
 			</p:panel>
@@ -54,9 +54,9 @@
 		<h:panelGrid id="documentResultTable" columns="1" style="width:100%">
 			<h:form>
 				<p:dataTable
-					rendered="#{findStkDocumentViewBean.documentSearchResultList != null}"
+					rendered="#{findFinDocumentViewBean.documentSearchResultList != null}"
 					emptyMessage="Kayit Bulunamadi"
-					value="#{findStkDocumentViewBean.documentSearchResultList}" var="var">
+					value="#{findFinDocumentViewBean.documentSearchResultList}" var="var">
 
 					<p:column headerText="Fiş No">
 						<h:outputText value="#{var.docNo}" />
@@ -79,9 +79,9 @@
 					</p:column>
 
 					<p:column headerText="İşlem">
-						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStockDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
+						<p:button icon="ui-icon-pencil" href="/app/transaction/crudFinDocument.abc?grp=#{findFinDocumentViewBean.selectedGroupEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
 	
-						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable">
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{findFinDocumentViewBean.deleteDocument(var)}" update=":documentResultTable">
 							<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						

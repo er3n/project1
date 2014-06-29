@@ -67,15 +67,18 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	private FinDetailEntity selectedDetail;
 
-	private EnumList.DefTypeGroupEnum selectedGroupEnum;
-
 	private EnumList.DefTypeEnum selectedDetailServiceType;
+
+	private EnumList.DefTypeGroupEnum selectedGroupEnum;
+	private EnumList.DefTypeEnum selectedTypeEnum;
 
 	@PostConstruct
 	private void init() {
 		try {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
+			String typ = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("typ");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
+			selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
 		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
@@ -99,7 +102,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 	}
 
 	private void initSelections() {
-		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.FIN.name());
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
 		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_FN;
 	}
 
@@ -283,6 +286,14 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void setSelectedDetailServiceType(EnumList.DefTypeEnum selectedDetailServiceType) {
 		this.selectedDetailServiceType = selectedDetailServiceType;
+	}
+
+	public EnumList.DefTypeEnum getSelectedTypeEnum() {
+		return selectedTypeEnum;
+	}
+
+	public void setSelectedTypeEnum(EnumList.DefTypeEnum selectedTypeEnum) {
+		this.selectedTypeEnum = selectedTypeEnum;
 	}
 
 }

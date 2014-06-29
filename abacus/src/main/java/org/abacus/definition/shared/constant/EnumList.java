@@ -107,7 +107,7 @@ public interface EnumList {
 		ITM("Kalem"), // Dynamic Item
 		STK("Stok"), // Dynamic Task Stock
 		FIN("Finans"), // Dynamic Task Finance
-		ACC("Muhasebe"), // Dynamic Task Account
+		ACC("Acc"), // Acc
 		;
 		private String description;
 
@@ -145,8 +145,12 @@ public interface EnumList {
 		STK_WB_I("Stok İrsaliye Giriş Tip", 1), //
 		STK_WB_O("Stok Satış Çıkş Tip", -1), //
 		STK_TT_T("Stok Transfer Tip", 0), //
-		// Finance
-		FIN_WB_I("Masraf Giriş", 1), //
+		// Finance,Account
+		FIN_B("Alış Fatura", +1), //
+		FIN_S("Satış Fatura", -1), //
+		FIN_P("Ödeme", -1), //
+		FIN_R("Tahsil", +1), //
+		FIN_J("Mahsup", 0), //
 
 		NULL("?",0), //
 		;

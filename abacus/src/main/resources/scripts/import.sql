@@ -68,7 +68,8 @@ insert into def_type (id, name, level, tr_state_type) values ('STK_WB_I', 'Stok 
 insert into def_type (id, name, level, tr_state_type) values ('STK_WB_O', 'Stok Satış Çıkış Tip', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('STK_TT_T', 'Stok Transfer Tip', 1, 0);
 
-insert into def_type (id, name, level, tr_state_type) values ('FIN_WB_I', 'Masraf Girişi Tip', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('FIN_B', 'Alış Fatura', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('FIN_P', 'Ödeme', 1, -1);
 
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Finans Gider Tanımları', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Malzeme Tanımları', 1, 0);
@@ -85,7 +86,11 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_WB_O', 'WB-O', 'Stk Satış Task #', 1, 0);
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_TT_T', 'TT-T', 'Stk Transfer Task #', 1, 0);
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_WB_I', 'CS-1', 'Masraf Giriş Task #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_B', 'BL-1', 'Alış Fatura Task #', 1, 0);
+
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_P', 'PY-1', 'Fatura Ödeme Task #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_P', 'PY-2', 'Masraf Ödeme Task #', 1, 0);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_P', 'PY-3', 'Personel Ödeme Task #', 1, 0);
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);
@@ -1923,5 +1928,4 @@ insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_docu
 insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STK-2014-1', 'Açılış 2014-1', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#', (select i.id from def_task i where i.type_id='STK_IO_I'));
 insert into stk_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'STK-2014-2', 'Açılış 2014-2', 1, 'STK_OC_I', null, '#.#:2014:01', '#.#.#', (select i.id from def_task i where i.type_id='STK_IO_I'));
 
-insert into fin_document (id, version, doc_date, doc_no, doc_note, tr_state_document, type_id, ref_fin_document_id, fiscal_period_id, organization_id, task_id) values (nextval('seq_id'), 0, DATE '2014-01-01', 'FINNO01', 'Finans 2014', 1, 'FIN_WB_I', null, '#.#:2014:01', '#.#.#.#', (select i.id from def_task i where i.type_id='FIN_WB_I'));
 commit;

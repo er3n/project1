@@ -44,7 +44,9 @@ public class FindFinDocumentViewBean implements Serializable {
 	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> transactionHandler;
 
 	private List<FinDocumentEntity> documentSearchResultList;
+
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
+	private EnumList.DefTypeEnum selectedTypeEnum;
 
 	private Boolean showDocument = true;
 
@@ -52,7 +54,9 @@ public class FindFinDocumentViewBean implements Serializable {
 	private void init() {
 		try {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
+			String typ = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("typ");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
+			selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
 		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDestked");
 			this.showDocument = false;
@@ -62,6 +66,7 @@ public class FindFinDocumentViewBean implements Serializable {
 			this.showDocument = false;
 		}
 		documentSearchCriteria = new TraDocumentSearchCriteria();
+		documentSearchCriteria.setDocType(selectedTypeEnum);
 	}
 
 	public void findFinDocument() {
@@ -149,6 +154,14 @@ public class FindFinDocumentViewBean implements Serializable {
 
 	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
+	}
+
+	public EnumList.DefTypeEnum getSelectedTypeEnum() {
+		return selectedTypeEnum;
+	}
+
+	public void setSelectedTypeEnum(EnumList.DefTypeEnum selectedTypeEnum) {
+		this.selectedTypeEnum = selectedTypeEnum;
 	}
 
 }

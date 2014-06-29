@@ -45,6 +45,10 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 			criteria.add(Restrictions.eq("fp.fiscalYear.id", fiscalYearId));
 		}
 		
+		if(documentSearchCriteria.getDocType()!=null){
+			criteria.add(Restrictions.like("s.typeEnum",documentSearchCriteria.getDocType()));
+		}
+
 		if(StringUtils.hasText(documentSearchCriteria.getDocNo())){
 			criteria.add(Restrictions.like("s.docNo","%"+documentSearchCriteria.getDocNo()+"%"));
 		}

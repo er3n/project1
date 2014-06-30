@@ -10,6 +10,8 @@ import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.catering.shared.holder.MenuMaterialHolder;
 import org.abacus.definition.core.persistance.repository.DefItemProductRepository;
+import org.abacus.definition.core.persistance.repository.DefItemRepository;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefItemProductEntity;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class CatMenuItemToMenuMaterialConverter {
 	
 	@Autowired
 	private DefItemProductRepository itemProductRepository;
+	
+	@Autowired
+	private DefItemRepository itemRepository;
 	
 	
 	
@@ -56,7 +61,8 @@ public class CatMenuItemToMenuMaterialConverter {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, DefItemProductEntity regend, BigDecimal countSpend) {
 		MenuMaterialHolder holder = new MenuMaterialHolder();
-		holder.setItem(regend.getMaterialItem());
+		DefItemEntity item = itemRepository.findWithFetch(regend.getMaterialItem().getId());
+		holder.setItem(item);
 		holder.setUnit(regend.getMaterialUnitCode());
 		countSpend = countSpend.multiply(regend.getMaterialCount());
 		holder.setCountSpend(countSpend);

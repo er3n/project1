@@ -2,8 +2,10 @@ package org.abacus.catering.core.handler;
 
 import org.abacus.catering.shared.event.ConfirmMenuEvent;
 import org.abacus.catering.shared.event.CreateMenuEvent;
+import org.abacus.catering.shared.event.CreateMenuPeriviewEvent;
 import org.abacus.catering.shared.event.MenuConfirmedEvent;
 import org.abacus.catering.shared.event.MenuCreatedEvent;
+import org.abacus.catering.shared.event.MenuPeriviewEvent;
 import org.abacus.catering.shared.event.MenuUpdatedEvent;
 import org.abacus.catering.shared.event.ReadMenuEvent;
 import org.abacus.catering.shared.event.RequestReadMenuEvent;
@@ -23,5 +25,7 @@ public interface CatMenuHandler {
 	ReadMenuEvent findMenu(RequestReadMenuEvent requestReadMenuEvent);
 	
 	MenuConfirmedEvent confirmMenu(ConfirmMenuEvent confirmMenuEvent) throws AbcBusinessException;
+
+	MenuPeriviewEvent createMenuPreview(CreateMenuPeriviewEvent createEvent);
 	
 }

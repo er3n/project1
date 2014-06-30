@@ -1,25 +1,52 @@
 package org.abacus.catering.shared.event;
 
+import java.util.List;
+
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.common.shared.event.UpdatedEvent;
-import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 
 public class ConfirmMenuEvent extends UpdatedEvent {
 
+	private StkDocumentEntity document;
+	private List<StkDetailEntity> details;
+	private String user;
 	private CatMenuEntity menu;
-	private String username;
 	private String fiscalYear;
-	private DepartmentEntity departmentEntity;
 	private String organization;
-	private String rootOrganization;
 
-	public ConfirmMenuEvent(CatMenuEntity menu, DepartmentEntity departmentEntity, String organization, String fiscalYear, String username,String rootOrganization) {
+	public ConfirmMenuEvent(StkDocumentEntity document, List<StkDetailEntity> details, CatMenuEntity menu, String user, String organization, String fiscalYear) {
+		this.document = document;
+		this.details = details;
 		this.menu = menu;
-		this.departmentEntity = departmentEntity;
+		this.user = user;
 		this.organization = organization;
 		this.fiscalYear = fiscalYear;
-		this.username = username;
-		this.rootOrganization = rootOrganization;
+	}
+
+	public StkDocumentEntity getDocument() {
+		return document;
+	}
+
+	public void setDocument(StkDocumentEntity document) {
+		this.document = document;
+	}
+
+	public List<StkDetailEntity> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<StkDetailEntity> details) {
+		this.details = details;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public CatMenuEntity getMenu() {
@@ -30,14 +57,6 @@ public class ConfirmMenuEvent extends UpdatedEvent {
 		this.menu = menu;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getFiscalYear() {
 		return fiscalYear;
 	}
@@ -46,28 +65,12 @@ public class ConfirmMenuEvent extends UpdatedEvent {
 		this.fiscalYear = fiscalYear;
 	}
 
-	public DepartmentEntity getDepartmentEntity() {
-		return departmentEntity;
-	}
-
-	public void setDepartmentEntity(DepartmentEntity departmentEntity) {
-		this.departmentEntity = departmentEntity;
-	}
-
 	public String getOrganization() {
 		return organization;
 	}
 
 	public void setOrganization(String organization) {
 		this.organization = organization;
-	}
-
-	public String getRootOrganization() {
-		return rootOrganization;
-	}
-
-	public void setRootOrganization(String rootOrganization) {
-		this.rootOrganization = rootOrganization;
 	}
 
 }

@@ -21,8 +21,10 @@ import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.catering.shared.event.ConfirmMenuEvent;
 import org.abacus.catering.shared.event.CreateMenuEvent;
+import org.abacus.catering.shared.event.CreateMenuPeriviewEvent;
 import org.abacus.catering.shared.event.MenuConfirmedEvent;
 import org.abacus.catering.shared.event.MenuCreatedEvent;
+import org.abacus.catering.shared.event.MenuPeriviewEvent;
 import org.abacus.catering.shared.event.MenuUpdatedEvent;
 import org.abacus.catering.shared.event.ReadMenuEvent;
 import org.abacus.catering.shared.event.RequestReadMenuEvent;
@@ -42,6 +44,7 @@ import org.abacus.transaction.core.handler.StkTransactionHandlerImpl;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
@@ -69,7 +72,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 
 	@Autowired
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> stkTransactionHandler;
-	
+
 	@Autowired
 	private CatMenuItemToMenuMaterialConverter catMenuItemToMenuMaterialConverter;
 
@@ -166,16 +169,16 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	}
 
 	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public MenuConfirmedEvent confirmMenu(ConfirmMenuEvent confirmMenuEvent) throws AbcBusinessException {
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public MenuPeriviewEvent createMenuPreview(CreateMenuPeriviewEvent createEvent) {
 
-		String user = confirmMenuEvent.getUsername();
-		CatMenuEntity menu = confirmMenuEvent.getMenu();
-		String fiscalYear = confirmMenuEvent.getFiscalYear();
+		CatMenuEntity menu = createEvent.getMenu();
+		
 		Set<CatMenuItemEntity> menuItemSet = menu.getMenuItemSet();
-		DepartmentEntity department = confirmMenuEvent.getDepartmentEntity();
-		String organization = confirmMenuEvent.getOrganization();
-		String rootOrganization = confirmMenuEvent.getRootOrganization();
+		DepartmentEntity department = createEvent.getDepartmentEntity();
+		
+		String rootOrganization = createEvent.getRootOrganization();
+
 
 		if (CollectionUtils.isEmpty(menuItemSet)) {
 			throw new NoMenuItemSelectedException();
@@ -183,20 +186,18 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 
 		StkDocumentEntity document = new StkDocumentEntity();
 		DefTaskEntity inputTask = taskRepository.getTask(rootOrganization, EnumList.DefTypeEnum.STK_IO_O.name());
-		
+
 		document.setDocDate(Calendar.getInstance().getTime());
 		document.setTask(inputTask);
 		document.setDocNo("M_" + menu.getId());
 
-		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, organization, fiscalYear));
-		document = documentCreatedEvent.getDocument();
+		Collection<MenuMaterialHolder> menuMaterialSet = catMenuItemToMenuMaterialConverter.convert(menu, menuItemSet);
 		
-		Collection<MenuMaterialHolder> menuMaterialSet = catMenuItemToMenuMaterialConverter.convert(menu,menuItemSet);
-		
-		for(MenuMaterialHolder material : menuMaterialSet){
-			
+		List<StkDetailEntity> details = new ArrayList<StkDetailEntity>();
+		for (MenuMaterialHolder material : menuMaterialSet) {
+
 			StkDetailEntity detail = new StkDetailEntity();
-			
+
 			detail.setBatchDetailNo("MD_" + menu.getId());
 			detail.setDepartment(department);
 			detail.setDocument(document);
@@ -206,13 +207,35 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 			detail.setBaseDetailAmount(BigDecimal.ZERO);
 			detail.setLotDetailDate(Calendar.getInstance().getTime());
 			
-			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(detail, user));
-			
+			details.add(detail);
+
 		}
+
+		return new MenuPeriviewEvent(document,details);
+	}
+	
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public MenuConfirmedEvent confirmMenu(ConfirmMenuEvent confirmMenuEvent) throws AbcBusinessException {
+
+		StkDocumentEntity document = confirmMenuEvent.getDocument();
+		List<StkDetailEntity> details = confirmMenuEvent.getDetails();
+		String user = confirmMenuEvent.getUser();
+		CatMenuEntity menu = confirmMenuEvent.getMenu();
+		String fiscalYear = confirmMenuEvent.getFiscalYear();
+		String organization = confirmMenuEvent.getOrganization(); 
+ 
 		
-		
+		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, organization, fiscalYear));
+		document = documentCreatedEvent.getDocument();
+
+		for (StkDetailEntity deail : details) {
+			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(deail, user));
+		}
+
 		menu.setMenuStatus(EnumList.MenuStatusEnum.DONE);
-		menu.setDocument(document);
+		menu.setDocument((StkDocumentEntity) document);
 		MenuUpdatedEvent mue = this.updateMenu(new UpdateMenuEvent(menu, user));
 		menu = mue.getMenu();
 

@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.abacus.catering.core.handler.CatMenuHandler;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
@@ -19,8 +20,10 @@ import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.catering.shared.event.ConfirmMenuEvent;
 import org.abacus.catering.shared.event.CreateMenuEvent;
+import org.abacus.catering.shared.event.CreateMenuPeriviewEvent;
 import org.abacus.catering.shared.event.MenuConfirmedEvent;
 import org.abacus.catering.shared.event.MenuCreatedEvent;
+import org.abacus.catering.shared.event.MenuPeriviewEvent;
 import org.abacus.catering.shared.event.MenuUpdatedEvent;
 import org.abacus.catering.shared.event.ReadMenuEvent;
 import org.abacus.catering.shared.event.RequestReadMenuEvent;
@@ -37,6 +40,7 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.joda.time.MutableDateTime;
 import org.springframework.util.CollectionUtils;
 
@@ -44,7 +48,6 @@ import org.springframework.util.CollectionUtils;
 @ManagedBean
 @ViewScoped
 public class CatMenuViewBean implements Serializable {
-
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 
@@ -71,6 +74,12 @@ public class CatMenuViewBean implements Serializable {
 
 	private DepartmentEntity consumedDeparment;
 
+	private MenuPeriviewEvent menuPreviewEvent;
+
+	private StkDetailEntity selectedDetail;
+
+	private EnumList.DefTypeEnum selectedDetailServiceType;
+
 	@PostConstruct
 	private void init() {
 		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.currentOrganizationId());
@@ -87,15 +96,49 @@ public class CatMenuViewBean implements Serializable {
 		this.initUpdateMenu(mealFilterEntity, dailyMenu);
 	}
 
-	public void confirmMenu() {
-		try{
-			MenuConfirmedEvent confirmedEvent = menuHandler.confirmMenu(new ConfirmMenuEvent(this.selectedMenu,this.consumedDeparment,sessionInfoHelper.currentOrganizationId(),sessionInfoHelper.selectedFiscalYearId(),sessionInfoHelper.currentUserName(),sessionInfoHelper.currentRootOrganizationId()));
-			this.initMenuSummary();
-			jsfMessageHelper.addInfo("menuConfirmedWithDocumentNo", confirmedEvent.getDocument().getDocNo());
-		}catch(AbcBusinessException e){
+	public void initNewDetail() {
+		selectedDetail = new StkDetailEntity();
+		selectedDetail.setDocument(menuPreviewEvent.getDocument());
+		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
+	}
+	
+	public void updateDetailSelected(StkDetailEntity detail){
+		this.selectedDetail = detail;
+	}
+	
+	public void selectedDetailServiceTypeChanged() {
+		selectedDetail = new StkDetailEntity();
+		selectedDetail.setDocument(menuPreviewEvent.getDocument());
+	}
+	
+	public void saveDetail(){
+		menuPreviewEvent.getDetails().add(this.selectedDetail);
+		this.selectedDetail = null;
+	}
+	
+	public void updateDetail(){
+		this.selectedDetail = null;
+	}
+
+	public void previewMenu() {
+		try {
+			this.menuPreviewEvent = menuHandler.createMenuPreview(new CreateMenuPeriviewEvent(this.selectedMenu, this.consumedDeparment, sessionInfoHelper.currentRootOrganizationId()));
+		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
-		
+	}
+
+	public void confirmMenu() {
+		try {
+			MenuConfirmedEvent confirmedEvent = menuHandler.confirmMenu(new ConfirmMenuEvent(menuPreviewEvent.getDocument(), menuPreviewEvent.getDetails(), this.selectedMenu, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+			this.initMenuSummary();
+			jsfMessageHelper.addInfo("menuConfirmedWithDocumentNo", confirmedEvent.getDocument().getDocNo());
+			
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+			FacesContext.getCurrentInstance().validationFailed();
+		}
+
 	}
 
 	public void cancelMenu() {
@@ -133,6 +176,10 @@ public class CatMenuViewBean implements Serializable {
 		searchCriteria.setDate(selectedDate);
 
 		this.menuDateSelected();
+	}
+
+	public void deleteDetail(StkDetailEntity detail) {
+		menuPreviewEvent.getDetails().remove(detail);
 	}
 
 	public void addItemToMenu() {
@@ -315,6 +362,30 @@ public class CatMenuViewBean implements Serializable {
 
 	public void setSelectedUnit(DefUnitCodeEntity selectedUnit) {
 		this.selectedUnit = selectedUnit;
+	}
+
+	public MenuPeriviewEvent getMenuPreviewEvent() {
+		return menuPreviewEvent;
+	}
+
+	public void setMenuPreviewEvent(MenuPeriviewEvent menuPreviewEvent) {
+		this.menuPreviewEvent = menuPreviewEvent;
+	}
+
+	public StkDetailEntity getSelectedDetail() {
+		return selectedDetail;
+	}
+
+	public void setSelectedDetail(StkDetailEntity selectedDetail) {
+		this.selectedDetail = selectedDetail;
+	}
+
+	public EnumList.DefTypeEnum getSelectedDetailServiceType() {
+		return selectedDetailServiceType;
+	}
+
+	public void setSelectedDetailServiceType(EnumList.DefTypeEnum selectedDetailServiceType) {
+		this.selectedDetailServiceType = selectedDetailServiceType;
 	}
 
 }

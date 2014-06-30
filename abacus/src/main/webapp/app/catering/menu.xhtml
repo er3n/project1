@@ -213,7 +213,9 @@
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
 
 					<p:outputLabel value="Miktar" />
-					<p:inputText value="#{catMenuViewBean.selectedMenu.countSpend}" required="true" requiredMessage="Kullanilan miktar bos olamaz" />
+					<p:inputText id="miktar" value="#{catMenuViewBean.selectedMenu.countSpend}" required="true" requiredMessage="Kullanilan miktar bos olamaz" >
+						<f:validateLongRange minimum="1"   />
+					</p:inputText>
 
 					<p:outputLabel value="Depo" />
 					<h:panelGrid columns="1">

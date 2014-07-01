@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Range;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends DynamicEntity implements Cloneable {
+public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends DynamicEntity {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "lot_detail_date", nullable = false)

@@ -9,10 +9,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.transaction.core.handler.FinIntegrationHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
@@ -42,6 +44,9 @@ public class FindStkDocumentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{stkTransactionHandler}")
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
+	
+	@ManagedProperty(value = "#{finIntegrationHandler}")
+	private FinIntegrationHandler finIntegrationHandler;
 
 	private List<StkDocumentEntity> documentSearchResultList;
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
@@ -86,6 +91,17 @@ public class FindStkDocumentViewBean implements Serializable {
 			jsfMessageHelper.addError(e);
 		}
 	}
+	
+	public void createFinDocument(StkDocumentEntity document) {
+		try {
+			finIntegrationHandler.createFinFromDocument(document.getId());
+			jsfMessageHelper.addInfo("createFinDocument");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
@@ -149,6 +165,14 @@ public class FindStkDocumentViewBean implements Serializable {
 
 	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
+	}
+
+	public FinIntegrationHandler getFinIntegrationHandler() {
+		return finIntegrationHandler;
+	}
+
+	public void setFinIntegrationHandler(FinIntegrationHandler finIntegrationHandler) {
+		this.finIntegrationHandler = finIntegrationHandler;
 	}
 
 }

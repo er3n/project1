@@ -21,16 +21,16 @@ public class OrganizationUtils {
 	private FiscalYearRepository fiscalYearRepository;
 
 	public static OrganizationEntity findRootOrganization(OrganizationEntity child) {
-		OrganizationEntity orgEntity = findRootOrganization(child, EnumList.OrgOrganizationLevelEnum.L0);
+		OrganizationEntity orgEntity = findLevelOrganization(child, EnumList.OrgOrganizationLevelEnum.L0);
 		return orgEntity;
 	}
 
 	public static OrganizationEntity findCompanyOrganization(OrganizationEntity child) {
-		OrganizationEntity orgEntity = findRootOrganization(child, EnumList.OrgOrganizationLevelEnum.L1);
+		OrganizationEntity orgEntity = findLevelOrganization(child, EnumList.OrgOrganizationLevelEnum.L1);
 		return orgEntity;
 	}
 
-	public static OrganizationEntity findRootOrganization(OrganizationEntity child, EnumList.OrgOrganizationLevelEnum level) {
+	private static OrganizationEntity findLevelOrganization(OrganizationEntity child, EnumList.OrgOrganizationLevelEnum level) {
 		int currentLevelIndex = child.getLevel().ordinal();
 		int requestLevelIndex = level.ordinal();
 		if (requestLevelIndex > currentLevelIndex) {

@@ -85,6 +85,10 @@
 							<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.createFinDocument(var)}" update=":documentResultTable">
+							<p:confirm header="Onay" message="Finans Kaydı Olusrmak İstiyor musun?" icon="ui-icon-alert"  />
+						</p:commandButton>
+						
 					</p:column>
 
 				</p:dataTable> 

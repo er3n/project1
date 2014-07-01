@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "tra_detail")
@@ -29,6 +30,11 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 	public FinDetailEntity() {
 	}
 
+	public FinDetailEntity(TraDetailEntity<?> traDet) {
+		traDet.setDocument(null);
+		BeanUtils.copyProperties(traDet, this);
+	}
+	
 	@Override
 	public FinDocumentEntity getDocument() {
 		return document;

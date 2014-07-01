@@ -288,16 +288,6 @@
 						<p:outputLabel value="#{var.department.name}" />
 					</p:column>
 
-					<p:column headerText="Karşı Depo">
-						<p:outputLabel value="#{var.departmentOpp.name}" />
-					</p:column>
-
-					<p:column headerText="SKT">
-						<p:outputLabel value="#{var.lotDetailDate}">
-							<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy" locale="tr_TR" />
-						</p:outputLabel>
-					</p:column>
-
 					<p:column headerText="Birim">
 						<p:outputLabel value="#{var.itemUnit.name}" />
 					</p:column>
@@ -360,10 +350,6 @@
 
 							<p:outputLabel value="Miktar" />
 							<p:inputText value="#{catMenuViewBean.selectedDetail.itemDetailCount}" required="true" requiredMessage="Seri numarası boş olamaz." />
-
-							<p:outputLabel value="Son Kullanma Tarihi" />
-							<p:calendar value="#{catMenuViewBean.selectedDetail.lotDetailDate}" required="true">
-							</p:calendar>
 
 							<p:outputLabel value="Seri No:" />
 							<p:inputText value="#{catMenuViewBean.selectedDetail.batchDetailNo}" required="true" requiredMessage="Seri numarası boş olamaz." />

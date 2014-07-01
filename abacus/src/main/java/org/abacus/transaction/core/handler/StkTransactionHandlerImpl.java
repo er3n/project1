@@ -281,7 +281,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		  
 		boolean isNotEnoughtItemStock = currentItemCount == null || detailCount.compareTo(currentItemCount) > 0;
 		if(isNotEnoughtItemStock){
-			throw new UnableToOutputDetail();
+			throw new UnableToOutputDetail(detail.getItem().getName());
 		}
 		
 		BigDecimal restCount = detailCount;

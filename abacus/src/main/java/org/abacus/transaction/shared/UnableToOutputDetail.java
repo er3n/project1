@@ -5,8 +5,8 @@ import org.abacus.common.shared.AbcBusinessException;
 @SuppressWarnings("serial")
 public class UnableToOutputDetail extends AbcBusinessException {
 	
-	public UnableToOutputDetail(){
-		super("notEnoughItemInStock");
+	public UnableToOutputDetail(String name) {
+		super("notEnoughItemInStock",name);
 	}
 
 }

@@ -231,8 +231,9 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, organization, fiscalYear));
 		document = documentCreatedEvent.getDocument();
 
-		for (StkDetailEntity deail : details) {
-			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(deail, user));
+		for (StkDetailEntity detail : details) {
+			detail.setDocument(document);
+			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(detail, user));
 		}
 
 		menu.setMenuStatus(EnumList.MenuStatusEnum.DONE);

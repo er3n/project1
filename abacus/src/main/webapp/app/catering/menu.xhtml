@@ -306,10 +306,6 @@
 						<p:outputLabel value="#{var.itemDetailCount}" />
 					</p:column>
 
-					<p:column headerText="Toplam Tutar" style="text-align: right; width:100px">
-						<p:outputLabel value="#{var.baseDetailAmount}" />
-					</p:column>
-
 					<p:column headerText="İşlem">
 						<p:commandButton icon="ui-icon-pencil" actionListener="#{catMenuViewBean.updateDetailSelected(var)}" update=":confirmMenuStkDetailForm" oncomplete="PF('confirmMenuStkDetailWdg').show();" process="@this" />
 						<p:commandButton icon="ui-icon-closethick" actionListener="#{catMenuViewBean.deleteDetail(var)}" update=":confirmMenuStkForm:documentDetailPnl" process="@this" />

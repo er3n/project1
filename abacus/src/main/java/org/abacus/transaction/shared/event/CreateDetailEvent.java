@@ -13,6 +13,11 @@ public class CreateDetailEvent<D extends TraDetailEntity<D>> extends CreatedEven
 		this.user = user;
 	}
 
+	public CreateDetailEvent(D detail) {
+		this.detail = detail;
+		this.user = detail.getUserCreated();
+	}
+
 	public D getDetail() {
 		return detail;
 	}

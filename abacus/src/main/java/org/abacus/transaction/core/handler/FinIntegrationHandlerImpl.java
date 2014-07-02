@@ -1,20 +1,24 @@
 package org.abacus.transaction.core.handler;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import javax.faces.bean.ManagedProperty;
 
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.core.util.OrganizationUtils;
+import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
-import org.abacus.transaction.core.persistance.repository.FinDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
+import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,10 +34,8 @@ public class FinIntegrationHandlerImpl implements FinIntegrationHandler {
 	private StkDocumentRepository stkDocumentRepository;  
 
 	@Autowired
-	private FinDetailRepository finDetailRepository;  
-
-	@Autowired
-	private FinDocumentRepository finDocumentRepository;  
+	@ManagedProperty(value = "#{finTransactionHandler}")
+	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> finTransactionHandler;  
 
 	@Autowired
 	private DefTaskHandler taskHandler;
@@ -42,25 +44,41 @@ public class FinIntegrationHandlerImpl implements FinIntegrationHandler {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
 	public FinDocumentEntity createFinFromDocument(Long docId) {
 
+		//Create FinDocument
 		StkDocumentEntity stkDoc = stkDocumentRepository.findWithFetch(docId);
-		
 		FinDocumentEntity finDoc = new FinDocumentEntity(stkDoc);
 		finDoc.setId(null);
 		OrganizationEntity rootOrg = OrganizationUtils.findRootOrganization(finDoc.getOrganization());
 		DefTaskEntity finTask = taskHandler.getTaskList(rootOrg.getId(), EnumList.DefTypeEnum.FIN_B).get(0);
 		finDoc.setTask(finTask);
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
-		finDocumentRepository.save(finDoc);
+		finTransactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(finDoc));
 
+		//Convert FinDetail
+		
+		DepartmentEntity cakmaDepartment = null; //FIXME: documentte department gerekli gibi ???
+		BigDecimal totalAmount = BigDecimal.ZERO;
 		List<StkDetailEntity> stkDetList = stkDetailRepository.findByDocumentId(docId);
 		for (StkDetailEntity stkDet : stkDetList) {
 			FinDetailEntity finDet = new FinDetailEntity(stkDet);
 			finDet.setDocument(finDoc);
-			finDetailRepository.save(finDet);
+			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(finDet));
+			totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
+			cakmaDepartment = finDet.getDepartment();
 		}
 		
-		return finDoc;	
+		//Create FinDetail Info
+		FinDetailEntity infoDet = new FinDetailEntity();
+		infoDet.createHook(finDoc.getUserCreated());
+		infoDet.setDocument(finDoc);
+		infoDet.setTrStateDetail(finDoc.getTrStateDocument()*(-1)); //Opposite State 
+		infoDet.setDepartment(cakmaDepartment);//FIXME:
+		infoDet.setItem(finDoc.getItem());
+		infoDet.setItemDetailCount(BigDecimal.ONE);
+		infoDet.setBaseDetailAmount(totalAmount);
+		finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet));
 		
+		return finDoc;	
 	}
 	
 }

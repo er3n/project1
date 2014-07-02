@@ -1,5 +1,7 @@
 package org.abacus.transaction.shared.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -51,6 +53,14 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 
 	public void setGlc(DefTypeEntity glc) {
 		this.glc = glc;
+	}
+
+	public BigDecimal getDebitAmount(){
+		return this.getTrStateDetail().equals(+1)?this.getBaseDetailAmount():BigDecimal.ZERO;
+	}
+
+	public BigDecimal getCreditAmount(){
+		return this.getTrStateDetail().equals(-1)?this.getBaseDetailAmount():BigDecimal.ZERO;
 	}
 
 }

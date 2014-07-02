@@ -94,20 +94,14 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DetailCreatedEvent<FinDetailEntity> newDetail(CreateDetailEvent<FinDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
-		
-		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
-		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent=null;
-		
-		if(trStateDetail.equals(EnumList.TraState.INP.value())){
+		Integer trStateDetail = detailCreateEvent.getDetail().getTrStateDetail();
+		if (trStateDetail==null){
+			trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-			detailCreatedEvent = super.newDetail(detailCreateEvent);
-		}else if(trStateDetail.equals(EnumList.TraState.OUT.value())){
-			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-			detailCreatedEvent = super.newDetail(detailCreateEvent);
 		}
-
+		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent=null;
+		detailCreatedEvent = super.newDetail(detailCreateEvent);
 		return detailCreatedEvent;
-		
 	}
 
 	@Override

@@ -23,8 +23,8 @@
 				<p:panel id="documentPanel"
 					rendered="#{not empty crudFinDocumentViewBean.document}">
 
-					<f:facet name="header">
-					Stok Fişi
+				<f:facet name="header">
+					Finans Fişi 
 				</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
@@ -233,7 +233,6 @@
 			update=":crudDocumentDetailSelectionFrm"
 			widgetVar="finDepartmentSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
-			paramDepGroup="#{OrgDepartmentGroupEnum.F}"
 			targetVar="#{crudFinDocumentViewBean.selectedDetail.department}"
 			rendered="true" />
 

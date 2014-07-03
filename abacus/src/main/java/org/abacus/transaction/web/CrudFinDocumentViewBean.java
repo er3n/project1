@@ -67,8 +67,6 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	private FinDetailEntity selectedDetail;
 
-	private EnumList.DefTypeEnum selectedDetailServiceType;
-
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 	private EnumList.DefTypeEnum selectedTypeEnum;
 
@@ -89,21 +87,23 @@ public class CrudFinDocumentViewBean implements Serializable {
 		}
 
 		String operation = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("operation");
-		this.initSelections();
 		if (operation.equals("create")) {
+			this.initSelections();
 			this.initNewDocument();
 		} else if (operation.equals("detail") || operation.equals("update")) {
 			String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
 			this.findFinDocument(Long.valueOf(documentId));
 			if (document == null) {
 				jsfMessageHelper.addError("noDocumentFind", selectedGroupEnum.getDescription());
+			} else {
+				selectedTypeEnum = document.getTypeEnum(); 
+				this.initSelections();
 			}
 		}
 	}
 
 	private void initSelections() {
 		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
-		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_FN;
 	}
 
 	private void initNewDocument() {
@@ -184,7 +184,6 @@ public class CrudFinDocumentViewBean implements Serializable {
 	public void initNewDetail() {
 		selectedDetail = new FinDetailEntity();
 		selectedDetail.setDocument(document);
-		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_FN;
 	}
 
 	public void selectedDetailServiceTypeChanged() {
@@ -278,14 +277,6 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void setSelectedGroupEnum(EnumList.DefTypeGroupEnum selectedGroupEnum) {
 		this.selectedGroupEnum = selectedGroupEnum;
-	}
-
-	public EnumList.DefTypeEnum getSelectedDetailServiceType() {
-		return selectedDetailServiceType;
-	}
-
-	public void setSelectedDetailServiceType(EnumList.DefTypeEnum selectedDetailServiceType) {
-		this.selectedDetailServiceType = selectedDetailServiceType;
 	}
 
 	public EnumList.DefTypeEnum getSelectedTypeEnum() {

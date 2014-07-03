@@ -36,6 +36,7 @@ public class StkReportDao implements Serializable {
 		criteria.createAlias("d.item", "item");
 		criteria.createAlias("d.department", "department");
 		criteria.add(Restrictions.eq("d.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
+		criteria.add(Restrictions.like("document.typeStr", EnumList.DefTypeGroupEnum.STK.name()+"%"));
 		criteria.add(Restrictions.eq("item.type.id", EnumList.DefTypeEnum.ITM_SR_ST.name()));
 		if (reportSearchCriteria.getDetailItem()!=null){
 			criteria.add(Restrictions.eq("d.item.id", reportSearchCriteria.getDetailItem().getId()));
@@ -67,6 +68,7 @@ public class StkReportDao implements Serializable {
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
 		sb.append("         and d.department_id = coalesce(:p_department_id, d.department_id)");
 		sb.append("         and c.id = d.document_stk_id");
+		sb.append("         and c.type_id like "+EnumList.DefTypeGroupEnum.STK.name()+"%");
 		sb.append("         and c.doc_date >= coalesce(:p_date_start, c.doc_date)");
 		sb.append("         and c.doc_date <= coalesce(:p_date_end, c.doc_date)");
 		sb.append("         and c.task_id = coalesce(:p_task_id, c.task_id)");

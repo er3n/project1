@@ -18,12 +18,12 @@ import org.abacus.report.core.handler.ReportHandler;
 import org.abacus.report.shared.event.ReadReportEvent;
 import org.abacus.report.shared.event.RequestReadReportEvent;
 import org.abacus.report.shared.holder.ReportSearchCriteria;
-import org.abacus.transaction.shared.entity.StkDetailEntity;
+import org.abacus.transaction.shared.entity.FinDetailEntity;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class QueryStkDetailViewBean implements Serializable {
+public class QueryFinDetailViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -41,9 +41,9 @@ public class QueryStkDetailViewBean implements Serializable {
 	private ReportHandler reportHandler;
 
 	private ReportSearchCriteria reportSearchCriteria;
-	private List<StkDetailEntity> searchResultList;
+	private List<FinDetailEntity> searchResultList;
 	private Boolean showDocument = true;
-	private List<DefTaskEntity> stkTaskList;
+	private List<DefTaskEntity> finTaskList;
 	
 	@PostConstruct
 	private void init() {
@@ -52,12 +52,12 @@ public class QueryStkDetailViewBean implements Serializable {
 		reportSearchCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
 		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 		jsfMessageHelper.addWarn("noFiscalYearDefined");
-		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.FIN.name());
 	}
 
 	public void searchResult() {
 		RequestReadReportEvent requestReadReportEvent = new RequestReadReportEvent(reportSearchCriteria);
-		ReadReportEvent<StkDetailEntity> readReportEvent = reportHandler.getStkDetail(requestReadReportEvent);
+		ReadReportEvent<FinDetailEntity> readReportEvent = reportHandler.getFinDetail(requestReadReportEvent);
 		searchResultList = readReportEvent.getDetailList();
 	}
 
@@ -93,12 +93,12 @@ public class QueryStkDetailViewBean implements Serializable {
 		this.showDocument = showDocument;
 	}
 	
-	public List<DefTaskEntity> getStkTaskList() {
-		return stkTaskList;
+	public List<DefTaskEntity> getFinTaskList() {
+		return finTaskList;
 	}
 
-	public void setStkTaskList(List<DefTaskEntity> stkTaskList) {
-		this.stkTaskList = stkTaskList;
+	public void setFinTaskList(List<DefTaskEntity> finTaskList) {
+		this.finTaskList = finTaskList;
 	}
 
 	public DefTaskRepository getTaskRepository() {
@@ -117,11 +117,11 @@ public class QueryStkDetailViewBean implements Serializable {
 		this.reportHandler = reportHandler;
 	}
 
-	public List<StkDetailEntity> getSearchResultList() {
+	public List<FinDetailEntity> getSearchResultList() {
 		return searchResultList;
 	}
 
-	public void setSearchResultList(List<StkDetailEntity> searchResultList) {
+	public void setSearchResultList(List<FinDetailEntity> searchResultList) {
 		this.searchResultList = searchResultList;
 	}
 

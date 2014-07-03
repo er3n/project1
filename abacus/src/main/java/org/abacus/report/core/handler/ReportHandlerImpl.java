@@ -6,6 +6,7 @@ import org.abacus.report.core.persistance.FinReportDao;
 import org.abacus.report.core.persistance.StkReportDao;
 import org.abacus.report.shared.event.ReadReportEvent;
 import org.abacus.report.shared.event.RequestReadReportEvent;
+import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,17 +25,33 @@ public class ReportHandlerImpl implements ReportHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public ReadReportEvent getStkState(RequestReadReportEvent requestReadReportEvent) {
+	public ReadReportEvent<StkDetailEntity> getStkState(RequestReadReportEvent requestReadReportEvent) {
 		List<StkDetailEntity> detailList = stkReportDao.getStkState(requestReadReportEvent.getReportSearchCriteria());
-		ReadReportEvent readEvent = new ReadReportEvent(detailList);
+		ReadReportEvent<StkDetailEntity> readEvent = new ReadReportEvent<StkDetailEntity>(detailList);
 		return readEvent;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public ReadReportEvent getStkDetail(RequestReadReportEvent requestReadReportEvent) {
+	public ReadReportEvent<StkDetailEntity> getStkDetail(RequestReadReportEvent requestReadReportEvent) {
 		List<StkDetailEntity> detailList = stkReportDao.getStkDetail(requestReadReportEvent.getReportSearchCriteria());
-		ReadReportEvent readEvent = new ReadReportEvent(detailList);
+		ReadReportEvent<StkDetailEntity> readEvent = new ReadReportEvent<StkDetailEntity>(detailList);
+		return readEvent;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public ReadReportEvent<FinDetailEntity> getFinState(RequestReadReportEvent requestReadReportEvent) {
+		List<FinDetailEntity> detailList = finReportDao.getFinState(requestReadReportEvent.getReportSearchCriteria());
+		ReadReportEvent<FinDetailEntity> readEvent = new ReadReportEvent<FinDetailEntity>(detailList);
+		return readEvent;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public ReadReportEvent<FinDetailEntity> getFinDetail(RequestReadReportEvent requestReadReportEvent) {
+		List<FinDetailEntity> detailList = finReportDao.getFinDetail(requestReadReportEvent.getReportSearchCriteria());
+		ReadReportEvent<FinDetailEntity> readEvent = new ReadReportEvent<FinDetailEntity>(detailList);
 		return readEvent;
 	}
 

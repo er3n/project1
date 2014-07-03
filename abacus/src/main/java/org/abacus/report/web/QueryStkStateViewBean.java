@@ -57,7 +57,7 @@ public class QueryStkStateViewBean implements Serializable {
 
 	public void searchResult() {
 		RequestReadReportEvent requestReadReportEvent = new RequestReadReportEvent(reportSearchCriteria);
-		ReadReportEvent readReportEvent = reportHandler.getStkState(requestReadReportEvent);
+		ReadReportEvent<StkDetailEntity> readReportEvent = reportHandler.getStkState(requestReadReportEvent);
 		searchResultList = readReportEvent.getDetailList();
 	}
 	

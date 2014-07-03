@@ -34,7 +34,6 @@ public class FinIntegrationHandlerImpl implements FinIntegrationHandler {
 	private StkDocumentRepository stkDocumentRepository;  
 
 	@Autowired
-	@ManagedProperty(value = "#{finTransactionHandler}")
 	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> finTransactionHandler;  
 
 	@Autowired

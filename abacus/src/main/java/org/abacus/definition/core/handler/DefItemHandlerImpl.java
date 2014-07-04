@@ -51,27 +51,26 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	public ItemCreatedEvent newItem(CreateItemEvent event) throws ItemAlreadyExistsException {
 		String userCreated = event.getCreatedUser();
 		DefItemEntity item = event.getItem();
-		Set<DefUnitCodeEntity> unitCodeSet = event.getUnitCodeSet();
 
 		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
 		if(existingItem != null){
 			throw new ItemAlreadyExistsException();
 		}
-		
 		item.createHook(userCreated);
-		
 		item = itemRepository.save(item);
 		
-		Set<DefItemUnitEntity> itemUnitSet = new HashSet<>();
-		for(DefUnitCodeEntity unitCode : unitCodeSet){
-			DefItemUnitEntity itemUnitEntity = new DefItemUnitEntity();
-			itemUnitEntity.setItem(item);
-			itemUnitEntity.setUnitCode(unitCode);
-			itemUnitEntity.createHook(userCreated);
-			itemUnitSet.add(itemUnitEntity);
+		Set<DefUnitCodeEntity> unitCodeSet = event.getUnitCodeSet();
+		if (unitCodeSet!=null){
+			Set<DefItemUnitEntity> itemUnitSet = new HashSet<>();
+			for(DefUnitCodeEntity unitCode : unitCodeSet){
+				DefItemUnitEntity itemUnitEntity = new DefItemUnitEntity();
+				itemUnitEntity.setItem(item);
+				itemUnitEntity.setUnitCode(unitCode);
+				itemUnitEntity.createHook(userCreated);
+				itemUnitSet.add(itemUnitEntity);
+			}
+			itemUnitRepository.save(itemUnitSet);
 		}
-		
-		itemUnitRepository.save(itemUnitSet);
 
 		return new ItemCreatedEvent(item);
 	}

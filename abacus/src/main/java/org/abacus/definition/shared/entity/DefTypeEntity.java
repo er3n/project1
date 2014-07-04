@@ -37,7 +37,7 @@ public class DefTypeEntity extends StaticEntity {
 		}
 	}
 	
-	public String getTrState() {
+	public String getTrStateSign() {
 		return (trStateType>0?"(+)":(trStateType<0?"(-)":"?"));
 	}
 

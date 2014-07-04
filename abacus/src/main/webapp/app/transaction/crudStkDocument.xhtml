@@ -41,9 +41,9 @@
 						</p:selectOneMenu>
 
 						<p:outputLabel id="firmaIdLabel" value="Firma"
-							rendered="#{crudStkDocumentViewBean.isWBTaskSelected()}" />
+							rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}" />
 						
-						<h:panelGrid id="vendorSelection" columns="1" rendered="#{crudStkDocumentViewBean.isWBTaskSelected()}">
+						<h:panelGrid id="vendorSelection" columns="1" rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}">
 							<abc:itemSelection id="vendorSelectionInput"
 								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
 								targetVar="#{crudStkDocumentViewBean.document.item}"
@@ -171,12 +171,22 @@
 						<p:panelGrid columns="2" cellpadding="2"
 							style="vertical-align:top"
 							rendered="#{crudStkDocumentViewBean.selectedDetailServiceType.equals(DefTypeEnum.ITM_SR_ST)}">
+							
 							<p:outputLabel value="Depo" />
 							<h:panelGrid columns="1">
-								<abc:departmentSelection id="departmentSelectionInput"
-									widgetVar="departmentSelectionWdg"
-									dialogId="departmentSelectionDialog"
+								<abc:departmentSelection id="stkDepartmentSelectionInput"
+									widgetVar="stkDepartmentSelectionWdg"
+									dialogId="stkDepartmentSelectionDialog"
 									targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
+									required="true" />
+							</h:panelGrid>
+
+							<p:outputLabel value="Karşı Depo" rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_TT_T)}"/>
+							<h:panelGrid columns="1" rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_TT_T)}">
+								<abc:departmentSelection id="stkDepartmentOppSelectionInput"
+									widgetVar="stkDepartmentOppSelectionWdg"
+									dialogId="stkDepartmentOppSelectionDialog"
+									targetVar="#{crudStkDocumentViewBean.selectedDetail.departmentOpp}"
 									required="true" />
 							</h:panelGrid>
 
@@ -207,19 +217,19 @@
 								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
-							<p:outputLabel value="Toplam Tutar" />
-							<p:inputText
+							<p:outputLabel value="Toplam Tutar" rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
+							<p:inputText  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
-							<p:outputLabel value="Son Kullanma Tarihi" />
-							<p:calendar
+							<p:outputLabel value="Son Kullanma Tarihi" rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
+							<p:calendar  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudStkDocumentViewBean.selectedDetail.lotDetailDate}"
 								required="true">
 							</p:calendar>
 
-							<p:outputLabel value="Seri No:" />
-							<p:inputText
+							<p:outputLabel value="Seri No:"  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
+							<p:inputText  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudStkDocumentViewBean.selectedDetail.batchDetailNo}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 	
@@ -325,13 +335,22 @@
 			targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
 			rendered="true" />
 
-		<abc:departmentSelectionDialog id="departmentSelectionDialog"
+		<abc:departmentSelectionDialog id="stkDepartmentSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm"
-			widgetVar="departmentSelectionWdg"
+			widgetVar="stkDepartmentSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
 			rendered="true" />
+
+		<abc:departmentSelectionDialog id="stkDepartmentOppSelectionDialog"
+			update=":crudDocumentDetailSelectionFrm"
+			widgetVar="stkDepartmentOppSelectionWdg"
+			paramUser="#{sessionInfoHelper.currentUser().username}"
+			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
+			targetVar="#{crudStkDocumentViewBean.selectedDetail.departmentOpp}"
+			rendered="true" />
+
 
 	</ui:define>
 

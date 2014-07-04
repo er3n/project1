@@ -102,14 +102,20 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		
 		FiscalYearEntity fiscalYear =  document.getFiscalPeriod().getFiscalYear();
 		detail.setFiscalYear(fiscalYear);
-		if (detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
+		if (document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
 			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 			detail.setBaseDetailCount(baseDetailCount);
-			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
+			if (document.getTypeEnum().getState().compareTo(1)==0){
+				detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
+			} else {//Cikis Islemlerinde Fiyat ve SKT girilmez 
+				detail.setBaseDetailAmount(BigDecimal.ZERO);
+				detail.setUnitDetailPrice(BigDecimal.ZERO);
+				detail.setLotDetailDate(document.getDocDate());
+			}
 		} else { //Fin Defaults
 			detail.setBaseDetailCount(detail.getItemDetailCount());
 			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
-			detail.setLotDetailDate(detail.getDocument().getDocDate());
+			detail.setLotDetailDate(document.getDocDate());
 		}
 		
 		detail.createHook(user);

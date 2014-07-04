@@ -168,17 +168,7 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	}
 
 	public String getTrStateSign() {
-		String sign = "?";
-		switch (trStateDetail.intValue()) {
-		case -1:
-			sign = "-";
-			break;
-		case +1:
-			sign = "+";
-			break;
-		}
-		;
-		return sign;
+		return (trStateDetail.intValue()>0?"(+)":(trStateDetail.intValue()<0?"(-)":"?"));
 	}
 
 	public D getPoint() {

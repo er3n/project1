@@ -184,12 +184,20 @@ public class CrudStkDocumentViewBean implements Serializable {
 		}
 	}
 
-	public Boolean isWBTaskSelected() {
+	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
 		if (document == null || document.getTask() == null) {
 			return false;
 		}
-		boolean isWBTaskSelected = this.document.getTask().getType().getId().startsWith(EnumList.DefTypeEnum.STK_WB.name());
-		return isWBTaskSelected;
+		boolean result = this.document.getTask().getType().getId().startsWith(taskEnum.name());
+		return result;
+	}
+
+	public Boolean isTaskSelectedState(Integer trState) {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean result = this.document.getTask().getType().getTrStateType().compareTo(trState)==0;
+		return result;
 	}
 
 	public void initNewDetail() {

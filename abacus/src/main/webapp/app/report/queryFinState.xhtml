@@ -108,7 +108,7 @@
 			id="itemSelectionDialog" 
 			update=":queryFinStateForm:itemSelectionInput" 
 			widgetVar="itemSelectionWdg" 
-			paramType="#{DefTypeEnum.ITM_SR_ST}"
+			paramType="#{DefTypeEnum.ITM}"
 			targetVar="#{queryFinStateViewBean.reportSearchCriteria.detailItem}"
 			rendered="true" />
 
@@ -116,7 +116,6 @@
 			id="departmentSelectionDialog"
 			update=":queryFinStateForm" 
 			widgetVar="departmentSelectionWdg"
-			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			targetVar="#{queryFinStateViewBean.reportSearchCriteria.detailDepartment}" 
 			rendered="true"/>			

@@ -25,6 +25,8 @@ public class ValueSelectionViewBean implements Serializable {
 	
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
+	
+	private List<String> valueTypeList = new ArrayList<String>();
 
 	private Map<String, List<DefValueEntity>> resultMap = new HashMap<>();
 
@@ -41,6 +43,14 @@ public class ValueSelectionViewBean implements Serializable {
 		} else {
 			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), typeEnum);
 			resultMap.put(key, list);
+			valueTypeList.clear();
+			for (EnumList.DefTypeEnum typ : EnumList.DefTypeEnum.values()) {
+				if (typ.name().startsWith(typeEnum.name())){
+					if (typ.name().length()>3){
+						valueTypeList.add(typ.getDescription());
+					}
+				}
+			}
 			return list;
 		}
 	}
@@ -59,6 +69,14 @@ public class ValueSelectionViewBean implements Serializable {
 
 	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
 		this.sessionInfoHelper = sessionInfoHelper;
+	}
+
+	public List<String> getValueTypeList() {
+		return valueTypeList;
+	}
+
+	public void setValueTypeList(List<String> valueTypeList) {
+		this.valueTypeList = valueTypeList;
 	}
 
 }

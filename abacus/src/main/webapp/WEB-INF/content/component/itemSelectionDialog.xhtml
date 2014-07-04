@@ -29,13 +29,23 @@
 				<h:outputText value="#{item.category.name}" />
 			</p:column>
 
+
+        	<p:column filterBy="#{item.type.getTypeEnum().description}" headerText="Tip">
+            	<f:facet name="filter">
+                	<p:selectOneMenu onchange="PF('#{widgetVar}_DT').filter()" >
+                   	 	<f:selectItem itemLabel="Seciniz..." itemValue="#{null}" noSelectionOption="true" />
+                   	 	<f:selectItems value="#{itemSelectionViewBean.valueTypeList}" />
+                	</p:selectOneMenu>
+            	</f:facet>
+            	<h:outputText value="#{item.type.getTypeEnum().description}" />
+        	</p:column>
+        
 			<p:column headerText="Durum" filterBy="#{item.active}">
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('#{widgetVar}_DT').filter()">
 						<f:converter converterId="javax.faces.Boolean" />
-						<f:selectItem itemLabel="Hepsi" itemValue="" />
-						<f:selectItem itemLabel="Aktif" itemValue="true" />
-						<f:selectItem itemLabel="Pasif" itemValue="false" />
+						<f:selectItem itemLabel="Ak" itemValue="true" />
+						<f:selectItem itemLabel="Ps" itemValue="false" />
 					</p:selectOneButton>
 				</f:facet>
 				<h:outputText value="Aktif" rendered="#{item.active}" />

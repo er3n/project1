@@ -122,7 +122,7 @@
 			id="itemSelectionDialog" 
 			update=":queryFinDetailForm:itemSelectionInput" 
 			widgetVar="itemSelectionWdg" 
-			paramType="#{DefTypeEnum.ITM_SR_ST}"
+			paramType="#{DefTypeEnum.ITM}"
 			targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailItem}"
 			rendered="true" />
 
@@ -130,7 +130,6 @@
 			id="departmentSelectionDialog"
 			update=":queryFinDetailForm" 
 			widgetVar="departmentSelectionWdg"
-			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailDepartment}" 
 			rendered="true"/>			

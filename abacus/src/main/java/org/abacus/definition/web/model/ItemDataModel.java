@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.faces.context.FacesContext;
 
 import org.abacus.definition.core.handler.DefItemHandler;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;
@@ -71,7 +72,7 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 		searchCriteria.setNameLike(null);
 		searchCriteria.setStatus(null);
 		searchCriteria.setCategoryCodeLike(null);
-		
+		searchCriteria.setFilterType(null);
 	}
 
 	private void addFilters(Map<String, Object> filters){
@@ -91,6 +92,9 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 				}
 				if(name.equals("active")){
 					searchCriteria.setStatus((Boolean)filters.get(name));
+				}
+				if(name.equals("type.getTypeEnum().description")){
+					searchCriteria.setFilterType((String)filters.get(name));
 				}
 			}
 			

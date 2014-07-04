@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -46,6 +47,10 @@ public class DefValueEntity extends DynamicEntity {
 	
 	public DefTypeEntity getType() {
 		return type;
+	}
+
+	public EnumList.DefTypeEnum getTypeEnum() {
+		return type.getTypeEnum();
 	}
 
 	public void setType(DefTypeEntity type) {

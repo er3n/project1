@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -33,6 +34,7 @@ public class DefItemDao implements Serializable {
 			criteria.setMaxResults(searchCriteria.getPageSize());
 		}
 		
+		criteria.addOrder(Order.asc("i.type.id"));
 		criteria.addOrder(Order.asc("i.code"));
 		
 		List<DefItemEntity> resultList = criteria.list();
@@ -43,6 +45,7 @@ public class DefItemDao implements Serializable {
 	public Criteria createRequestItemsCriteria(ItemSearchCriteria searchCriteria){
 		Session currentSession = em.unwrap(Session.class);
 		Criteria criteria  = currentSession.createCriteria(DefItemEntity.class,"i");
+		criteria.createAlias("i.type","t");
 		
 		if(searchCriteria.getOrganization()!=null){
 			List<OrganizationEntity> list = searchCriteria.getOrganization().getParentList();
@@ -66,6 +69,9 @@ public class DefItemDao implements Serializable {
 		}
 		if(searchCriteria.getStatus() != null){
 			criteria.add(Restrictions.eq("i.active", searchCriteria.getStatus()));
+		}
+		if(searchCriteria.getFilterType() != null){
+			criteria.add(Restrictions.eq("t.name", (String)searchCriteria.getFilterType()));
 		}
 		
 		return criteria;

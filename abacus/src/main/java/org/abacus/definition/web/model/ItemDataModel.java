@@ -93,7 +93,7 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 				if(name.equals("active")){
 					searchCriteria.setStatus((Boolean)filters.get(name));
 				}
-				if(name.equals("type.getTypeEnum().description")){
+				if(name.equals("filterTypeDesc")){
 					searchCriteria.setFilterType((String)filters.get(name));
 				}
 			}

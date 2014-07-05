@@ -30,7 +30,7 @@
 			</p:column>
 
 
-        	<p:column filterBy="#{item.type.getTypeEnum().description}" headerText="Tip">
+        	<p:column filterBy="#{filterTypeDesc}" headerText="Tip">
             	<f:facet name="filter">
                 	<p:selectOneMenu onchange="PF('#{widgetVar}_DT').filter()" >
                    	 	<f:selectItem itemLabel="Seciniz..." itemValue="#{null}" noSelectionOption="true" />

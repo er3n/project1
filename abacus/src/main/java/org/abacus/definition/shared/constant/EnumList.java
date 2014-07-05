@@ -138,6 +138,7 @@ public interface EnumList {
 		ITM_SR_FN("Finans Gider Tanımları", 0), //
 		ITM_SR_ST("Malzeme Tanımları", 0), //
 		ITM_VE("Firma Tanımları", 0), //
+		ITM_PE("Personel Tanımları", 0), //
 		// Stock
 		STK_OC_I("Stok Açılış Tip", 1), //
 		STK_IO_I("Stok İşlem Giriş Tip", 1), //

@@ -12,7 +12,8 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findStkDocumentViewBean.showDocument}" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findStkDocumentViewBean.showDocument}" />
 
 		<h:form>
 			<p:panel id="queryDocumentPanel" header="Stok Fiş Sorgulama" rendered="#{findStkDocumentViewBean.showDocument}">
@@ -85,7 +86,8 @@
 							<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						
-						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.createFinDocument(var)}" update=":documentResultTable">
+						<p:commandButton icon="ui-icon-newwin" actionListener="#{findStkDocumentViewBean.createFinFromStk(var)}" 
+							rendered="${findStkDocumentViewBean.isTaskSelected(var, DefTypeEnum.STK_WB)}" update=":documentResultTable">
 							<p:confirm header="Onay" message="Finans Kaydı Olusrmak İstiyor musun?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						

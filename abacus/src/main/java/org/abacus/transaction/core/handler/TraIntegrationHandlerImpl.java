@@ -3,8 +3,6 @@ package org.abacus.transaction.core.handler;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.faces.bean.ManagedProperty;
-
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
@@ -24,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("finIntegrationHandler")
-public class FinIntegrationHandlerImpl implements FinIntegrationHandler {
+@Service("traIntegrationHandler")
+public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 	@Autowired
 	private StkDetailRepository stkDetailRepository;  
@@ -41,7 +39,7 @@ public class FinIntegrationHandlerImpl implements FinIntegrationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
-	public FinDocumentEntity createFinFromDocument(Long docId) {
+	public FinDocumentEntity createFinFromStk(Long docId) {
 
 		//Create FinDocument
 		StkDocumentEntity stkDoc = stkDocumentRepository.findWithFetch(docId);

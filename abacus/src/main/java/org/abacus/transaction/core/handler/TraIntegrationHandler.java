@@ -2,8 +2,8 @@ package org.abacus.transaction.core.handler;
 
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
 
-public interface FinIntegrationHandler {
+public interface TraIntegrationHandler {
 	
-	FinDocumentEntity createFinFromDocument(Long docId);  
+	FinDocumentEntity createFinFromStk(Long docId);  
 	
 }

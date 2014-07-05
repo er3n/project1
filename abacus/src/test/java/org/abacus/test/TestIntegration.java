@@ -1,6 +1,6 @@
 package org.abacus.test;
 
-import org.abacus.transaction.core.handler.FinIntegrationHandler;
+import org.abacus.transaction.core.handler.TraIntegrationHandler;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.junit.Before;
@@ -22,8 +22,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 public class TestIntegration {
 
 	@Autowired
-	@Qualifier("finIntegrationHandler")
-	private FinIntegrationHandler finIntegrationHandler;
+	@Qualifier("traIntegrationHandler")
+	private TraIntegrationHandler traIntegrationHandler;
 
 	@Before
 	public void init() {
@@ -33,7 +33,7 @@ public class TestIntegration {
 	@Test
 	public void testTransferStkDetails() throws UnableToCreateDetailException{
 		
-		FinDocumentEntity finDoc = finIntegrationHandler.createFinFromDocument(1835L);
+		FinDocumentEntity finDoc = traIntegrationHandler.createFinFromStk(1835L);
 		System.out.println("ID:"+finDoc.getId()+" No:"+finDoc.getDocNo());
 		
 	}

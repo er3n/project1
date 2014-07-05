@@ -181,6 +181,22 @@ public class CrudFinDocumentViewBean implements Serializable {
 		}
 	}
 
+	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
+		if (this.document == null || this.document.getTask() == null) {
+			return false;
+		}
+		boolean result = this.document.getTask().getType().getId().startsWith(taskEnum.name());
+		return result;
+	}
+
+	public Boolean isTaskSelectedState(Integer trState) {
+		if (this.document == null || this.document.getTask() == null) {
+			return false;
+		}
+		boolean result = this.document.getTask().getType().getTrStateType().compareTo(trState)==0;
+		return result;
+	}
+	
 	public void initNewDetail() {
 		selectedDetail = new FinDetailEntity();
 		selectedDetail.setDocument(document);

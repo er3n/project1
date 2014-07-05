@@ -14,7 +14,7 @@ import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.transaction.core.handler.FinIntegrationHandler;
+import org.abacus.transaction.core.handler.TraIntegrationHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
@@ -45,8 +45,8 @@ public class FindStkDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{stkTransactionHandler}")
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
 	
-	@ManagedProperty(value = "#{finIntegrationHandler}")
-	private FinIntegrationHandler finIntegrationHandler;
+	@ManagedProperty(value = "#{traIntegrationHandler}")
+	private TraIntegrationHandler traIntegrationHandler;
 
 	private List<StkDocumentEntity> documentSearchResultList;
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
@@ -69,6 +69,22 @@ public class FindStkDocumentViewBean implements Serializable {
 		documentSearchCriteria = new TraDocumentSearchCriteria();
 	}
 
+	public Boolean isTaskSelected(StkDocumentEntity document, EnumList.DefTypeEnum taskEnum) {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean result = document.getTask().getType().getId().startsWith(taskEnum.name());
+		return result;
+	}
+
+	public Boolean isTaskSelectedState(StkDocumentEntity document, Integer trState) {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean result = document.getTask().getType().getTrStateType().compareTo(trState)==0;
+		return result;
+	}
+	
 	public void findStkDocument() {
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
@@ -92,16 +108,14 @@ public class FindStkDocumentViewBean implements Serializable {
 		}
 	}
 	
-	public void createFinDocument(StkDocumentEntity document) {
+	public void createFinFromStk(StkDocumentEntity document) {
 		try {
-			finIntegrationHandler.createFinFromDocument(document.getId());
+			traIntegrationHandler.createFinFromStk(document.getId());
 			jsfMessageHelper.addInfo("createFinDocument");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
 	}
-
-
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
@@ -167,12 +181,12 @@ public class FindStkDocumentViewBean implements Serializable {
 		this.selectedGroupEnum = selectedGroupEnum;
 	}
 
-	public FinIntegrationHandler getFinIntegrationHandler() {
-		return finIntegrationHandler;
+	public TraIntegrationHandler getTraIntegrationHandler() {
+		return traIntegrationHandler;
 	}
 
-	public void setFinIntegrationHandler(FinIntegrationHandler finIntegrationHandler) {
-		this.finIntegrationHandler = finIntegrationHandler;
+	public void setTraIntegrationHandler(TraIntegrationHandler traIntegrationHandler) {
+		this.traIntegrationHandler = traIntegrationHandler;
 	}
 
 }

@@ -12,9 +12,7 @@
 
 	<ui:define name="content">
 
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
-
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
 			closable="true" rendered="#{!crudStkDocumentViewBean.showDocument}" />
 
@@ -47,7 +45,7 @@
 							<abc:itemSelection id="vendorSelectionInput"
 								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
 								targetVar="#{crudStkDocumentViewBean.document.item}"
-								required="false" />
+								required="true" />
 						</h:panelGrid>
 
 						<p:outputLabel value="Belge No:" />

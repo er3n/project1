@@ -12,7 +12,8 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findFinDocumentViewBean.showDocument}" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findFinDocumentViewBean.showDocument}" />
 
 		<h:form>
 			<p:panel id="queryDocumentPanel" header="Finans Fiş Sorgulama" rendered="#{findFinDocumentViewBean.showDocument}">

@@ -69,6 +69,22 @@ public class FindFinDocumentViewBean implements Serializable {
 		documentSearchCriteria.setDocType(selectedTypeEnum);
 	}
 
+	public Boolean isTaskSelected(FinDocumentEntity document, EnumList.DefTypeEnum taskEnum) {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean result = document.getTask().getType().getId().startsWith(taskEnum.name());
+		return result;
+	}
+
+	public Boolean isTaskSelectedState(FinDocumentEntity document, Integer trState) {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean result = document.getTask().getType().getTrStateType().compareTo(trState)==0;
+		return result;
+	}
+
 	public void findFinDocument() {
 		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();

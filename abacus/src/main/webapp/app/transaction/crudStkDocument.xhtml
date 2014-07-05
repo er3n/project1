@@ -149,8 +149,8 @@
 
 					<h:panelGrid columns="1" cellpadding="2" style="vertical-align:top">
 
-						<p:panelGrid columns="2" cellpadding="2"
-							style="vertical-align:top">
+						<p:panelGrid columns="2" cellpadding="2" style="vertical-align:top"
+							rendered="#{crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}">
 							<p:outputLabel value="Tip" />
 							<p:selectOneMenu required="true" requiredMessage="Tip boş olamaz"
 								style="width:145px;"
@@ -179,8 +179,8 @@
 									required="true" />
 							</h:panelGrid>
 
-							<p:outputLabel value="Karşı Depo" rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_TT_T)}"/>
-							<h:panelGrid columns="1" rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_TT_T)}">
+							<p:outputLabel value="Karşı Depo" rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_IO_T)}"/>
+							<h:panelGrid columns="1" rendered="${crudStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_IO_T)}">
 								<abc:departmentSelection id="stkDepartmentOppSelectionInput"
 									widgetVar="stkDepartmentOppSelectionWdg"
 									dialogId="stkDepartmentOppSelectionDialog"
@@ -329,7 +329,6 @@
 			update=":crudDocumentDetailSelectionFrm"
 			widgetVar="finDepartmentSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
-			paramDepGroup="#{OrgDepartmentGroupEnum.F}"
 			targetVar="#{crudStkDocumentViewBean.selectedDetail.department}"
 			rendered="true" />
 

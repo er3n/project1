@@ -27,8 +27,8 @@
 		</p:submenu>
 
 		<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-			<p:menuitem value="Depo Islemleri" url="/app/transaction/findStkDocument.abc?grp=STK" />
-			<p:menuitem value="Alış Faturaları" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
+			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO" />
+			<p:menuitem value="Alış Faturaları" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB" />
 			<p:menuitem value="Ödemeler" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
 		</p:submenu>
 

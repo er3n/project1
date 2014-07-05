@@ -165,7 +165,7 @@ public class TestTransactionHandler {
 		}
 		
 		//TRANSFER
-		TraDocumentEntity transferDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_TT_T).getDocument();
+		TraDocumentEntity transferDocument = this.newStkTransaction(EnumList.DefTypeEnum.STK_IO_T).getDocument();
 		transferDocument = documentRepository.findWithFetch(transferDocument.getId());
 		
 		CreateDetailEvent createDetailEventTransfer = transactionFixture.newTransfer(transferDocument, user, new BigDecimal(15000));

@@ -70,12 +70,17 @@ public class CrudStkDocumentViewBean implements Serializable {
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 
 	private EnumList.DefTypeEnum selectedDetailServiceType;
-
+	private EnumList.DefTypeEnum selectedTypeEnum;
+	
 	@PostConstruct
 	private void init() {
 		try {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
+			String typ = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("typ");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
+			if (typ!=null){
+				selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
+			}
 		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
@@ -86,20 +91,24 @@ public class CrudStkDocumentViewBean implements Serializable {
 		}
 
 		String operation = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("operation");
-		this.initSelections();
 		if (operation.equals("create")) {
+			this.initSelections();
 			this.initNewDocument();
 		} else if (operation.equals("detail") || operation.equals("update")) {
 			String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
 			this.findStkDocument(Long.valueOf(documentId));
 			if (document == null) {
 				jsfMessageHelper.addError("noDocumentFind", selectedGroupEnum.getDescription());
+				this.showDocument = false;
+			} else {
+				selectedTypeEnum = document.getTypeEnum(); 
+				this.initSelections();
 			}
 		}
 	}
 
 	private void initSelections() {
-		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
 		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
 	}
 
@@ -305,6 +314,14 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	public void setSelectedDetailServiceType(EnumList.DefTypeEnum selectedDetailServiceType) {
 		this.selectedDetailServiceType = selectedDetailServiceType;
+	}
+
+	public EnumList.DefTypeEnum getSelectedTypeEnum() {
+		return selectedTypeEnum;
+	}
+
+	public void setSelectedTypeEnum(EnumList.DefTypeEnum selectedTypeEnum) {
+		this.selectedTypeEnum = selectedTypeEnum;
 	}
 
 }

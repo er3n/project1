@@ -56,13 +56,15 @@ public class FindFinDocumentViewBean implements Serializable {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
 			String typ = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("typ");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
-			selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
+			if (typ!=null){
+				selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
+			}
 		} catch (Exception e) {
-			jsfMessageHelper.addWarn("noDocumentGroupDestked");
+			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
 		}
 		if (sessionInfoHelper.currentUser().getSelectedFiscalYear() == null) {
-			jsfMessageHelper.addWarn("noFiscalYearDestked");
+			jsfMessageHelper.addWarn("noFiscalYearDefined");
 			this.showDocument = false;
 		}
 		documentSearchCriteria = new TraDocumentSearchCriteria();

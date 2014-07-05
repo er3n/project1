@@ -76,7 +76,9 @@ public class CrudFinDocumentViewBean implements Serializable {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
 			String typ = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("typ");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
-			selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
+			if (typ!=null){
+				selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
+			}
 		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
@@ -95,11 +97,16 @@ public class CrudFinDocumentViewBean implements Serializable {
 			this.findFinDocument(Long.valueOf(documentId));
 			if (document == null) {
 				jsfMessageHelper.addError("noDocumentFind", selectedGroupEnum.getDescription());
+				this.showDocument = false;
 			} else {
 				selectedTypeEnum = document.getTypeEnum(); 
 				this.initSelections();
 			}
 		}
+	}
+
+	private void initSelections() {
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
 	}
 
 	public EnumList.DefTypeEnum getDetailItemType(){
@@ -113,10 +120,6 @@ public class CrudFinDocumentViewBean implements Serializable {
 		return ret;
 	}
 	
-	private void initSelections() {
-		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
-	}
-
 	private void initNewDocument() {
 		document = new FinDocumentEntity();
 	}

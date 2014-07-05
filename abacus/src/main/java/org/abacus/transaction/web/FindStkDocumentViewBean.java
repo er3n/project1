@@ -49,15 +49,21 @@ public class FindStkDocumentViewBean implements Serializable {
 	private TraIntegrationHandler traIntegrationHandler;
 
 	private List<StkDocumentEntity> documentSearchResultList;
+	
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
-
+	private EnumList.DefTypeEnum selectedTypeEnum;
+	
 	private Boolean showDocument = true;
 
 	@PostConstruct
 	private void init() {
 		try {
 			String grp = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("grp");
+			String typ = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("typ");
 			selectedGroupEnum = EnumList.DefTypeGroupEnum.valueOf(grp.toUpperCase());
+			if (typ!=null){
+				selectedTypeEnum = EnumList.DefTypeEnum.valueOf(typ.toUpperCase());
+			}
 		} catch (Exception e) {
 			jsfMessageHelper.addWarn("noDocumentGroupDefined");
 			this.showDocument = false;
@@ -67,6 +73,7 @@ public class FindStkDocumentViewBean implements Serializable {
 			this.showDocument = false;
 		}
 		documentSearchCriteria = new TraDocumentSearchCriteria();
+		documentSearchCriteria.setDocType(selectedTypeEnum);
 	}
 
 	public Boolean isTaskSelected(StkDocumentEntity document, EnumList.DefTypeEnum taskEnum) {
@@ -187,6 +194,14 @@ public class FindStkDocumentViewBean implements Serializable {
 
 	public void setTraIntegrationHandler(TraIntegrationHandler traIntegrationHandler) {
 		this.traIntegrationHandler = traIntegrationHandler;
+	}
+
+	public EnumList.DefTypeEnum getSelectedTypeEnum() {
+		return selectedTypeEnum;
+	}
+
+	public void setSelectedTypeEnum(EnumList.DefTypeEnum selectedTypeEnum) {
+		this.selectedTypeEnum = selectedTypeEnum;
 	}
 
 }

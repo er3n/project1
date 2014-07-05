@@ -140,13 +140,14 @@ public interface EnumList {
 		ITM_VE("Firma Tanımları", 0), //
 		ITM_PE("Personel Tanımları", 0), //
 		// Stock
-		STK_OC_I("Stok Açılış Tip", 1), //
-		STK_IO_I("Stok İşlem Giriş Tip", 1), //
-		STK_IO_O("Stok İşlem Çıkış Tip", -1), //
-		STK_WB("İrsaliye Tip",0), //
+		STK_WB("İrsaliye İşlem Tip",0), //
 		STK_WB_I("Stok İrsaliye Giriş Tip", 1), //
 		STK_WB_O("Stok Satış Çıkş Tip", -1), //
-		STK_TT_T("Stok Transfer Tip", 0), //
+		STK_IO("Stok İşlem Tip",0), //
+		STK_IO_S("Stok Açılış Tip", 1), //
+		STK_IO_I("Stok İşlem Giriş Tip", 1), //
+		STK_IO_O("Stok İşlem Çıkış Tip", -1), //
+		STK_IO_T("Stok Transfer Tip", 0), //
 		// Finance,Account
 		FIN_B("Alış Fatura", +1), //
 		FIN_S("Satış Fatura", -1), //

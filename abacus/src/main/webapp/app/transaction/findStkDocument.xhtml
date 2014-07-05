@@ -45,7 +45,7 @@
 						<p:ajax update="queryDocumentPanel :documentResultTable" resetValues="true" />
 					</p:commandButton>
 					<p:spacer width="5px" />
-					<p:button href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=create" value="Yeni Fiş"  />
+					<p:button href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;typ=#{findStkDocumentViewBean.selectedTypeEnum.name}&amp;operation=create" value="Yeni Fiş"  />
 				</f:facet>
 
 			</p:panel>
@@ -80,7 +80,7 @@
 					</p:column>
 
 					<p:column headerText="İşlem">
-						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
+						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;typ=#{findStkDocumentViewBean.selectedTypeEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
 	
 						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable">
 							<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />

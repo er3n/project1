@@ -46,7 +46,7 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 		}
 		
 		if(documentSearchCriteria.getDocType()!=null){
-			criteria.add(Restrictions.like("s.typeEnum",documentSearchCriteria.getDocType()));
+			criteria.add(Restrictions.like("s.typeStr",documentSearchCriteria.getDocType().getName()+"%"));
 		}
 
 		if(StringUtils.hasText(documentSearchCriteria.getDocNo())){

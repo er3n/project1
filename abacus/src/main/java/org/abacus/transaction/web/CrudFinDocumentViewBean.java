@@ -102,6 +102,17 @@ public class CrudFinDocumentViewBean implements Serializable {
 		}
 	}
 
+	public EnumList.DefTypeEnum getDetailItemType(){
+		EnumList.DefTypeEnum ret =null;
+		switch (selectedTypeEnum) {
+		case FIN_B: //bill,fatura
+			ret = EnumList.DefTypeEnum.ITM_SR_FN; break;
+		case FIN_P: //payment,odeme, Maas?
+			ret = EnumList.DefTypeEnum.ITM_PE; break;
+		}
+		return ret;
+	}
+	
 	private void initSelections() {
 		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
 	}

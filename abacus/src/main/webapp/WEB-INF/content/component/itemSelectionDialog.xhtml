@@ -34,7 +34,7 @@
             	<f:facet name="filter">
                 	<p:selectOneMenu onchange="PF('#{widgetVar}_DT').filter()" >
                    	 	<f:selectItem itemLabel="Seciniz..." itemValue="#{null}" noSelectionOption="true" />
-                   	 	<f:selectItems value="#{itemSelectionViewBean.valueTypeList}" />
+                   	 	<f:selectItems value="#{itemSelectionViewBean.getTypeFilter(paramType)}" />
                 	</p:selectOneMenu>
             	</f:facet>
             	<h:outputText value="#{item.type.getTypeEnum().description}" />

@@ -14,7 +14,6 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
 
@@ -29,16 +28,26 @@ public class ItemSelectionViewBean implements Serializable {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
-	private List<String> valueTypeList = new ArrayList<String>();
 	private Map<String, ItemDataModel> resultMap = new HashMap<>();
+	private Map<String, List<String>> typeFilterMap = new HashMap<>();
 
 	public ItemDataModel getItemDataModel(EnumList.DefTypeEnum itemType, EnumList.DefItemClassEnum itemClass) {
-		String key = itemType.getName()+":"+((itemType==null)?"*":itemType.name());
+		String key = itemType.getName()+":"+((itemClass==null)?"*":itemClass.name());
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
 			ItemDataModel itemDataModel =  new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization(), itemType, itemClass));
 			resultMap.put(key, itemDataModel);
+			return itemDataModel;
+		}
+	}
+
+	public List<String> getTypeFilter(EnumList.DefTypeEnum itemType) {
+		String key = itemType.getName();
+		if (typeFilterMap.containsKey(key)) {
+			return typeFilterMap.get(key);
+		} else {
+			List<String> valueTypeList = new ArrayList<String>();
 			for (EnumList.DefTypeEnum typ : EnumList.DefTypeEnum.values()) {
 				if (typ.name().startsWith(itemType.name())){
 					if (typ.name().length()>3){
@@ -46,9 +55,11 @@ public class ItemSelectionViewBean implements Serializable {
 					}
 				}
 			}
-			return itemDataModel;
+			typeFilterMap.put(key, valueTypeList);
+			return valueTypeList;
 		}
 	}
+
 	
 	@PostConstruct
 	public void init() {
@@ -68,14 +79,6 @@ public class ItemSelectionViewBean implements Serializable {
 
 	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
 		this.sessionInfoHelper = sessionInfoHelper;
-	}
-
-	public List<String> getValueTypeList() {
-		return valueTypeList;
-	}
-
-	public void setValueTypeList(List<String> valueTypeList) {
-		this.valueTypeList = valueTypeList;
 	}
 
 }

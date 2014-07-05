@@ -223,7 +223,7 @@
 
 		<abc:itemSelectionDialog id="finItemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm"
-			widgetVar="finItemSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_FN}"
+			widgetVar="finItemSelectionWdg" paramType="#{crudFinDocumentViewBean.getDetailItemType()}"
 			targetVar="#{crudFinDocumentViewBean.selectedDetail.item}"
 			rendered="true" />
 

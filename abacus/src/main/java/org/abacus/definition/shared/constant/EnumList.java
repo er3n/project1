@@ -108,6 +108,7 @@ public interface EnumList {
 		STK("Stok"), // Dynamic Task Stock
 		FIN("Finans"), // Dynamic Task Finance
 		ACC("Acc"), // Acc
+		REQ("İstek")
 		;
 		private String description;
 
@@ -154,6 +155,9 @@ public interface EnumList {
 		FIN_P("Ödeme", -1), //
 		FIN_R("Tahsil", +1), //
 		FIN_J("Mahsup", 0), //
+		//Request
+		REQ_IO_T("Stok istek tip", 0), //
+
 
 		NULL("?",0), //
 		;
@@ -275,6 +279,27 @@ public interface EnumList {
 	
 	enum EntityStatus{
 		NEW,UPDATE,DELETE;
+	}
+	
+	enum RequestStatus implements ISelectionEnum {
+		PREPARE("Hazırlanıyor"),REQUEST("Onay bekleniyor"),DONE("Onaylandı"),PARTIALLY("Kısmen onaylandı"),CANCEL("Reddedildi");
+		
+		private String description;
+
+		private RequestStatus(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+
+		@Override
+		public String getName() {
+			return this.name();
+		}
+		
 	}
 
 }

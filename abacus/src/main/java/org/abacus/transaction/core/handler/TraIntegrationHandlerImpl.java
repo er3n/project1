@@ -17,6 +17,7 @@ import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
+import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,6 +36,9 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> finTransactionHandler;  
 
 	@Autowired
+	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> stkTransactionHandler;  
+
+	@Autowired
 	private DefTaskHandler taskHandler;
 
 	@Override
@@ -50,9 +54,11 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		finDoc.setTask(finTask);
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
 		finTransactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(finDoc));
-
-		//Convert FinDetail
+		//Update Reference
+		stkDoc.setRefFinDocumentId(finDoc.getId());
+		stkTransactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(stkDoc));
 		
+		//Convert FinDetail
 		DepartmentEntity cakmaDepartment = null; //FIXME: documentte department gerekli gibi ???
 		BigDecimal totalAmount = BigDecimal.ZERO;
 		List<StkDetailEntity> stkDetList = stkDetailRepository.findByDocumentId(docId);

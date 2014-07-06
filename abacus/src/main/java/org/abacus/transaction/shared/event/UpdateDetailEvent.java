@@ -13,6 +13,11 @@ public class UpdateDetailEvent<D extends TraDetailEntity<D>> extends UpdateEvent
 		this.user = user;
 	}
 
+	public UpdateDetailEvent(D detail) {
+		this.detail = detail;
+		this.user = detail.getUserUpdated();
+	}
+
 	public D getDetail() {
 		return detail;
 	}

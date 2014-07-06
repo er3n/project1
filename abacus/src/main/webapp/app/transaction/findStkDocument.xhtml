@@ -79,7 +79,11 @@
 						<h:outputText value="#{var.organization.id}" />
 					</p:column>
 
-					<p:column headerText="İşlem">
+					<p:column headerText="FinDocument" rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}">
+						<h:outputText value="#{var.refFinDocumentId}" />
+					</p:column>
+
+					<p:column headerText="İşlem"> 
 						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;typ=#{findStkDocumentViewBean.selectedTypeEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
 	
 						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable">
@@ -87,7 +91,7 @@
 						</p:commandButton>
 						
 						<p:commandButton icon="ui-icon-newwin" actionListener="#{findStkDocumentViewBean.createFinFromStk(var)}" 
-							rendered="${findStkDocumentViewBean.isTaskSelected(var, DefTypeEnum.STK_WB)}" update=":documentResultTable">
+							rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}" update=":documentResultTable">
 							<p:confirm header="Onay" message="Finans Kaydı Olusrmak İstiyor musun?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						

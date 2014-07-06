@@ -76,19 +76,13 @@ public class FindStkDocumentViewBean implements Serializable {
 		documentSearchCriteria.setDocType(selectedTypeEnum);
 	}
 
-	public Boolean isTaskSelected(StkDocumentEntity document, EnumList.DefTypeEnum taskEnum) {
-		if (document == null || document.getTask() == null) {
-			return false;
-		}
-		boolean result = document.getTask().getType().getId().startsWith(taskEnum.name());
+	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
+		boolean result = selectedTypeEnum.name().startsWith(taskEnum.name());
 		return result;
 	}
 
-	public Boolean isTaskSelectedState(StkDocumentEntity document, Integer trState) {
-		if (document == null || document.getTask() == null) {
-			return false;
-		}
-		boolean result = document.getTask().getType().getTrStateType().compareTo(trState)==0;
+	public Boolean isTaskSelectedState(Integer trState) {
+		boolean result = selectedTypeEnum.getState().compareTo(trState)==0;
 		return result;
 	}
 	
@@ -116,9 +110,14 @@ public class FindStkDocumentViewBean implements Serializable {
 	}
 	
 	public void createFinFromStk(StkDocumentEntity document) {
+		if (document.getRefFinDocumentId()!=null){
+			jsfMessageHelper.addInfo("finDocumentAlreadyExists");
+			return;
+		} 
 		try {
 			traIntegrationHandler.createFinFromStk(document.getId());
 			jsfMessageHelper.addInfo("createFinDocument");
+			this.findStkDocument();
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}

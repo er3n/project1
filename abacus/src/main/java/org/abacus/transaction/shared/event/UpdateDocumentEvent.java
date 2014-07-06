@@ -13,6 +13,11 @@ public class UpdateDocumentEvent<T extends TraDocumentEntity> extends UpdatedEve
 		this.user = user;
 	}
 
+	public UpdateDocumentEvent(T document) {
+		this.document = document;
+		this.user = document.getUserCreated();
+	}
+
 	public T getDocument() {
 		return document;
 	}

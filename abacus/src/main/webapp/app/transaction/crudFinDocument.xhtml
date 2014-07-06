@@ -38,7 +38,7 @@
 							<p:ajax event="change" update=":crudDocumentFrm" process="@this" />
 						</p:selectOneMenu>
 
-						<p:outputLabel id="firmaIdLabel" value="Firma"
+						<p:outputLabel id="firmaIdLabel" value="Hesap"
 							rendered="true" />
 						
 						<h:panelGrid id="vendorSelection" columns="1" rendered="true">
@@ -97,7 +97,7 @@
 							rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}"/>
 					</f:facet>
 
-					<p:column headerText="Malzeme">
+					<p:column headerText="Hesap">
 						<p:outputLabel value="#{var.item.name}" />
 					</p:column>
 
@@ -158,7 +158,7 @@
 									required="true" />
 							</h:panelGrid>
 
-							<p:outputLabel value="Malzeme" />
+							<p:outputLabel value="Hesap" />
 							<h:panelGrid columns="6">
 								<abc:itemSelection id="finItemSelectionInput"
 									widgetVar="finItemSelectionWdg"
@@ -219,7 +219,7 @@
 
 		<abc:itemSelectionDialog id="vendorSelectionDialog"
 			update=":crudDocumentFrm:vendorSelectionInput"
-			widgetVar="vendorSelectionWdg" paramType="#{DefTypeEnum.ITM_VE}"
+			widgetVar="vendorSelectionWdg" paramType="#{crudFinDocumentViewBean.getDocumentItemType()}"
 			targetVar="#{crudFinDocumentViewBean.document.item}" rendered="true" />
 
 		<abc:itemSelectionDialog id="finItemSelectionDialog"

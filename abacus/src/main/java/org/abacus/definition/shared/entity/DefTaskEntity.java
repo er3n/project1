@@ -2,12 +2,15 @@ package org.abacus.definition.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.annotations.Fetch;
@@ -33,6 +36,14 @@ public class DefTaskEntity extends DynamicEntity {
 
 	@Column(name = "name", nullable = false)
 	private String name;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "item_type_document", nullable = true)
+	private EnumList.DefTypeEnum itemTypeDocument;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "item_type_detail", nullable = true)
+	private EnumList.DefTypeEnum itemTypeDetail;
 
 	@Column(name = "is_active", nullable = false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
@@ -79,6 +90,22 @@ public class DefTaskEntity extends DynamicEntity {
 
 	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
+	}
+
+	public EnumList.DefTypeEnum getItemTypeDocument() {
+		return itemTypeDocument;
+	}
+
+	public void setItemTypeDocument(EnumList.DefTypeEnum itemTypeDocument) {
+		this.itemTypeDocument = itemTypeDocument;
+	}
+
+	public EnumList.DefTypeEnum getItemTypeDetail() {
+		return itemTypeDetail;
+	}
+
+	public void setItemTypeDetail(EnumList.DefTypeEnum itemTypeDetail) {
+		this.itemTypeDetail = itemTypeDetail;
 	}
 	
 }

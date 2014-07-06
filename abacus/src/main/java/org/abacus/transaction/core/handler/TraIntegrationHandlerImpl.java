@@ -42,7 +42,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 	private DefTaskHandler taskHandler;
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public FinDocumentEntity createFinFromStk(Long docId) {
 
 		//Create FinDocument

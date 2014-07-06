@@ -1,23 +1,12 @@
 package org.abacus.transaction.core.handler;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import javax.faces.bean.ManagedProperty;
-
-import org.abacus.common.security.SecUser;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
-import org.abacus.organization.core.util.OrganizationUtils;
-import org.abacus.organization.shared.entity.DepartmentEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
-import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
-import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
-import org.abacus.transaction.shared.entity.FinDetailEntity;
-import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
@@ -25,7 +14,6 @@ import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.ConfirmDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
-import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,8 +59,9 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 	}
 	
 
+	//Required olursa hata olusuyor
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReqDocumentEntity confirmDocument(ConfirmDocumentEvent confirmDocumentEvent) {
 		
 		ReqDocumentEntity reqDocument = confirmDocumentEvent.getReqDocumentEntity();

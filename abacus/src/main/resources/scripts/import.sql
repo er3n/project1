@@ -70,6 +70,7 @@ insert into def_type (id, name, level, tr_state_type) values ('REQ_IO_T', 'İste
 
 insert into def_type (id, name, level, tr_state_type) values ('FIN_B', 'Alış Fatura', 1, +1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_P', 'Ödeme', 1, -1);
+insert into def_type (id, name, level, tr_state_type) values ('FIN_R', 'Tahsilat', 1, +1);
 
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Finans Gider Tanımları', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Malzeme Tanımları', 1, 0);
@@ -85,12 +86,15 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_I', 'IO-I', 'Stok Giriş #', 1, 0);
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_O', 'IO-O', 'Stok Çıkış #', 1, 0);
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'STK_IO_T', 'IO-T', 'Stok Transfer #', 1, 0);
+
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'REQ_IO_T', 'R-IO-T', 'İstek stok Transfer #', 1, 0);
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_B', 'BL-1', 'Alış Fatura #', 1, 0);
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_P', 'PY-1', 'Personel Maaş #', 1, 0);
 insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_P', 'PY-2', 'Masraf Giriş #', 1, 0);
+
+insert into def_task (id, organization_id, type_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'FIN_R', 'RC-1', 'Tahsilat Giriş #', 1, 0);
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);

@@ -23,7 +23,7 @@
 		<p:submenu label="Menu Tanimlari" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
 			<p:menuitem value="Malzeme Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" />   
 			<p:menuitem value="Yemek Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_P" />
-			<p:menuitem value="Menu Tanimlari" url="/app/catering/menu.abc" />
+			<p:menuitem value="Menu Tanimlari" url="/app/catering/catmenu.abc" />
 		</p:submenu>
 
 		<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
@@ -32,6 +32,7 @@
 			<p:separator/>
 			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
 			<p:menuitem value="Ödemeler" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
+			<p:menuitem value="Tahsilatlar" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" />
 		</p:submenu>
 
 		<p:submenu label="Raporlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">

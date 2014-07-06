@@ -116,6 +116,8 @@ public class CrudFinDocumentViewBean implements Serializable {
 			ret = EnumList.DefTypeEnum.ITM_SR_FN; break;
 		case FIN_P: //payment,odeme, Maas?
 			ret = EnumList.DefTypeEnum.ITM_PE; break;
+		default :
+			ret = EnumList.DefTypeEnum.ITM; break;
 		}
 		return ret;
 	}

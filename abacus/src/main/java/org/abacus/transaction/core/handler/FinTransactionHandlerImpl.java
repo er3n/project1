@@ -72,7 +72,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
 		//StkDocument RemoveRefInfo FIXME
 		stkDocumentRepository.updateRefFinInfo(event.getDocument().getId());
@@ -94,13 +94,13 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	}
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentCanceledEvent<FinDocumentEntity> cancelDocument(CancelDocumentEvent<FinDocumentEntity> cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
 		return null;
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailCreatedEvent<FinDetailEntity> newDetail(CreateDetailEvent<FinDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		Integer trStateDetail = detailCreateEvent.getDetail().getTrStateDetail();
 		if (trStateDetail==null){

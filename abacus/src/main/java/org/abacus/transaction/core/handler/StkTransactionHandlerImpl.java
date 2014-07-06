@@ -95,7 +95,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentCanceledEvent<StkDocumentEntity> cancelDocument(CancelDocumentEvent<StkDocumentEntity> cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
 		return null;
 	}

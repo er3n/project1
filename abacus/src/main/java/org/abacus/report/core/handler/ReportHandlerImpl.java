@@ -24,7 +24,7 @@ public class ReportHandlerImpl implements ReportHandler {
 	private FinReportDao finReportDao;
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadReportEvent<StkDetailEntity> getStkState(RequestReadReportEvent requestReadReportEvent) {
 		List<StkDetailEntity> detailList = stkReportDao.getStkState(requestReadReportEvent.getReportSearchCriteria());
 		ReadReportEvent<StkDetailEntity> readEvent = new ReadReportEvent<StkDetailEntity>(detailList);
@@ -32,7 +32,7 @@ public class ReportHandlerImpl implements ReportHandler {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadReportEvent<StkDetailEntity> getStkDetail(RequestReadReportEvent requestReadReportEvent) {
 		List<StkDetailEntity> detailList = stkReportDao.getStkDetail(requestReadReportEvent.getReportSearchCriteria());
 		ReadReportEvent<StkDetailEntity> readEvent = new ReadReportEvent<StkDetailEntity>(detailList);
@@ -40,7 +40,7 @@ public class ReportHandlerImpl implements ReportHandler {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadReportEvent<FinDetailEntity> getFinState(RequestReadReportEvent requestReadReportEvent) {
 		List<FinDetailEntity> detailList = finReportDao.getFinState(requestReadReportEvent.getReportSearchCriteria());
 		ReadReportEvent<FinDetailEntity> readEvent = new ReadReportEvent<FinDetailEntity>(detailList);
@@ -48,7 +48,7 @@ public class ReportHandlerImpl implements ReportHandler {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadReportEvent<FinDetailEntity> getFinDetail(RequestReadReportEvent requestReadReportEvent) {
 		List<FinDetailEntity> detailList = finReportDao.getFinDetail(requestReadReportEvent.getReportSearchCriteria());
 		ReadReportEvent<FinDetailEntity> readEvent = new ReadReportEvent<FinDetailEntity>(detailList);

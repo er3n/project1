@@ -72,7 +72,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentCreatedEvent<T> newDocument(CreateDocumentEvent<T> event) {
 
 		T document = event.getDocument();
@@ -93,7 +93,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException {
 		D detail = event.getDetail();
 		TraDocumentEntity document = detail.getDocument();
@@ -135,7 +135,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	}
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public TraBulkUpdatedEvent<T,D> bulkUpdate(TraBulkUpdateEvent<T, D> bulkUpdateEvent){
 		
 		T document = bulkUpdateEvent.getDocument();

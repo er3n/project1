@@ -69,7 +69,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentCreatedEvent<ReqDocumentEntity> newDocument(CreateDocumentEvent<ReqDocumentEntity> event) {
 		ReqDocumentEntity document = event.getDocument();
 		
@@ -103,7 +103,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	}
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailCreatedEvent<ReqDetailEntity> newDetail(CreateDetailEvent<ReqDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		Integer trStateDetail = detailCreateEvent.getDetail().getTrStateDetail();
 		if (trStateDetail==null){

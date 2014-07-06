@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,6 +26,10 @@ import org.hibernate.validator.constraints.Range;
 @MappedSuperclass
 public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends DynamicEntity {
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "resource", nullable = false)
+	private EnumList.DefTypeGroupEnum resource;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "lot_detail_date", nullable = false)
 	private Date lotDetailDate;
@@ -198,6 +204,14 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public void setEntityStatus(EnumList.EntityStatus entityStatus) {
 		this.entityStatus = entityStatus;
+	}
+
+	public EnumList.DefTypeGroupEnum getResource() {
+		return resource;
+	}
+
+	public void setResource(EnumList.DefTypeGroupEnum resource) {
+		this.resource = resource;
 	}
 
 }

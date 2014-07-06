@@ -72,8 +72,12 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
+		//StkDocument RemoveRefInfo FIXME
+		stkDocumentRepository.updateRefFinInfo(event.getDocument().getId());
+		finDetailRepository.updateRefFinInfo(event.getDocument().getId());
+
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
 		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocument().getId());
 		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocument().getId());
@@ -84,9 +88,6 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 				throw new UnableToDeleteDetailException();
 			}
 		}
-		//StkDocument RemoveRefInfo
-		stkDocumentRepository.removeRefFinInfo(document.getId());
-		
 		//Delete FinDocument
 		finDocumentRepository.delete(document);
 		return new DocumentDeletedEvent<>();

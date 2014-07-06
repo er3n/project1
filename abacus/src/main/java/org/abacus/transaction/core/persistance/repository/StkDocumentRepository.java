@@ -16,6 +16,6 @@ public interface StkDocumentRepository extends CrudRepository<StkDocumentEntity,
 	@Modifying
 	@Transactional
 	@Query("update StkDocumentEntity t set t.refFinDocumentId=null  where t.refFinDocumentId = :finDocId")
-	void removeRefFinInfo(@Param("finDocId") Long id);
+	void updateRefFinInfo(@Param("finDocId") Long id);
 
 }

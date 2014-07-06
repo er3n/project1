@@ -118,8 +118,10 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			detail.setLotDetailDate(document.getDocDate());
 		}
 		
+		if (detail.getResource()==null){
+			detail.setResource(document.getTypeEnum().getTypeGroupEnum());
+		}
 		detail.createHook(user);
-		
 		detail = getDetailRepository().save(detail);
 		detail.savePoint();
 		

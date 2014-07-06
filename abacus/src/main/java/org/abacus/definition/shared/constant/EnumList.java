@@ -183,6 +183,11 @@ public interface EnumList {
 			return this.state;
 		}
 
+		public DefTypeGroupEnum getTypeGroupEnum() {
+			String grp = this.name().substring(0, 3);
+			return DefTypeGroupEnum.valueOf(grp); 
+		}
+		
 	}
 
 	enum DepartmentAuthEnum implements ISelectionEnum {

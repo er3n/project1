@@ -101,7 +101,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailCreatedEvent<StkDetailEntity> newDetail(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		
 		boolean createStkTrack = //

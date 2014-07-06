@@ -158,7 +158,8 @@ public interface EnumList {
 		FIN_R("Tahsil", +1), //
 		FIN_J("Mahsup", 0), //
 		//Request
-		REQ_IO_T("Stok istek tip", 0), //
+		REQ_IO("Stok istek tip",0),
+		REQ_IO_T("Stok transfer istek tip", 0), //
 
 
 		NULL("?",0), //

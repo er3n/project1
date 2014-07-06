@@ -31,6 +31,8 @@
 		<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
 			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB" />
 			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO" />
+			<p:menuitem value="Sipariş İşlemleri" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO" />
+			<p:menuitem value="Karşılama İşlemleri" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO&amp;approval=true" />
 			<p:separator/>
 			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
 			<p:menuitem value="Ödemeler" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />

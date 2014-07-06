@@ -1,6 +1,5 @@
-<facelet-taglib version="2.0" 
-	xmlns="http://java.sun.com/xml/ns/javaee" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<facelet-taglib version="2.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
 
 	<namespace>http://www.abacus.com/abc</namespace>
@@ -88,7 +87,7 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-		<name>paramType</name>
+			<name>paramType</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
@@ -158,6 +157,10 @@
 			<name>widgetVar</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>disabled</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 
 	<tag>
@@ -186,7 +189,7 @@
 		<attribute>
 			<name>paramDepGroup</name>
 			<required>true</required>
-		</attribute>		
+		</attribute>
 	</tag>
 
 </facelet-taglib>

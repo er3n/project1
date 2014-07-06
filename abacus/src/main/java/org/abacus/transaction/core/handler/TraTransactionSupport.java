@@ -112,7 +112,13 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 				detail.setUnitDetailPrice(BigDecimal.ZERO);
 				detail.setLotDetailDate(document.getDocDate());
 			}
-		} else { //Fin Defaults
+		}else if(document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.REQ.name())){
+			detail.setBaseDetailCount(detail.getItemDetailCount());
+			detail.setUnitDetailPrice(BigDecimal.ZERO);
+			detail.setBaseDetailAmount(BigDecimal.ZERO);
+			detail.setLotDetailDate(document.getDocDate());
+		}
+		else { //Fin Defaults
 			detail.setBaseDetailCount(detail.getItemDetailCount());
 			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
 			detail.setLotDetailDate(document.getDocDate());

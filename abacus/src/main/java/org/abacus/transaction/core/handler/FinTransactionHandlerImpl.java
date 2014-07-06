@@ -2,11 +2,11 @@ package org.abacus.transaction.core.handler;
 
 import java.util.List;
 
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.persistance.FinTransactionDao;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
 import org.abacus.transaction.core.persistance.repository.FinDocumentRepository;
+import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
 import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
@@ -41,6 +41,9 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 
 	@Autowired
 	private FinDocumentRepository finDocumentRepository;  
+
+	@Autowired
+	private StkDocumentRepository stkDocumentRepository;  
 
 	@Autowired
 	private FinTransactionDao finTransactionDao;
@@ -81,6 +84,10 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 				throw new UnableToDeleteDetailException();
 			}
 		}
+		//StkDocument RemoveRefInfo
+		stkDocumentRepository.removeRefFinInfo(document.getId());
+		
+		//Delete FinDocument
 		finDocumentRepository.delete(document);
 		return new DocumentDeletedEvent<>();
 	}

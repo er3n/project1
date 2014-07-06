@@ -93,7 +93,8 @@
 					<f:facet name="footer">
 						<p:commandButton value="Detay Ekle"
 							actionListener="#{crudFinDocumentViewBean.initNewDetail()}"
-							update=":crudDocumentDetailSelectionFrm" process="@this" />
+							update=":crudDocumentDetailSelectionFrm" process="@this" 
+							rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}"/>
 					</f:facet>
 
 					<p:column headerText="Malzeme">
@@ -120,7 +121,7 @@
 						<p:outputLabel value="#{var.getCreditAmount()}" />
 					</p:column>
 
-					<p:column headerText="İşlem">
+					<p:column headerText="İşlem" rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}">
 						<p:commandButton icon="ui-icon-pencil"
 							actionListener="#{crudFinDocumentViewBean.updateDetailSelected(var)}"
 							update=":crudDocumentDetailSelectionFrm"/>

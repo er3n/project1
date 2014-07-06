@@ -27,16 +27,20 @@
 		</p:submenu>
 
 		<p:submenu label="Islemler" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
+			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB" />
 			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO" />
-			<p:menuitem value="Alış Faturaları" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB" />
+			<p:separator/>
+			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
 			<p:menuitem value="Ödemeler" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
 		</p:submenu>
 
 		<p:submenu label="Raporlar" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
 			<p:menuitem value="Stok Durum Sorgula" url="/app/report/queryStkState.abc" />
 			<p:menuitem value="Stok Hareket Sorgula" url="/app/report/queryStkDetail.abc" />
+			<p:separator/>
 			<p:menuitem value="Hesap Durum Sorgula" url="/app/report/queryFinState.abc" />
 			<p:menuitem value="Hesap Hareket Sorgula" url="/app/report/queryFinDetail.abc" />
+			<p:separator/>
 			<p:menuitem value="Test" url="/app/test/testmanager.abc" />
 		</p:submenu>
 

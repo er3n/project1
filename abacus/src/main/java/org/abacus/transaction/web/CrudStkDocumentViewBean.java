@@ -208,6 +208,14 @@ public class CrudStkDocumentViewBean implements Serializable {
 		boolean result = this.document.getTask().getType().getTrStateType().compareTo(trState)==0;
 		return result;
 	}
+	
+	public Boolean isFinIntegrated() {
+		if (this.document == null || this.document.getTask() == null) {
+			return false;
+		}
+		boolean result = document.getRefFinDocumentId()!=null;
+		return result;
+	}
 
 	public void initNewDetail() {
 		selectedDetail = new StkDetailEntity();

@@ -86,13 +86,14 @@
 					<p:column headerText="İşlem"> 
 						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;typ=#{findStkDocumentViewBean.selectedTypeEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
 	
-						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable">
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable"
+							rendered="${not findStkDocumentViewBean.isFinIntegrated(var)}">
 							<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						
 						<p:commandButton icon="ui-icon-newwin" actionListener="#{findStkDocumentViewBean.createFinFromStk(var)}" 
-							rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}" update=":documentResultTable">
-							<p:confirm header="Onay" message="Finans Kaydı Olusrmak İstiyor musun?" icon="ui-icon-alert"  />
+							rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB) and not findStkDocumentViewBean.isFinIntegrated(var)}" update=":documentResultTable">
+							<p:confirm header="Onay" message="Finans Kaydı Oluşturmak İstiyor musun?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						
 					</p:column>

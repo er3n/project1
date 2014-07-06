@@ -85,7 +85,12 @@ public class FindStkDocumentViewBean implements Serializable {
 		boolean result = selectedTypeEnum.getState().compareTo(trState)==0;
 		return result;
 	}
-	
+
+	public Boolean isFinIntegrated(StkDocumentEntity document) {
+		boolean result = document.getRefFinDocumentId()!=null;
+		return result;
+	}
+
 	public void findStkDocument() {
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();

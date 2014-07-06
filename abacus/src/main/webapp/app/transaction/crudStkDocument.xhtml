@@ -93,6 +93,7 @@
 					<f:facet name="footer">
 						<p:commandButton value="Detay Ekle"
 							actionListener="#{crudStkDocumentViewBean.initNewDetail()}"
+							rendered="${not crudStkDocumentViewBean.isFinIntegrated()}"
 							update=":crudDocumentDetailSelectionFrm" process="@this" />
 					</f:facet>
 
@@ -124,7 +125,7 @@
 						<p:outputLabel value="#{var.baseDetailAmount}" />
 					</p:column>
 
-					<p:column headerText="İşlem">
+					<p:column headerText="İşlem" rendered="${not crudStkDocumentViewBean.isFinIntegrated()}">
 						<p:commandButton icon="ui-icon-pencil"
 							actionListener="#{crudStkDocumentViewBean.updateDetailSelected(var)}"
 							update=":crudDocumentDetailSelectionFrm"/>

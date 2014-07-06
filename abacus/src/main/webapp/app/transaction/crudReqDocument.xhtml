@@ -87,19 +87,19 @@
 						<p:commandButton value="Guncelle"
 							actionListener="#{crudReqDocumentViewBean.updateDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="#{not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval}" />
+							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval}" />
 						<p:commandButton value="Onaya Gonder"
 							actionListener="#{crudReqDocumentViewBean.requestDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="#{not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE}" />
+							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE}" />
 						<p:commandButton value="Onayla"
 							actionListener="#{crudReqDocumentViewBean.confirmDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="#{not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval}" />
+							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval}" />
 						<p:commandButton value="Redded"
 							actionListener="#{crudReqDocumentViewBean.cancelDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="#{not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval}" />
+							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval}" />
 					</f:facet>
 
 				</p:panel>
@@ -121,7 +121,7 @@
 
 					<f:facet name="footer">
 						<p:commandButton value="Detay Ekle"
-							actionListener="#{crudReqDocumentViewBean.initNewDetail()}" rendered="#{(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}"
+							actionListener="#{crudReqDocumentViewBean.initNewDetail()}" rendered="${(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}"
 							update=":crudDocumentDetailSelectionFrm" process="@this" />
 					</f:facet>
 
@@ -153,8 +153,8 @@
 					<p:column headerText="İşlem">
 						<p:commandButton icon="ui-icon-pencil"
 							actionListener="#{crudReqDocumentViewBean.updateDetailSelected(var)}"
-							update=":crudDocumentDetailSelectionFrm" rendered="#{(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}" />
-						<p:commandButton icon="ui-icon-closethick" rendered="#{(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}"
+							update=":crudDocumentDetailSelectionFrm" rendered="${(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}" />
+						<p:commandButton icon="ui-icon-closethick" rendered="${(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}"
 							actionListener="#{crudReqDocumentViewBean.deleteDetail(var)}"
 							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm">
 							<p:confirm header="Onay" message="Silmek istediğine emin misin?"

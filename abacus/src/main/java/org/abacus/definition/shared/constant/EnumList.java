@@ -102,6 +102,7 @@ public interface EnumList {
 	}
 
 	enum DefTypeGroupEnum implements ISelectionEnum {
+		NIL("Null"), 
 		PRM("Parametre"), // Static Parameter
 		VAL("Kod"), // Dynamic Value Tree
 		ITM("Kalem"), // Dynamic Item
@@ -136,6 +137,7 @@ public interface EnumList {
 		VAL_RECEIPT("Yemek Tipleri", 0), //
 		// Item
 		ITM("All Items", 0), //
+		ITM_SR("All Services", 0), //
 		ITM_SR_FN("Finans Gider Tanımları", 0), //
 		ITM_SR_ST("Malzeme Tanımları", 0), //
 		ITM_VE("Firma Tanımları", 0), //
@@ -162,7 +164,7 @@ public interface EnumList {
 		REQ_IO_T("Stok transfer istek tip", 0), //
 
 
-		NULL("?",0), //
+		NIL("?",0), //
 		;
 		private String description;
 		private Integer state;

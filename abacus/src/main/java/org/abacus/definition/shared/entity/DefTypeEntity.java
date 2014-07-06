@@ -33,12 +33,12 @@ public class DefTypeEntity extends StaticEntity {
 		try{
 			return EnumList.DefTypeEnum.valueOf(this.getId());
 		} catch (Exception e){
-			return EnumList.DefTypeEnum.NULL;
+			return EnumList.DefTypeEnum.NIL;
 		}
 	}
 	
 	public String getTrStateSign() {
-		return (trStateType>0?"(+)":(trStateType<0?"(-)":"?"));
+		return (trStateType>0?"(+)":(trStateType<0?"(_)":"(»)"));
 	}
 
 	public DefTypeEntity(String id) {

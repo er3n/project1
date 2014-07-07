@@ -47,9 +47,9 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	protected abstract TraDetailRepository<D> getDetailRepository();
 
 	
-	protected void savePointDetailList(List<D> detailList){
+	protected void setPointList(List<D> detailList){
 		for (D dtl : detailList) {
-			dtl.savePoint();
+			dtl.setPoint();
 		}
 	}
 	
@@ -57,7 +57,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadDetailEvent<D> readDetailList(RequestReadDetailEvent<D> event) {
 		List<D> detailList = getDetailRepository().findByDocumentId(event.getDocumentId());
-		savePointDetailList(detailList);
+		setPointList(detailList);
 		return new ReadDetailEvent<D>(detailList);
 	}
 	
@@ -99,7 +99,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 
 		String user = event.getUser();
 		
-		FiscalYearEntity fiscalYear =  document.getFiscalPeriod().getFiscalYear();
+		FiscalYearEntity fiscalYear =  detail.getDocument().getFiscalPeriod().getFiscalYear();
 		detail.setFiscalYear(fiscalYear);
 		if (document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
 			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
@@ -118,6 +118,9 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			detail.setLotDetailDate(document.getDocDate());
 		}
 		else { //Fin Defaults
+			if (detail.getItemDetailCount()==null || detail.getItemDetailCount().compareTo(BigDecimal.ZERO)==0){
+				detail.setItemDetailCount(BigDecimal.ONE);
+			}
 			detail.setBaseDetailCount(detail.getItemDetailCount());
 			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
 			detail.setLotDetailDate(document.getDocDate());
@@ -128,7 +131,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		}
 		detail.createHook(user);
 		detail = getDetailRepository().save(detail);
-		//detail.savePoint();
+		detail.setPoint();
 		
 		return new DetailCreatedEvent<D>(detail);
 	}

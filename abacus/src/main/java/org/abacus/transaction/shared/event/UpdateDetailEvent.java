@@ -7,15 +7,18 @@ public class UpdateDetailEvent<D extends TraDetailEntity<D>> extends UpdateEvent
 
 	private D detail;
 	private String user;
+	private Boolean isOppositeCreate;
 
 	public UpdateDetailEvent(D detail, String user) {
 		this.detail = detail;
 		this.user = user;
+		this.isOppositeCreate = false;
 	}
 
-	public UpdateDetailEvent(D detail) {
+	public UpdateDetailEvent(D detail, Boolean isOppositeCreate) {
 		this.detail = detail;
 		this.user = detail.getUserUpdated();
+		this.isOppositeCreate = isOppositeCreate;
 	}
 
 	public D getDetail() {
@@ -32,6 +35,14 @@ public class UpdateDetailEvent<D extends TraDetailEntity<D>> extends UpdateEvent
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public Boolean getIsOppositeCreate() {
+		return isOppositeCreate;
+	}
+
+	public void setIsOppositeCreate(Boolean isOppositeCreate) {
+		this.isOppositeCreate = isOppositeCreate;
 	}
 
 }

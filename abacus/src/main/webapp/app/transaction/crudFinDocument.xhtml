@@ -109,10 +109,6 @@
 						<p:outputLabel value="#{var.lotDetailDate}" />
 					</p:column>
 
-					<p:column headerText="Miktar" style="text-align: right; width:100px">
-						<p:outputLabel value="#{var.itemDetailCount}" />
-					</p:column>
-
 					<p:column headerText="Borç Tutar" style="text-align: right; width:100px">
 						<p:outputLabel value="#{var.getDebitAmount()}" />
 					</p:column>
@@ -167,12 +163,7 @@
 									required="true" />
 							</h:panelGrid>
 
-							<p:outputLabel value="Miktar" />
-							<p:inputText
-								value="#{crudFinDocumentViewBean.selectedDetail.itemDetailCount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
-								
-							<p:outputLabel value="Toplam Tutar" />
+							<p:outputLabel value="Tutar" />
 							<p:inputText
 								value="#{crudFinDocumentViewBean.selectedDetail.baseDetailAmount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />

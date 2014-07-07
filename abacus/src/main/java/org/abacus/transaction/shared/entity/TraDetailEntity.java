@@ -21,6 +21,7 @@ import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.beans.BeanUtils;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
@@ -29,7 +30,7 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	@Enumerated(EnumType.STRING)
 	@Column(name = "resource", nullable = false)
 	private EnumList.DefTypeGroupEnum resource;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "lot_detail_date", nullable = false)
 	private Date lotDetailDate;
@@ -73,7 +74,7 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	private Long refDetailId;
 
 	@Transient
-	private D memento;
+	private D point;
 
 	@Transient
 	private EnumList.EntityStatus entityStatus;
@@ -174,18 +175,18 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	}
 
 	public String getTrStateSign() {
-		return (trStateDetail.intValue()>0?"(+)":(trStateDetail.intValue()<0?"(_)":"(»)"));
+		return (trStateDetail.intValue() > 0 ? "(+)" : (trStateDetail.intValue() < 0 ? "(_)" : "(»)"));
 	}
 
 	public D getPoint() {
-		return memento;
+		return point;
 	}
 
-	public void savePoint() {
+	public void setPoint() {
 		try {
-			D memo = (D) this.clone();
-			this.memento = memo;
+			this.point = (D) this.clone();
 		} catch (CloneNotSupportedException e) {
+			this.point = null;
 			e.printStackTrace();
 		}
 	}

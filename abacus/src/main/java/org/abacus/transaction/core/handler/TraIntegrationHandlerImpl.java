@@ -65,7 +65,8 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		for (StkDetailEntity stkDet : stkDetList) {
 			FinDetailEntity finDet = new FinDetailEntity(stkDet);
 			finDet.setDocument(finDoc);
-			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(finDet));
+			finDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()); 
+			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(finDet, false));
 			totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
 			cakmaDepartment = finDet.getDepartment();
 		}
@@ -74,13 +75,13 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		FinDetailEntity infoDet = new FinDetailEntity();
 		infoDet.createHook(finDoc.getUserCreated());
 		infoDet.setDocument(finDoc);
-		infoDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()*(-1)); //Opposite State 
+		infoDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()*(-1)); //Opposite State
 		infoDet.setDepartment(cakmaDepartment);//FIXME:
 		infoDet.setItem(finDoc.getItem());
 		infoDet.setItemDetailCount(BigDecimal.ONE);
 		infoDet.setBaseDetailAmount(totalAmount);
 		infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
-		finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet));
+		finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
 		
 		return finDoc;	
 	}

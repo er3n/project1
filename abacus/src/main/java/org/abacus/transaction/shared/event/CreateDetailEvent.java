@@ -7,17 +7,20 @@ public class CreateDetailEvent<D extends TraDetailEntity<D>> extends CreatedEven
 
 	public D detail;
 	private String user;
+	private Boolean isOppositeCreate;
 
 	public CreateDetailEvent(D detail, String user) {
 		this.detail = detail;
 		this.user = user;
+		this.isOppositeCreate = false;
 	}
 
-	public CreateDetailEvent(D detail) {
+	public CreateDetailEvent(D detail, Boolean isOppositeCreate) {
 		this.detail = detail;
 		this.user = detail.getUserCreated();
+		this.isOppositeCreate = isOppositeCreate;
 	}
-
+	
 	public D getDetail() {
 		return detail;
 	}
@@ -32,6 +35,14 @@ public class CreateDetailEvent<D extends TraDetailEntity<D>> extends CreatedEven
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public Boolean getIsOppositeCreate() {
+		return isOppositeCreate;
+	}
+
+	public void setIsOppositeCreate(Boolean isOppositeCreate) {
+		this.isOppositeCreate = isOppositeCreate;
 	}
 
 }

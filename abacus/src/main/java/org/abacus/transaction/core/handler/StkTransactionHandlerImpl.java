@@ -83,7 +83,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
 		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocument().getId());
 		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocument().getId());
-		savePointDetailList(detailList);
+		setPointList(detailList);
 		for (StkDetailEntity dtl : detailList) {
 			Boolean result = deleteDetailRecords(dtl);
 			if (!result){
@@ -166,7 +166,6 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			det = detailCreated.getDetail();
 		} else {
 			det = stkDetailRepository.save(det);
-			det.savePoint();
 		}
 		return new DetailUpdatedEvent<StkDetailEntity>(det);
 	}

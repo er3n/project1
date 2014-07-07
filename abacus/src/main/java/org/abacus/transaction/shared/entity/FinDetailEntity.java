@@ -16,7 +16,7 @@ import org.springframework.beans.BeanUtils;
 @SuppressWarnings("serial")
 public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "document_fin_id", nullable = true)
 	private FinDocumentEntity document;
 

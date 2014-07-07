@@ -3,8 +3,6 @@ package org.abacus.transaction.core.handler;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.EnumType;
-
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.transaction.core.persistance.FinTransactionDao;
@@ -21,7 +19,6 @@ import org.abacus.transaction.shared.UnableToUpdateDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
-import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
@@ -87,7 +84,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
 		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocument().getId());
 		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocument().getId());
-		savePointDetailList(detailList);
+		setPointList(detailList);
 		for (FinDetailEntity dtl : detailList) {
 			Boolean result = deleteDetailRecords(dtl);
 			if (!result){
@@ -108,43 +105,49 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailCreatedEvent<FinDetailEntity> newDetail(CreateDetailEvent<FinDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
+
 		FinDetailEntity detail = detailCreateEvent.getDetail();
 		
-		//Fatura gEntegrasyonu gibi disaridan gelenlere dokunmamali
-		Integer trStateDetail = detail.getDocument().getTask().getType().getTrStateType()*(-1);
-		detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent=null;
-		detailCreatedEvent = super.newDetail(detailCreateEvent);
-		//TODO : Insert Opposite Integration Info
-		
-		List<FinDetailEntity> finDetList = finDetailRepository.findByDocumentId(detail.getDocument().getId());
-		DepartmentEntity cakmaDepartment = null; //FIXME: documentte department gerekli gibi ???
-		BigDecimal totalAmount = BigDecimal.ZERO;
-		for (FinDetailEntity finDet : finDetList) {
-			if (finDet.getResource().equals(EnumList.DefTypeGroupEnum.ACC)){
-				finDetailRepository.delete(finDet);	
-			} else {
-				totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
-				cakmaDepartment = finDet.getDepartment();
-			}
+		if (detailCreateEvent.getIsOppositeCreate()){
+			detailCreateEvent.getDetail().setTrStateDetail(detail.getDocument().getTask().getType().getTrStateType()*(-1));
 		}
 		
-		//Parametrik Olmalı, fatura ise gerek yok gibi, yada oda buraya tasinmali
-		//Create FinDetail Info
-		FinDetailEntity infoDet = new FinDetailEntity();
-		infoDet.createHook(detail.getUserCreated());
-		infoDet.setDocument(detail.getDocument());
-		infoDet.setTrStateDetail(trStateDetail*(-1)); //Opposite State 
-		infoDet.setDepartment(cakmaDepartment);//FIXME:
-		infoDet.setItem(detail.getDocument().getItem());
-		infoDet.setItemDetailCount(BigDecimal.ONE);
-		infoDet.setBaseDetailAmount(totalAmount);
-		infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
-		super.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet));
+		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = super.newDetail(detailCreateEvent);
+		
+		if (detailCreateEvent.getIsOppositeCreate()){
+			createAccRecord(detail.getDocument());
+		}
 		
 		return detailCreatedEvent;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	private void createAccRecord(FinDocumentEntity doc) {
+			List<FinDetailEntity> finDetList = finDetailRepository.findByDocumentId(doc.getId());
+			DepartmentEntity cakmaDepartment = null;
+			BigDecimal totalAmount = BigDecimal.ZERO;
+			for (FinDetailEntity finDet : finDetList) {
+				if (finDet.getResource().equals(EnumList.DefTypeGroupEnum.ACC)){
+					finDetailRepository.delete(finDet);	
+				} else {
+					totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
+					cakmaDepartment = finDet.getDepartment();
+				}
+			}
+			if (totalAmount.compareTo(BigDecimal.ZERO)!=0){
+				FinDetailEntity infoDet = new FinDetailEntity();
+				infoDet.createHook(doc.getUserCreated());
+				infoDet.setDocument(doc);
+				infoDet.setTrStateDetail(doc.getTask().getType().getTrStateType()); 
+				infoDet.setDepartment(cakmaDepartment);//FIXME:
+				infoDet.setItem(doc.getItem());
+				infoDet.setItemDetailCount(BigDecimal.ONE);
+				infoDet.setBaseDetailAmount(totalAmount);
+				infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
+				super.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
+			}
+	}
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailUpdatedEvent<FinDetailEntity> updateDetail(UpdateDetailEvent<FinDetailEntity> event) throws UnableToUpdateDetailException {
@@ -154,11 +157,13 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 			if (!result){
 				throw new UnableToUpdateDetailException();
 			}
-			DetailCreatedEvent<FinDetailEntity> detailCreated = newDetail(new CreateDetailEvent<FinDetailEntity>(det, event.getUser()));
+			DetailCreatedEvent<FinDetailEntity> detailCreated = newDetail(new CreateDetailEvent<FinDetailEntity>(det, true));
 			det = detailCreated.getDetail();
 		} else {
 			det = finDetailRepository.save(det);
-			det.savePoint();
+		}
+		if (event.getIsOppositeCreate()){
+			createAccRecord(det.getDocument());
 		}
 		return new DetailUpdatedEvent<FinDetailEntity>(det);
 	}
@@ -183,6 +188,10 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		Boolean result = deleteDetailRecords(event.getDetail());
 		if (!result){
 			throw new UnableToDeleteDetailException();
+		}
+		if (event.getIsOppositeCreate()){
+			FinDocumentEntity doc = finDocumentRepository.findOne(event.getDetail().getDocument().getId());
+			createAccRecord(doc);
 		}
 		return new DetailDeletedEvent<FinDetailEntity>();
 	}

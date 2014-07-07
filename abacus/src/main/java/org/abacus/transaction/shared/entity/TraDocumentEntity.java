@@ -48,7 +48,7 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	@JoinColumn(name = "task_id", nullable = false)
 	private DefTaskEntity task;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fiscal_period_id", nullable = false)
 	private FiscalPeriodEntity fiscalPeriod;
 

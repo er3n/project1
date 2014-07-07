@@ -151,7 +151,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void saveDetail() {
 		try {
-			DetailCreatedEvent<FinDetailEntity> event = transactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
+			DetailCreatedEvent<FinDetailEntity> event = transactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(selectedDetail, true));
 			this.findFinDocument(document.getId());
 			selectedDetail = null;
 			jsfMessageHelper.addInfo("createSuccessful", "Fiş Detay");
@@ -179,7 +179,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void updateDetail() {
 		try {
-			DetailUpdatedEvent<FinDetailEntity> detailUpdatedEvent = transactionHandler.updateDetail(new UpdateDetailEvent<FinDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
+			DetailUpdatedEvent<FinDetailEntity> detailUpdatedEvent = transactionHandler.updateDetail(new UpdateDetailEvent<FinDetailEntity>(selectedDetail, true));
 			this.findFinDocument(document.getId());
 			this.selectedDetail = null;
 			jsfMessageHelper.addInfo("updateSuccessful", "Fiş Detay");
@@ -190,7 +190,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void deleteDetail(FinDetailEntity detail) {
 		try {
-			DetailDeletedEvent<FinDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<FinDetailEntity>(detail));
+			DetailDeletedEvent<FinDetailEntity> deleteDetailEvent = transactionHandler.deleteDetail(new DeleteDetailEvent<FinDetailEntity>(detail, true));
 			this.findFinDocument(document.getId());
 			jsfMessageHelper.addInfo("deleteSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {

@@ -30,10 +30,6 @@ public class DefValueDao implements Serializable {
 	private DefLevelRepository levelRepository;
 
 	public DefValueEntity saveValueEntity(DefValueEntity entity) {
-		if (entity.isNew() && entity.getParent().getId().equals(0L)){
-			DefValueEntity root = valueRepository.findOne(0L);
-			entity.setParent(root);
-		}
 		entity = valueRepository.save(entity);
 		insertValueChildLevels(entity, false); 
 		return entity;

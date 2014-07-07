@@ -90,8 +90,7 @@ public class DefValueViewBean implements Serializable {
 	}
 
 	public void clearValue() {
-		DefValueEntity parentVal = new DefValueEntity();
-		parentVal.setId(0L);
+		DefValueEntity parentVal = null;
 		if (selVal != null && !selVal.isNew()) {
 			parentVal = selVal;
 		}
@@ -127,7 +126,7 @@ public class DefValueViewBean implements Serializable {
 		}
 		for (DefValueEntity valDto : valList) {
 			TreeNode selNode = valMap.get(valDto.getId());
-			if (valDto.getParent().getId().equals(0L)) {
+			if (valDto.getParent()==null) {
 				rootNode.getChildren().add(selNode);
 			} else {
 				TreeNode parNode = valMap.get(valDto.getParent().getId());

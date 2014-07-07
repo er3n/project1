@@ -13,7 +13,9 @@ import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraIntegrationHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
@@ -40,14 +42,18 @@ public class FindStkDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
-	private TraDocumentSearchCriteria documentSearchCriteria;
-
+	@ManagedProperty(value = "#{defTaskRepository}")
+	private DefTaskRepository taskRepository;
+	
 	@ManagedProperty(value = "#{stkTransactionHandler}")
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
 	
 	@ManagedProperty(value = "#{traIntegrationHandler}")
 	private TraIntegrationHandler traIntegrationHandler;
 
+	private TraDocumentSearchCriteria documentSearchCriteria;
+	private List<DefTaskEntity> stkTaskList;
+	
 	private List<StkDocumentEntity> documentSearchResultList;
 	
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
@@ -74,6 +80,11 @@ public class FindStkDocumentViewBean implements Serializable {
 		}
 		documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(selectedTypeEnum);
+		this.initSelections();
+	}
+	
+	private void initSelections() {
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
 	}
 
 	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
@@ -206,6 +217,22 @@ public class FindStkDocumentViewBean implements Serializable {
 
 	public void setSelectedTypeEnum(EnumList.DefTypeEnum selectedTypeEnum) {
 		this.selectedTypeEnum = selectedTypeEnum;
+	}
+
+	public List<DefTaskEntity> getStkTaskList() {
+		return stkTaskList;
+	}
+
+	public void setStkTaskList(List<DefTaskEntity> stkTaskList) {
+		this.stkTaskList = stkTaskList;
+	}
+
+	public DefTaskRepository getTaskRepository() {
+		return taskRepository;
+	}
+
+	public void setTaskRepository(DefTaskRepository taskRepository) {
+		this.taskRepository = taskRepository;
 	}
 
 }

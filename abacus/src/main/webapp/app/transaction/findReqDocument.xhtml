@@ -25,11 +25,6 @@
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
-					<p:outputLabel value="Belge No:" />
-					<p:inputText
-						value="#{findReqDocumentViewBean.documentSearchCriteria.docNo}" />
-
-
 					<c:if test="#{findReqDocumentViewBean.approval}">
 						<p:outputLabel value="Karşılacak Depo" />
 						<h:panelGrid columns="1">
@@ -59,6 +54,10 @@
 					<p:outputLabel value="Bitiş Tarihi:" style="font-weigh: bold" />
 					<p:calendar
 						value="#{findReqDocumentViewBean.documentSearchCriteria.docEndDate}" />
+
+					<p:outputLabel value="Belge No:" />
+					<p:inputText
+						value="#{findReqDocumentViewBean.documentSearchCriteria.docNo}" />
 
 				</h:panelGrid>
 

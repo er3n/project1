@@ -12,7 +12,9 @@ import javax.faces.context.FacesContext;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
@@ -38,10 +40,14 @@ public class FindFinDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
-	private TraDocumentSearchCriteria documentSearchCriteria;
-
 	@ManagedProperty(value = "#{finTransactionHandler}")
 	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> transactionHandler;
+
+	@ManagedProperty(value = "#{defTaskRepository}")
+	private DefTaskRepository taskRepository;
+
+	private TraDocumentSearchCriteria documentSearchCriteria;
+	private List<DefTaskEntity> finTaskList;
 
 	private List<FinDocumentEntity> documentSearchResultList;
 
@@ -69,8 +75,13 @@ public class FindFinDocumentViewBean implements Serializable {
 		}
 		documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(selectedTypeEnum);
+		this.initSelections();
 	}
 
+	private void initSelections() {
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
+	}
+	
 	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
 		boolean result = selectedTypeEnum.name().startsWith(taskEnum.name());
 		return result;
@@ -174,6 +185,22 @@ public class FindFinDocumentViewBean implements Serializable {
 
 	public void setSelectedTypeEnum(EnumList.DefTypeEnum selectedTypeEnum) {
 		this.selectedTypeEnum = selectedTypeEnum;
+	}
+
+	public List<DefTaskEntity> getFinTaskList() {
+		return finTaskList;
+	}
+
+	public void setFinTaskList(List<DefTaskEntity> finTaskList) {
+		this.finTaskList = finTaskList;
+	}
+
+	public DefTaskRepository getTaskRepository() {
+		return taskRepository;
+	}
+
+	public void setTaskRepository(DefTaskRepository taskRepository) {
+		this.taskRepository = taskRepository;
 	}
 
 }

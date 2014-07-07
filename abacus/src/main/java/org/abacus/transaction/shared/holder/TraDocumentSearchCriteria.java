@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 
 @SuppressWarnings("serial")
@@ -20,6 +21,8 @@ public class TraDocumentSearchCriteria implements Serializable {
 	private DepartmentEntity department;
 
 	private DepartmentEntity departmentOpp;
+
+	private DefTaskEntity docTask;
 
 	private EnumList.DefTypeEnum docType;
 
@@ -85,6 +88,14 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	public void setDepartmentOpp(DepartmentEntity departmentOpp) {
 		this.departmentOpp = departmentOpp;
+	}
+
+	public DefTaskEntity getDocTask() {
+		return docTask;
+	}
+
+	public void setDocTask(DefTaskEntity docTask) {
+		this.docTask = docTask;
 	}
 
 }

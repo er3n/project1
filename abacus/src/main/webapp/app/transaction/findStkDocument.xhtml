@@ -20,10 +20,15 @@
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
-					<p:outputLabel value="Belge No:" />
-					<p:inputText
-						value="#{findStkDocumentViewBean.documentSearchCriteria.docNo}" />
-
+					<p:outputLabel value="İşlem:" style="font-weigh: bold" />
+						<p:selectOneMenu value="#{findStkDocumentViewBean.documentSearchCriteria.docTask}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{findStkDocumentViewBean.stkTaskList}"
+								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
+							<p:ajax event="change" process="@this" />
+						</p:selectOneMenu>
+						
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar
@@ -33,6 +38,10 @@
 						style="font-weigh: bold" />
 					<p:calendar
 						value="#{findStkDocumentViewBean.documentSearchCriteria.docEndDate}" />
+
+					<p:outputLabel value="Belge No:" />
+					<p:inputText
+						value="#{findStkDocumentViewBean.documentSearchCriteria.docNo}" />
 
 				</h:panelGrid>
 
@@ -72,7 +81,7 @@
 					</p:column>
 
 					<p:column headerText="Hareket">
-						<h:outputText value="#{var.typeEnum.description}" />
+						<h:outputText value="#{var.task.name}" />
 					</p:column>
 
 					<p:column headerText="Organizasyon">

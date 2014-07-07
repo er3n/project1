@@ -1,15 +1,11 @@
 package org.abacus.transaction.shared.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 
 @Entity
@@ -22,11 +18,15 @@ public class ReqDetailEntity extends TraDetailEntity<ReqDetailEntity> {
 	private ReqDocumentEntity document;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "department_id", nullable = true)
+	private DepartmentEntity department;
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_opp_id", nullable = true)
 	private DepartmentEntity departmentOpp;
 
 	@Override
-	public TraDocumentEntity getDocument() {
+	public ReqDocumentEntity getDocument() {
 		return document;
 	}
 
@@ -45,6 +45,14 @@ public class ReqDetailEntity extends TraDetailEntity<ReqDetailEntity> {
 
 	public void setDocument(ReqDocumentEntity document) {
 		this.document = document;
+	}
+
+	public DepartmentEntity getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(DepartmentEntity department) {
+		this.department = department;
 	}
 
 }

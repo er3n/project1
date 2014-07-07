@@ -7,8 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.BeanUtils;
 
 @Entity
@@ -23,6 +25,9 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "glc_id", nullable = true)
 	private DefTypeEntity glc;
+
+	@Transient
+	private OrganizationEntity organization;
 
 //  TODO:ACC
 //	@ManyToOne(fetch = FetchType.LAZY)
@@ -61,6 +66,14 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 
 	public BigDecimal getCreditAmount(){
 		return this.getTrStateDetail().equals(-1)?this.getBaseDetailAmount():BigDecimal.ZERO;
+	}
+
+	public OrganizationEntity getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(OrganizationEntity organization) {
+		this.organization = organization;
 	}
 
 }

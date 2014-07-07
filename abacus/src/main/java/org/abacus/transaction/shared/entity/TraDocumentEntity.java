@@ -19,7 +19,6 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.hibernate.validator.constraints.Range;
 
 @SuppressWarnings("serial")
 @MappedSuperclass

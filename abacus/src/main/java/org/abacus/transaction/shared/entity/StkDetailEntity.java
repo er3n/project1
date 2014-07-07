@@ -20,6 +20,10 @@ public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 	private StkDocumentEntity document;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "department_id", nullable = true)
+	private DepartmentEntity department;
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_opp_id", nullable = true)
 	private DepartmentEntity departmentOpp;
 
@@ -44,7 +48,7 @@ public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 	}
 
 	@Override
-	public TraDocumentEntity getDocument() {
+	public StkDocumentEntity getDocument() {
 		return document;
 	}
 
@@ -67,6 +71,14 @@ public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 
 	public void setBatchDetailNo(String batchDetailNo) {
 		this.batchDetailNo = batchDetailNo;
+	}
+
+	public DepartmentEntity getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(DepartmentEntity department) {
+		this.department = department;
 	}
 
 }

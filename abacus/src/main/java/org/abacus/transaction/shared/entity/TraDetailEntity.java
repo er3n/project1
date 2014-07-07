@@ -18,10 +18,8 @@ import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
-import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.BeanUtils;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
@@ -56,10 +54,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	@Column(name = "base_detail_count", nullable = false, precision = 10, scale = 3)
 	private BigDecimal baseDetailCount;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "department_id", nullable = false)
-	private DepartmentEntity department;
 
 	@Column(name = "unit_detail_price", nullable = false, precision = 12, scale = 2)
 	private BigDecimal unitDetailPrice;
@@ -132,14 +126,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public void setBaseDetailCount(BigDecimal baseDetailCount) {
 		this.baseDetailCount = baseDetailCount;
-	}
-
-	public DepartmentEntity getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(DepartmentEntity department) {
-		this.department = department;
 	}
 
 	public BigDecimal getBaseDetailAmount() {

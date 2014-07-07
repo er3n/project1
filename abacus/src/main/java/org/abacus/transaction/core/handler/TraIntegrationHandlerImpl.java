@@ -59,7 +59,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		stkTransactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(stkDoc));
 		
 		//Convert FinDetail
-		DepartmentEntity cakmaDepartment = null; //FIXME: documentte department gerekli gibi ???
 		BigDecimal totalAmount = BigDecimal.ZERO;
 		List<StkDetailEntity> stkDetList = stkDetailRepository.findByDocumentId(docId);
 		for (StkDetailEntity stkDet : stkDetList) {
@@ -68,7 +67,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			finDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()); 
 			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(finDet, false));
 			totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
-			cakmaDepartment = finDet.getDepartment();
 		}
 		
 		//Create FinDetail Info
@@ -76,7 +74,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		infoDet.createHook(finDoc.getUserCreated());
 		infoDet.setDocument(finDoc);
 		infoDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()*(-1)); //Opposite State
-		infoDet.setDepartment(cakmaDepartment);//FIXME:
 		infoDet.setItem(finDoc.getItem());
 		infoDet.setItemDetailCount(BigDecimal.ONE);
 		infoDet.setBaseDetailAmount(totalAmount);

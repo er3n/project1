@@ -17,7 +17,6 @@ import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
@@ -50,7 +49,7 @@ public class TransactionFixture {
 		entity.setTask(taskList.get(0));
 	}
 
-	private void enrichDetail(TraDetailEntity<StkDetailEntity> detail, TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
+	private void enrichDetail(StkDetailEntity detail, TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
 
 		DepartmentEntity department = departmentRepository.findByOrganizationAndGroup(document.getOrganization().getId(), EnumList.OrgDepartmentGroupEnum.S).get(0);
 		detail.setDepartment(department);

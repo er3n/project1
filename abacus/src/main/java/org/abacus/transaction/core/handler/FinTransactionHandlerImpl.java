@@ -124,14 +124,12 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	private void createAccRecord(FinDocumentEntity doc) {
 			List<FinDetailEntity> finDetList = finDetailRepository.findByDocumentId(doc.getId());
-			DepartmentEntity cakmaDepartment = null;
 			BigDecimal totalAmount = BigDecimal.ZERO;
 			for (FinDetailEntity finDet : finDetList) {
 				if (finDet.getResource().equals(EnumList.DefTypeGroupEnum.ACC)){
 					finDetailRepository.delete(finDet);	
 				} else {
 					totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
-					cakmaDepartment = finDet.getDepartment();
 				}
 			}
 			if (totalAmount.compareTo(BigDecimal.ZERO)!=0){
@@ -139,7 +137,6 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 				infoDet.createHook(doc.getUserCreated());
 				infoDet.setDocument(doc);
 				infoDet.setTrStateDetail(doc.getTask().getType().getTrStateType()); 
-				infoDet.setDepartment(cakmaDepartment);//FIXME:
 				infoDet.setItem(doc.getItem());
 				infoDet.setItemDetailCount(BigDecimal.ONE);
 				infoDet.setBaseDetailAmount(totalAmount);
@@ -152,36 +149,13 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailUpdatedEvent<FinDetailEntity> updateDetail(UpdateDetailEvent<FinDetailEntity> event) throws UnableToUpdateDetailException {
 		FinDetailEntity det = event.getDetail();
-		if (trackRefreshRequired(det)){
-			Boolean result = deleteDetailRecords(event.getDetail());
-			if (!result){
-				throw new UnableToUpdateDetailException();
-			}
-			DetailCreatedEvent<FinDetailEntity> detailCreated = newDetail(new CreateDetailEvent<FinDetailEntity>(det, true));
-			det = detailCreated.getDetail();
-		} else {
-			det = finDetailRepository.save(det);
-		}
+		det = finDetailRepository.save(det);
 		if (event.getIsOppositeCreate()){
 			createAccRecord(det.getDocument());
 		}
 		return new DetailUpdatedEvent<FinDetailEntity>(det);
 	}
 	
-	private Boolean trackRefreshRequired(FinDetailEntity dtl){
-		FinDetailEntity old = dtl.getPoint();
-		if (dtl.getItemDetailCount().compareTo(old.getItemDetailCount())!=0){
-			return true;
-		}
-		if (dtl.getItem().getId().compareTo(old.getItem().getId())!=0){
-			return true;
-		}
-		if (dtl.getDepartment().getId().compareTo(old.getDepartment().getId())!=0){
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailDeletedEvent<FinDetailEntity> deleteDetail(DeleteDetailEvent<FinDetailEntity> event) throws UnableToDeleteDetailException {

@@ -40,14 +40,6 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 
-					<h:outputLabel value="İşlem Yeri" />
-					<h:panelGrid columns="1">
-						<abc:departmentSelection id="departmentSelectionInput"
-								widgetVar="departmentSelectionWdg" dialogId="departmentSelectionDialog"
-								targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailDepartment}"
-								required="false" />
-					</h:panelGrid>
-
 					<h:outputLabel value="Yardımcı Hesap" />
 					<h:panelGrid columns="1">
 						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailItem}" required="false" />
@@ -78,8 +70,8 @@
 					value="#{queryFinDetailViewBean.searchResultList}" var="var"
 					 paginator="true" rows="30">
 
-					<p:column headerText="İşlem Yeri" filterBy="#{var.department.name}" filterMatchMode="contains">
-						<h:outputText value="#{var.department.name}" />
+					<p:column headerText="Organizasyon" filterBy="#{var.document.organization.id}" filterMatchMode="contains">
+						<h:outputText value="#{var.document.organization.id}" />
 					</p:column>
 
 					<p:column headerText="Yardımcı Hesap" filterBy="#{var.item.name}" filterMatchMode="contains">
@@ -116,7 +108,6 @@
 	<ui:define name="model">
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 		
 		<abc:itemSelectionDialog 
 			id="itemSelectionDialog" 
@@ -126,14 +117,6 @@
 			targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailItem}"
 			rendered="true" />
 
-		<abc:departmentSelectionDialog 
-			id="departmentSelectionDialog"
-			update=":queryFinDetailForm" 
-			widgetVar="departmentSelectionWdg"
-			paramUser="#{sessionInfoHelper.currentUser().username}"
-			targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailDepartment}" 
-			rendered="true"/>			
-			
 	</ui:define>
 	
 </ui:composition>

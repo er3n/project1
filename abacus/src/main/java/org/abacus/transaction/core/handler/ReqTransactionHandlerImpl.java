@@ -107,7 +107,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	public DetailCreatedEvent<ReqDetailEntity> newDetail(CreateDetailEvent<ReqDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
 		Integer trStateDetail = detailCreateEvent.getDetail().getTrStateDetail();
 		if (trStateDetail==null){
-			trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
+			trStateDetail = detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
 		}
 		

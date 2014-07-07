@@ -1,7 +1,6 @@
 package org.abacus.common.web;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.abacus.report.shared.holder.ReportSearchCriteria;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
@@ -50,18 +48,18 @@ public class TestViewBean implements Serializable {
 	@ManagedProperty(value = "#{defTaskRepository}")
 	private DefTaskRepository taskRepository;
 
-	private ReportSearchCriteria reportSearchCriteria;
+	private TestCriteria testCriteria;
 	private Boolean showDocument = true; 
 	private List<DefTaskEntity> stkTaskList;
 	
 	@PostConstruct
 	private void init() {
-		reportSearchCriteria = new ReportSearchCriteria();
-		reportSearchCriteria.setOrganization(sessionInfoHelper.currentOrganization());
-		reportSearchCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
+		testCriteria = new TestCriteria();
+		testCriteria.setOrganization(sessionInfoHelper.currentOrganization());
+		testCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
 		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 //		jsfMessageHelper.addWarn("noFiscalYearDefined");
-		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeGroupEnum.STK.name());
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.STK_IO.name());
 	}
 
 	public void openTestDocDialog() {
@@ -114,14 +112,6 @@ public class TestViewBean implements Serializable {
 	
 	public void testCreateStkData() throws AbcBusinessException {
 		System.out.println("createStkTestData");
-		if (reportSearchCriteria.getDocTask()==null||
-				reportSearchCriteria.getDetailCount()==null||
-				reportSearchCriteria.getDetailDepartment()==null||
-				reportSearchCriteria.getDetailItem()==null){
-			System.out.println("createStkTestData Eksik Bilgi");
-			jsfMessageHelper.addInfo("createStkTestData Eksik Bilgi");
-			return;
-		}
 		try{
 			CreateDocumentEvent<StkDocumentEntity> createDocumentEvent = testCreateDocumentEvent();
 			DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(createDocumentEvent);
@@ -155,8 +145,8 @@ public class TestViewBean implements Serializable {
 		doc.setDocDate(Calendar.getInstance().getTime());
 		doc.setDocNo(String.valueOf(doc.getDocDate().getTime()));
 		doc.setDocNote("doc note:"+doc.getDocDate().getTime());
-		doc.setTask(reportSearchCriteria.getDocTask());
-		doc.setTypeEnum(reportSearchCriteria.getDocTask().getType().getTypeEnum());
+		doc.setTask(testCriteria.getDocTask());
+		doc.setTypeEnum(testCriteria.getDocTask().getType().getTypeEnum());
 		doc.setOrganization(organization);
 		
 		CreateDocumentEvent<StkDocumentEntity> event = new CreateDocumentEvent<StkDocumentEntity>(doc, user, organization.getId(), fiscalYear.getId());		
@@ -169,15 +159,15 @@ public class TestViewBean implements Serializable {
 		StkDetailEntity dtl = new StkDetailEntity();
 		
 		dtl.setDocument(document);
-		dtl.setDepartment(reportSearchCriteria.getDetailDepartment());
-		dtl.setItem(reportSearchCriteria.getDetailItem());
+		dtl.setDepartment(testCriteria.getDetailDepartment());
+		dtl.setItem(testCriteria.getDetailItem());
 		dtl.setLotDetailDate(document.getDocDate());
-		dtl.setBaseDetailAmount(reportSearchCriteria.getDetailCount().multiply(new BigDecimal(1000)));
-		dtl.setItemDetailCount(reportSearchCriteria.getDetailCount());
-		dtl.setItemUnit(reportSearchCriteria.getDetailItem().getItemUnitSet().iterator().next().getUnitCode());
+		dtl.setItemDetailCount(testCriteria.getDetailCount());
+		dtl.setBaseDetailAmount(testCriteria.getDetailCount());
+		dtl.setItemUnit(testCriteria.getUnitCode());
 		dtl.setDetNote("dtl note:"+document.getId());
 		dtl.setBatchDetailNo("batch:"+document.getId());
-		dtl.setDepartmentOpp(reportSearchCriteria.getDetailOppDepartment());
+		dtl.setDepartmentOpp(testCriteria.getDetailOppDepartment());
 		
 		CreateDetailEvent<StkDetailEntity> event = new CreateDetailEvent<StkDetailEntity>(dtl, user);
 		return event;
@@ -208,13 +198,14 @@ public class TestViewBean implements Serializable {
 		this.documentRepository = documentRepository;
 	}
 
-	public ReportSearchCriteria getReportSearchCriteria() {
-		return reportSearchCriteria;
+	public TestCriteria getTestCriteria() {
+		return testCriteria;
 	}
 
-	public void setReportSearchCriteria(ReportSearchCriteria reportSearchCriteria) {
-		this.reportSearchCriteria = reportSearchCriteria;
+	public void setTestCriteria(TestCriteria testCriteria) {
+		this.testCriteria = testCriteria;
 	}
+
 
 }
 

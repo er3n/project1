@@ -1,7 +1,12 @@
 package org.abacus.transaction.core.handler;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.EnumType;
+
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.transaction.core.persistance.FinTransactionDao;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
@@ -16,6 +21,7 @@ import org.abacus.transaction.shared.UnableToUpdateDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
+import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
@@ -102,13 +108,40 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailCreatedEvent<FinDetailEntity> newDetail(CreateDetailEvent<FinDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
-		Integer trStateDetail = detailCreateEvent.getDetail().getTrStateDetail();
-		if (trStateDetail==null){
-			trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
-			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-		}
+		FinDetailEntity detail = detailCreateEvent.getDetail();
+		
+		//Fatura gEntegrasyonu gibi disaridan gelenlere dokunmamali
+		Integer trStateDetail = detail.getDocument().getTask().getType().getTrStateType()*(-1);
+		detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
 		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent=null;
 		detailCreatedEvent = super.newDetail(detailCreateEvent);
+		//TODO : Insert Opposite Integration Info
+		
+		List<FinDetailEntity> finDetList = finDetailRepository.findByDocumentId(detail.getDocument().getId());
+		DepartmentEntity cakmaDepartment = null; //FIXME: documentte department gerekli gibi ???
+		BigDecimal totalAmount = BigDecimal.ZERO;
+		for (FinDetailEntity finDet : finDetList) {
+			if (finDet.getResource().equals(EnumList.DefTypeGroupEnum.ACC)){
+				finDetailRepository.delete(finDet);	
+			} else {
+				totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
+				cakmaDepartment = finDet.getDepartment();
+			}
+		}
+		
+		//Parametrik Olmalı, fatura ise gerek yok gibi, yada oda buraya tasinmali
+		//Create FinDetail Info
+		FinDetailEntity infoDet = new FinDetailEntity();
+		infoDet.createHook(detail.getUserCreated());
+		infoDet.setDocument(detail.getDocument());
+		infoDet.setTrStateDetail(trStateDetail*(-1)); //Opposite State 
+		infoDet.setDepartment(cakmaDepartment);//FIXME:
+		infoDet.setItem(detail.getDocument().getItem());
+		infoDet.setItemDetailCount(BigDecimal.ONE);
+		infoDet.setBaseDetailAmount(totalAmount);
+		infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
+		super.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet));
+		
 		return detailCreatedEvent;
 	}
 

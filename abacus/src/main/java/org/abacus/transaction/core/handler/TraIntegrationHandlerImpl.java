@@ -74,11 +74,12 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		FinDetailEntity infoDet = new FinDetailEntity();
 		infoDet.createHook(finDoc.getUserCreated());
 		infoDet.setDocument(finDoc);
-		infoDet.setTrStateDetail(finDoc.getTrStateDocument()*(-1)); //Opposite State 
+		infoDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()*(-1)); //Opposite State 
 		infoDet.setDepartment(cakmaDepartment);//FIXME:
 		infoDet.setItem(finDoc.getItem());
 		infoDet.setItemDetailCount(BigDecimal.ONE);
 		infoDet.setBaseDetailAmount(totalAmount);
+		infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
 		finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet));
 		
 		return finDoc;	

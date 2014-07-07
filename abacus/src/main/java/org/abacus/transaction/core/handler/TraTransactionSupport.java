@@ -81,7 +81,6 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 
 		document.setOrganization(new OrganizationEntity(organizationStr));
 		document.createHook(user);
-		document.setTrStateDocument(EnumList.TraState.INP.value());
 		document.setTypeEnum(document.getTask().getType().getTypeEnum());
 		
 		FiscalPeriodEntity fiscalPeriod = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
@@ -105,7 +104,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		if (document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
 			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 			detail.setBaseDetailCount(baseDetailCount);
-			if (document.getTypeEnum().getState().compareTo(1)==0){
+			if (detail.getTrStateDetail().compareTo(1)==0){
 				detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
 			} else {//Cikis Islemlerinde Fiyat ve SKT girilmez 
 				detail.setBaseDetailAmount(BigDecimal.ZERO);

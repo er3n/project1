@@ -16,7 +16,7 @@ public interface FinDetailRepository extends CrudRepository<FinDetailEntity, Lon
 
 	@Modifying
 	@Transactional
-	@Query("update FinDetailEntity t set t.document=null where t.document.id = :finDocId and resource != 'FIN'")
+	@Query("update FinDetailEntity t set t.document=null where t.document.id = :finDocId and (resource != 'FIN' and resource != 'ACC')")
 	void updateRefFinInfo(@Param("finDocId") Long id);
 	
 }

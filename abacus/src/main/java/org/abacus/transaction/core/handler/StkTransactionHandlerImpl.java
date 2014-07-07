@@ -108,7 +108,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				detailCreateEvent.getDetail().getDocument().getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && 	//Stk Document
 				detailCreateEvent.getDetail().getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name()); 				//Stk Item
 		
-		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTrStateDocument() * detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
+		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
 		DetailCreatedEvent<StkDetailEntity> detailCreatedEvent=null;
 		
 		if(trStateDetail.equals(EnumList.TraState.INP.value())){

@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "tra_detail")
@@ -30,6 +31,16 @@ public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 //	private Long refFinDetailId;
 		
 	public StkDetailEntity() {
+	}
+	
+	public StkDetailEntity(TraDetailEntity<?> sourceDet,StkDocumentEntity stkDoc){
+		TraDocumentEntity thisDocument = sourceDet.getDocument();
+		sourceDet.setDocument(null);
+		
+		BeanUtils.copyProperties(sourceDet, this);
+		this.setDocument(stkDoc);
+		
+		sourceDet.setDocument(thisDocument);
 	}
 
 	@Override

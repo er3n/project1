@@ -59,9 +59,8 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 	}
 	
 
-	//Required olursa hata olusuyor
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public ReqDocumentEntity confirmDocument(ConfirmDocumentEvent confirmDocumentEvent) {
 		
 		ReqDocumentEntity reqDocument = confirmDocumentEvent.getReqDocumentEntity();
@@ -80,10 +79,7 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 		List<ReqDetailEntity> reqDetails = reqDetailRepository.findByDocumentId(reqDocument.getId());
 		
 		for(ReqDetailEntity reqDetail : reqDetails){	
-			reqDetail.setDocument(null);
-			StkDetailEntity stkDetailEntity = new StkDetailEntity();
-			BeanUtils.copyProperties(reqDetail, stkDetailEntity);
-			stkDetailEntity.setDocument(stkDocument);
+			StkDetailEntity stkDetailEntity = new StkDetailEntity(reqDetail,stkDocument);
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(stkDetailEntity, user));
 		}
 		

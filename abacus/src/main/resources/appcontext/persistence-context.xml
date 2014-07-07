@@ -54,6 +54,6 @@
 
 	<jpa:repositories base-package="org.abacus.**.core.persistance.repository" entity-manager-factory-ref="entityManager"/>
 
-	<bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+<!-- 	<bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /> -->
 
 </beans>

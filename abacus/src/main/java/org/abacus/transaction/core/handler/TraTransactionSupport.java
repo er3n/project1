@@ -128,7 +128,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		}
 		detail.createHook(user);
 		detail = getDetailRepository().save(detail);
-		detail.savePoint();
+		//detail.savePoint();
 		
 		return new DetailCreatedEvent<D>(detail);
 	}

@@ -27,14 +27,14 @@ public class DynamicEntity implements RootEntity {
 	@Column(name = "date_created", nullable = true)
 	private Date dateCreated = new Date();
 
-	@Column(name = "user_created", nullable = true)
+	@Column(name = "user_created", nullable = true, length=30)
 	private String userCreated;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_updated", nullable = true)
 	private Date dateUpdated = new Date();
 
-	@Column(name = "user_updates", nullable = true)
+	@Column(name = "user_updated", nullable = true, length=30)
 	private String userUpdated;
 
 	@Version

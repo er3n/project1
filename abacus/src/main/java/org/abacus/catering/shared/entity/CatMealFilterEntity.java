@@ -37,9 +37,6 @@ public class CatMealFilterEntity extends DynamicEntity {
 	@Column(name = "date_finish", nullable = false)
 	private Date dateFinish;
 
-	@Column(name = "description", nullable = true)
-	private String description;
-
 	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
 	private BigDecimal countPrepare;
 	
@@ -57,14 +54,6 @@ public class CatMealFilterEntity extends DynamicEntity {
 
 	public void setMeal(DefValueEntity meal) {
 		this.meal = meal;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public Date getDateStart() {

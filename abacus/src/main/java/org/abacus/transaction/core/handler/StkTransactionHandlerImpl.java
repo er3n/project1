@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.transaction.core.persistance.StkTransactionDao;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
@@ -103,10 +104,11 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailCreatedEvent<StkDetailEntity> newDetail(CreateDetailEvent<StkDetailEntity> detailCreateEvent) throws UnableToCreateDetailException {
-		
+		StkDocumentEntity doc = detailCreateEvent.getDetail().getDocument();
+		DefItemEntity itm = detailCreateEvent.getDetail().getItem();
 		boolean createStkTrack = //
-				detailCreateEvent.getDetail().getDocument().getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && 	//Stk Document
-				detailCreateEvent.getDetail().getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name()); 				//Stk Item
+				doc.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && 	//Stk Document
+				itm.getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name()); 			//Stk Item
 		
 		Integer trStateDetail = detailCreateEvent.getDetail().getDocument().getTypeEnum().getState();
 		DetailCreatedEvent<StkDetailEntity> detailCreatedEvent=null;

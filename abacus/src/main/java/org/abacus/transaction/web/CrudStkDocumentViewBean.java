@@ -174,6 +174,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	public void updateDetail() {
 		try {
+			selectedDetail.setDocument(document);
 			DetailUpdatedEvent<StkDetailEntity> detailUpdatedEvent = transactionHandler.updateDetail(new UpdateDetailEvent<StkDetailEntity>(selectedDetail, sessionInfoHelper.currentUserName()));
 			this.findStkDocument(document.getId());
 			this.selectedDetail = null;

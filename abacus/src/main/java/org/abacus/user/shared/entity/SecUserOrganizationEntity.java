@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @Entity
@@ -22,6 +23,10 @@ public class SecUserOrganizationEntity extends DynamicEntity {
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "item_id", nullable = true)
+	private DefItemEntity item;
+	
 	public SecUserEntity getUser() {
 		return user;
 	}
@@ -36,6 +41,14 @@ public class SecUserOrganizationEntity extends DynamicEntity {
 
 	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
+	}
+
+	public DefItemEntity getItem() {
+		return item;
+	}
+
+	public void setItem(DefItemEntity item) {
+		this.item = item;
 	}
 
 }

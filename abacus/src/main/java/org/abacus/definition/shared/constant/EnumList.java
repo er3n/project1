@@ -30,7 +30,6 @@ public interface EnumList {
 		L0("Holding (0)"), //
 		L1("Şirket (1)"), //
 		L2("Proje (2)"), //
-		L3("Bölge (3)"), //
 		;
 		private String description;
 

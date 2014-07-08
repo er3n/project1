@@ -87,6 +87,14 @@
            					#{selType.name}  
        					</p:column>
 
+					<p:column headerText="İşlem" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.VAL}"> 
+	
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{defValueViewBean.refreshTypeLevel()}" >
+							<p:confirm header="Onay" message="Level oluşturmak istediğine emin misin?" icon="ui-icon-alert"  />
+						</p:commandButton>
+						
+					</p:column>
+
 					</p:dataTable>
 
 				</h:form>

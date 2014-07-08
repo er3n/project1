@@ -48,6 +48,7 @@ public class DefValueViewBean implements Serializable {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
+	
 	private OrganizationEntity rootOrganization;
 
 	@PostConstruct
@@ -80,6 +81,11 @@ public class DefValueViewBean implements Serializable {
 		refreshTree();
 	}
 
+	public void refreshTypeLevel(){
+		defValService.refreshTypeLevel(rootOrganization.getId(), selType.getTypeEnum());
+		jsfMessageHelper.addInfo("refreshSuccessful", selType.getId());
+	}
+	
 	public void valueSelectListener(NodeSelectEvent event) {
 		if (selNode == null || selNode.getData() == null) {
 			selVal = null;

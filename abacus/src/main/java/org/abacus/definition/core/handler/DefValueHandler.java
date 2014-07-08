@@ -14,4 +14,6 @@ public interface DefValueHandler extends Serializable{
 	
 	void deleteValueEntity(DefValueEntity entity);
 	
+	void refreshTypeLevel(String organizationId, EnumList.DefTypeEnum typeEnum);
+	
 }

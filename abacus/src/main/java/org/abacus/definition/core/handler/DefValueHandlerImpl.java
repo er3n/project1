@@ -40,4 +40,10 @@ public class DefValueHandlerImpl implements DefValueHandler {
 		defValueDao.deleteValueEntity(entity);
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
+	public void refreshTypeLevel(String organizationId, EnumList.DefTypeEnum typeEnum){
+		defValueDao.refreshTypeLevel(organizationId, typeEnum);
+	}
+	
 }

@@ -10,9 +10,9 @@ import javax.persistence.Table;
 import org.abacus.common.shared.entity.StaticEntity;
 
 @Entity
-@Table(name = "def_level")
+@Table(name = "def_value_level")
 @SuppressWarnings("serial")
-public class DefLevelEntity extends StaticEntity {
+public class DefValueLevelEntity extends StaticEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "value_id", nullable = false)

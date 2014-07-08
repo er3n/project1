@@ -22,7 +22,7 @@ public class DefItemValueEntity extends DynamicEntity {
 	private DefItemEntity item;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "value_type_enum", nullable = false)
+	@Column(name = "value_type_enum", nullable = false, length=30)
 	private EnumList.DefTypeEnum typeEnum;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

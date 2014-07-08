@@ -36,7 +36,7 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	private OrganizationEntity organization;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "type_id", nullable = false)
+	@Column(name = "type_id", nullable = false, length=30)
 	private EnumList.DefTypeEnum typeEnum;
 
 	// For HQL

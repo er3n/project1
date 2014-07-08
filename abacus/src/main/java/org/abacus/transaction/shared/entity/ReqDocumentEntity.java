@@ -18,7 +18,7 @@ import org.abacus.organization.shared.entity.DepartmentEntity;
 public class ReqDocumentEntity extends TraDocumentEntity {
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "request_status", nullable = false)
+	@Column(name = "request_status", nullable = false, length=30)
 	private EnumList.RequestStatus requestStatus;
 
 	@ManyToOne(fetch = FetchType.EAGER)

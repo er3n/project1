@@ -38,11 +38,11 @@ public class DefTaskEntity extends DynamicEntity {
 	private String name;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "item_type_document", nullable = true)
+	@Column(name = "item_type_document", nullable = true, length=30)
 	private EnumList.DefTypeEnum itemTypeDocument;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "item_type_detail", nullable = true)
+	@Column(name = "item_type_detail", nullable = true, length=30)
 	private EnumList.DefTypeEnum itemTypeDetail;
 
 	@Column(name = "is_active", nullable = false)

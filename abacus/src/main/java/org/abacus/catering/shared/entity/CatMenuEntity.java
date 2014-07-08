@@ -48,13 +48,13 @@ public class CatMenuEntity extends DynamicEntity {
 	private Date menuDate;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "menu_status", nullable = false)
+	@Column(name = "menu_status", nullable = false, length=30)
 	private EnumList.MenuStatusEnum menuStatus;
 
-	@Column(name = "count_prepare")
+	@Column(name = "count_prepare", precision = 10, scale = 3)
 	private BigDecimal countPrepare;
 
-	@Column(name = "count_spend")
+	@Column(name = "count_spend", precision = 10, scale = 3)
 	private BigDecimal countSpend;
 
 	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)

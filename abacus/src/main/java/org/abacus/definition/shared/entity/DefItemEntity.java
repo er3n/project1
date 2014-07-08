@@ -44,7 +44,7 @@ public class DefItemEntity extends DynamicEntity {
 	private Boolean active = true;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "class_enum", nullable = true)
+	@Column(name = "class_enum", nullable = true, length=30)
 	private EnumList.DefItemClassEnum itemClass;
 
 	@ManyToOne(fetch = FetchType.EAGER)

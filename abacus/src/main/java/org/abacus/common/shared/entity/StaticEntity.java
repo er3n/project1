@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 public class StaticEntity implements RootEntity {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", length=30)
 	protected String id;
 
 	public String getId() {

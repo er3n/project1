@@ -86,14 +86,13 @@ public class DefValueDao implements Serializable {
 	
 	public List<DefValueEntity> getChildValueList(Long valueId){
 		StringBuilder sb = new StringBuilder();
-		sb.append("select v.* from def_value_level v, ");
-		sb.append("	(with recursive r (id) as ( "); //Oracle'da recursive silinecek "with r (id)"
-		sb.append("	select root.id from def_value_level root where root.id = :valueId ");
+		sb.append("select v.* from def_value v, ");
+		sb.append("	(with recursive r (id) as ( "); 
+		sb.append("	select root.id from def_value root where root.id = :valueId ");
 		sb.append("	union all ");
-		sb.append("	select child.id from def_value_level child join r on child.parent_id =r.id ");
+		sb.append("	select child.id from def_value child join r on child.parent_id =r.id ");
 		sb.append(") select * from r) tree ");
 		sb.append("where v.id = tree.id ");
-
 		Query query = em.createNativeQuery(sb.toString(), DefValueEntity.class);
 		query.setParameter("valueId", valueId);
 		List<DefValueEntity> resultList = query.getResultList();

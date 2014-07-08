@@ -28,7 +28,7 @@ public class OrganizationEntity extends StaticEntity {
 	private String name;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "level_enum", nullable = false)
+	@Column(name = "level_enum", nullable = false, length=30)
 	private EnumList.OrgOrganizationLevelEnum level = EnumList.OrgOrganizationLevelEnum.L0;
 
 	@ManyToOne(fetch = FetchType.EAGER)

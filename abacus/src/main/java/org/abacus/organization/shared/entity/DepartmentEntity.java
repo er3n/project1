@@ -34,7 +34,7 @@ public class DepartmentEntity extends DynamicEntity {
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "group_enum", nullable = false)
+	@Column(name = "group_enum", nullable = false, length=30)
 	private EnumList.OrgDepartmentGroupEnum departmentGroup; 
 
 	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)

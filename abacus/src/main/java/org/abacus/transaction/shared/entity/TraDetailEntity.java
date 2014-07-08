@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.Range;
 public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends DynamicEntity {
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "resource", nullable = false)
+	@Column(name = "resource", nullable = false, length=30)
 	private EnumList.DefTypeGroupEnum resource;
 
 	@Temporal(TemporalType.DATE)

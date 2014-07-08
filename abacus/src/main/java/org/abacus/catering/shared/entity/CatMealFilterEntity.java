@@ -40,7 +40,7 @@ public class CatMealFilterEntity extends DynamicEntity {
 	@Column(name = "description", nullable = true)
 	private String description;
 
-	@Column(name = "count_prepare", nullable = false)
+	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
 	private BigDecimal countPrepare;
 	
 	public OrganizationEntity getOrganization() {

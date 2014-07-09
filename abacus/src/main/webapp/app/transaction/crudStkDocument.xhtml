@@ -230,7 +230,7 @@
 							<p:outputLabel value="Seri No:"  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
 							<p:inputText  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudStkDocumentViewBean.selectedDetail.batchDetailNo}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
+								required="false"/>
 	
 							<p:outputLabel value="Not" style="font-weigh: bold" />
 							<p:inputTextarea rows="10" cols="50"

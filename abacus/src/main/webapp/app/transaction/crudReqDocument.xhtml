@@ -138,7 +138,7 @@
 					</p:column>
 
 					<p:column headerText="SKT">
-						<p:outputLabel value="#{var.lotDetailDate}" />
+						<p:outputLabel value="#{var.dueDetailDate}" />
 					</p:column>
 
 					<p:column headerText="Birim">
@@ -217,7 +217,7 @@
 								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}" />
 							<p:calendar
 								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}"
-								value="#{crudReqDocumentViewBean.selectedDetail.lotDetailDate}"
+								value="#{crudReqDocumentViewBean.selectedDetail.dueDetailDate}"
 								required="true">
 							</p:calendar>
 

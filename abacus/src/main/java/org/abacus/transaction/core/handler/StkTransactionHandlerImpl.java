@@ -249,7 +249,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			inDetailTrack.setBaseUsedCount(BigDecimal.ZERO);
 			inDetailTrack.setUnitTrackPrice(unitTrackPrice);
 			inDetailTrack.setUnitCostPrice(unitTrackPrice);
-			inDetailTrack.setLotTrackDate(detail.getLotDetailDate());
+			inDetailTrack.setDueTrackDate(detail.getDueDetailDate());
 			inDetailTrack.setBatchTrackNo(detail.getBatchDetailNo());
 			inDetailTrack.createHook(user);
 			inDetailTrack.setTrStateTrack(EnumList.TraState.INP.value());
@@ -312,7 +312,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			detailTrack.setBaseUsedCount(countOutStock);
 			detailTrack.setUnitTrackPrice(itemInStock.getUnitTrackPrice());
 			detailTrack.setUnitCostPrice(itemInStock.getUnitCostPrice());
-			detailTrack.setLotTrackDate(itemInStock.getLotTrackDate());
+			detailTrack.setDueTrackDate(itemInStock.getDueTrackDate());
 			detailTrack.setBatchTrackNo(itemInStock.getBatchTrackNo());
 			detailTrack.setTrStateTrack(EnumList.TraState.OUT.value());
 			detailTrack.createHook(user);

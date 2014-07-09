@@ -30,8 +30,8 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	private EnumList.DefTypeGroupEnum resource;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "lot_detail_date", nullable = false)
-	private Date lotDetailDate;
+	@Column(name = "due_detail_date", nullable = false)
+	private Date dueDetailDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fiscal_year_id", nullable = false)
@@ -80,12 +80,12 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public abstract void setDocument(TraDocumentEntity document);
 
-	public Date getLotDetailDate() {
-		return lotDetailDate;
+	public Date getDueDetailDate() {
+		return dueDetailDate;
 	}
 
-	public void setLotDetailDate(Date lotDetailDate) {
-		this.lotDetailDate = lotDetailDate;
+	public void setDueDetailDate(Date dueDetailDate) {
+		this.dueDetailDate = dueDetailDate;
 	}
 
 	public FiscalYearEntity getFiscalYear() {

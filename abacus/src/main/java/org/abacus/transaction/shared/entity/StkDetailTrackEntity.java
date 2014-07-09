@@ -49,8 +49,8 @@ public class StkDetailTrackEntity extends DynamicEntity {
 	private Integer trStateTrack;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "lot_track_date", nullable = false)
-	private Date lotTrackDate;
+	@Column(name = "due_track_date", nullable = false)
+	private Date dueTrackDate;
 
 	@Column(name = "batch_track_no", nullable = false)
 	private String batchTrackNo;
@@ -114,12 +114,12 @@ public class StkDetailTrackEntity extends DynamicEntity {
 		this.unitCostPrice = unitCostPrice;
 	}
 
-	public Date getLotTrackDate() {
-		return lotTrackDate;
+	public Date getDueTrackDate() {
+		return dueTrackDate;
 	}
 
-	public void setLotTrackDate(Date lotTrackDate) {
-		this.lotTrackDate = lotTrackDate;
+	public void setDueTrackDate(Date dueTrackDate) {
+		this.dueTrackDate = dueTrackDate;
 	}
 
 	public String getBatchTrackNo() {

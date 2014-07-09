@@ -18,6 +18,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.abacus.definition.shared.constant.EnumList;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -32,7 +34,13 @@ public class JasperReportBean {
 
 	@ManagedProperty(value = "#{jasperReportHandler}")
 	private JasperReportHandler jasperReportHandler;
+	
+	private EnumList.JasperReport jasperReport;
 
+	public void reportListener(){
+		System.out.println("ReportSelected:"+jasperReport.getName());
+	}
+	
 	// Actions
 	// ------------------------------------------------------------------------------------
 
@@ -40,22 +48,22 @@ public class JasperReportBean {
 		return "c:/temp/";
 	}
 
-	private String getPdfFileName() {
-		return "JRUser.pdf";
+	private String getPdfFileName(EnumList.JasperReport report) {
+		return report.getName()+".pdf";
 	}
 	
-	private String getJasperFile() {
-		return "/jasper/JRUser.jasper";
+	private String getJasperFile(EnumList.JasperReport report) {
+		return "/jasper/"+report.getName()+".jasper";
 	}
 
-	public void generateReport() {
+	private void generateReport(EnumList.JasperReport report) {
 		Connection conn = jasperReportHandler.getConnection();
 
 		try {
-			File pdfFile = new File(getPdfFilePath(), getPdfFileName());
+			File pdfFile = new File(getPdfFilePath(), getPdfFileName(report));
 			pdfFile.delete();
 
-			InputStream jasperStream = getClass().getResourceAsStream(getJasperFile());
+			InputStream jasperStream = getClass().getResourceAsStream(getJasperFile(report));
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
 			Map<String,Object> param = new HashMap<String, Object>();
 			
@@ -66,8 +74,8 @@ public class JasperReportBean {
 		}
 	}
 
-	public void downloadPDF() throws IOException {
-		generateReport();
+	public void downloadReport(EnumList.JasperReport report) throws IOException {
+		generateReport(report);
 
 		int DEFAULT_BUFFER_SIZE = 10240;
 		// Prepare.
@@ -75,7 +83,7 @@ public class JasperReportBean {
 		ExternalContext externalContext = facesContext.getExternalContext();
 		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
 
-		File file = new File(getPdfFilePath(), getPdfFileName());
+		File file = new File(getPdfFilePath(), getPdfFileName(report));
 		BufferedInputStream input = null;
 		BufferedOutputStream output = null;
 
@@ -87,7 +95,7 @@ public class JasperReportBean {
 			response.reset();
 			response.setHeader("Content-Type", "application/pdf");
 			response.setHeader("Content-Length", String.valueOf(file.length()));
-			response.setHeader("Content-Disposition", "inline; filename=\"" + getPdfFileName() + "\"");
+			response.setHeader("Content-Disposition", "inline; filename=\"" + getPdfFileName(report) + "\"");
 			output = new BufferedOutputStream(response.getOutputStream(), DEFAULT_BUFFER_SIZE);
 
 			// Write file contents to response.
@@ -135,6 +143,14 @@ public class JasperReportBean {
 
 	public void setJasperReportHandler(JasperReportHandler jasperReportHandler) {
 		this.jasperReportHandler = jasperReportHandler;
+	}
+
+	public EnumList.JasperReport getJasperReport() {
+		return jasperReport;
+	}
+
+	public void setJasperReport(EnumList.JasperReport jasperReport) {
+		this.jasperReport = jasperReport;
 	}
 
 }

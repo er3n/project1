@@ -327,6 +327,24 @@ public interface EnumList {
 		
 	}
 
+	enum JasperReport implements ISelectionEnum {
+		JRUser("Kullanıcı Listesi"),
+		JROrganization("Organizasyon Listesi"),
+		;
+		private String description;
+		private JasperReport(String description) {
+			this.description = description;
+		}
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+		@Override
+		public String getName() {
+			return this.name();
+		}
+	}
+
 }
 
 //Kisaltma Kodlari

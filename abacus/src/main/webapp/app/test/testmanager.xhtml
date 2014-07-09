@@ -24,15 +24,23 @@
 						<abc:documentFinSelection id="documentFinSelectionInput"
 								widgetVar="documentFinSelectionWdg1" dialogId="documentFinSelectionDialog1"
 								targetVar="#{testViewBean.documentFinEntity}"
-								required="true" />
+								required="false" />
 					</h:panelGrid>
 
 					<h:panelGrid  id = "documentStkId" columns="1">
 						<abc:documentStkSelection id="documentStkSelectionInput"
 								widgetVar="documentStkSelectionWdg1" dialogId="documentStkSelectionDialog1"
 								targetVar="#{testViewBean.documentStkEntity}"
-								required="true" />
+								required="false" />
 					</h:panelGrid>
+
+
+			<h:commandButton value="Open PDF" 
+				action="${jasperReportBean.downloadPDF()}">
+			</h:commandButton>
+			
+    		<h:commandLink value="Download PDF" action="${jasperReportBean.downloadPDF()}" target="_blank" />
+
 
 		</h:form>
 	

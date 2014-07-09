@@ -161,8 +161,11 @@ public interface EnumList {
 		//Request
 		REQ_IO("Stok istek tip",0),
 		REQ_IO_T("Stok transfer istek tip", 0), //
-		REQ_IO_P("Stok satın alma istek tip",0),
+		REQ_IO_P("Stok satın alma istek tip",0), //
 
+		BUD("Bütçeler", 0),// Budget
+		BUD_R("Bütçe Gelir", -1), // Budget Revenue
+		BUD_X("Bütçe Gider", +1), // Budget Expense
 
 		NIL("?",0), //
 		;
@@ -325,3 +328,23 @@ public interface EnumList {
 	}
 
 }
+
+//Kisaltma Kodlari
+//--------------
+//SF Staff
+//CS Cash
+//BN Bank
+//CR CreditCard
+//CU Customer
+//VE Vendor
+//AD Advance
+//IV Invoice
+//BL Bill
+//FA Fas
+//ST Stock
+//TX Tax
+//DS Discount
+//EX Expense
+//DP Deprecetion
+//SR Service
+//CS Cost

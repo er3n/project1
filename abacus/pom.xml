@@ -27,6 +27,7 @@
 		<junit-version>4.11</junit-version>
 		<omnifaces-version>1.7</omnifaces-version>
 		<all-themes-version>1.0.10</all-themes-version>
+		<jasper-version>5.6.0</jasper-version>
 	</properties>
 
 	<dependencies>
@@ -201,7 +202,11 @@
 			<artifactId>joda-time</artifactId>
 			<version>${joda-time-version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasper-version}</version>
+		</dependency>
 
 		<!-- END OF OTHER -->
 

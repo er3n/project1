@@ -7,7 +7,7 @@ public interface DefConstant {
 		// Item Cards (ACC)
 		ITM, //
 		ITM_CS, // Cash
-		ITM_CR, // CreditCard
+		ITM_CC, // CreditCard
 		ITM_BN, // Bank
 		ITM_TX, // Tax
 		ITM_SR, // Services

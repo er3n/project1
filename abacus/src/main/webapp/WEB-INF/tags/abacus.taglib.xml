@@ -193,8 +193,8 @@
 	</tag>
 
 	<tag>
-		<tag-name>finDocSelection</tag-name>
-		<source>../content/component/finDocSelection.xhtml</source>
+		<tag-name>documentFinSelection</tag-name>
+		<source>../content/component/documentFinSelection.xhtml</source>
 		<attribute>
 			<name>id</name>
 			<required>true</required>
@@ -214,8 +214,8 @@
 	</tag>
 
 	<tag>
-		<tag-name>finDocSelectionDialog</tag-name>
-		<source>../content/component/finDocSelectionDialog.xhtml</source>
+		<tag-name>documentFinSelectionDialog</tag-name>
+		<source>../content/component/documentFinSelectionDialog.xhtml</source>
 		<attribute>
 			<name>id</name>
 			<required>true</required>
@@ -237,5 +237,51 @@
 			<required>true</required>
 		</attribute>
 	</tag>
-	
+
+	<tag>
+		<tag-name>documentStkSelection</tag-name>
+		<source>../content/component/documentStkSelection.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>targetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>disabled</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<tag-name>documentStkSelectionDialog</tag-name>
+		<source>../content/component/documentStkSelectionDialog.xhtml</source>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>targetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>widgetVar</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>update</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>paramType</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+		
 </facelet-taglib>

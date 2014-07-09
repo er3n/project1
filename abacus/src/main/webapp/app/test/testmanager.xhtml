@@ -20,10 +20,17 @@
 				actionListener="#{testViewBean.openTestDocDialog}">
 			</p:commandButton>
 
-					<h:panelGrid  id = "finDocId" columns="1">
-						<abc:finDocSelection id="finDocSelectionInput"
-								widgetVar="finDocSelectionWdg1" dialogId="finDocSelectionDialog1"
-								targetVar="#{testViewBean.finDocEntity}"
+					<h:panelGrid  id = "documentFinId" columns="1">
+						<abc:documentFinSelection id="documentFinSelectionInput"
+								widgetVar="documentFinSelectionWdg1" dialogId="documentFinSelectionDialog1"
+								targetVar="#{testViewBean.documentFinEntity}"
+								required="true" />
+					</h:panelGrid>
+
+					<h:panelGrid  id = "documentStkId" columns="1">
+						<abc:documentStkSelection id="documentStkSelectionInput"
+								widgetVar="documentStkSelectionWdg1" dialogId="documentStkSelectionDialog1"
+								targetVar="#{testViewBean.documentStkEntity}"
 								required="true" />
 					</h:panelGrid>
 
@@ -36,12 +43,20 @@
 		<o:importConstants
 			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 				
-		<abc:finDocSelectionDialog 
-			id="finDocSelectionDialog1"
+		<abc:documentFinSelectionDialog 
+			id="documentFinSelectionDialog1"
 			update=":testForm" 
-			widgetVar="finDocSelectionWdg1"
+			widgetVar="documentFinSelectionWdg1"
 			paramType="#{DefTypeEnum.FIN_P}"
-			targetVar="#{testViewBean.finDocEntity}" 
+			targetVar="#{testViewBean.documentFinEntity}" 
+			rendered="true"/>			
+
+		<abc:documentStkSelectionDialog 
+			id="documentStkSelectionDialog1"
+			update=":testForm" 
+			widgetVar="documentStkSelectionWdg1"
+			paramType="#{DefTypeEnum.STK_IO}"
+			targetVar="#{testViewBean.documentStkEntity}" 
 			rendered="true"/>			
 
 	</ui:define>

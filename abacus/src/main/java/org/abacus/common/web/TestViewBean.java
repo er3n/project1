@@ -53,7 +53,9 @@ public class TestViewBean implements Serializable {
 	private Boolean showDocument = true; 
 	private List<DefTaskEntity> stkTaskList;
 
-	private FinDocumentEntity finDocEntity;
+	private FinDocumentEntity documentFinEntity;
+
+	private StkDocumentEntity documentStkEntity;
 
 	@PostConstruct
 	private void init() {
@@ -209,12 +211,20 @@ public class TestViewBean implements Serializable {
 		this.testCriteria = testCriteria;
 	}
 
-	public FinDocumentEntity getFinDocEntity() {
-		return finDocEntity;
+	public FinDocumentEntity getDocumentFinEntity() {
+		return documentFinEntity;
 	}
 
-	public void setFinDocEntity(FinDocumentEntity finDocEntity) {
-		this.finDocEntity = finDocEntity;
+	public void setDocumentFinEntity(FinDocumentEntity documentFinEntity) {
+		this.documentFinEntity = documentFinEntity;
+	}
+
+	public StkDocumentEntity getDocumentStkEntity() {
+		return documentStkEntity;
+	}
+
+	public void setDocumentStkEntity(StkDocumentEntity documentStkEntity) {
+		this.documentStkEntity = documentStkEntity;
 	}
 
 

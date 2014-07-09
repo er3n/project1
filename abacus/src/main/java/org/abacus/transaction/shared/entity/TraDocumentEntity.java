@@ -58,8 +58,8 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	@Column(name = "doc_note", nullable = true)
 	private String docNote;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "due_updated", nullable = true)
+	@Temporal(TemporalType.DATE)
+	@Column(name = "due_date", nullable = true)
 	private Date dueDate;
 
 	@Transient

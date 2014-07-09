@@ -161,7 +161,7 @@ public class TestViewBean implements Serializable {
 		dtl.setDocument(document);
 		dtl.setDepartment(testCriteria.getDetailDepartment());
 		dtl.setItem(testCriteria.getDetailItem());
-		dtl.setDueDetailDate(document.getDocDate());
+		dtl.setDueDate(document.getDocDate());
 		dtl.setItemDetailCount(testCriteria.getDetailCount());
 		dtl.setBaseDetailAmount(testCriteria.getDetailCount());
 		dtl.setItemUnit(testCriteria.getUnitCode());

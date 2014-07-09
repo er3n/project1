@@ -110,7 +110,7 @@
 					</p:column>
 
 					<p:column headerText="SKT">
-						<p:outputLabel value="#{var.dueDetailDate}" />
+						<p:outputLabel value="#{var.dueDate}" />
 					</p:column>
 
 					<p:column headerText="Birim">
@@ -223,7 +223,7 @@
 
 							<p:outputLabel value="Son Kullanma Tarihi" rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
 							<p:calendar  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
-								value="#{crudStkDocumentViewBean.selectedDetail.dueDetailDate}"
+								value="#{crudStkDocumentViewBean.selectedDetail.dueDate}"
 								required="true">
 							</p:calendar>
 

@@ -15,10 +15,10 @@
 </c:if>
 
 <h:panelGrid id="#{id}" columns="4">
-	<p:inputText id="#{id}_txt" value="#{targetVar.name}" disabled="true"
+	<p:inputText id="#{id}_txt" value="#{targetVar.docNo}" disabled="true"
 		onclick="PF('#{widgetVar}').show()" />
 	<h:inputHidden id="#{id}_txtH"  required="#{empty targetVar.id and required}"
-		requiredMessage="Belge bos olamaz"  />
+		requiredMessage="Belge boş olamaz"  />
 	<p:commandButton icon="ui-icon-extlink"
 		oncomplete="PF('#{widgetVar}').show()" process="@this" disabled="#{disabled}" />
 	<p:commandButton icon="ui-icon-trash" process="@this"

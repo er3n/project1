@@ -17,6 +17,7 @@ import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
+import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
@@ -51,7 +52,9 @@ public class TestViewBean implements Serializable {
 	private TestCriteria testCriteria;
 	private Boolean showDocument = true; 
 	private List<DefTaskEntity> stkTaskList;
-	
+
+	private FinDocumentEntity finDocEntity;
+
 	@PostConstruct
 	private void init() {
 		testCriteria = new TestCriteria();
@@ -204,6 +207,14 @@ public class TestViewBean implements Serializable {
 
 	public void setTestCriteria(TestCriteria testCriteria) {
 		this.testCriteria = testCriteria;
+	}
+
+	public FinDocumentEntity getFinDocEntity() {
+		return finDocEntity;
+	}
+
+	public void setFinDocEntity(FinDocumentEntity finDocEntity) {
+		this.finDocEntity = finDocEntity;
 	}
 
 

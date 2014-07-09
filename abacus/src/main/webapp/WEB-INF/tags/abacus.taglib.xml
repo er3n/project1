@@ -193,8 +193,8 @@
 	</tag>
 
 	<tag>
-		<tag-name>documentSelection</tag-name>
-		<source>../content/component/documentSelection.xhtml</source>
+		<tag-name>finDocSelection</tag-name>
+		<source>../content/component/finDocSelection.xhtml</source>
 		<attribute>
 			<name>id</name>
 			<required>true</required>
@@ -214,8 +214,8 @@
 	</tag>
 
 	<tag>
-		<tag-name>documentSelectionDialog</tag-name>
-		<source>../content/component/documentSelectionDialog.xhtml</source>
+		<tag-name>finDocSelectionDialog</tag-name>
+		<source>../content/component/finDocSelectionDialog.xhtml</source>
 		<attribute>
 			<name>id</name>
 			<required>true</required>
@@ -230,10 +230,6 @@
 		</attribute>
 		<attribute>
 			<name>update</name>
-			<required>true</required>
-		</attribute>
-		<attribute>
-			<name>paramOrganization</name>
 			<required>true</required>
 		</attribute>
 		<attribute>

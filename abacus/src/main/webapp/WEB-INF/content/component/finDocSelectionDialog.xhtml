@@ -16,28 +16,16 @@
 		</f:facet>
 
 		<p:dataTable var="document" paginator="true" rows="10"
-			value="#{departmentSelectionViewBean.getDocumentList(paramOrganization,paramType)}">
+			value="#{finDocSelectionViewBean.getDocumentList(paramType)}">
 
 			<p:column headerText="Tarih" filterBy="#{document.docDate}"
 				filterMatchMode="contains">
 				<h:outputText value="#{document.docDate}" />
 			</p:column>
 
-			<p:column headerText="No" filterBy="#{document.docNo}"
+			<p:column headerText="No" filterBy="#{document.docNo}" 
 				filterMatchMode="contains">
-				<h:outputText value="#{documment.docNo}" />
-			</p:column>
-
-			<p:column headerText="Aciklama">
-				<h:outputText value="#{documment.docNote}" />
-			</p:column>
-
-			<p:column headerText="Hareket">
-				<h:outputText value="#{documment.task.name}" />
-			</p:column>
-
-			<p:column headerText="Organizasyon">
-				<h:outputText value="#{documment.organization.id}" />
+				<h:outputText value="#{document.docNo}" />
 			</p:column>
 
 			<p:column headerText="Sec">

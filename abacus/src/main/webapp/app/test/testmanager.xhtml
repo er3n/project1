@@ -14,13 +14,37 @@
 			
 		<style> .topAligned { vertical-align: top;} </style>
 			
-		<h:form id="form">
+		<h:form id="testForm">
 
 			<p:commandButton value="Stok Test Kaydı Oluştur"
 				actionListener="#{testViewBean.openTestDocDialog}">
 			</p:commandButton>
 
+					<h:panelGrid  id = "finDocId" columns="1">
+						<abc:finDocSelection id="finDocSelectionInput"
+								widgetVar="finDocSelectionWdg1" dialogId="finDocSelectionDialog1"
+								targetVar="#{testViewBean.finDocEntity}"
+								required="true" />
+					</h:panelGrid>
+
 		</h:form>
+	
 	</ui:define>
+	
+	<ui:define name="model">
+
+		<o:importConstants
+			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+				
+		<abc:finDocSelectionDialog 
+			id="finDocSelectionDialog1"
+			update=":testForm" 
+			widgetVar="finDocSelectionWdg1"
+			paramType="#{DefTypeEnum.FIN_P}"
+			targetVar="#{testViewBean.finDocEntity}" 
+			rendered="true"/>			
+
+	</ui:define>
+	
 
 </ui:composition>

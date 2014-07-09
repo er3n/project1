@@ -18,14 +18,14 @@
 	<p:inputText id="#{id}_txt" value="#{targetVar.name}" disabled="true"
 		onclick="PF('#{widgetVar}').show()" />
 	<h:inputHidden id="#{id}_txtH"  required="#{empty targetVar.id and required}"
-		requiredMessage="Depo bos olamaz"  />
+		requiredMessage="Depo/Ofis bos olamaz"  />
 	<p:commandButton icon="ui-icon-extlink"
 		oncomplete="PF('#{widgetVar}').show()" process="@this" disabled="#{disabled}" />
 	<p:commandButton icon="ui-icon-trash" process="@this"
 		update="@parent:#{id}_txt #{id}_txtH" disabled="#{disabled}" >
 		<f:setPropertyActionListener target="#{targetVar}" value="" />
 	</p:commandButton>
-	<p:watermark value="Depo Sec..." for="@parent:#{id}_txt"></p:watermark>
+	<p:watermark value="Depo/Ofis Seç..." for="@parent:#{id}_txt"></p:watermark>
 </h:panelGrid>
 
 </html>

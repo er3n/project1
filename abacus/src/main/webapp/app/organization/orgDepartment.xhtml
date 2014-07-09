@@ -15,7 +15,7 @@
 	<!-- orgDepartment -->
 	<h:panelGrid id="departmentGrid" columns="1">
 		<h:form id="departmentForm">
-			<p:panel id="departmentPanel" header="Organizasyona Bağlı Birimler   (Stok Deposu / Finansal Birim)">
+			<p:panel id="departmentPanel" header="Organizasyona Bağlı Depo ve Ofisler">
 				<h:panelGrid id="departmentGrid" columns="8" cellpadding="2">
 
 					<h:outputLabel value="Tipi:" />
@@ -72,11 +72,11 @@
 						listener="#{orgDepartmentViewBean.departmentRowSelectListener}">
 				</p:ajax>
 						
-				<p:column headerText="Birim Kodu">  
+				<p:column headerText="Depo/Ofis Kodu">  
            					#{selDepartment.code}  
        					</p:column>
 
-				<p:column headerText="Birim Adı">  
+				<p:column headerText="Depo/Ofis Adı">  
            					#{selDepartment.name}  
        					</p:column>
 

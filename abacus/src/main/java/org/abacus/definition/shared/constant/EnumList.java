@@ -73,8 +73,8 @@ public interface EnumList {
 	}
 
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
-		S("Stok Deposu"), //
-		F("Finansal Birim"), //
+		S("Depo"), //
+		F("Ofis"), //
 		// F("Demirbas Deposu"), //
 		;
 		private String description;
@@ -242,7 +242,8 @@ public interface EnumList {
 	}
 
 	enum TraState implements ISelectionEnum {
-		INP("Giriş"), OUT("Çıkış");
+		INP("Giriş"), //
+		OUT("Çıkış"); //
 
 		private String description;
 
@@ -292,7 +293,12 @@ public interface EnumList {
 	}
 	
 	enum RequestStatus implements ISelectionEnum {
-		PREPARE("Hazırlanıyor","Hazırlanıyor"),REQUEST("Onay bekleniyor","İhale başladı"),DONE("Onaylandı","İhale tamamlandı"),PARTIALLY("Kısmen onaylandı","İhale değerlendiriliyor"),CANCEL("Reddedildi","İptal edildi");
+		PREPARE("Hazırlanıyor","Hazırlanıyor"),//
+		REQUEST("Onay bekleniyor","İhale başladı"),//
+		DONE("Onaylandı","İhale tamamlandı"),//
+		PARTIALLY("Kısmen onaylandı","İhale değerlendiriliyor"),//
+		CANCEL("Reddedildi","İptal edildi"),//
+		;
 		
 		private String description;
 		private String pdescription;

@@ -36,12 +36,12 @@ insert into sec_user_organization (id, user_id, organization_id, version) values
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'person','#.#.#', 0);
 commit;
 
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'F', 'SY','Şirket Yönetimi',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD1','Şirket Depo 1',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD2','Şirket Depo 2',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'F', 'BY','Proje Yönetimi',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD1','Proje Depo 1',0);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD2','Proje Depo 2',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'F', 'SY','Şirket Ofisi',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD1','Şirket Depo A',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD2','Şirket Depo B',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'F', 'BY','Proje Ofisi',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD1','Proje Depo X',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'BD2','Proje Depo Y',0);
 commit; 
 
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-6, 'admin', 0, 1, 1);

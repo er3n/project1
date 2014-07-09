@@ -12,18 +12,18 @@
 		showEffect="fade" modal="true" height="400px" width="600px">
 
 		<f:facet name="header">
-			<h:outputText value="Birim Secim" />
+			<h:outputText value="Depo/Ofis Secim" />
 		</f:facet>
 
 		<p:dataTable var="department" paginator="true" rows="10"
 			value="#{departmentSelectionViewBean.getDepartmentList(paramUser,paramDepGroup)}">
 
-			<p:column headerText="Birim Kod" filterBy="#{department.code}"
+			<p:column headerText="Depo/Ofis Kod" filterBy="#{department.code}"
 				filterMatchMode="contains">
 				<h:outputText value="#{department.code}" />
 			</p:column>
 
-			<p:column headerText="Birim Adı" filterBy="#{department.name}"
+			<p:column headerText="Depo/Ofis Adı" filterBy="#{department.name}"
 				filterMatchMode="contains">
 				<h:outputText value="#{department.name}" />
 			</p:column>

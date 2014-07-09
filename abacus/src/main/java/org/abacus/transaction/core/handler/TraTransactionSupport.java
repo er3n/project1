@@ -65,9 +65,9 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event) {
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
-		String username = event.getOrganization();
+		String organization = event.getOrganization();
 		String fiscalYearId = event.getFiscalYearId();
-		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria,username,fiscalYearId);
+		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria,organization,fiscalYearId);
 		return new ReadDocumentEvent<T>(documentList);
 	}
 

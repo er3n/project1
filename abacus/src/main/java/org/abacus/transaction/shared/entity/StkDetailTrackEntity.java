@@ -52,7 +52,7 @@ public class StkDetailTrackEntity extends DynamicEntity {
 	@Column(name = "due_track_date", nullable = false)
 	private Date dueTrackDate;
 
-	@Column(name = "batch_track_no", nullable = true)
+	@Column(name = "batch_track_no", nullable = true, length=30)
 	private String batchTrackNo;
 
 	public StkDetailTrackEntity() {

@@ -19,7 +19,7 @@ public class DefParamEntity extends StaticEntity {
 	@JoinColumn(name = "type_id", nullable = false)
 	private DefTypeEntity type;
 
-	@Column(name = "code", nullable = false)
+	@Column(name = "code", nullable = false, length=30)
 	private String code;
 
 	@Column(name = "name", nullable = false)

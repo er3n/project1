@@ -27,7 +27,7 @@ public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 	@JoinColumn(name = "department_opp_id", nullable = true)
 	private DepartmentEntity departmentOpp;
 
-	@Column(name = "batch_detail_no", nullable = true)
+	@Column(name = "batch_detail_no", nullable = true, length=30)
 	private String batchDetailNo;
 	
 	//irsaliye den faturaya

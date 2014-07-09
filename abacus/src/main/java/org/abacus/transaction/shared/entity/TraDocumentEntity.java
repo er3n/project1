@@ -24,7 +24,7 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 @MappedSuperclass
 public abstract class TraDocumentEntity extends DynamicEntity {
 
-	@Column(name = "doc_no", nullable = false)
+	@Column(name = "doc_no", nullable = false, length=30)
 	private String docNo;
 
 	@Temporal(TemporalType.DATE)

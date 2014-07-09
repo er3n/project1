@@ -249,7 +249,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			inDetailTrack.setBaseUsedCount(BigDecimal.ZERO);
 			inDetailTrack.setUnitTrackPrice(unitTrackPrice);
 			inDetailTrack.setUnitCostPrice(unitTrackPrice);
-			inDetailTrack.setDueTrackDate(detail.getDueDetailDate());
+			inDetailTrack.setDueTrackDate(detail.getDueDate());
 			inDetailTrack.setBatchTrackNo(detail.getBatchDetailNo());
 			inDetailTrack.createHook(user);
 			inDetailTrack.setTrStateTrack(EnumList.TraState.INP.value());

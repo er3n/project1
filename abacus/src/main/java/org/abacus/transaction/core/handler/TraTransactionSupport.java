@@ -109,13 +109,13 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			} else {//Cikis Islemlerinde Fiyat ve SKT girilmez 
 				detail.setBaseDetailAmount(BigDecimal.ZERO);
 				detail.setUnitDetailPrice(BigDecimal.ZERO);
-				detail.setDueDetailDate(document.getDocDate());
+				detail.setDueDate(document.getDocDate());
 			}
 		}else if(document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.REQ.name())){
 			detail.setBaseDetailCount(detail.getItemDetailCount());
 			detail.setUnitDetailPrice(BigDecimal.ZERO);
 			detail.setBaseDetailAmount(BigDecimal.ZERO);
-			detail.setDueDetailDate(document.getDocDate());
+			detail.setDueDate(document.getDocDate());
 		}
 		else { //Fin Defaults
 			if (detail.getItemDetailCount()==null || detail.getItemDetailCount().compareTo(BigDecimal.ZERO)==0){
@@ -123,7 +123,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			}
 			detail.setBaseDetailCount(detail.getItemDetailCount());
 			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
-			detail.setDueDetailDate(document.getDocDate());
+			detail.setDueDate(document.getDocDate());
 		}
 		
 		if (detail.getResource()==null){

@@ -232,7 +232,6 @@ public class CrudReqDocumentViewBean implements Serializable {
 
 	public void confirmDocument() {
 		try {
-
 			this.document = reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(document, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.currentRootOrganizationId(), sessionInfoHelper.selectedFiscalYearId(), sessionInfoHelper.currentUserName()));
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("operationSuccessful", "Onaylama");

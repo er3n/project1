@@ -63,6 +63,7 @@ insert into def_type (id, name, level, tr_state_type) values ('STK_IO_I', 'Stok 
 insert into def_type (id, name, level, tr_state_type) values ('STK_IO_O', 'Stok İşlem Çıkış Tip', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('STK_IO_T', 'Stok Transfer Tip', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('REQ_IO_T', 'İstek Transfer Tip', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('REQ_IO_P', 'İstek Satınalma Tip', 1, 0);
 
 insert into def_type (id, name, level, tr_state_type) values ('FIN_B', 'Alış Fatura', 1, +1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_P', 'Ödeme', 1, -1);
@@ -85,7 +86,8 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'STK_IO_O', 'IO-O', 'Stok Çıkış #', 1, 0, null, null);
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'STK_IO_T', 'IO-T', 'Stok Transfer #', 1, 0, null, null);
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'REQ_IO_T', 'R-IO-T', 'İstek stok Transfer #', 1, 0, null, null);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'REQ_IO_T', 'R-IO-T', 'Stok transfer isteği #', 1, 0, null, null);
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'REQ_IO_P', 'R-IO-P', 'Stok satınalma isteği #', 1, 0, null, null);
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_B', 'BL-1', 'Alış Fatura #', 1, 0, 'ITM_VE', 'ITM_SR');
 

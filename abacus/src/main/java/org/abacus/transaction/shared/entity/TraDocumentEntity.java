@@ -36,7 +36,7 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	private OrganizationEntity organization;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "type_id", nullable = false, length=30)
+	@Column(name = "type_id", nullable = false, length = 30)
 	private EnumList.DefTypeEnum typeEnum;
 
 	// For HQL
@@ -57,6 +57,10 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 
 	@Column(name = "doc_note", nullable = true)
 	private String docNote;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "due_updated", nullable = true)
+	private Date dueDate;
 
 	@Transient
 	private EnumList.EntityStatus entityStatus;
@@ -142,6 +146,14 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 
 	public void setEntityStatus(EnumList.EntityStatus entityStatus) {
 		this.entityStatus = entityStatus;
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
 	}
 
 }

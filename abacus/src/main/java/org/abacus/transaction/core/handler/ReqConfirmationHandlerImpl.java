@@ -2,6 +2,8 @@ package org.abacus.transaction.core.handler;
 
 import java.util.List;
 
+import javax.persistence.EnumType;
+
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
@@ -72,7 +74,15 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		BeanUtils.copyProperties(reqDocument, stkDocument);
 		stkDocument.setId(null);
-		DefTaskEntity stkTask = taskHandler.getTaskList(rootOrganization, EnumList.DefTypeEnum.STK_IO_T).get(0);
+		
+		EnumList.DefTypeEnum proceedingTaskType = null;
+		if(reqDocument.getTask().getType().equals(EnumList.DefTypeEnum.REQ_IO_T)){
+			proceedingTaskType = EnumList.DefTypeEnum.STK_IO_T;
+		}else{
+			proceedingTaskType = EnumList.DefTypeEnum.STK_WB_I;
+		}
+		
+		DefTaskEntity stkTask = taskHandler.getTaskList(rootOrganization, proceedingTaskType).get(0);
 		stkDocument.setTask(stkTask);
 		stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(stkDocument, user, organization, fiscalYear));
 		

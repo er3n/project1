@@ -26,12 +26,12 @@ import org.hibernate.validator.constraints.Range;
 public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends DynamicEntity {
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "resource", nullable = false, length=30)
+	@Column(name = "resource", nullable = false, length = 30)
 	private EnumList.DefTypeGroupEnum resource;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "due_detail_date", nullable = false)
-	private Date dueDetailDate;
+	@Column(name = "due_date", nullable = false)
+	private Date dueDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fiscal_year_id", nullable = false)
@@ -80,12 +80,12 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public abstract void setDocument(TraDocumentEntity document);
 
-	public Date getDueDetailDate() {
-		return dueDetailDate;
+	public Date getDueDate() {
+		return dueDate;
 	}
 
-	public void setDueDetailDate(Date dueDetailDate) {
-		this.dueDetailDate = dueDetailDate;
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
 	}
 
 	public FiscalYearEntity getFiscalYear() {

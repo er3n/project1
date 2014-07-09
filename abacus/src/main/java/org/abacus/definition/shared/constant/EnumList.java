@@ -161,6 +161,7 @@ public interface EnumList {
 		//Request
 		REQ_IO("Stok istek tip",0),
 		REQ_IO_T("Stok transfer istek tip", 0), //
+		REQ_IO_P("Stok satın alma istek tip",0),
 
 
 		NIL("?",0), //
@@ -291,17 +292,23 @@ public interface EnumList {
 	}
 	
 	enum RequestStatus implements ISelectionEnum {
-		PREPARE("Hazırlanıyor"),REQUEST("Onay bekleniyor"),DONE("Onaylandı"),PARTIALLY("Kısmen onaylandı"),CANCEL("Reddedildi");
+		PREPARE("Hazırlanıyor","Hazırlanıyor"),REQUEST("Onay bekleniyor","İhale başladı"),DONE("Onaylandı","İhale tamamlandı"),PARTIALLY("Kısmen onaylandı","İhale değerlendiriliyor"),CANCEL("Reddedildi","İptal edildi");
 		
 		private String description;
+		private String pdescription;
 
-		private RequestStatus(String description) {
+		private RequestStatus(String description,String pdescription) {
 			this.description = description;
+			this.pdescription = pdescription;
 		}
 
 		@Override
 		public String getDescription() {
 			return this.description;
+		}
+		
+		public String getPDescription() {
+			return this.pdescription;
 		}
 
 		@Override

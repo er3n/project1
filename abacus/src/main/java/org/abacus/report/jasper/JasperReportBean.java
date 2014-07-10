@@ -16,7 +16,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.persistence.EnumType;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -31,7 +30,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.shared.constant.EnumList;
 
-@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class JasperReportBean {
@@ -49,22 +47,16 @@ public class JasperReportBean {
 		
 	}
 	
-	// Actions
-	// ------------------------------------------------------------------------------------
-
-	private String getFilePath() {
-		return "c:/temp/";
+	private String getTempDir(){
+		String dir = System.getProperty("java.io.tmpdir");
+		return dir;
 	}
-
-	private String getJasperFile(EnumList.JRList report) {
-		return "/jasper/"+report.getName()+".jasper";
-	}
-
+	
 	private JasperPrint prepareReport(EnumList.JRList report) {
 		try {
 			Connection conn = jasperReportHandler.getConnection();
-
-			InputStream jasperStream = getClass().getResourceAsStream(getJasperFile(report));
+			String jasperResource = "/jasper/"+report.getName()+".jasper";
+			InputStream jasperStream = getClass().getResourceAsStream(jasperResource);
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
 			Map<String,Object> param = new HashMap<String, Object>();
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, conn);
@@ -77,7 +69,7 @@ public class JasperReportBean {
 
 	private String exportReport(EnumList.JRList report, JasperPrint jasperPrint, EnumList.JRExport export){
 		String fileName = report.getName()+"."+export.getName();
-		File file = new File(getFilePath(), fileName);
+		File file = new File(getTempDir(), fileName);
 		file.delete();
 
 		DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance(); 
@@ -106,7 +98,7 @@ public class JasperReportBean {
 		ExternalContext externalContext = facesContext.getExternalContext();
 		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
 
-		File file = new File(getFilePath(), fileName);
+		File file = new File(getTempDir(), fileName);
 		BufferedInputStream input = null;
 		BufferedOutputStream output = null;
 

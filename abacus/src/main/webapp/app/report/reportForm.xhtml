@@ -49,9 +49,9 @@
 
 				<f:facet name="footer">
 
-					<h:commandButton value="Raporla"
-						action="${jasperReportBean.downloadReport(jasperReportBean.jrListSelected, jasperReportBean.jrExportSelected)}">
-					</h:commandButton>
+					<p:commandButton value="Rapor Hazırla" style="width:200px;" ajax="false"
+						action="#{jasperReportBean.downloadReport(jasperReportBean.jrListSelected, jasperReportBean.jrExportSelected)}">
+					</p:commandButton>
 
 				</f:facet>
 

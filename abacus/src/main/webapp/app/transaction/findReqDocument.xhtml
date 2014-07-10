@@ -48,11 +48,11 @@
 					</c:if>
 
 					<p:outputLabel value="Başlangıç Tarihi:" style="font-weigh: bold" />
-					<p:calendar
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 						value="#{findReqDocumentViewBean.documentSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:" style="font-weigh: bold" />
-					<p:calendar
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 						value="#{findReqDocumentViewBean.documentSearchCriteria.docEndDate}" />
 
 					<p:outputLabel value="Belge No:" />

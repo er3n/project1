@@ -12,7 +12,8 @@
 			<h:form id="menuTimeForm">
 				<h:panelGrid columns="3">
 					<p:outputLabel for="menuTimeCal" value="Zaman:" style="font-weigh: bold" />
-					<p:calendar id="menuTimeCal" value="#{catMenuViewBean.searchCriteria.date}">
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+						id="menuTimeCal" value="#{catMenuViewBean.searchCriteria.date}" >
 						<p:ajax event="dateSelect" listener="#{catMenuViewBean.menuDateSelected}" update=":menuDetailForm" />
 					</p:calendar>
 
@@ -261,7 +262,9 @@
 						<p:inputText value="#{catMenuViewBean.menuPreviewEvent.document.docNo}" required="true" requiredMessage="Döküman numarası boş olamaz." />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar value="#{catMenuViewBean.menuPreviewEvent.document.docDate}" required="true" requiredMessage="Döküman tarihi boş olamaz" />
+						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+						  	value="#{catMenuViewBean.menuPreviewEvent.document.docDate}" 
+						 	required="true" requiredMessage="Döküman tarihi boş olamaz" />
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputText value="#{catMenuViewBean.menuPreviewEvent.document.docNote}" />

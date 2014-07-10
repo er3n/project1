@@ -70,7 +70,8 @@
 							required="true" requiredMessage="Döküman numarası boş olamaz." />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar value="#{crudReqDocumentViewBean.document.docDate}"
+						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+							value="#{crudReqDocumentViewBean.document.docDate}"
 							required="true" requiredMessage="Döküman tarihi boş olamaz" />
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
@@ -215,7 +216,7 @@
 
 							<p:outputLabel value="Son Kullanma Tarihi"
 								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}" />
-							<p:calendar
+							<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudReqDocumentViewBean.selectedDetail.dueDate}"
 								required="true">

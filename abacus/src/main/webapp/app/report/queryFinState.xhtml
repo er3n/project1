@@ -21,12 +21,12 @@
 
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
-					<p:calendar
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 						value="#{queryFinStateViewBean.reportSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:"
 						style="font-weigh: bold" />
-					<p:calendar
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 						value="#{queryFinStateViewBean.reportSearchCriteria.docEndDate}" />
 
 					<ui:remove>

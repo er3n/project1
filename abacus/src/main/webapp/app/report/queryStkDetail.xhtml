@@ -21,12 +21,12 @@
 
 					<p:outputLabel value="Başlangıç Tarihi:"
 						style="font-weigh: bold" />
-					<p:calendar
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 						value="#{queryStkDetailViewBean.reportSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:"
 						style="font-weigh: bold" />
-					<p:calendar
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 						value="#{queryStkDetailViewBean.reportSearchCriteria.docEndDate}" />
 
 					<p:outputLabel value="İşlem:" />

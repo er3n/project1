@@ -20,10 +20,12 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Başlangıç Tarihi:" style="font-weigh: bold" />
-					<p:calendar value="#{findPurchaseDocumentViewBean.documentSearchCriteria.docStartDate}" />
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+						value="#{findPurchaseDocumentViewBean.documentSearchCriteria.docStartDate}" />
 
 					<p:outputLabel value="Bitiş Tarihi:" style="font-weigh: bold" />
-					<p:calendar value="#{findPurchaseDocumentViewBean.documentSearchCriteria.docEndDate}" />
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+						value="#{findPurchaseDocumentViewBean.documentSearchCriteria.docEndDate}" />
 
 					<p:outputLabel value="Belge No:" />
 					<p:inputText value="#{findPurchaseDocumentViewBean.documentSearchCriteria.docNo}" />

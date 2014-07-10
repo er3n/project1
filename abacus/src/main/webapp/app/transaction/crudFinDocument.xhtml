@@ -53,7 +53,8 @@
 							required="true" requiredMessage="Döküman numarası boş olamaz." />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar value="#{crudFinDocumentViewBean.document.docDate}"
+						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+							value="#{crudFinDocumentViewBean.document.docDate}"
 							required="true" requiredMessage="Döküman tarihi boş olamaz" />
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />

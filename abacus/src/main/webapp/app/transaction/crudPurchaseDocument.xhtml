@@ -55,7 +55,8 @@
 							required="true" requiredMessage="Döküman numarası boş olamaz." disabled="true" />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar value="#{crudPurchaseDocumentViewBean.document.docDate}"
+						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+							value="#{crudPurchaseDocumentViewBean.document.docDate}"
 							required="true" requiredMessage="Döküman tarihi boş olamaz" disabled="true" />
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
@@ -162,7 +163,7 @@
 
 							<p:outputLabel value="Son Kullanma Tarihi"
 								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}" />
-							<p:calendar
+							<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
 								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudPurchaseDocumentViewBean.selectedDetail.dueDate}"
 								required="true">

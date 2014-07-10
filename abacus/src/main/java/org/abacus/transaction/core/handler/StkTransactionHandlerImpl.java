@@ -84,7 +84,6 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
 		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocument().getId());
 		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocument().getId());
-		setPointList(detailList);
 		for (StkDetailEntity dtl : detailList) {
 			Boolean result = deleteDetailRecords(dtl);
 			if (!result){
@@ -184,6 +183,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	
 	private Boolean trackRefreshRequired(StkDetailEntity dtl){
 		StkDetailEntity old = dtl.getPoint();
+		if (old==null){
+			return true;
+		}
 		if (dtl.getItemDetailCount().compareTo(old.getItemDetailCount())!=0){
 			return true;
 		}

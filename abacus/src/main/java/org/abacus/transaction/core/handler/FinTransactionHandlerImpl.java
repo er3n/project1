@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.transaction.core.persistance.FinTransactionDao;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
@@ -84,7 +83,6 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
 		FinDocumentEntity document = finDocumentRepository.findWithFetch(event.getDocument().getId());
 		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocument().getId());
-		setPointList(detailList);
 		for (FinDetailEntity dtl : detailList) {
 			Boolean result = deleteDetailRecords(dtl);
 			if (!result){
@@ -172,9 +170,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	
 	private Boolean deleteDetailRecords(FinDetailEntity detail){
 		try{
-
 			finDetailRepository.delete(detail.getId());
-			
 			return true;
 		} catch (Exception e){
 			e.printStackTrace();

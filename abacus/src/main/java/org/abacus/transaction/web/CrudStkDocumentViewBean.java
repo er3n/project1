@@ -164,6 +164,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 	
 	public void updateDetailSelected(StkDetailEntity detail){
 		this.selectedDetail = detail;
+		this.selectedDetail.setPoint();
 		boolean isStkType = EnumList.DefTypeEnum.ITM_SR_ST.name().equals(this.selectedDetail.getItem().getType().getId());
 		if(isStkType){
 			this.selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;

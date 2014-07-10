@@ -327,12 +327,30 @@ public interface EnumList {
 		
 	}
 
-	enum JasperReport implements ISelectionEnum {
-		JRUser("Kullanıcı Listesi"),
-		JROrganization("Organizasyon Listesi"),
+	enum JRList implements ISelectionEnum {
+		JRUser("Kullanıcı Listesi"),//
+		JROrganization("Organizasyon Listesi"),//
 		;
 		private String description;
-		private JasperReport(String description) {
+		private JRList(String description) {
+			this.description = description;
+		}
+		@Override
+		public String getDescription() {
+			return this.description;
+		}
+		@Override
+		public String getName() {
+			return this.name();
+		}
+	}
+
+	enum JRExport implements ISelectionEnum {
+		PDF("Pdf"),//
+		HTML("Html"),//
+		;
+		private String description;
+		private JRExport(String description) {
 			this.description = description;
 		}
 		@Override

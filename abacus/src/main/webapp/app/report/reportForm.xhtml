@@ -11,16 +11,27 @@
 	xmlns:abc="http://www.abacus.com/abc">
 
 	<ui:define name="content">
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JasperReport" />
-			
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JRList" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JRExport" />
+				
 		<style> .topAligned { vertical-align: top;} </style>
 			
 		<h:form id="reportForm">
 
-			<p:selectOneMenu value="#{jasperReportBean.jasperReport}" 
+			<p:selectOneMenu value="#{jasperReportBean.jrListSelected}" 
 			 	style="width:145px" rendered="true">
-				<f:selectItems value="#{JasperReport}"
+				<f:selectItems value="#{JRList}"
 					var="reportEnum" itemLabel="#{reportEnum.description}"
+					itemValue="#{reportEnum}" />
+				<p:ajax event="change" update=":reportForm"
+					listener="#{jasperReportBean.reportListener}"
+					process="@this" />
+			</p:selectOneMenu>
+
+			<p:selectOneMenu value="#{jasperReportBean.jrExportSelected}" 
+			 	style="width:145px" rendered="true">
+				<f:selectItems value="#{JRExport}"
+					var="exportEnum" itemLabel="#{exportEnum.description}"
 					itemValue="#{reportEnum}" />
 				<p:ajax event="change" update=":reportForm"
 					listener="#{jasperReportBean.reportListener}"
@@ -28,10 +39,10 @@
 			</p:selectOneMenu>
 							
 			<h:commandButton value="Open PDF" 
-				action="${jasperReportBean.downloadReport(jasperReportBean.jasperReport)}">
+				action="${jasperReportBean.downloadReport(jasperReportBean.jrListSelected, jasperReportBean.jrExportSelected)}">
 			</h:commandButton>
 			
-    		<h:commandLink value="Download PDF" action="${jasperReportBean.downloadReport(jasperReportBean.jasperReport)}" target="_blank" />
+    		<h:commandLink value="Download PDF" action="${jasperReportBean.downloadReport(jasperReportBean.jrListSelected, jasperReportBean.jrExportSelected)}" target="_blank" />
 
 		</h:form>
 	

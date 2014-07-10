@@ -11,7 +11,8 @@
 	xmlns:abc="http://www.abacus.com/abc">
 
 	<ui:define name="content">
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JasperReport" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JRList" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JRExport" />
 			
 		<style> .topAligned { vertical-align: top;} </style>
 			
@@ -37,10 +38,10 @@
 
 
 			<h:commandButton value="Open PDF" 
-				action="${jasperReportBean.downloadReport(JasperReport.JRUser)}">
+				action="${jasperReportBean.downloadReport(JRList.JRUser, JRExport.PDF)}">
 			</h:commandButton>
 			
-    		<h:commandLink value="Download PDF" action="${jasperReportBean.downloadReport(JasperReport.JRUser)}" target="_blank" />
+    		<h:commandLink value="Download PDF" action="${jasperReportBean.downloadReport(JRList.JRUser, JRExport.PDF)}" target="_blank" />
 
 
 		</h:form>

@@ -1,6 +1,7 @@
 package org.abacus.report.jasper;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,9 @@ public class JasperReportHandlerImpl implements JasperReportHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public Connection getConnection() {
-		return jasperReportDao.getConnection();
+	public Connection getConnection() throws SQLException {
+		Connection conn = jasperReportDao.getConnection();
+		return conn;
 	}
 
 	public JasperReportDao getJasperReportDao() {

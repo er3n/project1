@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.shared.constant.EnumList;
 
 @SuppressWarnings("serial")
@@ -39,6 +40,9 @@ public class JasperReportBean {
 
 	@ManagedProperty(value = "#{jasperReportHandler}")
 	private JasperReportHandler jasperReportHandler;
+	
+	@ManagedProperty(value = "#{jsfMessageHelper}")
+	private JsfMessageHelper jsfMessageHelper;
 	
 	private EnumList.JasperReport jasperReport;
 
@@ -62,9 +66,8 @@ public class JasperReportBean {
 	}
 
 	private void generateReport(EnumList.JasperReport report) {
-		Connection conn = jasperReportHandler.getConnection();
-
 		try {
+			Connection conn = jasperReportHandler.getConnection();
 			File pdfFile = new File(getPdfFilePath(), getPdfFileName(report));
 			pdfFile.delete();
 
@@ -76,9 +79,8 @@ public class JasperReportBean {
 			DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance(); 
 			JRPropertiesUtil.getInstance(context).setProperty("net.sf.jasperreports.awt.igno‌​re.missing.font","true"); 
 			JasperExportManager.exportReportToPdfFile(jasperPrint, pdfFile.toString());
-			
-		} catch (JRException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			jsfMessageHelper.addError("reportPrepareError", report.getName());
 		}
 	}
 
@@ -112,9 +114,10 @@ public class JasperReportBean {
 			while ((length = input.read(buffer)) > 0) {
 				output.write(buffer, 0, length);
 			}
-
 			// Finalize task.
 			output.flush();
+		} catch (Exception e){
+			jsfMessageHelper.addError("reportDownloadError", report.getName());
 		} finally {
 			// Gently close streams.
 			close(output);
@@ -159,6 +162,14 @@ public class JasperReportBean {
 
 	public void setJasperReport(EnumList.JasperReport jasperReport) {
 		this.jasperReport = jasperReport;
+	}
+
+	public JsfMessageHelper getJsfMessageHelper() {
+		return jsfMessageHelper;
+	}
+
+	public void setJsfMessageHelper(JsfMessageHelper jsfMessageHelper) {
+		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
 }

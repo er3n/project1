@@ -17,18 +17,12 @@ public class JasperReportDao {
 	@PersistenceContext
 	private EntityManager em;
 
-	public Connection getConnection() {
-		try {
-			Session session = em.unwrap(Session.class);
-			SessionFactoryImplementor sfi = (SessionFactoryImplementor) session.getSessionFactory();
-			ConnectionProvider cp = sfi.getConnectionProvider();
-			Connection conn;
-			conn = cp.getConnection();
-			return conn;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public Connection getConnection() throws SQLException {
+		Session session = em.unwrap(Session.class);
+		SessionFactoryImplementor sfi = (SessionFactoryImplementor) session.getSessionFactory();
+		ConnectionProvider cp = sfi.getConnectionProvider();
+		Connection conn = cp.getConnection();
+		return conn;
 	}
 
 }

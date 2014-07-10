@@ -15,10 +15,12 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.ReqConfirmationHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
+import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
 import org.abacus.transaction.shared.event.ConfirmDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
@@ -36,6 +38,8 @@ import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
+import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
+import org.abacus.user.shared.entity.SecUserOrganizationEntity;
 import org.springframework.util.CollectionUtils;
 
 @SuppressWarnings("serial")
@@ -60,18 +64,34 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{reqConfirmationHandler}")
 	private ReqConfirmationHandler reqConfirmationHandler;
+	
+	@ManagedProperty(value = "#{userOrganizationRepository}")
+	private UserOrganizationRepository userOrgRepo;
 
 	private ReqDocumentEntity document;
 
 	private List<ReqDetailEntity> detailList;
+	
+	private DefItemEntity vendor;
+	
+
 
 	@PostConstruct
 	private void init() {
 
 		String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
-
+		
+		String organizationId = sessionInfoHelper.currentOrganizationId();
+		String username = sessionInfoHelper.currentUserName();
+		this.vendor = userOrgRepo.findVendorByUserAndOrganization(username,organizationId);
+		
+		
 		this.findDocument(Long.valueOf(documentId));
 
+	}
+	
+	public void offerDetailSelected(){
+		
 	}
 
 	private void findDocument(Long documentId) {
@@ -89,6 +109,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 			detailList = readDetailEvent.getDetails();
 		}
 	}
+
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;

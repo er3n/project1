@@ -1,5 +1,6 @@
 package org.abacus.user.core.persistance.repository;
 
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.user.shared.entity.SecUserOrganizationEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +15,8 @@ public interface UserOrganizationRepository  extends CrudRepository<SecUserOrgan
 	@Transactional
 	@Query("delete from SecUserOrganizationEntity e where e.user.id = :username")
 	void delete(@Param("username")String username);
+
+	@Query("select e.vendor from SecUserOrganizationEntity e where e.user.id = :username and e.organization.id = :organizationId")
+	DefItemEntity findVendorByUserAndOrganization(String username, String organizationId);
 
 }

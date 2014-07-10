@@ -21,21 +21,21 @@
 	
 			<h:form id="crudDocumentFrm">
 				<p:panel id="documentPanel"
-					rendered="#{not empty crudReqDocumentViewBean.document}">
+					rendered="#{not empty crudPurchaseDocumentViewBean.document}">
 
 					<f:facet name="header">
-						İhale Sorgulama
+						Satış
 					</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
 						<p:outputLabel value="İşlem:" style="font-weigh: bold" />
-						<p:selectOneMenu value="#{crudReqDocumentViewBean.document.task}"
+						<p:selectOneMenu value="#{crudPurchaseDocumentViewBean.document.task}"
 							converter="omnifaces.SelectItemsConverter" style="width:145px"
 							required="true" requiredMessage="İşlem boş olamaz"
-							disabled="#{not empty crudReqDocumentViewBean.document.id}">
+							disabled="true" >
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
-							<f:selectItems value="#{crudReqDocumentViewBean.reqTaskList}"
+							<f:selectItems value="#{crudPurchaseDocumentViewBean.reqTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 							<p:ajax event="change" update=":crudDocumentFrm" process="@this" />
 						</p:selectOneMenu>
@@ -45,59 +45,24 @@
 							<abc:departmentSelection id="reqDepartmentSelectionInput"
 								widgetVar="reqDepartmentSelectionWdg"
 								dialogId="reqDepartmentSelectionDialog"
-								targetVar="#{crudReqDocumentViewBean.document.department}"
+								targetVar="#{crudPurchaseDocumentViewBean.document.department}"
 								required="true"
-								disabled="#{not empty crudReqDocumentViewBean.document.id}" />
-						</h:panelGrid>
-
-						<p:outputLabel value="İsteyen Depo"
-							rendered="${crudReqDocumentViewBean.isTaskSelected(DefTypeEnum.REQ_IO_T)}" />
-						<h:panelGrid columns="1"
-							rendered="${crudReqDocumentViewBean.isTaskSelected(DefTypeEnum.REQ_IO_T)}">
-							<abc:departmentSelection id="reqDepartmentOppSelectionInput"
-								widgetVar="reqDepartmentOppSelectionWdg"
-								dialogId="reqDepartmentOppSelectionDialog"
-								targetVar="#{crudReqDocumentViewBean.document.departmentOpp}"
-								required="true"
-								disabled="#{not empty crudReqDocumentViewBean.document.id}" />
+								disabled="true" />
 						</h:panelGrid>
 
 						<p:outputLabel value="Belge No:" />
-						<p:inputText value="#{crudReqDocumentViewBean.document.docNo}"
-							required="true" requiredMessage="Döküman numarası boş olamaz." />
+						<p:inputText value="#{crudPurchaseDocumentViewBean.document.docNo}"
+							required="true" requiredMessage="Döküman numarası boş olamaz." disabled="true" />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar value="#{crudReqDocumentViewBean.document.docDate}"
-							required="true" requiredMessage="Döküman tarihi boş olamaz" />
+						<p:calendar value="#{crudPurchaseDocumentViewBean.document.docDate}"
+							required="true" requiredMessage="Döküman tarihi boş olamaz" disabled="true" />
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
-							value="#{crudReqDocumentViewBean.document.docNote}" />
+							value="#{crudPurchaseDocumentViewBean.document.docNote}" disabled="true" />
 
 					</h:panelGrid>
-
-					<f:facet name="footer">
-						<p:commandButton value="Kaydet"
-							actionListener="#{crudReqDocumentViewBean.saveDocument}"
-							update="crudDocumentFrm :crudDocumentDetailFrm"
-							rendered="#{empty crudReqDocumentViewBean.document.id}" />
-						<p:commandButton value="Guncelle"
-							actionListener="#{crudReqDocumentViewBean.updateDocument}"
-							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval}" />
-						<p:commandButton value="Onaya Gonder"
-							actionListener="#{crudReqDocumentViewBean.requestDocument}"
-							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE}" />
-						<p:commandButton value="Onayla"
-							actionListener="#{crudReqDocumentViewBean.confirmDocument}"
-							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval}" />
-						<p:commandButton value="Redded"
-							actionListener="#{crudReqDocumentViewBean.cancelDocument}"
-							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
-							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval}" />
-					</f:facet>
 
 				</p:panel>
 
@@ -109,32 +74,24 @@
 
 				<p:dataTable var="var"
 					emptyMessage="Kayitli fiş detay bulunmamaktadir."
-					value="#{crudReqDocumentViewBean.detailList}"
-					rendered="#{not empty crudReqDocumentViewBean.document.id}">
+					value="#{crudPurchaseDocumentViewBean.detailList}"
+					rendered="#{not empty crudPurchaseDocumentViewBean.document.id}">
 
 					<f:facet name="header">
-						<p:outputLabel value="Fiş Detay" />
+						<p:outputLabel value="Satış Detay" />
 					</f:facet>
 
 					<f:facet name="footer">
 						<p:commandButton value="Detay Ekle"
-							actionListener="#{crudReqDocumentViewBean.initNewDetail()}" rendered="${(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}"
+							actionListener="#{crudPurchaseDocumentViewBean.initNewDetail()}" rendered="${(crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudPurchaseDocumentViewBean.approval) or (crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudPurchaseDocumentViewBean.approval)}"
 							update=":crudDocumentDetailSelectionFrm" process="@this" />
 					</f:facet>
 
 					<p:column headerText="Malzeme">
 						<p:outputLabel value="#{var.item.name}" />
 					</p:column>
-
-					<p:column headerText="Depo">
-						<p:outputLabel value="#{var.department.name}" />
-					</p:column>
-
-					<p:column headerText="Karşı Depo">
-						<p:outputLabel value="#{var.departmentOpp.name}" />
-					</p:column>
-
-					<p:column headerText="SKT">
+					
+					<p:column headerText="Geçerlilik Süresi">
 						<p:outputLabel value="#{var.dueDate}" />
 					</p:column>
 
@@ -149,15 +106,8 @@
 
 					<p:column headerText="İşlem">
 						<p:commandButton icon="ui-icon-pencil"
-							actionListener="#{crudReqDocumentViewBean.updateDetailSelected(var)}"
-							update=":crudDocumentDetailSelectionFrm" rendered="${(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}" />
-						<p:commandButton icon="ui-icon-closethick" rendered="${(crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval) or (crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudReqDocumentViewBean.approval)}"
-							actionListener="#{crudReqDocumentViewBean.deleteDetail(var)}"
-							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm">
-							<p:confirm header="Onay" message="Silmek istediğine emin misin?"
-								icon="ui-icon-alert" />
-						</p:commandButton>
-
+							actionListener="#{crudPurchaseDocumentViewBean.offerDetailSelected(var)}"
+							update=":crudDocumentOfferSelectionFrm"  />
 					</p:column>
 
 				</p:dataTable>
@@ -166,10 +116,10 @@
 			</h:form>
 
 
-			<h:form id="crudDocumentDetailSelectionFrm">
+			<h:form id="crudDocumentOfferSelectionFrm">
 
 				<p:panel header="Fiş Detay Düzenleme"
-					rendered="#{not empty crudReqDocumentViewBean.selectedDetail}">
+					rendered="#{not empty crudPurchaseDocumentViewBean.selectedDetail}">
 
 					<h:panelGrid columns="1" cellpadding="2" style="vertical-align:top">
 
@@ -180,54 +130,54 @@
 							<h:panelGrid columns="6">
 								<abc:itemSelection id="itemSelectionInput"
 									widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
-									targetVar="#{crudReqDocumentViewBean.selectedDetail.item}"
+									targetVar="#{crudPurchaseDocumentViewBean.selectedDetail.item}"
 									required="true" />
 							</h:panelGrid>
 
 							<p:outputLabel value="Birim"
-								rendered="#{not empty crudReqDocumentViewBean.selectedDetail.item}" />
+								rendered="#{not empty crudPurchaseDocumentViewBean.selectedDetail.item}" />
 							<p:selectOneMenu required="true"
 								requiredMessage="Birim boş olamaz" style="width:145px"
-								value="#{crudReqDocumentViewBean.selectedDetail.itemUnit}"
+								value="#{crudPurchaseDocumentViewBean.selectedDetail.itemUnit}"
 								converter="omnifaces.SelectItemsConverter"
-								rendered="#{not empty crudReqDocumentViewBean.selectedDetail.item}">
+								rendered="#{not empty crudPurchaseDocumentViewBean.selectedDetail.item}">
 								<f:selectItem itemValue="" itemLabel="Seciniz..."></f:selectItem>
 								<f:selectItems
-									value="#{crudReqDocumentViewBean.selectedDetail.item.itemUnitSet}"
+									value="#{crudPurchaseDocumentViewBean.selectedDetail.item.itemUnitSet}"
 									var="itemUnit" itemLabel="#{itemUnit.unitCode.name}"
 									itemValue="#{itemUnit.unitCode}" />
 							</p:selectOneMenu>
 
 							<p:outputLabel value="Miktar" />
 							<p:inputText
-								value="#{crudReqDocumentViewBean.selectedDetail.itemDetailCount}"
+								value="#{crudPurchaseDocumentViewBean.selectedDetail.itemDetailCount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
 							<p:outputLabel value="Toplam Tutar"
-								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}" />
+								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}" />
 							<p:inputText
-								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}"
-								value="#{crudReqDocumentViewBean.selectedDetail.baseDetailAmount}"
+								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}"
+								value="#{crudPurchaseDocumentViewBean.selectedDetail.baseDetailAmount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
 							<p:outputLabel value="Son Kullanma Tarihi"
-								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}" />
+								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}" />
 							<p:calendar
-								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}"
-								value="#{crudReqDocumentViewBean.selectedDetail.dueDate}"
+								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}"
+								value="#{crudPurchaseDocumentViewBean.selectedDetail.dueDate}"
 								required="true">
 							</p:calendar>
 
 							<p:outputLabel value="Seri No:"
-								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}" />
+								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}" />
 							<p:inputText
-								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}"
-								value="#{crudReqDocumentViewBean.selectedDetail.batchDetailNo}"
+								rendered="${crudPurchaseDocumentViewBean.isTaskSelectedState(1)}"
+								value="#{crudPurchaseDocumentViewBean.selectedDetail.batchDetailNo}"
 								required="false"/>
 
 							<p:outputLabel value="Not" style="font-weigh: bold" />
 							<p:inputTextarea rows="10" cols="50"
-								value="#{crudReqDocumentViewBean.selectedDetail.detNote}" />
+								value="#{crudPurchaseDocumentViewBean.selectedDetail.detNote}" />
 
 						</p:panelGrid>
 
@@ -235,14 +185,14 @@
 
 					<f:facet name="footer">
 						<p:commandButton value="Kaydet"
-							actionListener="#{crudReqDocumentViewBean.saveDetail}"
+							actionListener="#{crudPurchaseDocumentViewBean.saveDetail}"
 							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm"
-							rendered="#{empty crudReqDocumentViewBean.selectedDetail.id}" />
+							rendered="#{empty crudPurchaseDocumentViewBean.selectedDetail.id}" />
 
 						<p:commandButton value="Guncelle"
-							actionListener="#{crudReqDocumentViewBean.updateDetail}"
+							actionListener="#{crudPurchaseDocumentViewBean.updateDetail}"
 							update=":crudDocumentDetailSelectionFrm :crudDocumentDetailFrm"
-							rendered="#{not empty crudReqDocumentViewBean.selectedDetail.id}" />
+							rendered="#{not empty crudPurchaseDocumentViewBean.selectedDetail.id}" />
 					</f:facet>
 
 
@@ -267,21 +217,21 @@
 		<abc:itemSelectionDialog id="itemSelectionDialog"
 			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
 			paramType="#{DefTypeEnum.ITM_SR_ST}"
-			targetVar="#{crudReqDocumentViewBean.selectedDetail.item}"
+			targetVar="#{crudPurchaseDocumentViewBean.selectedDetail.item}"
 			rendered="true" />
 
 		<abc:departmentSelectionDialog id="reqDepartmentSelectionDialog"
 			update=":crudDocumentFrm" widgetVar="reqDepartmentSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
-			targetVar="#{crudReqDocumentViewBean.document.department}"
+			targetVar="#{crudPurchaseDocumentViewBean.document.department}"
 			rendered="true" />
 
 		<abc:departmentSelectionDialog id="reqDepartmentOppSelectionDialog"
 			update=":crudDocumentFrm" widgetVar="reqDepartmentOppSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
-			targetVar="#{crudReqDocumentViewBean.document.departmentOpp}"
+			targetVar="#{crudPurchaseDocumentViewBean.document.departmentOpp}"
 			rendered="true" />
 
 

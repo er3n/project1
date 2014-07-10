@@ -24,9 +24,9 @@ public class SecUserOrganizationEntity extends DynamicEntity {
 	private OrganizationEntity organization;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "item_id", nullable = true)
-	private DefItemEntity item;
-	
+	@JoinColumn(name = "vendor_id", nullable = true)
+	private DefItemEntity vendor;
+
 	public SecUserEntity getUser() {
 		return user;
 	}
@@ -39,16 +39,16 @@ public class SecUserOrganizationEntity extends DynamicEntity {
 		return organization;
 	}
 
+	public DefItemEntity getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(DefItemEntity vendor) {
+		this.vendor = vendor;
+	}
+
 	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
-	}
-
-	public DefItemEntity getItem() {
-		return item;
-	}
-
-	public void setItem(DefItemEntity item) {
-		this.item = item;
 	}
 
 }

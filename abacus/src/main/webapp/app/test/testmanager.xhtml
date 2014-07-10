@@ -38,7 +38,7 @@
 
 
 			<h:commandButton value="Open PDF" 
-				action="${jasperReportBean.downloadReport(JRList.JRUser, JRExport.PDF)}">
+				action="${jasperReportBean.downloadReport(JRList.JRUser, JRExport.PDF)}" ajax=false>
 			</h:commandButton>
 			
     		<h:commandLink value="Download PDF" action="${jasperReportBean.downloadReport(JRList.JRUser, JRExport.PDF)}" target="_blank" />

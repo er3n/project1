@@ -26,6 +26,8 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	private EnumList.DefTypeEnum docType;
 
+	private EnumList.RequestStatus requestStatus;
+
 	public TraDocumentSearchCriteria() {
 
 	}
@@ -96,6 +98,14 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	public void setDocTask(DefTaskEntity docTask) {
 		this.docTask = docTask;
+	}
+
+	public EnumList.RequestStatus getRequestStatus() {
+		return requestStatus;
+	}
+
+	public void setRequestStatus(EnumList.RequestStatus requestStatus) {
+		this.requestStatus = requestStatus;
 	}
 
 }

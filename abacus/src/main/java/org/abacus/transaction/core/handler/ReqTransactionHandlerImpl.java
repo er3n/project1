@@ -73,6 +73,8 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	public DocumentCreatedEvent<ReqDocumentEntity> newDocument(CreateDocumentEvent<ReqDocumentEntity> event) {
 		ReqDocumentEntity document = event.getDocument();
 		
+		
+		
 		if(document.getDepartmentOpp() != null && document.getDepartment().getId().equals(document.getDepartmentOpp().getId())){
 			throw new UnableToCreateDocumentException("departmentsCanNotBeEqual");
 		}

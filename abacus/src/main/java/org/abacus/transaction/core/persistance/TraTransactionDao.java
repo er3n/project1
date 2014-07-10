@@ -67,6 +67,9 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 		if (documentSearchCriteria.getDepartmentOpp() != null) {
 			criteria.add(Restrictions.eq("s.departmentOpp.id", documentSearchCriteria.getDepartmentOpp().getId()));
 		}
+		if(documentSearchCriteria.getRequestStatus() != null){
+			criteria.add(Restrictions.eq("s.requestStatus", documentSearchCriteria.getRequestStatus()));
+		}
 
 		criteria.addOrder(Order.desc("s.docDate"));
 

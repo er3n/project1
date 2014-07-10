@@ -18,17 +18,14 @@
 		<o:importConstants
 			type="org.abacus.definition.shared.constant.EnumList.RequestStatus" />
 
-		<p:messages id="messages" showDetail="true" autoUpdate="true"
-			closable="true" rendered="#{!crudReqDocumentViewBean.showDocument}" />
-
-		<c:if test="#{crudReqDocumentViewBean.showDocument}">
+	
 			<h:form id="crudDocumentFrm">
 				<p:panel id="documentPanel"
 					rendered="#{not empty crudReqDocumentViewBean.document}">
 
 					<f:facet name="header">
-					Sipariş Fişi
-				</f:facet>
+						İhale Sorgulama
+					</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
@@ -42,8 +39,8 @@
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
 							<p:ajax event="change" update=":crudDocumentFrm" process="@this" />
 						</p:selectOneMenu>
- 
-						<p:outputLabel value="Karşılayacak Depo" />
+
+						<p:outputLabel value="Karşılacak Depo" />
 						<h:panelGrid columns="1">
 							<abc:departmentSelection id="reqDepartmentSelectionInput"
 								widgetVar="reqDepartmentSelectionWdg"
@@ -253,7 +250,7 @@
 
 			</h:form>
 
-		</c:if>
+
 
 
 	</ui:define>

@@ -304,11 +304,11 @@ public interface EnumList {
 		;
 		
 		private String description;
-		private String pdescription;
+		private String pDescription;
 
-		private RequestStatus(String description,String pdescription) {
+		private RequestStatus(String description,String pDescription) {
 			this.description = description;
-			this.pdescription = pdescription;
+			this.pDescription = pDescription;
 		}
 
 		@Override
@@ -317,7 +317,7 @@ public interface EnumList {
 		}
 		
 		public String getPDescription() {
-			return this.pdescription;
+			return this.pDescription;
 		}
 
 		@Override

@@ -18,14 +18,19 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
-import org.abacus.definition.shared.constant.EnumList;
-
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+
+import org.abacus.definition.shared.constant.EnumList;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -51,7 +56,7 @@ public class JasperReportBean {
 	private String getPdfFileName(EnumList.JasperReport report) {
 		return report.getName()+".pdf";
 	}
-	
+
 	private String getJasperFile(EnumList.JasperReport report) {
 		return "/jasper/"+report.getName()+".jasper";
 	}
@@ -66,9 +71,12 @@ public class JasperReportBean {
 			InputStream jasperStream = getClass().getResourceAsStream(getJasperFile(report));
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
 			Map<String,Object> param = new HashMap<String, Object>();
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, conn);
 			
-			JasperPrint print = JasperFillManager.fillReport(jasperReport, param, conn);
-			JasperExportManager.exportReportToPdfFile(print, pdfFile.toString());
+			DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance(); 
+			JRPropertiesUtil.getInstance(context).setProperty("net.sf.jasperreports.awt.igno‌​re.missing.font","true"); 
+			JasperExportManager.exportReportToPdfFile(jasperPrint, pdfFile.toString());
+			
 		} catch (JRException e) {
 			e.printStackTrace();
 		}

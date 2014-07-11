@@ -104,7 +104,7 @@ public interface EnumList {
 		NIL("Null"), 
 		PRM("Parametre"), // Static Parameter
 		VAL("Kod"), // Dynamic Value Tree
-		ITM("Kalem"), // Dynamic Item
+		ITM("Hesap"), // Dynamic Item
 		STK("Stok"), // Dynamic Task Stock
 		FIN("Finans"), // Dynamic Task Finance
 		ACC("Acc"), // Acc

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface DefTypeRepository extends CrudRepository<DefTypeEntity, String> {
 
-	@Query("select a from DefTypeEntity a where a.id like :groupStr% order by a.id")
+	@Query("select a from DefTypeEntity a left outer join fetch a.startValue where a.id like :groupStr% order by a.id")
 	List<DefTypeEntity> getTypeList(@Param("groupStr") String groupStr);
 	
 }

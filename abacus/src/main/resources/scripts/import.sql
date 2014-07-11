@@ -69,12 +69,12 @@ insert into def_type (id, name, level, tr_state_type) values ('FIN_B', 'Alış F
 insert into def_type (id, name, level, tr_state_type) values ('FIN_P', 'Ödeme', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_R', 'Tahsilat', 1, +1);
 
-insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Finans Gider Tanımları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Malzeme Tanımları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_VE', 'Firma Tanımları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_PE', 'Personel Tanımları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_CU', 'Müşteri Tanımları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_CA', 'Parasal Tanımlar', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Stok Malzeme/Ürün', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Gider Hesapları', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_VE', 'Firma Hesapları', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_PE', 'Personel Hesapları', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_CU', 'Müşteri Hesapları', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_CA', 'Parasal Hesaplar', 1, 0);
 commit;
 
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
@@ -159,6 +159,7 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', currval('seq_id')-2, 'P200', 'Taşeron', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', null, 'C', 'Tahsilat/Ödeme', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', currval('seq_id')-1, 'C100', 'Para', 1, 0);
+insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_CATEGORY', null, '?', 'Tanımsız', 1, 0);
 
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_RECEIPT', null, 'T0001', 'Normal Yemek', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_RECEIPT', null, 'T0002', 'Normal Kahvaltı', 1, 0);
@@ -205,4 +206,11 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F201', null, 'Personel Maaş', (select v.id from def_value v where v.code='F200' and organization_id='#'), '#', 'ITM_SR_FN', null);
 commit;
 
+update def_type v set start_id = (select p.id from def_value p where p.code = null and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_SR_ST';
+update def_type v set start_id = (select p.id from def_value p where p.code = 'F' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_SR_FN';
+update def_type v set start_id = (select p.id from def_value p where p.code = 'T' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_VE';
+update def_type v set start_id = (select p.id from def_value p where p.code = 'T' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CU';
+update def_type v set start_id = (select p.id from def_value p where p.code = 'F' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_PE';
+update def_type v set start_id = (select p.id from def_value p where p.code = 'C' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CA';
+commit;
 

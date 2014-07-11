@@ -8,6 +8,7 @@
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
 	template="/WEB-INF/content/template/simple.xhtml"
+	xmlns:abc="http://www.abacus.com/abc"
 >
 
 	<ui:define name="content">
@@ -34,6 +35,11 @@
 								required="true" requiredMessage="Type.Ack Bos olamaz"
 								validatorMessage="Type.Ack" />
 
+							<h:outputLabel value="Kategori" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.ITM}"/>
+							<h:panelGrid columns="3" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.ITM}">
+								<abc:valueSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{definitionViewBean.selType.startValue}" required="false" />
+							</h:panelGrid>
+					
 							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" 
 							 	style="width:145px" rendered="false">
 								<f:selectItems value="#{DefTypeGroupEnum}"
@@ -87,6 +93,10 @@
            					#{selType.name}  
        					</p:column>
 
+						<p:column headerText="Kategori" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.ITM}">  
+           					#{selType.startValue.code} : #{selType.startValue.name}  
+       					</p:column>
+
 					<p:column headerText="İşlem" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.VAL}"> 
 	
 						<p:commandButton icon="ui-icon-closethick" actionListener="#{defValueViewBean.refreshTypeLevel()}" >
@@ -105,4 +115,20 @@
 			<ui:include src="defTask.xhtml"></ui:include>
 		</h:panelGrid>
 	</ui:define>
+	
+	
+	<ui:define name="model">
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
+	
+		<abc:valueSelectionDialog 
+			update=":typeForm:typePanel" 
+			id="materialCategorySelectionDialog" 
+			widgetVar="categorySelectionWidget" 
+			targetVar="#{definitionViewBean.selType.startValue}"
+			paramType="#{DefTypeEnum.VAL_CATEGORY}"
+		 />
+		
+	</ui:define> 
+	
 </ui:composition>

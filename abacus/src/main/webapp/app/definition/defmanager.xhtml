@@ -35,17 +35,12 @@
 								required="true" requiredMessage="Type.Ack Bos olamaz"
 								validatorMessage="Type.Ack" />
 
-							<h:outputLabel value="Kategori" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.ITM}"/>
-							<h:panelGrid columns="3" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.ITM}">
-								<abc:valueSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{definitionViewBean.selType.startValue}" required="false" />
-							</h:panelGrid>
-					
 							<p:selectOneMenu value="#{definitionViewBean.selectedGroupEnum}" 
 							 	style="width:145px" rendered="false">
 								<f:selectItems value="#{DefTypeGroupEnum}"
 									var="groupEnum" itemLabel="#{groupEnum.description}"
 									itemValue="#{groupEnum}" />
-								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :taskGrid"
+								<p:ajax event="change" update=":typeForm :valGrid :paramGrid :taskGrid :referenceGrid"
 									listener="#{definitionViewBean.groupChangeListener}"
 									process="@this" />
 							</p:selectOneMenu>
@@ -53,18 +48,18 @@
 						</h:panelGrid>
 
 						<f:facet name="footer">
-							<p:commandButton id="saveType" update=":typeForm :valGrid :paramGrid :taskGrid" 
+							<p:commandButton id="saveType" update=":typeForm :valGrid :paramGrid :taskGrid :referenceGrid" 
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveType}" />
-							<p:commandButton id="deleteType" update=":typeForm :valGrid :paramGrid :taskGrid"
+							<p:commandButton id="deleteType" update=":typeForm :valGrid :paramGrid :taskGrid :referenceGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
 								actionListener="#{definitionViewBean.deleteType}"
 								immediate="true">
 								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
 							</p:commandButton>
-							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :taskGrid"
+							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :taskGrid :referenceGrid"
 								ajax="true"
 								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionViewBean.clearType}" process="@this"
@@ -81,7 +76,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selType.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":typeForm :valGrid :paramGrid :taskGrid"
+						<p:ajax event="rowSelect" update=":typeForm :valGrid :paramGrid :taskGrid :referenceGrid"
 							listener="#{definitionViewBean.typeRowSelectListener}">
 						</p:ajax>
 
@@ -91,10 +86,6 @@
 
 						<p:column headerText="#{definitionViewBean.selectedGroupEnum.description} Tip Adı">  
            					#{selType.name}  
-       					</p:column>
-
-						<p:column headerText="Kategori" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.ITM}">  
-           					#{selType.startValue.code} : #{selType.startValue.name}  
        					</p:column>
 
 					<p:column headerText="İşlem" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.VAL}"> 
@@ -113,6 +104,7 @@
 			<ui:include src="defValue.xhtml"></ui:include>
 			<ui:include src="defParam.xhtml"></ui:include>
 			<ui:include src="defTask.xhtml"></ui:include>
+			<ui:include src="defReference.xhtml"></ui:include>
 		</h:panelGrid>
 	</ui:define>
 	
@@ -120,14 +112,6 @@
 	<ui:define name="model">
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
-	
-		<abc:valueSelectionDialog 
-			update=":typeForm:typePanel" 
-			id="materialCategorySelectionDialog" 
-			widgetVar="categorySelectionWidget" 
-			targetVar="#{definitionViewBean.selType.startValue}"
-			paramType="#{DefTypeEnum.VAL_CATEGORY}"
-		 />
 		
 	</ui:define> 
 	

@@ -2,9 +2,6 @@ package org.abacus.definition.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
@@ -26,10 +23,6 @@ public class DefTypeEntity extends StaticEntity {
 	@Range(min=-1, max=+1)
 	private Integer trStateType = 0;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "start_id", nullable = true)
-	private DefValueEntity startValue;
-	
 	public DefTypeEntity() {
 	}
 
@@ -74,14 +67,6 @@ public class DefTypeEntity extends StaticEntity {
 
 	public void setTrStateType(Integer trStateType) {
 		this.trStateType = trStateType;
-	}
-
-	public DefValueEntity getStartValue() {
-		return startValue;
-	}
-
-	public void setStartValue(DefValueEntity startValue) {
-		this.startValue = startValue;
 	}
 
 }

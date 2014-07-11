@@ -206,11 +206,5 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F201', null, 'Personel Maaş', (select v.id from def_value v where v.code='F200' and organization_id='#'), '#', 'ITM_SR_FN', null);
 commit;
 
-update def_type v set start_id = (select p.id from def_value p where p.code = null and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_SR_ST';
-update def_type v set start_id = (select p.id from def_value p where p.code = 'F' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_SR_FN';
-update def_type v set start_id = (select p.id from def_value p where p.code = 'T' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_VE';
-update def_type v set start_id = (select p.id from def_value p where p.code = 'T' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CU';
-update def_type v set start_id = (select p.id from def_value p where p.code = 'F' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_PE';
-update def_type v set start_id = (select p.id from def_value p where p.code = 'C' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CA';
 commit;
 

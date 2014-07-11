@@ -44,7 +44,7 @@ public class ValueSelectionViewBean implements Serializable {
 			return list;
 		}
 	}
-	
+
 	public DefValueHandler getDefValueHandler() {
 		return defValueHandler;
 	}

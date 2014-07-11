@@ -140,6 +140,10 @@
 			<name>paramType</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>paramItem</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 
 	<tag>

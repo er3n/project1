@@ -38,7 +38,7 @@ public class DocumentStkSelectionViewBean implements Serializable {
 
 	public List<StkDocumentEntity> getDocumentList(EnumList.DefTypeEnum typeEnum) {
 		String organization = sessionInfoHelper.currentRootOrganizationId();
-		String key = organization+":"+typeEnum.getName();
+		String key = organization+"-"+typeEnum.getName();
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {

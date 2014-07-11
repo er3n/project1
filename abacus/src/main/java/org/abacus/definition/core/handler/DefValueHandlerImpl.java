@@ -26,7 +26,7 @@ public class DefValueHandlerImpl implements DefValueHandler {
 	public List<DefValueEntity> getValueList(String organizationId, EnumList.DefTypeEnum typeEnum){
 		return defValueRepo.getValueList(organizationId, typeEnum.name()); 
 	}
-	
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public DefValueEntity saveValueEntity(DefValueEntity entity) {

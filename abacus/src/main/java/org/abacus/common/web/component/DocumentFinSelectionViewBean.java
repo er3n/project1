@@ -38,7 +38,7 @@ public class DocumentFinSelectionViewBean implements Serializable {
 
 	public List<FinDocumentEntity> getDocumentList(EnumList.DefTypeEnum typeEnum) {
 		String organization = sessionInfoHelper.currentRootOrganizationId();
-		String key = organization+":"+typeEnum.getName();
+		String key = organization+"-"+typeEnum.getName();
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {

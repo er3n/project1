@@ -33,7 +33,7 @@ public class DepartmentSelectionViewBean implements Serializable {
 		if (username==null){
 			return new ArrayList<DepartmentEntity>();
 		}
-		String key = username+":"+((depGroup==null)?"*":depGroup.name());
+		String key = username+((depGroup==null)?"":"-"+depGroup.name());
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {

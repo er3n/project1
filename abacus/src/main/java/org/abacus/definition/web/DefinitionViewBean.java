@@ -41,6 +41,9 @@ public class DefinitionViewBean implements Serializable {
 	@ManagedProperty(value = "#{defTaskViewBean}")
 	private DefTaskViewBean defTaskViewBean;
 
+	@ManagedProperty(value = "#{defReferenceViewBean}")
+	private DefReferenceViewBean defReferenceViewBean;
+
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 
 	@PostConstruct
@@ -70,6 +73,9 @@ public class DefinitionViewBean implements Serializable {
 				selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.FIN)){
 			defTaskViewBean.setSelType(selType);
 		}
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.ITM)){
+			defReferenceViewBean.setSelType(selType);
+		}
 	}
 	
 	public void clearType() {
@@ -83,6 +89,9 @@ public class DefinitionViewBean implements Serializable {
 		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.STK) || 
 				selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.FIN)){
 			defTaskViewBean.setSelType(null);
+		}
+		if (selectedGroupEnum.equals(EnumList.DefTypeGroupEnum.ITM)){
+			defReferenceViewBean.setSelType(null);
 		}
 	}
 
@@ -182,6 +191,14 @@ public class DefinitionViewBean implements Serializable {
 
 	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
 		this.sessionInfoHelper = sessionInfoHelper;
+	}
+
+	public DefReferenceViewBean getDefReferenceViewBean() {
+		return defReferenceViewBean;
+	}
+
+	public void setDefReferenceViewBean(DefReferenceViewBean defReferenceViewBean) {
+		this.defReferenceViewBean = defReferenceViewBean;
 	}
 
 }

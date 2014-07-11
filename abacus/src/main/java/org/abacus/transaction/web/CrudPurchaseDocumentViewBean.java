@@ -2,6 +2,7 @@ package org.abacus.transaction.web;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +19,7 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.ReqConfirmationHandler;
+import org.abacus.transaction.core.handler.ReqOfferHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
@@ -64,34 +66,38 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{reqConfirmationHandler}")
 	private ReqConfirmationHandler reqConfirmationHandler;
-	
+
 	@ManagedProperty(value = "#{userOrganizationRepository}")
 	private UserOrganizationRepository userOrgRepo;
+	
+	@ManagedProperty(value = "#{reqOfferHandler}")
+	private ReqOfferHandler reqOfferHandler;
 
 	private ReqDocumentEntity document;
 
 	private List<ReqDetailEntity> detailList;
-	
+
 	private DefItemEntity vendor;
 	
-
+	private ReqDetailEntity selectedDetail;
+	
+	private ReqDetailOfferEntity selectedOffer;
 
 	@PostConstruct
 	private void init() {
 
 		String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
-		
+
 		String organizationId = sessionInfoHelper.currentOrganizationId();
 		String username = sessionInfoHelper.currentUserName();
-		this.vendor = userOrgRepo.findVendorByUserAndOrganization(username,organizationId);
-		
-		
+		this.vendor = userOrgRepo.findVendorByUserAndOrganization(username, organizationId);
+
 		this.findDocument(Long.valueOf(documentId));
 
 	}
-	
-	public void offerDetailSelected(){
-		
+
+	public void offerDetailSelected() {
+
 	}
 
 	private void findDocument(Long documentId) {
@@ -109,7 +115,53 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 			detailList = readDetailEvent.getDetails();
 		}
 	}
-
+	
+	public ReqDetailOfferEntity vendorOffer(ReqDetailEntity detail){
+		Set<ReqDetailOfferEntity> offerSet = detail.getOfferSet();
+		
+		ReqDetailOfferEntity offer = null;
+		if(!CollectionUtils.isEmpty(offerSet)){
+			for(ReqDetailOfferEntity coffer : offerSet){
+				if(coffer.getVendorItem().getId().equals(vendor.getId())){
+					offer = coffer;
+				}
+			}
+		}
+		
+		if(offer == null){
+			offer = this.initNewOffer(detail);
+		}
+		
+		return offer;
+		
+	}
+	
+	private ReqDetailOfferEntity initNewOffer(ReqDetailEntity detail){
+		ReqDetailOfferEntity offer = new ReqDetailOfferEntity();
+		offer.setDetail(detail);
+		offer.setVendorItem(vendor);
+		return offer;
+	}
+	
+	public void offerSelected(ReqDetailEntity detail, ReqDetailOfferEntity offer){
+		this.selectedDetail = detail;
+		this.selectedOffer = offer;
+	}
+	
+//	public void deleteOffer(ReqDetailOfferEntity offer){
+//		reqOfferHandler.deleteOffer(offer);
+//		this.findDocument(document.getId());
+//	}
+//	
+//	public void saveOffer(){
+//		OfferCreatedEvent createdEvent = reqOfferHandler.saveOffer(new CreateOfferEvent());
+//		this.findDocument(document.getId());
+//	}
+//	
+//	public void updateOffer(){
+//		OfferUpdatedEvent updatedEvent = reqOfferHandler.updateOffer(new CreateOfferEvent());
+//		this.findDocument(document.getId());
+//	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
@@ -159,6 +211,14 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 		this.reqConfirmationHandler = reqConfirmationHandler;
 	}
 
+	public UserOrganizationRepository getUserOrgRepo() {
+		return userOrgRepo;
+	}
+
+	public void setUserOrgRepo(UserOrganizationRepository userOrgRepo) {
+		this.userOrgRepo = userOrgRepo;
+	}
+
 	public ReqDocumentEntity getDocument() {
 		return document;
 	}
@@ -174,5 +234,39 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 	public void setDetailList(List<ReqDetailEntity> detailList) {
 		this.detailList = detailList;
 	}
+
+	public DefItemEntity getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(DefItemEntity vendor) {
+		this.vendor = vendor;
+	}
+
+	public ReqOfferHandler getReqOfferHandler() {
+		return reqOfferHandler;
+	}
+
+	public void setReqOfferHandler(ReqOfferHandler reqOfferHandler) {
+		this.reqOfferHandler = reqOfferHandler;
+	}
+
+	public ReqDetailEntity getSelectedDetail() {
+		return selectedDetail;
+	}
+
+	public void setSelectedDetail(ReqDetailEntity selectedDetail) {
+		this.selectedDetail = selectedDetail;
+	}
+
+	public ReqDetailOfferEntity getSelectedOffer() {
+		return selectedOffer;
+	}
+
+	public void setSelectedOffer(ReqDetailOfferEntity selectedOffer) {
+		this.selectedOffer = selectedOffer;
+	}
+	
+	
 
 }

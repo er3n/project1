@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefReferenceHandler;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefReferenceEntity;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.organization.core.handler.OrganizationHandler;
@@ -59,6 +60,9 @@ public class DefReferenceViewBean implements Serializable {
 			jsfMessageHelper.addInfo("createSuccessful","Referans");
 		} else {
 			jsfMessageHelper.addInfo("updateSuccessful","Referans");
+		}
+		if (selReference.getRefType()==null){
+			selReference.setRefType(EnumList.DefTypeEnum.VAL_CATEGORY);
 		}
 		defReferenceService.saveReferenceEntity(selReference);
 		findTypeReference();

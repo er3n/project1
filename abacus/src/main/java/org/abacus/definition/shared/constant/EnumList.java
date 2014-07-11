@@ -131,7 +131,7 @@ public interface EnumList {
 		// Parameter
 		PRM_STOCK("Stok Parametreleri", 0), //
 		// Value
-		VAL_CATEGORY("Stok Grupları", 0), //
+		VAL_CATEGORY("Grup/Kategori", 0), //
 		VAL_MEAL("Yemek Öğünleri", 0), //
 		VAL_RECEIPT("Yemek Tipleri", 0), //
 		// Item

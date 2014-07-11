@@ -5,17 +5,35 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:abc="http://www.abacus.com/abc"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
 >
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+	
 		<!-- referenceGrid -->
 			<h:panelGrid id="referenceGrid" columns="1">
 				<h:form id="referenceForm" rendered="#{definitionViewBean.selectedGroupEnum.name == 'ITM'}">
 					<p:panel id="referencePanel" header="#{definitionViewBean.selType.name} Görevleri">
 						<h:panelGrid id="referenceGrid" columns="8" cellpadding="2">
-							<h:outputLabel value="Referans Kodu:" />
-							<p:inputText value="#{defReferenceViewBean.selReference.code}"
-								required="true" requiredMessage="Reference.Code Bos olamaz"
-								validatorMessage="Reference.Code"/>
+							
+						<p:outputLabel value="Referans:" style="font-weigh: bold" rendered="false" />
+							<p:selectOneMenu value="#{defReferenceViewBean.selReference.refType}" 
+							 	style="width:145px" rendered="false" update=":referenceForm" required="true">
+								<f:selectItems value="#{DefTypeEnum}"
+									var="groupEnum" itemLabel="#{groupEnum.description}"
+									itemValue="#{groupEnum}" update=":referenceForm"/>
+							</p:selectOneMenu>
 
+							<h:outputLabel value="Kod"/>
+							<h:panelGrid columns="3" >
+								<abc:valueSelection 
+									id="materialCategorySelection" 
+									widgetVar="categorySelectionWidget" 
+									targetVar="#{defReferenceViewBean.selReference.refValue}" 
+									required="true" />
+							</h:panelGrid>
+														
 						</h:panelGrid>
 
 						<f:facet name="footer">
@@ -49,13 +67,29 @@
 							listener="#{defReferenceViewBean.referenceRowSelectListener}">
 						</p:ajax>
 
+						<p:column headerText="Tip">  
+           					#{selReference.refType.description}  
+       					</p:column>
+
 						<p:column headerText="Kod">  
-           					#{selReference.code}  
+           					#{selReference.refValue.name}  
        					</p:column>
 
 					</p:dataTable>
 
+		 
 				</h:form>
+				
 			</h:panelGrid>
 			<!-- referenceGrid -->
+
+		<abc:valueSelectionDialog 
+			id="materialCategorySelectionDialog" 
+			update=":referenceForm" 
+			widgetVar="categorySelectionWidget" 
+			targetVar="#{defReferenceViewBean.selReference.refValue}"
+			paramType="#{DefTypeEnum.VAL_CATEGORY}"
+		 />		
+		
+			
 </ui:composition>

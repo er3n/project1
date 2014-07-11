@@ -2,12 +2,15 @@ package org.abacus.definition.shared.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -26,13 +29,9 @@ public class DefReferenceEntity extends DynamicEntity {
 	@Fetch(FetchMode.JOIN)
 	private DefTypeEntity type;
 
-	@Column(name = "code", nullable = false)
-	private String code; 
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ref_type_id", nullable = true)
-	@Fetch(FetchMode.JOIN)
-	private DefTypeEntity refType;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "ref_type_id", nullable = false, length=30)
+	private EnumList.DefTypeEnum refType;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ref_value_id", nullable = true)
@@ -50,11 +49,11 @@ public class DefReferenceEntity extends DynamicEntity {
 		this.type = type;
 	}
 
-	public DefTypeEntity getRefType() {
+	public EnumList.DefTypeEnum getRefType() {
 		return refType;
 	}
 
-	public void setRefType(DefTypeEntity refType) {
+	public void setRefType(EnumList.DefTypeEnum refType) {
 		this.refType = refType;
 	}
 
@@ -74,13 +73,4 @@ public class DefReferenceEntity extends DynamicEntity {
 		this.organization = organization;
 	}
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	
 }

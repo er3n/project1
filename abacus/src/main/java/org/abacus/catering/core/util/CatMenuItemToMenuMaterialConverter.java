@@ -13,7 +13,6 @@ import org.abacus.definition.core.persistance.repository.DefItemProductRepositor
 import org.abacus.definition.core.persistance.repository.DefItemRepository;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefItemProductEntity;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

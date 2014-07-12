@@ -30,15 +30,12 @@ import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
-import org.abacus.transaction.shared.event.ReadDetailEvent;
-import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 @Service("reqTransactionHandler")
 public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocumentEntity, ReqDetailEntity> {

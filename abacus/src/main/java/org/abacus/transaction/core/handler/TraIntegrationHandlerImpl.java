@@ -7,7 +7,6 @@ import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.core.util.OrganizationUtils;
-import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;

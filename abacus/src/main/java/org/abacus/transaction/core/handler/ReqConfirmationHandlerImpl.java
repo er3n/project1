@@ -2,8 +2,6 @@ package org.abacus.transaction.core.handler;
 
 import java.util.List;
 
-import javax.persistence.EnumType;
-
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;

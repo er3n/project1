@@ -8,13 +8,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.util.CollectionUtils;
 
 @Entity
 @Table(name = "tra_detail")

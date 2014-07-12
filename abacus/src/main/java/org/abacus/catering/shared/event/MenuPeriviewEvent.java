@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
 public class MenuPeriviewEvent {
 

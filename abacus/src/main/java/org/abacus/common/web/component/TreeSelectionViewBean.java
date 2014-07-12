@@ -1,7 +1,6 @@
 package org.abacus.common.web.component;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +13,6 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -51,6 +48,9 @@ public class TreeSelectionViewBean implements Serializable {
 				rootNode.getChildren().add(selNode);
 			} else {
 				TreeNode parNode = valMap.get(valDto.getParent().getId());
+				if (parNode==null){
+					parNode = rootNode;
+				}
 				parNode.getChildren().add(selNode);
 			}
 		}

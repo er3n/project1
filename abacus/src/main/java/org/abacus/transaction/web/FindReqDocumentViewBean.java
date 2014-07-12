@@ -13,7 +13,6 @@ import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.transaction.core.handler.ReqConfirmationHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
@@ -22,7 +21,6 @@ import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
-import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 @ManagedBean

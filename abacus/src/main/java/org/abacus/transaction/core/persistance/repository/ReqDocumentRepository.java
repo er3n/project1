@@ -1,7 +1,6 @@
 package org.abacus.transaction.core.persistance.repository;
 
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
-import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

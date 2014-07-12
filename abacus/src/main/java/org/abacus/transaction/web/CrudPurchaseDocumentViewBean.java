@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
@@ -24,24 +23,12 @@ import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
-import org.abacus.transaction.shared.event.ConfirmDocumentEvent;
-import org.abacus.transaction.shared.event.CreateDetailEvent;
-import org.abacus.transaction.shared.event.CreateDocumentEvent;
-import org.abacus.transaction.shared.event.DeleteDetailEvent;
-import org.abacus.transaction.shared.event.DetailCreatedEvent;
-import org.abacus.transaction.shared.event.DetailDeletedEvent;
-import org.abacus.transaction.shared.event.DetailUpdatedEvent;
-import org.abacus.transaction.shared.event.DocumentCreatedEvent;
-import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
-import org.abacus.transaction.shared.event.UpdateDetailEvent;
-import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
-import org.abacus.user.shared.entity.SecUserOrganizationEntity;
 import org.springframework.util.CollectionUtils;
 
 @SuppressWarnings("serial")

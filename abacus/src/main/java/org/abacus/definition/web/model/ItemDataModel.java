@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.faces.context.FacesContext;
 
 import org.abacus.definition.core.handler.DefItemHandler;
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;

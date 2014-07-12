@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.faces.bean.ManagedProperty;
-
 import org.abacus.catering.core.persistance.DefMenuDao;
 import org.abacus.catering.core.persistance.repository.MenuItemRepository;
 import org.abacus.catering.core.persistance.repository.MenuRepository;
@@ -37,15 +35,11 @@ import org.abacus.catering.shared.holder.MenuSummary;
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
-import org.abacus.organization.shared.entity.FiscalPeriodEntity;
-import org.abacus.transaction.core.handler.StkTransactionHandlerImpl;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;

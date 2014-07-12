@@ -217,14 +217,14 @@
 							<pe:inputNumber
 								decimalPlaces="3" style="text-align: right;" 
 								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
+								required="true" requiredMessage="Miktar boş olamaz." />
 
 							<p:outputLabel value="Toplam Tutar" rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
 							<pe:inputNumber
 								decimalPlaces="2" style="text-align: right;" 
 								rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
+								required="true" requiredMessage="Toplam tutar boş olamaz." />
 
 							<p:outputLabel value="Son Kullanma Tarihi" rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
 							<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
@@ -269,13 +269,13 @@
 							<pe:inputNumber
 								decimalPlaces="3" style="text-align: right;" 
 								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
+								required="true" requiredMessage="Miktar boş olamaz." />
 								
 							<p:outputLabel value="Toplam Tutar" />
 							<pe:inputNumber
 								decimalPlaces="2" style="text-align: right;" 
 								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
+								required="true" requiredMessage="Toplam tutar boş olamaz." />
 
 
 							<p:outputLabel value="Not" style="font-weigh: bold" />

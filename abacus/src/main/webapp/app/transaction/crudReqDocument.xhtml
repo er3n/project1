@@ -207,7 +207,7 @@
 							<pe:inputNumber
 								decimalPlaces="3" style="text-align: right;" 
 								value="#{crudReqDocumentViewBean.selectedDetail.itemDetailCount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
+								required="true" requiredMessage="Miktar boş olamaz." />
 
 							<p:outputLabel value="Toplam Tutar"
 								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}" />
@@ -215,7 +215,7 @@
 								decimalPlaces="2" style="text-align: right;" 
 								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudReqDocumentViewBean.selectedDetail.baseDetailAmount}"
-								required="true" requiredMessage="Seri numarası boş olamaz." />
+								required="true" requiredMessage="Toplam tutar boş olamaz." />
 
 							<p:outputLabel value="Son Kullanma Tarihi"
 								rendered="${crudReqDocumentViewBean.isTaskSelectedState(1)}" />

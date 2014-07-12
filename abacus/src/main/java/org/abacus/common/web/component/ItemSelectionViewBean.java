@@ -60,6 +60,12 @@ public class ItemSelectionViewBean implements Serializable {
 		}
 	}
 
+	public String getTypeName(EnumList.DefTypeEnum itemType){
+		if (itemType==null){
+			return "???";
+		}
+		return itemType.getDescription();
+	}
 	
 	@PostConstruct
 	public void init() {

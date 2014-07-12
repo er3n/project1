@@ -36,7 +36,7 @@
 							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
 							<f:selectItems value="#{crudFinDocumentViewBean.finTaskList}"
 								var="var" itemLabel="#{var.name}" itemValue="#{var}" />
-							<p:ajax event="change" update=":crudDocumentFrm" process="@this" />
+							<p:ajax event="change" update=":crudDocumentFrm :vendorSelectionDialog :finItemSelectionDialog" process="@this" />
 						</p:selectOneMenu>
 
 						<p:outputLabel id="firmaIdLabel" value="Hesap"

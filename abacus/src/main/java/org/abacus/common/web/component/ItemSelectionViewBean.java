@@ -32,6 +32,9 @@ public class ItemSelectionViewBean implements Serializable {
 	private Map<String, List<String>> typeFilterMap = new HashMap<>();
 
 	public ItemDataModel getItemDataModel(EnumList.DefTypeEnum itemType, EnumList.DefItemClassEnum itemClass) {
+		if (itemType==null){
+			return new ItemDataModel(new ItemSearchCriteria(null,null,null));
+		}
 		String key = itemType.getName()+((itemClass==null)?"":"-"+itemClass.name());
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
@@ -43,6 +46,9 @@ public class ItemSelectionViewBean implements Serializable {
 	}
 
 	public List<String> getTypeFilter(EnumList.DefTypeEnum itemType) {
+		if (itemType==null){
+			return new ArrayList<String>();
+		}
 		String key = itemType.getName();
 		if (typeFilterMap.containsKey(key)) {
 			return typeFilterMap.get(key);

@@ -49,6 +49,8 @@ public class DefItemDao implements Serializable {
 		if(searchCriteria.getOrganization()!=null){
 			List<OrganizationEntity> list = searchCriteria.getOrganization().getParentList();
 			criteria.add(Restrictions.in("i.organization", list));
+		} else {
+			criteria.add(Restrictions.eq("i.organization.id", "*"));
 		}
 		if(searchCriteria.getItemType() != null){
 			criteria.add(Restrictions.like("i.type.id", searchCriteria.getItemType().name()+"%"));

@@ -10,6 +10,8 @@ public interface DefValueHandler extends Serializable{
 
 	List<DefValueEntity> getValueList(String organizationId, EnumList.DefTypeEnum typeEnum);
 
+	List<DefValueEntity> getValueList(String organizationId, EnumList.DefTypeEnum typeEnum, EnumList.DefTypeEnum itemEnum);
+
 	DefValueEntity saveValueEntity(DefValueEntity entity);
 	
 	void deleteValueEntity(DefValueEntity entity);

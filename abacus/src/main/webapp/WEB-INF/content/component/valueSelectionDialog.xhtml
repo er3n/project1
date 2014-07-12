@@ -10,9 +10,9 @@
 	<p:dialog widgetVar="#{widgetVar}" resizable="true" showEffect="fade" closeOnEscape="true" dynamic="true" modal="true" height="400px" width="600px">
 
 		<f:facet name="header">
-			<h:outputText value="#{paramType.getDescription()} Seçiniz" />
+			<h:outputText value="#{paramType.getDescription()}  :  #{paramItem.getDescription()}" />
 		</f:facet>
-		<p:dataTable var="val" value="#{valueSelectionViewBean.getValueList(paramType)}" widgetVar="#{widgetVar}_DT" paginator="true" rows="10">
+		<p:dataTable var="val" value="#{valueSelectionViewBean.getValueList(paramType, paramItem)}" widgetVar="#{widgetVar}_DT" paginator="true" rows="10">
 
 			<p:column headerText="Kod" filterBy="#{val.code}" filterMatchMode="contains">
 				<h:outputText value="#{val.code}" />

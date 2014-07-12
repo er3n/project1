@@ -8,7 +8,8 @@
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
 	template="/WEB-INF/content/template/simple.xhtml"
-	xmlns:abc="http://www.abacus.com/abc">
+	xmlns:abc="http://www.abacus.com/abc"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<ui:define name="content">
 
@@ -213,12 +214,15 @@
 							</p:selectOneMenu>
 
 							<p:outputLabel value="Miktar" />
-							<p:inputText
+							<pe:inputNumber
+								decimalPlaces="3" style="text-align: right;" 
 								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
 							<p:outputLabel value="Toplam Tutar" rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"/>
-							<p:inputText  rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
+							<pe:inputNumber
+								decimalPlaces="2" style="text-align: right;" 
+								rendered="${crudStkDocumentViewBean.isTaskSelectedState(1)}"
 								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 
@@ -262,12 +266,14 @@
 							</h:panelGrid>
 
 							<p:outputLabel value="Miktar" />
-							<p:inputText
+							<pe:inputNumber
+								decimalPlaces="3" style="text-align: right;" 
 								value="#{crudStkDocumentViewBean.selectedDetail.itemDetailCount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 								
 							<p:outputLabel value="Toplam Tutar" />
-							<p:inputText
+							<pe:inputNumber
+								decimalPlaces="2" style="text-align: right;" 
 								value="#{crudStkDocumentViewBean.selectedDetail.baseDetailAmount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 

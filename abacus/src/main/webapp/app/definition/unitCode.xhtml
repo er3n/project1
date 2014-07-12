@@ -5,6 +5,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 >
 		<!-- unitCodeGrid -->
 			<h:panelGrid id="unitCodeGrid" columns="1">
@@ -23,11 +24,11 @@
 								validatorMessage="UnitCode.Ack" />
 
 							<h:outputLabel value="Katsayı / Çarpan : " />
-							<p:inputText value="#{unitCodeViewBean.selUnitCode.ratio}"
+							<pe:inputNumber value="#{unitCodeViewBean.selUnitCode.ratio}"
 								required="true" requiredMessage="UnitCode Katsayi bos olamaz"
+								decimalPlaces="3" style="text-align: right;" 
 								validatorMessage="UnitCode.ratio">
-							<f:validateDoubleRange minimum="0.001" maximum="1000000"/>
-							</p:inputText>
+							</pe:inputNumber>
 
 						</h:panelGrid>
 
@@ -43,7 +44,7 @@
 								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
 							</p:commandButton>
 							<p:commandButton id="clearUnitCode" update=":unitCodeForm"
-								ajax="true"
+								ajax="true" 
 								value="#{unitCodeViewBean.selUnitCode.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{unitCodeViewBean.createUnitCode}" process="@this">
 								<p:resetInput target=":unitCodeForm"/>
@@ -71,10 +72,7 @@
        					</p:column>
 
 						<p:column headerText="Katsayı / Çarpan"> 
-						    <h:outputText value="#{selUnitCode.ratio}" style="float: right;">
-        						<f:convertNumber maxFractionDigits="3" minFractionDigits="3" groupingUsed="true"
-            						currencySymbol="#" type="currency" />
-   							</h:outputText> 
+						    <h:outputText value="#{selUnitCode.ratio}" decimalPlaces="3" style="float: right;" />
        					</p:column>
 
 					</p:dataTable>

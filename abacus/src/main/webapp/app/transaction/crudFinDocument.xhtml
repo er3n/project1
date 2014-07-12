@@ -8,7 +8,8 @@
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
 	template="/WEB-INF/content/template/simple.xhtml"
-	xmlns:abc="http://www.abacus.com/abc">
+	xmlns:abc="http://www.abacus.com/abc"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<ui:define name="content">
 
@@ -107,7 +108,7 @@
 					</p:column>
 
 					<p:column headerText="Borç Tutar" style="text-align: right; width:100px">
-						<p:outputLabel value="#{var.getDebitAmount()}" />
+						<p:outputLabel value="#{var.getDebitAmount()}" style="text-align: right;" />
 					</p:column>
 
 					<p:column headerText="Alacak Tutar" style="text-align: right; width:100px">
@@ -153,7 +154,8 @@
 							</h:panelGrid>
 
 							<p:outputLabel value="Tutar" />
-							<p:inputText
+							<pe:inputNumber
+								decimalPlaces="2" style="text-align: right;" 
 								value="#{crudFinDocumentViewBean.selectedDetail.baseDetailAmount}"
 								required="true" requiredMessage="Seri numarası boş olamaz." />
 

@@ -1,16 +1,15 @@
 body {
 	padding: 0px;
 	margin: 0 auto;
-}
-
+} 
+ 
 .mainPage{
-	width:1000px	
+	width:1000px;
 }
-
+ 
 .ui-widget,.ui-widget .ui-widget {
 	font-size: 11px !important;
 }
-
 tr {
 	vertical-align: top;
 	text-align: left;
@@ -20,6 +19,7 @@ tr {
 	margin: 5px 0 10px 0;
 }
 
+
 html,body {
 	height: 100%;
 }
@@ -28,13 +28,13 @@ html,body {
 	min-height: 100%;
 }
 
-#main {
+#main {  
 	overflow: auto;
 	padding-bottom: 35px;
-} /* must be same height as the footer */
+} 
 #footer {
 	position: relative;
-	margin-top: -30px; /* negative value of footer height */
+	margin-top: -30px; 
 	height: 30px;
 	clear: both;
 	text-align:center;
@@ -42,12 +42,12 @@ html,body {
 	border-top:1px dotted;
 	
 }  
-/*Opera Fix*/
+
 body:before {
 	content: "";
 	height: 100%;
 	float: left;
 	width: 0;
 	margin-top: -32767px;
-	/
+	
 }

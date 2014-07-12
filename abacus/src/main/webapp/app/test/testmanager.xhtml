@@ -11,65 +11,30 @@
 	xmlns:abc="http://www.abacus.com/abc">
 
 	<ui:define name="content">
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JRList" />
-		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.JRExport" />
-			
-		<style> .topAligned { vertical-align: top;} </style>
-			
-		<h:form id="testForm">
-
-			<p:commandButton value="Stok Test Kaydı Oluştur"
-				actionListener="#{testViewBean.openTestDocDialog}">
-			</p:commandButton>
-
-					<h:panelGrid  id = "documentFinId" columns="1">
-						<abc:documentFinSelection id="documentFinSelectionInput"
-								widgetVar="documentFinSelectionWdg1" dialogId="documentFinSelectionDialog1"
-								targetVar="#{testViewBean.documentFinEntity}"
-								required="false" />
-					</h:panelGrid>
-
-					<h:panelGrid  id = "documentStkId" columns="1">
-						<abc:documentStkSelection id="documentStkSelectionInput"
-								widgetVar="documentStkSelectionWdg1" dialogId="documentStkSelectionDialog1"
-								targetVar="#{testViewBean.documentStkEntity}"
-								required="false" />
-					</h:panelGrid>
 
 
-			<h:commandButton value="Open PDF" 
-				action="${jasperReportBean.downloadReport(JRList.JRUser, JRExport.PDF)}" ajax=false>
-			</h:commandButton>
-			
-    		<h:commandLink value="Download PDF" action="${jasperReportBean.downloadReport(JRList.JRUser, JRExport.PDF)}" target="_blank" />
+		<h:form id="form">
+			<h:outputText id="out" value="#{globalCounterView.count}"
+				styleClass="ui-widget display" />
 
-
+			<p:commandButton value="Click"
+				actionListener="#{globalCounterView.increment}" />
 		</h:form>
-	
-	</ui:define>
-	
-	<ui:define name="model">
 
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
-				
-		<abc:documentFinSelectionDialog 
-			id="documentFinSelectionDialog1"
-			update=":testForm" 
-			widgetVar="documentFinSelectionWdg1"
-			paramType="#{DefTypeEnum.FIN_P}"
-			targetVar="#{testViewBean.documentFinEntity}" 
-			rendered="true"/>			
+		<p:socket onMessage="handleMessage" channel="/counter" /> 
 
-		<abc:documentStkSelectionDialog 
-			id="documentStkSelectionDialog1"
-			update=":testForm" 
-			widgetVar="documentStkSelectionWdg1"
-			paramType="#{DefTypeEnum.STK_IO}"
-			targetVar="#{testViewBean.documentStkEntity}" 
-			rendered="true"/>			
+		<script type="text/javascript">
+			function handleMessage(data) {
+				$('.display').html(data);
+			} 
+		</script> 
+
+
+
+
 
 	</ui:define>
-	
+
+
 
 </ui:composition>

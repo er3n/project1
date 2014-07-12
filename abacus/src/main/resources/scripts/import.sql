@@ -72,7 +72,7 @@ insert into def_type (id, name, level, tr_state_type) values ('FIN_R', 'Tahsilat
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Stok Malzeme/Ürün', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Gider Hesapları', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_CU', 'Müşteri Hesapları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_VE', 'Firma Hesapları', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_VE', 'Satıcı Hesapları', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_PE', 'Personel Hesapları', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_CS', 'Parasal Hesaplar', 1, 0);
 commit;

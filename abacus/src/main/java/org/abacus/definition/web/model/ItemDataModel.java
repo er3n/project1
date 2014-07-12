@@ -70,8 +70,8 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 		searchCriteria.setCodeLike(null);
 		searchCriteria.setNameLike(null);
 		searchCriteria.setStatus(null);
-		searchCriteria.setCategoryCodeLike(null);
-		searchCriteria.setFilterType(null);
+		searchCriteria.setCategoryNameLike(null);
+		searchCriteria.setFilterTypeDesc(null);
 	}
 
 	private void addFilters(Map<String, Object> filters){
@@ -87,13 +87,13 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 					searchCriteria.setNameLike((String)filters.get(name));
 				}
 				if(name.equals("category")){
-					searchCriteria.setCategoryCodeLike((String)filters.get(name));
+					searchCriteria.setCategoryNameLike((String)filters.get(name));
 				}
 				if(name.equals("active")){
 					searchCriteria.setStatus((Boolean)filters.get(name));
 				}
 				if(name.equals("filterTypeDesc")){
-					searchCriteria.setFilterType((String)filters.get(name));
+					searchCriteria.setFilterTypeDesc((String)filters.get(name));
 				}
 			}
 			

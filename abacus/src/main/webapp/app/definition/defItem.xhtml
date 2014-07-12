@@ -65,7 +65,7 @@
 
 					<h:outputLabel value="Kategori"/>
 					<h:panelGrid columns="3">
-						<abc:valueSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{itemViewBean.selectedItem.category}" required="true" />
+						<abc:treeSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{itemViewBean.selectedItem.category}" required="true" />
 					</h:panelGrid>
 
 					<h:outputLabel value="Birim Grubu" for="itemUnit" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_SR_ST}" />
@@ -180,7 +180,7 @@
 			targetVar="#{itemViewBean.selectedItemProduct.materialItem}" 
 			rendered="#{itemViewBean.displayProductInfo}" />
 		
-		<abc:valueSelectionDialog 
+		<abc:treeSelectionDialog 
 			update=":itemDetails:materialCategorySelection" 
 			id="materialCategorySelectionDialog" 
 			widgetVar="categorySelectionWidget" 

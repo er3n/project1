@@ -27,7 +27,7 @@
 
 							<h:outputLabel value="Kod"/>
 							<h:panelGrid columns="3" >
-								<abc:valueSelection 
+								<abc:treeSelection 
 									id="materialCategorySelection" 
 									widgetVar="categorySelectionWidget" 
 									targetVar="#{defReferenceViewBean.selReference.refValue}" 
@@ -83,7 +83,7 @@
 			</h:panelGrid>
 			<!-- referenceGrid -->
 
-		<abc:valueSelectionDialog 
+		<abc:treeSelectionDialog 
 			id="materialCategorySelectionDialog" 
 			update=":referenceForm" 
 			widgetVar="categorySelectionWidget" 

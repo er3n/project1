@@ -1,0 +1,115 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/content/template/simple.xhtml"
+	xmlns:abc="http://www.abacus.com/abc" 
+	xmlns:o="http://omnifaces.org/ui" 
+	xmlns:of="http://omnifaces.org/functions" 
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="content">
+		<style> .topAligned { vertical-align: top;} </style>
+		<h:panelGrid id="mainGrid" columns="1">
+
+			<h:panelGrid id="mealGrid" columns="1">
+				<h:form id="mealForm">
+				
+					<p:panel id="mealPanel" header="#{catMealViewBean.organization.name} Öğün Tanımları" >
+
+						<h:panelGrid id="mealGrid" columns="8" cellpadding="0">
+
+							<h:outputLabel value="Öğün : " />
+							<abc:valueSelection id="valMealSelection" 
+								widgetVar="valMealSelectionWidget" 
+								targetVar="#{catMealViewBean.selCatMeal.meal}" 
+								required="true" />
+
+							<h:outputLabel value="Adet : " />
+							<pe:inputNumber 
+								decimalPlaces="3" style="text-align: right;"
+								value="#{catMealViewBean.selCatMeal.countPrepare}"
+								required="true" requiredMessage="meal.Adet Bos olamaz"
+								validatorMessage="meal.count" />
+
+							<h:outputLabel value="Miktar : " />
+							<pe:inputNumber 
+								decimalPlaces="2" style="text-align: right;"
+								value="#{catMealViewBean.selCatMeal.unitPrice}"
+								required="true" requiredMessage="meal.Miktar Bos olamaz"
+								validatorMessage="meal.price" />
+
+						</h:panelGrid>
+
+						<f:facet name="footer">
+							<p:commandButton id="saveMeal" update=":mealForm" 
+								ajax="true"
+								value="#{catMealViewBean.selCatMeal.id == null ? 'Kaydet' : 'Guncelle'}"
+								actionListener="#{catMealViewBean.saveCatMeal}" />
+							<p:commandButton id="deleteOrganization" update=":mealForm"
+								ajax="true"
+								value="#{catMealViewBean.selCatMeal.id == null ? '-' : 'Sil'}"
+								actionListener="#{catMealViewBean.deleteCatMeal}"
+								immediate="true">
+								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+							</p:commandButton>
+							<p:commandButton id="clearOrganization" update=":mealForm"
+								ajax="true"
+								value="#{catMealViewBean.selCatMeal.id == null ? 'Temizle' : 'Yeni Kayit'}"
+								actionListener="#{catMealViewBean.clearCatMeal}" process="@this"
+								>
+								<p:resetInput target=":mealForm" />
+							</p:commandButton>
+						</f:facet>
+					</p:panel>
+
+					<p:dataTable id="mealTable" var="selCatMeal"
+						value="#{catMealViewBean.catMealList}"
+						selection="#{catMealViewBean.selCatMeal}"
+						emptyMessage="Kayit Bulanamadi" selectionMode="single"
+						paginator="true" paginatorPosition="bottom" rowKey="#{selCatMeal.id}"
+						rows="10" resizableColumns="true">
+
+						<p:ajax event="rowSelect" update=":mealForm"
+							listener="#{catMealViewBean.catMealRowSelectListener}">
+						</p:ajax>
+
+						<p:column headerText="Öğün">  
+           					#{selCatMeal.meal.code} #{selCatMeal.meal.name}  
+       					</p:column>
+
+						<p:column headerText="Adet">  
+           					#{selCatMeal.countPrepare}  
+       					</p:column>
+
+						<p:column headerText="Tutar">  
+           					#{selCatMeal.unitPrice}  
+       					</p:column>
+
+					</p:dataTable>
+
+				</h:form>
+			</h:panelGrid>
+			<!-- Grid -->
+
+		</h:panelGrid>
+	</ui:define>
+
+	<ui:define name="model">
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+	
+	<abc:valueSelectionDialog 
+			update=":mealForm:valMealSelection" 
+			id="valMealSelectionDialog" 
+			widgetVar="valMealSelectionWidget" 
+			targetVar="#{catMealViewBean.selCatMeal.meal}"
+			paramType="#{DefTypeEnum.VAL_MEAL}"
+		 />
+
+	</ui:define> 
+	
+	
+</ui:composition>

@@ -50,12 +50,12 @@ public class DefMenuDao {
 		
 		Criteria criteria = session.createCriteria(CatMealFilterEntity.class,"m");
 		criteria.createAlias("m.meal","meal");
-		if(searchCriteria.getStartDate() != null){
-			criteria.add(Restrictions.le("m.dateStart", searchCriteria.getStartDate()));
-		}
-		if(searchCriteria.getEndDate() != null){
-			criteria.add(Restrictions.ge("m.dateFinish", searchCriteria.getEndDate()));
-		}
+//		if(searchCriteria.getStartDate() != null){
+//			criteria.add(Restrictions.le("m.dateStart", searchCriteria.getStartDate()));
+//		}
+//		if(searchCriteria.getEndDate() != null){
+//			criteria.add(Restrictions.ge("m.dateFinish", searchCriteria.getEndDate()));
+//		}
 		if(StringUtils.hasText(searchCriteria.getOrganization())){
 			criteria.add(Restrictions.eq("m.organization.id", searchCriteria.getOrganization()));
 		}

@@ -174,9 +174,9 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_RECEIPT', null, 'T0010', 'Özel Yemek', 1, 0);
 commit;
 
-insert into cat_meal_filter (id, version, date_start, date_finish, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-31', (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='1' and organization_id='#'), '#.#', 150);
-insert into cat_meal_filter (id, version, date_start, date_finish, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-31', (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='2' and organization_id='#'), '#.#', 200);
-insert into cat_meal_filter (id, version, date_start, date_finish, meal_id, organization_id, count_prepare) values (nextval('seq_id'), 0, DATE '2014-01-01', DATE '2014-12-31', (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='3' and organization_id='#'), '#.#', 175);
+insert into cat_meal_filter (id, version, meal_id, organization_id, count_prepare, unit_price) values (nextval('seq_id'), 0, (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='1' and organization_id='#'), '#.#', 150, 3.0);
+insert into cat_meal_filter (id, version, meal_id, organization_id, count_prepare, unit_price) values (nextval('seq_id'), 0, (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='2' and organization_id='#'), '#.#', 200, 5.0);
+insert into cat_meal_filter (id, version, meal_id, organization_id, count_prepare, unit_price) values (nextval('seq_id'), 0, (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='3' and organization_id='#'), '#.#', 175, 7.5);
 commit;
 
 

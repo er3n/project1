@@ -29,17 +29,12 @@ public class CatMealFilterEntity extends DynamicEntity {
 	@JoinColumn(name = "meal_id", nullable = false)
 	private DefValueEntity meal;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date_start", nullable = false)
-	private Date dateStart;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date_finish", nullable = false)
-	private Date dateFinish;
-
 	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
 	private BigDecimal countPrepare;
-	
+
+	@Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
+	private BigDecimal unitPrice;
+
 	public OrganizationEntity getOrganization() {
 		return organization;
 	}
@@ -56,22 +51,6 @@ public class CatMealFilterEntity extends DynamicEntity {
 		this.meal = meal;
 	}
 
-	public Date getDateStart() {
-		return dateStart;
-	}
-
-	public void setDateStart(Date dateStart) {
-		this.dateStart = dateStart;
-	}
-
-	public Date getDateFinish() {
-		return dateFinish;
-	}
-
-	public void setDateFinish(Date dateFinish) {
-		this.dateFinish = dateFinish;
-	}
-
 	public BigDecimal getCountPrepare() {
 		return countPrepare;
 	}
@@ -80,5 +59,12 @@ public class CatMealFilterEntity extends DynamicEntity {
 		this.countPrepare = countPrepare;
 	}
 
-	
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
 }

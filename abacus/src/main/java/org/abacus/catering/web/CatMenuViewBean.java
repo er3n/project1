@@ -256,10 +256,10 @@ public class CatMenuViewBean implements Serializable {
 	}
 
 	public boolean isMealActiveAtGivenDate(CatMealFilterEntity filter, Date date) {
-		if (filter.getDateStart().before(date) && filter.getDateFinish().after(date)) {
-			return true;
-		}
-		return false;
+//		if (filter.getDateStart().before(date) && filter.getDateFinish().after(date)) {
+//			return true;
+//		}
+		return true;
 	}
 
 	public void menuDateSelected() {

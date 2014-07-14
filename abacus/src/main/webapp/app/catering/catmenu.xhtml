@@ -183,6 +183,10 @@
 						<h:outputLabel value="#{menuItem.unit.name}"></h:outputLabel>
 					</p:column>
 
+					<p:column headerText="Miktar" style="text-align: right; width:60px">
+						<h:outputLabel value="#{menuItem.unitItemCount}"></h:outputLabel>
+					</p:column>
+
 					<p:column headerText="Islem">
 						<p:commandButton icon="ui-icon-close"
 							action="#{catMenuViewBean.removeMenuItemFromMenu(menuItem)}"
@@ -193,12 +197,12 @@
 
 				<p:spacer width="5px" />
 
-				<h:panelGrid columns="5" id="itemSelectionGrid">
+				<h:panelGrid columns="8" id="itemSelectionGrid">
 					<abc:itemSelection id="itemSelectionInput"
 						widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog"
 						targetVar="#{catMenuViewBean.selectedItem}" />
 					<p:selectOneMenu value="#{catMenuViewBean.selectedUnit}"
-						converter="omnifaces.SelectItemsConverter" style="width:145px"
+						converter="omnifaces.SelectItemsConverter" style="width:120px"
 						required="true" requiredMessage="Birim bos olamaz"
 						rendered="#{not empty catMenuViewBean.selectedItem}">
 						<f:selectItem itemLabel="Birim Seciniz..." itemValue="" />
@@ -206,7 +210,11 @@
 							var="unit" itemLabel="#{unit.unitCode.name}"
 							itemValue="#{unit.unitCode}" />
 					</p:selectOneMenu>
-					<p:commandButton value="ekle"
+					<pe:inputNumber 
+						decimalPlaces="3" style="text-align: right; width:60px"
+						value="#{catMenuViewBean.selectedUnitItemCount}"
+						required="false"/>
+					<p:commandButton value="Ekle"
 						actionListener="#{catMenuViewBean.addItemToMenu}"
 						update=":menuDialogFrm:menuItems" process="@form" />
 				</h:panelGrid>

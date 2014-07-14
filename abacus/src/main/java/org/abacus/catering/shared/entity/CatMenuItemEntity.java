@@ -30,8 +30,8 @@ public class CatMenuItemEntity extends DynamicEntity {
 	@JoinColumn(name = "unit_id", nullable = false)
 	private DefUnitCodeEntity unit;
 
-	@Column(name = "menu_item_count", nullable = false, precision = 10, scale = 3)
-	private BigDecimal menuItemCount = BigDecimal.ONE;
+	@Column(name = "unit_item_count", nullable = false, precision = 10, scale = 3)
+	private BigDecimal unitItemCount;
 	
 	public DefUnitCodeEntity getUnit() {
 		return unit;
@@ -57,12 +57,12 @@ public class CatMenuItemEntity extends DynamicEntity {
 		this.item = item;
 	}
 
-	public BigDecimal getMenuItemCount() {
-		return menuItemCount;
+	public BigDecimal getUnitItemCount() {
+		return unitItemCount;
 	}
 
-	public void setMenuItemCount(BigDecimal menuItemCount) {
-		this.menuItemCount = menuItemCount;
+	public void setUnitItemCount(BigDecimal unitItemCount) {
+		this.unitItemCount = unitItemCount;
 	}
 
 }

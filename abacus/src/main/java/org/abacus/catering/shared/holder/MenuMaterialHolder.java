@@ -8,6 +8,7 @@ import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 public class MenuMaterialHolder {
 	private DefItemEntity item;
 	private DefUnitCodeEntity unit;
+	private BigDecimal unitItemCount;
 	private BigDecimal countSpend;
 
 	public DefItemEntity getItem() {
@@ -32,6 +33,14 @@ public class MenuMaterialHolder {
 
 	public void setCountSpend(BigDecimal countSpend) {
 		this.countSpend = countSpend;
+	}
+
+	public BigDecimal getUnitItemCount() {
+		return unitItemCount;
+	}
+
+	public void setUnitItemCount(BigDecimal unitItemCount) {
+		this.unitItemCount = unitItemCount;
 	}
 
 }

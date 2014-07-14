@@ -42,13 +42,13 @@ public class CatMenuItemToMenuMaterialConverter {
 			
 			Set<DefItemProductEntity> regends = itemProductRepository.findItemProducts(menuItem.getItem().getId());
 			if(CollectionUtils.isEmpty(regends)){
-				
-				putMaterial(menuMetarialSet, menuItem,countSpend);
+				//malzeme
+				putMaterial(menuMetarialSet, menuItem, menuItem.getUnitItemCount(), countSpend);
 				
 			}else{
-				
+				//urunun icerigindeki malzemeler
 				for(DefItemProductEntity regend : regends){
-					putMaterial(menuMetarialSet, regend, countSpend);
+					putMaterial(menuMetarialSet, regend, menuItem.getUnitItemCount(), countSpend);
 				}	
 				
 			}	
@@ -57,23 +57,25 @@ public class CatMenuItemToMenuMaterialConverter {
 		return menuMetarialSet;
 	}
 
+	//urunun icerigindeki malzemeler
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, DefItemProductEntity regend, BigDecimal countSpend) {
+	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, DefItemProductEntity regend, BigDecimal unitItemCount, BigDecimal countSpend) {
 		MenuMaterialHolder holder = new MenuMaterialHolder();
 		DefItemEntity item = itemRepository.findWithFetch(regend.getMaterialItem().getId());
 		holder.setItem(item);
 		holder.setUnit(regend.getMaterialUnitCode());
-		countSpend = countSpend.multiply(regend.getMaterialCount());
+		countSpend = countSpend.multiply(unitItemCount).multiply(regend.getMaterialCount());
 		holder.setCountSpend(countSpend);
 		menuMetarialList.add(holder);
 	}
 
+	//malzeme
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, CatMenuItemEntity menuItem, BigDecimal countSpend) {
+	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, CatMenuItemEntity menuItem, BigDecimal unitItemCount, BigDecimal countSpend) {
 		MenuMaterialHolder holder = new MenuMaterialHolder();
 		holder.setItem(menuItem.getItem());
 		holder.setUnit(menuItem.getUnit());
-		holder.setCountSpend(countSpend);
+		holder.setCountSpend(countSpend.multiply(unitItemCount));
 		menuMetarialList.add(holder);
 	}
 

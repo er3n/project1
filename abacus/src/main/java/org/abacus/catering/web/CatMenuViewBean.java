@@ -72,6 +72,8 @@ public class CatMenuViewBean implements Serializable {
 
 	private DefUnitCodeEntity selectedUnit;
 
+	private BigDecimal selectedUnitItemCount;
+
 	private DepartmentEntity consumedDeparment;
 
 	private MenuPeriviewEvent menuPreviewEvent;
@@ -201,6 +203,7 @@ public class CatMenuViewBean implements Serializable {
 		menuItem.setMenu(selectedMenu);
 		menuItem.setItem(selectedItem);
 		menuItem.setUnit(selectedUnit);
+		menuItem.setUnitItemCount(selectedUnitItemCount==null?BigDecimal.ONE:selectedUnitItemCount);
 
 		if (CollectionUtils.isEmpty(menuItemSet)) {
 			menuItemSet = new HashSet<>();
@@ -213,7 +216,6 @@ public class CatMenuViewBean implements Serializable {
 		} else {
 			jsfMessageHelper.addError("itemExistsInMenu");
 		}
-
 	}
 
 	private boolean validateAddItemToMenu(Set<CatMenuItemEntity> menuItemSet) {
@@ -393,6 +395,14 @@ public class CatMenuViewBean implements Serializable {
 
 	public void setSelectedDetailServiceType(EnumList.DefTypeEnum selectedDetailServiceType) {
 		this.selectedDetailServiceType = selectedDetailServiceType;
+	}
+
+	public BigDecimal getSelectedUnitItemCount() {
+		return selectedUnitItemCount;
+	}
+
+	public void setSelectedUnitItemCount(BigDecimal selectedUnitItemCount) {
+		this.selectedUnitItemCount = selectedUnitItemCount;
 	}
 
 }

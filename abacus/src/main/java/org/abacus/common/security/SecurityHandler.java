@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -62,7 +63,9 @@ public class SecurityHandler implements UserDetailsService {
 		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findCompanyFiscalYearSet(defaultOrganization);
 		FiscalYearEntity defaultFiscalYear = organizationUtils.findDefaultFiscalYear(companyFiscalYearSet);
 		
-		secUser.init(userOrganizationList, defaultOrganization,companyFiscalYearSet,defaultFiscalYear);
+		DefItemEntity vendor = user.getVendor();
+		
+		secUser.init(userOrganizationList, defaultOrganization,companyFiscalYearSet,defaultFiscalYear,vendor);
 
 		return secUser;
 	}

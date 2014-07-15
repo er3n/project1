@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
@@ -23,14 +24,19 @@ import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
+import org.abacus.transaction.shared.event.CreateOfferEvent;
+import org.abacus.transaction.shared.event.OfferCreatedEvent;
+import org.abacus.transaction.shared.event.OfferUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.UpdateOfferEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
 import org.springframework.util.CollectionUtils;
 
+//TODO Request guncellenmek istendiginde teklif durumu kontrol edilmelidir.
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
@@ -56,7 +62,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{userOrganizationRepository}")
 	private UserOrganizationRepository userOrgRepo;
-	
+
 	@ManagedProperty(value = "#{reqOfferHandler}")
 	private ReqOfferHandler reqOfferHandler;
 
@@ -65,25 +71,25 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 	private List<ReqDetailEntity> detailList;
 
 	private DefItemEntity vendor;
-	
+
 	private ReqDetailEntity selectedDetail;
-	
+
 	private ReqDetailOfferEntity selectedOffer;
+
+	private Boolean showDocument = true;
 
 	@PostConstruct
 	private void init() {
 
 		String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
-
-		String organizationId = sessionInfoHelper.currentOrganizationId();
-		String username = sessionInfoHelper.currentUserName();
-		this.vendor = userOrgRepo.findVendorByUserAndOrganization(username, organizationId);
+		
+		this.vendor = sessionInfoHelper.currentUser().getVendor();
+		if (vendor == null) {
+			this.showDocument = false;
+			jsfMessageHelper.addWarn("noVendorSelected");
+		}
 
 		this.findDocument(Long.valueOf(documentId));
-
-	}
-
-	public void offerDetailSelected() {
 
 	}
 
@@ -102,53 +108,65 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 			detailList = readDetailEvent.getDetails();
 		}
 	}
-	
-	public ReqDetailOfferEntity vendorOffer(ReqDetailEntity detail){
+
+	public ReqDetailOfferEntity vendorOffer(ReqDetailEntity detail) {
 		Set<ReqDetailOfferEntity> offerSet = detail.getOfferSet();
-		
+
 		ReqDetailOfferEntity offer = null;
-		if(!CollectionUtils.isEmpty(offerSet)){
-			for(ReqDetailOfferEntity coffer : offerSet){
-				if(coffer.getVendorItem().getId().equals(vendor.getId())){
+		if (!CollectionUtils.isEmpty(offerSet)) {
+			for (ReqDetailOfferEntity coffer : offerSet) {
+				if (coffer.getVendorItem().getId().equals(vendor.getId())) {
 					offer = coffer;
 				}
 			}
 		}
-		
-		if(offer == null){
+
+		if (offer == null) {
 			offer = this.initNewOffer(detail);
 		}
-		
+
 		return offer;
-		
+
 	}
-	
-	private ReqDetailOfferEntity initNewOffer(ReqDetailEntity detail){
+
+	private ReqDetailOfferEntity initNewOffer(ReqDetailEntity detail) {
 		ReqDetailOfferEntity offer = new ReqDetailOfferEntity();
 		offer.setDetail(detail);
 		offer.setVendorItem(vendor);
 		return offer;
 	}
-	
-	public void offerSelected(ReqDetailEntity detail, ReqDetailOfferEntity offer){
+
+	public void offerSelected(ReqDetailEntity detail, ReqDetailOfferEntity offer) {
 		this.selectedDetail = detail;
 		this.selectedOffer = offer;
 	}
-	
-//	public void deleteOffer(ReqDetailOfferEntity offer){
-//		reqOfferHandler.deleteOffer(offer);
-//		this.findDocument(document.getId());
-//	}
-//	
-//	public void saveOffer(){
-//		OfferCreatedEvent createdEvent = reqOfferHandler.saveOffer(new CreateOfferEvent());
-//		this.findDocument(document.getId());
-//	}
-//	
-//	public void updateOffer(){
-//		OfferUpdatedEvent updatedEvent = reqOfferHandler.updateOffer(new CreateOfferEvent());
-//		this.findDocument(document.getId());
-//	}
+
+	public void deleteOffer(ReqDetailOfferEntity offer) {
+		try {
+			reqOfferHandler.deleteOffer(offer);
+			this.findDocument(document.getId());
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void saveOffer() {
+		try {
+			OfferCreatedEvent createdEvent = reqOfferHandler.saveOffer(new CreateOfferEvent());
+			this.findDocument(document.getId());
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void updateOffer() {
+		try {
+			OfferUpdatedEvent updatedEvent = reqOfferHandler.updateOffer(new UpdateOfferEvent());
+			this.findDocument(document.getId());
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
@@ -253,7 +271,13 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 	public void setSelectedOffer(ReqDetailOfferEntity selectedOffer) {
 		this.selectedOffer = selectedOffer;
 	}
-	
-	
+
+	public Boolean getShowDocument() {
+		return showDocument;
+	}
+
+	public void setShowDocument(Boolean showDocument) {
+		this.showDocument = showDocument;
+	}
 
 }

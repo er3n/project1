@@ -1,197 +1,117 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:o="http://omnifaces.org/ui"
-	xmlns:of="http://omnifaces.org/functions"
-	template="/WEB-INF/content/template/simple.xhtml"
-	xmlns:abc="http://www.abacus.com/abc"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:o="http://omnifaces.org/ui" xmlns:of="http://omnifaces.org/functions" template="/WEB-INF/content/template/simple.xhtml" xmlns:abc="http://www.abacus.com/abc" xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<ui:define name="content">
 
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.RequestStatus" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.RequestStatus" />
+ 
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!crudPurchaseDocumentViewBean.showDocument}" />
 
+		<c:if test="#{crudPurchaseDocumentViewBean.showDocument}">
+			<h:form id="crudDocumentFrm">
+				<p:panel id="documentPanel" rendered="#{not empty crudPurchaseDocumentViewBean.document}">
 
-		<h:form id="crudDocumentFrm">
-			<p:panel id="documentPanel"
-				rendered="#{not empty crudPurchaseDocumentViewBean.document}">
-
-				<f:facet name="header">
+					<f:facet name="header">
 						Satış
 					</f:facet>
 
-				<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
+					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
-					<p:outputLabel value="İşlem:" style="font-weigh: bold" />
-					<p:selectOneMenu
-						value="#{crudPurchaseDocumentViewBean.document.task}"
-						converter="omnifaces.SelectItemsConverter" style="width:145px"
-						required="true" requiredMessage="İşlem boş olamaz" disabled="true">
-						<f:selectItem itemLabel="Seçiniz..." itemValue="" />
-						<f:selectItems value="#{crudPurchaseDocumentViewBean.reqTaskList}"
-							var="var" itemLabel="#{var.name}" itemValue="#{var}" />
-						<p:ajax event="change" update=":crudDocumentFrm" process="@this" />
-					</p:selectOneMenu>
+						<p:outputLabel value="Karşılacak Depo" />
+						<h:panelGrid columns="1">
+							<abc:departmentSelection id="reqDepartmentSelectionInput" widgetVar="reqDepartmentSelectionWdg" dialogId="reqDepartmentSelectionDialog" targetVar="#{crudPurchaseDocumentViewBean.document.department}" required="true" disabled="true" />
+						</h:panelGrid>
 
-					<p:outputLabel value="Karşılacak Depo" />
-					<h:panelGrid columns="1">
-						<abc:departmentSelection id="reqDepartmentSelectionInput"
-							widgetVar="reqDepartmentSelectionWdg"
-							dialogId="reqDepartmentSelectionDialog"
-							targetVar="#{crudPurchaseDocumentViewBean.document.department}"
-							required="true" disabled="true" />
+						<p:outputLabel value="Belge No:" />
+						<p:inputText value="#{crudPurchaseDocumentViewBean.document.docNo}" required="true" requiredMessage="Döküman numarası boş olamaz." disabled="true" />
+
+						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
+						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" value="#{crudPurchaseDocumentViewBean.document.docDate}" required="true" requiredMessage="Döküman tarihi boş olamaz" disabled="true" />
+
+						<p:outputLabel value="Not:" style="font-weigh: bold" />
+						<p:inputTextarea rows="10" cols="50" value="#{crudPurchaseDocumentViewBean.document.docNote}" disabled="true" />
+
 					</h:panelGrid>
 
-					<p:outputLabel value="Belge No:" />
-					<p:inputText value="#{crudPurchaseDocumentViewBean.document.docNo}"
-						required="true" requiredMessage="Döküman numarası boş olamaz."
-						disabled="true" />
+				</p:panel>
 
-					<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
-						value="#{crudPurchaseDocumentViewBean.document.docDate}"
-						required="true" requiredMessage="Döküman tarihi boş olamaz"
-						disabled="true" />
-
-					<p:outputLabel value="Not:" style="font-weigh: bold" />
-					<p:inputTextarea rows="10" cols="50"
-						value="#{crudPurchaseDocumentViewBean.document.docNote}"
-						disabled="true" />
-
-				</h:panelGrid>
-
-			</p:panel>
-
-		</h:form>
+			</h:form>
 
 
-		<h:form id="crudDocumentDetailFrm">
+			<h:form id="crudDocumentDetailFrm">
 
 
-			<p:dataTable var="var"
-				emptyMessage="Kayitli fiş detay bulunmamaktadir."
-				value="#{crudPurchaseDocumentViewBean.detailList}"
-				rendered="#{not empty crudPurchaseDocumentViewBean.document.id}">
+				<p:dataTable var="var" emptyMessage="Kayitli fiş detay bulunmamaktadir." value="#{crudPurchaseDocumentViewBean.detailList}" rendered="#{not empty crudPurchaseDocumentViewBean.document.id}">
 
-				<f:facet name="header">
-					<p:outputLabel value="Satış Detay" />
-				</f:facet>
+					<f:facet name="header">
+						<p:outputLabel value="Satış Detay" />
+					</f:facet>
 
-				<f:facet name="footer">
-					<p:commandButton value="Detay Ekle"
-						actionListener="#{crudPurchaseDocumentViewBean.initNewDetail()}"
-						rendered="${(crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudPurchaseDocumentViewBean.approval) or (crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST and crudPurchaseDocumentViewBean.approval)}"
-						update=":crudDocumentDetailSelectionFrm" process="@this" />
-				</f:facet>
+					<p:column headerText="Malzeme">
+						<p:outputLabel value="#{var.item.name}" />
+					</p:column>
 
-				<p:column headerText="Malzeme">
-					<p:outputLabel value="#{var.item.name}" />
-				</p:column>
+					<p:column headerText="Geçerlilik Süresi">
+						<p:outputLabel value="#{var.dueDate}" />
+					</p:column>
 
-				<p:column headerText="Geçerlilik Süresi">
-					<p:outputLabel value="#{var.dueDate}" />
-				</p:column>
+					<p:column headerText="Birim">
+						<p:outputLabel value="#{var.itemUnit.name}" />
+					</p:column>
 
-				<p:column headerText="Birim">
-					<p:outputLabel value="#{var.itemUnit.code}" />
-				</p:column>
+					<p:column headerText="Miktar">
+						<p:outputLabel value="#{var.itemDetailCount}" />
+					</p:column>
 
-				<p:column headerText="Miktar">
-					<p:outputLabel value="#{var.itemDetailCount}" />
-				</p:column>
+					<c:set var="offer" value="#{crudPurchaseDocumentViewBean.vendorOffer(var)}" />
 
-				<c:set value="#{crudPurchaseDocumentViewBean.vendorOffer(var)}"
-					target="offer"></c:set>
-				<p:column headerText="Teklif">
-					<p:outputLabel value="#{offer.unitOfferPrice}" />
-				</p:column>
+					<p:column headerText="Teklif">
+						<p:outputLabel value="#{offer.unitOfferPrice}" />
+					</p:column>
 
-				<p:column headerText="İşlem">
-					<p:commandButton icon="ui-icon-pencil"
-						actionListener="#{crudPurchaseDocumentViewBean.offerSelected(var,offer)}"
-						update=":offerDialogFrm" oncomplete="PF('offerDialog').show()" />
-					<p:commandButton icon="ui-icon-closethick"
-						actionListener="#{crudPurchaseDocumentViewBean.deleteOffer(offer)}"
-						update=":crudDocumentDetailFrm" />
-				</p:column>
+					<p:column headerText="İşlem">
+						<p:commandButton icon="ui-icon-pencil" actionListener="#{crudPurchaseDocumentViewBean.offerSelected(var,offer)}" update=":offerDialogFrm" oncomplete="PF('offerDialog').show()" />
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{crudPurchaseDocumentViewBean.deleteOffer(offer)}" update=":crudDocumentDetailFrm" rendered="#{not empty offer.id}" />
+					</p:column>
 
-			</p:dataTable>
+				</p:dataTable>
 
-		</h:form>
+			</h:form>
 
-		<h:form id="offerDialogFrm">
-			<p:dialog widgetVar="offerDialog" resizable="true" showEffect="fade"
-				modal="true" appendToBody="@(body)" width="600px"
-				closeOnEscape="true">
+			<h:form id="offerDialogFrm">
+				<p:dialog widgetVar="offerDialog" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" width="600px" closeOnEscape="true">
 
-				<f:facet name="header">
-					<p:outputLabel value="Yeni Teklif - " />
-					<h:outputText
-						value="#{crudPurchaseDocumentViewBean.selectedDetail.item.name}" />
-				</f:facet>
+					<f:facet name="header">
+						<p:outputLabel value="Yeni Teklif - " />
+						<h:outputText value="#{crudPurchaseDocumentViewBean.selectedDetail.item.name}" />
+					</f:facet>
 
-				<p:outputLabel value="Teklif" />
-				<pe:inputNumber
-					decimalPlaces="2" style="text-align: right;" 
-					value="#{crudPurchaseDocumentViewBean.selectedOffer.unitOfferPrice}"
-					required="true" requiredMessage="Teklif boş olamaz" />
+					<p:outputLabel value="Teklif" />
+					<pe:inputNumber decimalPlaces="2" style="text-align: right;" value="#{crudPurchaseDocumentViewBean.selectedOffer.unitOfferPrice}" required="true" requiredMessage="Teklif boş olamaz" />
 
-				<f:facet name="footer">
-					<p:commandButton value="Kaydet"
-						actionListener="#{crudPurchaseDocumentViewBean.saveOffer()}"
-						update=":crudDocumentDetailFrm"
-						oncomplete="PF('offerDialog').hide();"
-						rendered="#{empty crudPurchaseDocumentViewBean.selectedOffer.id}" />
-					<p:commandButton value="Guncelle"
-						actionListener="#{crudPurchaseDocumentViewBean.updateOffer()}"
-						update=":crudDocumentDetailFrm"
-						oncomplete="PF('offerDialog').hide();"
-						rendered="#{not empty crudPurchaseDocumentViewBean.selectedOffer.id}" />
-					<p:spacer width="5px" />
-					<p:commandButton value="Vazgec"
-						oncomplete="PF('offerDialog').hide();" immediate="true" />
-				</f:facet>
-			</p:dialog>
-		</h:form>
+					<f:facet name="footer">
+						<p:commandButton value="Kaydet" actionListener="#{crudPurchaseDocumentViewBean.saveOffer()}" update=":crudDocumentDetailFrm" oncomplete="PF('offerDialog').hide();" rendered="#{empty crudPurchaseDocumentViewBean.selectedOffer.id}" />
+						<p:commandButton value="Guncelle" actionListener="#{crudPurchaseDocumentViewBean.updateOffer()}" update=":crudDocumentDetailFrm" oncomplete="PF('offerDialog').hide();" rendered="#{not empty crudPurchaseDocumentViewBean.selectedOffer.id}" />
+						<p:spacer width="5px" />
+						<p:commandButton value="Vazgec" oncomplete="PF('offerDialog').hide();" immediate="true" />
+					</f:facet>
+				</p:dialog>
+			</h:form>
+		</c:if>
 
 	</ui:define>
 
 	<ui:define name="model">
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
-		<o:importConstants
-			type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
 
-		<abc:itemSelectionDialog id="itemSelectionDialog"
-			update=":crudDocumentDetailSelectionFrm" widgetVar="itemSelectionWdg"
-			paramType="#{DefTypeEnum.ITM_SR_ST}"
-			targetVar="#{crudPurchaseDocumentViewBean.selectedDetail.item}"
-			rendered="true" />
+		<abc:departmentSelectionDialog id="reqDepartmentSelectionDialog" update=":crudDocumentFrm" widgetVar="reqDepartmentSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.S}" targetVar="#{crudPurchaseDocumentViewBean.document.department}" rendered="true" />
 
-		<abc:departmentSelectionDialog id="reqDepartmentSelectionDialog"
-			update=":crudDocumentFrm" widgetVar="reqDepartmentSelectionWdg"
-			paramUser="#{sessionInfoHelper.currentUser().username}"
-			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
-			targetVar="#{crudPurchaseDocumentViewBean.document.department}"
-			rendered="true" />
-
-		<abc:departmentSelectionDialog id="reqDepartmentOppSelectionDialog"
-			update=":crudDocumentFrm" widgetVar="reqDepartmentOppSelectionWdg"
-			paramUser="#{sessionInfoHelper.currentUser().username}"
-			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
-			targetVar="#{crudPurchaseDocumentViewBean.document.departmentOpp}"
-			rendered="true" />
+		<abc:departmentSelectionDialog id="reqDepartmentOppSelectionDialog" update=":crudDocumentFrm" widgetVar="reqDepartmentOppSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.S}" targetVar="#{crudPurchaseDocumentViewBean.document.departmentOpp}" rendered="true" />
 
 
 	</ui:define>

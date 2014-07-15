@@ -5,10 +5,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
@@ -32,6 +35,10 @@ public class SecUserEntity extends StaticEntity {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SELECT)
 	private Set<SecUserGroupEntity> userGroupList;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "vendor_id", nullable = true)
+	private DefItemEntity vendor;
 
 	public String getPassword() {
 		return password;
@@ -63,6 +70,14 @@ public class SecUserEntity extends StaticEntity {
 
 	public void setUserGroupList(Set<SecUserGroupEntity> sertGroupList) {
 		this.userGroupList = sertGroupList;
+	}
+
+	public DefItemEntity getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(DefItemEntity vendor) {
+		this.vendor = vendor;
 	}
 
 }

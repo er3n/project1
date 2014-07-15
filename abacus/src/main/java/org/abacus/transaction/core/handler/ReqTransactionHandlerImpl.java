@@ -75,7 +75,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 		
 		
 		
-		if(document.getDepartmentOpp() != null && document.getDepartment().getId().equals(document.getDepartmentOpp().getId())){
+		if(document.getDepartment() != null && document.getDepartmentOpp() != null && document.getDepartment().getId().equals(document.getDepartmentOpp().getId())){
 			throw new UnableToCreateDocumentException("departmentsCanNotBeEqual");
 		}
 		

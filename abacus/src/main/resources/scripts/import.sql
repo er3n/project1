@@ -215,3 +215,8 @@ insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_val
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_CS','VAL_CATEGORY',(select p.id from def_value p where p.code = 'CSH' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
 commit;
 
+update sec_user s set vendor_id = (select t.id from def_item t where t.name = 'TazeGevrek Gıda') where s.id = 'admin';
+commit;
+
+
+

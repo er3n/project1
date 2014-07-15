@@ -44,8 +44,8 @@
 							<p:ajax event="change" update=":crudDocumentFrm" process="@this" />
 						</p:selectOneMenu>
  
-						<p:outputLabel value="Karşılayacak Depo" />
-						<h:panelGrid columns="1">
+						<p:outputLabel value="Karşılayacak Depo" rendered="${crudReqDocumentViewBean.isTaskSelected(DefTypeEnum.REQ_IO_T)}" />
+						<h:panelGrid columns="1" rendered="${crudReqDocumentViewBean.isTaskSelected(DefTypeEnum.REQ_IO_T)}">
 							<abc:departmentSelection id="reqDepartmentSelectionInput"
 								widgetVar="reqDepartmentSelectionWdg"
 								dialogId="reqDepartmentSelectionDialog"
@@ -54,10 +54,8 @@
 								disabled="#{not empty crudReqDocumentViewBean.document.id}" />
 						</h:panelGrid>
 
-						<p:outputLabel value="İsteyen Depo"
-							rendered="${crudReqDocumentViewBean.isTaskSelected(DefTypeEnum.REQ_IO_T)}" />
-						<h:panelGrid columns="1"
-							rendered="${crudReqDocumentViewBean.isTaskSelected(DefTypeEnum.REQ_IO_T)}">
+						<p:outputLabel value="İsteyen Depo" />
+						<h:panelGrid columns="1">
 							<abc:departmentSelection id="reqDepartmentOppSelectionInput"
 								widgetVar="reqDepartmentOppSelectionWdg"
 								dialogId="reqDepartmentOppSelectionDialog"

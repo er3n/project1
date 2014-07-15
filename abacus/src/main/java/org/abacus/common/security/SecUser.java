@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -25,10 +26,12 @@ public class SecUser implements UserDetails {
 	private OrganizationEntity selectedOrganization;
 
 	private OrganizationEntity rootOrganization;
-	
+
 	private FiscalYearEntity selectedFiscalYear;
-	
+
 	private Set<FiscalYearEntity> companyFiscalYearSet;
+
+	private DefItemEntity vendor;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -49,11 +52,12 @@ public class SecUser implements UserDetails {
 		return authorities;
 	}
 
-	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear) {
+	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear,DefItemEntity vendor) {
 		setOrganizationList(organizationList);
 		setSelectedOrganization(selectedOrganization);
 		setCompanyFiscalYearSet(companyFiscalYearSet);
 		setSelectedFiscalYear(defaultFiscalYear);
+		setVendor(vendor);
 	}
 
 	@Override
@@ -150,6 +154,13 @@ public class SecUser implements UserDetails {
 	public void setCompanyFiscalYearSet(Set<FiscalYearEntity> companyFiscalYearSet) {
 		this.companyFiscalYearSet = companyFiscalYearSet;
 	}
-	
+
+	public DefItemEntity getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(DefItemEntity vendor) {
+		this.vendor = vendor;
+	}
 
 }

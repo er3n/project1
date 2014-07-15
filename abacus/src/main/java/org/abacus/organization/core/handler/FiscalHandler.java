@@ -15,8 +15,19 @@ public interface FiscalHandler extends Serializable{
 
 	List<FiscalYearEntity> findFiscalYearList(String organizationId) throws AbcBusinessException;
 
+	FiscalYearEntity saveFiscalYearEntity(FiscalYearEntity entity);
+	
+	void deleteFiscalYearEntity(FiscalYearEntity entity);
+	
+
+	
 	FiscalPeriodEntity getFiscalPeriod(String id) throws AbcBusinessException;
 
 	FiscalPeriodEntity findFiscalPeriod(String fiscalYearId, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException;
+
+	FiscalPeriodEntity saveFiscalPeriodEntity(FiscalPeriodEntity entity);
+	
+	void deleteFiscalPeriodEntity(FiscalPeriodEntity entity);
+	
 
 }

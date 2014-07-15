@@ -9,18 +9,49 @@
 	xmlns:of="http://omnifaces.org/functions"
 	xmlns:abc="http://www.abacus.com/abc">
 
+	<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+
 	<!-- orgFiscal -->
 	<h:panelGrid id="fiscalGrid" columns="1">
 		<h:form id="fiscalForm">
 			<p:panel id="fiscalPanel" header="Şiket Çalışma Dönemleri / Müşteri Projeleri">
-				<h:panelGrid id="departmentGrid" columns="8" cellpadding="2">
+				<h:panelGrid id="fiscalGrid" columns="8" cellpadding="2">
  
-					<h:outputLabel value="ID : " />
-					<p:inputText value="#{orgFiscalViewBean.selFiscalYear.id}"
-						required="true" requiredMessage="FiscalYearID Bos olamaz"
-						validatorMessage="FiscalYear.ID" />
+					<h:outputLabel value="Adı : " />
+					<p:inputText value="#{orgFiscalViewBean.selFiscalYear.name}"
+						required="true" requiredMessage="Adı Bos olamaz"
+						validatorMessage="FiscalYear.Name" />
+
+					<h:outputLabel value="Başlangıç : " />
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
+						value="#{orgFiscalViewBean.selFiscalYear.dateStart}" />
+
+					<h:outputLabel value="Bitiş : " />
+					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
+						value="#{orgFiscalViewBean.selFiscalYear.dateFinish}" />
 
 				</h:panelGrid>
+				
+				<f:facet name="footer">
+					<p:commandButton id="saveFiscal" update=":fiscalForm"
+						ajax="true" process="@form"
+						value="#{orgFiscalViewBean.selFiscalYear.id == null ? 'Kaydet' : 'Guncelle'}"
+						actionListener="#{orgFiscalViewBean.saveFiscal}" />
+					<p:commandButton id="deleteFiscal" update=":fiscalForm"
+						ajax="true"
+						value="#{orgFiscalViewBean.selFiscalYear.id == null ? '-' : 'Sil'}"
+						actionListener="#{orgFiscalViewBean.deleteFiscal}"
+						immediate="true">
+						<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:commandButton id="clearFiscal" update=":fiscalForm"
+						ajax="true"
+						value="#{orgFiscalViewBean.selFiscalYear.id == null ? 'Temizle' : 'Yeni Kayit'}"
+						actionListener="#{orgFiscalViewBean.createFiscal}"
+						process="@this">
+						<p:resetInput target=":fiscalForm" />
+					</p:commandButton>
+				</f:facet>
 
 			</p:panel>
 
@@ -47,10 +78,6 @@
            			#{selFiscalYear.dateFinish}  
        			</p:column>
 
-				<p:column headerText="Müşteri">  
-           			#{selFiscalYear.customer}  
-       			</p:column>
-
 				<p:column headerText="ID">  
            			#{selFiscalYear.id}  
        			</p:column>
@@ -60,6 +87,5 @@
 		</h:form>
 	</h:panelGrid>
 	<!-- orgFiscal -->
-
-
+	
 </ui:composition>

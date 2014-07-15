@@ -79,7 +79,7 @@ public class DefValueDao implements Serializable {
 		}
 		for (DefValueLevelEntity lvl : levelList) {
 			lvl.setLevel_asc(1+levelList.size()-lvl.getLevel_desc());
-			lvl.setId(AbcUtility.LPad(value.getId().toString(),10,'0')+"_"+AbcUtility.LPad(lvl.getLevel_asc().toString(),2,'0'));
+			lvl.setId(AbcUtility.LPad(value.getId().toString(),8,'0')+"_"+AbcUtility.LPad(lvl.getLevel_asc().toString(),2,'0'));
 			levelRepository.save(lvl);
 		}
 	}	

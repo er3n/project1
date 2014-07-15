@@ -28,7 +28,7 @@
 							<h:outputLabel value="#{definitionViewBean.selectedGroupEnum.description} Tip Kodu:" />
 							<p:inputText value="#{definitionViewBean.selType.id}"
 								required="true" requiredMessage="Type.Code Bos olamaz"
-								validatorMessage="Type.Code" />
+								validatorMessage="Type.Code" readonly="true" disabled="true"/>
 
 							<h:outputLabel value="#{definitionViewBean.selectedGroupEnum.description} Tip Adı:" />
 							<p:inputText value="#{definitionViewBean.selType.name}"
@@ -53,14 +53,14 @@
 								value="#{definitionViewBean.selType.id == null ? 'Kaydet' : 'Guncelle'}"
 								actionListener="#{definitionViewBean.saveType}" />
 							<p:commandButton id="deleteType" update=":typeForm :valGrid :paramGrid :taskGrid :referenceGrid"
-								ajax="true"
+								ajax="true" rendered="false"
 								value="#{definitionViewBean.selType.id == null ? '-' : 'Sil'}"
 								actionListener="#{definitionViewBean.deleteType}"
 								immediate="true">
 								<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
 							</p:commandButton>
 							<p:commandButton id="clearType" update=":typeForm :valGrid :paramGrid :taskGrid :referenceGrid"
-								ajax="true"
+								ajax="true"  rendered="false"
 								value="#{definitionViewBean.selType.id == null ? 'Temizle' : 'Yeni Kayit'}"
 								actionListener="#{definitionViewBean.clearType}" process="@this"
 								>
@@ -80,7 +80,7 @@
 							listener="#{definitionViewBean.typeRowSelectListener}">
 						</p:ajax>
 
-						<p:column headerText="#{definitionViewBean.selectedGroupEnum.description} Tip Kodu">  
+						<p:column headerText="#{definitionViewBean.selectedGroupEnum.description} Tip Kodu" style="width:150px" > 
            					#{selType.id}  
        					</p:column>
 
@@ -88,7 +88,7 @@
            					#{selType.name}  
        					</p:column>
 
-					<p:column headerText="İşlem" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.VAL}"> 
+					<p:column headerText="İşlem" style="width:150px" rendered="${definitionViewBean.selectedGroupEnum==DefTypeGroupEnum.VAL}"> 
 	
 						<p:commandButton icon="ui-icon-closethick" actionListener="#{defValueViewBean.refreshTypeLevel()}" >
 							<p:confirm header="Onay" message="Level oluşturmak istediğine emin misin?" icon="ui-icon-alert"  />

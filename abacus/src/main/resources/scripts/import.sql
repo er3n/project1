@@ -1,24 +1,34 @@
 insert into org_organization (id, name, level_enum, parent_id) values ('#', '# Holdingi', 'L0', null);
 insert into org_organization (id, name, level_enum, parent_id) values ('#.#', '# Şirketi', 'L1', '#');
-insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#', '# Projesi', 'L2', '#.#');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#', '# Müşterisi', 'L2', '#.#');
 commit;
 
-insert into sec_authority (id) values ('AUTH_SECURITY');
-insert into sec_authority (id) values ('AUTH_ORGANIZATION');
-insert into sec_authority (id) values ('AUTH_DEFINITION');
-insert into sec_authority (id) values ('AUTH_NONE');
+insert into sec_authority (id, name) values ('AUTH_NONE','Önemsiz');
+insert into sec_authority (id, name) values ('AUTH_REPORT','Raporlar');
+insert into sec_authority (id, name) values ('AUTH_SECURITY','Güvenlik');
+insert into sec_authority (id, name) values ('AUTH_ORGANIZATION','Organizasyon');
+insert into sec_authority (id, name) values ('AUTH_DEFINITION','Hesaplar');
+insert into sec_authority (id, name) values ('AUTH_FINANCE','Finans');
+insert into sec_authority (id, name) values ('AUTH_INVENTORY','Stok');
+insert into sec_authority (id, name) values ('AUTH_PURCHASE','Satınalma');
 commit;
 
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'Administrator', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L0.Holding', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L1.Şirket', 0);
-insert into sec_group (id, name, version) values (nextval('seq_id'), 'L2.Proje', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'System Admin', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'Patron', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'Şirket Yöneticisi', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'Finans Yöneticisi', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'Proje Yöneticisi', 0);
+insert into sec_group (id, name, version) values (nextval('seq_id'), 'Depo Yöneticisi', 0);
 commit;
  
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_NONE', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_REPORT', 0);
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_SECURITY', 0);
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_ORGANIZATION', 0);
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_DEFINITION', 0);
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_NONE', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_FINANCE', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_INVENTORY', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_PURCHASE', 0);
 commit;
 
 insert into sec_user( id, is_active, password) values ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e');
@@ -214,7 +224,7 @@ insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_val
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_CS','VAL_CATEGORY',(select p.id from def_value p where p.code = 'CSH' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
 commit;
 
-update sec_user s set vendor_id = (select t.id from def_item t where t.name = 'TazeGevrek Gıda') where s.id = 'admin';
+update sec_user s set vendor_id = (select t.id from def_item t where t.code = 'T101' and t.organization_id='#' and type_id='ITM_CM_VE') where s.id = 'admin';
 commit;
 
 

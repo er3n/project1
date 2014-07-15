@@ -12,9 +12,9 @@
 	<!-- orgFiscal -->
 	<h:panelGrid id="fiscalGrid" columns="1">
 		<h:form id="fiscalForm">
-			<p:panel id="fiscalPanel" header="Finans Çalışma Dönemleri">
+			<p:panel id="fiscalPanel" header="Şiket Çalışma Dönemleri / Müşteri Projeleri">
 				<h:panelGrid id="departmentGrid" columns="8" cellpadding="2">
-
+ 
 					<h:outputLabel value="ID : " />
 					<p:inputText value="#{orgFiscalViewBean.selFiscalYear.id}"
 						required="true" requiredMessage="FiscalYearID Bos olamaz"
@@ -35,12 +35,24 @@
 				<p:ajax event="rowSelect" update=":fiscalForm">
 				</p:ajax>
 						
-				<p:column headerText="FiscalYear.ID">  
-           			#{selFiscalYear.id}  
-       			</p:column>
-
 				<p:column headerText="Adı">  
            			#{selFiscalYear.name}  
+       			</p:column>
+
+				<p:column headerText="Başlangıç">  
+           			#{selFiscalYear.dateStart}  
+       			</p:column>
+
+				<p:column headerText="Bitiş">  
+           			#{selFiscalYear.dateFinish}  
+       			</p:column>
+
+				<p:column headerText="Müşteri">  
+           			#{selFiscalYear.customer}  
+       			</p:column>
+
+				<p:column headerText="ID">  
+           			#{selFiscalYear.id}  
        			</p:column>
 
 			</p:dataTable>

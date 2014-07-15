@@ -72,7 +72,7 @@
 						listener="#{orgDepartmentViewBean.departmentRowSelectListener}">
 				</p:ajax>
 						
-				<p:column headerText="Depo/Ofis Kodu">  
+				<p:column headerText="Depo/Ofis Kodu" style="width:150px">  
            					#{selDepartment.code}  
        					</p:column>
 
@@ -80,7 +80,7 @@
            					#{selDepartment.name}  
        					</p:column>
 
-				<p:column headerText="Yetkili Kullanıcıları">
+				<p:column headerText="Yetkili Kişiler" style="width:120px">
 					<p:commandButton icon="ui-icon-extlink" process="@this"
 						oncomplete="PF('dlg').show()"
 						update=":departmentForm :departmentUserForm">

@@ -145,7 +145,7 @@ public class TestTransactionHandler {
 
 		//TEST
 		StkDetailEntity outDetail = (StkDetailEntity) eventOut2.getDetail(); 
-		BigDecimal restCount = detailTrackRepository.currentItemCount(outDetail.getItem().getId(), outDetail.getDepartment().getId(),outDetail.getFiscalYear().getId());
+		BigDecimal restCount = detailTrackRepository.currentItemCount(outDetail.getItem().getId(), outDetail.getDepartment().getId(),outDocument.getFiscalPeriod1().getFiscalYear().getId());
 		
 		BigDecimal testCount = new BigDecimal(2.3).setScale(EnumList.RoundScale.STK.getValue(), RoundingMode.HALF_EVEN);
 		boolean result = restCount.compareTo(testCount) == 0;

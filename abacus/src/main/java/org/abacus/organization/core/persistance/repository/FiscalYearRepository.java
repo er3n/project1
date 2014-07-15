@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface FiscalYearRepository extends CrudRepository<FiscalYearEntity, String> {
 
-	@Query("select f from FiscalYearEntity f where f.organization.id = :companyId order by f.year desc")
+	@Query("select f from FiscalYearEntity f where f.organization.id = :companyId order by f.dateStart desc")
 	public Set<FiscalYearEntity> findCompanyFiscalYearSet(@Param("companyId")String companyId);
 	
 }

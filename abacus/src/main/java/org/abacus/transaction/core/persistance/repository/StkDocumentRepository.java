@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface StkDocumentRepository extends CrudRepository<StkDocumentEntity, Long>, TraDocumentRepository<StkDocumentEntity> {
 
-	@Query("select d from StkDocumentEntity d inner join fetch d.organization o inner join fetch d.fiscalPeriod fp where d.id = :id")
+	@Query("select d from StkDocumentEntity d inner join fetch d.organization o inner join fetch d.fiscalPeriod1 fp1 where d.id = :id")
 	StkDocumentEntity findWithFetch(@Param("id") Long id);
 	
 	

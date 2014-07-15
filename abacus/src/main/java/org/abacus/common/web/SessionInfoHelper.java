@@ -44,14 +44,6 @@ public class SessionInfoHelper implements Serializable {
 		return false;
 	}
 
-	public OrganizationEntity currentOrganization() {
-		return currentUser().getSelectedOrganization();
-	}
-
-	public String currentOrganizationId() {
-		return currentUser().getSelectedOrganization().getId();
-	}
-	
 	public void companyChanged(){
 		OrganizationEntity selectedOrganization = organizationRepository.fetchOrganization(currentOrganizationId());
 		Set<FiscalYearEntity> fiscalYearSet = organizationUtils.findCompanyFiscalYearSet(selectedOrganization);
@@ -71,12 +63,24 @@ public class SessionInfoHelper implements Serializable {
 	    navigationHandler.handleNavigation(context, null, "/app/index.abc?faces-redirect=true");
 	}
 	
+	public OrganizationEntity currentOrganization() {
+		return currentUser().getSelectedOrganization();
+	}
+
+	public String currentOrganizationId() {
+		return currentUser().getSelectedOrganization().getId();
+	}
+	
 	public OrganizationEntity currentRootOrganization(){
 		return currentUser().getRootOrganization();
 	}
 
 	public String currentRootOrganizationId() {
 		return currentRootOrganization().getId();
+	}
+
+	public FiscalYearEntity selectedFiscalYear() {
+		return currentUser().getSelectedFiscalYear();
 	}
 
 	public String selectedFiscalYearId() {

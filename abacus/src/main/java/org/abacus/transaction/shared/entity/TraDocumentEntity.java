@@ -48,8 +48,12 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 	private DefTaskEntity task;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fiscal_period_id", nullable = false)
-	private FiscalPeriodEntity fiscalPeriod;
+	@JoinColumn(name = "fiscal_period1_id", nullable = false)
+	private FiscalPeriodEntity fiscalPeriod1;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fiscal_period2_id", nullable = true)
+	private FiscalPeriodEntity fiscalPeriod2;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "item_id", nullable = true)
@@ -108,12 +112,20 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 		this.task = task;
 	}
 
-	public FiscalPeriodEntity getFiscalPeriod() {
-		return fiscalPeriod;
+	public FiscalPeriodEntity getFiscalPeriod1() {
+		return fiscalPeriod1;
 	}
 
-	public void setFiscalPeriod(FiscalPeriodEntity fiscalPeriod) {
-		this.fiscalPeriod = fiscalPeriod;
+	public void setFiscalPeriod1(FiscalPeriodEntity fiscalPeriod1) {
+		this.fiscalPeriod1 = fiscalPeriod1;
+	}
+
+	public FiscalPeriodEntity getFiscalPeriod2() {
+		return fiscalPeriod2;
+	}
+
+	public void setFiscalPeriod2(FiscalPeriodEntity fiscalPeriod2) {
+		this.fiscalPeriod2 = fiscalPeriod2;
 	}
 
 	public String getDocNote() {

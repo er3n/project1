@@ -75,8 +75,8 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		document.createHook(user);
 		document.setTypeEnum(document.getTask().getType().getTypeEnum());
 		
-		FiscalPeriodEntity fiscalPeriod = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
-		document.setFiscalPeriod(fiscalPeriod);
+		FiscalPeriodEntity fiscalPeriod1 = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
+		document.setFiscalPeriod1(fiscalPeriod1);
 		
 		document = getDocumentRepository().save(document);
 
@@ -91,8 +91,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 
 		String user = event.getUser();
 		
-		FiscalYearEntity fiscalYear =  detail.getDocument().getFiscalPeriod().getFiscalYear();
-		detail.setFiscalYear(fiscalYear);
+		FiscalYearEntity fiscalYear =  detail.getDocument().getFiscalPeriod1().getFiscalYear();
 		if (document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
 			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 			detail.setBaseDetailCount(baseDetailCount);

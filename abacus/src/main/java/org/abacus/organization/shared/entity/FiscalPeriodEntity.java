@@ -20,7 +20,7 @@ import org.hibernate.annotations.Type;
 public class FiscalPeriodEntity extends StaticEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fiscal_id", nullable = false)
+	@JoinColumn(name = "fiscal_year_id", nullable = false)
 	private FiscalYearEntity fiscalYear;
 	
 	@Column(name = "period_no", nullable = false, length=2)

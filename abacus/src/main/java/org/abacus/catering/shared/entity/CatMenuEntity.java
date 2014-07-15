@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -31,9 +31,9 @@ import org.hibernate.annotations.FetchMode;
 @Table(name = "cat_menu")
 public class CatMenuEntity extends DynamicEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "organization_id", nullable = false)
-	private OrganizationEntity organization;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fiscal_year_id", nullable = false)
+	private FiscalYearEntity fiscalYear;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "meal_id", nullable = false)
@@ -66,14 +66,6 @@ public class CatMenuEntity extends DynamicEntity {
 
 	public List<CatMenuItemEntity> getMenuItemList() {
 		return new ArrayList<CatMenuItemEntity>(menuItemSet);
-	}
-
-	public OrganizationEntity getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(OrganizationEntity organization) {
-		this.organization = organization;
 	}
 
 	public DefValueEntity getMeal() {
@@ -138,6 +130,14 @@ public class CatMenuEntity extends DynamicEntity {
 
 	public void setDocument(StkDocumentEntity document) {
 		this.document = document;
+	}
+
+	public FiscalYearEntity getFiscalYear() {
+		return fiscalYear;
+	}
+
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
+		this.fiscalYear = fiscalYear;
 	}
 
 }

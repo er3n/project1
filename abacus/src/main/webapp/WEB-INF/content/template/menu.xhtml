@@ -73,8 +73,8 @@
 						<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.companyChanged()}" update="menu_fiscal_year_combo" />
 					</p:selectOneMenu>
 					
-					<p:selectOneMenu id="menu_fiscal_year_combo" value="#{sessionInfoHelper.currentUser().selectedFiscalYear}" converter="omnifaces.SelectItemsConverter" style="width:55px">
-						<f:selectItems value="#{sessionInfoHelper.currentUser().companyFiscalYearSet}" var="fiscalYear" itemLabel="#{fiscalYear.year}" itemValue="#{fiscalYear}" />
+					<p:selectOneMenu id="menu_fiscal_year_combo" value="#{sessionInfoHelper.currentUser().selectedFiscalYear}" converter="omnifaces.SelectItemsConverter" style="width:100px">
+						<f:selectItems value="#{sessionInfoHelper.currentUser().companyFiscalYearSet}" var="fiscalYear" itemLabel="#{fiscalYear.name}" itemValue="#{fiscalYear}" />
 						<p:ajax event="change" process="@this" listener="#{sessionInfoHelper.fiscalYearChanged()}" />
 					</p:selectOneMenu>
 

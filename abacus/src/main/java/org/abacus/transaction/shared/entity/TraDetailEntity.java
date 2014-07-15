@@ -33,10 +33,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	@Column(name = "due_date", nullable = false)
 	private Date dueDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fiscal_year_id", nullable = false)
-	private FiscalYearEntity fiscalYear;
-
 	@Column(name = "tr_state_detail", nullable = false)
 	@Range(min = -1, max = +1)
 	private Integer trStateDetail;
@@ -86,14 +82,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
-	}
-
-	public FiscalYearEntity getFiscalYear() {
-		return fiscalYear;
-	}
-
-	public void setFiscalYear(FiscalYearEntity fiscalYear) {
-		this.fiscalYear = fiscalYear;
 	}
 
 	public DefItemEntity getItem() {

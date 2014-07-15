@@ -275,12 +275,13 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	
 	private void addOutputDetailTrackList(DetailCreatedEvent<StkDetailEntity> event) throws UnableToOutputDetail {
 		StkDetailEntity detail = event.getDetail();
-
-		List<StkDetailTrackEntity> findAvailableTrack = stkDetailTrackRepository.currentItemList(detail.getItem().getId(),detail.getDepartment().getId(), detail.getFiscalYear().getId());
+		StkDocumentEntity document = detail.getDocument();
+		
+		List<StkDetailTrackEntity> findAvailableTrack = stkDetailTrackRepository.currentItemList(detail.getItem().getId(),detail.getDepartment().getId(), document.getFiscalPeriod1().getFiscalYear().getId());
 
 		String user = event.getDetail().getUserCreated();
 		BigDecimal detailCount =  detail.getBaseDetailCount();
-		BigDecimal currentItemCount = stkDetailTrackRepository.currentItemCount(detail.getItem().getId(),detail.getDepartment().getId(), detail.getFiscalYear().getId());
+		BigDecimal currentItemCount = stkDetailTrackRepository.currentItemCount(detail.getItem().getId(),detail.getDepartment().getId(), document.getFiscalPeriod1().getFiscalYear().getId());
 		  
 		boolean isNotEnoughtItemStock = currentItemCount == null || detailCount.compareTo(currentItemCount) > 0;
 		if(isNotEnoughtItemStock){

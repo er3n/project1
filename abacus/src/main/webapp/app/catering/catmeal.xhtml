@@ -18,7 +18,7 @@
 			<h:panelGrid id="mealGrid" columns="1">
 				<h:form id="mealForm">
 				
-					<p:panel id="mealPanel" header="#{catMealViewBean.organization.name} Öğün Tanımları" >
+					<p:panel id="mealPanel" header="#{catMealViewBean.fiscalYear.organization.name} #{catMealViewBean.fiscalYear.name} Öğün Tanımları" >
 
 						<h:panelGrid id="mealGrid" columns="8" cellpadding="0">
 
@@ -76,6 +76,10 @@
 						<p:ajax event="rowSelect" update=":mealForm"
 							listener="#{catMealViewBean.catMealRowSelectListener}">
 						</p:ajax>
+
+						<p:column headerText="Proje Dönemi">  
+           					#{selCatMeal.fiscalYear.name} 
+       					</p:column>
 
 						<p:column headerText="Öğün">  
            					#{selCatMeal.meal.code} #{selCatMeal.meal.name}  

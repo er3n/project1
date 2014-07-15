@@ -2,8 +2,9 @@ package org.abacus.catering.core.handler;
 
 import java.util.List;
 
-import org.abacus.catering.core.persistance.repository.MealRepository;
+import org.abacus.catering.core.persistance.repository.MealFilterRepository;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class CatMealHandlerImpl implements CatMealHandler {
 
 	@Autowired
-	private MealRepository mealRepo;
+	private MealFilterRepository mealRepo;
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<CatMealFilterEntity> getCatMealList(String organizationId){
-		return mealRepo.getCatMealList(organizationId);
+	public List<CatMealFilterEntity> getCatMealList(FiscalYearEntity fiscalYear){
+		return mealRepo.getMealFilterList(fiscalYear.getId());
 	}
 
 	@Override

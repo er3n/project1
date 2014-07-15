@@ -1,6 +1,7 @@
 package org.abacus.catering.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.organization.core.handler.OrganizationHandler;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
@@ -31,19 +33,19 @@ public class CatMealViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
-	
+
 	@ManagedProperty(value = "#{organizationHandler}")
 	private OrganizationHandler organizationHandler;
 
-	private OrganizationEntity organization;
-	
+	private FiscalYearEntity fiscalYear;
+
 	@PostConstruct
 	public void init() {
-		organization = sessionInfoHelper.currentOrganization(); 
+		fiscalYear = sessionInfoHelper.selectedFiscalYear();
 		findCatMealList();
 	}
-	
-	public void groupChangeListener(){
+
+	public void groupChangeListener() {
 		clearCatMeal();
 	}
 
@@ -52,9 +54,9 @@ public class CatMealViewBean implements Serializable {
 
 	public void saveCatMeal() {
 		if (selCatMeal.isNew()) {
-			jsfMessageHelper.addInfo("createSuccessful","Ögün");
+			jsfMessageHelper.addInfo("createSuccessful", "Ögün");
 		} else {
-			jsfMessageHelper.addInfo("updateSuccessful","Ögün");
+			jsfMessageHelper.addInfo("updateSuccessful", "Ögün");
 		}
 		selCatMeal = catMealHandler.saveCatMealEntity(selCatMeal);
 		findCatMealList();
@@ -63,20 +65,23 @@ public class CatMealViewBean implements Serializable {
 	public void deleteCatMeal() {
 		if (!selCatMeal.isNew()) {
 			catMealHandler.deleteCatMealEntity(selCatMeal);
-			jsfMessageHelper.addInfo("deleteSuccessful","Ögün");
+			jsfMessageHelper.addInfo("deleteSuccessful", "Ögün");
 		}
 		findCatMealList();
 	}
 
 	public void clearCatMeal() {
 		selCatMeal = new CatMealFilterEntity();
-		selCatMeal.setOrganization(organization);
+		selCatMeal.setFiscalYear(sessionInfoHelper.selectedFiscalYear());
 	}
 
 	public void findCatMealList() {
 		clearCatMeal();
-		catMealList = null;
-		catMealList = catMealHandler.getCatMealList(organization.getId());
+		if (fiscalYear!=null){
+			catMealList = catMealHandler.getCatMealList(fiscalYear);	
+		} else {
+			catMealList = new ArrayList<CatMealFilterEntity>();
+		}
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {
@@ -100,7 +105,7 @@ public class CatMealViewBean implements Serializable {
 	}
 
 	public void setSelCatMeal(CatMealFilterEntity selCatMeal) {
-		if (selCatMeal!=null){
+		if (selCatMeal != null) {
 			this.selCatMeal = selCatMeal;
 		}
 	}
@@ -121,14 +126,6 @@ public class CatMealViewBean implements Serializable {
 		this.catMealHandler = defUnitHandler;
 	}
 
-	public OrganizationEntity getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(OrganizationEntity organization) {
-		this.organization = organization;
-	}
-
 	public OrganizationHandler getOrganizationHandler() {
 		return organizationHandler;
 	}
@@ -136,8 +133,13 @@ public class CatMealViewBean implements Serializable {
 	public void setOrganizationHandler(OrganizationHandler organizationHandler) {
 		this.organizationHandler = organizationHandler;
 	}
-	
-	
 
+	public FiscalYearEntity getFiscalYear() {
+		return fiscalYear;
+	}
+
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
+		this.fiscalYear = fiscalYear;
+	}
 
 }

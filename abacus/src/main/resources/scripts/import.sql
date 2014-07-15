@@ -174,19 +174,18 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_RECEIPT', null, 'T0010', 'Özel Yemek', 1, 0);
 commit;
 
-insert into cat_meal_filter (id, version, meal_id, organization_id, count_prepare, unit_price) values (nextval('seq_id'), 0, (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='1' and organization_id='#'), '#.#.#', 150, 3.0);
-insert into cat_meal_filter (id, version, meal_id, organization_id, count_prepare, unit_price) values (nextval('seq_id'), 0, (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='2' and organization_id='#'), '#.#.#', 200, 5.0);
-insert into cat_meal_filter (id, version, meal_id, organization_id, count_prepare, unit_price) values (nextval('seq_id'), 0, (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='3' and organization_id='#'), '#.#.#', 175, 7.5);
+INSERT INTO org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#:2013', '#.#', 'Yıl:2015', DATE '2013-01-01', DATE '2013-12-31');
+INSERT INTO org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#:2014', '#.#', 'Yıl:2015', DATE '2014-01-01', DATE '2014-12-31');
+INSERT INTO org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#:2015', '#.#', 'Yıl:2015', DATE '2015-01-01', DATE '2015-12-31');
+
+INSERT INTO org_fiscal_period(id, fiscal_year_id, period_no, date_finish, date_start, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2013:01', '#.#:2015', '01', DATE '2013-12-31', DATE '2013-01-01', 1, 1, 1);
+INSERT INTO org_fiscal_period(id, fiscal_year_id, period_no, date_finish, date_start, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2014:01', '#.#:2015', '01', DATE '2014-12-31', DATE '2014-01-01', 1, 1, 1);
+INSERT INTO org_fiscal_period(id, fiscal_year_id, period_no, date_finish, date_start, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2015:01', '#.#:2015', '01', DATE '2015-12-31', DATE '2015-01-01', 1, 1, 1);
 commit;
 
-
-INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, organization_id) VALUES ('#.#:2013', 'FIFO', DATE '2013-12-31', DATE '2013-01-01', '2013 Fin.Yil', '2013', '#.#');
-INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, organization_id) VALUES ('#.#:2014', 'FIFO', DATE '2014-12-31', DATE '2014-01-01', '2014 Fin.Yil', '2014', '#.#');
-INSERT INTO org_fiscal_year(id, cost_type, date_finish, date_start, name, year, organization_id) VALUES ('#.#:2015', 'FIFO', DATE '2015-12-31', DATE '2015-01-01', '2015 Fin.Yil', '2015', '#.#');
-
-INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2013:01', DATE '2013-12-31', DATE '2013-01-01','01', '#.#:2013', 1, 1, 1);
-INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2014:01', DATE '2014-12-31', DATE '2014-01-01','01', '#.#:2014', 1, 1, 1);
-INSERT INTO org_fiscal_period(id, date_finish, date_start, period_no, fiscal_id, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#:2015:01', DATE '2015-12-31', DATE '2015-01-01','01', '#.#:2015', 1, 1, 1);
+insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#:2014', (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='1' and organization_id='#'), 150, 3.0);
+insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#:2014', (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='2' and organization_id='#'), 200, 5.0);
+insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#:2014', (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='3' and organization_id='#'), 175, 7.5);
 commit;
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'P101', null, 'Personel X', (select v.id from def_value v where v.code='P100' and organization_id='#'), '#', 'ITM_PE', null);

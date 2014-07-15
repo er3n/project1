@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.abacus.definition.shared.entity.DefItemEntity;
 
 @Entity
 @SuppressWarnings("serial")
@@ -21,9 +22,6 @@ public class FiscalYearEntity extends StaticEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
-
-	@Column(name = "year", nullable = false, length=4)
-	private String year;
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -36,8 +34,9 @@ public class FiscalYearEntity extends StaticEntity {
 	@Column(name = "date_finish", nullable = true)
 	private Date dateFinish;
 
-	@Column(name = "cost_type", nullable = true)
-	private String costType; // enum olacak
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id", nullable = true)
+	private DefItemEntity customer;
 	
 	public FiscalYearEntity(String id) {
 		super.id = id;
@@ -51,14 +50,6 @@ public class FiscalYearEntity extends StaticEntity {
 
 	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
-	}
-
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
 	}
 
 	public String getName() {
@@ -85,12 +76,12 @@ public class FiscalYearEntity extends StaticEntity {
 		this.dateFinish = dateFinish;
 	}
 
-	public String getCostType() {
-		return costType;
+	public DefItemEntity getCustomer() {
+		return customer;
 	}
 
-	public void setCostType(String costType) {
-		this.costType = costType;
+	public void setCustomer(DefItemEntity customer) {
+		this.customer = customer;
 	}
 
 }

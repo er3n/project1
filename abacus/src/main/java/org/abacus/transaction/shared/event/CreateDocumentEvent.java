@@ -21,7 +21,7 @@ public class CreateDocumentEvent<T extends TraDocumentEntity> extends CreatedEve
 		this.document = document;
 		this.user = document.getUserCreated();
 		this.organization = document.getOrganization().getId();
-		this.fiscalYear = document.getFiscalPeriod().getFiscalYear().getId();
+		this.fiscalYear = document.getFiscalPeriod1().getFiscalYear().getId();
 	}
 
 	public T getDocument() {

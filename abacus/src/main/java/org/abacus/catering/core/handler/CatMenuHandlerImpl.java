@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.abacus.catering.core.persistance.DefMenuDao;
+import org.abacus.catering.core.persistance.repository.MealFilterRepository;
 import org.abacus.catering.core.persistance.repository.MenuItemRepository;
 import org.abacus.catering.core.persistance.repository.MenuRepository;
 import org.abacus.catering.core.util.CatMenuItemToMenuMaterialConverter;
@@ -66,6 +67,9 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	private DefTaskRepository taskRepository;
 
 	@Autowired
+	private MealFilterRepository mealFilterRepo;
+
+	@Autowired
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> stkTransactionHandler;
 
 	@Autowired
@@ -74,10 +78,12 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public MenuSummary findMenuSummary(CatMenuSearchCriteria searchCriteria) {
-		List<CatMenuEntity> menuList = menuDao.findMenuList(searchCriteria);
-
 		MenuSummary sum = new MenuSummary();
+		if (searchCriteria.getFiscalYear()==null){
+			return sum;
+		}
 
+		List<CatMenuEntity> menuList = menuDao.findMenuList(searchCriteria);
 		List<DailyMenuDetail> dailyMenuDetails = this.createBlankDays(searchCriteria);
 		sum.setDailyMenuDetails(dailyMenuDetails);
 
@@ -88,7 +94,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 
 		}
 
-		List<CatMealFilterEntity> meals = menuDao.findMealList(searchCriteria);
+		List<CatMealFilterEntity> meals = mealFilterRepo.getMealFilterList(searchCriteria.getFiscalYear().getId());
 		sum.setMeals(meals);
 
 		return sum;

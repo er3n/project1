@@ -39,6 +39,7 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.joda.time.MutableDateTime;
@@ -85,7 +86,7 @@ public class CatMenuViewBean implements Serializable {
 	@PostConstruct
 	private void init() {
 		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
-		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.currentOrganizationId());
+		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.selectedFiscalYear());
 		this.searchCriteria.setPeriod(EnumList.CatMenuPeriod.WEEKLY);
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();
@@ -235,11 +236,11 @@ public class CatMenuViewBean implements Serializable {
 	}
 
 	public void initCreateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
-		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
+		FiscalYearEntity fiscalYear = sessionInfoHelper.selectedFiscalYear();
 		BigDecimal expectedCountPrepare = mealFilterEntity.getCountPrepare();
 
 		selectedMenu = new CatMenuEntity();
-		selectedMenu.setOrganization(organization);
+		selectedMenu.setFiscalYear(fiscalYear);
 		selectedMenu.setCountPrepare(expectedCountPrepare);
 		selectedMenu.setMeal(mealFilterEntity.getMeal());
 		selectedMenu.setMenuDate(dailyMenu.getDate());

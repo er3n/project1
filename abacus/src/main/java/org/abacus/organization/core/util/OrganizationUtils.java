@@ -51,7 +51,7 @@ public class OrganizationUtils {
 			return null;
 		}
 
-		Set<FiscalYearEntity> fiscalYearSet = fiscalYearRepository.findCompanyFiscalYearSet(companyOrganization.getId());
+		Set<FiscalYearEntity> fiscalYearSet = fiscalYearRepository.findFiscalYearSet(companyOrganization.getId());
 		return fiscalYearSet;
 	}
 

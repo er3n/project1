@@ -36,18 +36,18 @@
 					<p:commandButton id="saveFiscal" update=":fiscalForm"
 						ajax="true" process="@form"
 						value="#{orgFiscalViewBean.selFiscalYear.id == null ? 'Kaydet' : 'Guncelle'}"
-						actionListener="#{orgFiscalViewBean.saveFiscal}" />
+						actionListener="#{orgFiscalViewBean.saveFiscalYear}" />
 					<p:commandButton id="deleteFiscal" update=":fiscalForm"
 						ajax="true"
 						value="#{orgFiscalViewBean.selFiscalYear.id == null ? '-' : 'Sil'}"
-						actionListener="#{orgFiscalViewBean.deleteFiscal}"
+						actionListener="#{orgFiscalViewBean.deleteFiscalYear}"
 						immediate="true">
 						<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
 					</p:commandButton>
 					<p:commandButton id="clearFiscal" update=":fiscalForm"
 						ajax="true"
 						value="#{orgFiscalViewBean.selFiscalYear.id == null ? 'Temizle' : 'Yeni Kayit'}"
-						actionListener="#{orgFiscalViewBean.createFiscal}"
+						actionListener="#{orgFiscalViewBean.createFiscalYear}"
 						process="@this">
 						<p:resetInput target=":fiscalForm" />
 					</p:commandButton>
@@ -63,7 +63,7 @@
 				resizableColumns="true">
 
 
-				<p:ajax event="rowSelect" update=":fiscalForm">
+				<p:ajax event="rowSelect" update=":fiscalForm :fiscalPeriodForm">
 				</p:ajax>
 						
 				<p:column headerText="Adı">  
@@ -78,13 +78,16 @@
            			#{selFiscalYear.dateFinish}  
        			</p:column>
 
-				<p:column headerText="ID" style="width:100px">  
+				<p:column headerText="ID" style="width:150px">  
            			#{selFiscalYear.id}  
        			</p:column>
 
 			</p:dataTable>
 
 		</h:form>
+		
+		<ui:include src="orgFiscalPeriod.xhtml"></ui:include>	
+		
 	</h:panelGrid>
 	<!-- orgFiscal -->
 	

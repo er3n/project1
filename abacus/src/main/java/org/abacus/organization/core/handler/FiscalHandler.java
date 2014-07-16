@@ -23,11 +23,13 @@ public interface FiscalHandler extends Serializable{
 	
 	FiscalPeriodEntity getFiscalPeriod(String id) throws AbcBusinessException;
 
-	FiscalPeriodEntity findFiscalPeriod(String fiscalYearId, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException;
-
+	List<FiscalPeriodEntity> findFiscalPeriodList(String fiscalYearId) throws AbcBusinessException;
+	
 	FiscalPeriodEntity saveFiscalPeriodEntity(FiscalPeriodEntity entity);
 	
 	void deleteFiscalPeriodEntity(FiscalPeriodEntity entity);
 	
+	FiscalPeriodEntity findFiscalPeriod(String fiscalYearId, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException;
+
 
 }

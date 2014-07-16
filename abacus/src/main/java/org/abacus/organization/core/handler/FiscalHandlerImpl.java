@@ -44,6 +44,12 @@ public class FiscalHandlerImpl implements FiscalHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public List<FiscalPeriodEntity> findFiscalPeriodList(String fiscalYearId) throws AbcBusinessException{
+		return fiscalDao.findFiscalPeriodList(fiscalYearId);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public FiscalPeriodEntity getFiscalPeriod(String id) throws AbcBusinessException{
 		return fiscalDao.getFiscalPeriod(id);
 	}

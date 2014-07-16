@@ -40,9 +40,15 @@ public class FiscalDao implements Serializable {
 	}
 
 	public List<FiscalYearEntity> findFiscalYearList(String organizationId) throws AbcBusinessException {
-		Set<FiscalYearEntity> fiscalSet = fiscalYearRepository.findCompanyFiscalYearSet(organizationId);
+		Set<FiscalYearEntity> fiscalSet = fiscalYearRepository.findFiscalYearSet(organizationId);
 		List<FiscalYearEntity> fiscalList = new ArrayList<FiscalYearEntity>(fiscalSet);
 		return fiscalList;
+	}
+
+	public List<FiscalPeriodEntity> findFiscalPeriodList(String fiscalYearId) throws AbcBusinessException {
+		Set<FiscalPeriodEntity> fiscalPeriodSet = fiscalPeriodRepository.findFiscalPeriodSet(fiscalYearId);
+		List<FiscalPeriodEntity> fiscalPeriodList = new ArrayList<FiscalPeriodEntity>(fiscalPeriodSet);
+		return fiscalPeriodList;
 	}
 
 	public FiscalPeriodEntity getFiscalPeriod(String id) throws AbcBusinessException {

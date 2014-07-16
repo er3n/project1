@@ -299,12 +299,12 @@ public interface EnumList {
 	}
 	
 	enum RequestStatus implements ISelectionEnum {
-		PREPARE("Hazırlanıyor","Hazırlanıyor"),//
-		REQUEST("Onay bekleniyor","İhale başladı"),//
-		DONE("Onaylandı","İhale tamamlandı"),//
+		PREPARE("Hazırlanıyor","Hazırlanıyor"),
+		REQUEST("Onay bekleniyor","Satınalma başladı"),
+		DONE("Onaylandı","Satınalma tamamlandı"),
 		REVIEW("Değerlendiriliyor","Değerlendiriliyor"),
-		PARTIALLY("Kısmen onaylandı","İhale değerlendiriliyor"),//
-		CANCEL("Reddedildi","İptal edildi"),//
+		PARTIALLY("Kısmen onaylandı","Kısmen onaylandı"),		
+		CANCEL("Reddedildi","İptal edildi")
 		;
 		
 		private String description;

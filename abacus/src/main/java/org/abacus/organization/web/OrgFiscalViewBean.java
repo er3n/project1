@@ -93,8 +93,6 @@ public class OrgFiscalViewBean implements Serializable {
 	public void setSelFiscalYear(FiscalYearEntity selFiscalYear) {
 		if (selFiscalYear!=null){
 			this.selFiscalYear = selFiscalYear;
-		} else {
-			createFiscal();
 		}
 	}
 

@@ -1,6 +1,6 @@
 insert into org_organization (id, name, level_enum, parent_id) values ('#', '# Holdingi', 'L0', null);
 insert into org_organization (id, name, level_enum, parent_id) values ('#.#', '# Şirketi', 'L1', '#');
-insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#', '# Müşterisi', 'L2', '#.#');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#', '# Projesi', 'L2', '#.#');
 commit;
 
 insert into sec_authority (id, name) values ('AUTH_NONE','Önemsiz');

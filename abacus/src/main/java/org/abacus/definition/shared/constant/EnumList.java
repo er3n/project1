@@ -73,8 +73,9 @@ public interface EnumList {
 	}
 
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
-		S("Depo"), //
 		F("Ofis"), //
+		S("Depo"), //
+		SP("Satınalma"), //
 		// F("Demirbas Deposu"), //
 		;
 		private String description;

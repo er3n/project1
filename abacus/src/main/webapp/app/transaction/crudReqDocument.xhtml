@@ -285,7 +285,7 @@
 		<abc:departmentSelectionDialog id="reqDepartmentOppSelectionDialog"
 			update=":crudDocumentFrm" widgetVar="reqDepartmentOppSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
-			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
+			paramDepGroup="#{crudReqDocumentViewBean.reqDepartmentGroupEnum()}"
 			targetVar="#{crudReqDocumentViewBean.document.departmentOpp}"
 			rendered="true" />
 

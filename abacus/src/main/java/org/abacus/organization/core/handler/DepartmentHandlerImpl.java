@@ -33,7 +33,7 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 		List<DepartmentEntity> depList = new ArrayList<>();
 		List<SecUserDepartmentEntity> userDepList = userDepartmentRepository.findUserDepartmentList(username);
 		for (SecUserDepartmentEntity ent : userDepList) {
-			if (depGroup==null || ent.getDepartment().getDepartmentGroup().equals(depGroup)){
+			if (depGroup==null || ent.getDepartment().getDepartmentGroup().name().startsWith(depGroup.name())){
 				depList.add(ent.getDepartment());
 			}
 		}

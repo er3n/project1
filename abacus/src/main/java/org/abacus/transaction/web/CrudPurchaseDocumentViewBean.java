@@ -145,6 +145,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 		try {
 			reqOfferHandler.deleteOffer(offer);
 			this.findDocument(document.getId());
+			jsfMessageHelper.addInfo("deleteSuccessful", "Teklif");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -152,8 +153,9 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	public void saveOffer() {
 		try {
-			OfferCreatedEvent createdEvent = reqOfferHandler.saveOffer(new CreateOfferEvent());
+			OfferCreatedEvent createdEvent = reqOfferHandler.saveOffer(new CreateOfferEvent(this.selectedOffer,sessionInfoHelper.currentUserName()));
 			this.findDocument(document.getId());
+			jsfMessageHelper.addInfo("createSuccessful", "Teklif");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -161,8 +163,9 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	public void updateOffer() {
 		try {
-			OfferUpdatedEvent updatedEvent = reqOfferHandler.updateOffer(new UpdateOfferEvent());
+			OfferUpdatedEvent updatedEvent = reqOfferHandler.updateOffer(new UpdateOfferEvent(this.selectedOffer,sessionInfoHelper.currentUserName()));
 			this.findDocument(document.getId());
+			jsfMessageHelper.addInfo("updateSuccessful", "Teklif");
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}

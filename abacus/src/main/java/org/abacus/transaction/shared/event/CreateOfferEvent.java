@@ -5,6 +5,11 @@ import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 public class CreateOfferEvent {
 	private ReqDetailOfferEntity offer;
 	private String user;
+	
+	public CreateOfferEvent(ReqDetailOfferEntity offer,String user){
+		this.user = user;
+		this.offer = offer;
+	}
 
 	public ReqDetailOfferEntity getOffer() {
 		return offer;

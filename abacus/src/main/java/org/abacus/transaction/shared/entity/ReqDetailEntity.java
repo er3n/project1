@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OrderBy;
 
 @Entity
 @Table(name = "tra_detail")
@@ -31,7 +32,8 @@ public class ReqDetailEntity extends TraDetailEntity<ReqDetailEntity> {
 	private DepartmentEntity departmentOpp;
 
 	@OneToMany(mappedBy = "detail", fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SELECT)
+	@Fetch(FetchMode.SELECT) 
+	@OrderBy(clause = "unitOfferPrice desc")
 	private Set<ReqDetailOfferEntity> offerSet;
 
 	@Override

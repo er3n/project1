@@ -78,6 +78,14 @@ public class FindReqDocumentViewBean implements Serializable {
 		documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(selectedTypeEnum);
 	}
+	
+	public Boolean isTaskSelected(ReqDocumentEntity document, EnumList.DefTypeEnum taskEnum) {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean result = document.getTask().getType().getId().startsWith(taskEnum.name());
+		return result;
+	}
 
 	public void findDocument() {
 		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));

@@ -1,11 +1,14 @@
 package org.abacus.transaction.core.handler;
 
 import org.abacus.transaction.core.persistance.repository.ReqDetailOfferRepository;
+import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.event.CreateOfferEvent;
 import org.abacus.transaction.shared.event.OfferCreatedEvent;
 import org.abacus.transaction.shared.event.OfferUpdatedEvent;
+import org.abacus.transaction.shared.event.SelectedOfferUpdated;
 import org.abacus.transaction.shared.event.UpdateOfferEvent;
+import org.abacus.transaction.shared.event.UpdateSelectedOfferEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -47,6 +50,28 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 		offer = reqDetailOfferRepository.save(offer);
 		
 		return new OfferUpdatedEvent(offer);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public SelectedOfferUpdated updateSelectedOffer(UpdateSelectedOfferEvent updateSelectedOfferEvent) {
+		
+		ReqDetailOfferEntity selectedOffer = updateSelectedOfferEvent.getOffer();
+		ReqDetailEntity detail = updateSelectedOfferEvent.getDetail();
+		String user = updateSelectedOfferEvent.getUser();
+		
+		for(ReqDetailOfferEntity offer : detail.getOfferSet()){
+			if(offer.getIsSelected()){
+				offer.setIsSelected(false);
+				offer.updateHook(user);
+				reqDetailOfferRepository.save(offer);
+			}
+		}
+		
+		selectedOffer.updateHook(user);
+		reqDetailOfferRepository.save(selectedOffer);
+		
+		return new SelectedOfferUpdated(selectedOffer);
 	}
 
 	

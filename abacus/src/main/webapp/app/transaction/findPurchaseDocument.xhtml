@@ -81,7 +81,8 @@
 					</p:column>
 
 					<p:column headerText="İşlem">
-						<p:button icon="ui-icon-circle-zoomout" href="/app/transaction/crudPurchaseDocument.abc?document=#{var.id}" rendered="#{var.requestStatus eq RequestStatus.REQUEST}" />
+						<p:button icon="ui-icon-circle-zoomout" href="/app/transaction/crudPurchaseDocument.abc?document=#{var.id}" rendered="#{var.requestStatus eq RequestStatus.REQUEST and ${crudReqDocumentViewBean.isTaskSelected(var,DefTypeEnum.REQ_IO_T)}}" />
+						<p:button icon="ui-icon-circle-zoomout" href="/app/transaction/crudPurchDecDocument.abc?document=#{var.id}" rendered="#{var.requestStatus eq RequestStatus.REQUEST and ${crudReqDocumentViewBean.isTaskSelected(var,DefTypeEnum.REQ_IO_P)}}" />
 					</p:column>
 
 				</p:dataTable>

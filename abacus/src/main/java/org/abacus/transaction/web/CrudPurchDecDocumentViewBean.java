@@ -31,16 +31,17 @@ import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.SelectedOfferUpdated;
 import org.abacus.transaction.shared.event.UpdateOfferEvent;
+import org.abacus.transaction.shared.event.UpdateSelectedOfferEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
 import org.springframework.util.CollectionUtils;
 
-//TODO Request guncellenmek istendiginde teklif durumu kontrol edilmelidir.
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class CrudPurchaseDocumentViewBean implements Serializable {
+public class CrudPurchDecDocumentViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -93,24 +94,10 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	}
 	
-	public ReqDetailOfferEntity vendorOffer(ReqDetailEntity detail) {
-		Set<ReqDetailOfferEntity> offerSet = detail.getOfferSet();
-
-		ReqDetailOfferEntity offer = null;
-		if (!CollectionUtils.isEmpty(offerSet)) {
-			for (ReqDetailOfferEntity coffer : offerSet) {
-				if (coffer.getVendorItem().getId().equals(vendor.getId())) {
-					offer = coffer;
-				}
-			}
-		}
-
-		if (offer == null) {
-			offer = this.initNewOffer(detail);
-		}
-
-		return offer;
-
+	public void offerSelected(ReqDetailEntity detail, ReqDetailOfferEntity offer){
+		reqOfferHandler.updateSelectedOffer(new UpdateSelectedOfferEvent(detail,offer,sessionInfoHelper.currentUserName()));
+		this.findDocument(document.getId());
+		jsfMessageHelper.addInfo("updateSuccessful", "Teklif");
 	}
 
 	private void findDocument(Long documentId) {
@@ -128,49 +115,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 			detailList = readDetailEvent.getDetails();
 		}
 	}
-
-	private ReqDetailOfferEntity initNewOffer(ReqDetailEntity detail) {
-		ReqDetailOfferEntity offer = new ReqDetailOfferEntity();
-		offer.setDetail(detail);
-		offer.setVendorItem(vendor);
-		return offer;
-	}
-
-	public void offerSelected(ReqDetailEntity detail, ReqDetailOfferEntity offer) {
-		this.selectedDetail = detail;
-		this.selectedOffer = offer;
-	}
-
-	public void deleteOffer(ReqDetailOfferEntity offer) {
-		try {
-			reqOfferHandler.deleteOffer(offer);
-			this.findDocument(document.getId());
-			jsfMessageHelper.addInfo("deleteSuccessful", "Teklif");
-		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
-		}
-	}
-
-	public void saveOffer() {
-		try {
-			OfferCreatedEvent createdEvent = reqOfferHandler.saveOffer(new CreateOfferEvent(this.selectedOffer,sessionInfoHelper.currentUserName()));
-			this.findDocument(document.getId());
-			jsfMessageHelper.addInfo("createSuccessful", "Teklif");
-		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
-		}
-	}
-
-	public void updateOffer() {
-		try {
-			OfferUpdatedEvent updatedEvent = reqOfferHandler.updateOffer(new UpdateOfferEvent(this.selectedOffer,sessionInfoHelper.currentUserName()));
-			this.findDocument(document.getId());
-			jsfMessageHelper.addInfo("updateSuccessful", "Teklif");
-		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
-		}
-	}
-
+	
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
 	}

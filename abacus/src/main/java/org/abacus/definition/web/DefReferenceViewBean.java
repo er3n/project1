@@ -44,7 +44,7 @@ public class DefReferenceViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		rootOrganization = sessionInfoHelper.currentRootOrganization();
+		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 	}
 
 	public void setSelType(DefTypeEntity selType) {

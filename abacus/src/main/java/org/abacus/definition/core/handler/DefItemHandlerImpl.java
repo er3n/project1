@@ -26,6 +26,7 @@ import org.abacus.definition.shared.event.RequestReadItemEvent;
 import org.abacus.definition.shared.event.UpdateItemEvent;
 import org.abacus.definition.shared.event.UpdateItemProductEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -80,10 +81,10 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	public ItemUpdatedEvent updateItem(UpdateItemEvent event) throws ItemAlreadyExistsException {
 		String userUpdated = event.getUserUpdated();
 		DefItemEntity item = event.getItem();
-		String organization = event.getOrganization();
+		OrganizationEntity organization = event.getOrganization();
 		Set<DefUnitCodeEntity> unitCodeSet = event.getUnitCodeSet();
 
-		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),organization);
+		DefItemEntity existingItem = itemRepository.exists(item.getCode(), item.getType().getId(), organization.getId());
 		boolean isItemExists = existingItem != null && !(existingItem.getId().equals(item.getId()));
 		if(isItemExists){
 			throw new ItemAlreadyExistsException();

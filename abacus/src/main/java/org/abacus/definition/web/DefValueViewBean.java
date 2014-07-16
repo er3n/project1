@@ -52,7 +52,7 @@ public class DefValueViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		rootOrganization = sessionInfoHelper.currentRootOrganization();
+		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 		rootVal = new DefValueEntity();
 		rootVal.setId(0L);
 	}

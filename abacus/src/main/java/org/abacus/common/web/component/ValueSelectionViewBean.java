@@ -14,6 +14,7 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -27,8 +28,10 @@ public class ValueSelectionViewBean implements Serializable {
 	private SessionInfoHelper sessionInfoHelper;
 	
 	private Map<String, List<DefValueEntity>> resultMap = new HashMap<>();
-
+	private OrganizationEntity rootOrganization;
+	
 	public void init() {
+		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 	}
 
 	public List<DefValueEntity> getValueList(EnumList.DefTypeEnum typeEnum) {
@@ -39,7 +42,7 @@ public class ValueSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganization().getId(), typeEnum);
+			List<DefValueEntity> list = defValueHandler.getValueList(rootOrganization.getId(), typeEnum);
 			resultMap.put(key, list);
 			return list;
 		}
@@ -53,7 +56,7 @@ public class ValueSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganization().getId(), typeEnum, itemEnum);
+			List<DefValueEntity> list = defValueHandler.getValueList(rootOrganization.getId(), typeEnum, itemEnum);
 			resultMap.put(key, list);
 			return list;
 		}

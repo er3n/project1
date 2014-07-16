@@ -1,15 +1,16 @@
 package org.abacus.user.shared.event;
 
 import org.abacus.common.shared.event.RequestReadEvent;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public class RequestReadOrganizationsEvent extends RequestReadEvent {
 
 	private String username;
-	private String organizationid;
+	private OrganizationEntity organization;
 
-	public RequestReadOrganizationsEvent(String username, String organizationid) {
+	public RequestReadOrganizationsEvent(String username, OrganizationEntity organization) {
 		this.username = username;
-		this.organizationid = organizationid;
+		this.organization = organization;
 	}
 
 	public String getUsername() {
@@ -20,12 +21,12 @@ public class RequestReadOrganizationsEvent extends RequestReadEvent {
 		this.username = username;
 	}
 
-	public String getOrganizationid() {
-		return organizationid;
+	public OrganizationEntity getOrganization() {
+		return organization;
 	}
 
-	public void setOrganizationid(String organization) {
-		this.organizationid = organization;
+	public void setOrganization(OrganizationEntity organization) {
+		this.organization = organization;
 	}
 
 }

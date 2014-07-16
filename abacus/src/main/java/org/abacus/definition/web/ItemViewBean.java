@@ -86,13 +86,14 @@ public class ItemViewBean implements Serializable {
 
 	private Boolean displayProductInfo;
 
-//	private List<DefValueEntity> allReceiptList;
+	private OrganizationEntity rootOrganization;
 
 	@PostConstruct
 	public void init() {
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
 		this.initUnitGroups();
+		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 
 //		if (displayProductInfo) {
 //			allReceiptList = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_RECEIPT);
@@ -113,8 +114,7 @@ public class ItemViewBean implements Serializable {
 	public void updateItem() {
 		try {
 			String userUpdated = sessionInfoHelper.currentUserName();
-			String organization = sessionInfoHelper.currentRootOrganization().getId();
-			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, userUpdated, organization));
+			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, userUpdated, rootOrganization));
 			this.itemSelected();
 			jsfMessageHelper.addInfo("updateSuccessful");
 		} catch (ItemAlreadyExistsException e) {
@@ -188,9 +188,8 @@ public class ItemViewBean implements Serializable {
 	}
 
 	public void newItemSelected() {
-		OrganizationEntity organization = sessionInfoHelper.currentRootOrganization();
 		selectedItem = new DefItemEntity();
-		selectedItem.setOrganization(organization);
+		selectedItem.setOrganization(rootOrganization);
 		selectedItem.setType(new DefTypeEntity(type.name()));
 		selectedItem.setItemClass(clazz);
 		selectedItem.setCategory(new DefValueEntity());
@@ -210,7 +209,6 @@ public class ItemViewBean implements Serializable {
 	}
 
 	private void initParameters() {
-		OrganizationEntity rootOrganization = sessionInfoHelper.currentRootOrganization();
 		String itemTypeStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
 		String itemClassStr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("class");
 		type = EnumList.DefTypeEnum.valueOf(itemTypeStr);
@@ -220,8 +218,7 @@ public class ItemViewBean implements Serializable {
 	}
 
 	private void initUnitGroups() {
-		String rootOrganizationId = sessionInfoHelper.currentRootOrganization().getId();
-		this.allUnitGroupList = defUnitHandler.getUnitGroupList(rootOrganizationId);
+		this.allUnitGroupList = defUnitHandler.getUnitGroupList(rootOrganization.getId());
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

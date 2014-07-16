@@ -47,10 +47,9 @@ public class DefParamAnswerViewBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		rootOrganization = sessionInfoHelper.currentRootOrganization();
+		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 		ReadOrganizationsEvent allOrganizationsEvent = userService
-				.requestOrganization(new RequestReadOrganizationsEvent(null,
-						sessionInfoHelper.currentRootOrganization().getId()));
+				.requestOrganization(new RequestReadOrganizationsEvent(null, rootOrganization));
 		allOrganizations = allOrganizationsEvent.getOrganizationList();
 	}
 	

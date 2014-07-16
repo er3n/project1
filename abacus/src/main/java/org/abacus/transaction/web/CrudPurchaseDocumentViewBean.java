@@ -133,7 +133,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 	private void findDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 
-		DefTaskEntity purchaseTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganization(), EnumList.DefTypeEnum.REQ_IO_P).get(0);
+		DefTaskEntity purchaseTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.REQ_IO_P).get(0);
 		traDocumentSearchCriteria.setDocTask(purchaseTaskList);
 
 		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));

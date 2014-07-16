@@ -83,10 +83,6 @@ public class SessionInfoHelper implements Serializable {
 		return currentUser().getSelectedOrganization();
 	}
 
-	public OrganizationEntity currentRootOrganization(){
-		return currentOrganization().getRootOrganization();
-	}
-
 	public FiscalYearEntity currentFiscalYear() {
 		return currentUser().getSelectedFiscalYear();
 	}

@@ -7,7 +7,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
-	xmlns:abc="http://www.abacus.com/abc">
+	xmlns:abc="http://www.abacus.com/abc"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<!-- orgFiscalPeriod -->
 	<h:panelGrid id="fiscalPeriodGrid" columns="1">
@@ -16,9 +17,10 @@
 				<h:panelGrid id="fiscalPeriodGrid2" columns="8" cellpadding="2">
  
 					<h:outputLabel value="No : " />
-					<p:inputText value="#{orgFiscalViewBean.selFiscalPeriod.periodNo}"
-						required="true" requiredMessage="No Bos olamaz"
-						validatorMessage="FiscalPeriod.No" />
+					<pe:inputNumber decimalPlaces="0" style="text-align: right;" minValue="1" maxValue="99"
+								value="#{orgFiscalViewBean.selFiscalPeriod.periodNo}"
+								required="true" requiredMessage="FiscalPeriod.No Bos olamaz"
+								validatorMessage="FiscalPeriod.No" />
 
 					<h:outputLabel value="Başlangıç : " />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
@@ -74,6 +76,14 @@
 
 				<p:column headerText="Bitiş" style="width:150px">  
            			#{selFiscalPeriod.dateFinish}  
+       			</p:column>
+
+				<p:column headerText="Fin" style="width:150px">  
+           			#{selFiscalPeriod.isFinActive}  
+       			</p:column>
+
+				<p:column headerText="Stk" style="width:150px">  
+           			#{selFiscalPeriod.isStkActive}  
        			</p:column>
 
 				<p:column headerText="ID" style="width:150px">  

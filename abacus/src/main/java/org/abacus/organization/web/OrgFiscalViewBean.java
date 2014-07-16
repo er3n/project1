@@ -1,6 +1,7 @@
 package org.abacus.organization.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -43,17 +44,19 @@ public class OrgFiscalViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		createFiscalYear();
+		createFiscalPeriod();
 	}
 
 	public void setSelOrganization(OrganizationEntity selType) {
 		this.selOrganization = selType;
-		createFiscalYear();
+		init();
 		fiscalYearList = fiscalService.findFiscalYearList(selType.getId());
+		fiscalPeriodList = new ArrayList<FiscalPeriodEntity>();
 	}
 
 	
 	public void saveFiscalYear() {
-		if (!selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
+		if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
 			jsfMessageHelper.addInfo("levelL0NotAvailable");
 			return;
 		}
@@ -82,19 +85,27 @@ public class OrgFiscalViewBean implements Serializable {
 	}
 
 	public void saveFiscalPeriod() {
-		if (!selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
+		if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
 			jsfMessageHelper.addInfo("levelL0NotAvailable");
 			return;
 		}
 		
 		if (selFiscalPeriod.isNew()) {
 			jsfMessageHelper.addInfo("createSuccessful","FiscalPeriod");
-			selFiscalPeriod.setId(selOrganization.getId()+"."+AbcUtility.LPad(sessionInfoHelper.getNewId().toString(), 8, '0'));
+			selFiscalPeriod.setFiscalYear(selFiscalYear);
+			if (selFiscalPeriod.getPeriodNo()==null || 
+					selFiscalPeriod.getPeriodNo().intValue()<1 || 
+					selFiscalPeriod.getPeriodNo().intValue()>99){
+				jsfMessageHelper.addInfo("createError","No Hatalı");
+				return;
+			}
+			String newId = selFiscalPeriod.getFiscalYear().getId()+"."+AbcUtility.LPad(selFiscalPeriod.getPeriodNo().toString(), 2, '0');
+			selFiscalPeriod.setId(newId);
 		} else {
 			jsfMessageHelper.addInfo("updateSuccessful","FiscalPeriod");
 		}
 		fiscalService. saveFiscalPeriodEntity(selFiscalPeriod);
-		setSelFiscalPeriod(selFiscalPeriod);
+		setSelFiscalYear(selFiscalYear);
 	}
 
 	public void deleteFiscalPeriod() {
@@ -102,12 +113,15 @@ public class OrgFiscalViewBean implements Serializable {
 			fiscalService.deleteFiscalPeriodEntity(selFiscalPeriod);
 			jsfMessageHelper.addInfo("deleteSuccessful","FiscalPeriod");
 		}
-		setSelFiscalPeriod(selFiscalPeriod);
+		setSelFiscalYear(selFiscalYear);
 	}
 	
 	public void createFiscalPeriod() {
 		selFiscalPeriod = new FiscalPeriodEntity();
 		selFiscalPeriod.setFiscalYear(selFiscalYear);
+		selFiscalPeriod.setIsAccActive(true);
+		selFiscalPeriod.setIsFinActive(true);
+		selFiscalPeriod.setIsStkActive(true);
 	}
 
 	
@@ -127,7 +141,10 @@ public class OrgFiscalViewBean implements Serializable {
 		if (selFiscalYear!=null){
 			this.selFiscalYear = selFiscalYear;
 			fiscalPeriodList = fiscalService.findFiscalPeriodList(this.selFiscalYear.getId());
+		} else {
+			fiscalPeriodList = new ArrayList<FiscalPeriodEntity>();
 		}
+		createFiscalPeriod();
 	}
 
 	public List<FiscalYearEntity> getFiscalYearList() {

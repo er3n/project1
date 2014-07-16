@@ -185,8 +185,9 @@ public class TestTransactionHandler {
 
 	@Test
 	public void testFiscalPeriod() throws AbcBusinessException{
+		FiscalYearEntity fiscalYear = fiscalDao.getFiscalYear(fiscalYearId);
 		Date now = new Date();
-		FiscalPeriodEntity period = fiscalDao.findFiscalPeriod(fiscalYearId, now, EnumList.DefTypeEnum.STK_IO_I);
+		FiscalPeriodEntity period = fiscalDao.findFiscalPeriod(fiscalYear, now, EnumList.DefTypeEnum.STK_IO_I);
 		System.out.println(period.getId());
 	}
 

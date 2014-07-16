@@ -38,6 +38,16 @@ public class FiscalDao implements Serializable {
 		return fiscalYearRepository.findOne(id);
 	}
 
+	public FiscalYearEntity getFiscalYear(String organizationId, Date date) throws AbcBusinessException {
+		List<FiscalYearEntity> fiscalList = findFiscalYearList(organizationId);
+		for (FiscalYearEntity fis : fiscalList) {
+			if (date.compareTo(fis.getDateStart())>0 && date.compareTo(fis.getDateFinish())<0){
+				return fis;
+			}
+		}
+		return null;
+	}
+	
 	public List<FiscalYearEntity> findFiscalYearList(String organizationId) throws AbcBusinessException {
 		Set<FiscalYearEntity> fiscalSet = fiscalYearRepository.findFiscalYearSet(organizationId);
 		List<FiscalYearEntity> fiscalList = new ArrayList<FiscalYearEntity>(fiscalSet);
@@ -54,8 +64,8 @@ public class FiscalDao implements Serializable {
 		return fiscalPeriodRepository.findOne(id);
 	}
 
-	public FiscalPeriodEntity findFiscalPeriod(String fiscalYearId, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException {
-		FiscalYearEntity fiscalYearEntity = fiscalYearRepository.findOne(fiscalYearId);
+	public FiscalPeriodEntity findFiscalPeriod(FiscalYearEntity fiscalYearEntity, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException {
+//		FiscalYearEntity fiscalYearEntity = fiscalYearRepository.findOne(fiscalYearId);
 		
 //		if (!String.valueOf(new DateTime(docDate).getYear()).equals(fiscalYearEntity.getYear())){
 		if (docDate.compareTo(fiscalYearEntity.getDateStart())<0 || docDate.compareTo(fiscalYearEntity.getDateFinish())>0){

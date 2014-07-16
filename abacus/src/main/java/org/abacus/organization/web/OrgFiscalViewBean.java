@@ -47,10 +47,10 @@ public class OrgFiscalViewBean implements Serializable {
 		createFiscalPeriod();
 	}
 
-	public void setSelOrganization(OrganizationEntity selType) {
-		this.selOrganization = selType;
+	public void setSelOrganization(OrganizationEntity org) {
+		this.selOrganization = org;
 		init();
-		fiscalYearList = fiscalService.findFiscalYearList(selType.getId());
+		fiscalYearList = fiscalService.findFiscalYearList(org);
 		fiscalPeriodList = new ArrayList<FiscalPeriodEntity>();
 	}
 
@@ -140,7 +140,7 @@ public class OrgFiscalViewBean implements Serializable {
 	public void setSelFiscalYear(FiscalYearEntity selFiscalYear) {
 		if (selFiscalYear!=null){
 			this.selFiscalYear = selFiscalYear;
-			fiscalPeriodList = fiscalService.findFiscalPeriodList(this.selFiscalYear.getId());
+			fiscalPeriodList = fiscalService.findFiscalPeriodList(this.selFiscalYear);
 		} else {
 			fiscalPeriodList = new ArrayList<FiscalPeriodEntity>();
 		}

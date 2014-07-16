@@ -10,7 +10,7 @@ public interface OrganizationHandler extends Serializable{
 
 	OrganizationEntity findOne(String organizationId);
 	
-	List<OrganizationEntity> findByOrganization(String organization);
+	List<OrganizationEntity> findByOrganization(String organizationId);
 	
 	OrganizationEntity saveOrganizationEntity(OrganizationEntity entity) throws AbcBusinessException;
 	

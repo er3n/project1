@@ -10,6 +10,7 @@ import org.abacus.organization.core.persistance.repository.FiscalPeriodRepositor
 import org.abacus.organization.core.persistance.repository.FiscalYearRepository;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,14 +37,14 @@ public class FiscalHandlerImpl implements FiscalHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<FiscalYearEntity> findFiscalYearList(String organizationId) throws AbcBusinessException{
-		return fiscalDao.findFiscalYearList(organizationId);
+	public List<FiscalYearEntity> findFiscalYearList(OrganizationEntity organization) throws AbcBusinessException{
+		return fiscalDao.findFiscalYearList(organization.getId());
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<FiscalPeriodEntity> findFiscalPeriodList(String fiscalYearId) throws AbcBusinessException{
-		return fiscalDao.findFiscalPeriodList(fiscalYearId);
+	public List<FiscalPeriodEntity> findFiscalPeriodList(FiscalYearEntity fiscalYear) throws AbcBusinessException{
+		return fiscalDao.findFiscalPeriodList(fiscalYear.getId());
 	}
 
 	@Override
@@ -54,8 +55,8 @@ public class FiscalHandlerImpl implements FiscalHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public FiscalPeriodEntity findFiscalPeriod(String fiscalYearId, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException{
-		return fiscalDao.findFiscalPeriod(fiscalYearId, docDate, docTypeEnum);
+	public FiscalPeriodEntity findFiscalPeriod(FiscalYearEntity fiscalYear, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException{
+		return fiscalDao.findFiscalPeriod(fiscalYear, docDate, docTypeEnum);
 	}
 
 	@Override

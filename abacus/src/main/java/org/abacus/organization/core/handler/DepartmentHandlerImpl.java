@@ -7,6 +7,7 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.DepartmentDao;
 import org.abacus.organization.core.persistance.repository.DepartmentRepository;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserDepartmentRepository;
 import org.abacus.user.shared.entity.SecUserDepartmentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,8 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 	
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DepartmentEntity> findByOrganizationAndGroup(String organizationId, EnumList.OrgDepartmentGroupEnum groupEnum) {
-		List<DepartmentEntity> list = departmentRepository.findByOrganizationAndGroup(organizationId, groupEnum);
+	public List<DepartmentEntity> findByOrganizationAndGroup(OrganizationEntity organization, EnumList.OrgDepartmentGroupEnum groupEnum) {
+		List<DepartmentEntity> list = departmentRepository.findByOrganizationAndGroup(organization.getId(), groupEnum);
 		return list;
 	}
 

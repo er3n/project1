@@ -4,8 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import javax.persistence.EnumType;
+
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.FiscalDao;
+import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -75,11 +78,21 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		document.createHook(user);
 		document.setTypeEnum(document.getTask().getType().getTypeEnum());
 		
-		FiscalPeriodEntity fiscalPeriod1 = fiscalDao.findFiscalPeriod(event.getFiscalYear().getId(), document.getDocDate(), document.getTypeEnum());
-		document.setFiscalPeriod1(fiscalPeriod1);
-		
-		document = getDocumentRepository().save(document);
+		//Proje yada Sirket FiscalPeriod
+		FiscalPeriodEntity fiscalPeriod2 = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
+		document.setFiscalPeriod2(fiscalPeriod2);
 
+		if (event.getFiscalYear().getOrganization().getLevel().equals(EnumList.OrgOrganizationLevelEnum.L1)){
+			document.setFiscalPeriod1(fiscalPeriod2);
+		} else {
+			//Sirket FiscalPeriod
+			OrganizationEntity orgCompany = OrganizationUtils.findLevelOrganization(event.getFiscalYear().getOrganization(), EnumList.OrgOrganizationLevelEnum.L1);
+			FiscalYearEntity fiscalCompany = fiscalDao.getFiscalYear(orgCompany.getId(), document.getDocDate());
+			FiscalPeriodEntity fiscalPeriod1 = fiscalDao.findFiscalPeriod(fiscalCompany, document.getDocDate(), document.getTypeEnum());
+			document.setFiscalPeriod1(fiscalPeriod1);
+		}
+
+		document = getDocumentRepository().save(document);
 		return new DocumentCreatedEvent<T>(document);
 	}
 

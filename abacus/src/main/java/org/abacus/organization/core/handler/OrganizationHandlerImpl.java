@@ -40,8 +40,8 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<OrganizationEntity> findByOrganization(String organization) {
-		return organizationRepository.findByOrganization(organization);
+	public List<OrganizationEntity> findByOrganization(String organizationId) {
+		return organizationRepository.findByOrganization(organizationId);
 	}
 
 	@Override

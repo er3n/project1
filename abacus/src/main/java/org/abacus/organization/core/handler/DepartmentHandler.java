@@ -5,10 +5,11 @@ import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 
 public interface DepartmentHandler extends Serializable{
 
-	List<DepartmentEntity> findByOrganizationAndGroup(String organizationId, EnumList.OrgDepartmentGroupEnum groupEnum);
+	List<DepartmentEntity> findByOrganizationAndGroup(OrganizationEntity organization, EnumList.OrgDepartmentGroupEnum groupEnum);
 
 	DepartmentEntity saveDepartmentEntity(DepartmentEntity entity);
 	

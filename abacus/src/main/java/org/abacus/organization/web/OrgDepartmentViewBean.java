@@ -97,7 +97,7 @@ public class OrgDepartmentViewBean implements Serializable {
 		departmentList = null;
 		if (selOrganization != null) {
 			departmentList = departmentService.findByOrganizationAndGroup(
-					selOrganization.getId(), selectedGroupEnum);
+					selOrganization, selectedGroupEnum);
 		} else {
 			departmentList = new ArrayList<DepartmentEntity>();
 		}

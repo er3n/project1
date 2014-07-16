@@ -13,9 +13,9 @@
 
 	<!-- orgFiscal -->
 	<h:panelGrid id="fiscalGrid" columns="1">
-		<h:form id="fiscalForm">
+		<h:form id="orgDetailForm">
 			<p:panel id="fiscalPanel" header="Şiket Çalışma Dönemleri / Müşteri Projeleri">
-				<h:panelGrid id="fiscalGrid" columns="8" cellpadding="2">
+				<h:panelGrid id="fiscalGrid2" columns="8" cellpadding="2">
  
 					<h:outputLabel value="Adı : " />
 					<p:inputText value="#{orgFiscalViewBean.selFiscalYear.name}"
@@ -33,23 +33,23 @@
 				</h:panelGrid>
 				
 				<f:facet name="footer">
-					<p:commandButton id="saveFiscal" update=":fiscalForm"
+					<p:commandButton id="saveFiscal" update=":orgDetailForm"
 						ajax="true" process="@form"
 						value="#{orgFiscalViewBean.selFiscalYear.id == null ? 'Kaydet' : 'Guncelle'}"
 						actionListener="#{orgFiscalViewBean.saveFiscalYear}" />
-					<p:commandButton id="deleteFiscal" update=":fiscalForm"
+					<p:commandButton id="deleteFiscal" update=":orgDetailForm"
 						ajax="true"
 						value="#{orgFiscalViewBean.selFiscalYear.id == null ? '-' : 'Sil'}"
 						actionListener="#{orgFiscalViewBean.deleteFiscalYear}"
 						immediate="true">
 						<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert" />
 					</p:commandButton>
-					<p:commandButton id="clearFiscal" update=":fiscalForm"
+					<p:commandButton id="clearFiscal" update=":orgDetailForm"
 						ajax="true"
 						value="#{orgFiscalViewBean.selFiscalYear.id == null ? 'Temizle' : 'Yeni Kayit'}"
 						actionListener="#{orgFiscalViewBean.createFiscalYear}"
 						process="@this">
-						<p:resetInput target=":fiscalForm" />
+						<p:resetInput target=":orgDetailForm" />
 					</p:commandButton>
 				</f:facet>
 
@@ -63,7 +63,7 @@
 				resizableColumns="true">
 
 
-				<p:ajax event="rowSelect" update=":fiscalForm :fiscalPeriodForm">
+				<p:ajax event="rowSelect" update=":orgDetailForm :fiscalPeriodForm">
 				</p:ajax>
 						
 				<p:column headerText="Adı">  

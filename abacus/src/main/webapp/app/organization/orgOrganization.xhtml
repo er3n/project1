@@ -7,22 +7,16 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
-	template="/WEB-INF/content/template/simple.xhtml"
->
+	xmlns:abc="http://www.abacus.com/abc">
 	
-	<ui:define name="content">
-
-	<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgOrganizationLevelEnum" />
-
-		<style> .topAligned { vertical-align: top;} </style>
-		<h:panelGrid id="mainGrid" columns="1">
-
+	<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+	
 			<h:panelGrid id="organizationGrid" columns="1">
 				<h:form id="organizationForm">
 				
 					<p:panel id="organizationPanel" header="Organizasyon Yapısı">
 
-						<h:panelGrid id="organizationGrid" columns="8" cellpadding="2">
+						<h:panelGrid id="organizationGrid2" columns="8" cellpadding="2">
 
 							<h:outputLabel value="Kod : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.id}"
@@ -73,7 +67,7 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{selOrganization.id}"
 						rows="10" resizableColumns="true">
 
-						<p:ajax event="rowSelect" update=":organizationForm :departmentForm :fiscalForm"
+						<p:ajax event="rowSelect" update=":organizationForm :orgDetailForm :orgDetailForm"
 							listener="#{organizationViewBean.organizationRowSelectListener}">
 						</p:ajax>
 
@@ -99,9 +93,5 @@
 			</h:panelGrid>
 			<!-- organizationGrid -->
 
-			<ui:include src="orgDepartment.xhtml"></ui:include>				
-			<ui:include src="orgFiscalYear.xhtml"></ui:include>				
 
-		</h:panelGrid>
-	</ui:define>
 </ui:composition>

@@ -6,7 +6,8 @@
 <h:form>
 	<p:menubar styleClass="menuStyle" >
 		<p:submenu label="Sistem Yönetim" rendered="#{sec:areAnyGranted('AUTH_SECURITY,AUTH_ORGANIZATION,AUTH_DEFINITION')}">
-			<p:menuitem value="Organizasyon Tanimlari" url="/app/organization/orgmanager.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
+			<p:menuitem value="Organizasyon-Departman" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
+			<p:menuitem value="Organizasyon-Dönem" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
 			<p:menuitem value="Kullanici Tanimlari" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}"/>
 			<p:menuitem value="Kullanici Gruplari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}" />			
 			<p:separator/>

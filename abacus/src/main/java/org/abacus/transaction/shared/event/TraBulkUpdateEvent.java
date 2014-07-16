@@ -2,6 +2,8 @@ package org.abacus.transaction.shared.event;
 
 import java.util.List;
 
+import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
@@ -10,10 +12,10 @@ public class TraBulkUpdateEvent<T extends TraDocumentEntity, D extends TraDetail
 	private T document;
 	private List<D> detailList;
 	private String user;
-	private String organization;
-	private String fiscalYear;
+	private OrganizationEntity organization;
+	private FiscalYearEntity fiscalYear;
 
-	public TraBulkUpdateEvent(T document, List<D> detailList, String user, String organization, String fiscalYear) {
+	public TraBulkUpdateEvent(T document, List<D> detailList, String user, OrganizationEntity organization, FiscalYearEntity fiscalYear) {
 		this.document = document;
 		this.detailList = detailList;
 		this.user = user;
@@ -45,19 +47,19 @@ public class TraBulkUpdateEvent<T extends TraDocumentEntity, D extends TraDetail
 		this.user = user;
 	}
 
-	public String getOrganization() {
+	public OrganizationEntity getOrganization() {
 		return organization;
 	}
 
-	public void setOrganization(String organization) {
+	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
 	}
 
-	public String getFiscalYear() {
+	public FiscalYearEntity getFiscalYear() {
 		return fiscalYear;
 	}
 
-	public void setFiscalYear(String fiscalYear) {
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
 		this.fiscalYear = fiscalYear;
 	}
 

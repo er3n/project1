@@ -113,7 +113,7 @@ public class ItemViewBean implements Serializable {
 	public void updateItem() {
 		try {
 			String userUpdated = sessionInfoHelper.currentUserName();
-			String organization = sessionInfoHelper.currentOrganizationId();
+			String organization = sessionInfoHelper.currentRootOrganization().getId();
 			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, userUpdated, organization));
 			this.itemSelected();
 			jsfMessageHelper.addInfo("updateSuccessful");
@@ -220,7 +220,7 @@ public class ItemViewBean implements Serializable {
 	}
 
 	private void initUnitGroups() {
-		String rootOrganizationId = sessionInfoHelper.currentRootOrganizationId();
+		String rootOrganizationId = sessionInfoHelper.currentRootOrganization().getId();
 		this.allUnitGroupList = defUnitHandler.getUnitGroupList(rootOrganizationId);
 	}
 

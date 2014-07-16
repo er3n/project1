@@ -86,7 +86,6 @@ public class DefReferenceViewBean implements Serializable {
 		createReference();
 		referenceList = null;
 		if (selType != null) {
-			String org = sessionInfoHelper.currentOrganizationId();
 			referenceList = defReferenceService.getReferenceList(rootOrganization.getId(), selType.getTypeEnum());
 		} else {
 			referenceList = new ArrayList<DefReferenceEntity>();

@@ -80,7 +80,7 @@ public class OrganizationViewBean implements Serializable {
 	public void findOrganizationList() {
 		clearOrganization();
 		organizationList = null;
-		organizationList = organizationHandler.findByOrganization(sessionInfoHelper.currentOrganizationId());
+		organizationList = organizationHandler.findByOrganization(sessionInfoHelper.currentOrganization().getId());
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {

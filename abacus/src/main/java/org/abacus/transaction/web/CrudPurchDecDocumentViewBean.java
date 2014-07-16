@@ -2,7 +2,6 @@ package org.abacus.transaction.web;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -10,11 +9,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.definition.core.persistance.repository.DefTaskRepository;
+import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
@@ -24,15 +22,10 @@ import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
-import org.abacus.transaction.shared.event.CreateOfferEvent;
-import org.abacus.transaction.shared.event.OfferCreatedEvent;
-import org.abacus.transaction.shared.event.OfferUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
-import org.abacus.transaction.shared.event.SelectedOfferUpdated;
-import org.abacus.transaction.shared.event.UpdateOfferEvent;
 import org.abacus.transaction.shared.event.UpdateSelectedOfferEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
@@ -55,8 +48,8 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{reqTransactionHandler}")
 	private TraTransactionHandler<ReqDocumentEntity, ReqDetailEntity> transactionHandler;
 
-	@ManagedProperty(value = "#{defTaskRepository}")
-	private DefTaskRepository taskRepository;
+	@ManagedProperty(value = "#{defTaskHandler}")
+	private DefTaskHandler taskRepository;
 
 	@ManagedProperty(value = "#{reqConfirmationHandler}")
 	private ReqConfirmationHandler reqConfirmationHandler;
@@ -103,10 +96,10 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 	private void findDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 
-		DefTaskEntity purchaseTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.REQ_IO_P.name()).get(0);
+		DefTaskEntity purchaseTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.REQ_IO_P).get(0);
 		traDocumentSearchCriteria.setDocTask(purchaseTaskList);
 
-		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
@@ -148,11 +141,11 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 		this.transactionHandler = transactionHandler;
 	}
 
-	public DefTaskRepository getTaskRepository() {
+	public DefTaskHandler getTaskRepository() {
 		return taskRepository;
 	}
 
-	public void setTaskRepository(DefTaskRepository taskRepository) {
+	public void setTaskRepository(DefTaskHandler taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 

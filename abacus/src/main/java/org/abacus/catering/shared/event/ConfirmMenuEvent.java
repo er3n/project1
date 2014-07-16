@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.common.shared.event.UpdatedEvent;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 
@@ -13,15 +14,13 @@ public class ConfirmMenuEvent extends UpdatedEvent {
 	private List<StkDetailEntity> details;
 	private String user;
 	private CatMenuEntity menu;
-	private String fiscalYear;
-	private String organization;
+	private FiscalYearEntity fiscalYear;
 
-	public ConfirmMenuEvent(StkDocumentEntity document, List<StkDetailEntity> details, CatMenuEntity menu, String user, String organization, String fiscalYear) {
+	public ConfirmMenuEvent(StkDocumentEntity document, List<StkDetailEntity> details, CatMenuEntity menu, String user, FiscalYearEntity fiscalYear) {
 		this.document = document;
 		this.details = details;
 		this.menu = menu;
 		this.user = user;
-		this.organization = organization;
 		this.fiscalYear = fiscalYear;
 	}
 
@@ -57,20 +56,12 @@ public class ConfirmMenuEvent extends UpdatedEvent {
 		this.menu = menu;
 	}
 
-	public String getFiscalYear() {
+	public FiscalYearEntity getFiscalYear() {
 		return fiscalYear;
 	}
 
-	public void setFiscalYear(String fiscalYear) {
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
 		this.fiscalYear = fiscalYear;
-	}
-
-	public String getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(String organization) {
-		this.organization = organization;
 	}
 
 }

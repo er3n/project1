@@ -18,7 +18,6 @@ import org.abacus.organization.shared.FiscalPeriodNotOpenException;
 import org.abacus.organization.shared.FiscalYearDocumentDateNotMatchedException;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

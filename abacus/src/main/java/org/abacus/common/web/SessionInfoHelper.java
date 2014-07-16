@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.abacus.common.security.SecUser;
-import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -54,8 +53,8 @@ public class SessionInfoHelper implements Serializable {
 	}
 
 	public void companyChanged(){
-		OrganizationEntity selectedOrganization = organizationRepository.fetchOrganization(currentOrganizationId());
-		Set<FiscalYearEntity> fiscalYearSet = organizationUtils.findCompanyFiscalYearSet(selectedOrganization);
+		OrganizationEntity selectedOrganization = organizationRepository.fetchOrganization(currentOrganization().getId());
+		Set<FiscalYearEntity> fiscalYearSet = organizationUtils.findFiscalYearSet(selectedOrganization);
 		FiscalYearEntity selectedFiscalYear = organizationUtils.findDefaultFiscalYear(fiscalYearSet);
 		currentUser().setCompanyFiscalYearSet(fiscalYearSet);
 		currentUser().setSelectedFiscalYear(selectedFiscalYear);
@@ -84,24 +83,12 @@ public class SessionInfoHelper implements Serializable {
 		return currentUser().getSelectedOrganization();
 	}
 
-	public String currentOrganizationId() {
-		return currentUser().getSelectedOrganization().getId();
-	}
-	
 	public OrganizationEntity currentRootOrganization(){
-		return currentUser().getRootOrganization();
+		return currentOrganization().getRootOrganization();
 	}
 
-	public String currentRootOrganizationId() {
-		return currentRootOrganization().getId();
-	}
-
-	public FiscalYearEntity selectedFiscalYear() {
+	public FiscalYearEntity currentFiscalYear() {
 		return currentUser().getSelectedFiscalYear();
-	}
-
-	public String selectedFiscalYearId() {
-		return currentUser().getSelectedFiscalYear().getId();
 	}
 	
 }

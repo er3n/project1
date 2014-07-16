@@ -22,6 +22,8 @@ public class ReqDetailOfferEntity extends DynamicEntity {
 	@JoinColumn(name = "detail_id", nullable = false)
 	private ReqDetailEntity detail;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "vendor_item_id", nullable = false)
 	private DefItemEntity vendorItem;
 
 	@Column(name = "unit_offer_prive", nullable = false, precision = 12, scale = 2)
@@ -45,8 +47,6 @@ public class ReqDetailOfferEntity extends DynamicEntity {
 		this.detail = detail;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "vendor_item_id", nullable = false)
 	public DefItemEntity getVendorItem() {
 		return vendorItem;
 	}

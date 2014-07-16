@@ -7,11 +7,11 @@ public class UpdateOfferEvent {
 	private ReqDetailOfferEntity offer;
 	private String user;
 
-	public UpdateOfferEvent(ReqDetailOfferEntity offer, String user) {
+	public UpdateOfferEvent(ReqDetailOfferEntity offer, String user){
 		this.offer = offer;
-		this.user = user;
+		this.user = user;				
 	}
-
+	
 	public ReqDetailOfferEntity getOffer() {
 		return offer;
 	}

@@ -14,8 +14,7 @@
 				<p:panel id="documentPanel" rendered="#{not empty crudPurchaseDocumentViewBean.document}">
 
 					<f:facet name="header">
-						Satış -	<p:outputLabel value="#{crudPurchaseDocumentViewBean.document.requestStatus.getPDescription()}"/> 
-						
+						Satış
 					</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
@@ -73,8 +72,8 @@
 					</p:column>
 
 					<p:column headerText="İşlem">
-						<p:commandButton icon="ui-icon-pencil" actionListener="#{crudPurchaseDocumentViewBean.offerSelected(var,offer)}" update=":offerDialogFrm" oncomplete="PF('offerDialog').show()" rendered="${crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST}" />
-						<p:commandButton icon="ui-icon-closethick" actionListener="#{crudPurchaseDocumentViewBean.deleteOffer(offer)}" update=":crudDocumentDetailFrm" rendered="${not empty offer.id and crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST}"  />
+						<p:commandButton icon="ui-icon-pencil" actionListener="#{crudPurchaseDocumentViewBean.offerSelected(var,offer)}" update=":offerDialogFrm" oncomplete="PF('offerDialog').show()" />
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{crudPurchaseDocumentViewBean.deleteOffer(offer)}" update=":crudDocumentDetailFrm" rendered="#{not empty offer.id}" />
 					</p:column>
 
 				</p:dataTable>
@@ -85,10 +84,11 @@
 				<p:dialog widgetVar="offerDialog" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" width="600px" closeOnEscape="true">
 
 					<f:facet name="header">
-						<p:outputLabel value="Teklif: #{crudPurchaseDocumentViewBean.selectedDetail.itemDetailCount} #{crudPurchaseDocumentViewBean.selectedDetail.itemUnit.name}  #{crudPurchaseDocumentViewBean.selectedDetail.item.name}" /> 
+						<p:outputLabel value="Yeni Teklif - " />
+						<h:outputText value="#{crudPurchaseDocumentViewBean.selectedDetail.item.name}" />
 					</f:facet>
 
-					<p:outputLabel value="Teklif (TL) :" />
+					<p:outputLabel value="Teklif" />
 					<pe:inputNumber decimalPlaces="2" style="text-align: right;" value="#{crudPurchaseDocumentViewBean.selectedOffer.unitOfferPrice}" required="true" requiredMessage="Teklif boş olamaz" />
 
 					<f:facet name="footer">

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.util.OrganizationUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -45,6 +46,10 @@ public class OrganizationEntity extends StaticEntity {
 
 	public OrganizationEntity() {
 
+	}
+	
+	public OrganizationEntity getRootOrganization(){
+		return OrganizationUtils.findRootOrganization(this);
 	}
 	
 	public List<OrganizationEntity> getParentList(){

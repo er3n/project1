@@ -13,7 +13,7 @@ import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.definition.core.persistance.repository.DefTaskRepository;
+import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.transaction.core.handler.TraIntegrationHandler;
@@ -42,8 +42,8 @@ public class FindStkDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
-	@ManagedProperty(value = "#{defTaskRepository}")
-	private DefTaskRepository taskRepository;
+	@ManagedProperty(value = "#{defTaskHandler}")
+	private DefTaskHandler taskRepository;
 	
 	@ManagedProperty(value = "#{stkTransactionHandler}")
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
@@ -84,7 +84,7 @@ public class FindStkDocumentViewBean implements Serializable {
 	}
 	
 	private void initSelections() {
-		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), selectedTypeEnum);
 	}
 
 	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
@@ -103,7 +103,7 @@ public class FindStkDocumentViewBean implements Serializable {
 	}
 
 	public void findStkDocument() {
-		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 
@@ -227,11 +227,11 @@ public class FindStkDocumentViewBean implements Serializable {
 		this.stkTaskList = stkTaskList;
 	}
 
-	public DefTaskRepository getTaskRepository() {
+	public DefTaskHandler getTaskRepository() {
 		return taskRepository;
 	}
 
-	public void setTaskRepository(DefTaskRepository taskRepository) {
+	public void setTaskRepository(DefTaskHandler taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 

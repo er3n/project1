@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
@@ -43,8 +44,8 @@ public class FindFinDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{finTransactionHandler}")
 	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> transactionHandler;
 
-	@ManagedProperty(value = "#{defTaskRepository}")
-	private DefTaskRepository taskRepository;
+	@ManagedProperty(value = "#{defTaskHandler}")
+	private DefTaskHandler taskRepository;
 
 	private TraDocumentSearchCriteria documentSearchCriteria;
 	private List<DefTaskEntity> finTaskList;
@@ -79,7 +80,7 @@ public class FindFinDocumentViewBean implements Serializable {
 	}
 
 	private void initSelections() {
-		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), selectedTypeEnum);
 	}
 	
 	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
@@ -93,7 +94,7 @@ public class FindFinDocumentViewBean implements Serializable {
 	}
 
 	public void findFinDocument() {
-		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 
@@ -195,11 +196,11 @@ public class FindFinDocumentViewBean implements Serializable {
 		this.finTaskList = finTaskList;
 	}
 
-	public DefTaskRepository getTaskRepository() {
+	public DefTaskHandler getTaskRepository() {
 		return taskRepository;
 	}
 
-	public void setTaskRepository(DefTaskRepository taskRepository) {
+	public void setTaskRepository(DefTaskHandler taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 

@@ -5,6 +5,8 @@ import java.util.List;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
@@ -65,9 +67,8 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 		
 		ReqDocumentEntity reqDocument = confirmDocumentEvent.getReqDocumentEntity();
 		String user = confirmDocumentEvent.getUser();
-		String organization = confirmDocumentEvent.getOrganization();
-		String fiscalYear = confirmDocumentEvent.getFiscalYear();
-		String rootOrganization = confirmDocumentEvent.getRootOrganization();
+		OrganizationEntity organization = confirmDocumentEvent.getOrganization();
+		FiscalYearEntity fiscalYear = confirmDocumentEvent.getFiscalYear();
 		
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		BeanUtils.copyProperties(reqDocument, stkDocument);
@@ -80,7 +81,7 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 			proceedingTaskType = EnumList.DefTypeEnum.STK_WB_I;
 		}
 		
-		DefTaskEntity stkTask = taskHandler.getTaskList(rootOrganization, proceedingTaskType).get(0);
+		DefTaskEntity stkTask = taskHandler.getTaskList(organization, proceedingTaskType).get(0);
 		stkDocument.setTask(stkTask);
 		stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(stkDocument, user, organization, fiscalYear));
 		

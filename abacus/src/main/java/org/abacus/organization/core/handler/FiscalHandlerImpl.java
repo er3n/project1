@@ -1,6 +1,5 @@
 package org.abacus.organization.core.handler;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.abacus.organization.core.persistance.repository.FiscalPeriodRepositor
 import org.abacus.organization.core.persistance.repository.FiscalYearRepository;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.abacus.user.shared.entity.SecUserDepartmentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

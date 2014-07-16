@@ -48,7 +48,6 @@ public class DefValueViewBean implements Serializable {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
-	
 	private OrganizationEntity rootOrganization;
 
 	@PostConstruct

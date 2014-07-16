@@ -15,7 +15,6 @@ import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @ManagedBean
 @ViewScoped
@@ -41,7 +40,7 @@ public class CatMealViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		fiscalYear = sessionInfoHelper.selectedFiscalYear();
+		fiscalYear = sessionInfoHelper.currentFiscalYear();
 		findCatMealList();
 	}
 
@@ -72,7 +71,7 @@ public class CatMealViewBean implements Serializable {
 
 	public void clearCatMeal() {
 		selCatMeal = new CatMealFilterEntity();
-		selCatMeal.setFiscalYear(sessionInfoHelper.selectedFiscalYear());
+		selCatMeal.setFiscalYear(sessionInfoHelper.currentFiscalYear());
 	}
 
 	public void findCatMealList() {

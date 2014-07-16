@@ -5,6 +5,7 @@ import java.util.List;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,11 +19,18 @@ public class DefTaskHandlerImpl implements DefTaskHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DefTaskEntity> getTaskList(String organizationId, EnumList.DefTypeEnum typeEnum){
-		List<DefTaskEntity> list = defTaskRepository.getTaskList(organizationId, typeEnum.name());
+	public List<DefTaskEntity> getTaskList(OrganizationEntity organization, EnumList.DefTypeEnum typeEnum){
+		List<DefTaskEntity> list = defTaskRepository.getTaskListRepo(organization.getRootOrganization().getId(), typeEnum.name());
 		return list;
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public List<DefTaskEntity> getTaskList1(String organizationId, EnumList.DefTypeEnum typeEnum){
+		List<DefTaskEntity> list = defTaskRepository.getTaskListRepo(organizationId, typeEnum.name());
+		return list;
+	}
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public DefTaskEntity saveTaskEntity(DefTaskEntity entity) {

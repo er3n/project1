@@ -13,6 +13,7 @@ import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
@@ -54,8 +55,8 @@ public class CrudFinDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{finTransactionHandler}")
 	private TraTransactionHandler<FinDocumentEntity, FinDetailEntity> transactionHandler;
 
-	@ManagedProperty(value = "#{defTaskRepository}")
-	private DefTaskRepository taskRepository;
+	@ManagedProperty(value = "#{defTaskHandler}")
+	private DefTaskHandler taskRepository;
 
 	private FinDocumentEntity document;
 
@@ -106,7 +107,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 	}
 
 	private void initSelections() {
-		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
+		finTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), selectedTypeEnum);
 	}
 
 	public EnumList.DefTypeEnum getDocumentItemType(){
@@ -129,7 +130,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void saveDocument() {
 		try {
-			DocumentCreatedEvent<FinDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+			DocumentCreatedEvent<FinDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 			document = (FinDocumentEntity) documentCreatedEvent.getDocument();
 			this.findFinDocument(document.getId());
 			jsfMessageHelper.addInfo("createSuccessful", "Fiş");
@@ -163,7 +164,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 	private void findFinDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 
-		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
@@ -256,11 +257,11 @@ public class CrudFinDocumentViewBean implements Serializable {
 		this.transactionHandler = transactionHandler;
 	}
 
-	public DefTaskRepository getTaskRepository() {
+	public DefTaskHandler getTaskRepository() {
 		return taskRepository;
 	}
 
-	public void setTaskRepository(DefTaskRepository taskRepository) {
+	public void setTaskRepository(DefTaskHandler taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 

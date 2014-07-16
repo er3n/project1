@@ -60,7 +60,7 @@ public class SecurityHandler implements UserDetailsService {
 			}
 		}		
 		
-		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findCompanyFiscalYearSet(defaultOrganization);
+		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findFiscalYearSet(defaultOrganization);
 		FiscalYearEntity defaultFiscalYear = organizationUtils.findDefaultFiscalYear(companyFiscalYearSet);
 		
 		DefItemEntity vendor = user.getVendor();

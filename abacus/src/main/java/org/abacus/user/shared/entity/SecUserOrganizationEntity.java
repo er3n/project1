@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
-import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @Entity

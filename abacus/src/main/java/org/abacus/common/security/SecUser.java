@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.abacus.definition.shared.entity.DefItemEntity;
-import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,13 +22,10 @@ public class SecUser implements UserDetails {
 	private List<String> authorityNames;
 
 	private List<OrganizationEntity> organizationList;
-	private OrganizationEntity selectedOrganization;
-
-	private OrganizationEntity rootOrganization;
-
-	private FiscalYearEntity selectedFiscalYear;
-
 	private Set<FiscalYearEntity> companyFiscalYearSet;
+
+	private OrganizationEntity selectedOrganization;
+	private FiscalYearEntity selectedFiscalYear;
 
 	private DefItemEntity vendor;
 
@@ -128,15 +124,6 @@ public class SecUser implements UserDetails {
 
 	public void setSelectedOrganization(OrganizationEntity selectedOrganization) {
 		this.selectedOrganization = selectedOrganization;
-		this.rootOrganization = OrganizationUtils.findRootOrganization(this.selectedOrganization);
-	}
-
-	public OrganizationEntity getRootOrganization() {
-		return rootOrganization;
-	}
-
-	public void setRootOrganization(OrganizationEntity rootOrganization) {
-		this.rootOrganization = rootOrganization;
 	}
 
 	public FiscalYearEntity getSelectedFiscalYear() {

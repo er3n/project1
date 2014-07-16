@@ -10,7 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.shared.AbcBusinessException;
-import org.abacus.definition.core.persistance.repository.DefTaskRepository;
+import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -46,8 +46,8 @@ public class TestViewBean implements Serializable {
 	@ManagedProperty(value = "#{stkDocumentRepository}")
 	private StkDocumentRepository documentRepository;
 	
-	@ManagedProperty(value = "#{defTaskRepository}")
-	private DefTaskRepository taskRepository;
+	@ManagedProperty(value = "#{defTaskHandler}")
+	private DefTaskHandler taskRepository;
 
 	private TestCriteria testCriteria;
 	private Boolean showDocument = true; 
@@ -64,7 +64,7 @@ public class TestViewBean implements Serializable {
 		testCriteria.setFiscalYear(sessionInfoHelper.currentUser().getSelectedFiscalYear());
 		this.showDocument = sessionInfoHelper.currentUser().getSelectedFiscalYear() != null;
 //		jsfMessageHelper.addWarn("noFiscalYearDefined");
-		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.STK_IO.name());
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.STK_IO);
 	}
 
 	public void openTestDocDialog() {
@@ -154,7 +154,7 @@ public class TestViewBean implements Serializable {
 		doc.setTypeEnum(testCriteria.getDocTask().getType().getTypeEnum());
 		doc.setOrganization(organization);
 		
-		CreateDocumentEvent<StkDocumentEntity> event = new CreateDocumentEvent<StkDocumentEntity>(doc, user, organization.getId(), fiscalYear.getId());		
+		CreateDocumentEvent<StkDocumentEntity> event = new CreateDocumentEvent<StkDocumentEntity>(doc, user, organization, fiscalYear);		
 		return event;
 	}
 	
@@ -187,11 +187,11 @@ public class TestViewBean implements Serializable {
 		this.stkTaskList = stkTaskList;
 	}
 
-	public DefTaskRepository getTaskRepository() {
+	public DefTaskHandler getTaskRepository() {
 		return taskRepository;
 	}
 
-	public void setTaskRepository(DefTaskRepository taskRepository) {
+	public void setTaskRepository(DefTaskHandler taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 

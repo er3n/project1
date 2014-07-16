@@ -18,7 +18,6 @@ import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
-import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.hibernate.validator.constraints.Range;
 
 @SuppressWarnings("serial")

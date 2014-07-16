@@ -144,6 +144,7 @@ public interface EnumList {
 		ITM_SR_FN("Gider Hesapları", 0), //
 		ITM_SR_ST("Stok Malzeme/Ürün", 0), //
 		// Stock
+		STK("Stock",0), //
 		STK_WB("İrsaliye İşlem Tip",0), //
 		STK_WB_I("Stok İrsaliye Giriş Tip", 1), //
 		STK_WB_O("Stok Satış Çıkş Tip", -1), //
@@ -153,6 +154,7 @@ public interface EnumList {
 		STK_IO_O("Stok İşlem Çıkış Tip", -1), //
 		STK_IO_T("Stok Transfer Tip", 0), //
 		// Finance,Account
+		FIN("Finance", 0), //
 		FIN_B("Alış Fatura", +1), //
 		FIN_S("Satış Fatura", -1), //
 		FIN_P("Ödeme", -1), //
@@ -296,12 +298,11 @@ public interface EnumList {
 	}
 	
 	enum RequestStatus implements ISelectionEnum {
-		PREPARE("Hazırlanıyor","Hazırlanıyor"),
-		REQUEST("Onay bekleniyor","Satınalma başladı"),
-		DONE("Onaylandı","Satınalma tamamlandı"),
-		REVIEW("Değerlendiriliyor","Değerlendiriliyor"),
-		PARTIALLY("Kısmen onaylandı","Kısmen onaylandı"),		
-		CANCEL("Reddedildi","İptal edildi"),
+		PREPARE("Hazırlanıyor","Hazırlanıyor"),//
+		REQUEST("Onay bekleniyor","İhale başladı"),//
+		DONE("Onaylandı","İhale tamamlandı"),//
+		PARTIALLY("Kısmen onaylandı","İhale değerlendiriliyor"),//
+		CANCEL("Reddedildi","İptal edildi"),//
 		;
 		
 		private String description;

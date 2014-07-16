@@ -2,17 +2,18 @@ package org.abacus.catering.shared.event;
 
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 
 public class CreateMenuPeriviewEvent {
 
 	private CatMenuEntity menu;
 	private DepartmentEntity departmentEntity;
-	private String rootOrganization;
+	private FiscalYearEntity fiscalYear;
 
-	public CreateMenuPeriviewEvent(CatMenuEntity menu, DepartmentEntity departmentEntity, String rootOrganization) {
+	public CreateMenuPeriviewEvent(CatMenuEntity menu, DepartmentEntity departmentEntity, FiscalYearEntity fiscalYear) {
 		this.menu = menu;
 		this.departmentEntity = departmentEntity;
-		this.rootOrganization = rootOrganization;
+		this.fiscalYear = fiscalYear;
 	}
 
 	public CatMenuEntity getMenu() {
@@ -31,12 +32,13 @@ public class CreateMenuPeriviewEvent {
 		this.departmentEntity = departmentEntity;
 	}
 
-	public String getRootOrganization() {
-		return rootOrganization;
+	public FiscalYearEntity getFiscalYear() {
+		return fiscalYear;
 	}
 
-	public void setRootOrganization(String rootOrganization) {
-		this.rootOrganization = rootOrganization;
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
+		this.fiscalYear = fiscalYear;
 	}
+
 
 }

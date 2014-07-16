@@ -67,7 +67,7 @@ public class TreeSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), typeEnum, itemEnum);
+			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentOrganization().getRootOrganization().getId(), typeEnum, itemEnum);
 			TreeNode rootNode = refreshTree(list);
 			resultMap.put(key, rootNode);
 			return rootNode;

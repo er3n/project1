@@ -9,9 +9,11 @@ import java.util.Date;
 
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.organization.core.handler.FiscalHandler;
 import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.core.persistance.FiscalDao;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.test.fixture.TransactionFixture;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
@@ -52,6 +54,10 @@ public class TestTransactionHandler {
 	private OrganizationHandler organizationHandler;
 
 	@Autowired
+	@Qualifier("fiscalHandler")
+	private FiscalHandler fiscalHandler;
+
+	@Autowired
 	@Qualifier("finTransactionHandler")
 	private TraTransactionHandler finTransaction;
 
@@ -81,7 +87,8 @@ public class TestTransactionHandler {
 
 	private DocumentCreatedEvent newStkTransaction(EnumList.DefTypeEnum documentType) {
 		OrganizationEntity organization = organizationHandler.findOne(organizationId);
-		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user, organization, documentType, fiscalYearId));
+		FiscalYearEntity fiscalYear = fiscalHandler.getFiscalYear(fiscalYearId); 
+		DocumentCreatedEvent createdEvent = stkTransaction.newDocument(transactionFixture.newDocument(user, organization, documentType, fiscalYear));
 		return createdEvent;
 	}
 

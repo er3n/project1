@@ -48,8 +48,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		StkDocumentEntity stkDoc = stkDocumentRepository.findWithFetch(docId);
 		FinDocumentEntity finDoc = new FinDocumentEntity(stkDoc);
 		finDoc.setId(null);
-		OrganizationEntity rootOrg = OrganizationUtils.findRootOrganization(finDoc.getOrganization());
-		DefTaskEntity finTask = taskHandler.getTaskList(rootOrg.getId(), EnumList.DefTypeEnum.FIN_B).get(0);
+		DefTaskEntity finTask = taskHandler.getTaskList(finDoc.getOrganization(), EnumList.DefTypeEnum.FIN_B).get(0);
 		finDoc.setTask(finTask);
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
 		finTransactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(finDoc));

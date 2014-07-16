@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Set;
 
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
-import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

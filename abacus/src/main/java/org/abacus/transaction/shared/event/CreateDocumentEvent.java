@@ -1,16 +1,18 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.CreatedEvent;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
 public class CreateDocumentEvent<T extends TraDocumentEntity> extends CreatedEvent {
 
 	private T document;
 	private String user;
-	private String organization;
-	private String fiscalYear;
+	private OrganizationEntity organization;
+	private FiscalYearEntity fiscalYear;
 
-	public CreateDocumentEvent(T document, String user, String organization, String fiscalYear) {
+	public CreateDocumentEvent(T document, String user, OrganizationEntity organization, FiscalYearEntity fiscalYear) {
 		this.document = document;
 		this.user = user;
 		this.organization = organization;
@@ -20,8 +22,8 @@ public class CreateDocumentEvent<T extends TraDocumentEntity> extends CreatedEve
 	public CreateDocumentEvent(T document) {
 		this.document = document;
 		this.user = document.getUserCreated();
-		this.organization = document.getOrganization().getId();
-		this.fiscalYear = document.getFiscalPeriod1().getFiscalYear().getId();
+		this.organization = document.getOrganization();
+		this.fiscalYear = document.getFiscalPeriod1().getFiscalYear();
 	}
 
 	public T getDocument() {
@@ -40,19 +42,19 @@ public class CreateDocumentEvent<T extends TraDocumentEntity> extends CreatedEve
 		this.user = user;
 	}
 
-	public String getOrganization() {
+	public OrganizationEntity getOrganization() {
 		return organization;
 	}
 
-	public void setOrganization(String organization) {
+	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
 	}
 
-	public String getFiscalYear() {
+	public FiscalYearEntity getFiscalYear() {
 		return fiscalYear;
 	}
 
-	public void setFiscalYear(String fiscalYear) {
+	public void setFiscalYear(FiscalYearEntity fiscalYear) {
 		this.fiscalYear = fiscalYear;
 	}
 

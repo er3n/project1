@@ -13,6 +13,7 @@ import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
@@ -54,8 +55,8 @@ public class CrudStkDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{stkTransactionHandler}")
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
 
-	@ManagedProperty(value = "#{defTaskRepository}")
-	private DefTaskRepository taskRepository;
+	@ManagedProperty(value = "#{defTaskHandler}")
+	private DefTaskHandler taskRepository;
 
 	private StkDocumentEntity document;
 
@@ -108,7 +109,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 	}
 
 	private void initSelections() {
-		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), selectedTypeEnum.name());
+		stkTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), selectedTypeEnum);
 		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
 	}
 
@@ -118,7 +119,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 
 	public void saveDocument() {
 		try {
-			DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+			DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = transactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 			document = (StkDocumentEntity) documentCreatedEvent.getDocument();
 			this.findStkDocument(document.getId());
 			jsfMessageHelper.addInfo("createSuccessful", "Fiş");
@@ -152,7 +153,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 	private void findStkDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 
-		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
@@ -262,11 +263,11 @@ public class CrudStkDocumentViewBean implements Serializable {
 		this.transactionHandler = transactionHandler;
 	}
 
-	public DefTaskRepository getTaskRepository() {
+	public DefTaskHandler getTaskRepository() {
 		return taskRepository;
 	}
 
-	public void setTaskRepository(DefTaskRepository taskRepository) {
+	public void setTaskRepository(DefTaskHandler taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 

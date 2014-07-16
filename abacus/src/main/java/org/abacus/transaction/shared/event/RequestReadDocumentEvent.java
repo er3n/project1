@@ -1,16 +1,18 @@
 package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.RequestReadEvent;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 
 public class RequestReadDocumentEvent<T extends TraDocumentEntity> extends RequestReadEvent {
 
 	private TraDocumentSearchCriteria documentSearchCriteria;
-	private String organization;
-	private String fiscalYearId;
+	private OrganizationEntity organization;
+	private FiscalYearEntity fiscalYearId;
 
-	public RequestReadDocumentEvent(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
+	public RequestReadDocumentEvent(TraDocumentSearchCriteria documentSearchCriteria, OrganizationEntity organization, FiscalYearEntity fiscalYearId) {
 		this.documentSearchCriteria = documentSearchCriteria;
 		this.organization = organization;
 		this.fiscalYearId = fiscalYearId;
@@ -24,19 +26,19 @@ public class RequestReadDocumentEvent<T extends TraDocumentEntity> extends Reque
 		this.documentSearchCriteria = documentSearchCriteria;
 	}
 
-	public String getFiscalYearId() {
+	public FiscalYearEntity getFiscalYearId() {
 		return fiscalYearId;
 	}
 
-	public void setFiscalYearId(String fiscalYearId) {
+	public void setFiscalYearId(FiscalYearEntity fiscalYearId) {
 		this.fiscalYearId = fiscalYearId;
 	}
 
-	public String getOrganization() {
+	public OrganizationEntity getOrganization() {
 		return organization;
 	}
 
-	public void setOrganization(String organization) {
+	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
 	}
 

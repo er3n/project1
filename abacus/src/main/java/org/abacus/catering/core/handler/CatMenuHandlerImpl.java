@@ -38,6 +38,7 @@ import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
@@ -178,15 +179,14 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		Set<CatMenuItemEntity> menuItemSet = menu.getMenuItemSet();
 		DepartmentEntity department = createEvent.getDepartmentEntity();
 		
-		String rootOrganization = createEvent.getRootOrganization();
-
+		FiscalYearEntity fiscalYear = createEvent.getFiscalYear();
 
 		if (CollectionUtils.isEmpty(menuItemSet)) {
 			throw new NoMenuItemSelectedException();
 		}
 
 		StkDocumentEntity document = new StkDocumentEntity();
-		DefTaskEntity inputTask = taskRepository.getTask(rootOrganization, EnumList.DefTypeEnum.STK_IO_O.name());
+		DefTaskEntity inputTask = taskRepository.getTaskRepo(fiscalYear.getOrganization().getRootOrganization().getId(), EnumList.DefTypeEnum.STK_IO_O.name());
 
 		document.setDocDate(Calendar.getInstance().getTime());
 		document.setTask(inputTask);
@@ -224,11 +224,9 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		List<StkDetailEntity> details = confirmMenuEvent.getDetails();
 		String user = confirmMenuEvent.getUser();
 		CatMenuEntity menu = confirmMenuEvent.getMenu();
-		String fiscalYear = confirmMenuEvent.getFiscalYear();
-		String organization = confirmMenuEvent.getOrganization(); 
- 
+		FiscalYearEntity fiscalYear = confirmMenuEvent.getFiscalYear();
 		
-		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, organization, fiscalYear));
+		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, fiscalYear.getOrganization(), fiscalYear));
 		document = documentCreatedEvent.getDocument();
 
 		for (StkDetailEntity detail : details) {

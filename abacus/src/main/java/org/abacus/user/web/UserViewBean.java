@@ -68,7 +68,7 @@ public class UserViewBean implements Serializable {
 		ReadGroupsEvent allGroupsEvent = userService.requestGroup(event);
 		allGroups = allGroupsEvent.getGroupList();
 
-		ReadOrganizationsEvent allOrganizationsEvent = userService.requestOrganization(new RequestReadOrganizationsEvent(null, sessionInfoHelper.currentOrganizationId()));
+		ReadOrganizationsEvent allOrganizationsEvent = userService.requestOrganization(new RequestReadOrganizationsEvent(null, sessionInfoHelper.currentOrganization().getId()));
 		allOrganizations = allOrganizationsEvent.getOrganizationList();
 
 	}
@@ -109,7 +109,7 @@ public class UserViewBean implements Serializable {
 
 	public void findUser() {
 		if (searchUserCriteria.getOrganization() == null || !StringUtils.hasText(searchUserCriteria.getOrganization().getId())) {
-			String organizationId = sessionInfoHelper.currentOrganizationId();
+			String organizationId = sessionInfoHelper.currentOrganization().getId();
 			OrganizationEntity organizationEntity = new OrganizationEntity();
 			organizationEntity.setId(organizationId);
 			searchUserCriteria.setOrganization(organizationEntity);

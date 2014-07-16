@@ -57,9 +57,9 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event) {
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
-		String organization = event.getOrganization();
-		String fiscalYearId = event.getFiscalYearId();
-		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria,organization,fiscalYearId);
+		OrganizationEntity organization = event.getOrganization();
+		FiscalYearEntity fiscalYear = event.getFiscalYearId();
+		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria,organization.getId(),fiscalYear.getId());
 		return new ReadDocumentEvent<T>(documentList);
 	}
 
@@ -69,13 +69,13 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 
 		T document = event.getDocument();
 		String user = event.getUser();
-		String organizationStr = event.getOrganization();
+		OrganizationEntity organization = event.getOrganization();
 
-		document.setOrganization(new OrganizationEntity(organizationStr));
+		document.setOrganization(organization);
 		document.createHook(user);
 		document.setTypeEnum(document.getTask().getType().getTypeEnum());
 		
-		FiscalPeriodEntity fiscalPeriod1 = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
+		FiscalPeriodEntity fiscalPeriod1 = fiscalDao.findFiscalPeriod(event.getFiscalYear().getId(), document.getDocDate(), document.getTypeEnum());
 		document.setFiscalPeriod1(fiscalPeriod1);
 		
 		document = getDocumentRepository().save(document);
@@ -133,8 +133,8 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		T document = bulkUpdateEvent.getDocument();
 		List<D> detailList = bulkUpdateEvent.getDetailList();
 		String user = bulkUpdateEvent.getUser();
-		String organization = bulkUpdateEvent.getOrganization();
-		String fiscalYear = bulkUpdateEvent.getFiscalYear();
+		OrganizationEntity organization = bulkUpdateEvent.getOrganization();
+		FiscalYearEntity fiscalYear = bulkUpdateEvent.getFiscalYear();
 		
 		if(document.getId() == null){
 			DocumentCreatedEvent<T> documentCreatedEvent = newDocument(new CreateDocumentEvent<T>(document, user, organization, fiscalYear));

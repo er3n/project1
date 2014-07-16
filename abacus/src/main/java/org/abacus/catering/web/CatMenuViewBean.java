@@ -40,7 +40,6 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.joda.time.MutableDateTime;
 import org.springframework.util.CollectionUtils;
@@ -86,7 +85,7 @@ public class CatMenuViewBean implements Serializable {
 	@PostConstruct
 	private void init() {
 		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
-		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.selectedFiscalYear());
+		this.searchCriteria = new CatMenuSearchCriteria(sessionInfoHelper.currentFiscalYear());
 		this.searchCriteria.setPeriod(EnumList.CatMenuPeriod.WEEKLY);
 		searchCriteria.setDate(Calendar.getInstance().getTime());
 		this.initMenuSummary();
@@ -132,7 +131,7 @@ public class CatMenuViewBean implements Serializable {
 
 	public void previewMenu() {
 		try {
-			this.menuPreviewEvent = menuHandler.createMenuPreview(new CreateMenuPeriviewEvent(this.selectedMenu, this.consumedDeparment, sessionInfoHelper.currentRootOrganizationId()));
+			this.menuPreviewEvent = menuHandler.createMenuPreview(new CreateMenuPeriviewEvent(this.selectedMenu, this.consumedDeparment, sessionInfoHelper.currentFiscalYear()));
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
@@ -140,7 +139,7 @@ public class CatMenuViewBean implements Serializable {
 
 	public void confirmMenu() {
 		try {
-			MenuConfirmedEvent confirmedEvent = menuHandler.confirmMenu(new ConfirmMenuEvent(menuPreviewEvent.getDocument(), menuPreviewEvent.getDetails(), this.selectedMenu, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+			MenuConfirmedEvent confirmedEvent = menuHandler.confirmMenu(new ConfirmMenuEvent(menuPreviewEvent.getDocument(), menuPreviewEvent.getDetails(), this.selectedMenu, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentFiscalYear()));
 			this.initMenuSummary();
 			jsfMessageHelper.addInfo("menuConfirmedWithDocumentNo", confirmedEvent.getDocument().getDocNo());
 			
@@ -236,7 +235,7 @@ public class CatMenuViewBean implements Serializable {
 	}
 
 	public void initCreateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
-		FiscalYearEntity fiscalYear = sessionInfoHelper.selectedFiscalYear();
+		FiscalYearEntity fiscalYear = sessionInfoHelper.currentFiscalYear();
 		BigDecimal expectedCountPrepare = mealFilterEntity.getCountPrepare();
 
 		selectedMenu = new CatMenuEntity();

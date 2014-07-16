@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.core.persistance.repository.DefTaskRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
@@ -35,8 +36,8 @@ public class FindPurchaseDocumentViewBean implements Serializable {
 	@ManagedProperty(value = "#{jsfDialogHelper}")
 	private JsfDialogHelper jsfDialogHelper;
 
-	@ManagedProperty(value = "#{defTaskRepository}")
-	private DefTaskRepository taskRepository;
+	@ManagedProperty(value = "#{defTaskHandler}")
+	private DefTaskHandler taskRepository;
 
 	@ManagedProperty(value = "#{reqTransactionHandler}")
 	private TraTransactionHandler<ReqDocumentEntity, ReqDetailEntity> transactionHandler;
@@ -47,14 +48,14 @@ public class FindPurchaseDocumentViewBean implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		DefTaskEntity purchaseTaskList = taskRepository.getTaskList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.REQ_IO_P.name()).get(0);
+		DefTaskEntity purchaseTaskList = taskRepository.getTaskList(sessionInfoHelper.currentOrganization(), EnumList.DefTypeEnum.REQ_IO_P).get(0);
 		documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(EnumList.DefTypeEnum.REQ_IO);
 		documentSearchCriteria.setDocTask(purchaseTaskList);
 	}
 
 	public void findDocument() {
-		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 
@@ -82,11 +83,11 @@ public class FindPurchaseDocumentViewBean implements Serializable {
 		this.jsfDialogHelper = jsfDialogHelper;
 	}
 
-	public DefTaskRepository getTaskRepository() {
+	public DefTaskHandler getTaskRepository() {
 		return taskRepository;
 	}
 
-	public void setTaskRepository(DefTaskRepository taskRepository) {
+	public void setTaskRepository(DefTaskHandler taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 

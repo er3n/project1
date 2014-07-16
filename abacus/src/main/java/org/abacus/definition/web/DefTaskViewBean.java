@@ -82,8 +82,7 @@ public class DefTaskViewBean implements Serializable {
 		createTask();
 		taskList = null;
 		if (selType != null) {
-			String org = sessionInfoHelper.currentOrganizationId();
-			taskList = defTaskService.getTaskList(rootOrganization.getId(), selType.getTypeEnum());
+			taskList = defTaskService.getTaskList(rootOrganization, selType.getTypeEnum());
 		} else {
 			taskList = new ArrayList<DefTaskEntity>();
 		}

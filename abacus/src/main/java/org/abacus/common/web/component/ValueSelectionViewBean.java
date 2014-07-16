@@ -39,7 +39,7 @@ public class ValueSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), typeEnum);
+			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganization().getId(), typeEnum);
 			resultMap.put(key, list);
 			return list;
 		}
@@ -53,7 +53,7 @@ public class ValueSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), typeEnum, itemEnum);
+			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganization().getId(), typeEnum, itemEnum);
 			resultMap.put(key, list);
 			return list;
 		}

@@ -37,7 +37,7 @@ public class DocumentStkSelectionViewBean implements Serializable {
 	}
 
 	public List<StkDocumentEntity> getDocumentList(EnumList.DefTypeEnum typeEnum) {
-		String organization = sessionInfoHelper.currentRootOrganizationId();
+		String organization = sessionInfoHelper.currentOrganization().getId();
 		String key = organization+"-"+typeEnum.getName();
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
@@ -45,7 +45,7 @@ public class DocumentStkSelectionViewBean implements Serializable {
 			TraDocumentSearchCriteria documentSearchCriteria = new TraDocumentSearchCriteria();
 			documentSearchCriteria.setDocType(typeEnum);
 
-			ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganizationId(), sessionInfoHelper.selectedFiscalYearId()));
+			ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 			List<StkDocumentEntity> documentSearchResultList = readDocumentEvent.getDocumentList();
 			resultMap.put(key, documentSearchResultList);
 			return documentSearchResultList;

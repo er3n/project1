@@ -44,6 +44,7 @@
 			<p:menuitem value="Stok İstek Onayı" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO&amp;approval=true" />
 			<p:separator/>
 			<p:menuitem value="Satınalma İsteği" url="/app/transaction/findPurchaseDocument.abc" />
+			<p:menuitem value="Satınalma Onayı" url="/app/transaction/findPurchaseDecDocument.abc" />
 		</p:submenu>
 
 		<p:submenu label="Finans" rendered="#{sec:areAnyGranted('AUTH_NONE')}">

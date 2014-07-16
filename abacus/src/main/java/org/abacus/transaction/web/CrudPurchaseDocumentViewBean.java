@@ -94,6 +94,22 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	}
 	
+	public void reviewDocument(){
+		
+	}
+	
+	public void partiallyDoneDocument(){
+		
+	}
+	
+	public void backToReviewDocument(){
+		
+	}
+	
+	public void confirmDocument(){
+		
+	}
+	
 	public ReqDetailOfferEntity vendorOffer(ReqDetailEntity detail) {
 		Set<ReqDetailOfferEntity> offerSet = detail.getOfferSet();
 

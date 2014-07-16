@@ -58,6 +58,15 @@ public class FindPurchaseDocumentViewBean implements Serializable {
 		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
+	
+	
+	public Boolean isTaskSelected(ReqDocumentEntity document, EnumList.DefTypeEnum taskEnum) {
+		if (document == null || document.getTask() == null) {
+			return false;
+		}
+		boolean result = document.getTask().getType().getId().startsWith(taskEnum.name());
+		return result;
+	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;

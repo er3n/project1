@@ -33,6 +33,13 @@
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50" value="#{crudPurchaseDocumentViewBean.document.docNote}" disabled="true" />
 
+						<f:facet name="footer">
+							<p:commandButton value="Satışı sonlandır / Teklifleri Değerlendir" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST}" />
+							<p:commandButton value="Değerlendirmeyi Sonlandır / Stok Girişlerine Başla" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}" />
+							<p:commandButton value="Sonlandır" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.PARTIALLY}" />
+							<p:commandButton value="Değerlendirme Aşamasına Geri Dön" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.PARTIALLY}" /> 
+						</f:facet>
+
 					</h:panelGrid>
 
 				</p:panel>
@@ -64,20 +71,20 @@
 						<p:outputLabel value="#{var.itemDetailCount}" />
 					</p:column>
 
-					<p:column headerText="Teklifler" style="width:16px">
+					<p:column headerText="Teklifler">
 						<p:rowToggler />
 					</p:column>
 
 					<p:rowExpansion>
-					
-						<p:dataList value="#{var.offerSet}" var="offer" type="unordered" itemType="none" paginator="true" rows="10" >
+
+						<p:dataList value="#{var.offerSet}" var="offer" emptyMessage="Tekilf Bulunmamaktadır" itemType="none">
 							<f:facet name="header">
            						Teklifler
         					</f:facet>
-							<p:selectBooleanCheckbox value="#{offer.isSelected}" rendered="#{crudReqDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}">
+							<p:selectBooleanCheckbox value="#{offer.isSelected}" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}">
 								<p:ajax update="msg" listener="#{crudPurchaseDocumentViewBean.offerSelected(var,offer)}" />
 							</p:selectBooleanCheckbox>
-							<h:outputText value="#{offer.vendorItem.name}, #{offer.vendorItem.unitOfferPrice} TL" style="display:inline-block" />
+							<h:outputText value="#{offer.vendorItem.name} , #{offer.unitOfferPrice} TL" />
 						</p:dataList>
 
 					</p:rowExpansion>

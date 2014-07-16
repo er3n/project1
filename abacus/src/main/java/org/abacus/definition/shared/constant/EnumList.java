@@ -301,6 +301,7 @@ public interface EnumList {
 		PREPARE("Hazırlanıyor","Hazırlanıyor"),//
 		REQUEST("Onay bekleniyor","İhale başladı"),//
 		DONE("Onaylandı","İhale tamamlandı"),//
+		REVIEW("Değerlendiriliyor","Değerlendiriliyor"),
 		PARTIALLY("Kısmen onaylandı","İhale değerlendiriliyor"),//
 		CANCEL("Reddedildi","İptal edildi"),//
 		;

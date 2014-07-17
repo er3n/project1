@@ -36,16 +36,16 @@
 			<p:menuitem value="Öğün Tanimlari" url="/app/catering/catmeal.abc" />
 		</p:submenu>
 
-		<p:submenu label="Stok/Satınalma" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB" />
-			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO" />
+		<p:submenu label="Stok/Satınalma">
+			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB" rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:separator/>
-			<p:menuitem value="Stok İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T" />
-			<p:menuitem value="Stok İstek Onayı" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T&amp;approval=true" />
+			<p:menuitem value="Stok İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Stok İstek Onayı" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T&amp;approval=true"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:separator/>
-			<p:menuitem value="Satınalma İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_P" />
-			<p:menuitem value="Satınalma Teklif Girişi" url="/app/transaction/findPurchaseDocument.abc" />
-			<p:menuitem value="Satınalma Onayı" url="/app/transaction/findPurchaseDecDocument.abc" />
+			<p:menuitem value="Satınalma İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_P"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Satınalma Teklif Girişi" url="/app/transaction/findPurchaseDocument.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Satınalma Onayı" url="/app/transaction/findPurchaseDecDocument.abc" rendered="#{sec:areAnyGranted('AUTH_OFFER')}"/>
 		</p:submenu>
 
 		<p:submenu label="Finans" rendered="#{sec:areAnyGranted('AUTH_NONE')}">

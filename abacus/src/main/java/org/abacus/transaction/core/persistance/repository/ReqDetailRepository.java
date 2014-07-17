@@ -9,8 +9,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReqDetailRepository extends CrudRepository<ReqDetailEntity, Long>, TraDetailRepository<ReqDetailEntity> {
 
-	@Query("select d from ReqDetailEntity d inner join fetch d.item i left outer join fetch d.department left outer join fetch d.itemUnit u left outer join fetch d.departmentOpp left outer join fetch i.itemUnitSet left outer join fetch d.offerSet os where d.document.id = :documentId and d.refDetailId is null")
+	@Query("select distinct(d) from ReqDetailEntity d inner join fetch d.item i left outer join fetch d.department left outer join fetch d.itemUnit u left outer join fetch d.departmentOpp left outer join fetch i.itemUnitSet left outer join fetch d.offerSet os where d.document.id = :documentId and d.refDetailId is null")
 	List<ReqDetailEntity> findByDocumentId(@Param("documentId")Long documentId);
+
+	@Query("select case when count(d) > 0 then true else false end from ReqDetailEntity d  where d.document.id = :documentId and d.stkDocument.id is not null")
+	Boolean isAnyStkDocumentCreated(@Param("documentId")Long id);
 
 }
  

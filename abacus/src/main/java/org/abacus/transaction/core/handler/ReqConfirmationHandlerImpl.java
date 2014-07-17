@@ -9,6 +9,7 @@ import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
+import org.abacus.transaction.shared.UnableToChangeRequestStatus;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
@@ -95,6 +96,36 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 		reqDocument = this.updateDocumentRequestStatus(reqDocument, EnumList.RequestStatus.DONE, user);
 		
 		return reqDocument;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void reviewDocument(ReqDocumentEntity document, String user) {
+		this.updateDocumentRequestStatus(document, EnumList.RequestStatus.REVIEW, user);
+		
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void partiallyDoneDocument(ReqDocumentEntity document, String user) {
+		this.updateDocumentRequestStatus(document, EnumList.RequestStatus.PARTIALLY, user);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void backToReviewDocument(ReqDocumentEntity document, String user) {
+		Boolean isAnyStkDocumentCreated = reqDetailRepository.isAnyStkDocumentCreated(document.getId());
+		if(isAnyStkDocumentCreated){
+			throw new UnableToChangeRequestStatus("unableToChangeRequestStatusWbChanged");
+		}
+		this.updateDocumentRequestStatus(document, EnumList.RequestStatus.REVIEW, user);
+		
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void backToRequestDocument(ReqDocumentEntity document, String user) {
+		this.updateDocumentRequestStatus(document, EnumList.RequestStatus.REQUEST, user);
 	}
 
 	

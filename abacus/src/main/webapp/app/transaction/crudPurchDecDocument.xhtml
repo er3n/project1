@@ -7,9 +7,9 @@
 
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.RequestStatus" />
 
-		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!crudPurchaseDocumentViewBean.showDocument}" />
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!crudPurchDecDocumentViewBean.showDocument}" />
 
-		<c:if test="#{crudPurchaseDocumentViewBean.showDocument}">
+		<c:if test="#{crudPurchDecDocumentViewBean.showDocument}">
 			<h:form id="crudDocumentFrm">
 				<p:panel id="documentPanel">
 
@@ -19,25 +19,26 @@
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
-						<p:outputLabel value="Karşılacak Depo" />
+						<p:outputLabel value="İsteyen Depo" />
 						<h:panelGrid columns="1">
-							<abc:departmentSelection id="reqDepartmentSelectionInput" widgetVar="reqDepartmentSelectionWdg" dialogId="reqDepartmentSelectionDialog" targetVar="#{crudPurchaseDocumentViewBean.document.department}" required="true" disabled="true" />
+							<abc:departmentSelection id="reqDepartmentOppSelectionInput" widgetVar="reqDepartmentOppSelectionWdg" dialogId="reqDepartmentOppSelectionDialog" targetVar="#{crudPurchDecDocumentViewBean.document.departmentOpp}" required="true" disabled="true" />
 						</h:panelGrid>
 
 						<p:outputLabel value="Belge No:" />
-						<p:inputText value="#{crudPurchaseDocumentViewBean.document.docNo}" required="true" requiredMessage="Döküman numarası boş olamaz." disabled="true" />
+						<p:inputText value="#{crudPurchDecDocumentViewBean.document.docNo}" required="true" requiredMessage="Döküman numarası boş olamaz." disabled="true" />
 
 						<p:outputLabel value="Döküman Tarihi:" style="font-weigh: bold" />
-						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" value="#{crudPurchaseDocumentViewBean.document.docDate}" required="true" requiredMessage="Döküman tarihi boş olamaz" disabled="true" />
+						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" value="#{crudPurchDecDocumentViewBean.document.docDate}" required="true" requiredMessage="Döküman tarihi boş olamaz" disabled="true" />
 
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
-						<p:inputTextarea rows="10" cols="50" value="#{crudPurchaseDocumentViewBean.document.docNote}" disabled="true" />
+						<p:inputTextarea rows="10" cols="50" value="#{crudPurchDecDocumentViewBean.document.docNote}" disabled="true" />
 
 						<f:facet name="footer">
-							<p:commandButton value="Satışı sonlandır / Teklifleri Değerlendir" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST}" />
-							<p:commandButton value="Değerlendirmeyi Sonlandır / Stok Girişlerine Başla" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}" />
-							<p:commandButton value="Sonlandır" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.PARTIALLY}" />
-							<p:commandButton value="Değerlendirme Aşamasına Geri Dön" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.PARTIALLY}" /> 
+							<p:commandButton value="Satışı sonlandır / Teklifleri Değerlendir" actionListener="#{crudPurchDecDocumentViewBean.reviewDocument}" update=":crudDocumentFrm :crudDocumentDetailFrm" rendered="#{crudPurchDecDocumentViewBean.document.requestStatus eq RequestStatus.REQUEST}" />
+							<p:commandButton value="Değerlendirmeyi Sonlandır / Stok Girişlerine Başla" actionListener="#{crudPurchDecDocumentViewBean.partiallyDoneDocument}" update=":crudDocumentFrm :crudDocumentDetailFrm" rendered="#{crudPurchDecDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}" />
+							<p:commandButton value="Satış Aşamasına Geri Dön" actionListener="#{crudPurchDecDocumentViewBean.backToRequestDocument}" update=":crudDocumentFrm :crudDocumentDetailFrm" rendered="#{crudPurchDecDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}" />
+							<p:commandButton value="Sonlandır" actionListener="#{crudPurchDecDocumentViewBean.confirmDocument}" update=":crudDocumentFrm :crudDocumentDetailFrm" rendered="#{crudPurchDecDocumentViewBean.document.requestStatus eq RequestStatus.PARTIALLY}" />
+							<p:commandButton value="Değerlendirme Aşamasına Geri Dön" actionListener="#{crudPurchDecDocumentViewBean.backToReviewDocument}" update=":crudDocumentFrm :crudDocumentDetailFrm" rendered="#{crudPurchDecDocumentViewBean.document.requestStatus eq RequestStatus.PARTIALLY}" />
 						</f:facet>
 
 					</h:panelGrid>
@@ -49,7 +50,7 @@
 
 			<h:form id="crudDocumentDetailFrm">
 
-				<p:dataTable var="var" emptyMessage="Kayitli fiş detay bulunmamaktadir." value="#{crudPurchaseDocumentViewBean.detailList}" rendered="#{not empty crudPurchaseDocumentViewBean.document.id}">
+				<p:dataTable var="var" emptyMessage="Kayitli fiş detay bulunmamaktadir." value="#{crudPurchDecDocumentViewBean.detailList}" rendered="#{not empty crudPurchDecDocumentViewBean.document.id}">
 
 					<f:facet name="header">
 						<p:outputLabel value="Satış Detay" />
@@ -78,13 +79,13 @@
 					<p:rowExpansion>
 
 						<p:dataList value="#{var.offerSet}" var="offer" emptyMessage="Tekilf Bulunmamaktadır" itemType="none">
-							<f:facet name="header">
-           						Teklifler
-        					</f:facet>
-							<p:selectBooleanCheckbox value="#{offer.isSelected}" rendered="#{crudPurchaseDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}">
-								<p:ajax update="msg" listener="#{crudPurchaseDocumentViewBean.offerSelected(var,offer)}" />
-							</p:selectBooleanCheckbox>
-							<h:outputText value="#{offer.vendorItem.name} , #{offer.unitOfferPrice} TL" />
+							<p:panelGrid columns="3">
+								<h:outputText value="#{offer.vendorItem.name}" />
+								<h:outputText value="#{offer.unitOfferPrice} TL" />
+								<p:selectBooleanCheckbox value="#{offer.isSelected}" rendered="#{crudPurchDecDocumentViewBean.document.requestStatus eq RequestStatus.REVIEW}">
+									<p:ajax update="@parent:@parent" listener="#{crudPurchDecDocumentViewBean.offerSelected(var,offer)}" />
+								</p:selectBooleanCheckbox>
+							</p:panelGrid>
 						</p:dataList>
 
 					</p:rowExpansion>
@@ -102,7 +103,7 @@
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
-		<abc:departmentSelectionDialog id="reqDepartmentSelectionDialog" update=":crudDocumentFrm" widgetVar="reqDepartmentSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.S}" targetVar="#{crudPurchaseDocumentViewBean.document.department}" rendered="true" />
+		<abc:departmentSelectionDialog id="reqDepartmentOppSelectionDialog" update=":crudDocumentFrm" widgetVar="reqDepartmentOppSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.S}" targetVar="#{crudPurchDecDocumentViewBean.document.departmentOpp}" rendered="true" />
 
 	</ui:define>
 

@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
@@ -76,7 +77,7 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 	private void init() {
 
 		String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
-		
+
 		this.vendor = sessionInfoHelper.currentUser().getVendor();
 		if (vendor == null) {
 			this.showDocument = false;
@@ -86,9 +87,9 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 		this.findDocument(Long.valueOf(documentId));
 
 	}
-	
-	public void offerSelected(ReqDetailEntity detail, ReqDetailOfferEntity offer){
-		reqOfferHandler.updateSelectedOffer(new UpdateSelectedOfferEvent(detail,offer,sessionInfoHelper.currentUserName()));
+
+	public void offerSelected(ReqDetailEntity detail, ReqDetailOfferEntity offer) {
+		reqOfferHandler.updateSelectedOffer(new UpdateSelectedOfferEvent(detail, offer, sessionInfoHelper.currentUserName()));
 		this.findDocument(document.getId());
 		jsfMessageHelper.addInfo("updateSuccessful", "Teklif");
 	}
@@ -108,7 +109,57 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 			detailList = readDetailEvent.getDetails();
 		}
 	}
-	
+
+	public void reviewDocument() {
+		try {
+			reqConfirmationHandler.reviewDocument(this.document, sessionInfoHelper.currentUserName());
+			this.findDocument(this.document.getId());
+			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void partiallyDoneDocument() {
+		try {
+			reqConfirmationHandler.partiallyDoneDocument(this.document, sessionInfoHelper.currentUserName());
+			this.findDocument(this.document.getId());
+			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void backToReviewDocument() {
+		try {
+			reqConfirmationHandler.backToReviewDocument(this.document, sessionInfoHelper.currentUserName());
+			this.findDocument(this.document.getId());
+			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void backToRequestDocument() {
+		try {
+			reqConfirmationHandler.backToRequestDocument(this.document, sessionInfoHelper.currentUserName());
+			this.findDocument(this.document.getId());
+			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+
+	public void confirmDocument() {
+		// try{
+		// reqConfirmationHandler.confirmDocument(this.document,sessionInfoHelper.currentUserName());
+		// this.findDocument(this.document.getId());
+		// jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
+		// }catch(AbcBusinessException e){
+		// jsfMessageHelper.addError(e);
+		// }
+	}
+
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
 	}

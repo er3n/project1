@@ -24,6 +24,10 @@ public class ReqDetailEntity extends TraDetailEntity<ReqDetailEntity> {
 	private ReqDocumentEntity document;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "document_stk_id", nullable = true)
+	private StkDocumentEntity stkDocument;
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id", nullable = true)
 	private DepartmentEntity department;
 
@@ -32,7 +36,7 @@ public class ReqDetailEntity extends TraDetailEntity<ReqDetailEntity> {
 	private DepartmentEntity departmentOpp;
 
 	@OneToMany(mappedBy = "detail", fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SELECT) 
+	@Fetch(FetchMode.SELECT)
 	@OrderBy(clause = "unitOfferPrice desc")
 	private Set<ReqDetailOfferEntity> offerSet;
 
@@ -72,6 +76,14 @@ public class ReqDetailEntity extends TraDetailEntity<ReqDetailEntity> {
 
 	public void setOfferSet(Set<ReqDetailOfferEntity> offerSet) {
 		this.offerSet = offerSet;
+	}
+
+	public StkDocumentEntity getStkDocument() {
+		return stkDocument;
+	}
+
+	public void setStkDocument(StkDocumentEntity stkDocument) {
+		this.stkDocument = stkDocument;
 	}
 
 }

@@ -61,7 +61,7 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 		String user = updateSelectedOfferEvent.getUser();
 		
 		for(ReqDetailOfferEntity offer : detail.getOfferSet()){
-			if(offer.getIsSelected()){
+			if(offer.getIsSelected() && !offer.getId().equals(selectedOffer.getId())){
 				offer.setIsSelected(false);
 				offer.updateHook(user);
 				reqDetailOfferRepository.save(offer);

@@ -12,4 +12,12 @@ public interface ReqConfirmationHandler {
 
 	ReqDocumentEntity cancelDocument(ReqDocumentEntity document, String user);
 
+	void reviewDocument(ReqDocumentEntity document, String currentUserName);
+
+	void partiallyDoneDocument(ReqDocumentEntity document, String currentUserName);
+
+	void backToReviewDocument(ReqDocumentEntity document, String currentUserName);
+
+	void backToRequestDocument(ReqDocumentEntity document, String currentUserName);
+
 }

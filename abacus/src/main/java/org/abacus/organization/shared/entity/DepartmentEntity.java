@@ -23,7 +23,7 @@ import org.hibernate.annotations.FetchMode;
 @Table(name = "org_department")
 public class DepartmentEntity extends DynamicEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
 

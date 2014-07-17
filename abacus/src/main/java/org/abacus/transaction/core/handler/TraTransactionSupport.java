@@ -96,15 +96,12 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		return new DocumentCreatedEvent<T>(document);
 	}
 
-	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException {
+	public DetailCreatedEvent<D> newDetailSupport(CreateDetailEvent<D> event) throws UnableToCreateDetailException {
 		D detail = event.getDetail();
 		TraDocumentEntity document = detail.getDocument();
-
 		String user = event.getUser();
 		
-		FiscalYearEntity fiscalYear =  detail.getDocument().getFiscalPeriod1().getFiscalYear();
 		if (document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
 			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 			detail.setBaseDetailCount(baseDetailCount);

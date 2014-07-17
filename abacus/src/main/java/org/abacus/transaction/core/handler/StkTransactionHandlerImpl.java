@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.transaction.core.persistance.StkTransactionDao;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
@@ -24,12 +25,14 @@ import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DetailDeletedEvent;
 import org.abacus.transaction.shared.event.DetailUpdatedEvent;
 import org.abacus.transaction.shared.event.DocumentCanceledEvent;
+import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
@@ -114,20 +117,20 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		
 		if(trStateDetail.equals(EnumList.TraState.INP.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-			detailCreatedEvent = super.newDetail(detailCreateEvent);
+			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 			if (createStkTrack){
 				this.addInputDetailTrackList(detailCreatedEvent);
 			}
 		}else if(trStateDetail.equals(EnumList.TraState.OUT.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-			detailCreatedEvent = super.newDetail(detailCreateEvent);
+			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 			if (createStkTrack){
 				this.addOutputDetailTrackList(detailCreatedEvent);
 			}
 		}else{
 			//Transfer Out
 			detailCreateEvent.getDetail().setTrStateDetail(EnumList.TraState.OUT.value());
-			detailCreatedEvent = super.newDetail(detailCreateEvent);
+			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 			if (createStkTrack){
 				this.addOutputDetailTrackList(detailCreatedEvent);
 			}
@@ -142,8 +145,20 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			inDetail.setDepartmentOpp(outDetail.getDepartment());
 			inDetail.setRefDetailId(outDetail.getId());
 			inDetail.setTrStateDetail(EnumList.TraState.INP.value());
+			if (!inDetail.getDepartment().equals(inDetail.getDepartmentOpp())){
+				// farklı org na yapilan her transfer icin yeniden karsi document olusturMA !! varsa kullan
+				StkDocumentEntity docIn = new StkDocumentEntity();
+				BeanUtils.copyProperties(doc, docIn);
+				docIn.setOrganization(inDetail.getDepartment().getOrganization());
+				FiscalYearEntity inFiscalYear = fiscalDao.getFiscalYear(docIn.getOrganization().getId(), docIn.getDocDate());
+				DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = newDocument(new CreateDocumentEvent<StkDocumentEntity>(docIn, docIn.getUserCreated(), docIn.getOrganization(), inFiscalYear));
+				docIn = (StkDocumentEntity) documentCreatedEvent.getDocument();
+				inDetail.setDocument(docIn);
+			}
+			
 			detailCreateEvent.setDetail(inDetail);
-			detailCreatedEvent = super.newDetail(detailCreateEvent);
+			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+			
 			detailCreatedEvent.setDetailTrackList(outDetailTrackList);
 			if (createStkTrack){
 				this.addInputDetailTrackList(detailCreatedEvent);

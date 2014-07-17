@@ -119,7 +119,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 		detail.setDepartmentOpp(document.getDepartmentOpp());
 		
 		DetailCreatedEvent<ReqDetailEntity> detailCreatedEvent=null;
-		detailCreatedEvent = super.newDetail(detailCreateEvent);
+		detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 		return detailCreatedEvent;
 	}
 

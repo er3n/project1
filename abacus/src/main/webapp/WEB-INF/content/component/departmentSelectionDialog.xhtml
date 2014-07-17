@@ -15,7 +15,7 @@
 			<h:outputText value="Depo/Ofis Secim" />
 		</f:facet>
 
-		<p:dataTable var="department" paginator="true" rows="10"
+		<p:dataTable var="department" paginator="true" rows="10" resizableColumns="true"
 			value="#{departmentSelectionViewBean.getDepartmentList(paramUser,paramDepGroup)}">
 
 			<p:column headerText="Depo/Ofis Kod" filterBy="#{department.code}"
@@ -33,7 +33,7 @@
 				<h:outputText value="#{department.departmentGroup.description}" />
 			</p:column>
 
-			<p:column headerText="Sec">
+			<p:column headerText="Sec" style="width:50px">
 				<p:commandButton icon="ui-icon-search"
 					oncomplete="PF('#{widgetVar}').hide();" update="#{update}" process="@this">
 					<f:setPropertyActionListener target="#{targetVar}" value="#{department}" />

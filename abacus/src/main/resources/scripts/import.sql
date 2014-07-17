@@ -1,6 +1,10 @@
 insert into org_organization (id, name, level_enum, parent_id) values ('#', '# Holdingi', 'L0', null);
-insert into org_organization (id, name, level_enum, parent_id) values ('#.#', '# Şirketi', 'L1', '#');
-insert into org_organization (id, name, level_enum, parent_id) values ('#.#.#', '# Projesi', 'L2', '#.#');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#1', '# 1.Şirketi', 'L1', '#');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#1.#1', '# 1.1.Projesi', 'L2', '#.#1');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#1.#2', '# 1.2.Projesi', 'L2', '#.#1');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#2', '# 2.Şirketi', 'L1', '#');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#2.#1', '# 2.1.Projesi', 'L2', '#.#2');
+insert into org_organization (id, name, level_enum, parent_id) values ('#.#2.#2', '# 2.2.Projesi', 'L2', '#.#2');
 commit;
 
 insert into sec_authority (id, name) values ('AUTH_NONE','Önemsiz');
@@ -40,27 +44,34 @@ insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_
 commit;
 
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#.#', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#1', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#1.#1', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#1.#2', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#2', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#2.#1', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','#.#2.#2', 0);
 
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'person','#.#.#', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'person','#.#1.#1', 0);
 commit;
 
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'F', 'SY','Şirket Ofisi',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'F', 'SY1','1.Şirket Ofisi',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD1','Şirket Depo A',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'S', 'SD1_A','1.Şirket Depo A',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'S', 'SD2','Şirket Depo B',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'S', 'SD1_B','1.1.Şirket Depo B',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#', 'SP', 'SP1','Şirket Satınalma Depo',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'SP', 'SP1','1.Şirket Satınalma Depo',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'F', 'PY','Proje Ofisi',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1.#1', 'F', 'PY1.1','1.1.Proje Ofisi',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'PD1','Proje Depo X',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1.#1', 'S', 'PD1.1_X','1.1.Proje Depo X',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'S', 'PD2','Proje Depo Y',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1.#1', 'S', 'PD1.1_Y','1.1.Proje Depo Y',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#.#', 'SP', 'PP1','Proje Satınalma Depo',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1.#1', 'SP', 'PP1.1','1.1.Proje Satınalma Depo',0);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#2.#1', 'S', 'PD2.1_X','2.1.Proje Depo X',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
 commit;
 
@@ -187,16 +198,16 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '#', 'VAL_RECEIPT', null, 'T0010', 'Özel Yemek', 1, 0);
 commit;
 
-insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#.'||trim(to_char(nextval('seq_id'),'00000000')), '#.#', 'FY:2014', DATE '2014-01-01', DATE '2014-12-31');
-insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#.'||trim(to_char(currval('seq_id'),'00000000'))||'.01', '#.#.'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
+insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#1.'||trim(to_char(nextval('seq_id'),'00000000')), '#.#1', 'FY:2014', DATE '2014-01-01', DATE '2014-12-31');
+insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1.'||trim(to_char(currval('seq_id'),'00000000'))||'.01', '#.#1.'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
 
-insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#.#.'||trim(to_char(nextval('seq_id'),'00000000')), '#.#.#', 'Prj:2014', DATE '2014-01-01', DATE '2014-12-31');
-insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#.#.'||trim(to_char(currval('seq_id'),'00000000'))||'.01', '#.#.#.'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
+insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#1.#1.'||trim(to_char(nextval('seq_id'),'00000000')), '#.#1.#1', 'Prj:2014', DATE '2014-01-01', DATE '2014-12-31');
+insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1.#1.'||trim(to_char(currval('seq_id'),'00000000'))||'.01', '#.#1.#1.'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
 commit;
 
-insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#.#.'||trim(to_char(currval('seq_id')-1,'00000000')), (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='1' and organization_id='#'), 150, 3.0);
-insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#.#.'||trim(to_char(currval('seq_id')-2,'00000000')), (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='2' and organization_id='#'), 200, 5.0);
-insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#.#.'||trim(to_char(currval('seq_id')-3,'00000000')), (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='3' and organization_id='#'), 175, 7.5);
+insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1.'||trim(to_char(currval('seq_id')-1,'00000000')), (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='1' and organization_id='#'), 150, 3.0);
+insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1.'||trim(to_char(currval('seq_id')-2,'00000000')), (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='2' and organization_id='#'), 200, 5.0);
+insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1.'||trim(to_char(currval('seq_id')-3,'00000000')), (select v.id from def_value v where v.type_id='VAL_MEAL' and v.code='3' and organization_id='#'), 175, 7.5);
 commit;
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'P101', null, 'Personel X', (select v.id from def_value v where v.code='P100' and organization_id='#'), '#', 'ITM_PE', null);

@@ -110,7 +110,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 			detailCreateEvent.getDetail().setTrStateDetail(detail.getDocument().getTask().getType().getTrStateType()*(-1));
 		}
 		
-		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = super.newDetail(detailCreateEvent);
+		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 		
 		if (detailCreateEvent.getIsOppositeCreate()){
 			createAccRecord(detail.getDocument());
@@ -139,7 +139,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 				infoDet.setItemDetailCount(BigDecimal.ONE);
 				infoDet.setBaseDetailAmount(totalAmount);
 				infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
-				super.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
+				super.newDetailSupport(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
 			}
 	}
 	

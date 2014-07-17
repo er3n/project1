@@ -78,12 +78,6 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 
 		String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
 
-		this.vendor = sessionInfoHelper.currentUser().getVendor();
-		if (vendor == null) {
-			this.showDocument = false;
-			jsfMessageHelper.addWarn("noVendorSelected");
-		}
-
 		this.findDocument(Long.valueOf(documentId));
 
 	}

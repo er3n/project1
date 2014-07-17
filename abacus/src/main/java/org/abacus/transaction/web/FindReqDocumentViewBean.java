@@ -84,7 +84,11 @@ public class FindReqDocumentViewBean implements Serializable {
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 
-
+	public EnumList.OrgDepartmentGroupEnum reqDepartmentGroupEnum(){
+		EnumList.OrgDepartmentGroupEnum ret =  selectedTypeEnum.equals(EnumList.DefTypeEnum.REQ_IO_P)?EnumList.OrgDepartmentGroupEnum.SP:EnumList.OrgDepartmentGroupEnum.S;
+		return ret;
+	}
+	
 	public void deleteDocument(ReqDocumentEntity document) {
 		try {
 			transactionHandler.deleteDocument(new DeleteDocumentEvent<ReqDocumentEntity>(document));

@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.StaticEntity;
+import org.abacus.common.web.AbcUtility;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.hibernate.annotations.Fetch;
@@ -66,6 +67,10 @@ public class OrganizationEntity extends StaticEntity {
 		return list;
 	}
 
+	public String getNameLevel() {
+		return AbcUtility.LPad("", level.ordinal()*5, ' ')+name;
+	}
+	
 	public String getName() {
 		return name;
 	}

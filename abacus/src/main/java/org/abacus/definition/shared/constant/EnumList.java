@@ -27,9 +27,9 @@ public interface EnumList {
 	}
 
 	enum OrgOrganizationLevelEnum implements ISelectionEnum {
-		L0("Holding (0)"), //
-		L1("Şirket (1)"), //
-		L2("Proje (2)"), //
+		L0("Holding"), //
+		L1("Şirket"), //
+		L2("Proje"), //
 		;
 		private String description;
 
@@ -300,8 +300,8 @@ public interface EnumList {
 	
 	enum RequestStatus implements ISelectionEnum {
 		PREPARE("Hazırlanıyor","Hazırlanıyor"),
-		REQUEST("Onay bekleniyor","Satınalma başladı"),
-		DONE("Onaylandı","Satınalma tamamlandı"),
+		REQUEST("Onay bekleniyor","Teklif bekleniyor"),
+		DONE("Onay verildi","Teklifler girildi"),
 		REVIEW("Değerlendiriliyor","Değerlendiriliyor"),
 		PARTIALLY("Kısmen onaylandı","Kısmen onaylandı"),		
 		CANCEL("Reddedildi","İptal edildi")
@@ -317,11 +317,11 @@ public interface EnumList {
 
 		@Override
 		public String getDescription() {
-			return this.description;
+			return this.description+" (S"+ordinal()+")";
 		}
 		
 		public String getPDescription() {
-			return this.pDescription;
+			return this.pDescription+" (P"+ordinal()+")";
 		}
 
 		@Override

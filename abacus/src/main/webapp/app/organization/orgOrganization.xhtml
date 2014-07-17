@@ -26,7 +26,7 @@
 							<h:outputLabel value="Ad : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.name}"
 								required="true" requiredMessage="organization.Ack Bos olamaz"
-								validatorMessage="organization.Ack" />
+								validatorMessage="organization.Ack" style="width:400px"/>
 
 							<h:outputLabel value="Seviye : " />
 							<p:selectOneMenu value="#{organizationViewBean.selOrganization.level}" 
@@ -76,7 +76,7 @@
        					</p:column>
 
 						<p:column headerText="Organizasyon Adı">  
-           					#{selOrganization.name}  
+           					${selOrganization.nameLevel}  
        					</p:column>
 
 						<p:column headerText="Seviye" style="width:120px">  
@@ -84,7 +84,7 @@
        					</p:column>
 
 						<p:column headerText="Bağlantı" style="width:120px">  
-           					#{selOrganization.parent.id}  
+           					${selOrganization.getParent().nameLevel}  
        					</p:column>
 
 					</p:dataTable>

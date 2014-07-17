@@ -164,7 +164,7 @@
 		<abc:departmentSelectionDialog id="reqDepartmentOppSelectionDialog"
 			update=":queryDocumentPanel" widgetVar="reqDepartmentOppSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
-			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
+			paramDepGroup="#{findReqDocumentViewBean.reqDepartmentGroupEnum()}"
 			targetVar="#{findReqDocumentViewBean.documentSearchCriteria.departmentOpp}"
 			rendered="true" />
 

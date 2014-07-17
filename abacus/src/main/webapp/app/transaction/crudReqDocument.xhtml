@@ -88,7 +88,7 @@
 							actionListener="#{crudReqDocumentViewBean.updateDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
 							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE and not crudReqDocumentViewBean.approval}" />
-						<p:commandButton value="Onaya Gonder"
+						<p:commandButton value="Onay/Teklif Bekle"
 							actionListener="#{crudReqDocumentViewBean.requestDocument}"
 							update="crudDocumentFrm :crudDocumentDetailFrm :crudDocumentDetailSelectionFrm"
 							rendered="${not empty crudReqDocumentViewBean.document.id and crudReqDocumentViewBean.document.requestStatus eq RequestStatus.PREPARE}" />

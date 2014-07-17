@@ -90,11 +90,10 @@ public class ItemViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
-		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 		this.initUnitGroups();
-		
 
 //		if (displayProductInfo) {
 //			allReceiptList = defValueHandler.getValueList(sessionInfoHelper.currentRootOrganizationId(), EnumList.DefTypeEnum.VAL_RECEIPT);

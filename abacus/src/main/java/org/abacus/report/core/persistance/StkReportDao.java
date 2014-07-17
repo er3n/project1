@@ -35,8 +35,8 @@ public class StkReportDao implements Serializable {
 		criteria.createAlias("d.document", "document");
 		criteria.createAlias("d.item", "item");
 		criteria.createAlias("d.department", "department");
-		criteria.createAlias("document.fiscalPeriod1", "fp1");
-		criteria.add(Restrictions.eq("fp1.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
+		criteria.createAlias("document.fiscalPeriod2", "fp2");
+		criteria.add(Restrictions.eq("fp2.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
 		criteria.add(Restrictions.like("document.typeStr", EnumList.DefTypeGroupEnum.STK.name()+"%"));
 		criteria.add(Restrictions.eq("item.type.id", EnumList.DefTypeEnum.ITM_SR_ST.name()));
 		if (reportSearchCriteria.getDetailItem()!=null){
@@ -66,7 +66,7 @@ public class StkReportDao implements Serializable {
 		sb.append("     (select d.item_id, d.department_id, sum(d.base_detail_count*d.tr_state_detail) baseDetailCount ");
 		sb.append("        from tra_detail d, stk_document c, def_item i, org_fiscal_period p");
 		sb.append("       where p.fiscal_year_id = :p_fiscal_year_id");
-		sb.append("         and c.fiscal_period1_id = p.id");
+		sb.append("         and c.fiscal_period2_id = p.id");
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
 		sb.append("         and d.department_id = coalesce(:p_department_id, d.department_id)");
 		sb.append("         and c.id = d.document_stk_id");

@@ -36,9 +36,9 @@ public class FinReportDao implements Serializable {
 		Criteria criteria = session.createCriteria(FinDetailEntity.class,"d");
 		criteria.createAlias("d.document", "document");
 		criteria.createAlias("d.item", "item");
-		criteria.createAlias("document.fiscalPeriod1", "fp1");		
+		criteria.createAlias("document.fiscalPeriod2", "fp2");		
 		criteria.createAlias("document.organization", "o");
-		criteria.add(Restrictions.eq("fp1.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
+		criteria.add(Restrictions.eq("fp2.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
 		criteria.add(Restrictions.like("document.typeStr", EnumList.DefTypeGroupEnum.FIN.name()+"%"));
 		if (reportSearchCriteria.getDetailItem()!=null){
 			criteria.add(Restrictions.eq("d.item.id", reportSearchCriteria.getDetailItem().getId()));
@@ -64,7 +64,7 @@ public class FinReportDao implements Serializable {
 		sb.append("     (select d.item_id, c.organization_id, sum(d.base_detail_amount*d.tr_state_detail) baseDetailAmount ");
 		sb.append("        from tra_detail d, fin_document c, def_item i, org_fiscal_period p");
 		sb.append("       where p.fiscal_year_id = :p_fiscal_year_id");
-		sb.append("         and c.fiscal_period1_id = p.id");
+		sb.append("         and c.fiscal_period2_id = p.id");
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
 		sb.append("         and c.id = d.document_fin_id");
 		sb.append("         and c.type_id like '"+EnumList.DefTypeGroupEnum.FIN.name()+"%'");

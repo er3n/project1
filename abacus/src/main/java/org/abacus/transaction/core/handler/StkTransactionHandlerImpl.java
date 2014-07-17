@@ -135,9 +135,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				this.addOutputDetailTrackList(detailCreatedEvent);
 			}
 			List<StkDetailTrackEntity> outDetailTrackList = detailCreatedEvent.getDetailTrackList();
+			StkDetailEntity outDetail = detailCreatedEvent.getDetail();
 			
 			//Transfer In
-			StkDetailEntity outDetail = detailCreatedEvent.getDetail();
 			StkDetailEntity inDetail = new StkDetailEntity();
 			BeanUtils.copyProperties(outDetail, inDetail);
 			inDetail.cleanCreateHook(outDetail.getUserCreated());
@@ -145,26 +145,33 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			inDetail.setDepartmentOpp(outDetail.getDepartment());
 			inDetail.setRefDetailId(outDetail.getId());
 			inDetail.setTrStateDetail(EnumList.TraState.INP.value());
-			if (!inDetail.getDepartment().equals(inDetail.getDepartmentOpp())){
-				// farklı org na yapilan her transfer icin yeniden karsi document olusturMA !! varsa kullan
+			if (inDetail.getDepartment().equals(inDetail.getDepartmentOpp())){
+				detailCreateEvent.setDetail(inDetail);
+				detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+				if (createStkTrack){
+					this.addInputDetailTrackList(detailCreatedEvent);
+				}
+			} else {// farklı org na yapilan her transfer icin yeniden karsi document olusturMA !! varsa kullan
 				StkDocumentEntity docIn = new StkDocumentEntity();
 				BeanUtils.copyProperties(doc, docIn);
+				docIn.setId(null);
+				docIn.setFiscalPeriod1(null);
+				docIn.setFiscalPeriod2(null);
 				docIn.setOrganization(inDetail.getDepartment().getOrganization());
 				FiscalYearEntity inFiscalYear = fiscalDao.getFiscalYear(docIn.getOrganization().getId(), docIn.getDocDate());
-				DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = newDocument(new CreateDocumentEvent<StkDocumentEntity>(docIn, docIn.getUserCreated(), docIn.getOrganization(), inFiscalYear));
-				docIn = (StkDocumentEntity) documentCreatedEvent.getDocument();
+				DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent2 = newDocument(new CreateDocumentEvent<StkDocumentEntity>(docIn, docIn.getUserCreated(), docIn.getOrganization(), inFiscalYear));
+				docIn = (StkDocumentEntity) documentCreatedEvent2.getDocument();
 				inDetail.setDocument(docIn);
+				CreateDetailEvent<StkDetailEntity> detailCreateEvent2 = new CreateDetailEvent<StkDetailEntity>(inDetail, false);
+				detailCreateEvent2.setDetail(inDetail);
+				DetailCreatedEvent<StkDetailEntity> detailCreatedEvent2 = super.newDetailSupport(detailCreateEvent2);
+				detailCreatedEvent.setDetailTrackList(outDetailTrackList);
+				if (createStkTrack){
+					this.addInputDetailTrackList(detailCreatedEvent2);
+				}
 			}
-			
-			detailCreateEvent.setDetail(inDetail);
-			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
-			
 			detailCreatedEvent.setDetailTrackList(outDetailTrackList);
-			if (createStkTrack){
-				this.addInputDetailTrackList(detailCreatedEvent);
-			}
 		}
-
 		return detailCreatedEvent;
 		
 	}

@@ -24,10 +24,11 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 
 	public abstract Class<D> getDetailClass();
 
-	public List<T> readTraDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId) {
+	public List<T> readTraDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId2) {
 		Session currentSession = em.unwrap(Session.class);
 		Criteria criteria = currentSession.createCriteria(getDocumentClass(), "s");
-		criteria.createAlias("s.fiscalPeriod1", "fp1", JoinType.INNER_JOIN);
+//		criteria.createAlias("s.fiscalPeriod1", "fp1", JoinType.INNER_JOIN);
+		criteria.createAlias("s.fiscalPeriod2", "fp2", JoinType.INNER_JOIN);
 		criteria.createAlias("s.item", "itm", JoinType.LEFT_OUTER_JOIN);
 
 		if (documentSearchCriteria.getDocumentId() != null) {
@@ -38,8 +39,14 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 			criteria.add(Restrictions.like("s.organization.id", organization + "%"));
 		}
 
-		if (StringUtils.hasText(fiscalYearId)) {
-			criteria.add(Restrictions.eq("fp1.fiscalYear.id", fiscalYearId));
+		//FIXME : Gelen organizasyonun level bilgisi gore sirketse tum alt projeleri gorsun gibi eklemeler olabilir 
+		
+//		if (StringUtils.hasText(fiscalYearId1)) {//Company Fiscali
+//			criteria.add(Restrictions.eq("fp1.fiscalYear.id", fiscalYearId1));
+//		}
+
+		if (StringUtils.hasText(fiscalYearId2)) {//Orjinal Fiscal
+			criteria.add(Restrictions.eq("fp2.fiscalYear.id", fiscalYearId2));
 		}
 
 		if (documentSearchCriteria.getDocTask() != null) {

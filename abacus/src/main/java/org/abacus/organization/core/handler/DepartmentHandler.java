@@ -17,6 +17,7 @@ public interface DepartmentHandler extends Serializable{
 
 	DepartmentEntity getDepartmentEntity(Long id);
 
-	List<DepartmentEntity> findUserDepartmentList(String username, EnumList.OrgDepartmentGroupEnum depGroup);
+	List<DepartmentEntity> findUserDepartmentListOrgLike(String username, EnumList.OrgDepartmentGroupEnum depGroup, OrganizationEntity organizationId);
+	List<DepartmentEntity> findUserDepartmentListOrgOnly(String username, EnumList.OrgDepartmentGroupEnum depGroup, OrganizationEntity organizationId);
 	
 }

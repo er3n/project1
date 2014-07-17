@@ -58,7 +58,7 @@ insert into org_department (id, organization_id, group_enum, code, name, version
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'S', 'SD1_A','1.Şirket Depo A',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'S', 'SD1_B','1.1.Şirket Depo B',0);
+insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'S', 'SD1_B','1.Şirket Depo B',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '#.#1', 'SP', 'SP1','1.Şirket Satınalma Depo',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);

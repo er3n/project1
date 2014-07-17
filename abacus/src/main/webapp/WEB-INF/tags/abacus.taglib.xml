@@ -244,6 +244,10 @@
 			<name>paramDepGroup</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>paramIsOrgOnly</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 
 	<tag>

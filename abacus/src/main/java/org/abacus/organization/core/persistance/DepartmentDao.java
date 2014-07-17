@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.repository.UserDepartmentRepository;
 import org.abacus.user.shared.entity.SecUserDepartmentEntity;
 import org.hibernate.Criteria;
@@ -26,8 +27,11 @@ public class DepartmentDao implements Serializable {
 	@Autowired
 	private UserDepartmentRepository userDepartmentRepository;
 
-	public List<SecUserDepartmentEntity> findUserDepartmentList(String username){
-		return userDepartmentRepository.findUserDepartmentList(username);
+	public List<SecUserDepartmentEntity> findUserDepartmentListOrgLike(String username, OrganizationEntity organization){
+		return userDepartmentRepository.findUserDepartmentList(username, organization.getId()+"%");
+	}
+	public List<SecUserDepartmentEntity> findUserDepartmentListOrgOnly(String username, OrganizationEntity organization){
+		return userDepartmentRepository.findUserDepartmentList(username, organization.getId());
 	}
 	
 	public DepartmentEntity findDepartment(Long departmentId) {

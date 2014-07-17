@@ -354,7 +354,8 @@
 			widgetVar="stkDepartmentOppSelectionWdg"
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
-			targetVar="#{crudStkDocumentViewBean.selectedDetail.departmentOpp}"
+ 			paramIsOrgOnly="false"
+ 			targetVar="#{crudStkDocumentViewBean.selectedDetail.departmentOpp}"
 			rendered="true" />
 
 

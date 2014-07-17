@@ -30,9 +30,9 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
-	public List<DepartmentEntity> findUserDepartmentList(String username, EnumList.OrgDepartmentGroupEnum depGroup){
+	public List<DepartmentEntity> findUserDepartmentListOrgLike(String username, EnumList.OrgDepartmentGroupEnum depGroup, OrganizationEntity organization){
 		List<DepartmentEntity> depList = new ArrayList<>();
-		List<SecUserDepartmentEntity> userDepList = userDepartmentRepository.findUserDepartmentList(username);
+		List<SecUserDepartmentEntity> userDepList = userDepartmentRepository.findUserDepartmentList(username, organization.getId()+"%");
 		for (SecUserDepartmentEntity ent : userDepList) {
 			if (depGroup==null || ent.getDepartment().getDepartmentGroup().name().startsWith(depGroup.name())){
 				depList.add(ent.getDepartment());
@@ -40,7 +40,20 @@ public class DepartmentHandlerImpl implements DepartmentHandler {
 		}
 		return depList;
 	}
-	
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public List<DepartmentEntity> findUserDepartmentListOrgOnly(String username, EnumList.OrgDepartmentGroupEnum depGroup, OrganizationEntity organization){
+		List<DepartmentEntity> depList = new ArrayList<>();
+		List<SecUserDepartmentEntity> userDepList = userDepartmentRepository.findUserDepartmentList(username, organization.getId());
+		for (SecUserDepartmentEntity ent : userDepList) {
+			if (depGroup==null || ent.getDepartment().getDepartmentGroup().name().startsWith(depGroup.name())){
+				depList.add(ent.getDepartment());
+			}
+		}
+		return depList;
+	}
+
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public List<DepartmentEntity> findByOrganizationAndGroup(OrganizationEntity organization, EnumList.OrgDepartmentGroupEnum groupEnum) {

@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.BeanUtils;
 
@@ -26,14 +27,6 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 	@JoinColumn(name = "glc_id", nullable = true)
 	private DefTypeEntity glc;
 
-	@Transient
-	private OrganizationEntity organization;
-
-//  TODO:ACC
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "account_id", nullable = true)
-//	private DefValueEntity account;
-	
 	public FinDetailEntity() {
 	}
 
@@ -66,14 +59,6 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 
 	public BigDecimal getCreditAmount(){
 		return this.getTrStateDetail().equals(-1)?this.getBaseDetailAmount():BigDecimal.ZERO;
-	}
-
-	public OrganizationEntity getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(OrganizationEntity organization) {
-		this.organization = organization;
 	}
 
 }

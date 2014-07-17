@@ -38,11 +38,12 @@ public class FiscalYearEntity extends StaticEntity {
 	@JoinColumn(name = "customer_id", nullable = true)
 	private DefItemEntity customer;
 	
+	public FiscalYearEntity() {
+	}
+
 	public FiscalYearEntity(String id) {
 		super.id = id;
 	}
-	
-	public FiscalYearEntity() {}
 
 	public OrganizationEntity getOrganization() {
 		return organization;

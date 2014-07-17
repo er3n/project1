@@ -19,15 +19,10 @@
 
 				<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
-					<p:outputLabel value="Başlangıç Tarihi:"
+					<p:outputLabel value="Rapor Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
-						value="#{queryFinStateViewBean.reportSearchCriteria.docStartDate}" />
-
-					<p:outputLabel value="Bitiş Tarihi:"
-						style="font-weigh: bold" />
-					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
-						value="#{queryFinStateViewBean.reportSearchCriteria.docEndDate}" />
+						value="#{queryFinStateViewBean.reportSearchCriteria.reportDate}" />
 
 					<ui:remove>
 					<p:outputLabel value="İşlem:" />
@@ -72,8 +67,8 @@
 					value="#{queryFinStateViewBean.searchResultList}" var="var"
 					 paginator="true" rows="30">
 
-					<p:column headerText="Organizasyon" filterBy="#{var.organization.id}" filterMatchMode="contains">
-						<h:outputText value="#{var.organization.id}" />
+					<p:column headerText="Organizasyon" filterBy="#{var.organization.id} #{var.fiscalPeriod2.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.organization.id} #{var.fiscalPeriod2.name}" />
 					</p:column>
 					
 					<p:column headerText="Yardımcı Hesap" filterBy="#{var.item.name}" filterMatchMode="contains">

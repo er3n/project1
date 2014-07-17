@@ -17,9 +17,7 @@ public class ReportSearchCriteria implements Serializable {
 	
 	private FiscalYearEntity fiscalYear;
 	
-	private Date docStartDate;
-
-	private Date docEndDate;
+	private Date reportDate;
 
 	private DefTaskEntity docTask;
 	
@@ -32,22 +30,6 @@ public class ReportSearchCriteria implements Serializable {
 	private BigDecimal detailCount;
 	
 	public ReportSearchCriteria() {
-	}
-
-	public Date getDocStartDate() {
-		return docStartDate;
-	}
-
-	public void setDocStartDate(Date docStartDate) {
-		this.docStartDate = docStartDate;
-	}
-
-	public Date getDocEndDate() {
-		return docEndDate;
-	}
-
-	public void setDocEndDate(Date docEndDate) {
-		this.docEndDate = docEndDate;
 	}
 
 	public DefTaskEntity getDocTask() {
@@ -104,6 +86,14 @@ public class ReportSearchCriteria implements Serializable {
 
 	public void setDetailOppDepartment(DepartmentEntity detailOppDepartment) {
 		this.detailOppDepartment = detailOppDepartment;
+	}
+
+	public Date getReportDate() {
+		return reportDate;
+	}
+
+	public void setReportDate(Date reportDate) {
+		this.reportDate = reportDate;
 	}
 
 }

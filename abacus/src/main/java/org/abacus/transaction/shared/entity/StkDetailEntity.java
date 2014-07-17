@@ -6,8 +6,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.abacus.organization.shared.entity.DepartmentEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.BeanUtils;
 
 @Entity
@@ -30,10 +33,6 @@ public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 	@Column(name = "batch_detail_no", nullable = true, length=30)
 	private String batchDetailNo;
 	
-	//irsaliye den faturaya
-//	@Column(name = "ref_fin_detail_id", nullable = true)
-//	private Long refFinDetailId;
-		
 	public StkDetailEntity() {
 	}
 	

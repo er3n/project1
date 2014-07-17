@@ -18,6 +18,8 @@ import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.hibernate.validator.constraints.Range;
 
 @SuppressWarnings("serial")
@@ -67,6 +69,12 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	@Transient
 	private EnumList.EntityStatus entityStatus;
+
+	@Transient
+	private OrganizationEntity organization;
+
+	@Transient
+	private FiscalPeriodEntity fiscalPeriod2;
 
 	public TraDetailEntity() {
 	}
@@ -186,6 +194,22 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public void setResource(EnumList.DefTypeGroupEnum resource) {
 		this.resource = resource;
+	}
+
+	public OrganizationEntity getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(OrganizationEntity organization) {
+		this.organization = organization;
+	}
+
+	public FiscalPeriodEntity getFiscalPeriod2() {
+		return fiscalPeriod2;
+	}
+
+	public void setFiscalPeriod2(FiscalPeriodEntity fiscalPeriod2) {
+		this.fiscalPeriod2 = fiscalPeriod2;
 	}
 
 }

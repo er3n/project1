@@ -19,15 +19,10 @@
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
-					<p:outputLabel value="Başlangıç Tarihi:"
+					<p:outputLabel value="Rapor Tarihi:"
 						style="font-weigh: bold" />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
-						value="#{queryStkDetailViewBean.reportSearchCriteria.docStartDate}" />
-
-					<p:outputLabel value="Bitiş Tarihi:"
-						style="font-weigh: bold" />
-					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
-						value="#{queryStkDetailViewBean.reportSearchCriteria.docEndDate}" />
+						value="#{queryStkDetailViewBean.reportSearchCriteria.reportDate}" />
 
 					<p:outputLabel value="İşlem:" />
 					<h:panelGrid columns="1">
@@ -78,6 +73,10 @@
 					value="#{queryStkDetailViewBean.searchResultList}" var="var"
 					 paginator="true" rows="30">
 
+					<p:column headerText="Organizasyon" filterBy="#{var.document.organization.id} #{var.document.fiscalPeriod2.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.document.organization.id} #{var.document.fiscalPeriod2.name}" />
+					</p:column>
+					
 					<p:column headerText="Depo" filterBy="#{var.department.name}" filterMatchMode="contains">
 						<h:outputText value="#{var.department.name}" />
 					</p:column>

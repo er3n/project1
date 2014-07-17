@@ -46,12 +46,17 @@ public class FiscalPeriodEntity extends StaticEntity {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean isStkActive;
 
+	public FiscalPeriodEntity() {
+	}
+	
 	public FiscalPeriodEntity(String id) {
 		super.id = id;
 	}
 	
-	public FiscalPeriodEntity(){}
-
+	public String getName(){
+		return fiscalYear.getName()+":"+periodNo;
+	}
+	
 	public Integer getPeriodNo() {
 		return periodNo;
 	}

@@ -3,6 +3,7 @@ package org.abacus.definition.shared.constant;
 
 public interface EnumList {
 
+	
 	enum CatMenuPeriod implements ISelectionEnum {
 		WEEKLY("Haftalık"), //
 		MOUNTHLY("Aylık"), //

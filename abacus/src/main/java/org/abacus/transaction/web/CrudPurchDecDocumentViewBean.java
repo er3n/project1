@@ -23,11 +23,13 @@ import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
+import org.abacus.transaction.shared.event.ConfirmDocumentEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateSelectedOfferEvent;
+import org.abacus.transaction.shared.holder.ReqPurcVendorHolder;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
 import org.springframework.util.CollectionUtils;
@@ -70,6 +72,8 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 	private ReqDetailEntity selectedDetail;
 
 	private ReqDetailOfferEntity selectedOffer;
+	
+	private List<ReqPurcVendorHolder> choosenVendors;
 
 	private Boolean showDocument = true;
 
@@ -144,14 +148,18 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 		}
 	}
 
-	public void confirmDocument() {
-		// try{
-		// reqConfirmationHandler.confirmDocument(this.document,sessionInfoHelper.currentUserName());
-		// this.findDocument(this.document.getId());
-		// jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
-		// }catch(AbcBusinessException e){
-		// jsfMessageHelper.addError(e);
-		// }
+	public void confirmDocument(DefItemEntity vendor) {
+		try {
+			reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(this.document, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear(),sessionInfoHelper.currentUserName()));
+			this.findDocument(this.document.getId());
+			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
+		} catch (AbcBusinessException e) {
+			jsfMessageHelper.addError(e);
+		}
+	}
+	
+	public void findChoosenVendors(){
+		this.choosenVendors = reqOfferHandler.findChoosenVendors(this.document.getId());
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

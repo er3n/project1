@@ -15,5 +15,8 @@ public interface ReqDetailRepository extends CrudRepository<ReqDetailEntity, Lon
 	@Query("select case when count(d) > 0 then true else false end from ReqDetailEntity d  where d.document.id = :documentId and d.stkDocument.id is not null")
 	Boolean isAnyStkDocumentCreated(@Param("documentId")Long id);
 
+	@Query("select d from ReqDetailEntity d inner join fetch d.offerSet o where d.document.id = :documentId and o.vendorItem.id = :vendorId and o.isSelected = true")
+	List<ReqDetailEntity> findByDocumentAndSelectedVendor(@Param("documentId")Long document, @Param("vendorId")Long vendor);
+
 }
  

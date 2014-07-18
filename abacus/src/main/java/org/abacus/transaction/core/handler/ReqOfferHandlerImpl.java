@@ -1,5 +1,7 @@
 package org.abacus.transaction.core.handler;
 
+import java.util.List;
+
 import org.abacus.transaction.core.persistance.repository.ReqDetailOfferRepository;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
@@ -9,6 +11,7 @@ import org.abacus.transaction.shared.event.OfferUpdatedEvent;
 import org.abacus.transaction.shared.event.SelectedOfferUpdated;
 import org.abacus.transaction.shared.event.UpdateOfferEvent;
 import org.abacus.transaction.shared.event.UpdateSelectedOfferEvent;
+import org.abacus.transaction.shared.holder.ReqPurcVendorHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -72,6 +75,13 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 		reqDetailOfferRepository.save(selectedOffer);
 		
 		return new SelectedOfferUpdated(selectedOffer);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ReqPurcVendorHolder> findChoosenVendors(Long documentId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

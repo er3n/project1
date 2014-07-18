@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
@@ -17,6 +18,7 @@ import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.ConfirmDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
+import org.abacus.transaction.shared.holder.ReqPurcVendorHolder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -70,6 +72,7 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 		String user = confirmDocumentEvent.getUser();
 		OrganizationEntity organization = confirmDocumentEvent.getOrganization();
 		FiscalYearEntity fiscalYear = confirmDocumentEvent.getFiscalYear();
+		DefItemEntity vendor = confirmDocumentEvent.getVendor();
 		
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		BeanUtils.copyProperties(reqDocument, stkDocument);
@@ -79,14 +82,20 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 		if(reqDocument.getTask().getType().equals(EnumList.DefTypeEnum.REQ_IO_T)){
 			proceedingTaskType = EnumList.DefTypeEnum.STK_IO_T;
 		}else{
-			proceedingTaskType = EnumList.DefTypeEnum.STK_WB_I;
+			proceedingTaskType = EnumList.DefTypeEnum.STK_WB_I; 
 		}
 		
 		DefTaskEntity stkTask = taskHandler.getTaskList(organization, proceedingTaskType).get(0);
 		stkDocument.setTask(stkTask);
 		stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(stkDocument, user, organization, fiscalYear));
 		
-		List<ReqDetailEntity> reqDetails = reqDetailRepository.findByDocumentId(reqDocument.getId());
+		List<ReqDetailEntity> reqDetails = null;
+		if(vendor == null) {
+			reqDetails = reqDetailRepository.findByDocumentId(reqDocument.getId());
+		}else{
+			reqDetails = reqDetailRepository.findByDocumentAndSelectedVendor(reqDocument.getId(),vendor.getId());
+		}
+		
 		
 		for(ReqDetailEntity reqDetail : reqDetails){	
 			StkDetailEntity stkDetailEntity = new StkDetailEntity(reqDetail,stkDocument);
@@ -127,7 +136,6 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 	public void backToRequestDocument(ReqDocumentEntity document, String user) {
 		this.updateDocumentRequestStatus(document, EnumList.RequestStatus.REQUEST, user);
 	}
-
 	
 	
 }

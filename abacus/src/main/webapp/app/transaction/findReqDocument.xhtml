@@ -16,6 +16,9 @@
 			type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<o:importConstants
 			type="org.abacus.definition.shared.constant.EnumList.RequestStatus" />
+		<o:importConstants
+			type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
+			
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
 			closable="true" rendered="#{!findReqDocumentViewBean.showDocument}" />
 
@@ -114,7 +117,7 @@
 					</p:column>
 
 					<p:column headerText="Durum">
-						<h:outputText value="#{var.requestStatus.description}" />
+						<h:outputText value="#{findReqDocumentViewBean.reqDepartmentGroupEnum()==OrgDepartmentGroupEnum.SP?var.requestStatus.PDescription:var.requestStatus.description}" />
 					</p:column>
 
 					<p:column headerText="Organizasyon">

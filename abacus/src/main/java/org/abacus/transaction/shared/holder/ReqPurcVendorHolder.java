@@ -1,6 +1,7 @@
 package org.abacus.transaction.shared.holder;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
@@ -12,7 +13,7 @@ public class ReqPurcVendorHolder implements Serializable {
 
 	private DefItemEntity vendor;
 	private ReqDocumentEntity reqDocument;
-	private ReqDetailEntity details;
+	private List<ReqDetailEntity> details;
 	private StkDocumentEntity stkDocument;
 
 	public DefItemEntity getVendor() {
@@ -31,11 +32,11 @@ public class ReqPurcVendorHolder implements Serializable {
 		this.reqDocument = reqDocument;
 	}
 
-	public ReqDetailEntity getDetails() {
+	public List<ReqDetailEntity> getDetails() {
 		return details;
 	}
 
-	public void setDetails(ReqDetailEntity details) {
+	public void setDetails(List<ReqDetailEntity> details) {
 		this.details = details;
 	}
 

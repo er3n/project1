@@ -1,5 +1,6 @@
 package org.abacus.transaction.core.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.transaction.core.persistance.repository.ReqDetailOfferRepository;
@@ -80,8 +81,32 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ReqPurcVendorHolder> findChoosenVendors(Long documentId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<ReqDetailOfferEntity> selectedVendorOfferList = reqDetailOfferRepository.findSelectedVendorDetailsByDocument(documentId);
+		
+		List<ReqPurcVendorHolder> holderList = new ArrayList<ReqPurcVendorHolder>();
+		for(ReqDetailOfferEntity selectedVendorOffer : selectedVendorOfferList){
+			
+			boolean isDetailAppend = false;
+			for(ReqPurcVendorHolder newHolder : holderList){
+				if(newHolder.getVendor().getId().equals(selectedVendorOffer.getVendorItem().getId())){
+					isDetailAppend = true;
+					newHolder.getDetails().add(selectedVendorOffer.getDetail());
+				}
+			}
+			if(!isDetailAppend){
+				ReqPurcVendorHolder holder = new ReqPurcVendorHolder();
+				holder.setReqDocument(selectedVendorOffer.getDetail().getDocument());
+				holder.setStkDocument(selectedVendorOffer.getDetail().getStkDocument());
+				holder.setVendor(selectedVendorOffer.getVendorItem());
+				holder.setDetails(new ArrayList<ReqDetailEntity>());
+				holder.getDetails().add(selectedVendorOffer.getDetail());
+				holderList.add(holder);
+			}
+			
+		}
+		
+		return holderList;
 	}
 
 	

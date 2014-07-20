@@ -65,7 +65,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		stkDocument.setItem(vendor);
 		
 		EnumList.DefTypeEnum proceedingTaskType = null;
-		if(reqDocument.getTask().getType().equals(EnumList.DefTypeEnum.REQ_IO_T)){
+		if(reqDocument.getTask().getType().getId().equals(EnumList.DefTypeEnum.REQ_IO_T.name())){
 			proceedingTaskType = EnumList.DefTypeEnum.STK_IO_T;
 		}else{
 			proceedingTaskType = EnumList.DefTypeEnum.STK_WB_I; 

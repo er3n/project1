@@ -24,7 +24,7 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 @MappedSuperclass
 public abstract class TraDocumentEntity extends DynamicEntity {
 
-	@Column(name = "doc_no", nullable = false, length=30)
+	@Column(name = "doc_no", nullable = false, length = 30)
 	private String docNo;
 
 	@Temporal(TemporalType.DATE)
@@ -136,14 +136,6 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 		this.docNote = docNote;
 	}
 
-	public DefItemEntity getItem() {
-		return item;
-	}
-
-	public void setItem(DefItemEntity item) {
-		this.item = item;
-	}
-
 	private String getTypeStr() {
 		return typeStr;
 	}
@@ -166,6 +158,14 @@ public abstract class TraDocumentEntity extends DynamicEntity {
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
+	}
+
+	public DefItemEntity getItem() {
+		return item;
+	}
+
+	public void setItem(DefItemEntity item) {
+		this.item = item;
 	}
 
 }

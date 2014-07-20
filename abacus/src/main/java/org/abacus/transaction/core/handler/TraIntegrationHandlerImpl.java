@@ -5,18 +5,23 @@ import java.util.List;
 
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
-import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
+import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
+import org.abacus.transaction.shared.entity.ReqDetailEntity;
+import org.abacus.transaction.shared.entity.ReqDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,6 +44,54 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 	@Autowired
 	private DefTaskHandler taskHandler;
+	
+	@Autowired
+	private ReqDetailRepository reqDetailRepository;
+	
+	@Autowired
+	private ReqDocumentRepository reqDocumentRepository;
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public StkDocumentEntity createStkFromReq(Long docId,DefItemEntity vendor) {
+		
+		ReqDocumentEntity reqDocument = reqDocumentRepository.findWithFetch(docId);
+		
+		OrganizationEntity organization = reqDocument.getOrganization();
+		
+		StkDocumentEntity stkDocument = new StkDocumentEntity();
+		BeanUtils.copyProperties(reqDocument, stkDocument);
+		stkDocument.setId(null);
+		stkDocument.setItem(vendor);
+		
+		EnumList.DefTypeEnum proceedingTaskType = null;
+		if(reqDocument.getTask().getType().equals(EnumList.DefTypeEnum.REQ_IO_T)){
+			proceedingTaskType = EnumList.DefTypeEnum.STK_IO_T;
+		}else{
+			proceedingTaskType = EnumList.DefTypeEnum.STK_WB_I; 
+		}
+		
+		DefTaskEntity stkTask = taskHandler.getTaskList(organization, proceedingTaskType).get(0);
+		stkDocument.setTask(stkTask);
+		stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(stkDocument));
+		
+		List<ReqDetailEntity> reqDetails = null;
+		BigDecimal baseDetailCount = null;
+		if(vendor == null) {
+			reqDetails = reqDetailRepository.findByDocumentId(reqDocument.getId());
+		}else{
+			reqDetails = reqDetailRepository.findByDocumentAndSelectedVendor(reqDocument.getId(),vendor.getId());
+		}
+		
+		
+		for(ReqDetailEntity reqDetail : reqDetails){	
+			StkDetailEntity stkDetailEntity = new StkDetailEntity(reqDetail,stkDocument);
+			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(stkDetailEntity, stkDocument.getUserCreated()));
+		}		
+		
+		return stkDocument;
+		
+	}
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

@@ -23,6 +23,7 @@ import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.ConfirmDocumentEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
@@ -72,7 +73,7 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 	private ReqDetailEntity selectedDetail;
 
 	private ReqDetailOfferEntity selectedOffer;
-	
+
 	private List<ReqPurcVendorHolder> choosenVendors;
 
 	private Boolean showDocument = true;
@@ -106,6 +107,11 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 			ReadDetailEvent<ReqDetailEntity> readDetailEvent = transactionHandler.readDetailList(new RequestReadDetailEvent<ReqDetailEntity>(document.getId()));
 			detailList = readDetailEvent.getDetails();
 		}
+		
+		if(this.document.getRequestStatus().equals(EnumList.RequestStatus.PARTIALLY)){
+			this.findChoosenVendors();
+		}
+		
 	}
 
 	public void reviewDocument() {
@@ -148,17 +154,17 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 		}
 	}
 
-	public void confirmDocument(DefItemEntity vendor) {
-		try {
-			reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(this.document, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear(),sessionInfoHelper.currentUserName()));
+	public void confirmDocument(ReqPurcVendorHolder vendorHolder) {
+		try { 
+			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmPartialDocument(new ConfirmDocumentEvent(this.document,vendorHolder.getVendor()));
 			this.findDocument(this.document.getId());
-			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
+			jsfMessageHelper.addInfo("confirmedWithDocumentNo", stkDocument.getDocNo());
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}
 	}
-	
-	public void findChoosenVendors(){
+
+	public void findChoosenVendors() {
 		this.choosenVendors = reqOfferHandler.findChoosenVendors(this.document.getId());
 	}
 
@@ -272,6 +278,14 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 
 	public void setShowDocument(Boolean showDocument) {
 		this.showDocument = showDocument;
+	}
+
+	public List<ReqPurcVendorHolder> getChoosenVendors() {
+		return choosenVendors;
+	}
+
+	public void setChoosenVendors(List<ReqPurcVendorHolder> choosenVendors) {
+		this.choosenVendors = choosenVendors;
 	}
 
 }

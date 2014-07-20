@@ -20,6 +20,7 @@ import org.abacus.transaction.core.handler.ReqConfirmationHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
+import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.ConfirmDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
@@ -237,9 +238,9 @@ public class CrudReqDocumentViewBean implements Serializable {
 
 	public void confirmDocument() {
 		try {
-			this.document = reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(document, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear(), sessionInfoHelper.currentUserName()));
+			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(document));
 			this.findDocument(document.getId());
-			jsfMessageHelper.addInfo("operationSuccessful", "Onaylama");
+			jsfMessageHelper.addInfo("confirmedWithDocumentNo", stkDocument.getDocNo());
 		} catch (AbcBusinessException e) {
 			jsfMessageHelper.addError(e);
 		}

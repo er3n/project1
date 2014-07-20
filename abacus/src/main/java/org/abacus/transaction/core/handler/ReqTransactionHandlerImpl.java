@@ -115,8 +115,13 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 		
 		ReqDetailEntity detail = detailCreateEvent.getDetail();
 		ReqDocumentEntity document = (ReqDocumentEntity) detail.getDocument();
-		detail.setDepartment(document.getDepartment());
-		detail.setDepartmentOpp(document.getDepartmentOpp());
+		if(document.getTypeEnum().equals(EnumList.DefTypeEnum.REQ_IO_P)){
+			detail.setDepartment(document.getDepartmentOpp());
+		}else{
+			detail.setDepartment(document.getDepartment());
+			detail.setDepartmentOpp(document.getDepartmentOpp());
+		}
+		
 		
 		DetailCreatedEvent<ReqDetailEntity> detailCreatedEvent=null;
 		detailCreatedEvent = super.newDetailSupport(detailCreateEvent);

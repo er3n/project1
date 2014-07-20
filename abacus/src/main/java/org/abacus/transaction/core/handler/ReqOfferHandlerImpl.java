@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.abacus.transaction.core.persistance.repository.ReqDetailOfferRepository;
+import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
 import org.abacus.transaction.shared.entity.ReqDetailOfferEntity;
 import org.abacus.transaction.shared.event.CreateOfferEvent;
@@ -23,6 +24,9 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 
 	@Autowired
 	private ReqDetailOfferRepository reqDetailOfferRepository;
+	
+	@Autowired
+	private ReqDetailRepository reqDetailRepository;
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -74,6 +78,14 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 		
 		selectedOffer.updateHook(user);
 		reqDetailOfferRepository.save(selectedOffer);
+		
+		if(selectedOffer.getIsSelected()){
+			detail.setBaseDetailAmount(selectedOffer.getUnitOfferPrice());
+			
+		}else{
+			detail.setBaseDetailAmount(null);
+		}
+		reqDetailRepository.save(detail);
 		
 		return new SelectedOfferUpdated(selectedOffer);
 	}

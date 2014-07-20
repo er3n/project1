@@ -19,9 +19,9 @@
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
-						<p:outputLabel value="Karşılacak Depo" />
+						<p:outputLabel value="Alınacak Depo" />
 						<h:panelGrid columns="1">
-							<abc:departmentSelection id="reqDepartmentSelectionInput" widgetVar="reqDepartmentSelectionWdg" dialogId="reqDepartmentSelectionDialog" targetVar="#{crudPurchaseDocumentViewBean.document.department}" required="true" disabled="true" />
+							<abc:departmentSelection id="reqDepartmentSelectionInput" widgetVar="reqDepartmentSelectionWdg" dialogId="reqDepartmentSelectionDialog" targetVar="#{crudPurchaseDocumentViewBean.document.departmentOpp}" required="true" disabled="true" />
 						</h:panelGrid>
 
 						<p:outputLabel value="Belge No:" />

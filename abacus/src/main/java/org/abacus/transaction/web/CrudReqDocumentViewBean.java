@@ -170,7 +170,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 	private void findDocument(Long documentId) {
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 
-		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
+		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganization().getRootOrganization(), null));
 		if (CollectionUtils.isEmpty(readDocumentEvent.getDocumentList())) {
 			document = null;
 		} else {
@@ -238,7 +238,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 
 	public void confirmDocument() {
 		try {
-			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(document));
+			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(document, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("confirmedWithDocumentNo", stkDocument.getDocNo());
 		} catch (AbcBusinessException e) {

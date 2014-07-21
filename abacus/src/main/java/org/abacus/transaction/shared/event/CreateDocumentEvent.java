@@ -10,20 +10,20 @@ public class CreateDocumentEvent<T extends TraDocumentEntity> extends CreatedEve
 	private T document;
 	private String user;
 	private OrganizationEntity organization;
-	private FiscalYearEntity fiscalYear;
+	private FiscalYearEntity fiscalYear2;
 
-	public CreateDocumentEvent(T document, String user, OrganizationEntity organization, FiscalYearEntity fiscalYear) {
+	public CreateDocumentEvent(T document, String user, OrganizationEntity organization, FiscalYearEntity fiscalYear2) {
 		this.document = document;
 		this.user = user;
 		this.organization = organization;
-		this.fiscalYear = fiscalYear;
+		this.fiscalYear2 = fiscalYear2;
 	}
 
 	public CreateDocumentEvent(T document) {
 		this.document = document;
 		this.user = document.getUserCreated();
 		this.organization = document.getOrganization();
-		this.fiscalYear = document.getFiscalPeriod1().getFiscalYear();
+		this.fiscalYear2 = document.getFiscalPeriod2()==null?null:document.getFiscalPeriod2().getFiscalYear();
 	}
 
 	public T getDocument() {
@@ -50,12 +50,12 @@ public class CreateDocumentEvent<T extends TraDocumentEntity> extends CreatedEve
 		this.organization = organization;
 	}
 
-	public FiscalYearEntity getFiscalYear() {
-		return fiscalYear;
+	public FiscalYearEntity getFiscalYear2() {
+		return fiscalYear2;
 	}
 
-	public void setFiscalYear(FiscalYearEntity fiscalYear) {
-		this.fiscalYear = fiscalYear;
+	public void setFiscalYear(FiscalYearEntity fiscalYear2) {
+		this.fiscalYear2 = fiscalYear2;
 	}
 
 }

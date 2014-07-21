@@ -20,12 +20,14 @@ import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
+import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.DeleteDetailEvent;
 import org.abacus.transaction.shared.event.DeleteDocumentEvent;
 import org.abacus.transaction.shared.event.DetailCreatedEvent;
 import org.abacus.transaction.shared.event.DetailDeletedEvent;
 import org.abacus.transaction.shared.event.DetailUpdatedEvent;
 import org.abacus.transaction.shared.event.DocumentCanceledEvent;
+import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
@@ -77,7 +79,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
 		//StkDocument RemoveRefInfo FIXME
-		stkDocumentRepository.updateRefFinInfo(event.getDocument().getId());
+		stkDocumentRepository.deleteRefFinInfo(event.getDocument().getId());
 		finDetailRepository.updateRefFinInfo(event.getDocument().getId());
 
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
@@ -178,5 +180,8 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		}
 	}
 	
-
+	@Override
+	public DocumentCreatedEvent<FinDocumentEntity> newDocument(CreateDocumentEvent<FinDocumentEntity> event) {
+		return super.newDocumentSupport(event);
+	}
 }

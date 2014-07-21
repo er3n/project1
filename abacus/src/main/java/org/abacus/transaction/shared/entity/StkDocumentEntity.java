@@ -9,10 +9,14 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 public class StkDocumentEntity extends TraDocumentEntity {
 
-	//irsaliye den faturaya
+	//ref:stk:irsaliye fin:faturayi bilir //N irsaliye >> 1 fatura
 	@Column(name = "ref_fin_document_id", nullable = true)
 	private Long refFinDocumentId;
-	
+
+	//ref:stk:transferIn stk:transferIn bilir //1 stkOut >> N stkIn
+	@Column(name = "ref_stk_document_id", nullable = true)
+	private Long refStkDocumentId;
+
 	public StkDocumentEntity() {
 	}
 
@@ -22,6 +26,14 @@ public class StkDocumentEntity extends TraDocumentEntity {
 
 	public void setRefFinDocumentId(Long refFinDocumentId) {
 		this.refFinDocumentId = refFinDocumentId;
+	}
+
+	public Long getRefStkDocumentId() {
+		return refStkDocumentId;
+	}
+
+	public void setRefStkDocumentId(Long refStkDocumentId) {
+		this.refStkDocumentId = refStkDocumentId;
 	}
 
 }

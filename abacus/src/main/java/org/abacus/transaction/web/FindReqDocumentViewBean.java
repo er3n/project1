@@ -80,7 +80,7 @@ public class FindReqDocumentViewBean implements Serializable {
 	}
 
 	public void findDocument() {
-		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
+		ReadDocumentEvent<ReqDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<ReqDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization().getRootOrganization(), null));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
 	}
 

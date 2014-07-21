@@ -7,6 +7,8 @@ import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
+import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
@@ -53,16 +55,24 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public StkDocumentEntity createStkFromReq(Long docId,DefItemEntity vendor) {
+	public StkDocumentEntity createStkFromReq(Long docId,DefItemEntity vendor, OrganizationEntity org, FiscalYearEntity fisYear) {
 		
 		ReqDocumentEntity reqDocument = reqDocumentRepository.findWithFetch(docId);
-		
-		OrganizationEntity organization = reqDocument.getOrganization();
 		
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		BeanUtils.copyProperties(reqDocument, stkDocument);
 		stkDocument.setId(null);
 		stkDocument.setItem(vendor);
+
+		OrganizationEntity organization = reqDocument.getOrganization();
+		if (vendor==null && org!=null && !org.getId().equals(organization.getId())){
+			organization = org;
+			stkDocument.setOrganization(organization);
+			stkDocument.setFiscalPeriod1(null);
+			FiscalPeriodEntity per2 = new FiscalPeriodEntity();
+			per2.setFiscalYear(fisYear);
+			stkDocument.setFiscalPeriod2(per2);
+		}
 		
 		EnumList.DefTypeEnum proceedingTaskType = null;
 		if(reqDocument.getTask().getType().getId().equals(EnumList.DefTypeEnum.REQ_IO_T.name())){
@@ -105,7 +115,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		finDoc.setTask(finTask);
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
 		finTransactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(finDoc));
-		//Update Reference
+		//Update Reference irsaliyeye fatura idsi
 		stkDoc.setRefFinDocumentId(finDoc.getId());
 		stkTransactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(stkDoc));
 		

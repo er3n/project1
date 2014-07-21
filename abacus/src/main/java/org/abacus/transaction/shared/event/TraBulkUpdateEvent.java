@@ -13,14 +13,14 @@ public class TraBulkUpdateEvent<T extends TraDocumentEntity, D extends TraDetail
 	private List<D> detailList;
 	private String user;
 	private OrganizationEntity organization;
-	private FiscalYearEntity fiscalYear;
+	private FiscalYearEntity fiscalYear2;
 
-	public TraBulkUpdateEvent(T document, List<D> detailList, String user, OrganizationEntity organization, FiscalYearEntity fiscalYear) {
+	public TraBulkUpdateEvent(T document, List<D> detailList, String user, OrganizationEntity organization, FiscalYearEntity fiscalYear2) {
 		this.document = document;
 		this.detailList = detailList;
 		this.user = user;
 		this.organization = organization;
-		this.fiscalYear = fiscalYear;
+		this.fiscalYear2 = fiscalYear2;
 	}
 
 	public T getDocument() {
@@ -55,12 +55,12 @@ public class TraBulkUpdateEvent<T extends TraDocumentEntity, D extends TraDetail
 		this.organization = organization;
 	}
 
-	public FiscalYearEntity getFiscalYear() {
-		return fiscalYear;
+	public FiscalYearEntity getFiscalYear2() {
+		return fiscalYear2;
 	}
 
-	public void setFiscalYear(FiscalYearEntity fiscalYear) {
-		this.fiscalYear = fiscalYear;
+	public void setFiscalYear(FiscalYearEntity fiscalYear2) {
+		this.fiscalYear2 = fiscalYear2;
 	}
 
 }

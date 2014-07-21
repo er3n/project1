@@ -11,7 +11,7 @@ import org.springframework.beans.BeanUtils;
 @SuppressWarnings("serial")
 public class FinDocumentEntity extends TraDocumentEntity {
 
-	//odemeden fatura ya, yada basta turde referans
+	//ref:fin:Payment/Receipt ten Faturaraya
 	@Column(name = "ref_fin_document_id", nullable = true)
 	private Long refFinDocumentId;
 	

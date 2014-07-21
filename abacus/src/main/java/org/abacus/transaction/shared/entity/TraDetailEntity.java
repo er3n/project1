@@ -61,9 +61,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	@Column(name = "det_note", nullable = true)
 	private String detNote;
 
-	@Column(name = "ref_detail_id", nullable = true)
-	private Long refDetailId;
-
 	@Transient
 	private D point;
 
@@ -145,14 +142,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public void setDetNote(String detNote) {
 		this.detNote = detNote;
-	}
-
-	public Long getRefDetailId() {
-		return refDetailId;
-	}
-
-	public void setRefDetailId(Long refDetailId) {
-		this.refDetailId = refDetailId;
 	}
 
 	public String getTrStateSign() {

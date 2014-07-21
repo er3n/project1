@@ -7,6 +7,7 @@ import java.util.List;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.StkTransactionDao;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
@@ -86,7 +87,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	public DocumentDeletedEvent<StkDocumentEntity> deleteDocument(DeleteDocumentEvent<StkDocumentEntity> event) throws UnableToDeleteDocumentException {
 		// Finans, Muhasebe kaydi varsa onlarda da silinecek, sorulacak
 		StkDocumentEntity document = stkDocumentRepository.findWithFetch(event.getDocument().getId());
-		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocument().getId());
+		List<StkDetailEntity> detailList = stkDetailRepository.findAllByDocumentId(event.getDocument().getId());
 		for (StkDetailEntity dtl : detailList) {
 			Boolean result = deleteDetailRecords(dtl);
 			if (!result){
@@ -143,24 +144,34 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			inDetail.cleanCreateHook(outDetail.getUserCreated());
 			inDetail.setDepartment(outDetail.getDepartmentOpp());
 			inDetail.setDepartmentOpp(outDetail.getDepartment());
-			inDetail.setRefDetailId(outDetail.getId());
+			inDetail.setRefStkDetailId(outDetail.getId());
 			inDetail.setTrStateDetail(EnumList.TraState.INP.value());
-			if (inDetail.getDepartment().equals(inDetail.getDepartmentOpp())){
+			
+			OrganizationEntity outOrg = outDetail.getDepartment().getOrganization();
+			OrganizationEntity inOrg = inDetail.getDepartment().getOrganization();
+						
+			if (inOrg.getId().equals(outOrg.getId())){
+				//ayni organizasyon icinde transfer
 				detailCreateEvent.setDetail(inDetail);
 				detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 				if (createStkTrack){
 					this.addInputDetailTrackList(detailCreatedEvent);
 				}
-			} else {// farklı org na yapilan her transfer icin yeniden karsi document olusturMA !! varsa kullan
-				StkDocumentEntity docIn = new StkDocumentEntity();
-				BeanUtils.copyProperties(doc, docIn);
-				docIn.setId(null);
-				docIn.setFiscalPeriod1(null);
-				docIn.setFiscalPeriod2(null);
-				docIn.setOrganization(inDetail.getDepartment().getOrganization());
-				FiscalYearEntity inFiscalYear = fiscalDao.getFiscalYear(docIn.getOrganization().getId(), docIn.getDocDate());
-				DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent2 = newDocument(new CreateDocumentEvent<StkDocumentEntity>(docIn, docIn.getUserCreated(), docIn.getOrganization(), inFiscalYear));
-				docIn = (StkDocumentEntity) documentCreatedEvent2.getDocument();
+			} else {
+				//farkli organizasyon deposuna transfer
+				StkDocumentEntity docIn = stkDocumentRepository.findRefStkDocument(doc.getId(), inOrg.getId()); 
+				if (docIn==null){//yoksa olustur
+					docIn = new StkDocumentEntity();
+					BeanUtils.copyProperties(doc, docIn);
+					docIn.setId(null);
+					docIn.setFiscalPeriod1(null);
+					docIn.setFiscalPeriod2(null);
+					docIn.setOrganization(inDetail.getDepartment().getOrganization());
+					docIn.setRefStkDocumentId(doc.getId());
+					FiscalYearEntity inFiscalYear = fiscalDao.getFiscalYear(docIn.getOrganization().getId(), docIn.getDocDate());
+					DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent2 = newDocument(new CreateDocumentEvent<StkDocumentEntity>(docIn, docIn.getUserCreated(), docIn.getOrganization(), inFiscalYear));
+					docIn = (StkDocumentEntity) documentCreatedEvent2.getDocument();
+				}
 				inDetail.setDocument(docIn);
 				CreateDetailEvent<StkDetailEntity> detailCreateEvent2 = new CreateDetailEvent<StkDetailEntity>(inDetail, false);
 				detailCreateEvent2.setDetail(inDetail);
@@ -344,6 +355,11 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			detailTrack = stkDetailTrackRepository.save(detailTrack);
 			event.getDetailTrackList().add(detailTrack);
 		}
+	}
+
+	@Override
+	public DocumentCreatedEvent<StkDocumentEntity> newDocument(CreateDocumentEvent<StkDocumentEntity> event) {
+		return super.newDocumentSupport(event);
 	}
 	
 }

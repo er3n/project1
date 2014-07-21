@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-import javax.persistence.EnumType;
-
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.FiscalDao;
 import org.abacus.organization.core.util.OrganizationUtils;
@@ -60,15 +58,14 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event) {
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
-		OrganizationEntity organization = event.getOrganization();
-		FiscalYearEntity fiscalYear = event.getFiscalYearId();
-		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria,organization.getId(),fiscalYear.getId());
+		String organizationId = event.getOrganization()==null?null:event.getOrganization().getId();
+		String fiscalYearId2 = event.getFiscalYear2()==null?null:event.getFiscalYear2().getId();
+		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria, organizationId, fiscalYearId2);
 		return new ReadDocumentEvent<T>(documentList);
 	}
 
-	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public DocumentCreatedEvent<T> newDocument(CreateDocumentEvent<T> event) {
+	public DocumentCreatedEvent<T> newDocumentSupport(CreateDocumentEvent<T> event) {
 
 		T document = event.getDocument();
 		String user = event.getUser();
@@ -79,14 +76,14 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		document.setTypeEnum(document.getTask().getType().getTypeEnum());
 		
 		//Proje yada Sirket FiscalPeriod
-		FiscalPeriodEntity fiscalPeriod2 = fiscalDao.findFiscalPeriod(event.getFiscalYear(), document.getDocDate(), document.getTypeEnum());
+		FiscalPeriodEntity fiscalPeriod2 = fiscalDao.findFiscalPeriod(event.getFiscalYear2(), document.getDocDate(), document.getTypeEnum());
 		document.setFiscalPeriod2(fiscalPeriod2);
 
-		if (event.getFiscalYear().getOrganization().getLevel().equals(EnumList.OrgOrganizationLevelEnum.L1)){
+		if (event.getFiscalYear2().getOrganization().getLevel().equals(EnumList.OrgOrganizationLevelEnum.L1)){
 			document.setFiscalPeriod1(fiscalPeriod2);
 		} else {
 			//Sirket FiscalPeriod
-			OrganizationEntity orgCompany = OrganizationUtils.findLevelOrganization(event.getFiscalYear().getOrganization(), EnumList.OrgOrganizationLevelEnum.L1);
+			OrganizationEntity orgCompany = OrganizationUtils.findLevelOrganization(event.getFiscalYear2().getOrganization(), EnumList.OrgOrganizationLevelEnum.L1);
 			FiscalYearEntity fiscalCompany = fiscalDao.getFiscalYear(orgCompany.getId(), document.getDocDate());
 			FiscalPeriodEntity fiscalPeriod1 = fiscalDao.findFiscalPeriod(fiscalCompany, document.getDocDate(), document.getTypeEnum());
 			document.setFiscalPeriod1(fiscalPeriod1);
@@ -103,6 +100,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		String user = event.getUser();
 		
 		if (document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && detail.getItem().getType().getId().equals(EnumList.DefTypeEnum.ITM_SR_ST.name())){
+			//Stok Fisi, Stok Itemi ise 
 			BigDecimal baseDetailCount = detail.getItemDetailCount().multiply(detail.getItemUnit().getRatio());
 			detail.setBaseDetailCount(baseDetailCount);
 			if (detail.getTrStateDetail().compareTo(1)==0){
@@ -113,7 +111,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 				detail.setDueDate(document.getDocDate());
 			}
 		}else if(document.getTypeEnum().name().startsWith(EnumList.DefTypeGroupEnum.REQ.name())){
-			detail.setBaseDetailCount(detail.getItemDetailCount());
+			detail.setBaseDetailCount(BigDecimal.ZERO);
 			detail.setUnitDetailPrice(BigDecimal.ZERO);
 			detail.setBaseDetailAmount(BigDecimal.ZERO);
 			detail.setDueDate(document.getDocDate());
@@ -122,7 +120,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			if (detail.getItemDetailCount()==null || detail.getItemDetailCount().compareTo(BigDecimal.ZERO)==0){
 				detail.setItemDetailCount(BigDecimal.ONE);
 			}
-			detail.setBaseDetailCount(detail.getItemDetailCount());
+			detail.setBaseDetailCount(BigDecimal.ZERO);
 			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
 			detail.setDueDate(document.getDocDate());
 		}
@@ -144,10 +142,10 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		List<D> detailList = bulkUpdateEvent.getDetailList();
 		String user = bulkUpdateEvent.getUser();
 		OrganizationEntity organization = bulkUpdateEvent.getOrganization();
-		FiscalYearEntity fiscalYear = bulkUpdateEvent.getFiscalYear();
+		FiscalYearEntity fiscalYear2 = bulkUpdateEvent.getFiscalYear2();
 		
 		if(document.getId() == null){
-			DocumentCreatedEvent<T> documentCreatedEvent = newDocument(new CreateDocumentEvent<T>(document, user, organization, fiscalYear));
+			DocumentCreatedEvent<T> documentCreatedEvent = newDocument(new CreateDocumentEvent<T>(document, user, organization, fiscalYear2));
 			document = documentCreatedEvent.getDocument();
 		}else{
 			DocumentUpdatedEvent<T> documentUpdatedEvent = updateDocument(new UpdateDocumentEvent<T>(document, user));

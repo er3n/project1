@@ -28,9 +28,9 @@
 				<h:outputText value="#{department.name}" />
 			</p:column>
 
-			<p:column headerText="Tip" filterBy="#{department.departmentGroup.description}"
+			<p:column headerText="Tip" filterBy="#{department.organization.id} #{department.departmentGroup.description}"
 				filterMatchMode="contains">
-				<h:outputText value="#{department.departmentGroup.description}" />
+				<h:outputText value="#{department.organization.id} #{department.departmentGroup.description}" />
 			</p:column>
 
 			<p:column headerText="Sec" style="width:50px">

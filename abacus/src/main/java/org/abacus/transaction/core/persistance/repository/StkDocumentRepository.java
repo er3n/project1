@@ -11,11 +11,16 @@ public interface StkDocumentRepository extends CrudRepository<StkDocumentEntity,
 
 	@Query("select d from StkDocumentEntity d inner join fetch d.organization o inner join fetch d.fiscalPeriod1 fp1 where d.id = :id")
 	StkDocumentEntity findWithFetch(@Param("id") Long id);
-	
-	
+
+	@Query("select d from StkDocumentEntity d where d.refFinDocumentId = :id")
+	StkDocumentEntity findRefFinDocument(@Param("id") Long id);
+
+	@Query("select d from StkDocumentEntity d where d.refStkDocumentId = :id and d.organization.id = :organizationId")
+	StkDocumentEntity findRefStkDocument(@Param("id") Long id, @Param("organizationId")String organizationId);
+
 	@Modifying
 	@Transactional
 	@Query("update StkDocumentEntity t set t.refFinDocumentId=null  where t.refFinDocumentId = :finDocId")
-	void updateRefFinInfo(@Param("finDocId") Long id);
+	void deleteRefFinInfo(@Param("finDocId") Long id);
 
 }

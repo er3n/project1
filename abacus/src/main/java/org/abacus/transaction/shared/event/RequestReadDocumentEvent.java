@@ -10,12 +10,12 @@ public class RequestReadDocumentEvent<T extends TraDocumentEntity> extends Reque
 
 	private TraDocumentSearchCriteria documentSearchCriteria;
 	private OrganizationEntity organization;
-	private FiscalYearEntity fiscalYearId;
+	private FiscalYearEntity fiscalYear2;
 
-	public RequestReadDocumentEvent(TraDocumentSearchCriteria documentSearchCriteria, OrganizationEntity organization, FiscalYearEntity fiscalYearId) {
+	public RequestReadDocumentEvent(TraDocumentSearchCriteria documentSearchCriteria, OrganizationEntity organization, FiscalYearEntity fiscalYear2) {
 		this.documentSearchCriteria = documentSearchCriteria;
 		this.organization = organization;
-		this.fiscalYearId = fiscalYearId;
+		this.fiscalYear2 = fiscalYear2;
 	}
 
 	public TraDocumentSearchCriteria getDocumentSearchCriteria() {
@@ -26,12 +26,12 @@ public class RequestReadDocumentEvent<T extends TraDocumentEntity> extends Reque
 		this.documentSearchCriteria = documentSearchCriteria;
 	}
 
-	public FiscalYearEntity getFiscalYearId() {
-		return fiscalYearId;
+	public FiscalYearEntity getFiscalYear2() {
+		return fiscalYear2;
 	}
 
-	public void setFiscalYearId(FiscalYearEntity fiscalYearId) {
-		this.fiscalYearId = fiscalYearId;
+	public void setFiscalYear2(FiscalYearEntity fiscalYear2) {
+		this.fiscalYear2 = fiscalYear2;
 	}
 
 	public OrganizationEntity getOrganization() {

@@ -280,7 +280,8 @@
 			paramUser="#{sessionInfoHelper.currentUser().username}"
 			paramDepGroup="#{OrgDepartmentGroupEnum.S}"
 			targetVar="#{crudReqDocumentViewBean.document.department}"
-			rendered="true" />
+			rendered="true"
+			paramIsOrgOnly="false" />
 
 		<abc:departmentSelectionDialog id="reqDepartmentOppSelectionDialog"
 			update=":crudDocumentFrm" widgetVar="reqDepartmentOppSelectionWdg"

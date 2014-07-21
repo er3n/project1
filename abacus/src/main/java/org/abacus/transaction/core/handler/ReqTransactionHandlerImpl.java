@@ -80,7 +80,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 		}
 		
 		document.setRequestStatus(EnumList.RequestStatus.PREPARE);
-		return super.newDocument(event);
+		return super.newDocumentSupport(event);
 	}
 	
 	@Override

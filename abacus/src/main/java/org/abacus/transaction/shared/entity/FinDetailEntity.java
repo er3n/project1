@@ -7,11 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.abacus.definition.shared.entity.DefTypeEntity;
-import org.abacus.organization.shared.entity.FiscalPeriodEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.BeanUtils;
 
 @Entity

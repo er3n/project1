@@ -12,8 +12,10 @@ import javax.faces.bean.RequestScoped;
 
 import org.abacus.rest.controller.Holder;
 import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -39,18 +41,14 @@ public class PivotViewBean {
 		ObjectMapper mapper = new ObjectMapper();
 
 		String result = null;
-		try {
-			result = mapper.writeValueAsString(holders);
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+			try {
+				result = mapper.writeValueAsString(holders);
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
 
 		System.out.println(result.toString());
 		return result.toString();

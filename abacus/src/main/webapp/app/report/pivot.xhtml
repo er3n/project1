@@ -15,8 +15,9 @@
                 $.getJSON('#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/app/rest/service/holder', function(mps) {
                     $("#output").pivotUI(mps,{
                     	
-                    	rows : ["calisanSayisi"],
-                    	cols : ["enBuyukHarcama"],
+                    	rows : ["sirket"],
+                    	cols : ["islem"],
+                    	vals : ["tutar"],
                     	rendererName : "Heatmap",  
                     	aggregatorName : "Sum"
                     });

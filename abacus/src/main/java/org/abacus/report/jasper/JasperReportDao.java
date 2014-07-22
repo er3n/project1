@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
@@ -24,6 +25,8 @@ public class JasperReportDao {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	private Logger logger = Logger.getLogger(JasperReportDao.class);
 
 	public Connection getConnection() throws SQLException {
 		Session session = em.unwrap(Session.class);
@@ -60,16 +63,18 @@ public class JasperReportDao {
 			}
 			return listMap;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e,e);
 			return listMap;
 		} finally {
 			try {
 				resultSet.close();
 			} catch (Exception e) {
+				logger.error(e,e);
 			}
 			try {
 				statement.close();
 			} catch (Exception e) {
+				logger.error(e,e);
 			}
 		}
 	}

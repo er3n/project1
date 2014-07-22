@@ -39,6 +39,7 @@ import org.abacus.user.shared.event.UpdateGroupEvent;
 import org.abacus.user.shared.event.UpdateUserEvent;
 import org.abacus.user.shared.event.UserCreatedEvent;
 import org.abacus.user.shared.event.UserUpdatedEvent;
+import org.abacus.user.shared.holder.SearchUserCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -302,6 +303,16 @@ public class UserEventHandler implements UserService{
 		}
 		
 		return new ReadOrganizationsEvent(organizationList);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<SecUserEntity> findUser(SearchUserCriteria searchUserCriteria) {
+
+		List<SecUserEntity> searchreResults = userDao
+				.findUser(searchUserCriteria);
+
+		return searchreResults;
 	}
 
 }

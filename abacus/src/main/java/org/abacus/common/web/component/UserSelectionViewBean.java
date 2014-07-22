@@ -13,7 +13,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.abacus.user.core.handler.SecUserHandler;
+import org.abacus.user.core.handler.UserEventHandler;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.holder.SearchUserCriteria;
 
@@ -22,17 +22,17 @@ import org.abacus.user.shared.holder.SearchUserCriteria;
 @ViewScoped
 public class UserSelectionViewBean implements Serializable {
 
-	@ManagedProperty(value = "#{secUserHandler}")
-	private SecUserHandler secUserHandler;
-	
+	@ManagedProperty(value = "#{userEventHandler}")
+	private UserEventHandler secUserHandler;
+
 	private Map<String, List<SecUserEntity>> resultMap = new HashMap<>();
-	
+
 	@PostConstruct
 	public void init() {
 	}
 
 	public List<SecUserEntity> getUserList(OrganizationEntity org) {
-		if (org==null){
+		if (org == null) {
 			return new ArrayList<SecUserEntity>();
 		}
 		String key = org.getId();
@@ -48,16 +48,24 @@ public class UserSelectionViewBean implements Serializable {
 		}
 	}
 
-//	public void selectUserFromDialog(SecUserEntity user) {
-//		RequestContext.getCurrentInstance().closeDialog(user);
-//	}
-
-	public SecUserHandler getSecUserHandler() {
+	public UserEventHandler getSecUserHandler() {
 		return secUserHandler;
 	}
 
-	public void setSecUserHandler(SecUserHandler secUserHandler) {
+	public void setSecUserHandler(UserEventHandler secUserHandler) {
 		this.secUserHandler = secUserHandler;
 	}
+
+	public Map<String, List<SecUserEntity>> getResultMap() {
+		return resultMap;
+	}
+
+	public void setResultMap(Map<String, List<SecUserEntity>> resultMap) {
+		this.resultMap = resultMap;
+	}
+
+	// public void selectUserFromDialog(SecUserEntity user) {
+	// RequestContext.getCurrentInstance().closeDialog(user);
+	// }
 
 }

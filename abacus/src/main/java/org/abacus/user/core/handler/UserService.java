@@ -1,8 +1,11 @@
 package org.abacus.user.core.handler;
 
+import java.util.List;
+
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.UserNameExistsException;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.event.CreateGroupEvent;
 import org.abacus.user.shared.event.CreateUserEvent;
 import org.abacus.user.shared.event.DeleteGroupEvent;
@@ -21,6 +24,7 @@ import org.abacus.user.shared.event.UpdateGroupEvent;
 import org.abacus.user.shared.event.UpdateUserEvent;
 import org.abacus.user.shared.event.UserCreatedEvent;
 import org.abacus.user.shared.event.UserUpdatedEvent;
+import org.abacus.user.shared.holder.SearchUserCriteria;
 
 public interface UserService {
 	
@@ -41,6 +45,8 @@ public interface UserService {
 	ReadAuthoritiesEvent requestAuthorities(RequestReadAuthoritiesEvent event);
 
 	ReadOrganizationsEvent requestOrganization(RequestReadOrganizationsEvent requestReadOrganizationsEvent);
+
+	List<SecUserEntity> findUser(SearchUserCriteria searchUserCriteria);
 	
 	
 }

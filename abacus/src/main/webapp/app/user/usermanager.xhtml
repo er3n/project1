@@ -76,12 +76,14 @@
 					<h:outputText value="" />
 					<h:outputText value="" />
 
-					<h:outputLabel for="password" value="#{lbl.password}" rendered="#{empty userViewBean.selectedUser.id}" />
-					<p:password id="password" value="#{userViewBean.selectedUser.password}" rendered="#{empty userViewBean.selectedUser.id}" match="repassword" feedback="true" requiredMessage="#{lbl.sifreAdiBosOlamaz}" promptLabel="Lütfen şifre giriniz" weakLabel="#{lbl.zayif}" validatorMessage="#{lbl.sifrelerEslesmiyor}" goodLabel="#{lbl.orta}" strongLabel="#{lbl.guclu}" autocomplete="off" />
-
-					<h:outputLabel for="repassword" value="#{lbl.repassword}" rendered="#{empty userViewBean.selectedUser.id}" />
-					<p:password id="repassword" label="repassword" required="true" rendered="#{empty userViewBean.selectedUser.id}" requiredMessage="#{lbl.sifreTekrarBosOlamaz}" autocomplete="off" />
-
+					<c:if test="#{empty userViewBean.selectedUser.id}">
+						<h:outputLabel for="password" value="#{lbl.password}" />
+						<p:password id="password" value="#{userViewBean.selectedUser.password}" match="repassword" feedback="true" requiredMessage="#{lbl.sifreAdiBosOlamaz}" promptLabel="Lütfen şifre giriniz" weakLabel="#{lbl.zayif}" validatorMessage="#{lbl.sifrelerEslesmiyor}" goodLabel="#{lbl.orta}" strongLabel="#{lbl.guclu}" autocomplete="off" />
+	
+			
+						<h:outputLabel for="repassword" value="#{lbl.repassword}"  />
+						<p:password id="repassword" label="repassword" required="true"  requiredMessage="#{lbl.sifreTekrarBosOlamaz}" autocomplete="off" />
+					</c:if>
  
 					<h:outputLabel value="Satıcı" />
 					<h:panelGrid columns="8" id="itemSelectionGrid">

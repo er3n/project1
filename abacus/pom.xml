@@ -258,11 +258,6 @@
 		</dependency>
 		<!-- END OF TEST -->
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-gemfire</artifactId>
-			<version>1.1.4.RELEASE</version>
-		</dependency>
 	</dependencies>
 
 

@@ -2,25 +2,23 @@ package org.abacus.transaction.shared.event;
 
 import org.abacus.common.shared.event.UpdatedEvent;
 import org.abacus.definition.shared.entity.DefItemEntity;
-import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.transaction.shared.entity.ReqDocumentEntity;
 
 public class ConfirmDocumentEvent extends UpdatedEvent {
 
 	private ReqDocumentEntity reqDocumentEntity;
 	private DefItemEntity vendor;
-	private OrganizationEntity organization;
-	private FiscalYearEntity fiscalYear2;
+	private FiscalPeriodEntity fiscalPeriod2;
 
-	public ConfirmDocumentEvent(ReqDocumentEntity reqDocumentEntity, OrganizationEntity organization, FiscalYearEntity fiscalYear2) {
+	public ConfirmDocumentEvent(ReqDocumentEntity reqDocumentEntity, FiscalPeriodEntity fiscalPeriod2) {
 		this.reqDocumentEntity = reqDocumentEntity;
-		this.organization = organization;
-		this.fiscalYear2 = fiscalYear2;
+		this.fiscalPeriod2 = fiscalPeriod2;
 	}
 
-	public ConfirmDocumentEvent(ReqDocumentEntity reqDocumentEntity, DefItemEntity vendor) {
+	public ConfirmDocumentEvent(ReqDocumentEntity reqDocumentEntity, FiscalPeriodEntity fiscalPeriod2, DefItemEntity vendor) {
 		this.reqDocumentEntity = reqDocumentEntity;
+		this.fiscalPeriod2 = fiscalPeriod2;
 		this.vendor = vendor;
 	}
 
@@ -40,20 +38,12 @@ public class ConfirmDocumentEvent extends UpdatedEvent {
 		this.vendor = vendor;
 	}
 
-	public OrganizationEntity getOrganization() {
-		return organization;
+	public FiscalPeriodEntity getFiscalPeriod2() {
+		return fiscalPeriod2;
 	}
 
-	public void setOrganization(OrganizationEntity organization) {
-		this.organization = organization;
-	}
-
-	public FiscalYearEntity getFiscalYear2() {
-		return fiscalYear2;
-	}
-
-	public void setFiscalYear2(FiscalYearEntity fiscalYear2) {
-		this.fiscalYear2 = fiscalYear2;
+	public void setFiscalPeriod2(FiscalPeriodEntity fiscalPeriod2) {
+		this.fiscalPeriod2 = fiscalPeriod2;
 	}
 
 }

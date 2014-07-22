@@ -3,6 +3,7 @@ package org.abacus.transaction.core.handler;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
@@ -76,10 +77,8 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 	public StkDocumentEntity confirmPartialDocument(ConfirmDocumentEvent confirmDocumentEvent) {
 		ReqDocumentEntity reqDocument = confirmDocumentEvent.getReqDocumentEntity();
 		DefItemEntity vendor = confirmDocumentEvent.getVendor();
-		OrganizationEntity organization = confirmDocumentEvent.getOrganization();
-		FiscalYearEntity fiscalYear2 = confirmDocumentEvent.getFiscalYear2();
-		
-		StkDocumentEntity stkDocument = traIntegrationHandler.createStkFromReq(reqDocument.getId(), vendor, organization, fiscalYear2);
+		FiscalPeriodEntity period2 = confirmDocumentEvent.getFiscalPeriod2();
+		StkDocumentEntity stkDocument = traIntegrationHandler.createStkFromReq(reqDocument.getId(), period2, vendor);
 		
 		return stkDocument;
 	}

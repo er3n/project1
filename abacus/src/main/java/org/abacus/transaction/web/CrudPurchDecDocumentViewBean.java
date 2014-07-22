@@ -17,6 +17,7 @@ import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.transaction.core.handler.ReqConfirmationHandler;
 import org.abacus.transaction.core.handler.ReqOfferHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
@@ -156,7 +157,8 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 
 	public void confirmDocument(ReqPurcVendorHolder vendorHolder) {
 		try { 
-			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmPartialDocument(new ConfirmDocumentEvent(this.document,vendorHolder.getVendor()));
+			FiscalPeriodEntity period2 = sessionInfoHelper.getFiscalPeriod(this.document.getDocDate());
+			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmPartialDocument(new ConfirmDocumentEvent(this.document, period2, vendorHolder.getVendor()));
 			this.findDocument(this.document.getId());
 			jsfMessageHelper.addInfo("confirmedWithDocumentNo", stkDocument.getDocNo());
 		} catch (AbcBusinessException e) {

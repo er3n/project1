@@ -2,6 +2,7 @@ package org.abacus.common.web;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -12,8 +13,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.abacus.common.security.SecUser;
+import org.abacus.organization.core.persistance.repository.FiscalPeriodRepository;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.core.util.OrganizationUtils;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,10 @@ public class SessionInfoHelper implements Serializable {
 	
 	@Autowired
 	private OrganizationRepository organizationRepository;
-	
+
+	@Autowired
+	private FiscalPeriodRepository fiscalPeriodRepository;
+
 	@Autowired
 	private OrganizationUtils organizationUtils;
 
@@ -86,5 +92,10 @@ public class SessionInfoHelper implements Serializable {
 	public FiscalYearEntity currentFiscalYear() {
 		return currentUser().getSelectedFiscalYear();
 	}
-	
+
+	public FiscalPeriodEntity getFiscalPeriod(Date docDate) {
+		FiscalYearEntity fisYear = currentUser().getSelectedFiscalYear();
+		return fiscalPeriodRepository.findFiscalPeriod(fisYear.getId(), docDate);
+	}
+
 }

@@ -16,6 +16,7 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.transaction.core.handler.ReqConfirmationHandler;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
 import org.abacus.transaction.shared.entity.ReqDetailEntity;
@@ -238,7 +239,8 @@ public class CrudReqDocumentViewBean implements Serializable {
 
 	public void confirmDocument() {
 		try {
-			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(document, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
+			FiscalPeriodEntity period2 = sessionInfoHelper.getFiscalPeriod(this.document.getDocDate());
+			StkDocumentEntity stkDocument = reqConfirmationHandler.confirmDocument(new ConfirmDocumentEvent(this.document, period2));
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("confirmedWithDocumentNo", stkDocument.getDocNo());
 		} catch (AbcBusinessException e) {

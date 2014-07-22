@@ -8,7 +8,6 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
-import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
@@ -55,7 +54,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public StkDocumentEntity createStkFromReq(Long docId,DefItemEntity vendor, OrganizationEntity org, FiscalYearEntity fisYear) {
+	public StkDocumentEntity createStkFromReq(Long docId, FiscalPeriodEntity fisPeriod2, DefItemEntity vendor) {
 		
 		ReqDocumentEntity reqDocument = reqDocumentRepository.findWithFetch(docId);
 		
@@ -65,13 +64,11 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		stkDocument.setItem(vendor);
 
 		OrganizationEntity organization = reqDocument.getOrganization();
-		if (vendor==null && org!=null && !org.getId().equals(organization.getId())){
-			organization = org;
+		if (fisPeriod2!=null && !reqDocument.getFiscalPeriod2().getId().equals(fisPeriod2.getId())){
+			organization = fisPeriod2.getFiscalYear().getOrganization();
 			stkDocument.setOrganization(organization);
 			stkDocument.setFiscalPeriod1(null);
-			FiscalPeriodEntity per2 = new FiscalPeriodEntity();
-			per2.setFiscalYear(fisYear);
-			stkDocument.setFiscalPeriod2(per2);
+			stkDocument.setFiscalPeriod2(fisPeriod2);
 		}
 		
 		EnumList.DefTypeEnum proceedingTaskType = null;

@@ -4,8 +4,6 @@
 	<ui:define name="content">
 
 		<h:outputStylesheet library="default" name="ext/pivot/pivot.css" />
-		<h:outputScript library="default" name="ext/jquery-1.8.3.min.js" />
-		<h:outputScript library="default" name="ext/jquery-ui-1.9.2.custom.min.js" />
 		<h:outputScript library="default" name="ext/pivot/pivot.js" />
 
 		<script type="text/javascript">
@@ -15,11 +13,11 @@
                 $.getJSON('#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/app/rest/service/sqlDataGet', function(mps) {
                     $("#output").pivotUI(mps,{
                     	
-                    	rows : ["A"],
-                    	cols : ["B"],
-                    	vals : ["C"],
+                    	rows : ["level","name"],
+                    	cols : ["tr_state_type"],
+                    	vals : [""],
                     	rendererName : "Heatmap",  
-                    	aggregatorName : "Sum"
+                    	aggregatorName : "Count"
                     });
                 });
              });

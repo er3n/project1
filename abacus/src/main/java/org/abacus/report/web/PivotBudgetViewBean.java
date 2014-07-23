@@ -30,6 +30,8 @@ public class PivotBudgetViewBean {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 	
+	private String selection;
+	
 	private String jsonResult;
 
 	@PostConstruct
@@ -58,12 +60,19 @@ public class PivotBudgetViewBean {
 	private List<Map<String, Object>> getData() {
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("select det.fiscal_period_id, det.budget_rx,");
-		sb.append("       det.budget_amount*(CASE WHEN det.budget_rx='BUD_R' THEN 1 ELSE -1 END) calc_amount");
+		sb.append("select doc.fiscal_year_id CalismaYili,");
+		sb.append("		  det.fiscal_period_id CalismaDonemi,");
+		sb.append("	      (CASE WHEN det.budget_rx='BUD_R' THEN 'Gelir' ELSE 'Gider' END) GelirGider,");
+		sb.append("       det.budget_amount*(CASE WHEN det.budget_rx='BUD_R' THEN 1 ELSE -1 END) Tutar");
 		sb.append("  from budget_detail det, budget_document doc");
 		sb.append(" where det.document_id = doc.id");
 		sb.append("   and det.budget_type = 'ESTIMATE'");
-		sb.append("   and doc.fiscal_year_id = '"+sessionInfoHelper.currentFiscalYear().getId()+"'");
+
+		String orgId = sessionInfoHelper.currentOrganization().getId();
+		if (selection.equals("1")){
+			orgId = sessionInfoHelper.currentOrganization().getRootOrganization().getId()+"%";
+		}
+		sb.append("   and doc.fiscal_year_id like '"+orgId+"'");
 		listMap = jasperReportHandler.getSqlData(sb.toString());
 		return listMap;
 	}
@@ -98,6 +107,14 @@ public class PivotBudgetViewBean {
 
 	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
 		this.sessionInfoHelper = sessionInfoHelper;
+	}
+
+	public String getSelection() {
+		return selection;
+	}
+
+	public void setSelection(String selection) {
+		this.selection = selection;
 	}
 
 }

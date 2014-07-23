@@ -14,9 +14,14 @@
 		<h:form>
 
 		<h:outputStylesheet library="default" name="ext/pivot/pivot.css" />
-		
 		<h:outputScript library="default" name="ext/pivot/pivot.js" />
 
+        <h:outputText value="Basic Usage: " />  
+        <p:selectOneMenu value="#{pivotBudgetViewBean.selection}">  
+            <f:selectItem itemLabel="Secili Organizasyon" itemValue="0" />  
+            <f:selectItem itemLabel="Tüm Organizasyonlar" itemValue="1" />  
+        </p:selectOneMenu>  
+        
 		<p:commandButton actionListener="#{pivotBudgetViewBean.find}" value="hazirla" ajax="false" />
 
 		<h:panelGrid id="pivotGrid" rendered="#{not empty pivotBudgetViewBean.jsonResult}">
@@ -26,9 +31,9 @@
             	$("#output").pivotUI(
             			#{pivotBudgetViewBean.jsonResult}
             			,{
-                        	rows : ["fiscal_period_id"],
-                        	cols : ["budget_rx"],
-                        	vals : ["calc_amount"],
+                        	rows : ["calismayili","calismadonemi"],
+                        	cols : ["gelirgider"],
+                        	vals : ["tutar"],
                         	rendererName : "Heatmap",  
                         	aggregatorName : "Sum"
                         }

@@ -1,6 +1,5 @@
 package org.abacus.report.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import javax.faces.bean.RequestScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.report.core.handler.SqlQueryHandler;
+import org.abacus.report.shared.holder.SqlDataHolder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,7 +58,6 @@ public class PivotBudgetViewBean {
 	}
 
 	private List<Map<String, Object>> getData() {
-		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		StringBuffer sb = new StringBuffer();
 		sb.append("select doc.fiscal_year_id CalismaYili,");
 		sb.append("		  det.fiscal_period_id CalismaDonemi,");
@@ -73,8 +72,8 @@ public class PivotBudgetViewBean {
 			orgId = sessionInfoHelper.currentOrganization().getRootOrganization().getId()+"%";
 		}
 		sb.append("   and doc.fiscal_year_id like '"+orgId+"'");
-		listMap = sqlQueryHandler.getSqlData(sb.toString());
-		return listMap;
+		SqlDataHolder sqlDataHolder = sqlQueryHandler.getSqlData(sb.toString());
+		return sqlDataHolder.getSqlDataList();
 	}
 
 	public String getJsonResult() {

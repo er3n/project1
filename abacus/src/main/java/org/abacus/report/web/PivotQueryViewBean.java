@@ -1,6 +1,5 @@
 package org.abacus.report.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import javax.faces.bean.RequestScoped;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.report.core.handler.SqlQueryHandler;
+import org.abacus.report.shared.holder.SqlDataHolder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,9 +70,8 @@ public class PivotQueryViewBean {
 	}
 
 	private List<Map<String, Object>> getData() {
-		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
-		listMap = sqlQueryHandler.getSqlData(query.toString());
-		return listMap;
+		SqlDataHolder sqlDataHolder = sqlQueryHandler.getSqlData(query.toString());
+		return sqlDataHolder.getSqlDataList();
 	}
 
 	public String getJsonResult() {

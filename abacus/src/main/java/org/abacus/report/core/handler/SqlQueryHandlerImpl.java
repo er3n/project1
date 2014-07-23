@@ -2,10 +2,9 @@ package org.abacus.report.core.handler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 import org.abacus.report.core.persistance.SqlQueryDao;
+import org.abacus.report.shared.holder.SqlDataHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,9 +34,9 @@ public class SqlQueryHandlerImpl implements SqlQueryHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public List<Map<String, Object>> getSqlData(String sql) {
-		List<Map<String, Object>> sqlData = sqlQueryDao.getSqlData(sql);
-		return sqlData;
+	public SqlDataHolder getSqlData(String sql) {
+		SqlDataHolder queryHolder = sqlQueryDao.getSqlData(sql);
+		return queryHolder;
 	}
 
 }

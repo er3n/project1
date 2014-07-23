@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.abacus.report.shared.holder.SqlDataHolder;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
@@ -37,9 +40,10 @@ public class SqlQueryDao {
 		return conn;
 	}
 
-	public List<Map<String, Object>> getSqlData(String sql) {
+	public SqlDataHolder getSqlData(String sql) {
 		Statement statement = null;
 		ResultSet resultSet = null;
+		Set<String> columnSet = new HashSet<String>();
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		try {
 			Session sess = em.unwrap(Session.class);
@@ -52,19 +56,22 @@ public class SqlQueryDao {
 			resultSet = statement.executeQuery(sql);
 			ResultSetMetaData metaData = resultSet.getMetaData();
 			int columnCount = metaData.getColumnCount();
+			for (int columnIndex = 1; columnIndex <= columnCount; ++columnIndex) {
+				String columnName = metaData.getColumnName(columnIndex);
+				columnSet.add(columnName);
+			}
 			while (resultSet.next()) {
 				Map<String, Object> row = new HashMap<String, Object>();
-				for (int columnIndex = 1; columnIndex <= columnCount; ++columnIndex) {
-					String columnName = metaData.getColumnName(columnIndex);
+				for (String columnName : columnSet) {
 					Object obj = resultSet.getObject(columnName);
 					row.put(columnName, obj);
 				}
 				listMap.add(row);
 			}
-			return listMap;
+			return new SqlDataHolder(listMap, columnSet);
 		} catch (Exception e) {
 			logger.error(e,e);
-			return listMap;
+			return new SqlDataHolder(listMap, columnSet);
 		} finally {
 			try {
 				resultSet.close();

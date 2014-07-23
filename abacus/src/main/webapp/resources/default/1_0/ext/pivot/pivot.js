@@ -141,7 +141,7 @@
         attr = _arg[0];
         return function(data, rowKey, colKey) {
           return {
-            sum: 0,
+        	  sum: 0,
             push: function(record) {
               if (!isNaN(parseFloat(record[attr]))) {
                 return this.sum += parseFloat(record[attr]);

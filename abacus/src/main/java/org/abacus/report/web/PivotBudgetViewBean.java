@@ -68,7 +68,7 @@ public class PivotBudgetViewBean {
 		sb.append(" where det.document_id = doc.id");
 		sb.append("   and det.budget_type = 'ESTIMATE'");
 
-		String orgId = sessionInfoHelper.currentOrganization().getId();
+		String orgId = sessionInfoHelper.currentOrganization().getId()+":%";
 		if (selection.equals("1")){
 			orgId = sessionInfoHelper.currentOrganization().getRootOrganization().getId()+"%";
 		}

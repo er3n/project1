@@ -3,7 +3,9 @@ package org.abacus.organization.core.handler;
 import java.util.Date;
 import java.util.List;
 
+import org.abacus.common.core.persistance.AbcCommonDao;
 import org.abacus.common.shared.AbcBusinessException;
+import org.abacus.common.web.AbcUtility;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.FiscalDao;
 import org.abacus.organization.core.persistance.repository.FiscalPeriodRepository;
@@ -22,12 +24,14 @@ public class FiscalHandlerImpl implements FiscalHandler {
 
 	@Autowired
 	private FiscalDao fiscalDao;
-	
 	@Autowired
 	FiscalYearRepository fiscalYearRepo;
 	
 	@Autowired
 	FiscalPeriodRepository fiscalPeriodRepo;
+
+	@Autowired
+	private AbcCommonDao abcCommonDao;
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
@@ -62,6 +66,7 @@ public class FiscalHandlerImpl implements FiscalHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public FiscalYearEntity saveFiscalYearEntity(FiscalYearEntity entity) {
+		entity.setId(entity.getId()+":"+AbcUtility.LPad(abcCommonDao.getNewId().toString(), 8, '0'));
 		entity = fiscalYearRepo.save(entity);
 		return entity;
 	}
@@ -75,6 +80,7 @@ public class FiscalHandlerImpl implements FiscalHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public FiscalPeriodEntity saveFiscalPeriodEntity(FiscalPeriodEntity entity) {
+		entity.setId(entity.getFiscalYear().getId()+":"+AbcUtility.LPad(entity.getPeriodNo().toString(), 2, '0'));
 		entity = fiscalPeriodRepo.save(entity);
 		return entity;
 	}

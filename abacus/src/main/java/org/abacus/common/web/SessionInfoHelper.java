@@ -1,16 +1,11 @@
 package org.abacus.common.web;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.abacus.common.security.SecUser;
 import org.abacus.organization.core.persistance.repository.FiscalPeriodRepository;
@@ -28,9 +23,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessionInfoHelper implements Serializable {
 
-	@PersistenceContext
-	private EntityManager em;
-	
 	@Autowired
 	private OrganizationRepository organizationRepository;
 
@@ -75,14 +67,6 @@ public class SessionInfoHelper implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 	    NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
 	    navigationHandler.handleNavigation(context, null, "/app/index.abc?faces-redirect=true");
-	}
-	
-	public Long getNewId(){
-		StringBuilder sb = new StringBuilder();
-		sb.append("select nextval('seq_id') newId");
-		Query query = em.createNativeQuery(sb.toString());
-		List<BigInteger> resultList = query.getResultList();
-		return Long.parseLong(resultList.get(0).toString());				
 	}
 	
 	public OrganizationEntity currentOrganization() {

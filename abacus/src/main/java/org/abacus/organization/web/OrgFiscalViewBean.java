@@ -63,11 +63,10 @@ public class OrgFiscalViewBean implements Serializable {
 		
 		if (selFiscalYear.isNew()) {
 			jsfMessageHelper.addInfo("createSuccessful","FiscalYear");
-			selFiscalYear.setId(selOrganization.getId()+"."+AbcUtility.LPad(sessionInfoHelper.getNewId().toString(), 8, '0'));
 		} else {
 			jsfMessageHelper.addInfo("updateSuccessful","FiscalYear");
 		}
-		fiscalService. saveFiscalYearEntity(selFiscalYear);
+		selFiscalYear = fiscalService. saveFiscalYearEntity(selFiscalYear);
 		setSelOrganization(selOrganization);
 	}
 
@@ -99,12 +98,10 @@ public class OrgFiscalViewBean implements Serializable {
 				jsfMessageHelper.addInfo("createError","No Hatalı");
 				return;
 			}
-			String newId = selFiscalPeriod.getFiscalYear().getId()+"."+AbcUtility.LPad(selFiscalPeriod.getPeriodNo().toString(), 2, '0');
-			selFiscalPeriod.setId(newId);
 		} else {
 			jsfMessageHelper.addInfo("updateSuccessful","FiscalPeriod");
 		}
-		fiscalService. saveFiscalPeriodEntity(selFiscalPeriod);
+		selFiscalPeriod = fiscalService. saveFiscalPeriodEntity(selFiscalPeriod);
 		setSelFiscalYear(selFiscalYear);
 	}
 

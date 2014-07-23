@@ -25,3 +25,10 @@ update def_type v set start_id = (select p.id from def_value p where p.code = 'C
 			paramType="#{DefTypeEnum.VAL_CATEGORY}"
 		 />
 		 
+		 
+select doc.fiscal_year_id,det.fiscal_period_id, det.budget_rx, det.budget_type
+		       det.budget_amount*(CASE WHEN det.budget_rx='BUD_R' THEN 1 ELSE -1 END) Tutar 
+		  from budget_detail det, budget_document doc 
+		 where det.document_id = doc.id 
+
+		

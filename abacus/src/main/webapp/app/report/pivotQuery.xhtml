@@ -15,19 +15,24 @@
 		<h:form>
 			<p:panel header="Parametreler">
 
-				<h:outputText value="Organizasyon: " />
-				<p:selectOneMenu value="#{pivotBudgetViewBean.selection}">
-					<f:selectItem itemLabel="Secili Organizasyon" itemValue="0" />
-					<f:selectItem itemLabel="Tüm Organizasyonlar" itemValue="1" />
-				</p:selectOneMenu>
+				<h:outputText value="Rows: "/>
+				<p:inputText value="#{pivotQueryViewBean.pivotRows}"></p:inputText>
 
-				<p:commandButton actionListener="#{pivotBudgetViewBean.find}"
+				<h:outputText value="Cols: "/>
+				<p:inputText value="#{pivotQueryViewBean.pivotCols}"></p:inputText>
+
+				<h:outputText value="Vals: "/>
+				<p:inputText value="#{pivotQueryViewBean.pivotVals}"></p:inputText>
+
+				<p:commandButton actionListener="#{pivotQueryViewBean.find}"
 					value="hazirla" ajax="false" />
+
 			</p:panel>
 
 		</h:form>
 
-		<p:panel header="Sonuçlar" rendered="#{not empty pivotBudgetViewBean.jsonResult}">
+		<p:panel header="Sonuçlar"
+			rendered="#{not empty pivotQueryViewBean.jsonResult}">
 			<div id="output" style="margin: 10px;"></div>
 		</p:panel>
 
@@ -36,11 +41,11 @@
 		<script type="text/javascript">
             $(function(){
             	$("#output").pivotUI(
-            			#{pivotBudgetViewBean.jsonResult}
+            			#{pivotQueryViewBean.jsonResult}
             			,{
-                        	rows : ["calismayili","calismadonemi"],
-                        	cols : ["gelirgider"],
-                        	vals : ["tutar"],
+                        	rows : [#{pivotQueryViewBean.pivotRows}],
+                        	cols : [#{pivotQueryViewBean.pivotCols}],
+                        	vals : [#{pivotQueryViewBean.pivotVals}],
                         	rendererName : "Heatmap",  
                         	aggregatorName : "Sum"
                         }

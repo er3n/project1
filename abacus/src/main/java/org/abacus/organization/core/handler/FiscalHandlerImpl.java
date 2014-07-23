@@ -66,7 +66,7 @@ public class FiscalHandlerImpl implements FiscalHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public FiscalYearEntity saveFiscalYearEntity(FiscalYearEntity entity) {
-		entity.setId(entity.getId()+":"+AbcUtility.LPad(abcCommonDao.getNewId().toString(), 8, '0'));
+		entity.setId(entity.getOrganization().getId()+":"+AbcUtility.LPad(abcCommonDao.getNewId().toString(), 8, '0'));
 		entity = fiscalYearRepo.save(entity);
 		return entity;
 	}

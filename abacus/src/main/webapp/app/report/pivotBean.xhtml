@@ -12,19 +12,22 @@
 
 	<ui:define name="content">
 
-		<h:outputStylesheet library="default" name="ext/pivot/pivot.css" />
-		<h:outputScript library="default" name="ext/pivot/pivot.js" />
-
 		<h:form>
-			<p:inputText value="#{pivotTestViewBean.sirket}"></p:inputText>
-
-			<p:commandButton actionListener="#{pivotTestViewBean.find}" value="hazirla" ajax="false" />
+			<p:panel header="Parametreler">
+				<p:inputText value="#{pivotTestViewBean.sirket}"></p:inputText>
+				<p:commandButton actionListener="#{pivotTestViewBean.find}"
+					value="hazirla" ajax="false" />
+			</p:panel>
 		</h:form>
 
+		<p:panel header="Sonuçlar"
+			rendered="#{not empty pivotTestViewBean.jsonResult}">
+			<div id="output" style="margin: 10px;"></div>
+		</p:panel>
 
-		<h:panelGrid id="pivotGrid" rendered="#{not empty pivotTestViewBean.jsonResult}">
-			<script type="text/javascript">
-            
+		<h:outputStylesheet library="default" name="ext/pivot/pivot.css" />
+		<h:outputScript library="default" name="ext/pivot/pivot.js" />
+		<script type="text/javascript">
             $(function(){
             	$("#output").pivotUI(
             			#{pivotTestViewBean.jsonResult}
@@ -38,15 +41,8 @@
             	); 	
             });
         </script>
-		</h:panelGrid>
-
-		<div id="output" style="margin: 10px;"></div>
-
-
-
+        
 	</ui:define>
-
-
 
 </ui:composition>
 

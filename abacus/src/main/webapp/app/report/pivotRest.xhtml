@@ -15,9 +15,9 @@
                 $.getJSON('#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/app/rest/service/sqlDataGet', function(mps) {
                     $("#output").pivotUI(mps,{
                     	
-                    	rows : ["sirket"],
-                    	cols : ["islem"],
-                    	vals : ["tutar"],
+                    	rows : ["A"],
+                    	cols : ["B"],
+                    	vals : ["C"],
                     	rendererName : "Heatmap",  
                     	aggregatorName : "Sum"
                     });

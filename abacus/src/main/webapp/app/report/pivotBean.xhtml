@@ -20,22 +20,22 @@
 
 
 		<h:form>
-			<p:inputText value="#{pivotViewBean.sirket}"></p:inputText>
+			<p:inputText value="#{pivotTestViewBean.sirket}"></p:inputText>
 
-			<p:commandButton actionListener="#{pivotViewBean.find}" value="hazirla" ajax="false" />
+			<p:commandButton actionListener="#{pivotTestViewBean.find}" value="hazirla" ajax="false" />
 		</h:form>
 
 
-		<h:panelGrid id="pivotGrid" rendered="#{not empty pivotViewBean.jsonResult}">
+		<h:panelGrid id="pivotGrid" rendered="#{not empty pivotTestViewBean.jsonResult}">
 			<script type="text/javascript">
             
             $(function(){
             	$("#output").pivotUI(
-            			#{pivotViewBean.jsonResult}
+            			#{pivotTestViewBean.jsonResult}
             			,{
-                        	rows : ["sirket"],
-                        	cols : ["islem"],
-                        	vals : ["tutar"],
+                        	rows : ["Sirket","Yil"],
+                        	cols : ["Islem"],
+                        	vals : ["Tutar"],
                         	rendererName : "Heatmap",  
                         	aggregatorName : "Sum"
                         }

@@ -2,14 +2,14 @@ package org.abacus.report.web;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-
-import org.abacus.rest.controller.Holder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class PivotViewBean {
+public class PivotTestViewBean {
 
 	private String jsonResult;
 
@@ -33,14 +33,15 @@ public class PivotViewBean {
 	}
 
 	public String dummyData() {
-		List<Holder> holders = holders();
 
+		List<Map<String, Object>> listMap = getData();
+		
 		ObjectMapper mapper = new ObjectMapper();
 
 		String result = null;
 	
 			try {
-				result = mapper.writeValueAsString(holders);
+				result = mapper.writeValueAsString( listMap);
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -51,58 +52,57 @@ public class PivotViewBean {
 		return result.toString();
 	}
 
-	private List<Holder> holders() {
-		List<Holder> holders = new ArrayList<>();
+	private List<Map<String, Object>> getData() {
 		Random randomGenerator = new Random();
 		int tutar, yil;
-
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		Map<String, Object> row = null;
 		if (sirket.equals("1")) {
 
 			for (int i = 0; i < 20; i++) {
+				row = new HashMap<String, Object>();
 				tutar = randomGenerator.nextInt(10000) * randomGenerator.nextInt(10);
 				yil = randomGenerator.nextInt(10);
-				Holder holder = new Holder();
-				holder.setFinansalYil(2010 + yil);
-				holder.setTutar(new BigDecimal(tutar));
-				holder.setIslem("Gelir");
-				holder.setSirket("Adiyaman Ticaret");
-				holders.add(holder);
+				row.put("Yil",2010 + yil);
+				row.put("Tutar",new BigDecimal(tutar));
+				row.put("Islem","Gelir");
+				row.put("Sirket","Adiyaman Ticaret");
+				listMap.add(row);
 
+				row = new HashMap<String, Object>();
 				tutar = randomGenerator.nextInt(10000) * randomGenerator.nextInt(8) * (-1);
 				yil = randomGenerator.nextInt(10);
-				holder = new Holder();
-				holder.setFinansalYil(2010 + yil);
-				holder.setTutar(new BigDecimal(tutar));
-				holder.setIslem("Gider");
-				holder.setSirket("Adiyaman Ticaret");
-				holders.add(holder);
+				row.put("Yil",2010 + yil);
+				row.put("Tutar",new BigDecimal(tutar));
+				row.put("Islem","Gider");
+				row.put("Sirket","Adiyaman Ticaret");
+				listMap.add(row);
 			}
 		}
 
 		if (sirket.equals("2")) {
 
 			for (int i = 0; i < 20; i++) {
+				row = new HashMap<String, Object>();
 				tutar = randomGenerator.nextInt(10000) * randomGenerator.nextInt(10);
 				yil = randomGenerator.nextInt(10);
-				Holder holder = new Holder();
-				holder.setFinansalYil(2010 + yil);
-				holder.setTutar(new BigDecimal(tutar));
-				holder.setIslem("Gelir");
-				holder.setSirket("Dedeman Otel");
-				holders.add(holder);
+				row.put("Yil",2010 + yil);
+				row.put("Tutar",new BigDecimal(tutar));
+				row.put("Islem","Gelir");
+				row.put("Sirket","Dedeman Otel");
+				listMap.add(row);
 
+				row = new HashMap<String, Object>();
 				tutar = randomGenerator.nextInt(10000) * randomGenerator.nextInt(8) * (-1);
 				yil = randomGenerator.nextInt(10);
-				holder = new Holder();
-				holder.setFinansalYil(2010 + yil);
-				holder.setTutar(new BigDecimal(tutar));
-				holder.setIslem("Gider");
-				holder.setSirket("Dedeman Otel");
-				holders.add(holder);
+				row.put("Yil",2010 + yil);
+				row.put("Tutar",new BigDecimal(tutar));
+				row.put("Islem","Gider");
+				row.put("Sirket","Dedeman Otel");
+				listMap.add(row);
 			}
 		}
-
-		return holders;
+		return listMap;
 	}
 
 	public String getJsonResult() {

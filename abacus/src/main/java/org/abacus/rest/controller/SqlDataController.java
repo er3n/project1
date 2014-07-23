@@ -33,17 +33,17 @@ public class SqlDataController {
 		return sqlData.getSqlDataList();
 	}
 
-//	http://localhost:8080/abacus/app/rest/service/sqlColumnGet
-	@RequestMapping(value = "/sqlColumnGet", method = RequestMethod.GET, headers = "Accept=application/json")
-	public Set<String> sqlColumnGet() {
+//	http://localhost:8080/abacus/app/rest/service/sqlFieldGet
+	@RequestMapping(value = "/sqlFieldGet", method = RequestMethod.GET, headers = "Accept=application/json")
+	public Set<String> sqlFieldGet() {
 		SqlDataHolder sqlData = sqlQueryHandler.getSqlData("select * from def_type");
-		return sqlData.getSqlColumnSet();
+		return sqlData.getSqlFieldSet();
 	}
 
-//	http://localhost:8080/abacus/app/rest/service/sqlColumnPut?sqlText=select * from def_type
-	@RequestMapping(value = "/sqlColumnPut", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public Set<String> sqlColumnPut(@RequestParam("sqlText") String sqlText) {
+//	http://localhost:8080/abacus/app/rest/service/sqlFieldPut?sqlText=select * from def_type
+	@RequestMapping(value = "/sqlFieldPut", method = RequestMethod.PUT, headers = "Accept=application/json")
+	public Set<String> sqlFieldPut(@RequestParam("sqlText") String sqlText) {
 		SqlDataHolder sqlData = sqlQueryHandler.getSqlData(sqlText);
-		return sqlData.getSqlColumnSet();
+		return sqlData.getSqlFieldSet();
 	}
 }

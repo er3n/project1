@@ -12,20 +12,28 @@
 
 	<ui:define name="content">
 
-		<h:form>
+		<h:form id="paramForm">
 			<p:panel header="Parametreler">
 
-				<h:outputText value="Rows: "/>
-				<p:inputText value="#{pivotQueryViewBean.pivotRows}"></p:inputText>
-
-				<h:outputText value="Cols: "/>
-				<p:inputText value="#{pivotQueryViewBean.pivotCols}"></p:inputText>
-
-				<h:outputText value="Vals: "/>
-				<p:inputText value="#{pivotQueryViewBean.pivotVals}"></p:inputText>
+				<p:inputTextarea id="editor" value="#{pivotQueryViewBean.sqlText}" rows="10" cols="150" />
 
 				<p:commandButton actionListener="#{pivotQueryViewBean.find}"
-					value="hazirla" ajax="false" />
+					value="Sorgula" ajax="false" update=":paramForm" />
+
+				<p:outputLabel value="Fields: " />
+				<p:selectOneMenu id="sqlFieldSet" value="#{pivotQueryViewBean.sqlField}">
+					<f:selectItem itemLabel="Secim" itemValue="" />
+					<f:selectItems value="#{pivotQueryViewBean.sqlFieldSet}" />
+				</p:selectOneMenu>
+				
+				<p:commandButton actionListener="#{pivotQueryViewBean.addToRow()}"
+					value="Row" ajax="false" update=":paramForm" />
+
+				<p:commandButton actionListener="#{pivotQueryViewBean.addToCol()}"
+					value="Column" ajax="false" update=":paramForm" />
+
+				<p:commandButton actionListener="#{pivotQueryViewBean.addToVal()}"
+					value="Value" ajax="false" update=":paramForm" />
 
 			</p:panel>
 
@@ -43,9 +51,9 @@
             	$("#output").pivotUI(
             			#{pivotQueryViewBean.jsonResult}
             			,{
-                        	rows : [#{pivotQueryViewBean.pivotRows}],
-                        	cols : [#{pivotQueryViewBean.pivotCols}],
-                        	vals : [#{pivotQueryViewBean.pivotVals}],
+                        	rows : [#{pivotQueryViewBean.getPivotRows()}],
+                        	cols : [#{pivotQueryViewBean.getPivotCols()}],
+                        	vals : [#{pivotQueryViewBean.getPivotVals()}],
                         	rendererName : "Heatmap",  
                         	aggregatorName : "Sum"
                         }

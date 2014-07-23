@@ -9,11 +9,11 @@ import java.util.Set;
 public class SqlDataHolder implements Serializable {
 
 	private List<Map<String, Object>> sqlDataList; 
-	private Set<String> sqlColumnSet;
+	private Set<String> sqlFieldSet;
 	
-	public SqlDataHolder(List<Map<String, Object>> sqlDataList, Set<String> sqlColumnSet){
+	public SqlDataHolder(List<Map<String, Object>> sqlDataList, Set<String> sqlFieldSet){
 		this.sqlDataList = sqlDataList;
-		this.sqlColumnSet = sqlColumnSet;	
+		this.sqlFieldSet = sqlFieldSet;	
 	}
 	
 	public List<Map<String, Object>> getSqlDataList() {
@@ -22,11 +22,13 @@ public class SqlDataHolder implements Serializable {
 	public void setSqlDataList(List<Map<String, Object>> sqlDataList) {
 		this.sqlDataList = sqlDataList;
 	}
-	public Set<String> getSqlColumnSet() {
-		return sqlColumnSet;
+
+	public Set<String> getSqlFieldSet() {
+		return sqlFieldSet;
 	}
-	public void setSqlColumnSet(Set<String> sqlColumnSet) {
-		this.sqlColumnSet = sqlColumnSet;
-	} 
+
+	public void setSqlFieldSet(Set<String> sqlFieldSet) {
+		this.sqlFieldSet = sqlFieldSet;
+	}
 
 }

@@ -1,12 +1,14 @@
 package org.abacus.report.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
@@ -18,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("serial")
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PivotQueryViewBean {
 
 	@ManagedProperty(value = "#{sqlQueryHandler}")
@@ -30,29 +32,25 @@ public class PivotQueryViewBean {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
-	private String pivotRows;
-	private String pivotCols;
-	private String pivotVals;
+	private List<String> pivotRowSet = new ArrayList<String>();
+	private List<String> pivotColSet = new ArrayList<String>();
+	private List<String> pivotValSet = new ArrayList<String>();
 
-	private StringBuffer query;
+	private String sqlText = "select * from def_value";
 	private String jsonResult;
+	private String sqlField;
+	private Set<String> sqlFieldSet;
 
 	@PostConstruct
 	public void init() {
-		query = new StringBuffer();
-		query.append("select doc.fiscal_year_id CalismaYili,");
-		query.append("		  det.fiscal_period_id CalismaDonemi,");
-		query.append("	      (CASE WHEN det.budget_rx='BUD_R' THEN 'Gelir' ELSE 'Gider' END) GelirGider,");
-		query.append("       det.budget_amount*(CASE WHEN det.budget_rx='BUD_R' THEN 1 ELSE -1 END) Tutar");
-		query.append("  from budget_detail det, budget_document doc");
-		query.append(" where det.document_id = doc.id");
-		query.append("   and det.budget_type = 'ESTIMATE'");
-		String orgId = sessionInfoHelper.currentOrganization().getId()+":%";
-		query.append("   and doc.fiscal_year_id like '"+orgId+"'");
 	}
 
 	public void find() {
+		jsonResult = null;
 		jsonResult = getJsonData();
+	}
+
+	public void refresh() {
 	}
 
 	public String getJsonData() {
@@ -70,10 +68,70 @@ public class PivotQueryViewBean {
 	}
 
 	private List<Map<String, Object>> getData() {
-		SqlDataHolder sqlDataHolder = sqlQueryHandler.getSqlData(query.toString());
+		SqlDataHolder sqlDataHolder = sqlQueryHandler.getSqlData(sqlText);
+		this.sqlFieldSet = sqlDataHolder.getSqlFieldSet();
 		return sqlDataHolder.getSqlDataList();
 	}
 
+	public void addToRow(){
+		if (sqlField==null && !sqlField.equals("")){
+			return;
+		}
+		pivotColSet.remove(sqlField);
+		pivotValSet.remove(sqlField);
+		if (pivotRowSet.contains(sqlField)){
+			pivotRowSet.remove(sqlField);
+		} else {
+			pivotRowSet.add(sqlField);
+		}
+	}
+
+	public void addToCol(){
+		if (sqlField==null && !sqlField.equals("")){
+			return;
+		}
+		pivotRowSet.remove(sqlField);
+		pivotValSet.remove(sqlField);
+		if (pivotColSet.contains(sqlField)){
+			pivotColSet.remove(sqlField);
+		} else {
+			pivotColSet.add(sqlField);
+		}
+	}
+
+	public void addToVal(){
+		if (sqlField==null && !sqlField.equals("")){
+			return;
+		}
+		pivotColSet.remove(sqlField);
+		pivotRowSet.remove(sqlField);
+		if (pivotValSet.contains(sqlField)){
+			pivotValSet.remove(sqlField);
+		} else {
+			pivotValSet.add(sqlField);
+		}
+	}
+
+	public String getPivotFieldStr(List<String> set) {
+		StringBuffer sb = new StringBuffer();
+		for (String field : set) {
+			sb.append("'"+field+"',");
+		}
+		return sb.toString();
+	}
+	
+	public String getPivotRows() {
+		return getPivotFieldStr(pivotRowSet);
+	}
+
+	public String getPivotCols() {
+		return getPivotFieldStr(pivotColSet);
+	}
+
+	public String getPivotVals() {
+		return getPivotFieldStr(pivotValSet);
+	}
+	
 	public String getJsonResult() {
 		return jsonResult;
 	}
@@ -98,36 +156,60 @@ public class PivotQueryViewBean {
 		this.sessionInfoHelper = sessionInfoHelper;
 	}
 
-	public String getPivotRows() {
-		return pivotRows;
-	}
-
-	public void setPivotRows(String pivotRows) {
-		this.pivotRows = pivotRows;
-	}
-
-	public String getPivotCols() {
-		return pivotCols;
-	}
-
-	public void setPivotCols(String pivotCols) {
-		this.pivotCols = pivotCols;
-	}
-
-	public String getPivotVals() {
-		return pivotVals;
-	}
-
-	public void setPivotVals(String pivotVals) {
-		this.pivotVals = pivotVals;
-	}
-
 	public SqlQueryHandler getSqlQueryHandler() {
 		return sqlQueryHandler;
 	}
 
 	public void setSqlQueryHandler(SqlQueryHandler sqlQueryHandler) {
 		this.sqlQueryHandler = sqlQueryHandler;
+	}
+
+	public String getSqlField() {
+		return sqlField;
+	}
+
+	public void setSqlField(String sqlField) {
+		this.sqlField = sqlField;
+	}
+
+	public Set<String> getSqlFieldSet() {
+		return sqlFieldSet;
+	}
+
+	public void setSqlFieldSet(Set<String> sqlFieldSet) {
+		this.sqlFieldSet = sqlFieldSet;
+	}
+
+	public List<String> getPivotRowSet() {
+		return pivotRowSet;
+	}
+
+	public void setPivotRowSet(List<String> pivotRowSet) {
+		this.pivotRowSet = pivotRowSet;
+	}
+
+	public List<String> getPivotColSet() {
+		return pivotColSet;
+	}
+
+	public void setPivotColSet(List<String> pivotColSet) {
+		this.pivotColSet = pivotColSet;
+	}
+
+	public List<String> getPivotValSet() {
+		return pivotValSet;
+	}
+
+	public void setPivotValSet(List<String> pivotValSet) {
+		this.pivotValSet = pivotValSet;
+	}
+
+	public String getSqlText() {
+		return sqlText;
+	}
+
+	public void setSqlText(String sqlText) {
+		this.sqlText = sqlText;
 	}
 
 }

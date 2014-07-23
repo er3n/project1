@@ -14,7 +14,7 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefTaskEntity;
-import org.abacus.report.core.handler.ReportHandler;
+import org.abacus.report.core.handler.TraReportHandler;
 import org.abacus.report.shared.event.ReadReportEvent;
 import org.abacus.report.shared.event.RequestReadReportEvent;
 import org.abacus.report.shared.holder.ReportSearchCriteria;
@@ -37,8 +37,8 @@ public class QueryFinDetailViewBean implements Serializable {
 	@ManagedProperty(value = "#{defTaskHandler}")
 	private DefTaskHandler taskRepository;
 
-	@ManagedProperty(value = "#{reportHandler}")
-	private ReportHandler reportHandler;
+	@ManagedProperty(value = "#{traReportHandler}")
+	private TraReportHandler reportHandler;
 
 	private ReportSearchCriteria reportSearchCriteria;
 	private List<FinDetailEntity> searchResultList;
@@ -109,11 +109,11 @@ public class QueryFinDetailViewBean implements Serializable {
 		this.taskRepository = taskRepository;
 	}
 
-	public ReportHandler getReportHandler() {
+	public TraReportHandler getReportHandler() {
 		return reportHandler;
 	}
 
-	public void setReportHandler(ReportHandler reportHandler) {
+	public void setReportHandler(TraReportHandler reportHandler) {
 		this.reportHandler = reportHandler;
 	}
 

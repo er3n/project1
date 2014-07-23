@@ -1,4 +1,4 @@
-package org.abacus.report.jasper;
+package org.abacus.report.core.persistance;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,12 +21,12 @@ import org.hibernate.jdbc.ReturningWork;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JasperReportDao {
+public class SqlQueryDao {
 
 	@PersistenceContext
 	private EntityManager em;
 	
-	private Logger logger = Logger.getLogger(JasperReportDao.class);
+	private Logger logger = Logger.getLogger(SqlQueryDao.class);
 
 	public Connection getConnection() throws SQLException {
 		Session session = em.unwrap(Session.class);

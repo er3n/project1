@@ -11,7 +11,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.report.jasper.JasperReportHandler;
+import org.abacus.report.core.handler.SqlQueryHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestScoped
 public class PivotBudgetViewBean {
 
-	@ManagedProperty(value = "#{jasperReportHandler}")
-	private JasperReportHandler jasperReportHandler;
+	@ManagedProperty(value = "#{sqlQueryHandler}")
+	private SqlQueryHandler sqlQueryHandler;
 	
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -73,7 +73,7 @@ public class PivotBudgetViewBean {
 			orgId = sessionInfoHelper.currentOrganization().getRootOrganization().getId()+"%";
 		}
 		sb.append("   and doc.fiscal_year_id like '"+orgId+"'");
-		listMap = jasperReportHandler.getSqlData(sb.toString());
+		listMap = sqlQueryHandler.getSqlData(sb.toString());
 		return listMap;
 	}
 
@@ -85,12 +85,12 @@ public class PivotBudgetViewBean {
 		this.jsonResult = jsonResult;
 	}
 
-	public JasperReportHandler getJasperReportHandler() {
-		return jasperReportHandler;
+	public SqlQueryHandler getSqlQueryHandler() {
+		return sqlQueryHandler;
 	}
 
-	public void setJasperReportHandler(JasperReportHandler jasperReportHandler) {
-		this.jasperReportHandler = jasperReportHandler;
+	public void setSqlQueryHandler(SqlQueryHandler sqlQueryHandler) {
+		this.sqlQueryHandler = sqlQueryHandler;
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {

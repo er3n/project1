@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Service(value="reportHandler")
-public class ReportHandlerImpl implements ReportHandler {
+@Service(value="traReportHandler")
+public class TraReportHandlerImpl implements TraReportHandler {
 
 	@Autowired
 	private StkReportDao stkReportDao;

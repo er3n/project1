@@ -11,7 +11,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.report.jasper.JasperReportHandler;
+import org.abacus.report.core.handler.SqlQueryHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestScoped
 public class PivotQueryViewBean {
 
-	@ManagedProperty(value = "#{jasperReportHandler}")
-	private JasperReportHandler jasperReportHandler;
+	@ManagedProperty(value = "#{sqlQueryHandler}")
+	private SqlQueryHandler sqlQueryHandler;
 	
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -71,7 +71,7 @@ public class PivotQueryViewBean {
 
 	private List<Map<String, Object>> getData() {
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
-		listMap = jasperReportHandler.getSqlData(query.toString());
+		listMap = sqlQueryHandler.getSqlData(query.toString());
 		return listMap;
 	}
 
@@ -81,14 +81,6 @@ public class PivotQueryViewBean {
 
 	public void setJsonResult(String jsonResult) {
 		this.jsonResult = jsonResult;
-	}
-
-	public JasperReportHandler getJasperReportHandler() {
-		return jasperReportHandler;
-	}
-
-	public void setJasperReportHandler(JasperReportHandler jasperReportHandler) {
-		this.jasperReportHandler = jasperReportHandler;
 	}
 
 	public JsfMessageHelper getJsfMessageHelper() {
@@ -129,6 +121,14 @@ public class PivotQueryViewBean {
 
 	public void setPivotVals(String pivotVals) {
 		this.pivotVals = pivotVals;
+	}
+
+	public SqlQueryHandler getSqlQueryHandler() {
+		return sqlQueryHandler;
+	}
+
+	public void setSqlQueryHandler(SqlQueryHandler sqlQueryHandler) {
+		this.sqlQueryHandler = sqlQueryHandler;
 	}
 
 }

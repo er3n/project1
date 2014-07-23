@@ -1,4 +1,4 @@
-package org.abacus.report.jasper;
+package org.abacus.report.core.handler;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public interface JasperReportHandler extends Serializable{
+public interface SqlQueryHandler extends Serializable{
 
 	public Connection getConnection() throws SQLException;
 

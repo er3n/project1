@@ -1,4 +1,4 @@
-package org.abacus.report.jasper;
+package org.abacus.report.web;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -29,13 +29,14 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.report.core.handler.SqlQueryHandler;
 
 @ManagedBean
 @ViewScoped
 public class JasperReportBean {
 
-	@ManagedProperty(value = "#{jasperReportHandler}")
-	private JasperReportHandler jasperReportHandler;
+	@ManagedProperty(value = "#{sqlQueryHandler}")
+	private SqlQueryHandler sqlQueryHandler;
 	
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
@@ -54,7 +55,7 @@ public class JasperReportBean {
 	
 	private JasperPrint prepareReport(EnumList.JRList report) {
 		try {
-			Connection conn = jasperReportHandler.getConnection();
+			Connection conn = sqlQueryHandler.getConnection();
 			String jasperResource = "/jasper/"+report.getName()+".jasper";
 			InputStream jasperStream = getClass().getResourceAsStream(jasperResource);
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
@@ -153,16 +154,16 @@ public class JasperReportBean {
 		}
 	}
 
-	public JasperReportHandler getJasperReportHandler() {
-		return jasperReportHandler;
+	public SqlQueryHandler getJasperReportHandler() {
+		return sqlQueryHandler;
 	}
 
-	public void setJasperReportHandler(JasperReportHandler jasperReportHandler) {
-		this.jasperReportHandler = jasperReportHandler;
+	public SqlQueryHandler getSqlQueryHandler() {
+		return sqlQueryHandler;
 	}
 
-	public JsfMessageHelper getJsfMessageHelper() {
-		return jsfMessageHelper;
+	public void setSqlQueryHandler(SqlQueryHandler sqlQueryHandler) {
+		this.sqlQueryHandler = sqlQueryHandler;
 	}
 
 	public void setJsfMessageHelper(JsfMessageHelper jsfMessageHelper) {

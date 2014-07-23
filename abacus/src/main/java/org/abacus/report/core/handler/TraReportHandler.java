@@ -7,7 +7,7 @@ import org.abacus.report.shared.event.RequestReadReportEvent;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 
-public interface ReportHandler extends Serializable{
+public interface TraReportHandler extends Serializable{
 	
 	ReadReportEvent<StkDetailEntity> getStkState(RequestReadReportEvent requestReadReportEvent);
 

@@ -39,7 +39,7 @@ public class ItemSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			ItemDataModel itemDataModel =  new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization(), itemType, itemClass));
+			ItemDataModel itemDataModel =  new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization().getRootOrganization(), itemType, itemClass));
 			resultMap.put(key, itemDataModel);
 			return itemDataModel;
 		}

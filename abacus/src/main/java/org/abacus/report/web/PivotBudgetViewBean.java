@@ -1,0 +1,103 @@
+package org.abacus.report.web;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+
+import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.report.jasper.JasperReportHandler;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@SuppressWarnings("serial")
+@ManagedBean
+@RequestScoped
+public class PivotBudgetViewBean {
+
+	@ManagedProperty(value = "#{jasperReportHandler}")
+	private JasperReportHandler jasperReportHandler;
+	
+	@ManagedProperty(value = "#{jsfMessageHelper}")
+	private JsfMessageHelper jsfMessageHelper;
+
+	@ManagedProperty(value = "#{sessionInfoHelper}")
+	private SessionInfoHelper sessionInfoHelper;
+	
+	private String jsonResult;
+
+	@PostConstruct
+	public void init() {
+
+	}
+
+	public void find() {
+		jsonResult = getJsonData();
+	}
+
+	public String getJsonData() {
+		List<Map<String, Object>> listMap = getData();
+		ObjectMapper mapper = new ObjectMapper();
+		String result = null;
+			try {
+				result = mapper.writeValueAsString(listMap);
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//		System.out.println(result.toString());
+		return result.toString();
+	}
+
+	private List<Map<String, Object>> getData() {
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		StringBuffer sb = new StringBuffer();
+		sb.append("select det.fiscal_period_id, det.budget_rx,");
+		sb.append("       det.budget_amount*(CASE WHEN det.budget_rx='BUD_R' THEN 1 ELSE -1 END) calc_amount");
+		sb.append("  from budget_detail det, budget_document doc");
+		sb.append(" where det.document_id = doc.id");
+		sb.append("   and det.budget_type = 'ESTIMATE'");
+		sb.append("   and doc.fiscal_year_id = '"+sessionInfoHelper.currentFiscalYear().getId()+"'");
+		listMap = jasperReportHandler.getSqlData(sb.toString());
+		return listMap;
+	}
+
+	public String getJsonResult() {
+		return jsonResult;
+	}
+
+	public void setJsonResult(String jsonResult) {
+		this.jsonResult = jsonResult;
+	}
+
+	public JasperReportHandler getJasperReportHandler() {
+		return jasperReportHandler;
+	}
+
+	public void setJasperReportHandler(JasperReportHandler jasperReportHandler) {
+		this.jasperReportHandler = jasperReportHandler;
+	}
+
+	public JsfMessageHelper getJsfMessageHelper() {
+		return jsfMessageHelper;
+	}
+
+	public void setJsfMessageHelper(JsfMessageHelper jsfMessageHelper) {
+		this.jsfMessageHelper = jsfMessageHelper;
+	}
+
+	public SessionInfoHelper getSessionInfoHelper() {
+		return sessionInfoHelper;
+	}
+
+	public void setSessionInfoHelper(SessionInfoHelper sessionInfoHelper) {
+		this.sessionInfoHelper = sessionInfoHelper;
+	}
+
+}

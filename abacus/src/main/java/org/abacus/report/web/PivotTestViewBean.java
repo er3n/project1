@@ -29,34 +29,28 @@ public class PivotTestViewBean {
 	}
 
 	public void find() {
-		jsonResult = dummyData();
+		jsonResult = getJsonData();
 	}
 
-	public String dummyData() {
-
+	public String getJsonData() {
 		List<Map<String, Object>> listMap = getData();
-		
 		ObjectMapper mapper = new ObjectMapper();
-
 		String result = null;
-	
 			try {
-				result = mapper.writeValueAsString( listMap);
+				result = mapper.writeValueAsString(listMap);
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	
-
-		System.out.println(result.toString());
+//		System.out.println(result.toString());
 		return result.toString();
 	}
 
 	private List<Map<String, Object>> getData() {
-		Random randomGenerator = new Random();
-		int tutar, yil;
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = null;
+		Random randomGenerator = new Random();
+		int tutar, yil;
 		if (sirket.equals("1")) {
 
 			for (int i = 0; i < 20; i++) {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -28,10 +29,9 @@ public class ValueSelectionViewBean implements Serializable {
 	private SessionInfoHelper sessionInfoHelper;
 	
 	private Map<String, List<DefValueEntity>> resultMap = new HashMap<>();
-	private OrganizationEntity rootOrganization;
 	
+	@PostConstruct
 	public void init() {
-		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
 	}
 
 	public List<DefValueEntity> getValueList(EnumList.DefTypeEnum typeEnum) {
@@ -42,7 +42,7 @@ public class ValueSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			List<DefValueEntity> list = defValueHandler.getValueList(rootOrganization.getId(), typeEnum);
+			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentOrganization().getRootOrganization().getId(), typeEnum);
 			resultMap.put(key, list);
 			return list;
 		}
@@ -56,7 +56,7 @@ public class ValueSelectionViewBean implements Serializable {
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			List<DefValueEntity> list = defValueHandler.getValueList(rootOrganization.getId(), typeEnum, itemEnum);
+			List<DefValueEntity> list = defValueHandler.getValueList(sessionInfoHelper.currentOrganization().getRootOrganization().getId(), typeEnum, itemEnum);
 			resultMap.put(key, list);
 			return list;
 		}

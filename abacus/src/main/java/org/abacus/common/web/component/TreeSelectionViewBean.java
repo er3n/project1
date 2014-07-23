@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -29,6 +30,7 @@ public class TreeSelectionViewBean implements Serializable {
 	
 	private Map<String, TreeNode> resultMap = new HashMap<>();
 	
+	@PostConstruct
 	public void init() {
 	}
 

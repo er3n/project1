@@ -3,7 +3,6 @@ package org.abacus.definition.shared.constant;
 
 public interface EnumList {
 
-	
 	enum CatMenuPeriod implements ISelectionEnum {
 		WEEKLY("Haftalık"), //
 		MOUNTHLY("Aylık"), //
@@ -166,10 +165,6 @@ public interface EnumList {
 		REQ_IO("Stok istek tip",0),
 		REQ_IO_T("Stok transfer istek tip", 0), //
 		REQ_IO_P("Stok satın alma istek tip",0), //
-
-		BUD("Bütçeler", 0),// Budget
-		BUD_R("Bütçe Gelir", -1), // Budget Revenue
-		BUD_X("Bütçe Gider", +1), // Budget Expense
 
 		NIL("?",0), //
 		;
@@ -368,6 +363,50 @@ public interface EnumList {
 		}
 	}
 
+	enum BudgetType implements ISelectionEnum {
+		ESTIMATE("Tahmini"),//
+		ACCRUE("Gerçekleşen"), //
+		;
+
+		private BudgetType(String desc) {
+			this.descripion = desc;
+		}
+
+		private String descripion;
+
+		@Override
+		public String getName() {
+			return this.name();
+		}
+
+		@Override
+		public String getDescription() {
+			return descripion;
+		}
+	}
+	
+	enum BudgetRX implements ISelectionEnum {
+		BUD_R("Gelir"),//
+		BUD_X("Gider"), //
+		;
+
+		private BudgetRX(String desc) {
+			this.descripion = desc;
+		}
+
+		private String descripion;
+
+		@Override
+		public String getName() {
+			return this.name();
+		}
+
+		@Override
+		public String getDescription() {
+			return descripion;
+		}
+	}		
+	
 }
 
 //Kisaltma Kodlari

@@ -13,7 +13,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.abacus.user.core.handler.UserEventHandler;
+import org.abacus.user.core.handler.UserService;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.holder.SearchUserCriteria;
 
@@ -23,7 +23,7 @@ import org.abacus.user.shared.holder.SearchUserCriteria;
 public class UserSelectionViewBean implements Serializable {
 
 	@ManagedProperty(value = "#{userEventHandler}")
-	private UserEventHandler secUserHandler;
+	private UserService userService;
 
 	private Map<String, List<SecUserEntity>> resultMap = new HashMap<>();
 
@@ -42,18 +42,10 @@ public class UserSelectionViewBean implements Serializable {
 			SearchUserCriteria cri = new SearchUserCriteria();
 			cri.setHierarchy(EnumList.Hierachy.PARENT);
 			cri.setOrganization(org);
-			List<SecUserEntity> userList = secUserHandler.findUser(cri);
+			List<SecUserEntity> userList = userService.findUser(cri);
 			resultMap.put(key, userList);
 			return userList;
 		}
-	}
-
-	public UserEventHandler getSecUserHandler() {
-		return secUserHandler;
-	}
-
-	public void setSecUserHandler(UserEventHandler secUserHandler) {
-		this.secUserHandler = secUserHandler;
 	}
 
 	public Map<String, List<SecUserEntity>> getResultMap() {
@@ -64,8 +56,12 @@ public class UserSelectionViewBean implements Serializable {
 		this.resultMap = resultMap;
 	}
 
-	// public void selectUserFromDialog(SecUserEntity user) {
-	// RequestContext.getCurrentInstance().closeDialog(user);
-	// }
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 }

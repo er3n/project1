@@ -16,6 +16,4 @@ update def_value v set parent_id = (select p.id from def_value p where p.organiz
 insert into def_unit_group (id, organization_id, code, name, version) select nextval('seq_id'), '01' organization_id, code, name , version from def_unit_group where organization_id='#';
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) select nextval('seq_id') id, (select g.id from def_unit_group g where g.organization_id = '01' and g.code= (select x.code from def_unit_group x where x.id = y.unit_group_id)) unit_group_id, code, name, ratio, version from  def_unit_code y where unit_group_id in (select id from def_unit_group where organization_id='#');
 
-insert into def_unit_code (id, unit_group_id, code, name, ratio, version) select nextval('seq_id') id, (select g.id from def_unit_group g where g.organization_id = '01' and g.code= (select x.code from def_unit_group x where x.id = y.unit_group_id)) unit_group_id, code, name, ratio, version from  def_unit_code y where unit_group_id in (select id from def_unit_group where organization_id='#');
-
 commit;

@@ -13,7 +13,7 @@ public interface FiscalPeriodRepository extends CrudRepository<FiscalPeriodEntit
 	@Query("select p from FiscalPeriodEntity p where p.fiscalYear.id = :fiscalYearId and :docDate between dateStart and dateFinish")
 	public FiscalPeriodEntity findFiscalPeriod(@Param("fiscalYearId")String fiscalYearId, @Param("docDate")Date docDate);
 	
-	@Query("select f from FiscalPeriodEntity f where f.fiscalYear.id = :fiscalYear")
+	@Query("select f from FiscalPeriodEntity f where f.fiscalYear.id = :fiscalYear order by f.periodNo")
 	public Set<FiscalPeriodEntity> findFiscalPeriodSet(@Param("fiscalYear")String fiscalYear);
 
 }

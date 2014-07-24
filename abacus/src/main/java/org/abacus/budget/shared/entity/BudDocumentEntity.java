@@ -15,9 +15,9 @@ import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 
 @Entity
-@Table(name = "budget_document")
+@Table(name = "bud_document")
 @SuppressWarnings("serial")
-public class BudgetDocumentEntity extends DynamicEntity {
+public class BudDocumentEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fiscal_year_id", nullable = false)
@@ -30,7 +30,7 @@ public class BudgetDocumentEntity extends DynamicEntity {
 	@Column(name = "budget_note", nullable = true)
 	private String budgetNote;
 
-	public BudgetDocumentEntity() {
+	public BudDocumentEntity() {
 	}
 
 	public FiscalYearEntity getFiscalYear() {

@@ -16,14 +16,14 @@ import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 
 @Entity
-@Table(name = "budget_detail")
+@Table(name = "bud_detail")
 @SuppressWarnings("serial")
-public class BudgetDetailEntity extends DynamicEntity {
+public class BudDetailEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "document_id", nullable = false)
-	private BudgetDocumentEntity document;
-	
+	private BudDocumentEntity document;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fiscal_period_id", nullable = false)
 	private FiscalPeriodEntity fiscalPeriod;
@@ -34,12 +34,52 @@ public class BudgetDetailEntity extends DynamicEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "budget_type", nullable = false, length = 30)
-	private EnumList.BudgetType budgetType; // Giris : Estimate 
+	private EnumList.BudgetType budgetType; // Giris : Estimate
 
 	@Column(name = "budget_amount", nullable = false, precision = 12, scale = 2)
 	private BigDecimal budgetAmount;
 
-	public BudgetDetailEntity() {
+	public BudDetailEntity() {
+	}
+
+	public BudDocumentEntity getDocument() {
+		return document;
+	}
+
+	public void setDocument(BudDocumentEntity document) {
+		this.document = document;
+	}
+
+	public FiscalPeriodEntity getFiscalPeriod() {
+		return fiscalPeriod;
+	}
+
+	public void setFiscalPeriod(FiscalPeriodEntity fiscalPeriod) {
+		this.fiscalPeriod = fiscalPeriod;
+	}
+
+	public EnumList.BudgetRX getBudgetRX() {
+		return budgetRX;
+	}
+
+	public void setBudgetRX(EnumList.BudgetRX budgetRX) {
+		this.budgetRX = budgetRX;
+	}
+
+	public EnumList.BudgetType getBudgetType() {
+		return budgetType;
+	}
+
+	public void setBudgetType(EnumList.BudgetType budgetType) {
+		this.budgetType = budgetType;
+	}
+
+	public BigDecimal getBudgetAmount() {
+		return budgetAmount;
+	}
+
+	public void setBudgetAmount(BigDecimal budgetAmount) {
+		this.budgetAmount = budgetAmount;
 	}
 
 }

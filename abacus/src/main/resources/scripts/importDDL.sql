@@ -1,6 +1,6 @@
 create or replace view v_stk as select doc.fiscal_period1_id, doc.fiscal_period2_id, doc.doc_date, dtl.item_id, itm.code item_code, itm.name item_name, dtl.department_id, dpr.code department_code, dpr.name department_name, dtl.base_detail_count, dtl.tr_state_detail from tra_detail dtl, stk_document doc, def_item itm, org_department dpr where doc.id = dtl.document_stk_id and itm.id = dtl.item_id and dpr.id = dtl.department_id
 
-create or replace view v_bud as select doc.fiscal_year_id, det.fiscal_period_id, det.budget_rx, det.budget_type, det.budget_amount* (case when det.budget_rx = 'BUD_R' then 1 ELSE (-1) end) tutar from bud_detail det, bud_document doc where det.document_id = doc.id;
+create or replace view v_bud as select doc.fiscal_year_id, det.fiscal_period_id, det.budget_rx, det.budget_type, det.budget_amount* (case when det.budget_rx = 'BUD_R' then 1 ELSE (-1) end) budget_amount from bud_detail det, bud_document doc where det.document_id = doc.id;
 
 create index ix_bud_detail on bud_detail (document_id);
 

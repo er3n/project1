@@ -13,29 +13,46 @@
 	<ui:define name="content">
 
 		<h:form id="paramForm">
-			<p:panel header="Parametreler">
-
+			<p:panel>
+				<h:outputText value="Sorgu Adı" />			
+				<p:inputText id="name" value="#{pivotQueryViewBean.pivotName}" />
 				<p:inputTextarea id="editor" value="#{pivotQueryViewBean.sqlText}" rows="10" cols="150" />
+			</p:panel>
+
+			<p:panelGrid header="Parametreler" columns="5" style="vertical-align:top">
 
 				<p:commandButton actionListener="#{pivotQueryViewBean.find}"
 					value="Sorgula" ajax="false" update=":paramForm" />
 
-				<p:outputLabel value="Fields: " />
-				<p:selectOneMenu id="sqlFieldSet" value="#{pivotQueryViewBean.sqlField}">
-					<f:selectItem itemLabel="Secim" itemValue="" />
-					<f:selectItems value="#{pivotQueryViewBean.sqlFieldSet}" />
-				</p:selectOneMenu>
-				
 				<p:commandButton actionListener="#{pivotQueryViewBean.addToRow()}"
-					value="Row" ajax="false" update=":paramForm" />
+					value="Satır Ekle/Çıkar" ajax="false" update=":paramForm" />
 
 				<p:commandButton actionListener="#{pivotQueryViewBean.addToCol()}"
-					value="Column" ajax="false" update=":paramForm" />
+					value="Sütun Ekle/Çıkar" ajax="false" update=":paramForm" />
 
 				<p:commandButton actionListener="#{pivotQueryViewBean.addToVal()}"
-					value="Value" ajax="false" update=":paramForm" />
+					value="Değer Ekle/Çıkar" ajax="false" update=":paramForm" />
 
-			</p:panel>
+				<p:commandButton actionListener="#{pivotQueryViewBean.saveRepPivot()}"
+					value="Sorgu Kaydet" ajax="false" update=":paramForm" />
+
+				<p:selectOneListbox id="sqlFieldSet" value="#{pivotQueryViewBean.sqlField}">
+					<f:selectItems value="#{pivotQueryViewBean.sqlFieldSet}" />
+				</p:selectOneListbox>
+
+				<p:selectOneListbox id="sqlFieldSetRow" disabled="true">
+					<f:selectItems value="#{pivotQueryViewBean.pivotRowSet}" />
+				</p:selectOneListbox>
+				
+				<p:selectOneListbox id="sqlFieldSetCol" disabled="true">
+					<f:selectItems value="#{pivotQueryViewBean.pivotColSet}" />
+				</p:selectOneListbox>
+
+				<p:selectOneListbox id="sqlFieldSetVal" disabled="true">
+					<f:selectItems value="#{pivotQueryViewBean.pivotValSet}" />
+				</p:selectOneListbox>
+
+			</p:panelGrid>
 
 		</h:form>
 

@@ -12,7 +12,9 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.report.core.handler.RepPivotHandler;
 import org.abacus.report.core.handler.SqlQueryHandler;
+import org.abacus.report.shared.entity.RepPivotEntity;
 import org.abacus.report.shared.holder.SqlDataHolder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,6 +34,9 @@ public class PivotQueryViewBean {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 
+	@ManagedProperty(value = "#{repPivotHandler}")
+	private RepPivotHandler repPivotHandler;
+
 	private List<String> pivotRowSet = new ArrayList<String>();
 	private List<String> pivotColSet = new ArrayList<String>();
 	private List<String> pivotValSet = new ArrayList<String>();
@@ -39,10 +44,16 @@ public class PivotQueryViewBean {
 	private String sqlText = "select * from def_value";
 	private String jsonResult;
 	private String sqlField;
+	private String pivotName;
 	private Set<String> sqlFieldSet;
+
+
+	private RepPivotEntity pivotEntity;
+	private List<RepPivotEntity> pivotEntityList;
 
 	@PostConstruct
 	public void init() {
+		pivotEntityList = repPivotHandler.findReport(sessionInfoHelper.currentOrganization().getId());
 	}
 
 	public void find() {
@@ -50,7 +61,15 @@ public class PivotQueryViewBean {
 		jsonResult = getJsonData();
 	}
 
-	public void refresh() {
+	public void saveRepPivot() {
+		RepPivotEntity pvt = new RepPivotEntity();
+		pvt.setOrganization(sessionInfoHelper.currentOrganization());
+		pvt.setName(this.pivotName);
+		pvt.setSqlText(this.sqlText);
+		pvt.setFieldColList(pivotColSet.toString());
+		pvt.setFieldRowList(pivotRowSet.toString());
+		pvt.setFieldValList(pivotValSet.toString());
+		repPivotHandler.save(pvt);
 	}
 
 	public String getJsonData() {
@@ -108,7 +127,9 @@ public class PivotQueryViewBean {
 		if (pivotValSet.contains(sqlField)){
 			pivotValSet.remove(sqlField);
 		} else {
-			pivotValSet.add(sqlField);
+			if (pivotValSet.size()==0){
+				pivotValSet.add(sqlField);
+			}
 		}
 	}
 
@@ -210,6 +231,38 @@ public class PivotQueryViewBean {
 
 	public void setSqlText(String sqlText) {
 		this.sqlText = sqlText;
+	}
+
+	public RepPivotHandler getRepPivotHandler() {
+		return repPivotHandler;
+	}
+
+	public void setRepPivotHandler(RepPivotHandler repPivotHandler) {
+		this.repPivotHandler = repPivotHandler;
+	}
+
+	public List<RepPivotEntity> getPivotEntityList() {
+		return pivotEntityList;
+	}
+
+	public void setPivotEntityList(List<RepPivotEntity> pivotEntityList) {
+		this.pivotEntityList = pivotEntityList;
+	}
+
+	public RepPivotEntity getPivotEntity() {
+		return pivotEntity;
+	}
+
+	public void setPivotEntity(RepPivotEntity pivotEntity) {
+		this.pivotEntity = pivotEntity;
+	}
+
+	public String getPivotName() {
+		return pivotName;
+	}
+
+	public void setPivotName(String pivotName) {
+		this.pivotName = pivotName;
 	}
 
 }

@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class PivotQueryViewBean {
+public class PivotQueryViewBean implements IPivotViewBean {
 
 	@ManagedProperty(value = "#{sqlQueryHandler}")
 	private SqlQueryHandler sqlQueryHandler;
@@ -56,11 +56,35 @@ public class PivotQueryViewBean {
 		pivotEntityList = repPivotHandler.findReport(sessionInfoHelper.currentOrganization().getId());
 	}
 
-	public void find() {
+	@Override
+	public void findPivotData() {
 		jsonResult = null;
 		jsonResult = getJsonData();
 	}
+	
+	@Override
+	public String getPivotRows() {
+		return getPivotFieldStr(pivotRowSet);
+	}
 
+	@Override
+	public String getPivotCols() {
+		return getPivotFieldStr(pivotColSet);
+	}
+
+	@Override
+	public String getPivotVals() {
+		return getPivotFieldStr(pivotValSet);
+	}
+
+	public String getPivotFieldStr(List<String> set) {
+		StringBuffer sb = new StringBuffer();
+		for (String field : set) {
+			sb.append("'"+field+"',");
+		}
+		return sb.toString();
+	}
+	
 	public void saveRepPivot() {
 		RepPivotEntity pvt = new RepPivotEntity();
 		pvt.setOrganization(sessionInfoHelper.currentOrganization());
@@ -133,26 +157,7 @@ public class PivotQueryViewBean {
 		}
 	}
 
-	public String getPivotFieldStr(List<String> set) {
-		StringBuffer sb = new StringBuffer();
-		for (String field : set) {
-			sb.append("'"+field+"',");
-		}
-		return sb.toString();
-	}
-	
-	public String getPivotRows() {
-		return getPivotFieldStr(pivotRowSet);
-	}
-
-	public String getPivotCols() {
-		return getPivotFieldStr(pivotColSet);
-	}
-
-	public String getPivotVals() {
-		return getPivotFieldStr(pivotValSet);
-	}
-	
+	@Override
 	public String getJsonResult() {
 		return jsonResult;
 	}

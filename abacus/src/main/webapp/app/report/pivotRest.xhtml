@@ -26,7 +26,7 @@
 		<script type="text/javascript">
 			$(function() {
 				var derivers = $.pivotUtilities.derivers;
-				$.getJSON('#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/app/rest/service/sqlColumnGet',
+				$.getJSON('#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/app/rest/service/sqlDataGet',
 						function(mps) {$("#output").pivotUI(mps
 						,{										
 							rows : [ "level", "name" ],

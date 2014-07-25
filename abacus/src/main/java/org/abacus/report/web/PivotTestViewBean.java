@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class PivotTestViewBean {
+public class PivotTestViewBean implements IPivotViewBean {
 
 	private String jsonResult;
 
@@ -28,10 +28,26 @@ public class PivotTestViewBean {
 
 	}
 
-	public void find() {
+	@Override
+	public void findPivotData() {
 		jsonResult = getJsonData();
 	}
 
+	@Override
+	public String getPivotRows() {
+		return "'Sirket','Yil'";
+	}
+
+	@Override
+	public String getPivotCols() {
+		return "'Islem'";
+	}
+
+	@Override
+	public String getPivotVals() {
+		return "'Tutar'";
+	}
+	
 	public String getJsonData() {
 		List<Map<String, Object>> listMap = getData();
 		ObjectMapper mapper = new ObjectMapper();
@@ -99,6 +115,7 @@ public class PivotTestViewBean {
 		return listMap;
 	}
 
+	@Override
 	public String getJsonResult() {
 		return jsonResult;
 	}

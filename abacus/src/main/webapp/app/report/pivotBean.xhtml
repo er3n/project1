@@ -15,7 +15,7 @@
 		<h:form>
 			<p:panel header="Parametreler">
 				<p:inputText value="#{pivotTestViewBean.sirket}"></p:inputText>
-				<p:commandButton actionListener="#{pivotTestViewBean.find}"
+				<p:commandButton actionListener="#{pivotTestViewBean.findPivotData}"
 					value="hazirla" ajax="false" />
 			</p:panel>
 		</h:form>
@@ -32,9 +32,9 @@
             	$("#output").pivotUI(
             			#{pivotTestViewBean.jsonResult}
             			,{
-                        	rows : ["Sirket","Yil"],
-                        	cols : ["Islem"],
-                        	vals : ["Tutar"],
+                        	rows : [#{pivotTestViewBean.getPivotRows()}],
+                        	cols : [#{pivotTestViewBean.getPivotCols()}],
+                        	vals : [#{pivotTestViewBean.getPivotVals()}],
                         	rendererName : "Heatmap",  
                         	aggregatorName : "Sum"
                         }

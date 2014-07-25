@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class PivotBudgetViewBean {
+public class PivotBudgetViewBean implements IPivotViewBean {
 
 	@ManagedProperty(value = "#{sqlQueryHandler}")
 	private SqlQueryHandler sqlQueryHandler;
@@ -39,8 +39,24 @@ public class PivotBudgetViewBean {
 
 	}
 
-	public void find() {
+	@Override
+	public void findPivotData() {
 		jsonResult = getJsonData();
+	}
+
+	@Override
+	public String getPivotRows() {
+		return "'calismayili','calismadonemi'";
+	}
+
+	@Override
+	public String getPivotCols() {
+		return "'gelirgider'";
+	}
+
+	@Override
+	public String getPivotVals() {
+		return "'tutar'";
 	}
 
 	public String getJsonData() {
@@ -75,6 +91,7 @@ public class PivotBudgetViewBean {
 		return sqlDataHolder.getSqlDataList();
 	}
 
+	@Override
 	public String getJsonResult() {
 		return jsonResult;
 	}

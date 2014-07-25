@@ -21,7 +21,7 @@
 					<f:selectItem itemLabel="Tüm Organizasyonlar" itemValue="1" />
 				</p:selectOneMenu>
 
-				<p:commandButton actionListener="#{pivotBudgetViewBean.find}"
+				<p:commandButton actionListener="#{pivotBudgetViewBean.findPivotData}"
 					value="hazirla" ajax="false" />
 			</p:panel>
 
@@ -38,9 +38,9 @@
             	$("#output").pivotUI(
             			#{pivotBudgetViewBean.jsonResult}
             			,{
-                        	rows : ["calismayili","calismadonemi"],
-                        	cols : ["gelirgider"],
-                        	vals : ["tutar"],
+                        	rows : [#{pivotBudgetViewBean.getPivotRows()}],
+                        	cols : [#{pivotBudgetViewBean.getPivotCols()}],
+                        	vals : [#{pivotBudgetViewBean.getPivotVals()}],
                         	rendererName : "Heatmap",  
                         	aggregatorName : "Sum"
                         }

@@ -55,7 +55,7 @@
 					</p:commandButton>
 					<p:spacer width="5px" />
 					<p:button href="/app/transaction/crudFinDocument.abc?grp=#{findFinDocumentViewBean.selectedGroupEnum.name}&amp;typ=#{findFinDocumentViewBean.selectedTypeEnum.name}&amp;operation=create" 
-						value="Yeni Fiş" rendered="${not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}"/>
+						value="Yeni Fiş" rendered="${not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) and not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}"/>
 				</f:facet>
 
 			</p:panel>

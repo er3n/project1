@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.EnumType;
 
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
@@ -70,6 +71,8 @@ public class CrudFinDocumentViewBean implements Serializable {
 	private EnumList.DefTypeGroupEnum selectedGroupEnum;
 	private EnumList.DefTypeEnum selectedTypeEnum;
 
+	private FinDocumentEntity bsDocumentEntity;
+	
 	@PostConstruct
 	private void init() {
 		try {
@@ -114,6 +117,19 @@ public class CrudFinDocumentViewBean implements Serializable {
 			return null;
 		}
 		return document.getTask().getItemTypeDocument();
+	}
+
+	public EnumList.DefTypeEnum getBSItemType(){
+		if (selectedTypeEnum==null){
+			return null;
+		}
+		EnumList.DefTypeEnum bsType = null;
+		if (selectedTypeEnum.equals(EnumList.DefTypeEnum.FIN_P)){
+			bsType = EnumList.DefTypeEnum.FIN_B;
+		} else if (selectedTypeEnum.equals(EnumList.DefTypeEnum.FIN_R)){
+			bsType = EnumList.DefTypeEnum.FIN_S;
+		}
+		return bsType;
 	}
 
 	public EnumList.DefTypeEnum getDetailItemType(){
@@ -318,6 +334,14 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void setSelectedTypeEnum(EnumList.DefTypeEnum selectedTypeEnum) {
 		this.selectedTypeEnum = selectedTypeEnum;
+	}
+
+	public FinDocumentEntity getBsDocumentEntity() {
+		return bsDocumentEntity;
+	}
+
+	public void setBsDocumentEntity(FinDocumentEntity bsDocumentEntity) {
+		this.bsDocumentEntity = bsDocumentEntity;
 	}
 
 }

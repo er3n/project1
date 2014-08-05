@@ -195,6 +195,13 @@ public class CrudStkDocumentViewBean implements Serializable {
 		}
 	}
 
+	public EnumList.DefTypeEnum getDocumentItemType(){
+		if (document==null || document.getTask()==null){
+			return null;
+		}
+		return document.getTask().getItemTypeDocument();
+	}
+	
 	public Boolean isTaskSelected(EnumList.DefTypeEnum taskEnum) {
 		if (this.document == null || document.getTask() == null) {
 			return false;

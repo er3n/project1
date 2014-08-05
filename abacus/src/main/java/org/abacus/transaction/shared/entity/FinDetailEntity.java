@@ -20,6 +20,10 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 	@JoinColumn(name = "document_fin_id", nullable = true)
 	private FinDocumentEntity document;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bs_document_id", nullable = true)
+	private FinDocumentEntity bsDocument;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "glc_id", nullable = true)
 	private DefTypeEntity glc;
@@ -56,6 +60,14 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 
 	public BigDecimal getCreditAmount(){
 		return this.getTrStateDetail().equals(-1)?this.getBaseDetailAmount():BigDecimal.ZERO;
+	}
+
+	public FinDocumentEntity getBsDocument() {
+		return bsDocument;
+	}
+
+	public void setBsDocument(FinDocumentEntity bsDocument) {
+		this.bsDocument = bsDocument;
 	}
 
 }

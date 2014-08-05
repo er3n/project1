@@ -40,17 +40,11 @@
 					<f:selectItems value="#{pivotQueryViewBean.sqlFieldSet}" />
 				</p:selectOneListbox>
 
-				<p:selectOneListbox id="sqlFieldSetRow" disabled="true">
-					<f:selectItems value="#{pivotQueryViewBean.pivotRowSet}" />
-				</p:selectOneListbox>
-				
-				<p:selectOneListbox id="sqlFieldSetCol" disabled="true">
-					<f:selectItems value="#{pivotQueryViewBean.pivotColSet}" />
-				</p:selectOneListbox>
+				<p:orderList value="#{pivotQueryViewBean.pivotRowSet}" var="rowItem" controlsLocation="none" itemLabel="#{rowItem}" itemValue="#{rowItem}" />
+    
+				<p:orderList value="#{pivotQueryViewBean.pivotColSet}" var="colItem" controlsLocation="none" itemLabel="#{colItem}" itemValue="#{colItem}" />
 
-				<p:selectOneListbox id="sqlFieldSetVal" disabled="true">
-					<f:selectItems value="#{pivotQueryViewBean.pivotValSet}" />
-				</p:selectOneListbox>
+				<p:orderList value="#{pivotQueryViewBean.pivotValSet}" var="valItem" controlsLocation="none" itemLabel="#{valItem}" itemValue="#{valItem}" />
 
 			</p:panelGrid>
 

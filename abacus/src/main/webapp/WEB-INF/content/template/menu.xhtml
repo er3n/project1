@@ -37,7 +37,8 @@
 		</p:submenu>
 
 		<p:submenu label="Stok/Satınalma">
-			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB" rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_I" rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Satış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_O" rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:separator/>
 			<p:menuitem value="Stok İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
@@ -50,6 +51,7 @@
 
 		<p:submenu label="Finans" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
 			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
+			<p:menuitem value="Satış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_S" />
 			<p:separator/>
 			<p:menuitem value="Ödemeler" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
 			<p:menuitem value="Tahsilatlar" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" />

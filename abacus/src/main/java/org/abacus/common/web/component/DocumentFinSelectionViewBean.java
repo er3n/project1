@@ -1,6 +1,7 @@
 package org.abacus.common.web.component;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,10 @@ public class DocumentFinSelectionViewBean implements Serializable {
 	}
 
 	public List<FinDocumentEntity> getDocumentList(EnumList.DefTypeEnum typeEnum) {
+		if (typeEnum==null){
+			return new ArrayList<FinDocumentEntity>();
+		}
+		
 		String organization = sessionInfoHelper.currentOrganization().getId();
 		String key = organization+"-"+typeEnum.getName();
 		if (resultMap.containsKey(key)) {

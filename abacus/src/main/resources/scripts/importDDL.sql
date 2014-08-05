@@ -77,35 +77,3 @@ create index ix_tra_detail_req on tra_detail (document_req_id);
 create index ix_tra_detail_stk on tra_detail (document_stk_id);
 create index ix_tra_detail_fin on tra_detail (document_fin_id);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

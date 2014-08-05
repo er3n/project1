@@ -319,7 +319,8 @@
 
 		<abc:itemSelectionDialog id="vendorSelectionDialog"
 			update=":crudDocumentFrm:vendorSelectionInput"
-			widgetVar="vendorSelectionWdg" paramType="#{DefTypeEnum.ITM_CM_VE}"
+			widgetVar="vendorSelectionWdg" 
+			paramType="#{crudStkDocumentViewBean.getDocumentItemType()}"
 			targetVar="#{crudStkDocumentViewBean.document.item}" rendered="true" />
 
 		<abc:itemSelectionDialog id="itemSelectionDialog"

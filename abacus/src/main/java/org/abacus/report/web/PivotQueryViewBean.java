@@ -149,11 +149,10 @@ public class PivotQueryViewBean implements IPivotViewBean {
 		pivotColSet.remove(sqlField);
 		pivotRowSet.remove(sqlField);
 		if (pivotValSet.contains(sqlField)){
-			pivotValSet.remove(sqlField);
+			pivotValSet.clear();
 		} else {
-			if (pivotValSet.size()==0){
-				pivotValSet.add(sqlField);
-			}
+			pivotValSet.clear();
+			pivotValSet.add(sqlField);
 		}
 	}
 

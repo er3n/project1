@@ -131,7 +131,7 @@ public class FindStkDocumentViewBean implements Serializable {
 			return;
 		} 
 		try {
-			traIntegrationHandler.createFinFromStk(document.getId());
+			traIntegrationHandler.createFinFromStk(document.getId(), selectedTypeEnum);
 			jsfMessageHelper.addInfo("createFinDocument");
 			this.findStkDocument();
 		} catch (AbcBusinessException e) {

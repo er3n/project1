@@ -3,8 +3,11 @@ package org.abacus.transaction.core.handler;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.EnumType;
+
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
@@ -27,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
 
 @Service("traIntegrationHandler")
 public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
@@ -102,13 +107,22 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public FinDocumentEntity createFinFromStk(Long docId) {
+	public FinDocumentEntity createFinFromStk(Long docId, EnumList.DefTypeEnum stkDocType) {
 
 		//Create FinDocument
 		StkDocumentEntity stkDoc = stkDocumentRepository.findWithFetch(docId);
 		FinDocumentEntity finDoc = new FinDocumentEntity(stkDoc);
 		finDoc.setId(null);
-		DefTaskEntity finTask = taskHandler.getTaskList(finDoc.getOrganization(), EnumList.DefTypeEnum.FIN_B).get(0);
+		EnumList.DefTypeEnum finDocType = null;
+		if (stkDocType.equals(EnumList.DefTypeEnum.STK_WB_I)){
+			finDocType = EnumList.DefTypeEnum.FIN_B;
+		} else if (stkDocType.equals(EnumList.DefTypeEnum.STK_WB_O)){
+			finDocType = EnumList.DefTypeEnum.FIN_S;
+		}
+		if (finDocType==null){
+			return null;
+		}
+		DefTaskEntity finTask = taskHandler.getTaskList(finDoc.getOrganization(), finDocType).get(0); 
 		finDoc.setTask(finTask);
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
 		finTransactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(finDoc));

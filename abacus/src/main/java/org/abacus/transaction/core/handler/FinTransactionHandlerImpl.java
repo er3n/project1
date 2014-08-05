@@ -111,6 +111,9 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		if (detailCreateEvent.getIsOppositeCreate()){
 			detailCreateEvent.getDetail().setTrStateDetail(detail.getDocument().getTask().getType().getTrStateType()*(-1));
 		}
+		if (detail.getBsDocument()!=null){
+			detail.setItem(detail.getBsDocument().getItem());
+		}
 		
 		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 		
@@ -148,12 +151,15 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailUpdatedEvent<FinDetailEntity> updateDetail(UpdateDetailEvent<FinDetailEntity> event) throws UnableToUpdateDetailException {
-		FinDetailEntity det = event.getDetail();
-		det = finDetailRepository.save(det);
-		if (event.getIsOppositeCreate()){
-			createAccRecord(det.getDocument());
+		FinDetailEntity detail = event.getDetail();
+		if (detail.getBsDocument()!=null){
+			detail.setItem(detail.getBsDocument().getItem());
 		}
-		return new DetailUpdatedEvent<FinDetailEntity>(det);
+		detail = finDetailRepository.save(detail);
+		if (event.getIsOppositeCreate()){
+			createAccRecord(detail.getDocument());
+		}
+		return new DetailUpdatedEvent<FinDetailEntity>(detail);
 	}
 	
 	@Override

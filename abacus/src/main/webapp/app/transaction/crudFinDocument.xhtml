@@ -149,8 +149,8 @@
 						<p:panelGrid columns="2" cellpadding="2"
 							style="vertical-align:top" rendered="true">
 
-							<p:outputLabel value="Hesap:" rendered="#{not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_VE) and not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_CU)}"/>
-							<h:panelGrid columns="6" rendered="#{not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_VE) and not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_CU)}">
+							<p:outputLabel value="Hesap:" rendered="#{not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____VE) and not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____CU)}"/>
+							<h:panelGrid columns="6" rendered="#{not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____VE) and not crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____CU)}">
 								<abc:itemSelection id="finItemSelectionInput"
 									widgetVar="finItemSelectionWdg"
 									dialogId="finItemSelectionDialog"
@@ -159,8 +159,8 @@
 									 />
 							</h:panelGrid>
 							
-							<p:outputLabel value="Fatura:" rendered="#{crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_VE) || crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_CU)}"/>
-							<h:panelGrid id="documentFinId" columns="1" rendered="#{crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_VE) || crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM_CM_CU)}">
+							<p:outputLabel value="Fatura:" rendered="#{crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____VE) || crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____CU)}"/>
+							<h:panelGrid id="documentFinId" columns="1" rendered="#{crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____VE) || crudFinDocumentViewBean.getDetailItemType().equals(DefTypeEnum.ITM____CU)}">
 								<abc:documentFinSelection id="documentFinSelectionInput"
 									widgetVar="documentFinSelectionWdg1"
 									dialogId="documentFinSelectionDialog1"

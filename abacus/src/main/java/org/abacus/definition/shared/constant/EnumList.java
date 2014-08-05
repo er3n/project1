@@ -141,6 +141,8 @@ public interface EnumList {
 		ITM_CS("Parasal Hesaplar", 0), //
 		ITM_CM_VE("Satıcı Hesapları", 0), //
 		ITM_CM_CU("Müşteri Hesapları", 0), //
+		ITM____VE("Satıcı Avans", 0), //
+		ITM____CU("Müşteri Avans", 0), //
 		ITM_SR("All Services", 0), //
 		ITM_SR_FN("Gider Hesapları", 0), //
 		ITM_SR_ST("Stok Malzeme/Ürün", 0), //

@@ -134,11 +134,13 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_B', 'BL-1', 'Alış Fatura #', 1, 0, 'ITM_CM_VE', 'ITM_SR');
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_S', 'BS-1', 'Satış Fatura #', 1, 0, 'ITM_CM_CU', 'ITM_SR');
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-1', 'Satıcıya Ödeme #', 1, 0, 'ITM_CS', 'ITM_CM_VE');
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-1', 'Satıcıya Avans #', 1, 0, 'ITM_CS', 'ITM_CM_VE');
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-2', 'Personel Maaş #', 1, 0, 'ITM_CS', 'ITM_PE');
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-3', 'Masraf Giriş #', 1, 0, 'ITM_CS', 'ITM_SR_FN');
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-9', 'Fatura Ödeme #', 1, 0, 'ITM_CS', 'ITM____VE');
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_R', 'RC-1', 'Müşteriden Tahsil #', 1, 0, 'ITM_CS', 'ITM_CM_CU');
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_R', 'RC-1', 'Müşteriden Avans #', 1, 0, 'ITM_CS', 'ITM_CM_CU');
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_R', 'RC-9', 'Fatura Tahsilat #', 1, 0, 'ITM_CS', 'ITM____CU');
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);

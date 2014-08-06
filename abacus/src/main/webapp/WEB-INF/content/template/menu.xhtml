@@ -22,7 +22,8 @@
 		<p:submenu label="Hesap Tanim" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
 			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" />
 			<p:separator/>
-			<p:menuitem value="Gider Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN" />   
+			<p:menuitem value="Gelir Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_R" />   
+			<p:menuitem value="Gider Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_X" />   
 			<p:menuitem value="Firma Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_VE" />   
 			<p:menuitem value="Müşteri Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_CU" />   
 			<p:menuitem value="Personel Hesapları" url="/app/definition/defItem.abc?type=ITM_PE" />   

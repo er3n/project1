@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 
@@ -24,7 +25,7 @@ public class CatMealFilterEntity extends DynamicEntity {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "meal_id", nullable = false)
-	private DefValueEntity meal;
+	private DefItemEntity meal;
 
 	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
 	private BigDecimal countPrepare;
@@ -32,11 +33,11 @@ public class CatMealFilterEntity extends DynamicEntity {
 	@Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
 	private BigDecimal unitPrice;
 
-	public DefValueEntity getMeal() {
+	public DefItemEntity getMeal() {
 		return meal;
 	}
 
-	public void setMeal(DefValueEntity meal) {
+	public void setMeal(DefItemEntity meal) {
 		this.meal = meal;
 	}
 

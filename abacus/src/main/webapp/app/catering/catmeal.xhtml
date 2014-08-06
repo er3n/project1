@@ -23,10 +23,12 @@
 						<h:panelGrid id="mealGrid" columns="8" cellpadding="0">
 
 							<h:outputLabel value="Öğün : " />
-							<abc:valueSelection id="valMealSelection" 
-								widgetVar="valMealSelectionWidget" 
+							<abc:itemSelection id="materialSelectionInput" 
+								widgetVar="materialSelectionWdg" 
+								dialogId="materialSelectionDialog" 
 								targetVar="#{catMealViewBean.selCatMeal.meal}" 
-								required="true" />
+								required="true" 
+							/>
 
 							<h:outputLabel value="Adet : " />
 							<pe:inputNumber 
@@ -104,14 +106,12 @@
 
 	<ui:define name="model">
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 	
-	<abc:valueSelectionDialog 
-			update=":mealForm:valMealSelection" 
-			id="valMealSelectionDialog" 
-			widgetVar="valMealSelectionWidget" 
-			targetVar="#{catMealViewBean.selCatMeal.meal}"
-			paramType="#{DefTypeEnum.VAL_MEAL}"
-		 />
+	<abc:itemSelectionDialog id="materialSelectionDialog"
+			update=":mealForm:materialSelectionInput"
+			widgetVar="materialSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_FN}" paramClass="#{DefItemClassEnum.FIN_R}"
+			targetVar="#{catMealViewBean.selCatMeal.meal}" rendered="true" />
 
 	</ui:define> 
 	

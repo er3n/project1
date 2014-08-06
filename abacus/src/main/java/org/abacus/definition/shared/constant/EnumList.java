@@ -50,10 +50,10 @@ public interface EnumList {
 	}
 
 	enum DefItemClassEnum implements ISelectionEnum {
-		STK_M("Malzeme"), // Stok.Hammadde
-		STK_P("Yemek"), // Stok.Urun
-		// FAS_?, //
-		// FIN_?, //
+		STK_M("Malzeme"), // Stock Material
+		STK_P("Yemek"), // Stock Product
+		FIN_R("Gelir"), //Revenue Item
+		FIN_X("Gider"), //Expense Item
 		;
 		private String description;
 
@@ -144,7 +144,7 @@ public interface EnumList {
 		ITM____VE("Satıcı Avans", 0), //
 		ITM____CU("Müşteri Avans", 0), //
 		ITM_SR("All Services", 0), //
-		ITM_SR_FN("Gider Hesapları", 0), //
+		ITM_SR_FN("Gelir/Gider Hesapları", 0), //
 		ITM_SR_ST("Stok Malzeme/Ürün", 0), //
 		// Stock
 		STK("Stock",0), //

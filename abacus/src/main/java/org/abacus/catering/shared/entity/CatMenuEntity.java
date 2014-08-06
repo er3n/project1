@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefValueEntity;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.hibernate.annotations.Fetch;
@@ -37,7 +37,7 @@ public class CatMenuEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "meal_id", nullable = false)
-	private DefValueEntity meal;
+	private DefItemEntity meal;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_id", nullable = true)
@@ -68,11 +68,11 @@ public class CatMenuEntity extends DynamicEntity {
 		return new ArrayList<CatMenuItemEntity>(menuItemSet);
 	}
 
-	public DefValueEntity getMeal() {
+	public DefItemEntity getMeal() {
 		return meal;
 	}
 
-	public void setMeal(DefValueEntity meal) {
+	public void setMeal(DefItemEntity meal) {
 		this.meal = meal;
 	}
 

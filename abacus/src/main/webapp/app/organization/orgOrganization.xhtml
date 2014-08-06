@@ -9,32 +9,39 @@
 	xmlns:of="http://omnifaces.org/functions"
 	xmlns:abc="http://www.abacus.com/abc">
 	
+	<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgOrganizationLevelEnum" />
 	<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
-	
+
 			<h:panelGrid id="organizationGrid" columns="1">
 				<h:form id="organizationForm">
 				
 					<p:panel id="organizationPanel" header="Organizasyon Yapısı">
 
-						<h:panelGrid id="organizationGrid2" columns="8" cellpadding="2">
+						<h:panelGrid id="organizationGrid2" columns="10" cellpadding="2">
 
 							<h:outputLabel value="Kod : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.id}"
 								required="true" requiredMessage="organization.Code Bos olamaz"
-								validatorMessage="organization.Code" />
+								validatorMessage="organization.Code" style="width:100px"/>
 
 							<h:outputLabel value="Ad : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.name}"
 								required="true" requiredMessage="organization.Ack Bos olamaz"
-								validatorMessage="organization.Ack" style="width:400px"/>
+								validatorMessage="organization.Ack" style="width:250px"/>
 
 							<h:outputLabel value="Seviye : " />
 							<p:selectOneMenu value="#{organizationViewBean.selOrganization.level}" 
-								style="width:145px">
+								style="width:120px">
 								<f:selectItems value="#{OrgOrganizationLevelEnum}"
-									var="levelEnum" itemLabel="#{levelEnum.description}"
-									 />
+									var="levelEnum" itemLabel="#{levelEnum.description}"/>
 							</p:selectOneMenu>
+				
+							<h:outputLabel value="Müşteri" />
+							<abc:itemSelection 
+								id="itemSelectionInput" 
+								widgetVar="itemSelectionWdg" 
+								dialogId="itemSelectionDialog" 
+								targetVar="#{organizationViewBean.selOrganization.customer}" />
 							
 						</h:panelGrid>
 
@@ -87,11 +94,23 @@
            					${selOrganization.getParent().nameLevel}  
        					</p:column>
 
+						<p:column headerText="Müşteri" style="width:120px">  
+           					${selOrganization.customer.name}  
+       					</p:column>
+
 					</p:dataTable>
 
 				</h:form>
 			</h:panelGrid>
 			<!-- organizationGrid -->
+
+		<abc:itemSelectionDialog 
+			id="itemSelectionDialog" 
+			update=":organizationForm:itemSelectionInput" 
+			widgetVar="itemSelectionWdg" 
+			paramType="#{DefTypeEnum.ITM_CM_CU}" 
+			targetVar="#{organizationViewBean.selOrganization.customer}" 
+			rendered="true" />
 
 
 </ui:composition>

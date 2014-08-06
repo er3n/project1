@@ -9,13 +9,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface OrganizationRepository extends CrudRepository<OrganizationEntity, String> {
 
-	@Query("select c from OrganizationEntity c where (c.id = :organization or c.id like :organization || '.%') order by id")
+	@Query("select c from OrganizationEntity c left outer join fetch c.customer r where (c.id = :organization or c.id like :organization || '.%') order by c.id")
 	List<OrganizationEntity> findByOrganization(@Param("organization")String organization);
 
-	@Query("select c from OrganizationEntity c, SecUserOrganizationEntity uc where uc.user.id = :username and uc.organization.id = c.id order by c.id")
+	@Query("select c from OrganizationEntity c, SecUserOrganizationEntity u where u.user.id = :username and u.organization.id = c.id order by c.id")
 	List<OrganizationEntity> findByUsername(@Param("username")String username);
 
-	@Query("select c from OrganizationEntity c left outer join fetch c.fiscalYearSet f where c.id = :id")
+	@Query("select c from OrganizationEntity c left outer join fetch c.fiscalYearSet f left outer join fetch c.customer r where c.id = :id")
 	OrganizationEntity fetchOrganization(@Param("id")String id);
 
 }

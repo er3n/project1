@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.abacus.common.shared.entity.StaticEntity;
 import org.abacus.common.web.AbcUtility;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -41,14 +42,17 @@ public class OrganizationEntity extends StaticEntity {
 	@Fetch(FetchMode.SELECT)
 	private Set<FiscalYearEntity> fiscalYearSet;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id", nullable = true)
+	private DefItemEntity customer;
+
+	public OrganizationEntity() {
+	}
+	
 	public OrganizationEntity(String id) {
 		this.id = id;
 	}
 
-	public OrganizationEntity() {
-
-	}
-	
 	public OrganizationEntity getRootOrganization(){
 		return OrganizationUtils.findRootOrganization(this);
 	}
@@ -101,6 +105,14 @@ public class OrganizationEntity extends StaticEntity {
 
 	public void setFiscalYearSet(Set<FiscalYearEntity> fiscalYearSet) {
 		this.fiscalYearSet = fiscalYearSet;
+	}
+
+	public DefItemEntity getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(DefItemEntity customer) {
+		this.customer = customer;
 	}
 
 }

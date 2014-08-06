@@ -66,7 +66,7 @@
 						onclick="PF('pMenuWdg').hide()" />
 				</p:contextMenu>
 
-				<p:dataTable id="periodTbl" var="period" rowIndexVar="rowIndex"
+				<p:dataTable id="periodTbl" var="period"
 					rendered="#{not empty budSummaryViewBean.budget.document.id}"
 					value="#{budSummaryViewBean.budget.periodList}" editable="true"
 					editMode="cell" widgetVar="periodWdg"
@@ -77,7 +77,9 @@
        				</f:facet>
 
 					<p:ajax event="cellEdit" 
-						listener="#{budSummaryViewBean.onCellEdit}" update="@this" /> 
+						listener="#{budSummaryViewBean.onCellEdit}"
+						onsuccess="onCellEdit()" />
+
 
 					<p:column headerText="Dönem No">
 						<h:outputText value="#{period.fiscalPeriod.periodNo}" />
@@ -122,25 +124,22 @@
 					</p:column>
 
 					<p:column styleClass="ui-widget-header">
-					
-					<f:facet name="header">
-						<h:outputLabel value="Toplam" style="font-weight:bold"></h:outputLabel>
-					</f:facet> 
+
+						<f:facet name="header">
+							<h:outputLabel value="Toplam" style="font-weight:bold"></h:outputLabel>
+						</f:facet>
 						<h:outputText value="#{period.sum}" />
 					</p:column>
 
 					<p:summaryRow>
 						<p:column colspan="3" style="text-align:right">
-							<h:outputText
-								value="Toplam:" />
+							<h:outputText value="Toplam:" />
 						</p:column>
 						<p:column style="text-align:right">
-							<h:outputText
-								value="#{budSummaryViewBean.budget.revanueSum}" />
+							<h:outputText value="#{budSummaryViewBean.budget.revanueSum}" />
 						</p:column>
 						<p:column>
-							<h:outputText
-								value=" #{budSummaryViewBean.budget.expenseSum}" />
+							<h:outputText value=" #{budSummaryViewBean.budget.expenseSum}" />
 						</p:column>
 						<p:column>
 							<h:outputText
@@ -149,6 +148,8 @@
 					</p:summaryRow>
 
 				</p:dataTable>
+				
+				<p:remoteCommand name="onCellEdit"  update=":periodForm" />
 
 			</h:form>
 

@@ -69,7 +69,7 @@
 				<p:dataTable id="periodTbl" var="period"
 					rendered="#{not empty budSummaryViewBean.budget.document.id}"
 					value="#{budSummaryViewBean.budget.periodList}" editable="true"
-					editMode="cell" widgetVar="periodWdg"
+					editMode="cell" widgetVar="periodWdg" 
 					sortBy="#{budSummaryViewBean.budget.document.id}">
 
 					<f:facet name="header">
@@ -78,23 +78,22 @@
 
 					<p:ajax event="cellEdit" 
 						listener="#{budSummaryViewBean.onCellEdit}"
-						onsuccess="onCellEdit()" />
+						oncomplete="onCellEdit();" />
 
-
-					<p:column headerText="Dönem No">
+					<p:column headerText="No" style="width:2%">
 						<h:outputText value="#{period.fiscalPeriod.periodNo}" />
 					</p:column>
-
+ 
 					<p:column headerText="Başlangıç">
 						<h:outputText value="#{period.fiscalPeriod.dateStart}">
-							<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
+							<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy"
 								locale="tr_TR" />
 						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Bitiş">
 						<h:outputText value="#{period.fiscalPeriod.dateFinish}">
-							<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
+							<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy"
 								locale="tr_TR" />
 						</h:outputText>
 					</p:column>

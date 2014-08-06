@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.EnumList.BudgetRX;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 
 @Entity
@@ -40,6 +41,10 @@ public class BudDetailEntity extends DynamicEntity {
 	private BigDecimal budgetAmount;
 
 	public BudDetailEntity() {
+	}
+
+	public BudDetailEntity(BudgetRX budRX) {
+		this.budgetRX = budRX;
 	}
 
 	public BudDocumentEntity getDocument() {

@@ -56,6 +56,8 @@
 			<p:separator/>
 			<p:menuitem value="Ödemeler" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
 			<p:menuitem value="Tahsilatlar" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" />
+			<p:separator/>
+			<p:menuitem value="Bütçe" url="/app/budget/budSummary.abc" />
 		</p:submenu>
 
 		<p:submenu label="Raporlama" rendered="#{sec:areAnyGranted('AUTH_NONE')}">

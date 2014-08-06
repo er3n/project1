@@ -1,0 +1,160 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	template="/WEB-INF/content/template/simple.xhtml"
+	xmlns:abc="http://www.abacus.com/abc"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="content">
+
+		<o:importConstants
+			type="org.abacus.definition.shared.constant.EnumList.BudgetRX" />
+
+		<p:messages id="messages" showDetail="true" autoUpdate="true"
+			closable="true" rendered="#{!budSummaryViewBean.showPage}" />
+
+		<c:if test="#{budSummaryViewBean.showPage}">
+
+			<h:form id="documentForm">
+
+				<p:panel>
+
+					<f:facet name="header">
+					Bütçe Fişi
+					</f:facet>
+
+					<h:panelGrid columns="2" style="vertical-align:top">
+
+						<p:outputLabel value="Tahmini Tarih:" style="font-weigh: bold" />
+						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
+							value="#{budSummaryViewBean.budget.document.estimateDate}"
+							required="true" requiredMessage="Tahmini tarih boş olamaz" />
+
+						<p:outputLabel value="Not:" style="font-weigh: bold" />
+						<p:inputTextarea rows="10" cols="50"
+							value="#{budSummaryViewBean.budget.document.budgetNote}" />
+
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<p:commandButton value="Kaydet"
+							actionListener="#{budSummaryViewBean.saveDocument}"
+							update=":documentForm :periodForm"
+							rendered="#{empty budSummaryViewBean.budget.document.id}" />
+						<p:commandButton value="Guncelle"
+							actionListener="#{budSummaryViewBean.updateDocument}"
+							update=":documentForm :periodForm"
+							rendered="#{not empty budSummaryViewBean.budget.document.id}" />
+					</f:facet>
+
+				</p:panel>
+
+			</h:form>
+
+			<h:form id="periodForm">
+
+				<p:contextMenu for=":periodForm:periodTbl" widgetVar="pMenuWdg">
+					<p:menuitem value="Değiştir" icon="ui-icon-search"
+						onclick="PF('periodWdg').showCellEditor();return false;" />
+					<p:menuitem value="İptal" icon="ui-icon-close"
+						onclick="PF('pMenuWdg').hide()" />
+				</p:contextMenu>
+
+				<p:dataTable id="periodTbl" var="period" rowIndexVar="rowIndex"
+					rendered="#{not empty budSummaryViewBean.budget.document.id}"
+					value="#{budSummaryViewBean.budget.periodList}" editable="true"
+					editMode="cell" widgetVar="periodWdg"
+					sortBy="#{budSummaryViewBean.budget.document.id}">
+
+					<f:facet name="header">
+           				Bütçe Detay
+       				</f:facet>
+
+					<p:ajax event="cellEdit" 
+						listener="#{budSummaryViewBean.onCellEdit}" update="@this" /> 
+
+					<p:column headerText="Dönem No">
+						<h:outputText value="#{period.fiscalPeriod.periodNo}" />
+					</p:column>
+
+					<p:column headerText="Başlangıç">
+						<h:outputText value="#{period.fiscalPeriod.dateStart}">
+							<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
+								locale="tr_TR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Bitiş">
+						<h:outputText value="#{period.fiscalPeriod.dateFinish}">
+							<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
+								locale="tr_TR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column id="#{BudgetRX.BUD_R.name()}" headerText="Gelir">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{period.revanue.budgetAmount}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{period.revanue.budgetAmount}"
+									style="width:96%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column id="#{BudgetRX.BUD_X.name()}" headerText="Gider">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{period.expense.budgetAmount}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{period.expense.budgetAmount}"
+									style="width:96%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Toplam" styleClass="ui-widget-header">
+						<h:outputText value="#{period.sum}" />
+					</p:column>
+
+					<p:summaryRow>
+						<p:column colspan="3" style="text-align:right">
+							<h:outputText
+								value="Toplam:" />
+						</p:column>
+						<p:column style="text-align:right">
+							<h:outputText
+								value="#{budSummaryViewBean.budget.revanueSum}" />
+						</p:column>
+						<p:column>
+							<h:outputText
+								value=" #{budSummaryViewBean.budget.expenseSum}" />
+						</p:column>
+						<p:column>
+							<h:outputText
+								value="Tahmini Kazanç: #{budSummaryViewBean.budget.sum}" />
+						</p:column>
+					</p:summaryRow>
+
+				</p:dataTable>
+
+			</h:form>
+
+		</c:if>
+
+
+	</ui:define>
+
+	<ui:define name="model">
+
+	</ui:define>
+
+</ui:composition>

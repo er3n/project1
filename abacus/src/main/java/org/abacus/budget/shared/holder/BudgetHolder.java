@@ -68,9 +68,11 @@ public class BudgetHolder implements Serializable {
 
 		if (revanue == null) {
 			revanue = new BudDetailEntity(EnumList.BudgetRX.BUD_R);
+			revanue.setFiscalPeriod(fiscalPeriod);
 		}
 		if (expense == null) {
 			expense = new BudDetailEntity(EnumList.BudgetRX.BUD_X);
+			expense.setFiscalPeriod(fiscalPeriod);
 		}
 
 		BudgetPeriodHolder holder = new BudgetPeriodHolder();

@@ -89,6 +89,18 @@
 						<h:outputText value="#{var.organization.id}" />
 					</p:column>
 
+					<p:column headerText="Fatura Tutar" rendered="${findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) or findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
+						<h:outputText value="#{var.finInfo.bsAmount}" />
+					</p:column>
+
+					<p:column headerText="Ödeme" rendered="${findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}">
+						<h:outputText value="#{var.finInfo.prAmount}" />
+					</p:column>
+
+					<p:column headerText="Tahsilat" rendered="${findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
+						<h:outputText value="#{var.finInfo.prAmount}" />
+					</p:column>
+
 					<p:column headerText="İşlem">
 						<p:button icon="ui-icon-pencil" href="/app/transaction/crudFinDocument.abc?grp=#{findFinDocumentViewBean.selectedGroupEnum.name}&amp;typ=#{findFinDocumentViewBean.selectedTypeEnum.name}&amp;operation=update&amp;document=#{var.id}"
 							/>

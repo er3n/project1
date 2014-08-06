@@ -111,6 +111,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 		//Create FinDocument
 		StkDocumentEntity stkDoc = stkDocumentRepository.findWithFetch(docId);
+		
 		FinDocumentEntity finDoc = new FinDocumentEntity(stkDoc);
 		finDoc.setId(null);
 		EnumList.DefTypeEnum finDocType = null;
@@ -126,9 +127,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		finDoc.setTask(finTask);
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
 		finTransactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(finDoc));
-		//Update Reference irsaliyeye fatura idsi
-		stkDoc.setRefFinDocumentId(finDoc.getId());
-		stkTransactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(stkDoc));
 		
 		//Convert FinDetail
 		BigDecimal totalAmount = BigDecimal.ZERO;
@@ -151,7 +149,11 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		infoDet.setBaseDetailAmount(totalAmount);
 		infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
 		finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
-		
+
+		//Update Reference irsaliyeye fatura idsi
+		stkDoc.setRefFinDocumentId(finDoc.getId());
+		stkTransactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(stkDoc));
+
 		return finDoc;	
 	}
 	

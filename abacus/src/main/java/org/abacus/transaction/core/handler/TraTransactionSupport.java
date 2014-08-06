@@ -90,6 +90,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		}
 
 		document = getDocumentRepository().save(document);
+		getDocumentRepository().save(document);
 		return new DocumentCreatedEvent<T>(document);
 	}
 

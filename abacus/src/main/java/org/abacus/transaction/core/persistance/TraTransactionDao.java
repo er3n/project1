@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
@@ -25,12 +26,16 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 	public abstract Class<D> getDetailClass();
 
 	public List<T> readTraDocument(TraDocumentSearchCriteria documentSearchCriteria, String organization, String fiscalYearId2) {
+		Class<T> docClass = getDocumentClass(); 
 		Session currentSession = em.unwrap(Session.class);
-		Criteria criteria = currentSession.createCriteria(getDocumentClass(), "s");
+		Criteria criteria = currentSession.createCriteria(docClass, "s");
 //		criteria.createAlias("s.fiscalPeriod1", "fp1", JoinType.INNER_JOIN);
 		criteria.createAlias("s.fiscalPeriod2", "fp2", JoinType.INNER_JOIN);
 		criteria.createAlias("s.item", "itm", JoinType.LEFT_OUTER_JOIN);
-
+		if (docClass == FinDocumentEntity.class){
+			criteria.createAlias("s.finInfo", "info", JoinType.LEFT_OUTER_JOIN);
+		}
+		
 		if (documentSearchCriteria.getDocumentId() != null) {
 			criteria.add(Restrictions.eq("s.id", documentSearchCriteria.getDocumentId()));
 		}
@@ -78,6 +83,7 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 			criteria.add(Restrictions.eq("s.requestStatus", documentSearchCriteria.getRequestStatus()));
 		}
 
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.addOrder(Order.desc("s.docDate"));
 
 		List<T> result = criteria.list();

@@ -56,7 +56,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 	private ReqDocumentRepository reqDocumentRepository;
 	
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public StkDocumentEntity createStkFromReq(Long docId, FiscalPeriodEntity fisPeriod2, DefItemEntity vendor) {
 		
 		ReqDocumentEntity reqDocument = reqDocumentRepository.findWithFetch(docId);
@@ -102,6 +102,8 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public FinDocumentEntity createFinFromStk(Long docId, EnumList.DefTypeEnum stkDocType) {
 
 		//Create FinDocument
@@ -128,7 +130,11 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		BigDecimal totalAmount = BigDecimal.ZERO;
 		List<StkDetailEntity> stkDetList = stkDetailRepository.findByDocumentId(docId);
 		for (StkDetailEntity stkDet : stkDetList) {
-			FinDetailEntity finDet = new FinDetailEntity(stkDet);
+			StkDetailEntity tempStk = new StkDetailEntity();
+			BeanUtils.copyProperties(stkDet, tempStk);
+			tempStk.setDocument(null); 
+			FinDetailEntity finDet = new FinDetailEntity();
+			BeanUtils.copyProperties(tempStk, finDet);
 			finDet.setDocument(finDoc);
 			finDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()); 
 			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(finDet, false));
@@ -153,6 +159,8 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		return finDoc;	
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department){
 		
 		OrganizationEntity organization = fisPeriod2.getFiscalYear().getOrganization();
@@ -160,7 +168,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		stkDocument.setFiscalPeriod2(fisPeriod2);
 		stkDocument.setDocDate(new Date());
-		stkDocument.setDocNo("SALES:"+  stkDocument.getDocDate().toString());
+		stkDocument.setDocNo("SALES:"+  stkDocument.getDocDate().toString().substring(0, 12));
 		stkDocument.setItem(customer);
 		stkDocument.setOrganization(fisPeriod2.getFiscalYear().getOrganization());
 		
@@ -184,7 +192,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(stkDetailEntity, stkDocument.getUserCreated()));
 		}		
-//		createFinFromStk(stkDocument.getId(), stkDocument.getTypeEnum());
+		createFinFromStk(stkDocument.getId(), stkDocument.getTypeEnum());
 		return stkDocument;
 	}
 

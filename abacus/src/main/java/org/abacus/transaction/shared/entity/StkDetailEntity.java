@@ -37,14 +37,12 @@ public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
 	public StkDetailEntity() {
 	}
 	
-	public StkDetailEntity(TraDetailEntity<?> sourceDet,StkDocumentEntity stkDoc){
-		TraDocumentEntity thisDocument = sourceDet.getDocument();
-		sourceDet.setDocument(null);
-		
-		BeanUtils.copyProperties(sourceDet, this);
+	public StkDetailEntity(ReqDetailEntity sourceDet,StkDocumentEntity stkDoc){
+		ReqDetailEntity temReqDetail = new ReqDetailEntity();
+		BeanUtils.copyProperties(sourceDet, temReqDetail);
+		temReqDetail.setDocument(null);
+		BeanUtils.copyProperties(temReqDetail, this);
 		this.setDocument(stkDoc);
-		
-		sourceDet.setDocument(thisDocument);
 	}
 
 	@Override

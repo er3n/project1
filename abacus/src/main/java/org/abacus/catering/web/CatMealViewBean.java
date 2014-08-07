@@ -113,8 +113,8 @@ public class CatMealViewBean implements Serializable {
 		EnumList.OrgDepartmentGroupEnum depGroup = EnumList.OrgDepartmentGroupEnum.F;  
 		DepartmentEntity department = departmentService.findUserDepartmentListOrgOnly(username, depGroup, period.getFiscalYear().getOrganization()).get(0);
 
-		StkDocumentEntity salesStkDoc = traIntegrationHandler.createSalesDocument(holderList, customer, period, department);	
-		FinDocumentEntity salesFinDoc = traIntegrationHandler.createFinFromStk(salesStkDoc.getId(), salesStkDoc.getTypeEnum());
+		StkDocumentEntity salesStkDoc = traIntegrationHandler.createSalesDocument(holderList, customer, period, department);
+		jsfMessageHelper.addInfo("createSuccessful", "Satış Fatura");
 	}
 
 	

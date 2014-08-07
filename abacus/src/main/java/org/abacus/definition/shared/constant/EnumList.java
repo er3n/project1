@@ -148,14 +148,14 @@ public interface EnumList {
 		ITM_SR_ST("Stok Malzeme/Ürün", 0), //
 		// Stock
 		STK("Stock",0), //
-		STK_WB("İrsaliye İşlem Tip",0), //
-		STK_WB_I("Stok İrsaliye Giriş Tip", 1), //
-		STK_WB_O("Stok Satış Çıkş Tip", -1), //
-		STK_IO("Stok İşlem Tip",0), //
-		STK_IO_S("Stok Açılış Tip", 1), //
-		STK_IO_I("Stok İşlem Giriş Tip", 1), //
-		STK_IO_O("Stok İşlem Çıkış Tip", -1), //
-		STK_IO_T("Stok Transfer Tip", 0), //
+		STK_WB("İrsaliye İşlem",0), //
+		STK_WB_I("Alış İrsaliye", 1), //
+		STK_WB_O("Satış İrsaliye", -1), //
+		STK_IO("Stok İşlem",0), //
+		STK_IO_S("Stok Açılış", 1), //
+		STK_IO_I("Stok Giriş", 1), //
+		STK_IO_O("Stok Çıkış", -1), //
+		STK_IO_T("Stok Transfer", 0), //
 		// Finance,Account
 		FIN("Finance", 0), //
 		FIN_B("Alış Fatura", +1), //
@@ -164,9 +164,9 @@ public interface EnumList {
 		FIN_R("Tahsil", +1), //
 		FIN_J("Mahsup", 0), //
 		//Request
-		REQ_IO("Stok istek tip",0),
-		REQ_IO_T("Stok transfer istek tip", 0), //
-		REQ_IO_P("Stok satın alma istek tip",0), //
+		REQ_IO("Transfer/Satınalma İstek",0),
+		REQ_IO_T("Stok Transfer İstek", 0), //
+		REQ_IO_P("Satınalma İstek",0), //
 
 		NIL("?",0), //
 		;

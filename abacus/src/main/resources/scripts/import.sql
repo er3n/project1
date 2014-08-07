@@ -92,15 +92,15 @@ commit;
 insert into def_type (id, name, level, tr_state_type) values ('VAL_CATEGORY', 'Grup/Kategori', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('VAL_RECEIPT', 'Yemek Tipleri', 1, 0);
 
-insert into def_type (id, name, level, tr_state_type) values ('STK_WB_I', 'Stok İrsaliye Giriş Tip', 1, +1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_WB_O', 'Stok İrsaliye Çıkış Tip', 1, -1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_IO_S', 'Stok Açılış Tip', 1, +1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_IO_I', 'Stok İşlem Giriş Tip', 1, +1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_IO_O', 'Stok İşlem Çıkış Tip', 1, -1);
-insert into def_type (id, name, level, tr_state_type) values ('STK_IO_T', 'Stok Transfer Tip', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('STK_WB_I', 'Alış İrsaliye', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_WB_O', 'Satış İrsaliye', 1, -1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO_S', 'Stok Açılış', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO_I', 'Stok Giriş', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO_O', 'Stok Çıkış', 1, -1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO_T', 'Stok Transfer', 1, 0);
 
-insert into def_type (id, name, level, tr_state_type) values ('REQ_IO_T', 'İstek Transfer Tip', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('REQ_IO_P', 'İstek Satınalma Tip', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('REQ_IO_T', 'Stok Transfer İstek', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('REQ_IO_P', 'Satınalma İstek', 1, 0);
 
 insert into def_type (id, name, level, tr_state_type) values ('FIN_B', 'Alış Fatura', 1, +1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_S', 'Satış Fatura', 1, -1);

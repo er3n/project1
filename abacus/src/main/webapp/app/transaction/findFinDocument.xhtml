@@ -16,7 +16,7 @@
 		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findFinDocumentViewBean.showDocument}" />
 
 		<h:form>
-			<p:panel id="queryDocumentPanel" header="Finans Fiş Sorgulama" rendered="#{findFinDocumentViewBean.showDocument}">
+			<p:panel id="queryDocumentPanel" header="#{findFinDocumentViewBean.selectedTypeEnum.description} Sorgulama" rendered="#{findFinDocumentViewBean.showDocument}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 

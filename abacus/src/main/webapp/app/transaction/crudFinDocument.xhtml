@@ -23,8 +23,8 @@
 				<p:panel id="documentPanel"
 					rendered="#{not empty crudFinDocumentViewBean.document}">
 
-					<f:facet name="header">
-					Finans Fişi 
+				<f:facet name="header">
+					#{crudFinDocumentViewBean.selectedTypeEnum.description} Finans Fişi 
 				</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">

@@ -49,7 +49,7 @@
 				</p:column>
 
 				<f:facet name="header">
-					<p:commandButton value="Yeni #{itemViewBean.clazz.description} Ekle" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemProductListForm :itemProductDetailForm" process="@this" />
+					<p:commandButton value="#{itemViewBean.type.description} #{itemViewBean.clazz.description} Ekle" actionListener="#{itemViewBean.newItemSelected}" update=":itemDetails :itemProductListForm :itemProductDetailForm" process="@this" />
 				</f:facet>
 
 			</p:dataTable>

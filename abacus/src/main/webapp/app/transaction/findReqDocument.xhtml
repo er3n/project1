@@ -23,7 +23,7 @@
 			closable="true" rendered="#{!findReqDocumentViewBean.showDocument}" />
 
 		<h:form id="queryDocumentPanel">
-			<p:panel header="Sipariş Fiş Sorgulama"
+			<p:panel header="#{findReqDocumentViewBean.selectedTypeEnum.description} Sorgulama"
 				rendered="#{findReqDocumentViewBean.showDocument}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">

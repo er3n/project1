@@ -16,7 +16,7 @@
 		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!findStkDocumentViewBean.showDocument}" />
 
 		<h:form>
-			<p:panel id="queryDocumentPanel" header="Stok Fiş Sorgulama" rendered="#{findStkDocumentViewBean.showDocument}">
+			<p:panel id="queryDocumentPanel" header="#{findStkDocumentViewBean.selectedTypeEnum.description} Sorgulama" rendered="#{findStkDocumentViewBean.showDocument}">
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 

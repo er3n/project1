@@ -27,8 +27,8 @@
 				<p:panel id="documentPanel"
 					rendered="#{not empty crudReqDocumentViewBean.document}">
 
-					<f:facet name="header">
-					Sipariş Fişi
+				<f:facet name="header">
+					#{crudReqDocumentViewBean.selectedTypeEnum.description} Fişi
 				</f:facet>
 
 					<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">

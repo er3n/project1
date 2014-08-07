@@ -220,7 +220,9 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 commit;
 
 insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#1:'||trim(to_char(nextval('seq_id'),'00000000')), '#.#1', 'FY.1:2014', DATE '2014-01-01', DATE '2014-12-31');
-insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '#.#1:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
+insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '#.#1:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-04-30', 1, 1, 1);
+insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':02', '#.#1:'||trim(to_char(currval('seq_id'),'00000000')), 2, DATE '2014-05-01', DATE '2014-08-31', 1, 1, 1);
+insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':03', '#.#1:'||trim(to_char(currval('seq_id'),'00000000')), 3, DATE '2014-09-01', DATE '2014-12-31', 1, 1, 1);
 
 insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('#.#1.#1:'||trim(to_char(nextval('seq_id'),'00000000')), '#.#1.#1', 'Prj.1.1:2014', DATE '2014-01-01', DATE '2014-12-31');
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '#.#1.#1:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-01-31', 1, 1, 1);

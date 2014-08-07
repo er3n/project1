@@ -3,11 +3,8 @@ package org.abacus.transaction.core.handler;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.EnumType;
-
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
@@ -25,13 +22,12 @@ import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
+import org.abacus.transaction.shared.holder.SalesDocumentHolder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
 
 @Service("traIntegrationHandler")
 public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
@@ -156,5 +152,11 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 		return finDoc;	
 	}
-	
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holder, DefItemEntity vendor){
+		return null;
+	}
+
 }

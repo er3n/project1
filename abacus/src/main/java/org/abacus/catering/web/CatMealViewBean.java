@@ -13,8 +13,10 @@ import org.abacus.catering.core.handler.CatMealHandler;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.core.handler.OrganizationHandler;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.transaction.shared.holder.SalesDocumentHolder;
 
 @ManagedBean
 @ViewScoped
@@ -141,4 +143,12 @@ public class CatMealViewBean implements Serializable {
 		this.fiscalYear = fiscalYear;
 	}
 
+	public void createWB(){
+		DefItemEntity customer = sessionInfoHelper.currentOrganization().getCustomer();
+		List<SalesDocumentHolder> holder = new ArrayList<SalesDocumentHolder>();
+		
+		
+		
+	}
+	
 }

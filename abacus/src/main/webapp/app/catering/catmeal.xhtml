@@ -32,7 +32,7 @@
 
 							<h:outputLabel value="1 Öğündeki Kişi Sayısı : " />
 							<pe:inputNumber 
-								decimalPlaces="3" style="text-align: right;"
+								decimalPlaces="0" style="text-align: right;"
 								value="#{catMealViewBean.selCatMeal.countPrepare}"
 								required="true" requiredMessage="meal.Adet Bos olamaz"
 								validatorMessage="meal.count" />
@@ -67,7 +67,7 @@
 
 							<p:commandButton id="createWB" update=":mealForm"
 								ajax="true"
-								value="#{catMealViewBean.selCatMeal.id == null ? '-' : 'Satış İrsaliye Oluştur'}"
+								value="Hakediş Oluştur Test"
 								actionListener="#{catMealViewBean.createWB}" process="@this">
 								<p:resetInput target=":mealForm" />
 							</p:commandButton>
@@ -94,11 +94,11 @@
            					#{selCatMeal.meal.code} #{selCatMeal.meal.name}  
        					</p:column>
 
-						<p:column headerText="1 Öğündeki Kişi Sayısı">  
+						<p:column headerText="1 Öğündeki Kişi Sayısı" style="text-align: right;">  
            					#{selCatMeal.countPrepare}  
        					</p:column>
 
-						<p:column headerText="Birim Fiyat">  
+						<p:column headerText="Birim Fiyat" style="text-align: right;">  
            					#{selCatMeal.unitPrice}  
        					</p:column>
 

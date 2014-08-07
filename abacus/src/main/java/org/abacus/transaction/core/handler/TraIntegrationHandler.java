@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
+import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
@@ -15,6 +16,6 @@ public interface TraIntegrationHandler {
 
 	StkDocumentEntity createStkFromReq(Long docId, FiscalPeriodEntity fisPeriod, DefItemEntity vendor);  
 
-	StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holder, DefItemEntity vendor);
+	StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department);
 
 }

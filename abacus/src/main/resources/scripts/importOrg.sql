@@ -1,3 +1,6 @@
+update org_organization set customer_id = (select id from def_item where organization_id='#' and type_id ='ITM_CM_CU' and code ='M101') where id ='#.#1.#1'
+commit;
+
 insert into def_item_value(id, version, item_id, value_type_enum, value_id) select nextval('seq_id'), 0, id, 'VAL_RECEIPT', (select v.id from def_value v where v.code='T0001' and organization_id='#') from def_item where organization_id='#' and type_id ='ITM_SR_ST' and class_enum='STK_P';
 commit;
 

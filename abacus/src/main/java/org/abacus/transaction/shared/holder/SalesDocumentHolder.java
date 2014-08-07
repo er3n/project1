@@ -9,8 +9,14 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 public class SalesDocumentHolder implements Serializable {
 
 	private DefItemEntity item;
-	private BigDecimal unitPrice;
 	private BigDecimal count;
+	private BigDecimal unitPrice;
+	
+	public SalesDocumentHolder(DefItemEntity item, BigDecimal count, BigDecimal unitPrice){
+		this.item = item; 
+		this.count = count;
+		this.unitPrice = unitPrice;
+	}
 	
 	public DefItemEntity getItem() {
 		return item;
@@ -18,17 +24,16 @@ public class SalesDocumentHolder implements Serializable {
 	public void setItem(DefItemEntity item) {
 		this.item = item;
 	}
-	public BigDecimal getUnitPrice() {
-		return unitPrice;
-	}
-	public void setUnitPrice(BigDecimal unitPrice) {
-		this.unitPrice = unitPrice;
-	}
 	public BigDecimal getCount() {
 		return count;
 	}
 	public void setCount(BigDecimal count) {
 		this.count = count;
 	}
-
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
+	}
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
+	}
 }

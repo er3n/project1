@@ -27,7 +27,7 @@ public class CatMealFilterEntity extends DynamicEntity {
 	@JoinColumn(name = "meal_id", nullable = false)
 	private DefItemEntity meal;
 
-	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
+	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 0)
 	private BigDecimal countPrepare;
 
 	@Column(name = "unit_price", nullable = false, precision = 10, scale = 2)

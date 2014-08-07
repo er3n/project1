@@ -193,6 +193,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		FinDocumentEntity newDoc = created.getDocument();
 		newDoc.setFinInfo(new VFinInfoEntity(newDoc.getId()));
 		finDocumentRepository.save(newDoc);
+		newDoc = finDocumentRepository.findOne(newDoc.getId());
 		return created;
 	}
 }

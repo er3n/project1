@@ -7,8 +7,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.BeanUtils;
-
 @Entity
 @Table(name = "fin_document")
 @SuppressWarnings("serial")
@@ -25,10 +23,12 @@ public class FinDocumentEntity extends TraDocumentEntity {
 	public FinDocumentEntity() {
 	}
 
-	public FinDocumentEntity(TraDocumentEntity traDoc) {
-		BeanUtils.copyProperties(traDoc, this);
+	@Override
+	public void setId(Long id) {
+		super.setId(id);
+		this.setFinInfo(new VFinInfoEntity(id));
 	}
-
+	
 	public Long getRefFinDocumentId() {
 		return refFinDocumentId;
 	}

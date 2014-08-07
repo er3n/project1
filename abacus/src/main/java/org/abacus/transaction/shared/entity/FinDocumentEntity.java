@@ -1,21 +1,25 @@
 package org.abacus.transaction.shared.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "fin_document")
 @SuppressWarnings("serial")
 public class FinDocumentEntity extends TraDocumentEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_", nullable=true)
-	private VFinInfoEntity finInfo;
-
+	@OneToMany(mappedBy = "finInfo", fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
+	private Set<VFinInfoEntity> finInfoSet;
+	
 	//ref:fin:Payment/Receipt ten Faturaraya
 	@Column(name = "ref_fin_document_id", nullable = true)
 	private Long refFinDocumentId;
@@ -26,7 +30,6 @@ public class FinDocumentEntity extends TraDocumentEntity {
 	@Override
 	public void setId(Long id) {
 		super.setId(id);
-		this.setFinInfo(new VFinInfoEntity(id));
 	}
 	
 	public Long getRefFinDocumentId() {
@@ -37,13 +40,19 @@ public class FinDocumentEntity extends TraDocumentEntity {
 		this.refFinDocumentId = refFinDocumentId;
 	}
 
+	public Set<VFinInfoEntity> getFinInfoSet() {
+		return finInfoSet;
+	}
+
+	public void setFinInfoSet(Set<VFinInfoEntity> finInfoSet) {
+		this.finInfoSet = finInfoSet;
+	}
+
 	public VFinInfoEntity getFinInfo() {
-		return finInfo;
+		if (finInfoSet==null || finInfoSet.isEmpty()){
+			return new VFinInfoEntity();
+		}
+		return finInfoSet.iterator().next();
 	}
-
-	public void setFinInfo(VFinInfoEntity finInfo) {
-		this.finInfo = finInfo;
-	}
-
 
 }

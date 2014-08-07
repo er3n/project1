@@ -18,7 +18,6 @@ import org.abacus.transaction.shared.UnableToUpdateDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
-import org.abacus.transaction.shared.entity.VFinInfoEntity;
 import org.abacus.transaction.shared.event.CancelDocumentEvent;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
@@ -191,7 +190,6 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	public DocumentCreatedEvent<FinDocumentEntity> newDocument(CreateDocumentEvent<FinDocumentEntity> event) {
 		DocumentCreatedEvent<FinDocumentEntity> created = super.newDocumentSupport(event);
 		FinDocumentEntity newDoc = created.getDocument();
-		newDoc.setFinInfo(new VFinInfoEntity(newDoc.getId()));
 		finDocumentRepository.save(newDoc);
 		newDoc = finDocumentRepository.findOne(newDoc.getId());
 		return created;

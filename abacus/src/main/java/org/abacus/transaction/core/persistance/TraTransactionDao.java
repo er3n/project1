@@ -33,7 +33,7 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 		criteria.createAlias("s.fiscalPeriod2", "fp2", JoinType.INNER_JOIN);
 		criteria.createAlias("s.item", "itm", JoinType.LEFT_OUTER_JOIN);
 		if (docClass == FinDocumentEntity.class){
-			criteria.createAlias("s.finInfo", "info", JoinType.LEFT_OUTER_JOIN);
+			criteria.createAlias("s.finInfoSet", "info", JoinType.LEFT_OUTER_JOIN);
 		}
 		
 		if (documentSearchCriteria.getDocumentId() != null) {

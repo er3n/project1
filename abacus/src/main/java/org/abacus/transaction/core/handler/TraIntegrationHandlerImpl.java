@@ -86,7 +86,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(stkDocument));
 		
 		List<ReqDetailEntity> reqDetails = null;
-//		BigDecimal baseDetailCount = null;
 		if(vendor == null) {
 			reqDetails = reqDetailRepository.findByDocumentId(reqDocument.getId());
 		}else{
@@ -103,8 +102,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		
 	}
 
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public FinDocumentEntity createFinFromStk(Long docId, EnumList.DefTypeEnum stkDocType) {
 
 		//Create FinDocument
@@ -112,7 +109,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		FinDocumentEntity finDoc = new FinDocumentEntity();
 		BeanUtils.copyProperties(stkDoc, finDoc);
 		finDoc.setId(null);
-		finDoc.setFinInfo(null);
 
 		EnumList.DefTypeEnum finDocType = null;
 		if (stkDocType.equals(EnumList.DefTypeEnum.STK_WB_I)){
@@ -157,8 +153,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		return finDoc;	
 	}
 
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department){
 		
 		OrganizationEntity organization = fisPeriod2.getFiscalYear().getOrganization();
@@ -166,7 +160,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		stkDocument.setFiscalPeriod2(fisPeriod2);
 		stkDocument.setDocDate(new Date());
-		stkDocument.setDocNo("SALES:"+  stkDocument.getDocDate().toLocaleString());
+		stkDocument.setDocNo("SALES:"+  stkDocument.getDocDate().toString());
 		stkDocument.setItem(customer);
 		stkDocument.setOrganization(fisPeriod2.getFiscalYear().getOrganization());
 		

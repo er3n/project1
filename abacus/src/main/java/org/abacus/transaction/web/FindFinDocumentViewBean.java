@@ -95,6 +95,7 @@ public class FindFinDocumentViewBean implements Serializable {
 	public void findFinDocument() {
 		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
+		System.out.println(documentSearchResultList);
 	}
 
 	public void cancelDocument(FinDocumentEntity document) {

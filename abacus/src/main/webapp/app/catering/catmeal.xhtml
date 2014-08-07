@@ -30,14 +30,14 @@
 								required="true" 
 							/>
 
-							<h:outputLabel value="Adet : " />
+							<h:outputLabel value="1 Öğündeki Kişi Sayısı : " />
 							<pe:inputNumber 
 								decimalPlaces="3" style="text-align: right;"
 								value="#{catMealViewBean.selCatMeal.countPrepare}"
 								required="true" requiredMessage="meal.Adet Bos olamaz"
 								validatorMessage="meal.count" />
 
-							<h:outputLabel value="Miktar : " />
+							<h:outputLabel value="Birim Fiyat : " />
 							<pe:inputNumber 
 								decimalPlaces="2" style="text-align: right;"
 								value="#{catMealViewBean.selCatMeal.unitPrice}"
@@ -94,11 +94,11 @@
            					#{selCatMeal.meal.code} #{selCatMeal.meal.name}  
        					</p:column>
 
-						<p:column headerText="Adet">  
+						<p:column headerText="1 Öğündeki Kişi Sayısı">  
            					#{selCatMeal.countPrepare}  
        					</p:column>
 
-						<p:column headerText="Tutar">  
+						<p:column headerText="Birim Fiyat">  
            					#{selCatMeal.unitPrice}  
        					</p:column>
 

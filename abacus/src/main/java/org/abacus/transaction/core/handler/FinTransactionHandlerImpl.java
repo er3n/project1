@@ -157,6 +157,9 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	private void setDetailGLC(FinDetailEntity detail) throws UnableToCreateDetailException{
+//		if (detail.getDocument().getTypeEnum().equals(EnumList.DefTypeEnum.FIN_J)){
+//			return;
+//		}
 		EnumList.AccountGLC glc = GlcConstant.getAccountGLC(detail.getDocument().getTypeEnum(), detail.getItem().getType().getTypeEnum(), detail.getTrStateEnum());
 		if (glc==null){
 			throw new UnableToFindGlcException(detail.getDocument().getTypeEnum(), detail.getItem().getType().getTypeEnum(), detail.getTrStateEnum());

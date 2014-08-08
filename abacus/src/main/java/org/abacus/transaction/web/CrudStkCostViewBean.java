@@ -81,6 +81,37 @@ public class CrudStkCostViewBean implements Serializable {
 		jsfMessageHelper.addInfo("createSuccessful", "Satış Fatura");
 	}
 
+	public void createStkCost(){
+		//Tarihe Ait Stok Cikis Fisleri Bulunacak
+		//Fis Tipi : FIN_J : JournalVoucher  
+		//GLC_A : ITM_SRV_ST : Alacak
+		//GLC_X : ITM_SRV_ST : Borc 
+		
+		
+		if (transactionDate==null){
+			jsfMessageHelper.addError("Tarih Giriniz");
+			return;
+		}
+		List<CatMealFilterEntity> catMealList = catMealHandler.getCatMealList(fiscalYear);
+		if (catMealList.size()==0){
+			jsfMessageHelper.addError("Oluşturulacak menü bulunamadı");
+			return;
+		}
+		
+		List<SalesDocumentHolder> holderList = new ArrayList<SalesDocumentHolder>();
+		for (CatMealFilterEntity meal : catMealList) {
+			holderList.add(new SalesDocumentHolder(meal.getMeal(), meal.getCountPrepare(), meal.getUnitPrice()));
+		}
+		String username = sessionInfoHelper.currentUserName();
+		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
+		DefItemEntity customer = organization.getCustomer();
+		FiscalPeriodEntity period = sessionInfoHelper.getFiscalPeriod(transactionDate);
+		EnumList.OrgDepartmentGroupEnum depGroup = EnumList.OrgDepartmentGroupEnum.F;  
+		DepartmentEntity department = departmentService.findUserDepartmentListOrgOnly(username, depGroup, period.getFiscalYear().getOrganization()).get(0);
+
+		StkDocumentEntity salesStkDoc = traIntegrationHandler.createSalesDocument(holderList, customer, period, department, transactionDate);
+		jsfMessageHelper.addInfo("createSuccessful", "Satış Fatura");
+	}
 	
 	public SessionInfoHelper getSessionInfoHelper() {
 		return sessionInfoHelper;

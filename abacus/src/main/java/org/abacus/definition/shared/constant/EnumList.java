@@ -137,15 +137,16 @@ public interface EnumList {
 		VAL_RECEIPT("Yemek Tipleri", 0), //
 		// Item
 		ITM("All Items", 0), //
-		ITM_PE("Personel Hesapları", 0), //
-		ITM_CS("Parasal Hesaplar", 0), //
-		ITM_CM_VE("Satıcı Hesapları", 0), //
-		ITM_CM_CU("Müşteri Hesapları", 0), //
-		ITM____VE("Satıcı Avans", 0), //
+		ITM_CS("Nakit Hesap", 0), //
+		ITM_CM_CU("Müşteri Hesap", 0), //
 		ITM____CU("Müşteri Avans", 0), //
+		ITM_CM_VE("Satıcı Hesap", 0), //
+		ITM____VE("Satıcı Avans", 0), //
+		ITM_CM_PE("Personel Hesap", 0), //
+		ITM____PE("Personel Avans", 0), //
 		ITM_SR("All Services", 0), //
-		ITM_SR_FN("Gelir/Gider Hesapları", 0), //
-		ITM_SR_ST("Stok Malzeme/Ürün", 0), //
+		ITM_SR_FN("Hizmet Hesap", 0), //
+		ITM_SR_ST("Stok Hesap", 0), //
 		// Stock
 		STK("Stock",0), //
 		STK_WB("İrsaliye İşlem",0), //

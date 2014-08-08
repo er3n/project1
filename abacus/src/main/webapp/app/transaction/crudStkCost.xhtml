@@ -13,28 +13,34 @@
 
 	<ui:define name="content">
 		<style> .topAligned { vertical-align: top;} </style>
-		<h:panelGrid id="costGrid1" columns="1">
+		<h:panelGrid id="costGrid" columns="1">
 
 			<h:panelGrid id="costGrid2" columns="1">
 				<h:form id="costForm">
 				
 					<p:panel id="costPanel" header="#{crudStkCostViewBean.fiscalYear.organization.name} #{crudStkCostViewBean.fiscalYear.name} Tanımları" >
 
-						<h:panelGrid id="costGrid3" columns="8" cellpadding="0">
+						<h:panelGrid id="panelGrid1" columns="2" cellpadding="0">
 
-					<p:outputLabel value="Başlangıç Tarihi:"
-						style="font-weigh: bold" />
-						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
-							value="#{crudStkCostViewBean.transactionDate}" />
+							<p:outputLabel value="Başlangıç Tarihi:" style="font-weigh: bold" />
+								<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
+									value="#{crudStkCostViewBean.transactionDate}" />
 
 						</h:panelGrid>
 
 						<f:facet name="footer">
 
-						<p:commandButton value="createWB"
+						<h:panelGrid id="panelGrid2" columns="1" cellpadding="5">
+
+						<p:commandButton value="Stok Maliyet Fişi Oluştur"
+							actionListener="#{crudStkCostViewBean.createStkCost}" style="width:100%"
+							update=":costForm" process="@form"/>
+
+						<p:commandButton value="Hakediş Faturası Oluştur" style="width:100%"
 							actionListener="#{crudStkCostViewBean.createWB}"
 							update=":costForm" process="@form"/>
-						
+
+						</h:panelGrid>
 						</f:facet>
 					</p:panel>
 

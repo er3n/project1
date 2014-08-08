@@ -8,6 +8,9 @@ public class GlcConstant {
 
 	public static AccountGLC getAccountGLC(DefTypeEnum type, DefTypeEnum item, TraState state){
 		AccountGLC result = null;
+//		if (type.equals(DefTypeEnum.FIN_J)){
+//			return result;
+//		}
 		for (FinHolder finHolder : integrationFIN){
 			if ((type.equals(finHolder.type)) && (item.equals(finHolder.item)) && (state.equals(finHolder.state))){
 				result = finHolder.glc;
@@ -32,19 +35,19 @@ public class GlcConstant {
 			new GlcHolder(DefTypeEnum.ITM_CS, AccountGLC.GLC_A),//Cashes
 			new GlcHolder(DefTypeEnum.ITM_CM_CU, AccountGLC.GLC_A),//Customer Invoice
 			new GlcHolder(DefTypeEnum.ITM_SR_ST, AccountGLC.GLC_A),//Inventory Stock 
-			new GlcHolder(DefTypeEnum.ITM_CM_VE, AccountGLC.GLC_A),//Vendor Advance
-			new GlcHolder(DefTypeEnum.ITM_PE, AccountGLC.GLC_A),//Personnel Advance
+			new GlcHolder(DefTypeEnum.ITM____VE, AccountGLC.GLC_A),//Vendor Advance
+			new GlcHolder(DefTypeEnum.ITM____PE, AccountGLC.GLC_A),//Personnel Advance
 			//Liability
-			new GlcHolder(DefTypeEnum.ITM_PE, AccountGLC.GLC_L),//Personnel Salary
 			new GlcHolder(DefTypeEnum.ITM_CM_VE, AccountGLC.GLC_L),//Vendor Bill
-			new GlcHolder(DefTypeEnum.ITM_CM_CU, AccountGLC.GLC_L),//Customer Advance
+			new GlcHolder(DefTypeEnum.ITM_CM_PE, AccountGLC.GLC_L),//Personnel Salary
+			new GlcHolder(DefTypeEnum.ITM____CU, AccountGLC.GLC_L),//Customer Advance
 			//Owners Equity
 			//Revenue
 			new GlcHolder(DefTypeEnum.ITM_SR_FN, AccountGLC.GLC_R),//Service Sales
 			new GlcHolder(DefTypeEnum.ITM_SR_ST, AccountGLC.GLC_R),//Inventory Sales 
 			//Expense
 			new GlcHolder(DefTypeEnum.ITM_SR_FN, AccountGLC.GLC_X),//Service Purchase
-			new GlcHolder(DefTypeEnum.ITM_SR_ST, AccountGLC.GLC_X),//Inventory Expense
+			new GlcHolder(DefTypeEnum.ITM_SR_ST, AccountGLC.GLC_X),//Stock Cost
 	};
 
 	static FinHolder[] integrationFIN = new FinHolder[]{
@@ -59,11 +62,17 @@ public class GlcConstant {
 			//Payment
 			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_CS, TraState.OUT, AccountGLC.GLC_A),
 			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_CM_VE, TraState.INP, AccountGLC.GLC_L),
-			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_PE, TraState.INP, AccountGLC.GLC_L),
+			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM____VE, TraState.INP, AccountGLC.GLC_A),
+			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_CM_PE, TraState.INP, AccountGLC.GLC_L),
 			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_SR_FN, TraState.INP, AccountGLC.GLC_X),
 			//Receipt
 			new FinHolder(DefTypeEnum.FIN_R , DefTypeEnum.ITM_CS, TraState.INP, AccountGLC.GLC_A),
 			new FinHolder(DefTypeEnum.FIN_R , DefTypeEnum.ITM_CM_CU, TraState.OUT, AccountGLC.GLC_A),
+			new FinHolder(DefTypeEnum.FIN_S , DefTypeEnum.ITM____CU, TraState.INP, AccountGLC.GLC_L),
+			//Stock Cost
+			new FinHolder(DefTypeEnum.FIN_J , DefTypeEnum.ITM_SR_ST, TraState.OUT, AccountGLC.GLC_A),
+			new FinHolder(DefTypeEnum.FIN_J , DefTypeEnum.ITM_SR_ST, TraState.INP, AccountGLC.GLC_X),
+
 	};
 
 	static class GlcHolder {

@@ -22,12 +22,12 @@
 		<p:submenu label="Hesap Tanim" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
 			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" />
 			<p:separator/>
-			<p:menuitem value="Gelir Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_R" />   
-			<p:menuitem value="Gider Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_X" />   
+			<p:menuitem value="Gelir Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_R" />   
+			<p:menuitem value="Gider Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_X" />   
 			<p:menuitem value="Firma Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_VE" />   
 			<p:menuitem value="Müşteri Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_CU" />   
-			<p:menuitem value="Personel Hesapları" url="/app/definition/defItem.abc?type=ITM_PE" />   
-			<p:menuitem value="Parasal Hesaplar" url="/app/definition/defItem.abc?type=ITM_CS" />   
+			<p:menuitem value="Personel Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_PE" />   
+			<p:menuitem value="Nakit Hesapları" url="/app/definition/defItem.abc?type=ITM_CS" />   
 		</p:submenu>
 
 		<p:submenu label="Menu Tanım" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
@@ -45,7 +45,7 @@
 			<p:menuitem value="Stok İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:menuitem value="Stok İstek Onayı" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T&amp;approval=true"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:separator/>
-			<p:menuitem value="Stok Maliyeti" url="/app/transaction/crudStkCost.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Stok Maliyeti / Hakediş" url="/app/transaction/crudStkCost.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 		</p:submenu>
 
 		<p:submenu label="Satınalma">
@@ -58,8 +58,9 @@
 			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
 			<p:menuitem value="Satış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_S" />
 			<p:separator/>
-			<p:menuitem value="Ödemeler" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
-			<p:menuitem value="Tahsilatlar" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" />
+			<p:menuitem value="Ödeme" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
+			<p:menuitem value="Tahsilat" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" />
+			<p:menuitem value="Mahsup" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_J" />
 			<p:separator/>
 			<p:menuitem value="Bütçe" url="/app/budget/budSummary.abc" />
 		</p:submenu>

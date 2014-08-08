@@ -106,13 +106,14 @@ insert into def_type (id, name, level, tr_state_type) values ('FIN_B', 'Alış F
 insert into def_type (id, name, level, tr_state_type) values ('FIN_S', 'Satış Fatura', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_P', 'Ödeme', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_R', 'Tahsilat', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('FIN_J', 'Mahsup', 1, 0);
 
-insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Stok Malzeme/Ürün', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Gelir/Gider Hesapları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_CU', 'Müşteri Hesapları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_VE', 'Satıcı Hesapları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_PE', 'Personel Hesapları', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('ITM_CS', 'Parasal Hesaplar', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Stok Hesap', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Hizmet Hesap', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_CU', 'Müşteri Hesap', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_VE', 'Satıcı Hesap', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_PE', 'Personel Hesap', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('ITM_CS', 'Nakit Hesap', 1, 0);
 
 insert into def_type (id, name, level, tr_state_type) values ('PRM_STOCK', 'Stok Param', 1, 0);
 commit;
@@ -131,15 +132,17 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'REQ_IO_P', 'R-IO-P', 'Stok satınalma isteği #', 1, 0, null, null);
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_B', 'BL-1', 'Alış Fatura #', 1, 0, 'ITM_CM_VE', 'ITM_SR');
-insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_S', 'BS-1', 'Satış Fatura #', 1, 0, 'ITM_CM_CU', 'ITM_SR');
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_S', 'SL-1', 'Satış Fatura #', 1, 0, 'ITM_CM_CU', 'ITM_SR');
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-1', 'Satıcıya Avans #', 1, 0, 'ITM_CS', 'ITM_CM_VE');
-insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-2', 'Personel Maaş #', 1, 0, 'ITM_CS', 'ITM_PE');
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-2', 'Personel Maaş #', 1, 0, 'ITM_CS', 'ITM_CM_PE');
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-3', 'Masraf Giriş #', 1, 0, 'ITM_CS', 'ITM_SR_FN');
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_P', 'PY-9', 'Fatura Ödeme #', 1, 0, 'ITM_CS', 'ITM____VE');
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_R', 'RC-1', 'Müşteriden Avans #', 1, 0, 'ITM_CS', 'ITM_CM_CU');
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_R', 'RC-9', 'Fatura Tahsilat #', 1, 0, 'ITM_CS', 'ITM____CU');
+
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_J', 'JV-1', 'Stok Maliyet #', 1, 0, 'ITM_SR_ST', 'ITM_SR_ST');
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);
@@ -283,7 +286,7 @@ insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) 
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#2.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '#.#2.#1:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
 commit;
 
-insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'P101', null, 'Personel X', (select v.id from def_value v where v.code='P100' and organization_id='#'), '#', 'ITM_PE', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'P101', null, 'Personel X', (select v.id from def_value v where v.code='P100' and organization_id='#'), '#', 'ITM_CM_PE', null);
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'C101', null, 'Nakit', (select v.id from def_value v where v.code='C100' and organization_id='#'), '#', 'ITM_CS', null);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'C102', null, 'Banka', (select v.id from def_value v where v.code='C100' and organization_id='#'), '#', 'ITM_CS', null);
@@ -305,7 +308,7 @@ insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_val
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_SR_FN','VAL_CATEGORY',(select p.id from def_value p where p.code = 'FIN' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_CM_VE','VAL_CATEGORY',(select p.id from def_value p where p.code = 'CMP' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_CM_CU','VAL_CATEGORY',(select p.id from def_value p where p.code = 'CMP' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
-insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_PE','VAL_CATEGORY',(select p.id from def_value p where p.code = 'PER' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
+insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_CM_PE','VAL_CATEGORY',(select p.id from def_value p where p.code = 'PER' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'#','ITM_CS','VAL_CATEGORY',(select p.id from def_value p where p.code = 'CSH' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY'));
 commit;
 

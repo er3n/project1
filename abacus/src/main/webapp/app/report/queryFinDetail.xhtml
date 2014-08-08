@@ -17,7 +17,7 @@
 		<h:form id="queryFinDetailForm"> 
 			<p:panel id="queryFinDetailPanel" header="Hesap Hareket Sorgulama" rendered="#{queryFinDetailViewBean.showDocument}">
 
-				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
+				<h:panelGrid columns="4" cellpadding="2" style="vertical-align:top">
 
 					<p:outputLabel value="Rapor Tarihi:"
 						style="font-weigh: bold" />
@@ -35,6 +35,9 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 
+					<h:outputLabel value="Hesap ???"/>
+					<h:outputLabel value="Hesap ???"/>
+					
 					<h:outputLabel value="Yardımcı Hesap" />
 					<h:panelGrid columns="1">
 						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailItem}" required="false" />

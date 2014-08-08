@@ -7,7 +7,7 @@ update def_type v set start_id = (select p.id from def_value p where p.code = nu
 update def_type v set start_id = (select p.id from def_value p where p.code = 'F' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_SR_FN';
 update def_type v set start_id = (select p.id from def_value p where p.code = 'T' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CM_VE';
 update def_type v set start_id = (select p.id from def_value p where p.code = 'T' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CM_CU';
-update def_type v set start_id = (select p.id from def_value p where p.code = 'F' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_PE';
+update def_type v set start_id = (select p.id from def_value p where p.code = 'F' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CM_PE';
 update def_type v set start_id = (select p.id from def_value p where p.code = 'C' and p.organization_id = '#' and p.type_id ='VAL_CATEGORY') where v.id = 'ITM_CS';
 
 

@@ -98,7 +98,7 @@ public class FindStkDocumentViewBean implements Serializable {
 	}
 
 	public Boolean isFinIntegrated(StkDocumentEntity document) {
-		boolean result = document.getRefFinDocumentId()!=null;
+		boolean result = (document!=null && document.getRefFinDocumentId()!=null);
 		return result;
 	}
 

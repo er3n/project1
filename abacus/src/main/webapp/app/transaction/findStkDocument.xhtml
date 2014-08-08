@@ -43,6 +43,13 @@
 					<p:inputText
 						value="#{findStkDocumentViewBean.documentSearchCriteria.docNo}" />
 
+					<h:outputText value="Fatura Durumu:" rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}"/>
+						<p:selectOneMenu value="#{findStkDocumentViewBean.documentSearchCriteria.bsSelection}">
+						<f:selectItem itemLabel="Hepsi" itemValue="0" />
+						<f:selectItem itemLabel="Fatura Var" itemValue="1" />
+						<f:selectItem itemLabel="Fatura Yok" itemValue="2" />
+					</p:selectOneMenu>
+				
 				</h:panelGrid>
 
 				<f:facet name="footer">
@@ -88,10 +95,6 @@
 						<h:outputText value="#{var.organization.id}" />
 					</p:column>
 
-					<p:column headerText="FinDocument" rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}">
-						<h:outputText value="#{var.refFinDocumentId}" />
-					</p:column>
-
 					<p:column headerText="İşlem"> 
 						<p:button icon="ui-icon-pencil" href="/app/transaction/crudStkDocument.abc?grp=#{findStkDocumentViewBean.selectedGroupEnum.name}&amp;typ=#{findStkDocumentViewBean.selectedTypeEnum.name}&amp;operation=update&amp;document=#{var.id}"  />
 	
@@ -102,8 +105,11 @@
 						
 						<p:commandButton icon="ui-icon-newwin" actionListener="#{findStkDocumentViewBean.createFinFromStk(var)}" 
 							rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB) and not findStkDocumentViewBean.isFinIntegrated(var)}" update=":documentResultTable">
-							<p:confirm header="Onay" message="Finans Kaydı Oluşturmak İstiyor musun?" icon="ui-icon-alert"  />
+							<p:confirm header="Onay" message="Fatura Kaydı Oluşturmak İstiyor musun?" icon="ui-icon-alert"  />
 						</p:commandButton>
+		
+						<p:button href="/app/transaction/crudFinDocument.abc?grp=FIN&amp;operation=update&amp;document=#{var.refFinDocumentId}" value="Fatura" 
+							rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB) and findStkDocumentViewBean.isFinIntegrated(var)}" />
 						
 					</p:column>
 

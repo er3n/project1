@@ -139,6 +139,39 @@
 
 				</p:dataTable>
 
+				<p:dataTable var="var"
+					emptyMessage="Kayitli ödeme/tahsilat detayı bulunmamaktadir."
+					value="#{crudFinDocumentViewBean.prDetailList}"
+					rendered="#{not empty crudFinDocumentViewBean.document.id and not empty crudFinDocumentViewBean.prDetailList}">
+
+					<f:facet name="header">
+						<p:outputLabel value="Ödeme/Tahsilat Detay" />
+					</f:facet>
+
+					<p:column headerText="Hesap Kodu">
+						<p:outputLabel value="#{var.glc.description}:#{var.item.type.name}"/>
+					</p:column>
+
+					<p:column headerText="Yardımcı Hesap">
+						<p:outputLabel value="#{var.item.code} #{var.item.name}" />
+					</p:column>
+
+					<p:column headerText="Detay" style="text-align: center;"> 
+						<p:button href="/app/transaction/crudFinDocument.abc?grp=FIN&amp;operation=update&amp;document=#{var.document.id}" value="Belge"  />
+					</p:column>
+
+					<p:column headerText="Borç Tutar"
+						style="text-align: right; width:100px">
+						<p:outputLabel value="#{var.getDebitAmount()}"
+							style="text-align: right;" />
+					</p:column>
+
+					<p:column headerText="Alacak Tutar"
+						style="text-align: right; width:100px">
+						<p:outputLabel value="#{var.getCreditAmount()}" />
+					</p:column>
+
+				</p:dataTable>
 
 			</h:form>
 

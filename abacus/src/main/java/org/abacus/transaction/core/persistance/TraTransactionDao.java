@@ -82,6 +82,13 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 		if(documentSearchCriteria.getRequestStatus() != null){
 			criteria.add(Restrictions.eq("s.requestStatus", documentSearchCriteria.getRequestStatus()));
 		}
+		if (StringUtils.hasText(documentSearchCriteria.getBsSelection())) {//0:hepsi 1:var 2:yok
+			if (documentSearchCriteria.getBsSelection().equals("1")){
+				criteria.add(Restrictions.isNotNull("s.refFinDocumentId"));
+			} else if (documentSearchCriteria.getBsSelection().equals("2")){
+				criteria.add(Restrictions.isNull("s.refFinDocumentId"));
+			}
+		}
 
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.addOrder(Order.desc("s.docDate"));

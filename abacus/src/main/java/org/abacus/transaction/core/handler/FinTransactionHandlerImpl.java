@@ -32,6 +32,8 @@ import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
+import org.abacus.transaction.shared.event.ReadDetailEvent;
+import org.abacus.transaction.shared.event.RequestReadDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,5 +209,12 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		finDocumentRepository.save(newDoc);
 		newDoc = finDocumentRepository.findOne(newDoc.getId());
 		return created;
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ReadDetailEvent<FinDetailEntity> readPRDetailList(RequestReadDetailEvent<FinDetailEntity> event) {
+		List<FinDetailEntity> prDetailList = finDetailRepository.findPRDetailList(event.getDocumentId());
+		return new ReadDetailEvent<FinDetailEntity>(prDetailList);
 	}
 }

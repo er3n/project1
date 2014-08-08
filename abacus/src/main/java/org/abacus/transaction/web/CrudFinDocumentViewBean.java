@@ -1,6 +1,8 @@
 package org.abacus.transaction.web;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.EnumType;
 
 import org.abacus.common.shared.AbcBusinessException;
 import org.abacus.common.web.JsfDialogHelper;
@@ -65,6 +66,7 @@ public class CrudFinDocumentViewBean implements Serializable {
 	private Boolean showDocument = true;
 
 	private List<FinDetailEntity> detailList;
+	private List<FinDetailEntity> prDetailList;
 
 	private FinDetailEntity selectedDetail;
 
@@ -177,6 +179,9 @@ public class CrudFinDocumentViewBean implements Serializable {
 	}
 
 	private void findFinDocument(Long documentId) {
+		detailList = new ArrayList<FinDetailEntity>();
+		prDetailList = new ArrayList<FinDetailEntity>();
+		
 		TraDocumentSearchCriteria traDocumentSearchCriteria = new TraDocumentSearchCriteria(documentId);
 
 		ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(traDocumentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
@@ -186,6 +191,12 @@ public class CrudFinDocumentViewBean implements Serializable {
 			document = readDocumentEvent.getDocumentList().get(0);
 			ReadDetailEvent<FinDetailEntity> readDetailEvent = transactionHandler.readDetailList(new RequestReadDetailEvent<FinDetailEntity>(document.getId()));
 			detailList = readDetailEvent.getDetails();
+			
+			if (document.getFinInfo().getPrAmount().compareTo(BigDecimal.ZERO)>0){//Varsa Odeme/Tahsilat Detayi
+				ReadDetailEvent<FinDetailEntity> readPRDetailEvent = transactionHandler.readPRDetailList(new RequestReadDetailEvent<FinDetailEntity>(document.getId()));
+				prDetailList = readPRDetailEvent.getDetails();
+			}
+			
 		}
 	}
 	
@@ -342,6 +353,14 @@ public class CrudFinDocumentViewBean implements Serializable {
 
 	public void setBsDocumentEntity(FinDocumentEntity bsDocumentEntity) {
 		this.bsDocumentEntity = bsDocumentEntity;
+	}
+
+	public List<FinDetailEntity> getPrDetailList() {
+		return prDetailList;
+	}
+
+	public void setPrDetailList(List<FinDetailEntity> prDetailList) {
+		this.prDetailList = prDetailList;
 	}
 
 }

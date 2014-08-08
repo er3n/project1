@@ -53,7 +53,13 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		List<D> detailList = getDetailRepository().findByDocumentId(event.getDocumentId());
 		return new ReadDetailEvent<D>(detailList);
 	}
-	
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ReadDetailEvent<D> readPRDetailList(RequestReadDetailEvent<D> event) {
+		return null;
+	}
+
     @Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event) {

@@ -27,6 +27,8 @@ public class TraDocumentSearchCriteria implements Serializable {
 	private EnumList.DefTypeEnum docType;
 
 	private EnumList.RequestStatus requestStatus;
+	
+	private String bsSelection = "0";
 
 	public TraDocumentSearchCriteria() {
 
@@ -106,6 +108,20 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	public void setRequestStatus(EnumList.RequestStatus requestStatus) {
 		this.requestStatus = requestStatus;
+	}
+
+	/**
+	 * @return the bsSelection
+	 */
+	public String getBsSelection() {
+		return bsSelection;
+	}
+
+	/**
+	 * @param bsSelection the bsSelection to set
+	 */
+	public void setBsSelection(String bsSelection) {
+		this.bsSelection = bsSelection;
 	}
 
 }

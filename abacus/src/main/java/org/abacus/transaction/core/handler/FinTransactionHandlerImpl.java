@@ -15,6 +15,7 @@ import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
+import org.abacus.transaction.shared.UnableToFindGlcException;
 import org.abacus.transaction.shared.UnableToUpdateDetailException;
 import org.abacus.transaction.shared.UnableToUpdateDocumentExpception;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
@@ -115,9 +116,8 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		if (detail.getBsDocument()!=null){
 			detail.setItem(detail.getBsDocument().getItem());
 		}
-		
-		EnumList.AccountGLC glc = GlcConstant.getAccountGLC(detail.getDocument().getTypeEnum(), detail.getItem().getType().getTypeEnum(), detail.getTrStateEnum());
-		detail.setGlc(glc);
+		setDetailGLC(detail);
+
 		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 		
 		if (detailCreateEvent.getIsOppositeCreate()){
@@ -128,7 +128,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	private void createAccRecord(FinDocumentEntity doc) {
+	private void createAccRecord(FinDocumentEntity doc) throws UnableToCreateDetailException {
 			List<FinDetailEntity> finDetList = finDetailRepository.findByDocumentId(doc.getId());
 			BigDecimal totalAmount = BigDecimal.ZERO;
 			for (FinDetailEntity finDet : finDetList) {
@@ -147,10 +147,19 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 				infoDet.setItemDetailCount(BigDecimal.ONE);
 				infoDet.setBaseDetailAmount(totalAmount);
 				infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
-				EnumList.AccountGLC glc = GlcConstant.getAccountGLC(infoDet.getDocument().getTypeEnum(), infoDet.getItem().getType().getTypeEnum(), infoDet.getTrStateEnum());
-				infoDet.setGlc(glc);
+				setDetailGLC(infoDet);
+
 				super.newDetailSupport(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
 			}
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	private void setDetailGLC(FinDetailEntity detail) throws UnableToCreateDetailException{
+		EnumList.AccountGLC glc = GlcConstant.getAccountGLC(detail.getDocument().getTypeEnum(), detail.getItem().getType().getTypeEnum(), detail.getTrStateEnum());
+		if (glc==null){
+			throw new UnableToFindGlcException(detail.getDocument().getTypeEnum(), detail.getItem().getType().getTypeEnum(), detail.getTrStateEnum());
+		}
+		detail.setGlc(glc);
 	}
 	
 	@Override

@@ -370,11 +370,10 @@ public interface EnumList {
 		ACCRUE("Gerçekleşen"), //
 		;
 
+		private String descripion;
 		private BudgetType(String desc) {
 			this.descripion = desc;
 		}
-
-		private String descripion;
 
 		@Override
 		public String getName() {
@@ -392,11 +391,10 @@ public interface EnumList {
 		BUD_X("Gider"), //
 		;
 
+		private String descripion;
 		private BudgetRX(String desc) {
 			this.descripion = desc;
 		}
-
-		private String descripion;
 
 		@Override
 		public String getName() {
@@ -410,18 +408,17 @@ public interface EnumList {
 	}		
 
 	enum AccountGLC implements ISelectionEnum {
-		GLC_A("Varlık"),//
-		GLC_L("Sorumluluk"),//
-		GLC_O("Sermaye"), //
-		GLC_R("Gelir"),//
-		GLC_X("Gider"), //
+		GLC_A("1:Varlık"),//
+		GLC_L("3:Kaynak"),//
+		GLC_O("5:Sermaye"), //
+		GLC_R("6:Gelir"),//
+		GLC_X("7:Gider"), //
 		;
 
+		private String descripion;
 		private AccountGLC(String desc) {
 			this.descripion = desc;
 		}
-
-		private String descripion;
 
 		@Override
 		public String getName() {

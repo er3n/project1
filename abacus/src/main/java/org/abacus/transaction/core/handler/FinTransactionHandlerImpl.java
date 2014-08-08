@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.constant.GlcConstant;
 import org.abacus.transaction.core.persistance.FinTransactionDao;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
@@ -115,6 +116,8 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 			detail.setItem(detail.getBsDocument().getItem());
 		}
 		
+		EnumList.AccountGLC glc = GlcConstant.getAccountGLC(detail.getDocument().getTypeEnum(), detail.getItem().getType().getTypeEnum(), detail.getTrStateEnum());
+		detail.setGlc(glc);
 		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 		
 		if (detailCreateEvent.getIsOppositeCreate()){
@@ -144,6 +147,8 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 				infoDet.setItemDetailCount(BigDecimal.ONE);
 				infoDet.setBaseDetailAmount(totalAmount);
 				infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
+				EnumList.AccountGLC glc = GlcConstant.getAccountGLC(infoDet.getDocument().getTypeEnum(), infoDet.getItem().getType().getTypeEnum(), infoDet.getTrStateEnum());
+				infoDet.setGlc(glc);
 				super.newDetailSupport(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
 			}
 	}

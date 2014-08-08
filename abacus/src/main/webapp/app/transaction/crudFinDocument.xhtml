@@ -100,8 +100,13 @@
 							rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}" />
 					</f:facet>
 
+					<p:column headerText="Acc"
+						style="text-align: right; width:100px">
+						<p:outputLabel value="#{var.glc}" />
+					</p:column>
+
 					<p:column headerText="Hesap">
-						<p:outputLabel value="#{var.item.name}" />
+						<p:outputLabel value="#{var.item.code} #{var.item.name}" />
 					</p:column>
 
 					<p:column headerText="Not">

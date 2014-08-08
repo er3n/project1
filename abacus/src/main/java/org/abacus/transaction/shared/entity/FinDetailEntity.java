@@ -2,13 +2,16 @@ package org.abacus.transaction.shared.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.abacus.definition.shared.entity.DefTypeEntity;
+import org.abacus.definition.shared.constant.EnumList;
 
 @Entity
 @Table(name = "tra_detail")
@@ -23,10 +26,10 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 	@JoinColumn(name = "bs_document_id", nullable = true)
 	private FinDocumentEntity bsDocument;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "glc_id", nullable = true)
-	private DefTypeEntity glc;
-
+	@Enumerated(EnumType.STRING)
+	@Column(name = "glc_id", nullable = true, length = 30)
+	private EnumList.AccountGLC glc;
+	
 	public FinDetailEntity() {
 	}
 
@@ -40,11 +43,11 @@ public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
 		this.document = (FinDocumentEntity) document;
 	}
 
-	public DefTypeEntity getGlc() {
+	public EnumList.AccountGLC getGlc() {
 		return glc;
 	}
 
-	public void setGlc(DefTypeEntity glc) {
+	public void setGlc(EnumList.AccountGLC glc) {
 		this.glc = glc;
 	}
 

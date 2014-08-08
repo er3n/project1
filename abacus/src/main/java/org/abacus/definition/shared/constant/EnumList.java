@@ -408,7 +408,32 @@ public interface EnumList {
 			return descripion;
 		}
 	}		
-	
+
+	enum AccountGLC implements ISelectionEnum {
+		GLC_A("Varlık"),//
+		GLC_L("Sorumluluk"),//
+		GLC_O("Sermaye"), //
+		GLC_R("Gelir"),//
+		GLC_X("Gider"), //
+		;
+
+		private AccountGLC(String desc) {
+			this.descripion = desc;
+		}
+
+		private String descripion;
+
+		@Override
+		public String getName() {
+			return this.name();
+		}
+
+		@Override
+		public String getDescription() {
+			return descripion;
+		}
+		
+	}		
 }
 
 //Kisaltma Kodlari

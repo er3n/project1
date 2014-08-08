@@ -44,7 +44,7 @@
 						value="#{findStkDocumentViewBean.documentSearchCriteria.docNo}" />
 
 					<h:outputText value="Fatura Durumu:" rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}"/>
-						<p:selectOneMenu value="#{findStkDocumentViewBean.documentSearchCriteria.bsSelection}">
+						<p:selectOneMenu value="#{findStkDocumentViewBean.documentSearchCriteria.bsSelection}" rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}">
 						<f:selectItem itemLabel="Hepsi" itemValue="0" />
 						<f:selectItem itemLabel="Fatura Var" itemValue="1" />
 						<f:selectItem itemLabel="Fatura Yok" itemValue="2" />

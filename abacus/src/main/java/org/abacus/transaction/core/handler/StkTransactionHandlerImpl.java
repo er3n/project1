@@ -155,6 +155,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				detailCreateEvent.setDetail(inDetail);
 				detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
 				if (createStkTrack){
+					detailCreatedEvent.setDetailTrackList(outDetailTrackList);
 					this.addInputDetailTrackList(detailCreatedEvent);
 				}
 			} else {
@@ -176,8 +177,8 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				CreateDetailEvent<StkDetailEntity> detailCreateEvent2 = new CreateDetailEvent<StkDetailEntity>(inDetail, false);
 				detailCreateEvent2.setDetail(inDetail);
 				DetailCreatedEvent<StkDetailEntity> detailCreatedEvent2 = super.newDetailSupport(detailCreateEvent2);
-				detailCreatedEvent.setDetailTrackList(outDetailTrackList);
 				if (createStkTrack){
+					detailCreatedEvent2.setDetailTrackList(outDetailTrackList);
 					this.addInputDetailTrackList(detailCreatedEvent2);
 				}
 			}
@@ -271,7 +272,6 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	private void addInputDetailTrackList(DetailCreatedEvent<StkDetailEntity> event) {
 		StkDetailEntity detail = event.getDetail();
 		String user = detail.getUserCreated();
-		
 		if (event.getDetailTrackList().size()==0){ // Direk Giris = 0 Eski Track, 1 Yeni Track Olusacak
 			BigDecimal detailCount =  detail.getBaseDetailCount();
 			BigDecimal unitTrackPrice = detail.getBaseDetailAmount().divide(detailCount,EnumList.RoundScale.STK.getValue(),RoundingMode.HALF_EVEN);
@@ -290,7 +290,9 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			inDetailTrack.setTrStateTrack(EnumList.TraState.INP.value());
 			inDetailTrack = stkDetailTrackRepository.save(inDetailTrack);
 			event.getDetailTrackList().add(inDetailTrack);
+			
 		} else { // Transferle Gelen Giris = N Eski Track, N Yeni Track Olusacak  
+			BigDecimal baseDetailAmount = BigDecimal.ZERO;
 			for (StkDetailTrackEntity outDetailTrack : event.getDetailTrackList()) {
 				StkDetailTrackEntity inDetailTrack = new StkDetailTrackEntity();
 				BeanUtils.copyProperties(outDetailTrack, inDetailTrack);
@@ -301,8 +303,11 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				inDetailTrack.setBaseTrackCount(outDetailTrack.getBaseUsedCount());
 				inDetailTrack.setTrStateTrack(EnumList.TraState.INP.value());
 				inDetailTrack = stkDetailTrackRepository.save(inDetailTrack);
-//				event.getDetailTrackList().add(inDetailTrack);
+				baseDetailAmount = baseDetailAmount.add(inDetailTrack.getUnitCostPrice().multiply(inDetailTrack.getBaseTrackCount()));
 			}
+			detail.setUnitDetailPrice(BigDecimal.ZERO);
+			detail.setBaseDetailAmount(baseDetailAmount);
+			stkDetailRepository.save(detail);
 		}
 	}
 	
@@ -321,6 +326,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			throw new UnableToOutputDetail(detail.getItem().getName());
 		}
 		
+		BigDecimal baseDetailAmount = BigDecimal.ZERO;
 		BigDecimal restCount = detailCount;
 		for(StkDetailTrackEntity itemInStock : findAvailableTrack){
 			if(restCount.compareTo(BigDecimal.ZERO) <= 0){
@@ -354,7 +360,11 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			detailTrack.createHook(user);
 			detailTrack = stkDetailTrackRepository.save(detailTrack);
 			event.getDetailTrackList().add(detailTrack);
+			baseDetailAmount = baseDetailAmount.add(detailTrack.getUnitCostPrice().multiply(detailTrack.getBaseTrackCount()));
 		}
+		detail.setUnitDetailPrice(BigDecimal.ZERO);
+		detail.setBaseDetailAmount(baseDetailAmount);
+		stkDetailRepository.save(detail);
 	}
 
 	@Override

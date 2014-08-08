@@ -2,7 +2,6 @@ package org.abacus.catering.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,18 +13,8 @@ import org.abacus.catering.core.handler.CatMealHandler;
 import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefItemEntity;
-import org.abacus.organization.core.handler.DepartmentHandler;
 import org.abacus.organization.core.handler.OrganizationHandler;
-import org.abacus.organization.shared.entity.DepartmentEntity;
-import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.abacus.transaction.core.handler.TraIntegrationHandler;
-import org.abacus.transaction.shared.entity.FinDocumentEntity;
-import org.abacus.transaction.shared.entity.StkDocumentEntity;
-import org.abacus.transaction.shared.holder.SalesDocumentHolder;
 
 @ManagedBean
 @ViewScoped
@@ -47,12 +36,6 @@ public class CatMealViewBean implements Serializable {
 	@ManagedProperty(value = "#{organizationHandler}")
 	private OrganizationHandler organizationHandler;
 
-	@ManagedProperty(value = "#{traIntegrationHandler}")
-	private TraIntegrationHandler traIntegrationHandler;
-	
-	@ManagedProperty(value = "#{departmentHandler}")
-	private DepartmentHandler departmentService;
-	
 	private FiscalYearEntity fiscalYear;
 
 	@PostConstruct
@@ -100,24 +83,6 @@ public class CatMealViewBean implements Serializable {
 		}
 	}
 
-	public void createWB(){
-		List<SalesDocumentHolder> holderList = new ArrayList<SalesDocumentHolder>();
-		for (CatMealFilterEntity meal : catMealList) {
-			holderList.add(new SalesDocumentHolder(meal.getMeal(), meal.getCountPrepare(), meal.getUnitPrice()));
-		}
-		
-		String username = sessionInfoHelper.currentUserName();
-		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
-		DefItemEntity customer = organization.getCustomer();
-		FiscalPeriodEntity period = sessionInfoHelper.getFiscalPeriod(new Date());
-		EnumList.OrgDepartmentGroupEnum depGroup = EnumList.OrgDepartmentGroupEnum.F;  
-		DepartmentEntity department = departmentService.findUserDepartmentListOrgOnly(username, depGroup, period.getFiscalYear().getOrganization()).get(0);
-
-		StkDocumentEntity salesStkDoc = traIntegrationHandler.createSalesDocument(holderList, customer, period, department);
-		jsfMessageHelper.addInfo("createSuccessful", "Satış Fatura");
-	}
-
-	
 	public SessionInfoHelper getSessionInfoHelper() {
 		return sessionInfoHelper;
 	}
@@ -176,20 +141,4 @@ public class CatMealViewBean implements Serializable {
 		this.fiscalYear = fiscalYear;
 	}
 
-	public TraIntegrationHandler getTraIntegrationHandler() {
-		return traIntegrationHandler;
-	}
-
-	public void setTraIntegrationHandler(TraIntegrationHandler traIntegrationHandler) {
-		this.traIntegrationHandler = traIntegrationHandler;
-	}
-
-	public DepartmentHandler getDepartmentService() {
-		return departmentService;
-	}
-
-	public void setDepartmentService(DepartmentHandler departmentService) {
-		this.departmentService = departmentService;
-	}
-	
 }

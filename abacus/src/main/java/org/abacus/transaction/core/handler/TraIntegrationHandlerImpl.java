@@ -161,14 +161,14 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department){
+	public StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department, Date transactionDate){
 		
 		OrganizationEntity organization = fisPeriod2.getFiscalYear().getOrganization();
 		
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		stkDocument.setFiscalPeriod2(fisPeriod2);
-		stkDocument.setDocDate(new Date());
-		stkDocument.setDocNo("SALES:"+  stkDocument.getDocDate().toString().substring(0, 12));
+		stkDocument.setDocDate(transactionDate);
+		stkDocument.setDocNo("SLS:"+  stkDocument.getDocDate().toGMTString().substring(0, 11).trim());
 		stkDocument.setItem(customer);
 		stkDocument.setOrganization(fisPeriod2.getFiscalYear().getOrganization());
 		

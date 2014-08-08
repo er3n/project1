@@ -89,6 +89,14 @@
 						<h:outputText value="#{var.organization.id}" />
 					</p:column>
 
+					<p:column headerText="Borç Toplam" style="text-align: right;" rendered="${not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) and not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
+						<h:outputText value="#{var.getFinInfo().debitAmount}" />
+					</p:column>
+
+					<p:column headerText="Alacak Toplm" style="text-align: right;" rendered="${not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) and not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
+						<h:outputText value="#{var.getFinInfo().creditAmount}" />
+					</p:column>
+
 					<p:column headerText="Fatura Tutar" style="text-align: right;" rendered="${findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) or findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
 						<h:outputText value="#{var.getFinInfo().bsAmount}" />
 					</p:column>

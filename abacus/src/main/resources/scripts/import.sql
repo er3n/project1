@@ -94,7 +94,9 @@ insert into def_type (id, name, level, tr_state_type) values ('VAL_RECEIPT', 'Ye
 
 insert into def_type (id, name, level, tr_state_type) values ('STK_WB_I', 'Alış İrsaliye', 1, +1);
 insert into def_type (id, name, level, tr_state_type) values ('STK_WB_O', 'Satış İrsaliye', 1, -1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_WB_T', 'Proje Transfer', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('STK_IO_S', 'Stok Açılış', 1, +1);
+insert into def_type (id, name, level, tr_state_type) values ('STK_IO_F', 'Stok Kapanış', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('STK_IO_I', 'Stok Giriş', 1, +1);
 insert into def_type (id, name, level, tr_state_type) values ('STK_IO_O', 'Stok Çıkış', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('STK_IO_T', 'Stok Transfer', 1, 0);

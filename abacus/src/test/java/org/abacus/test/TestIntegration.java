@@ -34,7 +34,7 @@ public class TestIntegration {
 	@Test
 	public void testTransferStkDetails() throws UnableToCreateDetailException{
 		
-		FinDocumentEntity finDoc = traIntegrationHandler.createFinFromStk(1835L, EnumList.DefTypeEnum.FIN_B);
+		FinDocumentEntity finDoc = traIntegrationHandler.createFinFromStk(1835L);
 		System.out.println("ID:"+finDoc.getId()+" No:"+finDoc.getDocNo());
 		
 	}

@@ -43,11 +43,11 @@
 					<p:inputText
 						value="#{findStkDocumentViewBean.documentSearchCriteria.docNo}" />
 
-					<h:outputText value="Fatura Durumu:" rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}"/>
-						<p:selectOneMenu value="#{findStkDocumentViewBean.documentSearchCriteria.bsSelection}" rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB)}">
-						<f:selectItem itemLabel="Hepsi" itemValue="0" />
-						<f:selectItem itemLabel="Fatura Var" itemValue="1" />
-						<f:selectItem itemLabel="Fatura Yok" itemValue="2" />
+					<h:outputText value="Finans Durumu:"/>
+						<p:selectOneMenu value="#{findStkDocumentViewBean.documentSearchCriteria.isIntegrated}" style="width:145px">
+						<f:selectItem itemLabel="Hepsi" itemValue="*" />
+						<f:selectItem itemLabel="Hayır" itemValue="0" />
+						<f:selectItem itemLabel="Evet" itemValue="1" />
 					</p:selectOneMenu>
 				
 				</h:panelGrid>
@@ -100,16 +100,16 @@
 	
 						<p:commandButton icon="ui-icon-closethick" actionListener="#{findStkDocumentViewBean.deleteDocument(var)}" update=":documentResultTable"
 							rendered="${not findStkDocumentViewBean.isFinIntegrated(var)}">
-							<p:confirm header="Onay" message="Silmek istediğine emin misin?" icon="ui-icon-alert"  />
+							<p:confirm header="Onay" message="Silmek istediğinize emin misin?" icon="ui-icon-alert"  />
 						</p:commandButton>
 						
 						<p:commandButton icon="ui-icon-newwin" actionListener="#{findStkDocumentViewBean.createFinFromStk(var)}" 
-							rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB) and not findStkDocumentViewBean.isFinIntegrated(var)}" update=":documentResultTable">
-							<p:confirm header="Onay" message="Fatura Kaydı Oluşturmak İstiyor musun?" icon="ui-icon-alert"  />
+							rendered="${findStkDocumentViewBean.canFinIntegration(var) and not findStkDocumentViewBean.isFinIntegrated(var)}" update=":documentResultTable">
+							<p:confirm header="Onay" message="Finans Kaydı Oluşturmak İstiyor musun?" icon="ui-icon-alert"  />
 						</p:commandButton>
 		
-						<p:button href="/app/transaction/crudFinDocument.abc?grp=FIN&amp;operation=update&amp;document=#{var.refFinDocumentId}" value="Fatura" 
-							rendered="${findStkDocumentViewBean.isTaskSelected(DefTypeEnum.STK_WB) and findStkDocumentViewBean.isFinIntegrated(var)}" />
+						<p:button href="/app/transaction/crudFinDocument.abc?grp=FIN&amp;operation=update&amp;document=#{var.refFinDocumentId}" value="Finans" 
+							rendered="${findStkDocumentViewBean.isFinIntegrated(var)}" />
 						
 					</p:column>
 

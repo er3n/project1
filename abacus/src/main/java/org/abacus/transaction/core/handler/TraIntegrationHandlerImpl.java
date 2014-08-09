@@ -104,23 +104,25 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public FinDocumentEntity createFinFromStk(Long docId, EnumList.DefTypeEnum stkDocType) {
-
-		//Create FinDocument
+	public FinDocumentEntity createFinFromStk(Long docId) {
 		StkDocumentEntity stkDoc = stkDocumentRepository.findWithFetch(docId);
-		FinDocumentEntity finDoc = new FinDocumentEntity();
-		BeanUtils.copyProperties(stkDoc, finDoc);
-		finDoc.setId(null);
-
 		EnumList.DefTypeEnum finDocType = null;
-		if (stkDocType.equals(EnumList.DefTypeEnum.STK_WB_I)){
+		if (stkDoc.getTypeEnum().equals(EnumList.DefTypeEnum.STK_WB_I)){//Alis Irsaliye
 			finDocType = EnumList.DefTypeEnum.FIN_B;
-		} else if (stkDocType.equals(EnumList.DefTypeEnum.STK_WB_O)){
+		} else if (stkDoc.getTypeEnum().equals(EnumList.DefTypeEnum.STK_WB_O)){//Satis Irsaliye
 			finDocType = EnumList.DefTypeEnum.FIN_S;
+		} else if (stkDoc.getTypeEnum().equals(EnumList.DefTypeEnum.STK_IO_O)){//Stok Cikis
+			finDocType = EnumList.DefTypeEnum.FIN_J;
 		}
 		if (finDocType==null){
 			return null;
 		}
+		
+		//Create FinDocument
+		FinDocumentEntity finDoc = new FinDocumentEntity();
+		BeanUtils.copyProperties(stkDoc, finDoc);
+		finDoc.setId(null);
+
 		DefTaskEntity finTask = taskHandler.getTaskList(finDoc.getOrganization(), finDocType).get(0); 
 		finDoc.setTask(finTask);
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
@@ -141,17 +143,24 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
 		}
 		
-		//Create FinDetail Info
-		FinDetailEntity infoDet = new FinDetailEntity();
-		infoDet.createHook(finDoc.getUserCreated());
-		infoDet.setDocument(finDoc);
-		infoDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()*(-1)); //Opposite State
-		infoDet.setItem(finDoc.getItem());
-		infoDet.setItemDetailCount(BigDecimal.ONE);
-		infoDet.setBaseDetailAmount(totalAmount);
-		infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
-		finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
+		if (stkDoc.getTypeEnum().name().startsWith(EnumList.DefTypeEnum.STK_WB.name())){
+			//Create Bill/Sales FinDetail Info
+			FinDetailEntity infoDet = new FinDetailEntity();
+			infoDet.createHook(finDoc.getUserCreated());
+			infoDet.setDocument(finDoc);
+			infoDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()*(-1)); //Opposite State
+			infoDet.setItem(finDoc.getItem());
+			infoDet.setItemDetailCount(BigDecimal.ONE);
+			infoDet.setBaseDetailAmount(totalAmount);
+			infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
+			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
+		}
 
+		if (stkDoc.getTypeEnum().name().startsWith(EnumList.DefTypeEnum.STK_IO_O.name())){
+			//Create Stk Cost FinDetail Info
+			
+		}
+		
 		//Update Reference irsaliyeye fatura idsi
 		stkDoc.setRefFinDocumentId(finDoc.getId());
 		stkTransactionHandler.updateDocument(new UpdateDocumentEvent<StkDocumentEntity>(stkDoc));
@@ -192,7 +201,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(stkDetailEntity, stkDocument.getUserCreated()));
 		}		
-		createFinFromStk(stkDocument.getId(), stkDocument.getTypeEnum());
+		createFinFromStk(stkDocument.getId());
 		return stkDocument;
 	}
 

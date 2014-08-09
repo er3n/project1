@@ -152,8 +152,10 @@ public interface EnumList {
 		STK_WB("İrsaliye İşlem",0), //
 		STK_WB_I("Alış İrsaliye", 1), //
 		STK_WB_O("Satış İrsaliye", -1), //
+		STK_WB_T("Proje Transfer", 0), //
 		STK_IO("Stok İşlem",0), //
 		STK_IO_S("Stok Açılış", 1), //
+		STK_IO_F("Stok Kapanış", 1), //
 		STK_IO_I("Stok Giriş", 1), //
 		STK_IO_O("Stok Çıkış", -1), //
 		STK_IO_T("Stok Transfer", 0), //

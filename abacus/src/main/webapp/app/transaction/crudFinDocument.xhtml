@@ -156,10 +156,10 @@
 						<p:outputLabel value="#{var.item.code} #{var.item.name}" />
 					</p:column>
 
-					<p:column headerText="Detay" style="text-align: center;"> 
-						<p:button href="/app/transaction/crudFinDocument.abc?grp=FIN&amp;operation=update&amp;document=#{var.document.id}" value="Belge"  />
+					<p:column headerText="Not">
+						<p:outputLabel value="#{var.detNote}" />
 					</p:column>
-
+					
 					<p:column headerText="Borç Tutar"
 						style="text-align: right; width:100px">
 						<p:outputLabel value="#{var.getDebitAmount()}"
@@ -169,6 +169,10 @@
 					<p:column headerText="Alacak Tutar"
 						style="text-align: right; width:100px">
 						<p:outputLabel value="#{var.getCreditAmount()}" />
+					</p:column>
+
+					<p:column headerText="Detay" style="text-align: center;"> 
+						<p:button href="/app/transaction/crudFinDocument.abc?grp=FIN&amp;operation=update&amp;document=#{var.document.id}" value="Belge"  />
 					</p:column>
 
 				</p:dataTable>

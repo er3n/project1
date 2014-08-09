@@ -28,7 +28,7 @@ public class TraDocumentSearchCriteria implements Serializable {
 
 	private EnumList.RequestStatus requestStatus;
 	
-	private String bsSelection = "0";
+	private String isIntegrated = "*";
 
 	public TraDocumentSearchCriteria() {
 
@@ -110,18 +110,12 @@ public class TraDocumentSearchCriteria implements Serializable {
 		this.requestStatus = requestStatus;
 	}
 
-	/**
-	 * @return the bsSelection
-	 */
-	public String getBsSelection() {
-		return bsSelection;
+	public String getIsIntegrated() {
+		return isIntegrated;
 	}
 
-	/**
-	 * @param bsSelection the bsSelection to set
-	 */
-	public void setBsSelection(String bsSelection) {
-		this.bsSelection = bsSelection;
+	public void setIsIntegrated(String isIntegrated) {
+		this.isIntegrated = isIntegrated;
 	}
 
 }

@@ -102,6 +102,12 @@ public class FindStkDocumentViewBean implements Serializable {
 		return result;
 	}
 
+	public Boolean canFinIntegration(StkDocumentEntity document) {
+		String type = document.getTypeEnum().name();
+		boolean result = (type.startsWith(EnumList.DefTypeEnum.STK_WB.name()) || type.startsWith(EnumList.DefTypeEnum.STK_IO_O.name()));
+		return result;
+	}
+
 	public void findStkDocument() {
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		documentSearchResultList = readDocumentEvent.getDocumentList();
@@ -131,7 +137,7 @@ public class FindStkDocumentViewBean implements Serializable {
 			return;
 		} 
 		try {
-			traIntegrationHandler.createFinFromStk(document.getId(), selectedTypeEnum);
+			traIntegrationHandler.createFinFromStk(document.getId());
 			jsfMessageHelper.addInfo("createFinDocument");
 			this.findStkDocument();
 		} catch (AbcBusinessException e) {

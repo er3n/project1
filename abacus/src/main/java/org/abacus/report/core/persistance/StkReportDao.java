@@ -41,7 +41,7 @@ public class StkReportDao implements Serializable {
 		criteria.createAlias("d.department", "department");
 		//
 		criteria.add(Restrictions.eq("fp2.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
-		criteria.add(Restrictions.like("document.typeStr", EnumList.DefTypeGroupEnum.STK.name()+"%"));
+//		criteria.add(Restrictions.like("document.typeStr", EnumList.DefTypeGroupEnum.STK.name()+"%"));
 		criteria.add(Restrictions.eq("item.type.id", EnumList.DefTypeEnum.ITM_SR_ST.name()));
 		if(reportSearchCriteria.getReportDate()!=null ){
 			criteria.add(Restrictions.le("document.docDate", reportSearchCriteria.getReportDate()));
@@ -66,13 +66,13 @@ public class StkReportDao implements Serializable {
 		sb.append("select {item.*}, {organization.*}, {fiscalPeriod2.*}, {department.*}, v.baseDetailCount ");
 		sb.append("  from org_organization organization, org_fiscal_period fiscalPeriod2, def_item item, org_department department,");
 		sb.append("     (select c.organization_id, c.fiscal_period2_id, d.item_id, d.department_id, sum(d.base_detail_count*d.tr_state_detail) baseDetailCount ");
-		sb.append("        from tra_detail d, stk_document c, def_item i, org_fiscal_period p");
-		sb.append("       where p.fiscal_year_id = :p_fiscal_year_id");
-		sb.append("         and c.fiscal_period2_id = p.id");
+		sb.append("        from tra_detail d, stk_document c, def_item i, org_fiscal_period fp2");
+		sb.append("       where fp2.fiscal_year_id = :p_fiscal_year_id");
+		sb.append("         and c.fiscal_period2_id = fp2.id");
 		sb.append("         and d.item_id = coalesce(:p_item_id, d.item_id)");
 		sb.append("         and d.department_id = coalesce(:p_department_id, d.department_id)");
 		sb.append("         and c.id = d.document_stk_id");
-		sb.append("         and c.type_id like '"+EnumList.DefTypeGroupEnum.STK.name()+"%'");
+//		sb.append("         and c.type_id like '"+EnumList.DefTypeGroupEnum.STK.name()+"%'");
 		sb.append("         and c.doc_date <= coalesce(:p_report_date, c.doc_date)");
 		sb.append("         and c.task_id = coalesce(:p_task_id, c.task_id)");
 		sb.append("         and i.id = d.item_id");

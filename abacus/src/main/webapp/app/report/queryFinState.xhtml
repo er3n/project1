@@ -12,7 +12,9 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryFinStateViewBean.showDocument}" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.AccountGLC" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.AccountITM" />
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryFinStateViewBean.showDocument}" />
 
 		<h:form id="queryFinStateForm"> 
 			<p:panel id="queryFinStatePanel" header="Hesap Durum Sorgulama" rendered="#{queryFinStateViewBean.showDocument}">
@@ -40,8 +42,27 @@
 					<h:outputLabel value="" />
 					<h:outputLabel value="" />
 					
-					<h:outputLabel value="Hesap ???" />
-					<h:outputLabel value="Hesap ???" />
+					<h:outputLabel value="Hesap Grup"/>
+					<h:panelGrid columns="1">
+						<p:selectOneMenu value="#{queryFinStateViewBean.reportSearchCriteria.accountGLC}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="false" requiredMessage="Hesap boş olamaz">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{AccountGLC}"
+								var="var" itemLabel="#{var.description}" itemValue="#{var}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					
+					<h:outputLabel value="Hesap Tip"/>
+					<h:panelGrid columns="1">
+						<p:selectOneMenu value="#{queryFinStateViewBean.reportSearchCriteria.accountITM}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="false" requiredMessage="Hesap boş olamaz">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{AccountITM}"
+								var="var" itemLabel="#{var.description}" itemValue="#{var}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
 					
 					<h:outputLabel value="Yardımcı Hesap" />
 					<h:panelGrid columns="1">
@@ -73,16 +94,20 @@
 					value="#{queryFinStateViewBean.searchResultList}" var="var"
 					 paginator="true" rows="30">
 
-					<p:column headerText="Organizasyon" filterBy="#{var.organization.id} #{var.fiscalPeriod2.name}" filterMatchMode="contains">
-						<h:outputText value="#{var.organization.id} #{var.fiscalPeriod2.name}" />
+					<p:column headerText="Hesap Kodu" filterBy="#{var.glc.description}:#{var.item.type.name}" filterMatchMode="contains">
+						<p:outputLabel value="#{var.glc.description}:#{var.item.type.name}"/>
 					</p:column>
 					
-					<p:column headerText="Yardımcı Hesap" filterBy="#{var.item.name}" filterMatchMode="contains">
-						<h:outputText value="#{var.item.name}" />
+					<p:column headerText="Yardımcı Hesap" filterBy="#{var.item.code}:#{var.item.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.item.code}:#{var.item.name}" />
 					</p:column>
-
+					
 					<p:column headerText="Tutar" filterBy="#{var.baseDetailAmount}" filterMatchMode="contains" style="text-align: right; width:150px">
 						<h:outputText value="#{var.baseDetailAmount}" />
+					</p:column>
+
+					<p:column headerText="Organizasyon" filterBy="#{var.organization.id}" filterMatchMode="contains">
+						<h:outputText value="#{var.organization.id}"/>
 					</p:column>
 
 				</p:dataTable> 

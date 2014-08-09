@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.organization.shared.entity.DepartmentEntity;
@@ -28,6 +29,9 @@ public class ReportSearchCriteria implements Serializable {
 	private DefItemEntity detailItem;
 	
 	private BigDecimal detailCount;
+	
+	private EnumList.AccountGLC accountGLC;
+	private EnumList.DefTypeEnum accountITM;
 	
 	public ReportSearchCriteria() {
 	}
@@ -94,6 +98,22 @@ public class ReportSearchCriteria implements Serializable {
 
 	public void setReportDate(Date reportDate) {
 		this.reportDate = reportDate;
+	}
+
+	public EnumList.AccountGLC getAccountGLC() {
+		return accountGLC;
+	}
+
+	public void setAccountGLC(EnumList.AccountGLC accountGLC) {
+		this.accountGLC = accountGLC;
+	}
+
+	public EnumList.DefTypeEnum getAccountITM() {
+		return accountITM;
+	}
+
+	public void setAccountITM(EnumList.DefTypeEnum accountITM) {
+		this.accountITM = accountITM;
 	}
 
 }

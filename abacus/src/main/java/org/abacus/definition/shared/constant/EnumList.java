@@ -1,6 +1,7 @@
 package org.abacus.definition.shared.constant;
 
 
+
 public interface EnumList {
 
 	enum CatMenuPeriod implements ISelectionEnum {
@@ -139,14 +140,14 @@ public interface EnumList {
 		ITM("All Items", 0), //
 		ITM_CS("Nakit Hesap", 0), //
 		ITM_CM_CU("Müşteri Hesap", 0), //
-		ITM____CU("Müşteri Avans", 0), //
 		ITM_CM_VE("Satıcı Hesap", 0), //
-		ITM____VE("Satıcı Avans", 0), //
 		ITM_CM_PE("Personel Hesap", 0), //
-		ITM____PE("Personel Avans", 0), //
 		ITM_SR("All Services", 0), //
 		ITM_SR_FN("Hizmet Hesap", 0), //
 		ITM_SR_ST("Stok Hesap", 0), //
+		ITM____CU("Müşteri Avans", 0), //
+		ITM____VE("Satıcı Avans", 0), //
+		ITM____PE("Personel Avans", 0), //
 		// Stock
 		STK("Stock",0), //
 		STK_WB("İrsaliye İşlem",0), //
@@ -200,7 +201,6 @@ public interface EnumList {
 			String grp = this.name().substring(0, 3);
 			return DefTypeGroupEnum.valueOf(grp); 
 		}
-		
 	}
 
 	enum DepartmentAuthEnum implements ISelectionEnum {
@@ -410,7 +410,16 @@ public interface EnumList {
 			return descripion;
 		}
 	}		
-
+	
+	interface AccountITM{
+		DefTypeEnum ITM_CS = DefTypeEnum.ITM_CS;
+	    DefTypeEnum ITM_CM_CU = DefTypeEnum.ITM_CM_CU;
+	    DefTypeEnum ITM_CM_VE = DefTypeEnum.ITM_CM_VE;
+	    DefTypeEnum ITM_CM_PE = DefTypeEnum.ITM_CM_PE;
+	    DefTypeEnum ITM_SR_FN = DefTypeEnum.ITM_SR_FN;
+	    DefTypeEnum ITM_SR_ST = DefTypeEnum.ITM_SR_ST;
+	}
+	
 	enum AccountGLC implements ISelectionEnum {
 		GLC_A("1:Varlık"),//
 		GLC_L("3:Kaynak"),//

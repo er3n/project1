@@ -12,7 +12,9 @@
 
 	<ui:define name="content">
 
-		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryFinDetailViewBean.showDocument}" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.AccountGLC" />
+		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.AccountITM" />
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" rendered="#{!queryFinDetailViewBean.showDocument}" />
 
 		<h:form id="queryFinDetailForm"> 
 			<p:panel id="queryFinDetailPanel" header="Hesap Hareket Sorgulama" rendered="#{queryFinDetailViewBean.showDocument}">
@@ -35,9 +37,28 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 
-					<h:outputLabel value="Hesap ???"/>
-					<h:outputLabel value="Hesap ???"/>
+					<h:outputLabel value="Hesap Grup"/>
+					<h:panelGrid columns="1">
+						<p:selectOneMenu value="#{queryFinDetailViewBean.reportSearchCriteria.accountGLC}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="false" requiredMessage="Hesap boş olamaz">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{AccountGLC}"
+								var="var" itemLabel="#{var.description}" itemValue="#{var}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
 					
+					<h:outputLabel value="Hesap Tip"/>
+					<h:panelGrid columns="1">
+						<p:selectOneMenu value="#{queryFinDetailViewBean.reportSearchCriteria.accountITM}"
+							converter="omnifaces.SelectItemsConverter" style="width:145px"
+							required="false" requiredMessage="Hesap boş olamaz">
+							<f:selectItem itemLabel="Seçiniz..." itemValue="" />
+							<f:selectItems value="#{AccountITM}"
+								var="var" itemLabel="#{var.description}" itemValue="#{var}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+										
 					<h:outputLabel value="Yardımcı Hesap" />
 					<h:panelGrid columns="1">
 						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{queryFinDetailViewBean.reportSearchCriteria.detailItem}" required="false" />
@@ -68,28 +89,28 @@
 					value="#{queryFinDetailViewBean.searchResultList}" var="var"
 					 paginator="true" rows="30">
 
-					<p:column headerText="Organizasyon" filterBy="#{var.document.organization.id} #{var.document.fiscalPeriod2.name}" filterMatchMode="contains">
-						<h:outputText value="#{var.document.organization.id} #{var.document.fiscalPeriod2.name}"/>
+					<p:column headerText="Hesap Kodu" filterBy="#{var.glc.description}:#{var.item.type.name}" filterMatchMode="contains">
+						<p:outputLabel value="#{var.glc.description}:#{var.item.type.name}"/>
 					</p:column>
 
-					<p:column headerText="Yardımcı Hesap" filterBy="#{var.item.name}" filterMatchMode="contains">
-						<h:outputText value="#{var.item.name}" />
+					<p:column headerText="Yardımcı Hesap" filterBy="#{var.item.code}:#{var.item.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.item.code}:#{var.item.name}" />
 					</p:column>
 
 					<p:column headerText="Tutar" filterBy="#{var.getTrStateSign()} #{var.baseDetailAmount}" filterMatchMode="contains" style="text-align: right; width:100px" >
 						<h:outputText value="#{var.getTrStateSign()} #{var.baseDetailAmount}" />
 					</p:column>
 
+					<p:column headerText="İşlem" filterBy="#{var.document.task.name}" filterMatchMode="contains">
+						<h:outputText value="#{var.document.task.name}" />
+					</p:column>
+
 					<p:column headerText="Belge Tarih" filterBy="#{var.document.docDate}" filterMatchMode="contains">
 						<h:outputText value="#{var.document.docDate}" />
 					</p:column>
 
-					<p:column headerText="Belge No" filterBy="#{var.document.docNo}" filterMatchMode="contains" style="width:125px">
-						<h:outputText value="#{var.document.docNo}" />
-					</p:column>
-
-					<p:column headerText="İşlem" filterBy="#{var.document.task.name}" filterMatchMode="contains">
-						<h:outputText value="#{var.document.task.name}" />
+					<p:column headerText="Organizasyon" filterBy="#{var.document.organization.id}" filterMatchMode="contains">
+						<h:outputText value="#{var.document.organization.id}"/>
 					</p:column>
 
 					<p:column headerText="" style="width:55px"> 

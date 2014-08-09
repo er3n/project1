@@ -8,9 +8,9 @@ public class GlcConstant {
 
 	public static AccountGLC getAccountGLC(DefTypeEnum type, DefTypeEnum item, TraState state){
 		AccountGLC result = null;
-//		if (type.equals(DefTypeEnum.FIN_J)){
-//			return result;
-//		}
+		if (type.equals(DefTypeEnum.FIN_J)){
+			return result;
+		}
 		for (FinHolder finHolder : integrationFIN){
 			if ((type.equals(finHolder.type)) && (item.equals(finHolder.item)) && (state.equals(finHolder.state))){
 				result = finHolder.glc;
@@ -70,8 +70,8 @@ public class GlcConstant {
 			new FinHolder(DefTypeEnum.FIN_R , DefTypeEnum.ITM_CM_CU, TraState.OUT, AccountGLC.GLC_A),
 			new FinHolder(DefTypeEnum.FIN_S , DefTypeEnum.ITM____CU, TraState.INP, AccountGLC.GLC_L),
 			//Stock Cost
-			new FinHolder(DefTypeEnum.FIN_J , DefTypeEnum.ITM_SR_ST, TraState.OUT, AccountGLC.GLC_A),
-			new FinHolder(DefTypeEnum.FIN_J , DefTypeEnum.ITM_SR_ST, TraState.INP, AccountGLC.GLC_X),
+			new FinHolder(DefTypeEnum.FIN_J_SC , DefTypeEnum.ITM_SR_ST, TraState.OUT, AccountGLC.GLC_A),
+			new FinHolder(DefTypeEnum.FIN_J_SC , DefTypeEnum.ITM_SR_ST, TraState.INP, AccountGLC.GLC_X),
 
 	};
 

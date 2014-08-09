@@ -83,7 +83,7 @@ public class CrudStkCostViewBean implements Serializable {
 
 	public void createStkCost(){
 		//Tarihe Ait Stok Cikis Fisleri Bulunacak
-		//Fis Tipi : FIN_J : JournalVoucher  
+		//Fis Tipi : FIN_J_SC : Stock Cost
 		//GLC_A : ITM_SRV_ST : Alacak
 		//GLC_X : ITM_SRV_ST : Borc 
 		

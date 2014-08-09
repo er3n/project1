@@ -166,6 +166,7 @@ public interface EnumList {
 		FIN_P("Ödeme", -1), //
 		FIN_R("Tahsil", +1), //
 		FIN_J("Mahsup", 0), //
+		FIN_J_SC("Stok Maliyet", -1),
 		//Request
 		REQ_IO("Transfer/Satınalma İstek",0),
 		REQ_IO_T("Stok Transfer İstek", 0), //

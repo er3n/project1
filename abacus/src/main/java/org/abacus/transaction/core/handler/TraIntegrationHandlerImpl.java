@@ -2,7 +2,9 @@ package org.abacus.transaction.core.handler;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
@@ -112,7 +114,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		} else if (stkDoc.getTypeEnum().equals(EnumList.DefTypeEnum.STK_WB_O)){//Satis Irsaliye
 			finDocType = EnumList.DefTypeEnum.FIN_S;
 		} else if (stkDoc.getTypeEnum().equals(EnumList.DefTypeEnum.STK_IO_O)){//Stok Cikis
-			finDocType = EnumList.DefTypeEnum.FIN_J;
+			finDocType = EnumList.DefTypeEnum.FIN_J_SC;
 		}
 		if (finDocType==null){
 			return null;
@@ -128,6 +130,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		finDoc.setTypeEnum(finTask.getType().getTypeEnum());
 		finTransactionHandler.newDocument(new CreateDocumentEvent<FinDocumentEntity>(finDoc));
 		
+		Map<DefItemEntity, BigDecimal> stkItemMap = new HashMap<DefItemEntity, BigDecimal>();
 		//Convert FinDetail
 		BigDecimal totalAmount = BigDecimal.ZERO;
 		List<StkDetailEntity> stkDetList = stkDetailRepository.findByDocumentId(docId);
@@ -141,6 +144,10 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			finDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()); 
 			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(finDet, false));
 			totalAmount = totalAmount.add(finDet.getBaseDetailAmount());
+			if (stkDoc.getTypeEnum().name().startsWith(EnumList.DefTypeEnum.STK_IO_O.name())){
+				BigDecimal existSum = stkItemMap.get(finDet.getItem());
+				stkItemMap.put(finDet.getItem(), finDet.getBaseDetailAmount().add(existSum!=null?existSum:BigDecimal.ZERO));
+			}
 		}
 		
 		if (stkDoc.getTypeEnum().name().startsWith(EnumList.DefTypeEnum.STK_WB.name())){
@@ -153,12 +160,24 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			infoDet.setItemDetailCount(BigDecimal.ONE);
 			infoDet.setBaseDetailAmount(totalAmount);
 			infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
+			infoDet.setDetNote("Not:"+finDoc.getDocNo()+":"+finDoc.getDocDate().toString());
 			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
 		}
 
-		if (stkDoc.getTypeEnum().name().startsWith(EnumList.DefTypeEnum.STK_IO_O.name())){
+		if (stkDoc.getTypeEnum().name().startsWith(EnumList.DefTypeEnum.STK_IO_O.name()) && !stkItemMap.isEmpty()){
 			//Create Stk Cost FinDetail Info
-			
+			for (DefItemEntity item : stkItemMap.keySet()) {
+				FinDetailEntity infoDet = new FinDetailEntity();
+				infoDet.createHook(finDoc.getUserCreated());
+				infoDet.setDocument(finDoc);
+				infoDet.setTrStateDetail(finDoc.getTask().getType().getTrStateType()*(-1)); //Opposite State
+				infoDet.setItem(item);
+				infoDet.setItemDetailCount(BigDecimal.ONE);
+				infoDet.setBaseDetailAmount(stkItemMap.get(item));
+				infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
+				finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
+				infoDet.setDetNote("Not:"+finDoc.getDocNo()+":"+finDoc.getDocDate().toString());
+			}
 		}
 		
 		//Update Reference irsaliyeye fatura idsi
@@ -198,7 +217,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 			stkDetailEntity.setUnitDetailPrice(holder.getUnitPrice());
 			stkDetailEntity.setBaseDetailAmount(holder.getCount().multiply(holder.getUnitPrice()));
-			
+			stkDetailEntity.setDetNote("Not:"+stkDocument.getDocNo()+":"+stkDocument.getDocDate().toString());
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(stkDetailEntity, stkDocument.getUserCreated()));
 		}		
 		createFinFromStk(stkDocument.getId());

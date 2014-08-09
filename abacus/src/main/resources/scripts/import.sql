@@ -109,6 +109,7 @@ insert into def_type (id, name, level, tr_state_type) values ('FIN_S', 'Satış 
 insert into def_type (id, name, level, tr_state_type) values ('FIN_P', 'Ödeme', 1, -1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_R', 'Tahsilat', 1, +1);
 insert into def_type (id, name, level, tr_state_type) values ('FIN_J', 'Mahsup', 1, 0);
+insert into def_type (id, name, level, tr_state_type) values ('FIN_J_SC', 'Stok Maliyet', 1, -1);
 
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_ST', 'Stok Hesap', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Hizmet Hesap', 1, 0);
@@ -144,7 +145,7 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_R', 'RC-1', 'Müşteriden Avans #', 1, 0, 'ITM_CS', 'ITM_CM_CU');
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_R', 'RC-9', 'Fatura Tahsilat #', 1, 0, 'ITM_CS', 'ITM____CU');
 
-insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_J', 'JV-1', 'Stok Maliyet #', 1, 0, 'ITM_SR_ST', 'ITM_SR_ST');
+insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '#', 'FIN_J_SC', 'JSC-1', 'Stok Maliyet #', 1, 0, 'ITM_SR_ST', 'ITM_SR_ST');
 commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '#', 'SAY', 'Sayilabilen', 0);

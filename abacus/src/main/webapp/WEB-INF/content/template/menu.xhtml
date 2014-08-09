@@ -44,8 +44,6 @@
 			<p:separator/>
 			<p:menuitem value="Stok İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:menuitem value="Stok İstek Onayı" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T&amp;approval=true"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
-			<p:separator/>
-			<p:menuitem value="Stok Maliyeti / Hakediş" url="/app/transaction/crudStkCost.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 		</p:submenu>
 
 		<p:submenu label="Satınalma">
@@ -55,6 +53,8 @@
 		</p:submenu>
 
 		<p:submenu label="Finans" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
+			<p:menuitem value="Otomatik Fiş Oluştur" url="/app/transaction/crudStkConvert.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:separator/>
 			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
 			<p:menuitem value="Satış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_S" />
 			<p:separator/>

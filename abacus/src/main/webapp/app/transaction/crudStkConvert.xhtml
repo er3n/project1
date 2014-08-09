@@ -18,13 +18,13 @@
 			<h:panelGrid id="costGrid2" columns="1">
 				<h:form id="costForm">
 				
-					<p:panel id="costPanel" header="#{crudStkCostViewBean.fiscalYear.organization.name} #{crudStkCostViewBean.fiscalYear.name} Tanımları" >
+					<p:panel id="costPanel" header="#{crudStkConvertViewBean.fiscalYear.organization.name} #{crudStkConvertViewBean.fiscalYear.name} Tanımları" >
 
 						<h:panelGrid id="panelGrid1" columns="2" cellpadding="0">
 
-							<p:outputLabel value="Başlangıç Tarihi:" style="font-weigh: bold" />
-								<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
-									value="#{crudStkCostViewBean.transactionDate}" />
+							<p:outputLabel value="İşlem Tarihi:" style="font-weigh: bold" />
+								<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="false"
+									value="#{crudStkConvertViewBean.transactionDate}" />
 
 						</h:panelGrid>
 
@@ -33,12 +33,22 @@
 						<h:panelGrid id="panelGrid2" columns="1" cellpadding="5">
 
 						<p:commandButton value="Stok Maliyet Fişi Oluştur"
-							actionListener="#{crudStkCostViewBean.createStkCost}" style="width:100%"
-							update=":costForm" process="@form"/>
+							actionListener="#{crudStkConvertViewBean.convertStkOutToFinCost}" style="width:100%"
+							update=":costForm" process="@form">
+							<p:confirm header="Onay" message="Stok Maliyet Fişi oluşturmak istediğine emin misin?" icon="ui-icon-alert"/>
+						</p:commandButton>
 
-						<p:commandButton value="Hakediş Faturası Oluştur" style="width:100%"
-							actionListener="#{crudStkCostViewBean.createWB}"
-							update=":costForm" process="@form"/>
+						<p:commandButton value="İrsaliyelerden Fatura Oluştur"
+							actionListener="#{crudStkConvertViewBean.convertStkWBToFinBS}" style="width:100%"
+							update=":costForm" process="@form">
+							<p:confirm header="Onay" message="İrsaliyelerden Fatura oluşturmak istediğine emin misin?" icon="ui-icon-alert"/>
+						</p:commandButton>
+
+						<p:commandButton value="Hakediş Satış Faturası Oluştur" style="width:100%"
+							actionListener="#{crudStkConvertViewBean.createStkWBAndFinBS}"
+							update=":costForm" process="@form">
+							<p:confirm header="Onay" message="Hakediş Faturası oluşturmak istediğine emin misin?" icon="ui-icon-alert"/>
+						</p:commandButton>
 
 						</h:panelGrid>
 						</f:facet>

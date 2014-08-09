@@ -15,7 +15,7 @@ public interface StkDetailTrackRepository extends CrudRepository<StkDetailTrackE
 	@Query("select sum(t.baseTrackCount - t.baseUsedCount) from StkDetailTrackEntity t inner join t.detail d inner join d.document c inner join c.fiscalPeriod1 fp1 where fp1.fiscalYear.id = :fiscalYearId and d.item.id = :itemId and d.department.id = :departmentId and d.trStateDetail = 1 and t.baseTrackCount > t.baseUsedCount")
 	public BigDecimal currentItemCount(@Param("itemId")Long itemId,@Param("departmentId")Long departmentId,@Param("fiscalYearId") String fiscalYearId);
 	
-	@Query("select t from StkDetailTrackEntity t inner join t.detail d inner join d.document c inner join c.fiscalPeriod1 fp1 where fp1.fiscalYear.id = :fiscalYearId and d.item.id = :itemId and d.department.id = :departmentId and d.trStateDetail = 1 and t.baseTrackCount > t.baseUsedCount order by t.dueTrackDate")
+	@Query("select t from StkDetailTrackEntity t inner join t.detail d inner join d.document c inner join c.fiscalPeriod1 fp1 where fp1.fiscalYear.id = :fiscalYearId and d.item.id = :itemId and d.department.id = :departmentId and d.trStateDetail = 1 and t.baseTrackCount > t.baseUsedCount order by t.dueTrackDate, t.id")
 	public List<StkDetailTrackEntity> currentItemList(@Param("itemId")Long itemId,@Param("departmentId")Long departmentId,@Param("fiscalYearId") String fiscalYearId);
 	
 	@Modifying
@@ -23,7 +23,7 @@ public interface StkDetailTrackRepository extends CrudRepository<StkDetailTrackE
 	@Query("delete from StkDetailTrackEntity t where t.detail.id = :detailId")
 	void deleteDetailTrack(@Param("detailId")Long detailId);
 
-	@Query("select t from StkDetailTrackEntity t left outer join fetch t.parentTrack p where t.detail.id = :detailId")
+	@Query("select t from StkDetailTrackEntity t left outer join fetch t.parentTrack p where t.detail.id = :detailId order by t.id")
 	public List<StkDetailTrackEntity> findDetailTrack(@Param("detailId")Long detailId);
 	
 	

@@ -222,13 +222,13 @@
 				<p:spacer height="10px" />
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
-					<p:outputLabel value="Tahmini miktar" />
+					<p:outputLabel value="Hazırlanan Miktar" />
 					<pe:inputNumber
 						value="#{catMenuViewBean.selectedMenu.countPrepare}"
 						decimalPlaces="3" style="text-align: right;" required="true"
 						requiredMessage="Tahmini miktar bos olamaz" />
 
-					<p:outputLabel value="Kullanilan miktar" />
+					<p:outputLabel value="Servis Miktarı" />
 					<pe:inputNumber value="#{catMenuViewBean.selectedMenu.countSpend}"
 						decimalPlaces="3" style="text-align: right;" required="false"
 						requiredMessage="Kullanilan miktar bos olamaz" />
@@ -319,10 +319,10 @@
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
 
-					<p:outputLabel value="Miktar" />
+					<p:outputLabel value="Servis Miktarı" />
 					<pe:inputNumber id="miktar"
 						decimalPlaces="3" style="text-align: right;"
-						value="#{catMenuViewBean.selectedMenu.countSpend}" required="true"
+						value="#{catMenuViewBean.selectedMenu.countSpend}" disabled="true"
 						requiredMessage="Kullanilan miktar bos olamaz">
 					</pe:inputNumber>
 
@@ -337,7 +337,7 @@
 				</h:panelGrid>
 
 				<f:facet name="footer">
-					<p:commandButton value="Sonlandır"
+					<p:commandButton value="Stok Çıkışını Sonlandır"
 						actionListener="#{catMenuViewBean.previewMenu()}"
 						update=":confirmMenuStkForm"
 						oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkWdg').show();" />
@@ -356,7 +356,7 @@
 				closeOnEscape="true" height="600px">
 
 				<f:facet name="header">
-					<p:outputLabel value="Stok Fiş Detayı - " />
+					<p:outputLabel value="Hazırlanan Menu İçin Stok Çıkış Detayı - " />
 					<p:outputLabel value="#{catMenuViewBean.selectedMenu.menuDate}">
 						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
 							locale="tr_TR" />

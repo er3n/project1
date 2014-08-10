@@ -110,7 +110,7 @@ public class CatMenuEntity extends DynamicEntity {
 	}
 
 	public void setCountSpend(BigDecimal countSpend) {
-		this.countSpend = countSpend!=null?countPrepare:BigDecimal.ZERO;
+		this.countSpend = countSpend!=null?countSpend:BigDecimal.ZERO;
 	}
 
 	public Set<CatMenuItemEntity> getMenuItemSet() {

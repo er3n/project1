@@ -164,7 +164,7 @@
 						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
 							locale="tr_TR" />
 					</h:outputText>
-					<h:outputText value=" #{catMenuViewBean.selectedMenu.meal.name}" />
+					<h:outputText value=" #{catMenuViewBean.selectedMenu.menuInfo.meal.name}" />
 				</f:facet>
 
 				<p:dataTable id="menuItems" var="menuItem"
@@ -264,7 +264,7 @@
 						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
 							locale="tr_TR" />
 					</h:outputText>
-					<h:outputText value=" #{catMenuViewBean.selectedMenu.meal.name}" />
+					<h:outputText value=" #{catMenuViewBean.selectedMenu.menuInfo.meal.name}" />
 				</f:facet>
 
 				<h:panelGrid columns="2">
@@ -298,7 +298,7 @@
 						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
 							locale="tr_TR" />
 					</p:outputLabel>
-					<p:outputLabel value=" #{catMenuViewBean.selectedMenu.meal.name}" />
+					<p:outputLabel value=" #{catMenuViewBean.selectedMenu.menuInfo.meal.name}" />
 				</f:facet>
 
 				<p:dataTable id="menuItems" var="menuItem"
@@ -361,7 +361,7 @@
 						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)"
 							locale="tr_TR" />
 					</p:outputLabel>
-					<p:outputLabel value=" #{catMenuViewBean.selectedMenu.meal.name}" />
+					<p:outputLabel value=" #{catMenuViewBean.selectedMenu.menuInfo.meal.name}" />
 				</f:facet>
 
 

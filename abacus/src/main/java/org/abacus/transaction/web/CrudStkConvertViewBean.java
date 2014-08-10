@@ -3,7 +3,9 @@ package org.abacus.transaction.web;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -11,7 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.catering.core.handler.CatMenuHandler;
-import org.abacus.catering.shared.entity.CatMenuInfoEntity;
+import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
@@ -28,7 +30,6 @@ import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
-import org.abacus.transaction.shared.holder.SalesDocumentHolder;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 
 @ManagedBean
@@ -56,32 +57,43 @@ public class CrudStkConvertViewBean implements Serializable {
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
 	
 	private FiscalYearEntity fiscalYear;
-	private Date transactionDate;
+	private Date transactionDate = new Date();
 	
 	@PostConstruct
 	public void init() {
 		fiscalYear = sessionInfoHelper.currentFiscalYear();
 	}
 
-	public void createStkWBAndFinBS(){
-		List<CatMenuInfoEntity> catMealList = catMealHandler.getMenuInfoList(fiscalYear);
-		if (catMealList.size()==0){
-			jsfMessageHelper.addError("Oluşturulacak menü bulunamadı");
+	public void createFinSale(){
+		List<CatMenuEntity> catMenuList = catMealHandler.getMenuListForFinace(fiscalYear.getId(), transactionDate);
+		if (catMenuList.size()==0){
+			jsfMessageHelper.addError("Hakedişi Oluşturulacak Menü bulunamadı");
 			return;
 		}
 		
-		List<SalesDocumentHolder> holderList = new ArrayList<SalesDocumentHolder>();
-		for (CatMenuInfoEntity meal : catMealList) {
-			holderList.add(new SalesDocumentHolder(meal.getMeal(), meal.getCountPrepare(), meal.getUnitPrice()));
+		Map<Date, List<CatMenuEntity>> menuMap = new HashMap<Date, List<CatMenuEntity>>();
+		for (CatMenuEntity menu : catMenuList) {
+			if (menuMap.containsKey(menu.getMenuDate())){
+				List<CatMenuEntity> menuList = menuMap.get(menu.getMenuDate());
+				menuList.add(menu);
+			} else {
+				List<CatMenuEntity> menuList = new ArrayList<CatMenuEntity>();
+				menuList.add(menu);
+				menuMap.put(menu.getMenuDate(), menuList);
+			}
 		}
+		
 		String username = sessionInfoHelper.currentUserName();
 		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
 		DefItemEntity customer = organization.getCustomer();
-		FiscalPeriodEntity period = sessionInfoHelper.getFiscalPeriod(transactionDate);
 		EnumList.OrgDepartmentGroupEnum depGroup = EnumList.OrgDepartmentGroupEnum.F;  
-		DepartmentEntity department = departmentService.findUserDepartmentListOrgOnly(username, depGroup, period.getFiscalYear().getOrganization()).get(0);
+		DepartmentEntity department = departmentService.findUserDepartmentListOrgOnly(username, depGroup, fiscalYear.getOrganization()).get(0);
 
-		StkDocumentEntity salesStkDoc = traIntegrationHandler.createSalesDocument(holderList, customer, period, department, transactionDate);
+		for (Date menuDate : menuMap.keySet()) {
+			List<CatMenuEntity> menuList = menuMap.get(menuDate);
+			FiscalPeriodEntity period = sessionInfoHelper.getFiscalPeriod(menuDate);
+			StkDocumentEntity salesStkDoc = traIntegrationHandler.createSalesDocument(menuList, customer, period, department, menuDate);
+		}
 		jsfMessageHelper.addInfo("createSuccessful", "Satış Fatura");
 	}
 
@@ -90,10 +102,13 @@ public class CrudStkConvertViewBean implements Serializable {
 		TraDocumentSearchCriteria documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(EnumList.DefTypeEnum.STK_IO_O);
 		documentSearchCriteria.setIsIntegrated("0");
-		documentSearchCriteria.setDocStartDate(transactionDate);
 		documentSearchCriteria.setDocEndDate(transactionDate);
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		List<StkDocumentEntity> documentSearchResultList = readDocumentEvent.getDocumentList();
+		if (documentSearchResultList.size()==0){
+			jsfMessageHelper.addError("Maliyeti Oluşturulacak Stok Çıkışı bulunamadı");
+			return;
+		}
 		for (StkDocumentEntity stkDoc : documentSearchResultList) {
 			FinDocumentEntity costFinDoc = traIntegrationHandler.createFinFromStk(stkDoc.getId());
 		}
@@ -105,11 +120,13 @@ public class CrudStkConvertViewBean implements Serializable {
 		TraDocumentSearchCriteria documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(EnumList.DefTypeEnum.STK_WB);
 		documentSearchCriteria.setIsIntegrated("0");
-		documentSearchCriteria.setDocStartDate(transactionDate);
 		documentSearchCriteria.setDocEndDate(transactionDate);
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 		List<StkDocumentEntity> documentSearchResultList = readDocumentEvent.getDocumentList();
-		for (StkDocumentEntity stkDoc : documentSearchResultList) {
+		if (documentSearchResultList.size()==0){
+			jsfMessageHelper.addError("Faturası Oluşturulacak İrsaliye bulunamadı");
+			return;
+		}		for (StkDocumentEntity stkDoc : documentSearchResultList) {
 			FinDocumentEntity costFinDoc = traIntegrationHandler.createFinFromStk(stkDoc.getId());
 		}
 		jsfMessageHelper.addInfo("createSuccessful", "Stok Maliyet Fişleri");

@@ -24,7 +24,7 @@ public class DailyMenuDetail implements Comparable<DailyMenuDetail> {
 	}
 
 	public void putMenu(CatMenuEntity menu) {
-		menuMap.put(menu.getMeal().getCode(), menu);
+		menuMap.put(menu.getMenuInfo().getMeal().getCode(), menu);
 	}
 
 	public Date getDate() {

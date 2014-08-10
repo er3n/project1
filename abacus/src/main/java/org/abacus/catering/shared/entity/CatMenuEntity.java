@@ -20,8 +20,8 @@ import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
+import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -36,8 +36,8 @@ public class CatMenuEntity extends DynamicEntity {
 	private FiscalYearEntity fiscalYear;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "meal_id", nullable = false)
-	private DefItemEntity meal;
+	@JoinColumn(name = "menu_info_id", nullable = false)
+	private CatMenuInfoEntity menuInfo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_stk_id", nullable = true)
@@ -45,7 +45,7 @@ public class CatMenuEntity extends DynamicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_fin_id", nullable = true)
-	private StkDocumentEntity finDocument;
+	private FinDocumentEntity finDocument;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "menu_date", nullable = false)
@@ -73,12 +73,12 @@ public class CatMenuEntity extends DynamicEntity {
 		return new ArrayList<CatMenuItemEntity>(menuItemSet);
 	}
 
-	public DefItemEntity getMeal() {
-		return meal;
+	public CatMenuInfoEntity getMenuInfo() {
+		return menuInfo;
 	}
 
-	public void setMeal(DefItemEntity meal) {
-		this.meal = meal;
+	public void setMenuInfo(CatMenuInfoEntity menuInfo) {
+		this.menuInfo = menuInfo;
 	}
 
 	public Date getMenuDate() {
@@ -145,11 +145,11 @@ public class CatMenuEntity extends DynamicEntity {
 		this.stkDocument = stkDocument;
 	}
 
-	public StkDocumentEntity getFinDocument() {
+	public FinDocumentEntity getFinDocument() {
 		return finDocument;
 	}
 
-	public void setFinDocument(StkDocumentEntity finDocument) {
+	public void setFinDocument(FinDocumentEntity finDocument) {
 		this.finDocument = finDocument;
 	}
 

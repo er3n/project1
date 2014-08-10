@@ -1,5 +1,7 @@
 package org.abacus.common.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,4 +32,9 @@ public class AbcUtility {
 		return retType;
 	}
 	
+	public static String formatDate(Date date){
+		if (date==null)
+			return null;
+		return new SimpleDateFormat ("dd.MM.yyyy").format(date); 
+	}
 }

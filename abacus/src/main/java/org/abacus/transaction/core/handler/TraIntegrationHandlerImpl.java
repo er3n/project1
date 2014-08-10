@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.abacus.catering.core.persistance.repository.MenuRepository;
+import org.abacus.catering.shared.entity.CatMenuEntity;
+import org.abacus.common.web.AbcUtility;
 import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
@@ -26,7 +29,6 @@ import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.CreateDetailEvent;
 import org.abacus.transaction.shared.event.CreateDocumentEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
-import org.abacus.transaction.shared.holder.SalesDocumentHolder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +58,10 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 	
 	@Autowired
 	private ReqDocumentRepository reqDocumentRepository;
-	
+
+	@Autowired
+	private MenuRepository menuRepository;
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public StkDocumentEntity createStkFromReq(Long docId, FiscalPeriodEntity fisPeriod2, DefItemEntity vendor) {
@@ -160,7 +165,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			infoDet.setItemDetailCount(BigDecimal.ONE);
 			infoDet.setBaseDetailAmount(totalAmount);
 			infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
-			infoDet.setDetNote("Not:"+finDoc.getDocNo()+":"+finDoc.getDocDate().toString());
 			finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
 		}
 
@@ -176,7 +180,6 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 				infoDet.setBaseDetailAmount(stkItemMap.get(item));
 				infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
 				finTransactionHandler.newDetail(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
-				infoDet.setDetNote("Not:"+finDoc.getDocNo()+":"+finDoc.getDocDate().toString());
 			}
 		}
 		
@@ -189,14 +192,14 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public StkDocumentEntity createSalesDocument(List<SalesDocumentHolder> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department, Date transactionDate){
+	public StkDocumentEntity createSalesDocument(List<CatMenuEntity> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department, Date transactionDate){
 		
 		OrganizationEntity organization = fisPeriod2.getFiscalYear().getOrganization();
 		
 		StkDocumentEntity stkDocument = new StkDocumentEntity();
 		stkDocument.setFiscalPeriod2(fisPeriod2);
 		stkDocument.setDocDate(transactionDate);
-		stkDocument.setDocNo("SLS:"+  stkDocument.getDocDate().toGMTString().substring(0, 11).trim());
+		stkDocument.setDocNo("Satış:" + AbcUtility.formatDate(stkDocument.getDocDate()));
 		stkDocument.setItem(customer);
 		stkDocument.setOrganization(fisPeriod2.getFiscalYear().getOrganization());
 		
@@ -205,22 +208,26 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		stkDocument.setTask(stkTask);
 		stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(stkDocument));
 		
-		for(SalesDocumentHolder holder : holderList){	
+		for(CatMenuEntity holder : holderList){	
 			StkDetailEntity stkDetailEntity = new StkDetailEntity();
 			stkDetailEntity.setDocument(stkDocument);
-			stkDetailEntity.setItem(holder.getItem());
+			stkDetailEntity.setItem(holder.getMenuInfo().getMeal());
 			stkDetailEntity.setTrStateDetail(-1);
 			stkDetailEntity.setDepartment(department);
 			
-			stkDetailEntity.setBaseDetailCount(holder.getCount());
-			stkDetailEntity.setItemDetailCount(holder.getCount());
+			stkDetailEntity.setBaseDetailCount(holder.getCountSpend());
+			stkDetailEntity.setItemDetailCount(holder.getCountSpend());
 
-			stkDetailEntity.setUnitDetailPrice(holder.getUnitPrice());
-			stkDetailEntity.setBaseDetailAmount(holder.getCount().multiply(holder.getUnitPrice()));
-			stkDetailEntity.setDetNote("Not:"+stkDocument.getDocNo()+":"+stkDocument.getDocDate().toString());
+			stkDetailEntity.setUnitDetailPrice(holder.getMenuInfo().getUnitPrice());
+			stkDetailEntity.setBaseDetailAmount(holder.getCountSpend().multiply(holder.getMenuInfo().getUnitPrice()));
+			stkDetailEntity.setDetNote("Satış : " + AbcUtility.formatDate(stkDocument.getDocDate())+" : "+holder.getMenuInfo().getMeal().getName());
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(stkDetailEntity, stkDocument.getUserCreated()));
 		}		
-		createFinFromStk(stkDocument.getId());
+		FinDocumentEntity finDocument = createFinFromStk(stkDocument.getId());
+		for(CatMenuEntity holder : holderList){	
+			holder.setFinDocument(finDocument);
+			menuRepository.save(holder);
+		}
 		return stkDocument;
 	}
 

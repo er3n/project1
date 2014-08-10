@@ -241,7 +241,7 @@ public class CatMenuViewBean implements Serializable {
 		selectedMenu = new CatMenuEntity();
 		selectedMenu.setFiscalYear(fiscalYear);
 		selectedMenu.setCountPrepare(expectedCountPrepare);
-		selectedMenu.setMeal(mealFilterEntity.getMeal());
+		selectedMenu.setMenuInfo(mealFilterEntity);
 		selectedMenu.setMenuDate(dailyMenu.getDate());
 		selectedMenu.setMenuStatus(EnumList.MenuStatusEnum.WAIT);
 		selectedMenu.setMenuItemSet(new HashSet<CatMenuItemEntity>());

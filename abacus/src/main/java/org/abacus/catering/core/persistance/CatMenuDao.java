@@ -14,7 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefMenuDao {
+public class CatMenuDao {
 
 	@PersistenceContext
 	private EntityManager em;

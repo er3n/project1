@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.abacus.catering.core.persistance.DefMenuDao;
+import org.abacus.catering.core.persistance.CatMenuDao;
 import org.abacus.catering.core.persistance.repository.MenuInfoRepository;
 import org.abacus.catering.core.persistance.repository.MenuItemRepository;
 import org.abacus.catering.core.persistance.repository.MenuRepository;
@@ -56,7 +56,7 @@ import org.springframework.util.CollectionUtils;
 public class CatMenuHandlerImpl implements CatMenuHandler {
 
 	@Autowired
-	private DefMenuDao menuDao;
+	private CatMenuDao menuDao;
 
 	@Autowired
 	private MenuRepository menuRepository;
@@ -267,11 +267,11 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		return menuRepository.getMenuListForFinace(fiscalYearId, menuDate);
 	}
 
-	public DefMenuDao getMenuDao() {
+	public CatMenuDao getMenuDao() {
 		return menuDao;
 	}
 
-	public void setMenuDao(DefMenuDao menuDao) {
+	public void setMenuDao(CatMenuDao menuDao) {
 		this.menuDao = menuDao;
 	}
 

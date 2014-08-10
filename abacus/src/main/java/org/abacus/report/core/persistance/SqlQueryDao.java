@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,7 +43,7 @@ public class SqlQueryDao {
 	public SqlDataHolder getSqlData(String sql) {
 		Statement statement = null;
 		ResultSet resultSet = null;
-		Set<String> columnSet = new HashSet<String>();
+		Set<String> columnSet = new TreeSet<String>();
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		try {
 			Session sess = em.unwrap(Session.class);

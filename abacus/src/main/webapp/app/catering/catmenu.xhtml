@@ -225,12 +225,12 @@
 					<p:outputLabel value="Hazırlanan Miktar" />
 					<pe:inputNumber
 						value="#{catMenuViewBean.selectedMenu.countPrepare}"
-						decimalPlaces="3" style="text-align: right;" required="true"
+						decimalPlaces="0" style="text-align: right;" required="true"
 						requiredMessage="Tahmini miktar bos olamaz" />
 
 					<p:outputLabel value="Servis Miktarı" />
 					<pe:inputNumber value="#{catMenuViewBean.selectedMenu.countSpend}"
-						decimalPlaces="3" style="text-align: right;" required="false"
+						decimalPlaces="0" style="text-align: right;" required="false"
 						requiredMessage="Kullanilan miktar bos olamaz" />
 
 				</h:panelGrid>
@@ -321,7 +321,7 @@
 
 					<p:outputLabel value="Servis Miktarı" />
 					<pe:inputNumber id="miktar"
-						decimalPlaces="3" style="text-align: right;"
+						decimalPlaces="0" style="text-align: right;"
 						value="#{catMenuViewBean.selectedMenu.countSpend}" disabled="true"
 						requiredMessage="Kullanilan miktar bos olamaz">
 					</pe:inputNumber>

@@ -41,7 +41,7 @@ public class PivotQueryViewBean implements IPivotViewBean {
 	private List<String> pivotColSet = new ArrayList<String>();
 	private List<String> pivotValSet = new ArrayList<String>();
 
-	private String sqlText = "select * from def_value";
+	private String sqlText = "select * from v_fin";
 	private String jsonResult;
 	private String sqlField;
 	private String pivotName;

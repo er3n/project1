@@ -10,26 +10,26 @@ import org.abacus.transaction.shared.entity.StkDocumentEntity;
 
 public class ConfirmMenuEvent extends UpdatedEvent {
 
-	private StkDocumentEntity document;
+	private StkDocumentEntity stkDocument;
 	private List<StkDetailEntity> details;
 	private String user;
 	private CatMenuEntity menu;
 	private FiscalYearEntity fiscalYear;
 
-	public ConfirmMenuEvent(StkDocumentEntity document, List<StkDetailEntity> details, CatMenuEntity menu, String user, FiscalYearEntity fiscalYear) {
-		this.document = document;
+	public ConfirmMenuEvent(StkDocumentEntity stkDocument, List<StkDetailEntity> details, CatMenuEntity menu, String user, FiscalYearEntity fiscalYear) {
+		this.stkDocument = stkDocument;
 		this.details = details;
 		this.menu = menu;
 		this.user = user;
 		this.fiscalYear = fiscalYear;
 	}
 
-	public StkDocumentEntity getDocument() {
-		return document;
+	public StkDocumentEntity getStkDocument() {
+		return stkDocument;
 	}
 
-	public void setDocument(StkDocumentEntity document) {
-		this.document = document;
+	public void setStkDocument(StkDocumentEntity stkDocument) {
+		this.stkDocument = stkDocument;
 	}
 
 	public List<StkDetailEntity> getDetails() {

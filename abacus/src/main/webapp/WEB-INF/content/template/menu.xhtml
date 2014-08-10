@@ -8,6 +8,8 @@
 		<p:submenu label="Sistem Yönetim" rendered="#{sec:areAnyGranted('AUTH_SECURITY,AUTH_ORGANIZATION,AUTH_DEFINITION')}">
 			<p:menuitem value="Organizasyon-Departman" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
 			<p:menuitem value="Organizasyon-Dönem" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
+			<p:menuitem value="Proje Menu Bilgileri" url="/app/catering/catmenuinfo.abc" />
+			<p:separator/>
 			<p:menuitem value="Kullanici Gruplari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}" />			
 			<p:menuitem value="Kullanici Tanimi" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}"/>
 			<p:separator/>
@@ -34,7 +36,6 @@
 			<p:menuitem value="Malzeme Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" />   
 			<p:menuitem value="Yemek/Ürün Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_P" />
 			<p:menuitem value="Menu Tanimlari" url="/app/catering/catmenu.abc" />
-			<p:menuitem value="Öğün Tanimlari" url="/app/catering/catmeal.abc" />
 		</p:submenu>
 
 		<p:submenu label="Stok">

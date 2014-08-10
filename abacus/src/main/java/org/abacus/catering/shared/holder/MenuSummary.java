@@ -2,11 +2,11 @@ package org.abacus.catering.shared.holder;
 
 import java.util.List;
 
-import org.abacus.catering.shared.entity.CatMealFilterEntity;
+import org.abacus.catering.shared.entity.CatMenuInfoEntity;
 
 public class MenuSummary {
 	private List<DailyMenuDetail> dailyMenuDetails;
-	private List<CatMealFilterEntity> meals;
+	private List<CatMenuInfoEntity> meals;
 
 	public List<DailyMenuDetail> getDailyMenuDetails() {
 		return dailyMenuDetails;
@@ -16,11 +16,11 @@ public class MenuSummary {
 		this.dailyMenuDetails = dailyMenuDetails;
 	}
 
-	public List<CatMealFilterEntity> getMeals() {
+	public List<CatMenuInfoEntity> getMeals() {
 		return meals;
 	}
 
-	public void setMeals(List<CatMealFilterEntity> meals) {
+	public void setMeals(List<CatMenuInfoEntity> meals) {
 		this.meals = meals;
 	}
 

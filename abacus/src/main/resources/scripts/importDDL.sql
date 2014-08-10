@@ -8,7 +8,7 @@ create index ix_bud_detail on bud_detail (document_id);
 
 create unique index ix_bud_document on bud_document (fiscal_year_id);
 
-create unique index ix_cat_meal_filter on cat_meal_filter (fiscal_year_id, meal_id);
+create unique index ix_cat_menu_info on cat_menu_info (fiscal_year_id, meal_id);
 
 create unique index ix_cat_menu on cat_menu (fiscal_year_id, menu_date, meal_id);
 

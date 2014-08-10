@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.abacus.catering.core.persistance.DefMenuDao;
-import org.abacus.catering.core.persistance.repository.MealFilterRepository;
+import org.abacus.catering.core.persistance.repository.MenuInfoRepository;
 import org.abacus.catering.core.persistance.repository.MenuItemRepository;
 import org.abacus.catering.core.persistance.repository.MenuRepository;
 import org.abacus.catering.core.util.CatMenuItemToMenuMaterialConverter;
 import org.abacus.catering.shared.NoMenuItemSelectedException;
-import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.catering.shared.entity.CatMenuEntity;
+import org.abacus.catering.shared.entity.CatMenuInfoEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.catering.shared.event.ConfirmMenuEvent;
 import org.abacus.catering.shared.event.CreateMenuEvent;
@@ -68,13 +68,13 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	private DefTaskRepository taskRepository;
 
 	@Autowired
-	private MealFilterRepository mealFilterRepo;
-
-	@Autowired
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> stkTransactionHandler;
 
 	@Autowired
 	private CatMenuItemToMenuMaterialConverter catMenuItemToMenuMaterialConverter;
+	
+	@Autowired
+	private MenuInfoRepository menuInfoRepo;
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -95,7 +95,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 
 		}
 
-		List<CatMealFilterEntity> meals = mealFilterRepo.getMealFilterList(searchCriteria.getFiscalYear().getId());
+		List<CatMenuInfoEntity> meals = menuInfoRepo.getMenuInfoList(searchCriteria.getFiscalYear().getId());
 		sum.setMeals(meals);
 
 		return sum;
@@ -220,26 +220,51 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public MenuConfirmedEvent confirmMenu(ConfirmMenuEvent confirmMenuEvent) throws AbcBusinessException {
 
-		StkDocumentEntity document = confirmMenuEvent.getDocument();
+		StkDocumentEntity stkDocument = confirmMenuEvent.getStkDocument();
 		List<StkDetailEntity> details = confirmMenuEvent.getDetails();
 		String user = confirmMenuEvent.getUser();
 		CatMenuEntity menu = confirmMenuEvent.getMenu();
 		FiscalYearEntity fiscalYear = confirmMenuEvent.getFiscalYear();
 		
-		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(document, user, fiscalYear.getOrganization(), fiscalYear));
-		document = documentCreatedEvent.getDocument();
+		DocumentCreatedEvent<StkDocumentEntity> documentCreatedEvent = stkTransactionHandler.newDocument(new CreateDocumentEvent<StkDocumentEntity>(stkDocument, user, fiscalYear.getOrganization(), fiscalYear));
+		stkDocument = documentCreatedEvent.getDocument();
 
 		for (StkDetailEntity detail : details) {
-			detail.setDocument(document);
+			detail.setDocument(stkDocument);
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(detail, user));
 		}
 
 		menu.setMenuStatus(EnumList.MenuStatusEnum.DONE);
-		menu.setDocument((StkDocumentEntity) document);
+		menu.setStkDocument((StkDocumentEntity) stkDocument);
 		MenuUpdatedEvent mue = this.updateMenu(new UpdateMenuEvent(menu, user));
 		menu = mue.getMenu();
 
-		return new MenuConfirmedEvent(document);
+		return new MenuConfirmedEvent(stkDocument);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public List<CatMenuInfoEntity> getMenuInfoList(FiscalYearEntity fiscalYear){
+		return menuInfoRepo.getMenuInfoList(fiscalYear.getId());
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
+	public CatMenuInfoEntity saveMenuInfoEntity(CatMenuInfoEntity entity){
+		entity = menuInfoRepo.save(entity);
+		return entity;	
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
+	public void deleteMenuInfoEntity(CatMenuInfoEntity entity){
+		menuInfoRepo.delete(entity);
+	}
+	
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public List<CatMenuEntity> getMenuListForFinace(String fiscalYearId, Date menuDate) {
+		return menuRepository.getMenuListForFinace(fiscalYearId, menuDate);
 	}
 
 	public DefMenuDao getMenuDao() {

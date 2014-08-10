@@ -245,9 +245,9 @@ insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_fi
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('#.#1.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':12', '#.#1.#1:'||trim(to_char(currval('seq_id'),'00000000')),12, DATE '2014-12-01', DATE '2014-12-31', 1, 1, 1);
 commit;
 
-insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1:'||trim(to_char(currval('seq_id')-1,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M1' and organization_id='#' and class_enum='FIN_R'), 150, 3.0);
-insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1:'||trim(to_char(currval('seq_id')-2,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M2' and organization_id='#' and class_enum='FIN_R'), 200, 5.0);
-insert into cat_meal_filter (id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1:'||trim(to_char(currval('seq_id')-3,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M3' and organization_id='#' and class_enum='FIN_R'), 175, 7.5);
+insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1:'||trim(to_char(currval('seq_id')-1,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M1' and organization_id='#' and class_enum='FIN_R'), 150, 3.0);
+insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1:'||trim(to_char(currval('seq_id')-2,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M2' and organization_id='#' and class_enum='FIN_R'), 200, 5.0);
+insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1:'||trim(to_char(currval('seq_id')-3,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M3' and organization_id='#' and class_enum='FIN_R'), 175, 7.5);
 commit;
 
 insert into bud_document(id,version,fiscal_year_id,estimate_date, budget_note) values (nextval('seq_id'),0,'#.#1.#1:'||trim(to_char(currval('seq_id')-4,'00000000')), DATE '2014-01-01','2014 #.#1.#1 butcesi')

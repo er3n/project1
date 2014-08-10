@@ -40,8 +40,12 @@ public class CatMenuEntity extends DynamicEntity {
 	private DefItemEntity meal;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "document_id", nullable = true)
-	private StkDocumentEntity document;
+	@JoinColumn(name = "document_stk_id", nullable = true)
+	private StkDocumentEntity stkDocument;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "document_fin_id", nullable = true)
+	private StkDocumentEntity finDocument;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "menu_date", nullable = false)
@@ -51,18 +55,19 @@ public class CatMenuEntity extends DynamicEntity {
 	@Column(name = "menu_status", nullable = false, length=30)
 	private EnumList.MenuStatusEnum menuStatus;
 
-	@Column(name = "count_prepare", precision = 10, scale = 3)
-	private BigDecimal countPrepare;
+	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
+	private BigDecimal countPrepare = BigDecimal.ZERO;
 
-	@Column(name = "count_spend", precision = 10, scale = 3)
-	private BigDecimal countSpend;
+	@Column(name = "count_spend", nullable = false, precision = 10, scale = 3)
+	private BigDecimal countSpend = BigDecimal.ZERO;
+
+	@Column(name = "cancel_reason", nullable = true)
+	private String cancelReason;
 
 	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	private Set<CatMenuItemEntity> menuItemSet;
 
-	@Column(name = "cancel_reason", nullable = true)
-	private String cancelReason;
 
 	public List<CatMenuItemEntity> getMenuItemList() {
 		return new ArrayList<CatMenuItemEntity>(menuItemSet);
@@ -97,7 +102,7 @@ public class CatMenuEntity extends DynamicEntity {
 	}
 
 	public void setCountPrepare(BigDecimal countPrepare) {
-		this.countPrepare = countPrepare;
+		this.countPrepare = countPrepare!=null?countPrepare:BigDecimal.ZERO;
 	}
 
 	public BigDecimal getCountSpend() {
@@ -105,7 +110,7 @@ public class CatMenuEntity extends DynamicEntity {
 	}
 
 	public void setCountSpend(BigDecimal countSpend) {
-		this.countSpend = countSpend;
+		this.countSpend = countSpend!=null?countPrepare:BigDecimal.ZERO;
 	}
 
 	public Set<CatMenuItemEntity> getMenuItemSet() {
@@ -124,20 +129,28 @@ public class CatMenuEntity extends DynamicEntity {
 		this.cancelReason = cancelReason;
 	}
 
-	public StkDocumentEntity getDocument() {
-		return document;
-	}
-
-	public void setDocument(StkDocumentEntity document) {
-		this.document = document;
-	}
-
 	public FiscalYearEntity getFiscalYear() {
 		return fiscalYear;
 	}
 
 	public void setFiscalYear(FiscalYearEntity fiscalYear) {
 		this.fiscalYear = fiscalYear;
+	}
+
+	public StkDocumentEntity getStkDocument() {
+		return stkDocument;
+	}
+
+	public void setStkDocument(StkDocumentEntity stkDocument) {
+		this.stkDocument = stkDocument;
+	}
+
+	public StkDocumentEntity getFinDocument() {
+		return finDocument;
+	}
+
+	public void setFinDocument(StkDocumentEntity finDocument) {
+		this.finDocument = finDocument;
 	}
 
 }

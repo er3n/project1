@@ -10,8 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import org.abacus.catering.core.handler.CatMealHandler;
-import org.abacus.catering.shared.entity.CatMealFilterEntity;
+import org.abacus.catering.core.handler.CatMenuHandler;
+import org.abacus.catering.shared.entity.CatMenuInfoEntity;
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
@@ -37,8 +37,8 @@ import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 public class CrudStkConvertViewBean implements Serializable {
 
 
-	@ManagedProperty(value = "#{catMealHandler}")
-	private CatMealHandler catMealHandler;
+	@ManagedProperty(value = "#{catMenuHandler}")
+	private CatMenuHandler catMealHandler;
 
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
@@ -64,18 +64,14 @@ public class CrudStkConvertViewBean implements Serializable {
 	}
 
 	public void createStkWBAndFinBS(){
-		if (transactionDate==null){
-			jsfMessageHelper.addError("Tarih Giriniz");
-			return;
-		}
-		List<CatMealFilterEntity> catMealList = catMealHandler.getCatMealList(fiscalYear);
+		List<CatMenuInfoEntity> catMealList = catMealHandler.getMenuInfoList(fiscalYear);
 		if (catMealList.size()==0){
 			jsfMessageHelper.addError("Oluşturulacak menü bulunamadı");
 			return;
 		}
 		
 		List<SalesDocumentHolder> holderList = new ArrayList<SalesDocumentHolder>();
-		for (CatMealFilterEntity meal : catMealList) {
+		for (CatMenuInfoEntity meal : catMealList) {
 			holderList.add(new SalesDocumentHolder(meal.getMeal(), meal.getCountPrepare(), meal.getUnitPrice()));
 		}
 		String username = sessionInfoHelper.currentUserName();
@@ -135,11 +131,11 @@ public class CrudStkConvertViewBean implements Serializable {
 		this.jsfMessageHelper = jsfMessageHelper;
 	}
 
-	public CatMealHandler getCatMealHandler() {
+	public CatMenuHandler getCatMealHandler() {
 		return catMealHandler;
 	}
 
-	public void setCatMealHandler(CatMealHandler defUnitHandler) {
+	public void setCatMealHandler(CatMenuHandler defUnitHandler) {
 		this.catMealHandler = defUnitHandler;
 	}
 
@@ -175,16 +171,10 @@ public class CrudStkConvertViewBean implements Serializable {
 		this.transactionDate = transactionDate;
 	}
 
-	/**
-	 * @return the transactionHandler
-	 */
 	public TraTransactionHandler<StkDocumentEntity, StkDetailEntity> getTransactionHandler() {
 		return transactionHandler;
 	}
 
-	/**
-	 * @param transactionHandler the transactionHandler to set
-	 */
 	public void setTransactionHandler(
 			TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler) {
 		this.transactionHandler = transactionHandler;

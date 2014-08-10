@@ -15,8 +15,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.abacus.catering.core.handler.CatMenuHandler;
-import org.abacus.catering.shared.entity.CatMealFilterEntity;
 import org.abacus.catering.shared.entity.CatMenuEntity;
+import org.abacus.catering.shared.entity.CatMenuInfoEntity;
 import org.abacus.catering.shared.entity.CatMenuItemEntity;
 import org.abacus.catering.shared.event.ConfirmMenuEvent;
 import org.abacus.catering.shared.event.CreateMenuEvent;
@@ -64,7 +64,7 @@ public class CatMenuViewBean implements Serializable {
 
 	private MenuSummary menuSummary;
 
-	private List<CatMealFilterEntity> meals;
+	private List<CatMenuInfoEntity> meals;
 
 	private CatMenuEntity selectedMenu;
 
@@ -91,11 +91,11 @@ public class CatMenuViewBean implements Serializable {
 		this.initMenuSummary();
 	}
 
-	public void initCancelMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
+	public void initCancelMenu(CatMenuInfoEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		this.initUpdateMenu(mealFilterEntity, dailyMenu);
 	}
 
-	public void initConfirmMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
+	public void initConfirmMenu(CatMenuInfoEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		this.initUpdateMenu(mealFilterEntity, dailyMenu);
 	}
 
@@ -234,7 +234,7 @@ public class CatMenuViewBean implements Serializable {
 		this.meals = menuSummary.getMeals();
 	}
 
-	public void initCreateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
+	public void initCreateMenu(CatMenuInfoEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		FiscalYearEntity fiscalYear = sessionInfoHelper.currentFiscalYear();
 		BigDecimal expectedCountPrepare = mealFilterEntity.getCountPrepare();
 
@@ -247,7 +247,7 @@ public class CatMenuViewBean implements Serializable {
 		selectedMenu.setMenuItemSet(new HashSet<CatMenuItemEntity>());
 	}
 
-	public void initUpdateMenu(CatMealFilterEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
+	public void initUpdateMenu(CatMenuInfoEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		CatMenuEntity menu = dailyMenu.getMenuMap().get(mealFilterEntity.getMeal().getCode());
 		ReadMenuEvent readMenuEvent = menuHandler.findMenu(new RequestReadMenuEvent(menu.getId()));
 		this.selectedMenu = readMenuEvent.getMenu();
@@ -257,7 +257,7 @@ public class CatMenuViewBean implements Serializable {
 		this.selectedMenu.getMenuItemSet().remove(item);
 	}
 
-	public boolean isMealActiveAtGivenDate(CatMealFilterEntity filter, Date date) {
+	public boolean isMealActiveAtGivenDate(CatMenuInfoEntity filter, Date date) {
 //		if (filter.getDateStart().before(date) && filter.getDateFinish().after(date)) {
 //			return true;
 //		}
@@ -325,11 +325,11 @@ public class CatMenuViewBean implements Serializable {
 		this.menuSummary = menuSummary;
 	}
 
-	public List<CatMealFilterEntity> getMeals() {
+	public List<CatMenuInfoEntity> getMeals() {
 		return meals;
 	}
 
-	public void setMeals(List<CatMealFilterEntity> meals) {
+	public void setMeals(List<CatMenuInfoEntity> meals) {
 		this.meals = meals;
 	}
 

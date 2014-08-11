@@ -1,6 +1,7 @@
 package org.abacus.budget.shared.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.constant.EnumList;
@@ -39,6 +42,10 @@ public class BudDetailEntity extends DynamicEntity {
 
 	@Column(name = "budget_amount", nullable = false, precision = 12, scale = 2)
 	private BigDecimal budgetAmount;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "accrue_date", nullable = true)
+	private Date accrueDate;
 
 	public BudDetailEntity() {
 	}
@@ -85,6 +92,14 @@ public class BudDetailEntity extends DynamicEntity {
 
 	public void setBudgetAmount(BigDecimal budgetAmount) {
 		this.budgetAmount = budgetAmount;
+	}
+
+	public Date getAccrueDate() {
+		return accrueDate;
+	}
+
+	public void setAccrueDate(Date accrueDate) {
+		this.accrueDate = accrueDate;
 	}
 
 }

@@ -104,13 +104,13 @@ public interface EnumList {
 
 	enum DefTypeGroupEnum implements ISelectionEnum {
 		NIL("Null"), 
-		PRM("Parametre"), // Static Parameter
-		VAL("Kod"), // Dynamic Value Tree
-		ITM("Hesap"), // Dynamic Item
-		STK("Stok"), // Dynamic Task Stock
-		FIN("Finans"), // Dynamic Task Finance
-		ACC("Acc"), // Acc
-		REQ("İstek")
+		PRM("Parametre"), 	//Parameter : Static Parameter
+		VAL("Kod"), 		//Value : Dynamic Value Tree
+		ITM("Hesap"), 		//Item :  Dynamic Item
+		STK("Stok"), 		//Stock : Dynamic Task Stock
+		FIN("Finans"), 		//Finance : Dynamic Task Finance
+		REQ("İstek"),		//Request : Istek
+		ACC("Muh"),			//Account : Muh.Hesap
 		;
 		private String description;
 
@@ -421,11 +421,11 @@ public interface EnumList {
 	}
 	
 	enum AccountGLC implements ISelectionEnum {
-		GLC_A("1:Varlık"),//
-		GLC_L("3:Kaynak"),//
-		GLC_O("5:Sermaye"), //
-		GLC_R("6:Gelir"),//
-		GLC_X("7:Gider"), //
+		GLC_A("1:Varlık"),	//Assets
+		GLC_L("3:Kaynak"),	//Liability
+		GLC_O("5:Sermaye"), //Owners Equity
+		GLC_R("6:Gelir"),	//Revenue
+		GLC_X("7:Gider"), 	//Expense
 		;
 
 		private String descripion;

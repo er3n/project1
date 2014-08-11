@@ -31,11 +31,6 @@
 
 					<h:panelGrid columns="2" style="vertical-align:top">
 
-						<p:outputLabel value="Tahmini Tarih:" style="font-weigh: bold" />
-						<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button"
-							value="#{budSummaryViewBean.budget.document.estimateDate}"
-							required="true" requiredMessage="Tahmini tarih boş olamaz" />
-
 						<p:outputLabel value="Not:" style="font-weigh: bold" />
 						<p:inputTextarea rows="10" cols="50"
 							value="#{budSummaryViewBean.budget.document.budgetNote}" />

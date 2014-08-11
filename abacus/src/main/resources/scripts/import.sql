@@ -250,7 +250,7 @@ insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, u
 insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '#.#1.#1:'||trim(to_char(currval('seq_id')-3,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M3' and organization_id='#' and class_enum='FIN_R'), 175, 7.5);
 commit;
 
-insert into bud_document(id,version,fiscal_year_id,estimate_date, budget_note) values (nextval('seq_id'),0,'#.#1.#1:'||trim(to_char(currval('seq_id')-4,'00000000')), DATE '2014-01-01','2014 #.#1.#1 butcesi')
+insert into bud_document(id,version,fiscal_year_id,budget_note) values (nextval('seq_id'),0,'#.#1.#1:'||trim(to_char(currval('seq_id')-4,'00000000')), '2014 #.#1.#1 butcesi')
 insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -1,'#.#1.#1:'||trim(to_char(currval('seq_id')-4- 1,'00000000'))||':01', 'BUD_R','ESTIMATE',510)
 insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -2,'#.#1.#1:'||trim(to_char(currval('seq_id')-4- 2,'00000000'))||':02', 'BUD_R','ESTIMATE',750)
 insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -3,'#.#1.#1:'||trim(to_char(currval('seq_id')-4- 3,'00000000'))||':03', 'BUD_R','ESTIMATE',620)

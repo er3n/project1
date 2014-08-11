@@ -6,6 +6,7 @@ import org.abacus.budget.shared.event.CreateBudgetDetailEvent;
 import org.abacus.budget.shared.event.UpdateBudDocumentEvent;
 import org.abacus.budget.shared.event.UpdateBudgetDetailEvent;
 import org.abacus.budget.shared.holder.BudgetHolder;
+import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 
 public interface BudgetHandler {
@@ -20,4 +21,6 @@ public interface BudgetHandler {
 
 	BudgetHolder updateDetail(UpdateBudgetDetailEvent updateBudgetDetailEvent);
 
+	void convertBudget(FiscalPeriodEntity period);
+	
 }

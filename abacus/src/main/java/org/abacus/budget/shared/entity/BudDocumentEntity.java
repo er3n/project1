@@ -23,10 +23,6 @@ public class BudDocumentEntity extends DynamicEntity {
 	@JoinColumn(name = "fiscal_year_id", nullable = false)
 	private FiscalYearEntity fiscalYear;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "estimate_date", nullable = false)
-	private Date estimateDate;
-
 	@Column(name = "budget_note", nullable = true)
 	private String budgetNote;
 
@@ -41,14 +37,6 @@ public class BudDocumentEntity extends DynamicEntity {
 		this.fiscalYear = fiscalYear;
 	}
 
-	public Date getEstimateDate() {
-		return estimateDate;
-	}
-
-	public void setEstimateDate(Date estimateDate) {
-		this.estimateDate = estimateDate;
-	}
-
 	public String getBudgetNote() {
 		return budgetNote;
 	}
@@ -56,6 +44,5 @@ public class BudDocumentEntity extends DynamicEntity {
 	public void setBudgetNote(String budgetNote) {
 		this.budgetNote = budgetNote;
 	}
-
 
 }

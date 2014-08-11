@@ -54,7 +54,7 @@
 		</p:submenu>
 
 		<p:submenu label="Finans" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-			<p:menuitem value="Otomatik Fiş Oluştur" url="/app/transaction/crudStkConvert.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Otomatik Fiş Oluştur" url="/app/transaction/convertDocument.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
 			<p:separator/>
 			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
 			<p:menuitem value="Satış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_S" />

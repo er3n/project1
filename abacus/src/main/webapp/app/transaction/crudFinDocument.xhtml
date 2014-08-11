@@ -42,13 +42,16 @@
 								process="@this" />
 						</p:selectOneMenu>
 
-						<p:outputLabel id="firmaIdLabel" value="Hesap" rendered="true" />
-						<h:panelGrid id="vendorSelection" columns="1" rendered="true">
+						<p:outputLabel id="firmaIdLabel" value="Hesap" rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_J)}" />
+						<h:panelGrid id="vendorSelection" columns="1" rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_J)}">
 							<abc:itemSelection id="vendorSelectionInput"
 								widgetVar="vendorSelectionWdg" dialogId="vendorSelectionDialog"
 								targetVar="#{crudFinDocumentViewBean.document.item}"
 								required="false" />
 						</h:panelGrid>
+
+						<p:outputLabel value="" rendered="${crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_J)}" />
+						<p:outputLabel value="" rendered="${crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_J)}" />
 
 						<p:outputLabel value="Belge No:" />
 						<p:inputText value="#{crudFinDocumentViewBean.document.docNo}"
@@ -97,7 +100,7 @@
 						<p:commandButton value="Detay Ekle"
 							actionListener="#{crudFinDocumentViewBean.initNewDetail()}"
 							update=":crudDocumentDetailSelectionFrm" process="@this"
-							rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}" />
+							rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) and not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S) and not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_J)}" />
 					</f:facet>
 
 					<p:column headerText="Hesap Kodu">
@@ -124,7 +127,7 @@
 					</p:column>
 
 					<p:column headerText="İşlem"
-						rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}">
+						rendered="${not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) and not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S) and not crudFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_J) }">
 						<p:commandButton icon="ui-icon-pencil"
 							actionListener="#{crudFinDocumentViewBean.updateDetailSelected(var)}"
 							update=":crudDocumentDetailSelectionFrm" />

@@ -3,6 +3,7 @@ package org.abacus.budget.core.handler;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.abacus.budget.core.persistance.BudDetailDao;
 import org.abacus.budget.core.persistance.repository.BudDetailRepository;
 import org.abacus.budget.core.persistance.repository.BudDocumentRepository;
 import org.abacus.budget.shared.entity.BudDetailEntity;
@@ -33,6 +34,9 @@ public class BudgetHandlerImpl implements BudgetHandler {
 
 	@Autowired
 	private BudDetailRepository budDetailRepository;
+
+	@Autowired
+	private BudDetailDao budDetailDao;
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -145,4 +149,17 @@ public class BudgetHandlerImpl implements BudgetHandler {
 		return holder;
 	}
 
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void convertBudget(FiscalPeriodEntity period){
+		BudgetHolder budHolder = summerizeProjectBudget(period.getFiscalYear());
+		List<BudDetailEntity> budList = budDetailDao.getFinAccrueBudget(period);
+			
+		for (BudDetailEntity bud : budList) {
+			bud.setDocument(budHolder.getDocument());
+			bud.setFiscalPeriod(period);
+			budDetailRepository.save(bud);
+		}
+	}
+	
 }

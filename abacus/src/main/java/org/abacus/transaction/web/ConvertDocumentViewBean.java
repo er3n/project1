@@ -11,7 +11,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.persistence.EnumType;
 
+import org.abacus.budget.core.handler.BudgetHandler;
 import org.abacus.catering.core.handler.CatMenuHandler;
 import org.abacus.catering.shared.entity.CatMenuEntity;
 import org.abacus.common.web.JsfMessageHelper;
@@ -19,6 +21,7 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.core.handler.DepartmentHandler;
+import org.abacus.organization.core.handler.FiscalHandler;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -35,7 +38,7 @@ import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("serial")
-public class CrudStkConvertViewBean implements Serializable {
+public class ConvertDocumentViewBean implements Serializable {
 
 
 	@ManagedProperty(value = "#{catMenuHandler}")
@@ -52,9 +55,15 @@ public class CrudStkConvertViewBean implements Serializable {
 	
 	@ManagedProperty(value = "#{departmentHandler}")
 	private DepartmentHandler departmentService;
-	
+
+	@ManagedProperty(value = "#{budgetHandler}")
+	private BudgetHandler budgetHandler;
+
 	@ManagedProperty(value = "#{stkTransactionHandler}")
 	private TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler;
+	
+	@ManagedProperty(value = "#{fiscalHandler}")
+	private FiscalHandler fiscalService;
 	
 	private FiscalYearEntity fiscalYear;
 	private Date transactionDate = new Date();
@@ -98,24 +107,43 @@ public class CrudStkConvertViewBean implements Serializable {
 	}
 
 	public void convertStkOutToFinCost(){
-		//Tarih Bos Ise Entegre Olmamis Tum Cikis Fisleri 
+		//TODO :Projeler arasi WB_T ler ne olacak ? Satis Gibi degerlendirilmeli: Faturası ve Maliyeti olusur- Rev==Exp
+		
+		//Maliyeti Entegre Olmamis Tum Cikis Fisleri 
 		TraDocumentSearchCriteria documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(EnumList.DefTypeEnum.STK_IO_O);
 		documentSearchCriteria.setIsIntegrated("0");
 		documentSearchCriteria.setDocEndDate(transactionDate);
 		ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
-		List<StkDocumentEntity> documentSearchResultList = readDocumentEvent.getDocumentList();
-		if (documentSearchResultList.size()==0){
+		List<StkDocumentEntity> documentSearchResultList_Out = readDocumentEvent.getDocumentList();
+
+		
+		//TODO :Maliyeti Entegre Olmamis Stok Satis Fisleri
+		//TODO :setRefFinDocumentId fatura entegrasyonu icin kullaniliyor, yeni entegrasyon alani gerekir!
+//		documentSearchCriteria = new TraDocumentSearchCriteria();
+//		documentSearchCriteria.setDocType(EnumList.DefTypeEnum.STK_WB_O);
+//		documentSearchCriteria.setIsIntegrated("0");
+//		documentSearchCriteria.setDocEndDate(transactionDate);
+//		readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
+//		List<StkDocumentEntity> documentSearchResultList_Sls = readDocumentEvent.getDocumentList();
+
+		List<StkDocumentEntity> fullSearchResultList = new ArrayList<StkDocumentEntity>();
+		fullSearchResultList.addAll(documentSearchResultList_Out);
+//		fullSearchResultList.addAll(documentSearchResultList_Sls); 
+		
+		if (fullSearchResultList.size()==0){
 			jsfMessageHelper.addError("Maliyeti Oluşturulacak Stok Çıkışı bulunamadı");
 			return;
 		}
-		for (StkDocumentEntity stkDoc : documentSearchResultList) {
+		for (StkDocumentEntity stkDoc : fullSearchResultList) {
 			FinDocumentEntity costFinDoc = traIntegrationHandler.createFinFromStk(stkDoc.getId());
 		}
 		jsfMessageHelper.addInfo("createSuccessful", "Stok Maliyet Fişleri");
 	}
 
 	public void convertStkWBToFinBS(){
+		//TODO :Projeler arasi WB_T lerin Stok Satis Fisleri farkli degerlendirilmeli
+		
 		//Tarih Bos Ise Entegre Olmamis Tum Cikis Fisleri 
 		TraDocumentSearchCriteria documentSearchCriteria = new TraDocumentSearchCriteria();
 		documentSearchCriteria.setDocType(EnumList.DefTypeEnum.STK_WB);
@@ -132,6 +160,15 @@ public class CrudStkConvertViewBean implements Serializable {
 		jsfMessageHelper.addInfo("createSuccessful", "Stok Maliyet Fişleri");
 	}
 
+	public void convertBudget(){
+		//TODO : Period Secim Componenti Eklenecek
+		List<FiscalPeriodEntity> periodList = fiscalService.findFiscalPeriodList(fiscalYear);
+		for (FiscalPeriodEntity per : periodList) {
+			budgetHandler.convertBudget(per);
+		}
+		jsfMessageHelper.addInfo("createSuccessful", "Bütçe");
+	}
+		
 	public SessionInfoHelper getSessionInfoHelper() {
 		return sessionInfoHelper;
 	}
@@ -195,6 +232,34 @@ public class CrudStkConvertViewBean implements Serializable {
 	public void setTransactionHandler(
 			TraTransactionHandler<StkDocumentEntity, StkDetailEntity> transactionHandler) {
 		this.transactionHandler = transactionHandler;
+	}
+
+	/**
+	 * @return the budgetHandler
+	 */
+	public BudgetHandler getBudgetHandler() {
+		return budgetHandler;
+	}
+
+	/**
+	 * @param budgetHandler the budgetHandler to set
+	 */
+	public void setBudgetHandler(BudgetHandler budgetHandler) {
+		this.budgetHandler = budgetHandler;
+	}
+
+	/**
+	 * @return the fiscalService
+	 */
+	public FiscalHandler getFiscalService() {
+		return fiscalService;
+	}
+
+	/**
+	 * @param fiscalService the fiscalService to set
+	 */
+	public void setFiscalService(FiscalHandler fiscalService) {
+		this.fiscalService = fiscalService;
 	}
 	
 }

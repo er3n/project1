@@ -90,7 +90,7 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 			}
 		}
 
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.addOrder(Order.desc("s.docDate"));
 
 		List<T> result = criteria.list();

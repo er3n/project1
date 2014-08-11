@@ -63,7 +63,7 @@ public class GlcConstant {
 			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_CS, TraState.OUT, AccountGLC.GLC_A),
 			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_CM_VE, TraState.INP, AccountGLC.GLC_L),
 			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM____VE, TraState.INP, AccountGLC.GLC_A),
-			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_CM_PE, TraState.INP, AccountGLC.GLC_L),
+			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_CM_PE, TraState.INP, AccountGLC.GLC_X),
 			new FinHolder(DefTypeEnum.FIN_P , DefTypeEnum.ITM_SR_FN, TraState.INP, AccountGLC.GLC_X),
 			//Receipt
 			new FinHolder(DefTypeEnum.FIN_R , DefTypeEnum.ITM_CS, TraState.INP, AccountGLC.GLC_A),

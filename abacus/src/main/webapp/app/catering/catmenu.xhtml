@@ -1,5 +1,16 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:o="http://omnifaces.org/ui" xmlns:of="http://omnifaces.org/functions" template="/WEB-INF/content/template/simple.xhtml" xmlns:abc="http://www.abacus.com/abc" xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:o="http://omnifaces.org/ui" 
+	xmlns:of="http://omnifaces.org/functions" 
+	template="/WEB-INF/content/template/simple.xhtml" 
+	xmlns:abc="http://www.abacus.com/abc" 
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<ui:define name="content">
 
@@ -11,7 +22,7 @@
 
 			<h:form id="menuTimeForm">
 				<h:panelGrid columns="3">
-					<p:outputLabel for="menuTimeCal" value="Zaman:" style="font-weigh: bold" />
+					<p:outputLabel for="menuTimeCal" value="Tarih:" style="font-weigh: bold" />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" id="menuTimeCal" value="#{catMenuViewBean.searchCriteria.date}">
 						<p:ajax event="dateSelect" listener="#{catMenuViewBean.menuDateSelected}" update=":menuDetailForm" />
 					</p:calendar>
@@ -30,8 +41,8 @@
 					<f:facet name="header">
 						<p:row>
 							<p:column colspan="#{catMenuViewBean.menuSummary.meals.size() + 2}" style="font-weight:bold">Haftalik Yemek Listesi
-								<p:commandButton style="float:right" value="ileri" actionListener="#{catMenuViewBean.nextMenu}" update=":menuDetailForm :menuTimeForm" />
-								<p:commandButton style="float:right" value="geri" actionListener="#{catMenuViewBean.prevMenu}" update=":menuDetailForm :menuTimeForm" />
+								<p:commandButton style="float:right" value="ileri »" actionListener="#{catMenuViewBean.nextMenu}" update=":menuDetailForm :menuTimeForm" />
+								<p:commandButton style="float:right" value="« geri" actionListener="#{catMenuViewBean.prevMenu}" update=":menuDetailForm :menuTimeForm" />
 							</p:column>
 						</p:row>
 						<p:row>
@@ -141,15 +152,17 @@
 						<h:outputLabel value="#{menuItem.item.name} - (#{menuItem.item.code})"></h:outputLabel>
 					</p:column>
 
-					<p:column headerText="Birim">
+					<p:column headerText="Miktar" style="text-align: right; width:80px">
+						<h:outputLabel value="#{menuItem.unitItemCount}">
+							<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+						</h:outputLabel>
+					</p:column>
+
+					<p:column headerText="Birim" style="width:80px">
 						<h:outputLabel value="#{menuItem.unit.name}"></h:outputLabel>
 					</p:column>
 
-					<p:column headerText="Miktar" style="text-align: right; width:60px">
-						<h:outputLabel value="#{menuItem.unitItemCount}"></h:outputLabel>
-					</p:column>
-
-					<p:column headerText="Islem">
+					<p:column headerText="Islem" style="width:40px">
 						<p:commandButton icon="ui-icon-close" action="#{catMenuViewBean.removeMenuItemFromMenu(menuItem)}" update=":menuDialogFrm:menuItems" />
 					</p:column>
 
@@ -163,7 +176,7 @@
 						<f:selectItem itemLabel="Birim Seciniz..." itemValue="" />
 						<f:selectItems value="#{catMenuViewBean.selectedItem.itemUnitSet}" var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
 					</p:selectOneMenu>
-					<pe:inputNumber decimalPlaces="3" style="text-align: right; width:60px" value="#{catMenuViewBean.selectedUnitItemCount}" required="false" />
+					<pe:inputNumber decimalPlaces="3" style="text-align: right; width:120px" value="#{catMenuViewBean.selectedUnitItemCount}" required="false" />
 					<p:commandButton value="Ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems" process="@form" />
 				</h:panelGrid>
 
@@ -235,6 +248,16 @@
 						<h:outputLabel value="#{menuItem.item.name} - (#{menuItem.item.code})"></h:outputLabel>
 					</p:column>
 
+					<p:column headerText="Miktar" style="text-align: right; width:80px">
+						<h:outputLabel value="#{menuItem.unitItemCount}">
+							<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+						</h:outputLabel>
+					</p:column>
+
+					<p:column headerText="Birim" style="width:80px">
+						<h:outputLabel value="#{menuItem.unit.name}"></h:outputLabel>
+					</p:column>
+
 				</p:dataTable>
 
 				<p:spacer height="10px" />
@@ -242,8 +265,7 @@
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
 
 					<p:outputLabel value="Verilen" />
-					<pe:inputNumber id="miktar" decimalPlaces="0" style="text-align: right;" value="#{catMenuViewBean.selectedMenu.countSpend}" disabled="true" requiredMessage="Kullanilan miktar bos olamaz">
-					</pe:inputNumber>
+					<pe:inputNumber id="miktar" decimalPlaces="0" style="text-align: right;" value="#{catMenuViewBean.selectedMenu.countSpend}" disabled="true" requiredMessage="Kullanilan miktar bos olamaz"/>
 
 					<p:outputLabel value="Depo" />
 					<h:panelGrid columns="1">
@@ -312,19 +334,21 @@
 						<p:outputLabel value="#{var.item.name}" />
 					</p:column>
 
-					<p:column headerText="Depo">
+					<p:column headerText="Depo" style="width:180px">
 						<p:outputLabel value="#{var.department.name}" />
 					</p:column>
 
-					<p:column headerText="Birim">
+					<p:column headerText="Miktar" style="text-align: right; width:80px">
+						<p:outputLabel value="#{var.itemDetailCount}">
+							<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+						</p:outputLabel>
+					</p:column>
+
+					<p:column headerText="Birim" style="width:80px">
 						<p:outputLabel value="#{var.itemUnit.name}" />
 					</p:column>
 
-					<p:column headerText="Miktar" style="text-align: right; width:100px">
-						<p:outputLabel value="#{var.itemDetailCount}" />
-					</p:column>
-
-					<p:column headerText="Islem">
+					<p:column headerText="Islem" style="width:80px">
 						<p:commandButton icon="ui-icon-pencil" actionListener="#{catMenuViewBean.updateDetailSelected(var)}" update=":confirmMenuStkDetailForm" oncomplete="PF('confirmMenuStkDetailWdg').show();" process="@this" />
 						<p:commandButton icon="ui-icon-closethick" actionListener="#{catMenuViewBean.deleteDetail(var)}" update=":confirmMenuStkForm:documentDetailPnl" process="@this" />
 					</p:column>
@@ -377,7 +401,7 @@
 							</p:selectOneMenu>
 
 							<p:outputLabel value="Miktar" />
-							<p:inputText value="#{catMenuViewBean.selectedDetail.itemDetailCount}" required="true" requiredMessage="Miktar bos olamaz." />
+							<pe:inputNumber decimalPlaces="3" style="text-align: right;" value="#{catMenuViewBean.selectedDetail.itemDetailCount}" required="true" requiredMessage="Miktar bos olamaz."/>
 
 							<p:outputLabel value="Seri No:" />
 							<p:inputText value="#{catMenuViewBean.selectedDetail.batchDetailNo}" required="false" />
@@ -399,7 +423,7 @@
 							</h:panelGrid>
 
 							<p:outputLabel value="Miktar" />
-							<p:inputText value="#{catMenuViewBean.selectedDetail.itemDetailCount}" required="true" requiredMessage="Miktar bos olamaz." />
+							<pe:inputNumber decimalPlaces="3" style="text-align: right;" value="#{catMenuViewBean.selectedDetail.itemDetailCount}" required="true" requiredMessage="Miktar bos olamaz."/>
 
 							<p:outputLabel value="Not" style="font-weigh: bold" />
 							<p:inputTextarea rows="10" cols="50" value="#{catMenuViewBean.selectedDetail.detNote}" />

@@ -81,6 +81,8 @@ public class CatMenuViewBean implements Serializable {
 	private StkDetailEntity selectedDetail;
 
 	private EnumList.DefTypeEnum selectedDetailServiceType;
+	
+	private boolean isSaveNewStockElement = false;
 
 	@PostConstruct
 	private void init() {
@@ -103,10 +105,12 @@ public class CatMenuViewBean implements Serializable {
 		selectedDetail = new StkDetailEntity();
 		selectedDetail.setDocument(menuPreviewEvent.getDocument());
 		selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
+		this.isSaveNewStockElement = true;
 	}
 	
 	public void updateDetailSelected(StkDetailEntity detail){
 		this.selectedDetail = detail;
+		this.isSaveNewStockElement = false;
 		boolean isStkType = EnumList.DefTypeEnum.ITM_SR_ST.name().equals(this.selectedDetail.getItem().getType().getId());
 		if(isStkType){
 			this.selectedDetailServiceType = EnumList.DefTypeEnum.ITM_SR_ST;
@@ -216,6 +220,11 @@ public class CatMenuViewBean implements Serializable {
 		} else {
 			jsfMessageHelper.addError("itemExistsInMenu");
 		}
+		
+		selectedItem = null;
+		selectedUnit = null; 
+		selectedUnitItemCount = null;
+		
 	}
 
 	private boolean validateAddItemToMenu(Set<CatMenuItemEntity> menuItemSet) {
@@ -405,4 +414,14 @@ public class CatMenuViewBean implements Serializable {
 		this.selectedUnitItemCount = selectedUnitItemCount;
 	}
 
-}
+	public boolean getIsSaveNewStockElement() {
+		return isSaveNewStockElement;
+	}
+
+	public void setSaveNewStockElement(boolean isSaveNewStockElement) {
+		this.isSaveNewStockElement = isSaveNewStockElement;
+	}
+	
+	
+
+} 

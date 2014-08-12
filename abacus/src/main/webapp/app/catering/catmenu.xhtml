@@ -177,8 +177,8 @@
 						<f:selectItems value="#{catMenuViewBean.selectedItem.itemUnitSet}" var="unit" itemLabel="#{unit.unitCode.name}" itemValue="#{unit.unitCode}" />
 					</p:selectOneMenu>
 					<pe:inputNumber decimalPlaces="3" style="text-align: right; width:120px" value="#{catMenuViewBean.selectedUnitItemCount}" required="false" />
-					<p:commandButton value="Ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems" process="@form" />
-				</h:panelGrid>
+					<p:commandButton value="Ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems @parent" process="@form" />
+				</h:panelGrid> 
 
 				<p:spacer height="10px" />
 
@@ -434,9 +434,9 @@
 					</h:panelGrid> 
 
 					<f:facet name="footer">
-						<p:commandButton value="Kaydet" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.saveDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{empty catMenuViewBean.selectedDetail.item.id}" />
+						<p:commandButton value="Kaydet" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.saveDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{catMenuViewBean.isSaveNewStockElement}" />
 
-						<p:commandButton value="Guncelle" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.updateDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{not empty catMenuViewBean.selectedDetail.item.id}" />
+						<p:commandButton value="Guncelle" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.updateDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{not catMenuViewBean.isSaveNewStockElement}" />
 					</f:facet>
 
 

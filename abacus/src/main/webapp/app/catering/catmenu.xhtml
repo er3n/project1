@@ -63,22 +63,21 @@
 
 
 										<h:panelGrid columns="4">
-											<p:outputLabel value="#{menuItem.item.name}" />
-											
-												<p:outputLabel value=" (" />
+											<p:outputLabel value="#{menuItem.item.name} (" />
 
-												<p:outputLabel value="#{menuItem.unitItemCount}">
-													<f:convertNumber type="currency" minFractionDigits="0" currencySymbol="" />
-												</p:outputLabel>
-												 
-												<p:outputLabel value="#{menuItem.unit.name}" />
-												<p:outputLabel value=")" />
-											 
+
+
+											<p:outputLabel value="#{menuItem.unitItemCount}">
+												<f:convertNumber type="currency" minFractionDigits="0" currencySymbol="" />
+											</p:outputLabel>
+
+											<p:outputLabel value="#{menuItem.unit.name} )" />
+
 										</h:panelGrid>
-									 
-									
-									 
-									
+
+
+
+
 									</ui:repeat>
 								</p:column>
 
@@ -95,12 +94,20 @@
 									<c:set value="#{catMenuViewBean.isMealActiveAtGivenDate(mealFilter,dailyMenu.date)}" var="isMealActive" />
 									<c:set value="#{isMealActive and not empty menuEntity and ( MenuStatusEnum.WAIT.equals(menuEntity.menuStatus) )}" var="isMenuEditable" />
 
-									<p:commandButton icon="ui-icon-plus" rendered="#{isMealActive and empty menuEntity}" actionListener="#{catMenuViewBean.initCreateMenu(mealFilter,dailyMenu)}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()" />
-									<p:commandButton icon="ui-icon-pencil" rendered="#{isMenuEditable}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()" actionListener="#{catMenuViewBean.initUpdateMenu(mealFilter,dailyMenu)}" />
-									<p:commandButton icon="ui-icon-check" rendered="#{isMenuEditable}" update=":confirmMenuForm" oncomplete="PF('confirmMenuWdg').show()" actionListener="#{catMenuViewBean.initConfirmMenu(mealFilter,dailyMenu)}" />
-									<p:commandButton icon="ui-icon-close" rendered="#{isMenuEditable}" update=":cancelMenuForm" oncomplete="PF('cancelMenuWdg').show()" actionListener="#{catMenuViewBean.initCancelMenu(mealFilter,dailyMenu)}" />
-									<h:outputText value="IPTAL - #{menuEntity.cancelReason}" rendered="#{ MenuStatusEnum.CANCEL.equals(menuEntity.menuStatus) }" />
-									<h:outputText value="TAMAMLANDI" rendered="#{ MenuStatusEnum.DONE.equals(menuEntity.menuStatus) }" />
+									<h:panelGrid columns="3">
+										<p:commandButton icon="ui-icon-plus" rendered="#{isMealActive and empty menuEntity}" actionListener="#{catMenuViewBean.initCreateMenu(mealFilter,dailyMenu)}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()" />
+										<p:commandButton icon="ui-icon-pencil" rendered="#{isMenuEditable}" update=":menuDialogFrm" oncomplete="PF('menuDialog').show()" actionListener="#{catMenuViewBean.initUpdateMenu(mealFilter,dailyMenu)}" />
+										<p:commandButton icon="ui-icon-check" rendered="#{isMenuEditable}" update=":confirmMenuForm" oncomplete="PF('confirmMenuWdg').show()" actionListener="#{catMenuViewBean.initConfirmMenu(mealFilter,dailyMenu)}" />
+										<p:commandButton icon="ui-icon-close" rendered="#{isMenuEditable}" update=":cancelMenuForm" oncomplete="PF('cancelMenuWdg').show()" actionListener="#{catMenuViewBean.initCancelMenu(mealFilter,dailyMenu)}" />
+									</h:panelGrid>
+
+									<p:panelGrid columns="1">
+										<h:outputText value="IPTAL - #{menuEntity.cancelReason}" rendered="#{ MenuStatusEnum.CANCEL.equals(menuEntity.menuStatus) }" />
+										<h:outputText value="TAMAMLANDI" rendered="#{ MenuStatusEnum.DONE.equals(menuEntity.menuStatus) }" />
+										<p:outputLabel value="Hazırlanan: #{menuEntity.countPrepare}" rendered="#{not empty menuEntity.countPrepare and not MenuStatusEnum.CANCEL.equals(menuEntity.menuStatus)}" />
+										<p:outputLabel value="Verilen: #{menuEntity.countSpend}" rendered="#{not empty menuEntity.countSpend and not MenuStatusEnum.CANCEL.equals(menuEntity.menuStatus)}" />
+									</p:panelGrid>  
+
 								</p:column>
 							</c:forEach>
 
@@ -163,10 +170,10 @@
 				<p:spacer height="10px" />
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
-					<p:outputLabel value="Hazirlanan Miktar" />
+					<p:outputLabel value="Hazirlanan" />
 					<pe:inputNumber value="#{catMenuViewBean.selectedMenu.countPrepare}" decimalPlaces="0" style="text-align: right;" required="true" requiredMessage="Tahmini miktar bos olamaz" />
 
-					<p:outputLabel value="Servis Miktari" />
+					<p:outputLabel value="Verilen" />
 					<pe:inputNumber value="#{catMenuViewBean.selectedMenu.countSpend}" decimalPlaces="0" style="text-align: right;" required="false" requiredMessage="Kullanilan miktar bos olamaz" />
 
 				</h:panelGrid>
@@ -234,7 +241,7 @@
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
 
-					<p:outputLabel value="Servis Miktari" />
+					<p:outputLabel value="Verilen" />
 					<pe:inputNumber id="miktar" decimalPlaces="0" style="text-align: right;" value="#{catMenuViewBean.selectedMenu.countSpend}" disabled="true" requiredMessage="Kullanilan miktar bos olamaz">
 					</pe:inputNumber>
 

@@ -75,13 +75,7 @@ insert into sec_group (id, name, version) values (nextval('seq_id'), 'Proje Yön
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'Depo Yöneticisi', 0);
 commit;
  
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0000', 0);
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0001', 0);
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0002', 0);
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0004', 0);
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0005', 0);
-
-
+insert into sec_group_authority (id, group_id, authority_id, version) select nextval('seq_id'), 1, sa.id, 0 from sec_authority sa;
 commit;
 
 insert into sec_user( id, is_active, password) values ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e');

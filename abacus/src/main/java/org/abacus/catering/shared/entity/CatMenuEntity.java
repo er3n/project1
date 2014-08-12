@@ -58,8 +58,8 @@ public class CatMenuEntity extends DynamicEntity {
 	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
 	private BigDecimal countPrepare = BigDecimal.ZERO;
 
-	@Column(name = "count_spend", nullable = false, precision = 10, scale = 3)
-	private BigDecimal countSpend = BigDecimal.ZERO;
+	@Column(name = "count_sale", nullable = false, precision = 10, scale = 3)
+	private BigDecimal countSale = BigDecimal.ZERO;
 
 	@Column(name = "cancel_reason", nullable = true)
 	private String cancelReason;
@@ -72,7 +72,7 @@ public class CatMenuEntity extends DynamicEntity {
 	public List<CatMenuItemEntity> getMenuItemList() {
 		return new ArrayList<CatMenuItemEntity>(menuItemSet);
 	}
-
+ 
 	public CatMenuInfoEntity getMenuInfo() {
 		return menuInfo;
 	}
@@ -105,12 +105,12 @@ public class CatMenuEntity extends DynamicEntity {
 		this.countPrepare = countPrepare!=null?countPrepare:BigDecimal.ZERO;
 	}
 
-	public BigDecimal getCountSpend() {
-		return countSpend;
+	public BigDecimal getCountSale() {
+		return countSale;
 	}
 
-	public void setCountSpend(BigDecimal countSpend) {
-		this.countSpend = countSpend!=null?countSpend:BigDecimal.ZERO;
+	public void setCountSale(BigDecimal countSale) {
+		this.countSale = countSale!=null?countSale:BigDecimal.ZERO;
 	}
 
 	public Set<CatMenuItemEntity> getMenuItemSet() {

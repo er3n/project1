@@ -204,7 +204,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 			detail.setDocument(document);
 			detail.setItem(material.getItem());
 			detail.setItemUnit(material.getUnit());
-			detail.setItemDetailCount(material.getCountSpend());
+			detail.setItemDetailCount(material.getCountPrepare());
 			detail.setBaseDetailAmount(BigDecimal.ZERO);
 			detail.setDueDate(Calendar.getInstance().getTime());
 			

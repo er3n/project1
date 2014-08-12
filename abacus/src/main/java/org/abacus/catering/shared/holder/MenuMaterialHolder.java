@@ -9,7 +9,7 @@ public class MenuMaterialHolder {
 	private DefItemEntity item;
 	private DefUnitCodeEntity unit;
 	private BigDecimal unitItemCount;
-	private BigDecimal countSpend;
+	private BigDecimal countPrepare;
 
 	public DefItemEntity getItem() {
 		return item;
@@ -27,20 +27,20 @@ public class MenuMaterialHolder {
 		this.unit = unit;
 	}
 
-	public BigDecimal getCountSpend() {
-		return countSpend;
-	}
-
-	public void setCountSpend(BigDecimal countSpend) {
-		this.countSpend = countSpend;
-	}
-
 	public BigDecimal getUnitItemCount() {
 		return unitItemCount;
 	}
 
 	public void setUnitItemCount(BigDecimal unitItemCount) {
 		this.unitItemCount = unitItemCount;
+	}
+
+	public BigDecimal getCountPrepare() {
+		return countPrepare;
+	}
+
+	public void setCountPrepare(BigDecimal countPrepare) {
+		this.countPrepare = countPrepare;
 	}
 
 }

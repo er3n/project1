@@ -6,64 +6,64 @@ insert into org_organization (id, name, level_enum, parent_id) values ('#.#2', '
 insert into org_organization (id, name, level_enum, parent_id) values ('#.#2.#1', '# 2.1.Projesi', 'L2', '#.#2');
 commit;
 
-insert into sec_authority (id, name) values ('AUTH_000','ANAMENU:Sistem Yönetimi');
-insert into sec_authority (id, name) values ('AUTH_001','Organizasyon-Departman');
-insert into sec_authority (id, name) values ('AUTH_002','Organizasyon-Dönem');
-insert into sec_authority (id, name) values ('AUTH_003','Proje Menu Bilgileri');
-insert into sec_authority (id, name) values ('AUTH_004','Kullanici Gruplari');
-insert into sec_authority (id, name) values ('AUTH_005','Kullanici Tanimi');
-insert into sec_authority (id, name) values ('AUTH_006','Seçim Kod Tanimlari');
-insert into sec_authority (id, name) values ('AUTH_007','Stok Hareket Tanimlari');
-insert into sec_authority (id, name) values ('AUTH_008','Finans Hareket Tanimlari');
-insert into sec_authority (id, name) values ('AUTH_009','Stok Birim Tanimlari');
-insert into sec_authority (id, name) values ('AUTH_010','Parametre Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0000','ANAMENU:Sistem Yönetimi');
+insert into sec_authority (id, name) values ('AUTH_0001','Organizasyon-Departman');
+insert into sec_authority (id, name) values ('AUTH_0002','Organizasyon-Dönem');
+insert into sec_authority (id, name) values ('AUTH_0003','Proje Menu Bilgileri');
+insert into sec_authority (id, name) values ('AUTH_0004','Kullanici Gruplari');
+insert into sec_authority (id, name) values ('AUTH_0005','Kullanici Tanimi');
+insert into sec_authority (id, name) values ('AUTH_0006','Seçim Kod Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0007','Stok Hareket Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0008','Finans Hareket Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0009','Stok Birim Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0010','Parametre Tanimlari');
 
-insert into sec_authority (id, name) values ('AUTH_011','ANAMENU:Hesap Tanim');
-insert into sec_authority (id, name) values ('AUTH_012','Hesap Tipleri');
-insert into sec_authority (id, name) values ('AUTH_013','Gelir Hizmet Hesapları');
-insert into sec_authority (id, name) values ('AUTH_014','Gider Hizmet Hesapları');
-insert into sec_authority (id, name) values ('AUTH_015','Firma Hesapları');
-insert into sec_authority (id, name) values ('AUTH_016','Müşteri Hesapları');
-insert into sec_authority (id, name) values ('AUTH_017','Personel Hesapları');
-insert into sec_authority (id, name) values ('AUTH_018','Nakit Hesapları');
+insert into sec_authority (id, name) values ('AUTH_0011','ANAMENU:Hesap Tanim');
+insert into sec_authority (id, name) values ('AUTH_0012','Hesap Tipleri');
+insert into sec_authority (id, name) values ('AUTH_0013','Gelir Hizmet Hesapları');
+insert into sec_authority (id, name) values ('AUTH_0014','Gider Hizmet Hesapları');
+insert into sec_authority (id, name) values ('AUTH_0015','Firma Hesapları');
+insert into sec_authority (id, name) values ('AUTH_0016','Müşteri Hesapları');
+insert into sec_authority (id, name) values ('AUTH_0017','Personel Hesapları');
+insert into sec_authority (id, name) values ('AUTH_0018','Nakit Hesapları');
 
-insert into sec_authority (id, name) values ('AUTH_019','ANAMENU:Menu Tanım');
-insert into sec_authority (id, name) values ('AUTH_020','Malzeme Tanimlari');
-insert into sec_authority (id, name) values ('AUTH_021','Yemek/Ürün Tanimlari');
-insert into sec_authority (id, name) values ('AUTH_022','Menu Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0019','ANAMENU:Menu Tanım');
+insert into sec_authority (id, name) values ('AUTH_0020','Malzeme Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0021','Yemek/Ürün Tanimlari');
+insert into sec_authority (id, name) values ('AUTH_0022','Menu Tanimlari');
 
-insert into sec_authority (id, name) values ('AUTH_023','ANAMENU:Stok');
-insert into sec_authority (id, name) values ('AUTH_024','Alış İrsaliye');
-insert into sec_authority (id, name) values ('AUTH_025','Satış İrsaliye');
-insert into sec_authority (id, name) values ('AUTH_026','Depo İşlemleri');
-insert into sec_authority (id, name) values ('AUTH_027','Stok İstek Talebi');
-insert into sec_authority (id, name) values ('AUTH_028','Stok İstek Onayı');
+insert into sec_authority (id, name) values ('AUTH_0023','ANAMENU:Stok');
+insert into sec_authority (id, name) values ('AUTH_0024','Alış İrsaliye');
+insert into sec_authority (id, name) values ('AUTH_0025','Satış İrsaliye');
+insert into sec_authority (id, name) values ('AUTH_0026','Depo İşlemleri');
+insert into sec_authority (id, name) values ('AUTH_0027','Stok İstek Talebi');
+insert into sec_authority (id, name) values ('AUTH_0028','Stok İstek Onayı');
 
-insert into sec_authority (id, name) values ('AUTH_029','ANAMENU:Satınalma');
-insert into sec_authority (id, name) values ('AUTH_030','Satınalma İstek Talebi');
-insert into sec_authority (id, name) values ('AUTH_031','Satınalma Teklif Girişi');
-insert into sec_authority (id, name) values ('AUTH_032','Satınalma Onayı');
+insert into sec_authority (id, name) values ('AUTH_0029','ANAMENU:Satınalma');
+insert into sec_authority (id, name) values ('AUTH_0030','Satınalma İstek Talebi');
+insert into sec_authority (id, name) values ('AUTH_0031','Satınalma Teklif Girişi');
+insert into sec_authority (id, name) values ('AUTH_0032','Satınalma Onayı');
 
-insert into sec_authority (id, name) values ('AUTH_033','ANAMENU:Finans');
-insert into sec_authority (id, name) values ('AUTH_034','Otomatik Fiş Oluştur');
-insert into sec_authority (id, name) values ('AUTH_035','Alış Fatura');
-insert into sec_authority (id, name) values ('AUTH_036','Satış Fatura');
-insert into sec_authority (id, name) values ('AUTH_037','Ödeme');
-insert into sec_authority (id, name) values ('AUTH_038','Tahsilat');
-insert into sec_authority (id, name) values ('AUTH_039','Mahsup');
+insert into sec_authority (id, name) values ('AUTH_0033','ANAMENU:Finans');
+insert into sec_authority (id, name) values ('AUTH_0034','Otomatik Fiş Oluştur');
+insert into sec_authority (id, name) values ('AUTH_0035','Alış Fatura');
+insert into sec_authority (id, name) values ('AUTH_0036','Satış Fatura');
+insert into sec_authority (id, name) values ('AUTH_0037','Ödeme');
+insert into sec_authority (id, name) values ('AUTH_0038','Tahsilat');
+insert into sec_authority (id, name) values ('AUTH_0039','Mahsup');
 
-insert into sec_authority (id, name) values ('AUTH_040','ANAMENU:Bütçe');
-insert into sec_authority (id, name) values ('AUTH_041','Tahmini Bütçe');
+insert into sec_authority (id, name) values ('AUTH_0040','ANAMENU:Bütçe');
+insert into sec_authority (id, name) values ('AUTH_0041','Tahmini Bütçe');
 
-insert into sec_authority (id, name) values ('AUTH_042','ANAMENU:Raporlama');
-insert into sec_authority (id, name) values ('AUTH_043','Stok Durum Sorgula');
-insert into sec_authority (id, name) values ('AUTH_044','Stok Hareket Sorgula');
-insert into sec_authority (id, name) values ('AUTH_045','Hesap Durum Sorgula');
-insert into sec_authority (id, name) values ('AUTH_046','Hesap Hareket Sorgula');
-insert into sec_authority (id, name) values ('AUTH_047','Yazıcı Raporları');
-insert into sec_authority (id, name) values ('AUTH_048','Stok Pivot');
-insert into sec_authority (id, name) values ('AUTH_049','Finans Pivot');
-insert into sec_authority (id, name) values ('AUTH_050','Bütçe Pivot');
+insert into sec_authority (id, name) values ('AUTH_0042','ANAMENU:Raporlama');
+insert into sec_authority (id, name) values ('AUTH_0043','Stok Durum Sorgula');
+insert into sec_authority (id, name) values ('AUTH_0044','Stok Hareket Sorgula');
+insert into sec_authority (id, name) values ('AUTH_0045','Hesap Durum Sorgula');
+insert into sec_authority (id, name) values ('AUTH_0046','Hesap Hareket Sorgula');
+insert into sec_authority (id, name) values ('AUTH_0047','Yazıcı Raporları');
+insert into sec_authority (id, name) values ('AUTH_0048','Stok Pivot');
+insert into sec_authority (id, name) values ('AUTH_0049','Finans Pivot');
+insert into sec_authority (id, name) values ('AUTH_0050','Bütçe Pivot');
 commit;
 
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'System Admin', 0);
@@ -75,8 +75,11 @@ insert into sec_group (id, name, version) values (nextval('seq_id'), 'Proje Yön
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'Depo Yöneticisi', 0);
 commit;
  
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_001', 0);
-insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_002', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0000', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0001', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0002', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0004', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 1, 'AUTH_0005', 0);
 
 
 commit;

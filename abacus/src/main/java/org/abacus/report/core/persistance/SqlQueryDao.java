@@ -70,6 +70,7 @@ public class SqlQueryDao {
 			}
 			return new SqlDataHolder(listMap, columnSet);
 		} catch (Exception e) {
+			System.out.println("PivotSQL:"+sql);
 			logger.error(e,e);
 			return new SqlDataHolder(listMap, columnSet);
 		} finally {

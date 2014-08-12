@@ -125,7 +125,9 @@
 				</p:column>
 
 				<p:column headerText="Miktar" style="width:150px">
-					<h:outputText style="float:right" value="#{product.materialCount}" />
+					<h:outputText style="float:right" value="#{product.materialCount}">
+						<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Birim" style="width:150px">

@@ -117,13 +117,16 @@
 
 					<p:column headerText="Borç Tutar"
 						style="text-align: right; width:100px">
-						<p:outputLabel value="#{var.getDebitAmount()}"
-							style="text-align: right;" />
+						<p:outputLabel value="#{var.getDebitAmount()}" style="text-align: right;">
+						 	<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</p:outputLabel>	
 					</p:column>
 
 					<p:column headerText="Alacak Tutar"
 						style="text-align: right; width:100px">
-						<p:outputLabel value="#{var.getCreditAmount()}" />
+						<p:outputLabel value="#{var.getCreditAmount()}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</p:outputLabel>
 					</p:column>
 
 					<p:column headerText="İşlem"

@@ -88,11 +88,15 @@
        					</p:column>
 
 						<p:column headerText="1 Öğündeki Kişi Sayısı" style="text-align: right;">  
-           					#{selCatMeal.countPrepare}  
+           					<h:outputText value="#{selCatMeal.countPrepare}">
+								<f:convertNumber type="currency" minFractionDigits="0" currencySymbol=""/>
+							</h:outputText>
        					</p:column>
 
-						<p:column headerText="Birim Fiyat" style="text-align: right;">  
-           					#{selCatMeal.unitPrice}  
+						<p:column headerText="Birim Fiyat" style="text-align: right;"> 
+							<h:outputText value="#{selCatMeal.unitPrice}">
+								<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+							</h:outputText>
        					</p:column>
 
 					</p:dataTable>

@@ -61,14 +61,18 @@
 						<p:outputLabel value="#{var.itemUnit.name}" />
 					</p:column>
 
-					<p:column headerText="Miktar">
-						<p:outputLabel value="#{var.itemDetailCount}" />
+					<p:column headerText="Miktar" style="text-align: right; width:100px">
+						<p:outputLabel value="#{var.itemDetailCount}">
+							<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+						</p:outputLabel>
 					</p:column>
 
 					<c:set var="offer" value="#{crudPurchaseDocumentViewBean.vendorOffer(var)}" />
 
-					<p:column headerText="Teklif">
-						<p:outputLabel value="#{offer.unitOfferPrice}" />
+					<p:column headerText="Teklif" style="text-align: right; width:100px">
+						<p:outputLabel value="#{offer.unitOfferPrice}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</p:outputLabel>
 					</p:column>
 
 					<p:column headerText="İşlem">

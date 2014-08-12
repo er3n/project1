@@ -89,7 +89,9 @@
 					</p:column>
 
 					<p:column headerText="Miktar" filterBy="#{var.baseDetailCount}" filterMatchMode="contains" style="text-align: right; width:150px">
-						<h:outputText value="#{var.baseDetailCount}" />
+						<h:outputText value="#{var.baseDetailCount}">
+							<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 				</p:dataTable> 

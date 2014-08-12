@@ -90,23 +90,33 @@
 					</p:column>
 
 					<p:column headerText="Borç Toplam" style="text-align: right;" rendered="${not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) and not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
-						<h:outputText value="#{var.getFinInfo().debitAmount}" />
+						<h:outputText value="#{var.getFinInfo().debitAmount}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Alacak Toplm" style="text-align: right;" rendered="${not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) and not findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
-						<h:outputText value="#{var.getFinInfo().creditAmount}" />
+						<h:outputText value="#{var.getFinInfo().creditAmount}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Fatura Tutar" style="text-align: right;" rendered="${findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B) or findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
-						<h:outputText value="#{var.getFinInfo().bsAmount}" />
+						<h:outputText value="#{var.getFinInfo().bsAmount}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Ödeme" style="text-align: right;" rendered="${findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_B)}">
-						<h:outputText value="#{var.getFinInfo().prAmount}" />
+						<h:outputText value="#{var.getFinInfo().prAmount}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Tahsilat" style="text-align: right;" rendered="${findFinDocumentViewBean.isTaskSelected(DefTypeEnum.FIN_S)}">
-						<h:outputText value="#{var.getFinInfo().prAmount}" />
+						<h:outputText value="#{var.getFinInfo().prAmount}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="İşlem">

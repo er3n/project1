@@ -1,7 +1,4 @@
-BUG:
-stok cikista base detail count 0
-cikis fin entegrasyonda tr type 0 oluyor
-
+PivotJS: http://nicolas.kruchten.com/pivottable/examples/
 
 postimport.sql:
 ---------------

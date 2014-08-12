@@ -145,7 +145,7 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 	}
 
 	public String getTrStateSign() {
-		return (trStateDetail.intValue() > 0 ? "(+)" : (trStateDetail.intValue() < 0 ? "(-)" : "(»)"));
+		return (trStateDetail.intValue() > 0 ? "+" : (trStateDetail.intValue() < 0 ? "-" : "»"));
 	}
 
 	public EnumList.TraState getTrStateEnum() {

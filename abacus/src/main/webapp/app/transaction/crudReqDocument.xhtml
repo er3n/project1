@@ -145,9 +145,10 @@
 						<p:outputLabel value="#{var.itemUnit.code}" />
 					</p:column>
 
-					<p:column headerText="Miktar"
-						style="text-align: right; width:100px">
-						<p:outputLabel value="#{var.itemDetailCount}" />
+					<p:column headerText="Miktar" style="text-align: right; width:100px">
+						<p:outputLabel value="#{var.itemDetailCount}">
+							<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+						</p:outputLabel>
 					</p:column>
 
 					<p:column headerText="İşlem">

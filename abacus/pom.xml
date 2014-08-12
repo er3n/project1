@@ -14,7 +14,7 @@
 		<primefaces-extensions-version>2.0.0</primefaces-extensions-version>
 		<javax-servlet-api>3.0.1</javax-servlet-api>
 		<springframework-version>4.0.3.RELEASE</springframework-version>
-		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>
+		<springsecurity-version>3.2.4.RELEASE</springsecurity-version>
 		<hibernate-version>4.3.0.Final</hibernate-version>
 		<hibernate-validator-version>5.0.1.Final</hibernate-validator-version>
 		<postgresql-driver-version>9.3-1101-jdbc41</postgresql-driver-version>

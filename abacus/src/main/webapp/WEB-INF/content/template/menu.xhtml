@@ -5,79 +5,81 @@
 
 <h:form>
 	<p:menubar styleClass="menuStyle" >
-		<p:submenu label="Sistem Yönetim" rendered="#{sec:areAnyGranted('AUTH_SECURITY,AUTH_ORGANIZATION,AUTH_DEFINITION')}">
-			<p:menuitem value="Organizasyon-Departman" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
-			<p:menuitem value="Organizasyon-Dönem" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_ORGANIZATION')}" />
-			<p:menuitem value="Proje Menu Bilgileri" url="/app/catering/catmenuinfo.abc" />
+		<p:submenu label="Sistem Yönetim" rendered="#{sec:areAnyGranted('AUTH_0001')}">
+			<p:menuitem value="Organizasyon-Departman" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_0001')}" />
+			<p:menuitem value="Organizasyon-Dönem" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_0002')}" />
+			<p:menuitem value="Proje Menu Bilgileri" url="/app/catering/catmenuinfo.abc" rendered="#{sec:areAnyGranted('AUTH_0003')}" />
 			<p:separator/>
-			<p:menuitem value="Kullanici Gruplari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}" />			
-			<p:menuitem value="Kullanici Tanimi" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_SECURITY')}"/>
+			<p:menuitem value="Kullanici Gruplari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_0004')}" />			
+			<p:menuitem value="Kullanici Tanimi" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_0005')}"/>
 			<p:separator/>
-			<p:menuitem value="Seçim Kod Tanimlari" url="/app/definition/defmanager.abc?grp=VAL" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}"/>
-			<p:menuitem value="Stok Hareket Tanimlari" url="/app/definition/defmanager.abc?grp=STK" />
-			<p:menuitem value="Finans Hareket Tanimlari" url="/app/definition/defmanager.abc?grp=FIN" />
+			<p:menuitem value="Seçim Kod Tanimlari" url="/app/definition/defmanager.abc?grp=VAL" rendered="#{sec:areAnyGranted('AUTH_0006')}"/>
+			<p:menuitem value="Stok Hareket Tanimlari" url="/app/definition/defmanager.abc?grp=STK" rendered="#{sec:areAnyGranted('AUTH_0007')}" />
+			<p:menuitem value="Finans Hareket Tanimlari" url="/app/definition/defmanager.abc?grp=FIN" rendered="#{sec:areAnyGranted('AUTH_0008')}" />
 			<p:separator/>
-			<p:menuitem value="Stok Birim Tanimlari" url="/app/definition/unitmanager.abc" />
-			<p:menuitem value="Parametre Tanimlari" url="/app/definition/defmanager.abc?grp=PRM" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}"/>
+			<p:menuitem value="Stok Birim Tanimlari" url="/app/definition/unitmanager.abc" rendered="#{sec:areAnyGranted('AUTH_0009')}" />
+			<p:menuitem value="Parametre Tanimlari" url="/app/definition/defmanager.abc?grp=PRM" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}" rendered="#{sec:areAnyGranted('AUTH_0010')}" />
 		</p:submenu>
 
-		<p:submenu label="Hesap Tanim" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
-			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" />
+		<p:submenu label="Hesap Tanim" rendered="#{sec:areAnyGranted('AUTH_0011')}">
+			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" rendered="#{sec:areAnyGranted('AUTH_0012')}" />
 			<p:separator/>
-			<p:menuitem value="Gelir Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_R" />   
-			<p:menuitem value="Gider Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_X" />   
-			<p:menuitem value="Firma Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_VE" />   
-			<p:menuitem value="Müşteri Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_CU" />   
-			<p:menuitem value="Personel Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_PE" />   
-			<p:menuitem value="Nakit Hesapları" url="/app/definition/defItem.abc?type=ITM_CS" />   
+			<p:menuitem value="Gelir Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_R" rendered="#{sec:areAnyGranted('AUTH_0013')}" />   
+			<p:menuitem value="Gider Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_X" rendered="#{sec:areAnyGranted('AUTH_0014')}" />   
+			<p:menuitem value="Firma Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_VE" rendered="#{sec:areAnyGranted('AUTH_0015')}" />   
+			<p:menuitem value="Müşteri Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_CU" rendered="#{sec:areAnyGranted('AUTH_0016')}" />   
+			<p:menuitem value="Personel Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_PE" rendered="#{sec:areAnyGranted('AUTH_0017')}" />   
+			<p:menuitem value="Nakit Hesapları" url="/app/definition/defItem.abc?type=ITM_CS" rendered="#{sec:areAnyGranted('AUTH_0018')}" />   
 		</p:submenu>
 
-		<p:submenu label="Menu Tanım" rendered="#{sec:areAnyGranted('AUTH_DEFINITION')}">
-			<p:menuitem value="Malzeme Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" />   
-			<p:menuitem value="Yemek/Ürün Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_P" />
-			<p:menuitem value="Menu Tanimlari" url="/app/catering/catmenu.abc" />
+		<p:submenu label="Menu Tanım" rendered="#{sec:areAnyGranted('AUTH_0001')}">
+			<p:menuitem value="Malzeme Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" rendered="#{sec:areAnyGranted('AUTH_0019')}" />   
+			<p:menuitem value="Yemek/Ürün Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_P" rendered="#{sec:areAnyGranted('AUTH_0020')}" />
+			<p:menuitem value="Menu Tanimlari" url="/app/catering/catmenu.abc" rendered="#{sec:areAnyGranted('AUTH_0021')}" />
 		</p:submenu>
 
 		<p:submenu label="Stok">
-			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_I" rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
-			<p:menuitem value="Satış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_O" rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
-			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Alış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_I" rendered="#{sec:areAnyGranted('AUTH_0022')}"/>
+			<p:menuitem value="Satış İrsaliye" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_O" rendered="#{sec:areAnyGranted('AUTH_0023')}"/>
+			<p:menuitem value="Depo İşlemleri" url="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO"  rendered="#{sec:areAnyGranted('AUTH_0024')}"/>
 			<p:separator/>
-			<p:menuitem value="Stok İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
-			<p:menuitem value="Stok İstek Onayı" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T&amp;approval=true"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Stok İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T"  rendered="#{sec:areAnyGranted('AUTH_0025')}"/>
+			<p:menuitem value="Stok İstek Onayı" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T&amp;approval=true"  rendered="#{sec:areAnyGranted('AUTH_0026')}"/>
 		</p:submenu>
 
 		<p:submenu label="Satınalma">
-			<p:menuitem value="Satınalma İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_P"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
-			<p:menuitem value="Satınalma Teklif Girişi" url="/app/transaction/findPurchaseDocument.abc"  rendered="#{sec:areAnyGranted('AUTH_OFFER')}"/>
-			<p:menuitem value="Satınalma Onayı" url="/app/transaction/findPurchaseDecDocument.abc" rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+			<p:menuitem value="Satınalma İstek Talebi" url="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_P"  rendered="#{sec:areAnyGranted('AUTH_0027')}"/>
+			<p:menuitem value="Satınalma Teklif Girişi" url="/app/transaction/findPurchaseDocument.abc"  rendered="#{sec:areAnyGranted('AUTH_0028')}" />
+			<p:menuitem value="Satınalma Onayı" url="/app/transaction/findPurchaseDecDocument.abc" rendered="#{sec:areAnyGranted('AUTH_0029')}"/>
 		</p:submenu>
 
-		<p:submenu label="Finans" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-			<p:menuitem value="Otomatik Fiş Oluştur" url="/app/transaction/convertDocument.abc"  rendered="#{sec:areAnyGranted('AUTH_NONE')}"/>
+		<p:submenu label="Finans" rendered="#{sec:areAnyGranted('AUTH_0030')}">
+			<p:menuitem value="Otomatik Fiş Oluştur" url="/app/transaction/convertDocument.abc"  rendered="#{sec:areAnyGranted('AUTH_0031')}"/>
 			<p:separator/>
-			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" />
-			<p:menuitem value="Satış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_S" />
+			<p:menuitem value="Alış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" rendered="#{sec:areAnyGranted('AUTH_0032')}" />
+			<p:menuitem value="Satış Fatura" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_S" rendered="#{sec:areAnyGranted('AUTH_0033')}" />
 			<p:separator/>
-			<p:menuitem value="Ödeme" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" />
-			<p:menuitem value="Tahsilat" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" />
-			<p:menuitem value="Mahsup" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_J" />
-			<p:separator/>
-			<p:menuitem value="Bütçe" url="/app/budget/budSummary.abc" />
+			<p:menuitem value="Ödeme" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" rendered="#{sec:areAnyGranted('AUTH_0034')}" />
+			<p:menuitem value="Tahsilat" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" rendered="#{sec:areAnyGranted('AUTH_0035')}" />
+			<p:menuitem value="Mahsup" url="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_J" rendered="#{sec:areAnyGranted('AUTH_0036')}" />
+		</p:submenu>
+		
+		<p:submenu label="Bütçe" rendered="#{sec:areAnyGranted('AUTH_0037')}">
+			<p:menuitem value="Tahmini Bütçe" url="/app/budget/budSummary.abc" rendered="#{sec:areAnyGranted('AUTH_0038')}" />
 		</p:submenu>
 
-		<p:submenu label="Raporlama" rendered="#{sec:areAnyGranted('AUTH_NONE')}">
-			<p:menuitem value="Stok Durum Sorgula" url="/app/report/queryStkState.abc" />
-			<p:menuitem value="Stok Hareket Sorgula" url="/app/report/queryStkDetail.abc" />
+		<p:submenu label="Raporlama" rendered="#{sec:areAnyGranted('AUTH_0039')}">
+			<p:menuitem value="Stok Durum Sorgula" url="/app/report/queryStkState.abc" rendered="#{sec:areAnyGranted('AUTH_0040')}" />
+			<p:menuitem value="Stok Hareket Sorgula" url="/app/report/queryStkDetail.abc" rendered="#{sec:areAnyGranted('AUTH_0041')}" />
 			<p:separator/>
-			<p:menuitem value="Hesap Durum Sorgula" url="/app/report/queryFinState.abc" />
-			<p:menuitem value="Hesap Hareket Sorgula" url="/app/report/queryFinDetail.abc" />
+			<p:menuitem value="Hesap Durum Sorgula" url="/app/report/queryFinState.abc" rendered="#{sec:areAnyGranted('AUTH_0042')}" />
+			<p:menuitem value="Hesap Hareket Sorgula" url="/app/report/queryFinDetail.abc" rendered="#{sec:areAnyGranted('AUTH_0043')}" />
 			<p:separator/>
-			<p:menuitem value="Raporlar" url="/app/report/reportForm.abc" />
+			<p:menuitem value="Raporlar" url="/app/report/reportForm.abc" rendered="#{sec:areAnyGranted('AUTH_0044')}" />
 			<p:separator/>
-			<p:menuitem value="Stok Pivot" url="/app/report/pivotStk.abc" />
-			<p:menuitem value="Finans Pivot" url="/app/report/pivotFin.abc" />
-			<p:menuitem value="Bütçe Pivot" url="/app/report/pivotBudget.abc" />
+			<p:menuitem value="Stok Pivot" url="/app/report/pivotStk.abc" rendered="#{sec:areAnyGranted('AUTH_0045')}" />
+			<p:menuitem value="Finans Pivot" url="/app/report/pivotFin.abc" rendered="#{sec:areAnyGranted('AUTH_0046')}" />
+			<p:menuitem value="Bütçe Pivot" url="/app/report/pivotBudget.abc" rendered="#{sec:areAnyGranted('AUTH_0047')}" />
 		</p:submenu>
 
 		<f:facet name="options">

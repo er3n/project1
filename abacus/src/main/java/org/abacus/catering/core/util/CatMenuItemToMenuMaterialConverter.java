@@ -73,7 +73,8 @@ public class CatMenuItemToMenuMaterialConverter {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	private void putMaterial(List<MenuMaterialHolder> menuMetarialList, CatMenuItemEntity menuItem, BigDecimal unitItemCount, BigDecimal countSpend) {
 		MenuMaterialHolder holder = new MenuMaterialHolder();
-		holder.setItem(menuItem.getItem());
+		DefItemEntity item = itemRepository.findWithFetch(menuItem.getItem().getId());
+		holder.setItem(item);
 		holder.setUnit(menuItem.getUnit());
 		holder.setCountSpend(countSpend.multiply(unitItemCount));
 		menuMetarialList.add(holder);

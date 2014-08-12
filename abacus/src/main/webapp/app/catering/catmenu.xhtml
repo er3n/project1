@@ -574,13 +574,13 @@
 							oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();"
 							actionListener="#{catMenuViewBean.saveDetail}"
 							update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl"
-							rendered="#{empty catMenuViewBean.selectedDetail.id}" />
+							rendered="#{empty catMenuViewBean.selectedDetail.item}" />
 
 						<p:commandButton value="Guncelle"
 							oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();"
 							actionListener="#{catMenuViewBean.updateDetail}"
 							update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl"
-							rendered="#{not empty catMenuViewBean.selectedDetail.id}" />
+							rendered="#{not empty catMenuViewBean.selectedDetail.item}" />
 					</f:facet>
 
 

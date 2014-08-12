@@ -93,36 +93,39 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column id="#{BudgetRX.BUD_R.name()}" headerText="Gelir">
+					<p:column id="#{BudgetRX.BUD_R.name()}" headerText="Gelir" style="text-align:right">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{period.revanue.budgetAmount}" />
+								<h:outputText value="#{period.revanue.budgetAmount}">
+									<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+								</h:outputText>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{period.revanue.budgetAmount}"
-									style="width:96%" />
+								<p:inputText value="#{period.revanue.budgetAmount}" style="width:96%" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 
-					<p:column id="#{BudgetRX.BUD_X.name()}" headerText="Gider">
+					<p:column id="#{BudgetRX.BUD_X.name()}" headerText="Gider" style="text-align:right">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{period.expense.budgetAmount}" />
+								<h:outputText value="#{period.expense.budgetAmount}">
+									<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+								</h:outputText>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{period.expense.budgetAmount}"
-									style="width:96%" />
+								<p:inputText value="#{period.expense.budgetAmount}" style="width:96%" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 
-					<p:column styleClass="ui-widget-header">
-
+					<p:column styleClass="ui-widget-header" style="text-align:right">
 						<f:facet name="header">
 							<h:outputLabel value="Toplam" style="font-weight:bold"></h:outputLabel>
 						</f:facet>
-						<h:outputText value="#{period.sum}" />
+						<h:outputText value="#{period.sum}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:summaryRow>
@@ -130,14 +133,19 @@
 							<h:outputText value="Toplam:" />
 						</p:column>
 						<p:column style="text-align:right">
-							<h:outputText value="#{budSummaryViewBean.budget.revanueSum}" />
+							<h:outputText value="#{budSummaryViewBean.budget.revanueSum}">
+									<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+							</h:outputText>
 						</p:column>
-						<p:column>
-							<h:outputText value=" #{budSummaryViewBean.budget.expenseSum}" />
-						</p:column>
-						<p:column>
-							<h:outputText
-								value="Tahmini Kazanç: #{budSummaryViewBean.budget.sum}" />
+						<p:column style="text-align:right">
+							<h:outputText value="#{budSummaryViewBean.budget.expenseSum}">
+									<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+							</h:outputText>
+						</p:column>						
+						<p:column style="text-align:right">
+							<h:outputText value="#{budSummaryViewBean.budget.sum}">
+									<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+							</h:outputText>
 						</p:column>
 					</p:summaryRow>
 

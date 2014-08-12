@@ -97,8 +97,14 @@
 						<h:outputText value="#{var.item.code}:#{var.item.name}" />
 					</p:column>
 
-					<p:column headerText="Tutar" filterBy="#{var.getTrStateSign()} #{var.baseDetailAmount}" filterMatchMode="contains" style="text-align: right; width:100px" >
-						<h:outputText value="#{var.getTrStateSign()} #{var.baseDetailAmount}" />
+					<p:column headerText="" style="text-align: right; width:5px" >
+						<h:outputText value="#{var.getTrStateSign()}"/>						
+					</p:column>
+					
+					<p:column headerText="Tutar" filterBy="#{var.baseDetailAmount}" filterMatchMode="contains" style="text-align: right; width:100px" >
+						<h:outputText value="#{var.baseDetailAmount}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="İşlem" filterBy="#{var.document.task.name}" filterMatchMode="contains">

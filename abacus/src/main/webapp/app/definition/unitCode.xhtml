@@ -71,8 +71,10 @@
            					#{selUnitCode.name}  
        					</p:column>
 
-						<p:column headerText="Katsayı / Çarpan"> 
-						    <h:outputText value="#{selUnitCode.ratio}" decimalPlaces="3" style="float: right;" />
+						<p:column headerText="Katsayı / Çarpan" style="text-align:right"> 
+						    <h:outputText value="#{selUnitCode.ratio}">
+						    	<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+						    </h:outputText>
        					</p:column>
 
 					</p:dataTable>

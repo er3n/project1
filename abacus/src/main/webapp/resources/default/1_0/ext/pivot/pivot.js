@@ -29,9 +29,9 @@
   numberFormat = function(opts) {
     var defaults;
     defaults = {
-      digitsAfterDecimal: 3,
+      digitsAfterDecimal: 2,
       scaler: 1,
-      thousandsSep: "",
+      thousandsSep: ".",
       decimalSep: ",",
       prefix: "",
       suffix: "",

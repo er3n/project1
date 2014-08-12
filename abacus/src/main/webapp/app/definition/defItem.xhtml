@@ -89,13 +89,16 @@
 							<f:selectItems value="#{itemViewBean.allUnitGroupList}" var="unitGroup" itemLabel="#{unitGroup.name}" itemValue="#{unitGroup}" />
 							<p:ajax value="change" listener="#{itemViewBean.unitGroupSelected}" update=":itemDetails:itemUnitGrid" />
 						</p:selectOneMenu>
-						<p:selectManyMenu label="Gecerli Birimler" value="#{itemViewBean.selectedUnitGroupsSelectedUnitCodeSet}" converter="omnifaces.SelectItemsConverter" var="u" showCheckbox="true" filter="false" filterMatchMode="contains" rendered="#{not empty itemViewBean.selectedUnitGroupsUnitCodeSet}"  scrollHeight="150">
+						<p:selectManyMenu label="Gecerli Birimler" value="#{itemViewBean.selectedUnitGroupsSelectedUnitCodeSet}" converter="omnifaces.SelectItemsConverter" var="u" showCheckbox="true" 
+							filter="false" filterMatchMode="contains" rendered="#{not empty itemViewBean.selectedUnitGroupsUnitCodeSet}" scrollHeight="120" style="width:200px">
 							<f:selectItems value="#{itemViewBean.selectedUnitGroupsUnitCodeSet}" var="unit" itemLabel="#{unit.name}" itemValue="#{unit}" /> 
 							<p:column> 
                 				#{u.name}
             				</p:column>
 							<p:column>
-                				#{u.ratio}
+								<h:outputText value="#{u.ratio}">
+									<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
+								</h:outputText>
             				</p:column>
 						</p:selectManyMenu>
 					</h:panelGrid>

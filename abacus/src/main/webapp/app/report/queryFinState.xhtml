@@ -103,7 +103,9 @@
 					</p:column>
 					
 					<p:column headerText="Tutar" filterBy="#{var.baseDetailAmount}" filterMatchMode="contains" style="text-align: right; width:150px">
-						<h:outputText value="#{var.baseDetailAmount}" />
+						<h:outputText value="#{var.baseDetailAmount}">
+							<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Organizasyon" filterBy="#{var.organization.id}" filterMatchMode="contains">

@@ -51,7 +51,7 @@ public class PivotBudgetViewBean implements IPivotViewBean {
 
 	@Override
 	public String getPivotCols() {
-		return "'gelirgider'";
+		return "'gelirgider','butcetipi'";
 	}
 
 	@Override
@@ -75,11 +75,11 @@ public class PivotBudgetViewBean implements IPivotViewBean {
 
 	private List<Map<String, Object>> getData() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select v.fiscal_year_id CalismaYili, v.fiscal_period_id CalismaDonemi, v.budget_type ButceTipi, ");
+		sb.append("select v.fiscal_year_id CalismaYili, v.fiscal_period_id CalismaDonemi, v.accrue_date GercekTarihi, ");
+		sb.append("	      (CASE WHEN v.budget_type='ESTIMATE' THEN 'Tahmin' ELSE 'Gerçek' END) ButceTipi,");
 		sb.append("	      (CASE WHEN v.budget_rx='BUD_R' THEN 'Gelir' ELSE 'Gider' END) GelirGider,");
 		sb.append("       v.budget_amount Tutar");
-		sb.append("  from v_bud v ");
-		sb.append(" where v.budget_type = 'ESTIMATE'");
+		sb.append("  from v_bud v where 1=1 ");
 
 		String orgId = sessionInfoHelper.currentOrganization().getId()+":%";
 		if (selection.equals("1")){

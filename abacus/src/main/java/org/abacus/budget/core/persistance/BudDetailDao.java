@@ -38,7 +38,7 @@ public class BudDetailDao implements Serializable {
 		
 		sb.append("Select c.doc_date accrueDate, 'ACCRUE' budgetType,");
 		sb.append("       (case when d.glc_id = 'GLC_R' then 'BUD_R' ELSE 'BUD_X' end) budgetRX,");
-		sb.append("	      sum(d.tr_state_detail*d.base_detail_amount) budgetAmount");  
+		sb.append("	      sum(d.tr_state_detail*d.base_detail_amount)*(case when d.glc_id = 'GLC_R' then (-1) ELSE (+1) end) budgetAmount");  
 		sb.append("	 from fin_document c, tra_detail d, org_fiscal_period fiscalPeriod");
 		sb.append(" where d.document_fin_id = c.id");
 		sb.append("   and fiscalPeriod.id = c.fiscal_period2_id");

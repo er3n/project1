@@ -39,7 +39,6 @@ public class GlcConstant {
 			new GlcHolder(DefTypeEnum.ITM____PE, AccountGLC.GLC_A),//Personnel Advance
 			//Liability
 			new GlcHolder(DefTypeEnum.ITM_CM_VE, AccountGLC.GLC_L),//Vendor Bill
-			new GlcHolder(DefTypeEnum.ITM_CM_PE, AccountGLC.GLC_L),//Personnel Salary
 			new GlcHolder(DefTypeEnum.ITM____CU, AccountGLC.GLC_L),//Customer Advance
 			//Owners Equity
 			//Revenue
@@ -48,6 +47,7 @@ public class GlcConstant {
 			//Expense
 			new GlcHolder(DefTypeEnum.ITM_SR_FN, AccountGLC.GLC_X),//Service Purchase
 			new GlcHolder(DefTypeEnum.ITM_SR_ST, AccountGLC.GLC_X),//Stock Cost
+			new GlcHolder(DefTypeEnum.ITM_CM_PE, AccountGLC.GLC_X),//Personnel Salary
 	};
 
 	static FinHolder[] integrationFIN = new FinHolder[]{

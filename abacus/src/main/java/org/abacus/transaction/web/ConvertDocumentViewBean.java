@@ -74,6 +74,13 @@ public class ConvertDocumentViewBean implements Serializable {
 	}
 
 	public void createFinSale(){
+		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
+		DefItemEntity customer = organization.getCustomer();
+		if (customer == null){
+			jsfMessageHelper.addError(organization.getName()+" için müşteri tanımı yapılmamıştır.");
+			return;
+		}
+		
 		List<CatMenuEntity> catMenuList = catMealHandler.getMenuListForFinace(fiscalYear.getId(), transactionDate);
 		if (catMenuList.size()==0){
 			jsfMessageHelper.addError("Hakedişi Oluşturulacak Menü bulunamadı");
@@ -93,8 +100,6 @@ public class ConvertDocumentViewBean implements Serializable {
 		}
 		
 		String username = sessionInfoHelper.currentUserName();
-		OrganizationEntity organization = sessionInfoHelper.currentOrganization();
-		DefItemEntity customer = organization.getCustomer();
 		EnumList.OrgDepartmentGroupEnum depGroup = EnumList.OrgDepartmentGroupEnum.F;  
 		DepartmentEntity department = departmentService.findUserDepartmentListOrgOnly(username, depGroup, fiscalYear.getOrganization()).get(0);
 

@@ -25,7 +25,7 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:form-login login-page="/app/user/login.abc" login-processing-url="/app/j_spring_security_check" authentication-failure-url="/app/login.xhtml" default-target-url="/" always-use-default-target="true" />
 		<security:logout logout-url="/app/logout" logout-success-url="/app/user/login.abc" />
-		<security:intercept-url pattern="/app/**" access="isAuthenticated()" />
+
 		
 		<security:intercept-url pattern="/app/organization/organizationDep.abc" access="hasRole('AUTH_0001')" />
 		<security:intercept-url pattern="/app/organization/organizationFis.abc" access="hasRole('AUTH_0002')" />
@@ -62,6 +62,8 @@
 		<security:intercept-url pattern="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" access="hasRole('AUTH_0038')" />
 		<security:intercept-url pattern="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_J" access="hasRole('AUTH_0039')" />
 		<security:intercept-url pattern="/app/budget/budSummary.abc" access="hasRole('AUTH_0041')" />
+		
+		<security:intercept-url pattern="/app/**" access="isAuthenticated()" />
 		
 		
 	</security:http>

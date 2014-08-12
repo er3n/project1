@@ -407,12 +407,12 @@
 						</p:panelGrid>
 
 
-					</h:panelGrid>
+					</h:panelGrid> 
 
 					<f:facet name="footer">
-						<p:commandButton value="Kaydet" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.saveDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{empty catMenuViewBean.selectedDetail.item}" />
+						<p:commandButton value="Kaydet" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.saveDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{empty catMenuViewBean.selectedDetail.item.id}" />
 
-						<p:commandButton value="Guncelle" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.updateDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{not empty catMenuViewBean.selectedDetail.item}" />
+						<p:commandButton value="Guncelle" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('confirmMenuStkDetailWdg').hide();" actionListener="#{catMenuViewBean.updateDetail}" update=":confirmMenuStkDetailForm :confirmMenuStkForm:documentDetailPnl" rendered="#{not empty catMenuViewBean.selectedDetail.item.id}" />
 					</f:facet>
 
 

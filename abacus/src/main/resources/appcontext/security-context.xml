@@ -27,13 +27,43 @@
 		<security:logout logout-url="/app/logout" logout-success-url="/app/user/login.abc" />
 		<security:intercept-url pattern="/app/**" access="isAuthenticated()" />
 		
-		<security:intercept-url pattern="/app/user/usermanager.abc" access="hasRole('AUTH_SECURITY')" />
-		<security:intercept-url pattern="/app/user/rolemanager.abc" access="hasRole('AUTH_SECURITY')" />
-
-		<security:intercept-url pattern="/app/organization/orgmanager.abc" access="hasRole('AUTH_ORGANIZATION')" />
-
-		<security:intercept-url pattern="/app/definition/defmanager.abc" access="hasRole('AUTH_DEFINITION')" />
-
+		<security:intercept-url pattern="/app/organization/organizationDep.abc" access="hasRole('AUTH_0001')" />
+		<security:intercept-url pattern="/app/organization/organizationFis.abc" access="hasRole('AUTH_0002')" />
+		<security:intercept-url pattern="/app/catering/catmenuinfo.abc" access="hasRole('AUTH_0003')" />
+		<security:intercept-url pattern="/app/user/rolemanager.abc" access="hasRole('AUTH_0004')" />
+		<security:intercept-url pattern="/app/user/usermanager.abc" access="hasRole('AUTH_0005')" />
+		<security:intercept-url pattern="/app/definition/defmanager.abc?grp=VAL" access="hasRole('AUTH_0006')" />
+		<security:intercept-url pattern="/app/definition/defmanager.abc?grp=STK" access="hasRole('AUTH_0007')" />
+		<security:intercept-url pattern="/app/definition/defmanager.abc?grp=FIN" access="hasRole('AUTH_0008')" />
+		<security:intercept-url pattern="/app/definition/unitmanager.abc" access="hasRole('AUTH_0009')" />
+		<security:intercept-url pattern="/app/definition/defmanager.abc?grp=PRM" access="hasRole('AUTH_0010')" />
+		<security:intercept-url pattern="/app/definition/defmanager.abc?grp=ITM" access="hasRole('AUTH_0012')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_R" access="hasRole('AUTH_0013')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_X" access="hasRole('AUTH_0014')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_CM_VE" access="hasRole('AUTH_0015')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_CM_CU" access="hasRole('AUTH_0016')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_CM_PE" access="hasRole('AUTH_0017')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_CS" access="hasRole('AUTH_0018')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" access="hasRole('AUTH_0020')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_P" access="hasRole('AUTH_0021')" />
+		<security:intercept-url pattern="/app/catering/catmenu.abc" access="hasRole('AUTH_0022')" />
+		<security:intercept-url pattern="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_I" access="hasRole('AUTH_0024')" />
+		<security:intercept-url pattern="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_WB_O" access="hasRole('AUTH_0025')" />
+		<security:intercept-url pattern="/app/transaction/findStkDocument.abc?grp=STK&amp;typ=STK_IO" access="hasRole('AUTH_0026')" />
+		<security:intercept-url pattern="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T" access="hasRole('AUTH_0027')" />
+		<security:intercept-url pattern="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_T&amp;approval=true" access="hasRole('AUTH_0028')" />
+		<security:intercept-url pattern="/app/transaction/findReqDocument.abc?grp=REQ&amp;typ=REQ_IO_P" access="hasRole('AUTH_0030')" />
+		<security:intercept-url pattern="/app/transaction/findPurchaseDocument.abc" access="hasRole('AUTH_0031')" />
+		<security:intercept-url pattern="/app/transaction/findPurchaseDecDocument.abc" access="hasRole('AUTH_0032')" />
+		<security:intercept-url pattern="/app/transaction/convertDocument.abc" access="hasRole('AUTH_0034')" />
+		<security:intercept-url pattern="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_B" access="hasRole('AUTH_0035')" />
+		<security:intercept-url pattern="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_S" access="hasRole('AUTH_0036')" />
+		<security:intercept-url pattern="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_P" access="hasRole('AUTH_0037')" />
+		<security:intercept-url pattern="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_R" access="hasRole('AUTH_0038')" />
+		<security:intercept-url pattern="/app/transaction/findFinDocument.abc?grp=FIN&amp;typ=FIN_J" access="hasRole('AUTH_0039')" />
+		<security:intercept-url pattern="/app/budget/budSummary.abc" access="hasRole('AUTH_0041')" />
+		
+		
 	</security:http>
 
 </beans>

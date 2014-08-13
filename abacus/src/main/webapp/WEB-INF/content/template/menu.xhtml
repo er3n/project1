@@ -87,7 +87,7 @@
 			<h:form>
 				<p:button value="Giris" href="/app/user/login.abc" icon="ui-icon-tag" rendered="#{empty request.remoteUser}" />
 
-				<h:panelGrid columns="3" rendered="#{not empty request.remoteUser}">
+				<h:panelGrid columns="4" rendered="#{not empty request.remoteUser}">
 					
 					<p:selectOneMenu value="#{sessionInfoHelper.currentUser().selectedOrganization}" converter="omnifaces.SelectItemsConverter" style="width:150px">
 						<f:selectItems value="#{sessionInfoHelper.currentUser().organizationList}" var="organization" itemLabel="#{organization.id} - #{organization.name}" itemValue="#{organization}" />
@@ -102,6 +102,8 @@
 					<p:menuButton value="#{request.remoteUser}" style="text-transform:capitalize;">
 						<p:menuitem value="Cikis" url="/app/logout" icon="ui-icon-extlink" />
 					</p:menuButton>
+					
+					
 				</h:panelGrid>
 			</h:form>
 		</f:facet>

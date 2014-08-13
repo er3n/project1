@@ -32,13 +32,19 @@
 
 			<div id="main">
 				<p:panel>
-					<ui:insert name="content" />
+					<f:facet name="footer">
+					<div style="width:90%">
+						<p:button value="Yardım" icon="ui-icon-help" style="margin:0px 0px 0px 100%" />
+						</div> 
+					</f:facet> 
+					
+					<ui:insert name="content" /> 
 				</p:panel>
-
+ 
 			</div>
-
+ 
 		</div>
-		<ui:remove>
+		<ui:remove> 
 			<div id="footer">
 
 				<div style="text-align: center">

@@ -83,5 +83,11 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 	public OrganizationEntity findParentOrganization(OrganizationEntity child) {
 		return organizationDao.findParentOrganization(child);
 	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
+	public List<OrganizationEntity> findRootOrganization() {
+		return organizationRepository.findRootOrganization();
+	}
 
 }

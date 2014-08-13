@@ -9,7 +9,9 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 public interface OrganizationHandler extends Serializable{
 
 	OrganizationEntity findOne(String organizationId);
-	
+
+	List<OrganizationEntity> findRootOrganization();
+
 	List<OrganizationEntity> findByOrganization(String organizationId);
 	
 	OrganizationEntity saveOrganizationEntity(OrganizationEntity entity) throws AbcBusinessException;

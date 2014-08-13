@@ -11,13 +11,13 @@
 >
 	
 	<ui:define name="content">
-	<c:if test="#{organizationViewBean.isRoot(false)}"/>
+	<c:if test="#{organizationViewBean.isRoot(true)}"/>
 
 		<h:panelGrid columns="1">
-
-			<ui:include src="orgOrganization.xhtml"></ui:include>				
-			<ui:include src="orgDepartment.xhtml"></ui:include>				
-
+			
+			<ui:include src="orgOrganization.xhtml"/>				
+			<h:form id="orgDetailForm"/>
+			
 		</h:panelGrid>
 		
 	</ui:define>

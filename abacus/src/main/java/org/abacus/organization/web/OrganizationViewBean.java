@@ -39,10 +39,18 @@ public class OrganizationViewBean implements Serializable {
 	private OrgFiscalViewBean orgFiscalViewBean;
 
 	private EnumList.OrgOrganizationLevelEnum level;
+	private Boolean isOnlyRoot = null;
 	
 	@PostConstruct
 	public void init() {
-		findOrganizationList();
+	}
+
+	public Boolean isRoot(boolean isOnlyRoot){
+		if (this.isOnlyRoot==null){
+			this.isOnlyRoot = isOnlyRoot;
+			findOrganizationList();
+		}
+		return isOnlyRoot;
 	}
 	
 	public void groupChangeListener(){
@@ -55,6 +63,11 @@ public class OrganizationViewBean implements Serializable {
 	}
 
 	public void saveOrganization() {
+		if (!isOnlyRoot && selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)){
+			jsfMessageHelper.addInfo("createError","Holding Seviyesinde Kayıt Oluşturulamaz");
+			findOrganizationList();
+			return;
+		}
 		try{
 			selOrganization = organizationHandler.saveOrganizationEntity(selOrganization);
 			jsfMessageHelper.addInfo("createSuccessful","Organizasyon");
@@ -65,6 +78,10 @@ public class OrganizationViewBean implements Serializable {
 	}
 
 	public void deleteOrganization() {
+		if (!isOnlyRoot && selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)){
+			jsfMessageHelper.addInfo("createError","Holding Seviyesinde Kayıt Silinemez");
+			return;
+		}
 		if (!selOrganization.isNew()) {
 			organizationHandler.deleteOrganizationEntity(selOrganization);
 			jsfMessageHelper.addInfo("deleteSuccessful","Organizasyon");
@@ -80,7 +97,11 @@ public class OrganizationViewBean implements Serializable {
 	public void findOrganizationList() {
 		clearOrganization();
 		organizationList = null;
-		organizationList = organizationHandler.findByOrganization(sessionInfoHelper.currentOrganization().getId());
+		if (isOnlyRoot){
+			organizationList = organizationHandler.findRootOrganization();
+		} else {
+			organizationList = organizationHandler.findByOrganization(sessionInfoHelper.currentOrganization().getId());
+		}
 	}
 
 	public SessionInfoHelper getSessionInfoHelper() {
@@ -147,6 +168,13 @@ public class OrganizationViewBean implements Serializable {
 
 	public void setOrgFiscalViewBean(OrgFiscalViewBean orgFiscalViewBean) {
 		this.orgFiscalViewBean = orgFiscalViewBean;
+	}
+
+	/**
+	 * @return the isOnlyRoot
+	 */
+	public boolean isOnlyRoot() {
+		return isOnlyRoot;
 	}
 
 }

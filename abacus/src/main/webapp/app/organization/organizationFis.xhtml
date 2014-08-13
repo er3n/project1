@@ -11,8 +11,9 @@
 >
 	
 	<ui:define name="content">
+	<c:if test="#{organizationViewBean.isRoot(false)}"/>
 
-		<h:panelGrid id="mainGrid" columns="1">
+		<h:panelGrid columns="1">
 
 			<ui:include src="orgOrganization.xhtml"></ui:include>				
 			<ui:include src="orgFiscalYear.xhtml"></ui:include>				

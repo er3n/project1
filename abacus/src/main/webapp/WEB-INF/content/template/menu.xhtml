@@ -6,6 +6,7 @@
 <h:form>
 	<p:menubar styleClass="menuStyle" >
 		<p:submenu label="Sistem Yönetim" rendered="#{sec:areAnyGranted('AUTH_0000')}">
+			<p:menuitem value="Organizasyon-Holding" url="/app/organization/organizationRoot.abc" rendered="#{sec:areAnyGranted('AUTH_9999')}" />
 			<p:menuitem value="Organizasyon-Departman" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_0001')}" />
 			<p:menuitem value="Organizasyon-Dönem" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_0002')}" />
 			<p:menuitem value="Proje Menu Bilgileri" url="/app/catering/catmenuinfo.abc" rendered="#{sec:areAnyGranted('AUTH_0003')}" />

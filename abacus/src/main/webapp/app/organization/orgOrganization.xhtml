@@ -17,39 +17,41 @@
 				
 					<p:panel id="organizationPanel" header="Organizasyon Yapısı">
 
-						<h:panelGrid id="organizationGrid2" columns="10" cellpadding="2">
+						<h:panelGrid id="organizationGrid2" columns="8" cellpadding="2">
 
 							<h:outputLabel value="Kod : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.id}" maxlength="8"
 								required="true" requiredMessage="organization.Code Bos olamaz"
 								validatorMessage="Kod ##.##.## Formatında Olmalıdır" style="width:100px">
 								 <f:validateLength minimum="2" maximum="8"/>
-							</p:inputText>	 
+							</p:inputText>	  
 
 							<h:outputLabel value="Ad : " />
 							<p:inputText value="#{organizationViewBean.selOrganization.name}"
 								required="true" requiredMessage="organization.Ack Bos olamaz"
 								validatorMessage="organization.Ack" style="width:250px"/>
 
-							<p:panelGrid columns="4" rendered="#{not organizationViewBean.isOnlyRoot()}">
-
-							<h:outputLabel value="Müşteri"/>
-							<abc:itemSelection
-								id="itemSelectionInput" 
-								widgetVar="itemSelectionWdg" 
-								dialogId="itemSelectionDialog" 
-								targetVar="#{organizationViewBean.selOrganization.customer}" />
-
-							<h:outputLabel value="Seviye : "/>
-							<h:outputLabel value=""/>
-							<p:selectOneMenu value="#{organizationViewBean.selOrganization.level}" 
-								style="width:100%">
-								<f:selectItems value="#{OrgOrganizationLevelEnum}"
-									var="levelEnum" itemLabel="#{levelEnum.description}"/>
-							</p:selectOneMenu>
 							
-							</p:panelGrid>
+							<c:if test="#{not organizationViewBean.isOnlyRoot()}">
+
+								<h:outputLabel value="Müşteri"/>
+								<h:panelGrid columns="1">
+									<abc:itemSelection
+										id="itemSelectionInput" 
+										widgetVar="itemSelectionWdg" 
+										dialogId="itemSelectionDialog" 
+										targetVar="#{organizationViewBean.selOrganization.customer}" />
+								</h:panelGrid>
 							
+								<h:outputLabel value="Seviye : "/>
+								<p:selectOneMenu value="#{organizationViewBean.selOrganization.level}" 
+									style="width:80px">
+									<f:selectItems value="#{OrgOrganizationLevelEnum}"
+										var="levelEnum" itemLabel="#{levelEnum.description}"/>
+								</p:selectOneMenu>
+							
+							</c:if>
+							 
 						</h:panelGrid>
 
 						<f:facet name="footer">

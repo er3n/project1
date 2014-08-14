@@ -45,12 +45,10 @@ public class FinReportDao implements Serializable {
 		criteria.createAlias("document.organization", "o");
 		criteria.createAlias("document.fiscalPeriod2", "fp2");		
 		criteria.createAlias("d.item", "item");
-		//
+
 		criteria.add(Restrictions.eq("fp2.fiscalYear.id", reportSearchCriteria.getFiscalYear().getId()));
-//		criteria.add(Restrictions.like("document.typeStr", EnumList.DefTypeGroupEnum.FIN.name()+"%"));
 		if(reportSearchCriteria.getReportDate()!=null ){
 			criteria.add(Restrictions.le("document.docDate", reportSearchCriteria.getReportDate()));
-			//FIXME : Fiscal year in List
 		}
 		if (reportSearchCriteria.getDetailItem()!=null){
 			criteria.add(Restrictions.eq("d.item.id", reportSearchCriteria.getDetailItem().getId()));
@@ -100,7 +98,6 @@ public class FinReportDao implements Serializable {
 		//
 		sq.setParameter("p_fiscal_year_id", reportSearchCriteria.getFiscalYear().getId(), StringType.INSTANCE);
 		sq.setParameter("p_report_date", reportSearchCriteria.getReportDate()==null?null:reportSearchCriteria.getReportDate(), DateType.INSTANCE);
-		//FIXME : Fiscal year in List
 		sq.setParameter("p_item_id", reportSearchCriteria.getDetailItem()==null?null:reportSearchCriteria.getDetailItem().getId(), LongType.INSTANCE);
 		sq.setParameter("p_task_id", reportSearchCriteria.getDocTask()==null?null:reportSearchCriteria.getDocTask().getId(), LongType.INSTANCE);
 		sq.setParameter("p_account_glc", reportSearchCriteria.getAccountGLC()==null?null:reportSearchCriteria.getAccountGLC().getName(), StringType.INSTANCE);

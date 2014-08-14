@@ -124,7 +124,7 @@ public class ConvertDocumentViewBean implements Serializable {
 
 		
 		//TODO :Maliyeti Entegre Olmamis Stok Satis Fisleri
-		//TODO :setRefFinDocumentId fatura entegrasyonu icin kullaniliyor, yeni entegrasyon alani gerekir!
+		//setRefFinDocumentId fatura entegrasyonu icin kullaniliyor, yeni entegrasyon alani gerekir!
 //		documentSearchCriteria = new TraDocumentSearchCriteria();
 //		documentSearchCriteria.setDocType(EnumList.DefTypeEnum.STK_WB_O);
 //		documentSearchCriteria.setIsIntegrated("0");
@@ -166,7 +166,6 @@ public class ConvertDocumentViewBean implements Serializable {
 	}
 
 	public void convertBudget(){
-		//TODO : Period Secim Componenti Eklenecek
 		List<FiscalPeriodEntity> periodList = fiscalService.findFiscalPeriodList(fiscalYear);
 		for (FiscalPeriodEntity per : periodList) {
 			budgetHandler.convertBudget(per);

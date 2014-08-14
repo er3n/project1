@@ -66,7 +66,6 @@ public class PivotStkViewBean implements IPivotViewBean {
 			try {
 				result = mapper.writeValueAsString(listMap);
 			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 //		System.out.println(result.toString());

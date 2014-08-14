@@ -36,7 +36,6 @@ import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
 import org.springframework.util.CollectionUtils;
 
-//TODO Request guncellenmek istendiginde teklif durumu kontrol edilmelidir.
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped

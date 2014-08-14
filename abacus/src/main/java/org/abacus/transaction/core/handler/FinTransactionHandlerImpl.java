@@ -82,7 +82,6 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentDeletedEvent<FinDocumentEntity> deleteDocument(DeleteDocumentEvent<FinDocumentEntity> event) throws UnableToDeleteDocumentException {
-		//StkDocument RemoveRefInfo FIXME
 		stkDocumentRepository.deleteRefFinInfo(event.getDocument().getId());
 		finDetailRepository.updateRefFinInfo(event.getDocument().getId());
 

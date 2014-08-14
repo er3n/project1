@@ -44,7 +44,7 @@ public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends T
 			criteria.add(Restrictions.like("s.organization.id", organization + "%"));
 		}
 
-		//FIXME : Gelen organizasyonun level bilgisi gore sirketse tum alt projeleri gorsun gibi eklemeler olabilir 
+		// Gelen organizasyonun level bilgisi gore sirketse tum alt projeleri gorsun gibi eklemeler olabilir 
 		
 //		if (StringUtils.hasText(fiscalYearId1)) {//Company Fiscali
 //			criteria.add(Restrictions.eq("fp1.fiscalYear.id", fiscalYearId1));

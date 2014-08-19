@@ -91,6 +91,7 @@ public class ItemViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		rootOrganization = sessionInfoHelper.currentOrganization().getRootOrganization();
+		
 		this.initParameters();
 		itemLazyModel = new ItemDataModel(itemSearchCriteria);
 		this.initUnitGroups();

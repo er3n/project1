@@ -147,11 +147,23 @@
 	</error-page>
 	<error-page>
     	<exception-type>java.sql.SQLException</exception-type>
-    	<location>/WEB-INF/errorpages/database.abc</location>
+    	<location>/WEB-INF/errorpages/500.abc</location>
 	</error-page>
 	<error-page>
     	<exception-type>java.lang.RuntimeException</exception-type>
-    	<location>/WEB-INF/errorpages/bug.abc</location>
+    	<location>/WEB-INF/errorpages/500.abc</location>
+	</error-page>
+	<error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/errorpages/500.abc</location>
+	</error-page>
+	<error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/errorpages/404.abc</location>
+	</error-page>
+	<error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/errorpages/403.abc</location>
 	</error-page>
 
 	<!-- END OF PRIMEFACES -->

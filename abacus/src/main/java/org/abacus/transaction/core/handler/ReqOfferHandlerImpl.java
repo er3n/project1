@@ -1,5 +1,6 @@
 package org.abacus.transaction.core.handler;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 			detail.setBaseDetailAmount(selectedOffer.getUnitOfferPrice());
 			
 		}else{
-			detail.setBaseDetailAmount(null);
+			detail.setBaseDetailAmount(BigDecimal.ZERO);
 		}
 		reqDetailRepository.save(detail);
 		

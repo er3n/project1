@@ -6,9 +6,9 @@
 <f:view contentType="text/html">
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="shortcut icon" href="#{resource['default/abacus.ico']}" type="image/x-icon" /> 
+		<link rel="shortcut icon" href="#{resource['default/abacus.ico']}" type="image/x-icon" />
 		<title>#{lbl.projectDescription}</title>
-	
+
 		<h:outputStylesheet library="default" name="css/abacus.css" />
 		<h:outputScript library="default" name="js/abacus.js" />
 
@@ -31,14 +31,14 @@
 			<p:growl id="growl" showDetail="true" sticky="false" autoUpdate="true" life="3000" />
 
 			<div id="main">
-				<p:panel>					
-					<ui:insert name="content" /> 
+				<p:panel>
+					<ui:insert name="content" />
 				</p:panel>
- 
+
 			</div>
- 
+
 		</div>
-		<ui:remove> 
+		<ui:remove>
 			<div id="footer">
 
 				<div style="text-align: center">
@@ -49,10 +49,29 @@
 			</div>
 		</ui:remove>
 
-		<!-- 		<p:ajaxStatus onstart="lockScreen();" oncomplete="releaseScreen();" /> -->
-		<!-- 		<p:dialog id="busyStatus" widgetVar="busyStatusDialog" modal="true" showHeader="false" draggable="false" visible="false" closable="false" resizable="false"> -->
-		<!-- 			<h:graphicImage library="default" name="img/ajax-loader.gif" /> -->
-		<!-- 		</p:dialog> -->
+
+
+		<div id="footer2">
+			<div id="foot2">
+				<div id="left">
+
+					<p>
+						<p:outputLabel value="#{lbl.projectFooter}" />
+					</p>
+
+					<p>
+						<p:button value="Yardım" href="/../abchelp/HTML/index.html" icon="ui-icon-help" target="_blank" />
+					</p>
+
+				</div>
+				<div id="right">
+					<p class="axe">
+						<h:graphicImage library="default" name="img/banner.jpg" style="opacity: 0.1;margin: 2px auto; text-align:center"></h:graphicImage>
+					</p>
+
+				</div>
+			</div>
+		</div>
 
 		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 

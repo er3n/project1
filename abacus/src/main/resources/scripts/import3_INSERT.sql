@@ -4,7 +4,6 @@ insert into org_organization (id, name, level_enum, parent_id) values ('##.#1.#1
 insert into org_organization (id, name, level_enum, parent_id) values ('##.#1.#2', '# 1.2.Projesi', 'L2', '##.#1');
 insert into org_organization (id, name, level_enum, parent_id) values ('##.#2', '# 2.Şirketi', 'L1', '##');
 insert into org_organization (id, name, level_enum, parent_id) values ('##.#2.#1', '# 2.1.Projesi', 'L2', '##.#2');
-commit;
 
 insert into sec_authority (id, name) values ('AUTH_0000','ANAMENU:Sistem Yönetimi');
 insert into sec_authority (id, name) values ('AUTH_9999','Organizasyon-Holding');
@@ -65,7 +64,6 @@ insert into sec_authority (id, name) values ('AUTH_0047','Yazıcı Raporları');
 insert into sec_authority (id, name) values ('AUTH_0048','Stok Pivot');
 insert into sec_authority (id, name) values ('AUTH_0049','Finans Pivot');
 insert into sec_authority (id, name) values ('AUTH_0050','Bütçe Pivot');
-commit;
 
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'System Admin', 0);
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'Satıcı Grubu', 0);
@@ -74,23 +72,19 @@ insert into sec_group (id, name, version) values (nextval('seq_id'), 'Şirket Y�
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'Finans Yöneticisi', 0);
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'Proje Yöneticisi', 0);
 insert into sec_group (id, name, version) values (nextval('seq_id'), 'Depo Yöneticisi', 0);
-commit;
- 
-insert into sec_group_authority (id, group_id, authority_id, version) select nextval('seq_id'), 1, sa.id, 0 from sec_authority sa;
+
+ insert into sec_group_authority (id, group_id, authority_id, version) select nextval('seq_id'), 1, sa.id, 0 from sec_authority sa;
 
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0029', 0);
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0031', 0);
-commit;
 
 insert into sec_user( id, is_active, password) values ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e');
 insert into sec_user( id, is_active, password) values ('vendor1', 1, 'e10adc3949ba59abbe56e057f20f883e');
 insert into sec_user( id, is_active, password) values ('vendor2', 1, 'e10adc3949ba59abbe56e057f20f883e');
-commit;
 
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin', 1, 0);
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'vendor1', 2, 0);
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'vendor2', 2, 0);
-commit;
 
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','##', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','##.#1', 0);
@@ -110,7 +104,6 @@ insert into sec_user_organization (id, user_id, organization_id, version) values
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','##.#1.#2', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','##.#2', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','##.#2.#1', 0);
-commit;
 
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '##.#1', 'F', 'SY1','1.Şirket Ofisi',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
@@ -131,7 +124,6 @@ insert into sec_user_department (id, department_id, user_id, version, auth_input
 
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '##.#2.#1', 'S', 'PD2.1_X','2.1.Proje Depo X',0);
 insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
-commit;
 
 insert into def_type (id, name, level, tr_state_type) values ('VAL_CATEGORY', 'Grup/Kategori', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('VAL_RECEIPT', 'Yemek Tipleri', 1, 0);
@@ -163,10 +155,8 @@ insert into def_type (id, name, level, tr_state_type) values ('ITM_CM_PE', 'Pers
 insert into def_type (id, name, level, tr_state_type) values ('ITM_CS', 'Nakit Hesap', 1, 0);
 
 insert into def_type (id, name, level, tr_state_type) values ('PRM_STOCK', 'Stok Param', 1, 0);
-commit;
 
 insert into def_param (id, type_id, code, name) values ('PRM_STOCK_COSTTYPE', 'PRM_STOCK', 'COSTTYPE', 'Stk Cost Type');
-commit;
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '##', 'STK_WB_I', 'WB-I', 'Alış İrsaliye #', 1, 0, 'ITM_CM_VE', null);
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '##', 'STK_WB_O', 'WB-O', 'Satış İrsaliye #', 1, 0, 'ITM_CM_CU', null);
@@ -190,7 +180,6 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '##', 'FIN_R', 'RC-9', 'Fatura Tahsilat #', 1, 0, 'ITM_CS', 'ITM____CU');
 
 insert into def_task (id, organization_id, type_id, code, name, is_active, version, item_type_document, item_type_detail) values (nextval('seq_id'), '##', 'FIN_J_SC', 'JSC-1', 'Stok Maliyet #', 1, 0, 'ITM_SR_ST', 'ITM_SR_ST');
-commit;
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '##', 'SAY', 'Sayilabilen', 0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'B0001', 'Adet', 1, 0);
@@ -212,10 +201,8 @@ insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values
 
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '##', 'YMK', 'Yemek',0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'Y1', 'Porsiyon', 1, 0);
-commit;
 
 insert into def_param_answer (id, version, param_id, organization_id, answer) values (nextval('seq_id'), 0, 'PRM_STOCK_COSTTYPE', '##', 'FIFO');
-commit;
 
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '##', 'VAL_CATEGORY', null, 'STK', 'Stok Grupları', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '##', 'VAL_CATEGORY', (select v.id from def_value v where v.type_id='VAL_CATEGORY' and v.code='STK' and organization_id='##'), 'STK-H', 'Hammadde', 1, 0);
@@ -263,11 +250,10 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '##', 'VAL_RECEIPT', null, 'T0008', 'Düğün Yemeği', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '##', 'VAL_RECEIPT', null, 'T0009', 'Sünnet Yemeği', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), '##', 'VAL_RECEIPT', null, 'T0010', 'Özel Yemek', 1, 0);
-commit;
+
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M1', 'FIN_R', 'Kahvaltı', (select v.id from def_value v where v.code='F000' and organization_id='##'), '##', 'ITM_SR_FN', null);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M2', 'FIN_R', 'Öğlen Ym', (select v.id from def_value v where v.code='F000' and organization_id='##'), '##', 'ITM_SR_FN', null);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M3', 'FIN_R', 'Akşam Ym', (select v.id from def_value v where v.code='F000' and organization_id='##'), '##', 'ITM_SR_FN', null);
-commit;
 
 insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('##.#1:'||trim(to_char(nextval('seq_id'),'00000000')), '##.#1', 'FY.1:2014', DATE '2014-01-01', DATE '2014-12-31');
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('##.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '##.#1:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-04-30', 1, 1, 1);
@@ -287,51 +273,46 @@ insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_fi
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('##.#1.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':10', '##.#1.#1:'||trim(to_char(currval('seq_id'),'00000000')),10, DATE '2014-10-01', DATE '2014-10-31', 1, 1, 1);
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('##.#1.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':11', '##.#1.#1:'||trim(to_char(currval('seq_id'),'00000000')),11, DATE '2014-11-01', DATE '2014-11-30', 1, 1, 1);
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('##.#1.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':12', '##.#1.#1:'||trim(to_char(currval('seq_id'),'00000000')),12, DATE '2014-12-01', DATE '2014-12-31', 1, 1, 1);
-commit;
 
 insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '##.#1.#1:'||trim(to_char(currval('seq_id')-1,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M1' and organization_id='##' and class_enum='FIN_R'), 150, 3.0);
 insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '##.#1.#1:'||trim(to_char(currval('seq_id')-2,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M2' and organization_id='##' and class_enum='FIN_R'), 200, 5.0);
 insert into cat_menu_info(id, version, fiscal_year_id, meal_id, count_prepare, unit_price) values (nextval('seq_id'), 0, '##.#1.#1:'||trim(to_char(currval('seq_id')-3,'00000000')), (select v.id from def_item v where v.type_id='ITM_SR_FN' and v.code='M3' and organization_id='##' and class_enum='FIN_R'), 175, 7.5);
-commit;
 
-insert into bud_document(id,version,fiscal_year_id,budget_note) values (nextval('seq_id'),0,'##.#1.#1:'||trim(to_char(currval('seq_id')-4,'00000000')), '2014 #.#1.#1 butcesi')
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -1,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 1,'00000000'))||':01', 'BUD_R','ESTIMATE',510)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -2,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 2,'00000000'))||':02', 'BUD_R','ESTIMATE',750)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -3,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 3,'00000000'))||':03', 'BUD_R','ESTIMATE',620)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -4,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 4,'00000000'))||':04', 'BUD_R','ESTIMATE',830)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -5,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 5,'00000000'))||':05', 'BUD_R','ESTIMATE',660)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -6,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 6,'00000000'))||':06', 'BUD_R','ESTIMATE',490)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -7,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 7,'00000000'))||':07', 'BUD_R','ESTIMATE',700)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -8,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 8,'00000000'))||':08', 'BUD_R','ESTIMATE',680)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -9,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 9,'00000000'))||':09', 'BUD_R','ESTIMATE',870)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-10,'##.#1.#1:'||trim(to_char(currval('seq_id')-4-10,'00000000'))||':10', 'BUD_R','ESTIMATE',300)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-11,'##.#1.#1:'||trim(to_char(currval('seq_id')-4-11,'00000000'))||':11', 'BUD_R','ESTIMATE',460)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-12,'##.#1.#1:'||trim(to_char(currval('seq_id')-4-12,'00000000'))||':12', 'BUD_R','ESTIMATE',450)
+insert into bud_document(id,version,fiscal_year_id,budget_note) values (nextval('seq_id'),0,'##.#1.#1:'||trim(to_char(currval('seq_id')-4,'00000000')), '2014 #.#1.#1 butcesi');
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -1,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 1,'00000000'))||':01', 'BUD_R','ESTIMATE',1510);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -2,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 2,'00000000'))||':02', 'BUD_R','ESTIMATE',750);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -3,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 3,'00000000'))||':03', 'BUD_R','ESTIMATE',4620);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -4,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 4,'00000000'))||':04', 'BUD_R','ESTIMATE',830);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -5,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 5,'00000000'))||':05', 'BUD_R','ESTIMATE',6660);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -6,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 6,'00000000'))||':06', 'BUD_R','ESTIMATE',490);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -7,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 7,'00000000'))||':07', 'BUD_R','ESTIMATE',1700);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -8,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 8,'00000000'))||':08', 'BUD_R','ESTIMATE',3680);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id') -9,'##.#1.#1:'||trim(to_char(currval('seq_id')-4- 9,'00000000'))||':09', 'BUD_R','ESTIMATE',870);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-10,'##.#1.#1:'||trim(to_char(currval('seq_id')-4-10,'00000000'))||':10', 'BUD_R','ESTIMATE',4300);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-11,'##.#1.#1:'||trim(to_char(currval('seq_id')-4-11,'00000000'))||':11', 'BUD_R','ESTIMATE',6460);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-12,'##.#1.#1:'||trim(to_char(currval('seq_id')-4-12,'00000000'))||':12', 'BUD_R','ESTIMATE',450);
 
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-13,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 1,'00000000'))||':01', 'BUD_X','ESTIMATE',505)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-14,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 2,'00000000'))||':02', 'BUD_X','ESTIMATE',760)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-15,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 3,'00000000'))||':03', 'BUD_X','ESTIMATE',590)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-16,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 4,'00000000'))||':04', 'BUD_X','ESTIMATE',800)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-17,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 5,'00000000'))||':05', 'BUD_X','ESTIMATE',500)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-18,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 6,'00000000'))||':06', 'BUD_X','ESTIMATE',450)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-19,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 7,'00000000'))||':07', 'BUD_X','ESTIMATE',620)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-20,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 8,'00000000'))||':08', 'BUD_X','ESTIMATE',600)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-21,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 9,'00000000'))||':09', 'BUD_X','ESTIMATE',570)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-22,'##.#1.#1:'||trim(to_char(currval('seq_id')-16-10,'00000000'))||':10', 'BUD_X','ESTIMATE',280)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-23,'##.#1.#1:'||trim(to_char(currval('seq_id')-16-11,'00000000'))||':11', 'BUD_X','ESTIMATE',415)
-insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-24,'##.#1.#1:'||trim(to_char(currval('seq_id')-16-12,'00000000'))||':12', 'BUD_X','ESTIMATE',400)
-commit;
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-13,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 1,'00000000'))||':01', 'BUD_X','ESTIMATE',1505);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-14,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 2,'00000000'))||':02', 'BUD_X','ESTIMATE',760);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-15,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 3,'00000000'))||':03', 'BUD_X','ESTIMATE',590);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-16,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 4,'00000000'))||':04', 'BUD_X','ESTIMATE',800);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-17,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 5,'00000000'))||':05', 'BUD_X','ESTIMATE',1500);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-18,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 6,'00000000'))||':06', 'BUD_X','ESTIMATE',450);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-19,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 7,'00000000'))||':07', 'BUD_X','ESTIMATE',620);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-20,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 8,'00000000'))||':08', 'BUD_X','ESTIMATE',1600);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-21,'##.#1.#1:'||trim(to_char(currval('seq_id')-16- 9,'00000000'))||':09', 'BUD_X','ESTIMATE',570);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-22,'##.#1.#1:'||trim(to_char(currval('seq_id')-16-10,'00000000'))||':10', 'BUD_X','ESTIMATE',1280);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-23,'##.#1.#1:'||trim(to_char(currval('seq_id')-16-11,'00000000'))||':11', 'BUD_X','ESTIMATE',415);
+insert into bud_detail(id,version,document_id,fiscal_period_id,budget_rx,budget_type,budget_amount) values (nextval('seq_id'),0,currval('seq_id')-24,'##.#1.#1:'||trim(to_char(currval('seq_id')-16-12,'00000000'))||':12', 'BUD_X','ESTIMATE',1400);
 
 insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('##.#1.#2:'||trim(to_char(nextval('seq_id'),'00000000')), '##.#1.#2', 'Prj.1.2:2014', DATE '2014-01-01', DATE '2014-12-31');
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('##.#1.#2:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '##.#1.#2:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
-
 
 insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('##.#2:'||trim(to_char(nextval('seq_id'),'00000000')), '##.#2', 'FY.2:2014', DATE '2014-01-01', DATE '2014-12-31');
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('##.#2:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '##.#2:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
 
 insert into org_fiscal_year(id, organization_id, name, date_start, date_finish) VALUES ('##.#2.#1:'||trim(to_char(nextval('seq_id'),'00000000')), '##.#2.#1', 'Prj.2.1:2014', DATE '2014-01-01', DATE '2014-12-31');
 insert into org_fiscal_period(id, fiscal_year_id, period_no, date_start, date_finish, is_acc_active, is_fin_active, is_stk_active) VALUES ('##.#2.#1:'||trim(to_char(currval('seq_id'),'00000000'))||':01', '##.#2.#1:'||trim(to_char(currval('seq_id'),'00000000')), 1, DATE '2014-01-01', DATE '2014-12-31', 1, 1, 1);
-commit;
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'P101', null, 'Personel X', (select v.id from def_value v where v.code='P100' and organization_id='##'), '##', 'ITM_CM_PE', null);
 
@@ -349,7 +330,6 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F103', 'FIN_X', 'Telefon', (select v.id from def_value v where v.code='F100' and organization_id='##'), '##', 'ITM_SR_FN', null);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F104', 'FIN_X', 'Gaz', (select v.id from def_value v where v.code='F100' and organization_id='##'), '##', 'ITM_SR_FN', null);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'F201', 'FIN_X', 'Personel Maaş', (select v.id from def_value v where v.code='F200' and organization_id='##'), '##', 'ITM_SR_FN', null);
-commit;
 
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'##','ITM_SR_ST','VAL_CATEGORY',(select p.id from def_value p where p.code = 'STK' and p.organization_id = '##' and p.type_id ='VAL_CATEGORY'));
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'##','ITM_SR_FN','VAL_CATEGORY',(select p.id from def_value p where p.code = 'FIN' and p.organization_id = '##' and p.type_id ='VAL_CATEGORY'));
@@ -357,8 +337,6 @@ insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_val
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'##','ITM_CM_CU','VAL_CATEGORY',(select p.id from def_value p where p.code = 'CMP' and p.organization_id = '##' and p.type_id ='VAL_CATEGORY'));
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'##','ITM_CM_PE','VAL_CATEGORY',(select p.id from def_value p where p.code = 'PER' and p.organization_id = '##' and p.type_id ='VAL_CATEGORY'));
 insert into def_reference(id,version,organization_id,type_id,ref_type_id,ref_value_id) values (nextval('seq_id'),0,'##','ITM_CS','VAL_CATEGORY',(select p.id from def_value p where p.code = 'CSH' and p.organization_id = '##' and p.type_id ='VAL_CATEGORY'));
-commit;
 
 update sec_user s set vendor_id = (select t.id from def_item t where t.code = 'T101' and t.organization_id='##' and type_id='ITM_CM_VE') where s.id = 'vendor1';
 update sec_user s set vendor_id = (select t.id from def_item t where t.code = 'T102' and t.organization_id='##' and type_id='ITM_CM_VE') where s.id = 'vendor2';
-commit;

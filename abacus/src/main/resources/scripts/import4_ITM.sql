@@ -1,4 +1,3 @@
-commit;
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0001', 'STK_M', 'İyotlu Tuz', (select v.id from def_value v where v.code='?' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0002', 'STK_M', 'İyotsuz Tuz', (select v.id from def_value v where v.code='?' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0003', 'STK_M', 'Toz Şeker', (select v.id from def_value v where v.code='?' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));
@@ -169,7 +168,7 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0168', 'STK_M', 'Poğaça', (select v.id from def_value v where v.code='?' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='SAY'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0169', 'STK_M', 'Döner (Tavuk Eti)', (select v.id from def_value v where v.code='?' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='AGR'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'M0170', 'STK_M', 'Cup (100 ml)', (select v.id from def_value v where v.code='?' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='SAY'));
-commit;
+
 
 insert into def_item_unit(id,version,item_id,unit_code_id) values (nextval('seq_id'), 0,(select i.id from def_item i where i.code ='M0001'),(select c.id from def_unit_code c where c.code ='B0003'));
 insert into def_item_unit(id,version,item_id,unit_code_id) values (nextval('seq_id'), 0,(select i.id from def_item i where i.code ='M0002'),(select c.id from def_unit_code c where c.code ='B0003'));
@@ -341,7 +340,7 @@ insert into def_item_unit(id,version,item_id,unit_code_id) values (nextval('seq_
 insert into def_item_unit(id,version,item_id,unit_code_id) values (nextval('seq_id'), 0,(select i.id from def_item i where i.code ='M0168'),(select c.id from def_unit_code c where c.code ='B0001'));
 insert into def_item_unit(id,version,item_id,unit_code_id) values (nextval('seq_id'), 0,(select i.id from def_item i where i.code ='M0169'),(select c.id from def_unit_code c where c.code ='B0003'));
 insert into def_item_unit(id,version,item_id,unit_code_id) values (nextval('seq_id'), 0,(select i.id from def_item i where i.code ='M0170'),(select c.id from def_unit_code c where c.code ='B0013'));
-commit;
+
 
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'Y0001', 'STK_P', 'Tas Kebabı', (select v.id from def_value v where v.code='G0002' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='YMK'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'Y0002', 'STK_P', 'Yoğurtlu Kebap', (select v.id from def_value v where v.code='G0002' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='YMK'));
@@ -493,7 +492,7 @@ insert into def_item (id, version, is_active, code, class_enum, name, category_i
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'Y0097', 'STK_P', 'Şehriyeli Pirinç Pilavı', (select v.id from def_value v where v.code='G0006' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='YMK'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'Y0098', 'STK_P', 'Etli Pirinç Pilavı', (select v.id from def_value v where v.code='G0006' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='YMK'));
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'Y0099', 'STK_P', 'Bulgur Pilavı (Domatesli Biberli)', (select v.id from def_value v where v.code='G0006' and organization_id='##'), '##', 'ITM_SR_ST', (select d.id from def_unit_group d where d.code ='YMK'));
-commit;
+
 
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 150, (select i.id from def_item i where i.code='Y0001'), (select i.id from def_item i where i.code='M0011'), (select i.id from def_unit_code i where i.code='B0003'),1);
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 50, (select i.id from def_item i where i.code='Y0001'), (select i.id from def_item i where i.code='M0012'), (select i.id from def_unit_code i where i.code='B0003'),2);
@@ -1731,4 +1730,3 @@ insert into def_item_product (id,version, material_count, item_id, material_item
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 10, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0016'), (select i.id from def_unit_code i where i.code='B0003'),7);
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 0.02, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0122'), (select i.id from def_unit_code i where i.code='B0005'),8);
 insert into def_item_product (id,version, material_count, item_id, material_item_id, unit_code_id,material_order) values (nextval('seq_id'),0, 0.5, (select i.id from def_item i where i.code='Y0099'), (select i.id from def_item i where i.code='M0008'), (select i.id from def_unit_code i where i.code='B0003'),9);
-commit;

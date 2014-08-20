@@ -8,6 +8,13 @@
 		<welcome-file>app/index.abc</welcome-file>
 	</welcome-file-list>
 	
+	<!-- CONTEXT LISTENER -->
+	<listener>
+		<listener-class>
+             org.abacus.common.web.listener.Jul2Slf4jListener
+        </listener-class>
+   </listener>
+	
 	<!--  SECURITY -->
 		<security-constraint> 
 		<web-resource-collection>

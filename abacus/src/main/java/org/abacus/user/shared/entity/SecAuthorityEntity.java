@@ -12,7 +12,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "sec_authority")
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class SecAuthorityEntity extends StaticEntity {
 
 	@Column(name = "name", nullable = false)

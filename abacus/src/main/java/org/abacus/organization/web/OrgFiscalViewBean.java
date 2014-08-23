@@ -92,12 +92,6 @@ public class OrgFiscalViewBean implements Serializable {
 		if (selFiscalPeriod.isNew()) {
 			jsfMessageHelper.addInfo("createSuccessful","FiscalPeriod");
 			selFiscalPeriod.setFiscalYear(selFiscalYear);
-			if (selFiscalPeriod.getPeriodNo()==null || 
-					selFiscalPeriod.getPeriodNo().intValue()<1 || 
-					selFiscalPeriod.getPeriodNo().intValue()>99){
-				jsfMessageHelper.addInfo("createError","No Hatalı");
-				return;
-			}
 		} else {
 			jsfMessageHelper.addInfo("updateSuccessful","FiscalPeriod");
 		}

@@ -66,7 +66,9 @@ public class FiscalHandlerImpl implements FiscalHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public FiscalYearEntity saveFiscalYearEntity(FiscalYearEntity entity) {
-		entity.setId(entity.getOrganization().getId()+":"+AbcUtility.LPad(abcCommonDao.getNewId().toString(), 8, '0'));
+		if (entity.getId()==null){
+			entity.setId(entity.getOrganization().getId()+":"+AbcUtility.LPad(abcCommonDao.getNewId().toString(), 8, '0'));
+		}
 		entity = fiscalYearRepo.save(entity);
 		return entity;
 	}
@@ -80,7 +82,7 @@ public class FiscalHandlerImpl implements FiscalHandler {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public FiscalPeriodEntity saveFiscalPeriodEntity(FiscalPeriodEntity entity) {
-		entity.setId(entity.getFiscalYear().getId()+":"+AbcUtility.LPad(entity.getPeriodNo().toString(), 2, '0'));
+		entity.setId(entity.getFiscalYear().getId()+":"+entity.getPeriodNo());
 		entity = fiscalPeriodRepo.save(entity);
 		return entity;
 	}

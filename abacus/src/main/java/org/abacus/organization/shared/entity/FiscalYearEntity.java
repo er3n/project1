@@ -1,5 +1,6 @@
 package org.abacus.organization.shared.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -37,6 +38,9 @@ public class FiscalYearEntity extends StaticEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id", nullable = true)
 	private DefItemEntity customer;
+
+	@Column(name = "profit_rate", nullable = false, precision = 5, scale = 2)
+	private BigDecimal profitRate;
 	
 	public FiscalYearEntity() {
 	}
@@ -83,6 +87,20 @@ public class FiscalYearEntity extends StaticEntity {
 
 	public void setCustomer(DefItemEntity customer) {
 		this.customer = customer;
+	}
+
+	/**
+	 * @return the profitRate
+	 */
+	public BigDecimal getProfitRate() {
+		return profitRate;
+	}
+
+	/**
+	 * @param profitRate the profitRate to set
+	 */
+	public void setProfitRate(BigDecimal profitRate) {
+		this.profitRate = profitRate;
 	}
 
 }

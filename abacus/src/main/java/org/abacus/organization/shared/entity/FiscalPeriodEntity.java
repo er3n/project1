@@ -24,7 +24,7 @@ public class FiscalPeriodEntity extends StaticEntity {
 	private FiscalYearEntity fiscalYear;
 	
 	@Column(name = "period_no", nullable = false)
-	private Integer periodNo;
+	private String periodNo;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_start", nullable = true)
@@ -57,11 +57,11 @@ public class FiscalPeriodEntity extends StaticEntity {
 		return fiscalYear.getName()+":"+periodNo;
 	}
 	
-	public Integer getPeriodNo() {
+	public String getPeriodNo() {
 		return periodNo;
 	}
 
-	public void setPeriodNo(Integer periodNo) {
+	public void setPeriodNo(String periodNo) {
 		this.periodNo = periodNo;
 	}
 

@@ -17,11 +17,12 @@
 				<h:panelGrid id="fiscalPeriodGrid2" columns="8" cellpadding="2">
  
 					<h:outputLabel value="No : " />
-					<pe:inputNumber decimalPlaces="0" style="text-align: right;" minValue="1" maxValue="99"
-								value="#{orgFiscalViewBean.selFiscalPeriod.periodNo}"
+					<p:inputText value="#{orgFiscalViewBean.selFiscalPeriod.periodNo}" maxlength="8"
 								required="true" requiredMessage="FiscalPeriod.No Bos olamaz"
-								validatorMessage="FiscalPeriod.No" />
-
+								validatorMessage="Kod ## Formatında Olmalıdır" style="width:100px">
+								 <f:validateLength minimum="2" maximum="2"/>
+							</p:inputText>	
+					
 					<h:outputLabel value="Başlangıç : " />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
 						value="#{orgFiscalViewBean.selFiscalPeriod.dateStart}" />
@@ -74,19 +75,19 @@
            			#{selFiscalPeriod.dateStart}  
        			</p:column>
 
-				<p:column headerText="Bitiş" style="width:150px">  
+				<p:column headerText="Bitiş" style="width:100px">  
            			#{selFiscalPeriod.dateFinish}  
        			</p:column>
 
-				<p:column headerText="Fin" style="width:150px">  
+				<p:column headerText="Fin" style="width:100px">  
            			#{selFiscalPeriod.isFinActive}  
        			</p:column>
 
-				<p:column headerText="Stk" style="width:150px">  
+				<p:column headerText="Stk" style="width:100px">  
            			#{selFiscalPeriod.isStkActive}  
        			</p:column>
 
-				<p:column headerText="ID" style="width:150px">  
+				<p:column headerText="ID" style="width:180px">  
            			#{selFiscalPeriod.id}  
        			</p:column>
 

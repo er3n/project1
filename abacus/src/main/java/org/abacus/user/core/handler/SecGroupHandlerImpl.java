@@ -51,7 +51,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public List<SecAuthorityEntity> allAuthorities() {
-		List<SecAuthorityEntity> authorityList = authorityRepository.findAllOrderById();
+		List<SecAuthorityEntity> authorityList = authorityRepository.findAllOrderByCode();
 		return authorityList;
 	}
 

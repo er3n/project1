@@ -1,6 +1,7 @@
 package org.abacus.user.core.handler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
@@ -278,11 +279,16 @@ public class UserEventHandler implements UserService{
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public ReadAuthoritiesEvent requestAuthorities(RequestReadAuthoritiesEvent event) {
-		List<SecAuthorityEntity> groupAuthorities = null;
+		List<SecAuthorityEntity> groupAuthorities = new ArrayList<SecAuthorityEntity>();
+		
+		List<SecAuthorityEntity> retAuthorities = null;
 		if(event.getGroupId() != null){
-			groupAuthorities = groupRepository.findGroupAuthorities(event.getGroupId());
+			retAuthorities = groupRepository.findGroupAuthorities(event.getGroupId());
 		}else{
-			groupAuthorities = authorityRepository.findAllOrderById();
+			retAuthorities = authorityRepository.findAllOrderByCode();
+		}
+		for (SecAuthorityEntity ret : retAuthorities) {
+			groupAuthorities.add(ret);
 		}
 		
 		ReadAuthoritiesEvent readEvent = new ReadAuthoritiesEvent(groupAuthorities);

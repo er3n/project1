@@ -69,7 +69,7 @@
 
 						<h:outputText value="Yetkiler" style="font-weight:bold" />
 
-						<p:pickList
+						<p:pickList id="listElements"
 							value="#{userGroupViewBean.selectedGroupAuthoritiesDL}"
 							var="authority" itemValue="#{authority}"
 							itemLabel="#{authority.id}"
@@ -82,7 +82,8 @@
 							<f:facet name="targetCaption">Seçilen Yetkiler</f:facet>
 
 							<p:column>
-								<h:outputText value="#{authority.name}" />
+								<h:outputText value="#{authority.code} #{authority.name}" rendered="${not authority.isSubMenu()}" />
+								<h:outputText value="#{authority.code} #{authority.name}" rendered="${authority.isSubMenu()}" style="font-weight:bold"/>
 							</p:column>
 
 							<o:converter converterId="omnifaces.ListConverter"

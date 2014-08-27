@@ -57,6 +57,8 @@ create unique index ix_req_detail_offer on req_detail_offer (detail_id, vendor_i
 create index ix_req_document_1 on req_document (organization_id, fiscal_period1_id, doc_date);
 create index ix_req_document_2 on req_document (organization_id, fiscal_period2_id, doc_date);
 
+create unique index ix_sec_authority on sec_authority (code);
+
 create unique index ix_sec_group on sec_group (name);
 
 create unique index ix_sec_group_authority on sec_group_authority (group_id, authority_id);

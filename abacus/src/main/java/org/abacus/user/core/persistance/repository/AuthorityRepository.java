@@ -8,9 +8,7 @@ import org.springframework.data.repository.Repository;
 
 public interface AuthorityRepository extends Repository<SecAuthorityEntity, String>{
 
-	@Query("select a from SecAuthorityEntity a order by a.id")
-	List<SecAuthorityEntity> findAllOrderById();
+	@Query("select a from SecAuthorityEntity a order by a.code")
+	List<SecAuthorityEntity> findAllOrderByCode();
 	
-	
-
 }

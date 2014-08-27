@@ -13,7 +13,7 @@ public interface GroupRepository extends CrudRepository<SecGroupEntity, Long> {
 	@Query("select g from SecGroupEntity g order by name")
 	List<SecGroupEntity> findAllOrderByName();
 
-	@Query("select a from SecGroupAuthorityEntity ga, SecAuthorityEntity a where a.id = ga.authority.id and ga.group.id = :groupId")
+	@Query("select a from SecGroupAuthorityEntity ga, SecAuthorityEntity a where a.id = ga.authority.id and ga.group.id = :groupId order by a.code")
 	List<SecAuthorityEntity> findGroupAuthorities(@Param("groupId") Long groupId);
 
 	@Query("select g from SecGroupEntity g where lower(g.name) = lower(:name)")

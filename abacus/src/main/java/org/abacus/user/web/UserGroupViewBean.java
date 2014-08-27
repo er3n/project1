@@ -2,6 +2,7 @@ package org.abacus.user.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -60,7 +61,7 @@ public class UserGroupViewBean implements Serializable {
 
 		ReadAuthoritiesEvent authoritiesEvent = userService.requestAuthorities(new RequestReadAuthoritiesEvent());
 		List<SecAuthorityEntity> allAuthorities = authoritiesEvent.getGroupAuthorities();
-		List<SecAuthorityEntity> targetSelectedGrupAuthorities = new ArrayList<>();
+		List<SecAuthorityEntity> targetSelectedGrupAuthorities = new ArrayList<SecAuthorityEntity>();
 		selectedGroupAuthoritiesDL.setSource(allAuthorities);
 		selectedGroupAuthoritiesDL.setTarget(targetSelectedGrupAuthorities);
 		selectedGroup = new SecGroupEntity();

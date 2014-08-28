@@ -99,7 +99,7 @@
 							<p:commandButton value="Guncelle"
 								rendered="#{not empty userGroupViewBean.selectedGroup.id}"
 								actionListener="#{userGroupViewBean.updateGroup}"
-								update=":groupListForm" />
+								update=":groupListForm :groupDetailForm" />
 						</f:facet>
 
 					</h:panelGrid>

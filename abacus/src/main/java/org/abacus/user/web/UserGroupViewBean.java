@@ -75,6 +75,7 @@ public class UserGroupViewBean implements Serializable {
 			GroupCreatedEvent groupCreatedEvent = userService.createGroup(new CreateGroupEvent(selectedGroup, selectedAuthorities, username));
 			this.selectedGroup = groupCreatedEvent.getGroup();
 			jsfMessageHelper.addInfo("createSuccessful","Grup");
+			onGroupRowSelected();
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("grupIsmiKullanimda");
 		}
@@ -87,6 +88,7 @@ public class UserGroupViewBean implements Serializable {
 			GroupUpdatedEvent groupUpdatedEvent = userService.updateGroup(new UpdateGroupEvent(selectedGroup, selectedAuthorities, userName));
 			selectedGroup = groupUpdatedEvent.getGroup();
 			jsfMessageHelper.addInfo("updateSuccessful","Grup");
+			onGroupRowSelected();
 		} catch (GroupNameInUseException e) {
 			jsfMessageHelper.addError("grupIsmiKullanimda");
 		}

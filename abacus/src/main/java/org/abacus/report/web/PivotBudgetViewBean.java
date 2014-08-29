@@ -73,11 +73,13 @@ public class PivotBudgetViewBean implements IPivotViewBean {
 
 	private List<Map<String, Object>> getData() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select v.fiscal_year_id CalismaYili, v.fiscal_period_id CalismaDonemi, v.accrue_date GercekTarihi, ");
+		sb.append("select y.name CalismaYili, p.period_no CalismaDonemi, v.accrue_date GercekTarihi, ");
 		sb.append("	      (CASE WHEN v.budget_type='ESTIMATE' THEN 'Tahmin' ELSE 'Gerçek' END) ButceTipi,");
 		sb.append("	      (CASE WHEN v.budget_rx='BUD_R' THEN 'Gelir' ELSE 'Gider' END) GelirGider,");
 		sb.append("       v.budget_amount Tutar");
-		sb.append("  from v_bud v where 1=1 ");
+		sb.append("  from v_bud v, org_fiscal_year y, org_fiscal_period p ");
+		sb.append(" where y.id = v.fiscal_year_id");
+		sb.append("   and p.id = v.fiscal_period_id");
 
 		String orgId = sessionInfoHelper.currentOrganization().getId()+":%";
 		if (selection.equals("1")){

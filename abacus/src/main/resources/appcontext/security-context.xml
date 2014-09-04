@@ -64,7 +64,13 @@
 		<security:intercept-url pattern="/app/budget/budSummary.abc" access="hasRole('AUTH_0041')" />
 		<security:intercept-url pattern="/app/organization/organizationRoot.abc" access="hasRole('AUTH_9999')" />
 		
-		<security:intercept-url pattern="/app/.*" access="isAuthenticated()" /> 	
+		<security:intercept-url pattern="/app/.*" access="isAuthenticated()" /> 
+		
+		<security:session-management>
+		
+			<security:concurrency-control max-sessions="1" />
+		
+		</security:session-management>
 		
 		
 	</security:http>

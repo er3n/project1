@@ -72,7 +72,7 @@ public class OrganizationEntity extends StaticEntity {
 	}
 
 	public String getNameLevel() {
-		return AbcUtility.LPad("", level.ordinal()*5, ' ')+name;
+		return AbcUtility.LPad("", level.ordinal()*5, ' ')+name; //UTF-8 char
 	}
 	
 	public String getName() {

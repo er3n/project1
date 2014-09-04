@@ -29,6 +29,14 @@ public class SecUser implements UserDetails {
 
 	private DefItemEntity vendor;
 
+	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear,DefItemEntity vendor) {
+		setOrganizationList(organizationList);
+		setSelectedOrganization(selectedOrganization);
+		setCompanyFiscalYearSet(companyFiscalYearSet);
+		setSelectedFiscalYear(defaultFiscalYear);
+		setVendor(vendor);
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
@@ -48,12 +56,30 @@ public class SecUser implements UserDetails {
 		return authorities;
 	}
 
-	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear,DefItemEntity vendor) {
-		setOrganizationList(organizationList);
-		setSelectedOrganization(selectedOrganization);
-		setCompanyFiscalYearSet(companyFiscalYearSet);
-		setSelectedFiscalYear(defaultFiscalYear);
-		setVendor(vendor);
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SecUser other = (SecUser) obj;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
 	}
 
 	@Override

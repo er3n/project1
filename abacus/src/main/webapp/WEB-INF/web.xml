@@ -65,6 +65,12 @@
         </listener-class>
     </listener>
     
+    <listener>
+    	<listener-class>
+      		org.springframework.security.web.session.HttpSessionEventPublisher
+    	</listener-class>
+  	</listener>
+    
     <servlet>
         <servlet-name>restServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

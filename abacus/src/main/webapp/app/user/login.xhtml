@@ -8,6 +8,12 @@
 	template="/WEB-INF/content/template/simple.xhtml">
 
 	<ui:define name="content">
+
+		<c:if test="#{param['expired'] == true}">
+			<h:outputLabel style="font-weight:bold"
+				value="Aynı Kullanıcı ile Tekrar Login Olundu yada Oturum Sonlandırıldı" />
+		</c:if>
+
 		<h:form id="loginForm" prependId="false">
 			<p:panel header="#{lbl.oturumAc}" style="width:300px;margin:0 auto;">
 				<h:panelGrid columns="2" cellpadding="2">
@@ -20,7 +26,7 @@
 						style="font-weight:bold" />
 					<p:password id="j_password" required="true" label="password"
 						size="22" requiredMessage="#{lbl.sifreAdiBosOlamaz}" />
-					
+
 					<ui:remove>
 						<h:outputLabel for="_spring_security_remember_me"
 							value="#{lbl.rememberMe}" style="font-weight:bold" />

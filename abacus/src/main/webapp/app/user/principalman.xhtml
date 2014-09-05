@@ -1,0 +1,56 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	template="/WEB-INF/content/template/simple.xhtml"
+	xmlns:abc="http://www.abacus.com/abc">
+
+	<ui:define name="content">
+
+		<h:form id="principalForm">
+
+			<p:commandButton value="Refresh Session List" update=":principalForm"
+				actionListener="#{sessionInfoBean.findActiveSessionList()}">
+			</p:commandButton>
+
+				<p:dataTable
+					emptyMessage="Kayit Bulunamadi"
+					value="#{sessionInfoBean.allSessionList}" var="var"
+					 paginator="true" rows="30">
+
+					<p:column headerText="Kullanıcı" filterBy="#{var.principal}" filterMatchMode="contains">
+						<p:outputLabel value="#{var.principal}"/>
+					</p:column>
+
+					<p:column headerText="Session" filterBy="#{var.sessionId}" filterMatchMode="contains">
+						<p:outputLabel value="#{var.sessionId}"/>
+					</p:column>
+
+					<p:column headerText="Son İşlem" filterBy="#{var.lastRequest}" filterMatchMode="contains">
+						<h:outputText value="#{var.lastRequest}">
+							<f:convertDateTime timeZone="Turkey" pattern="EEE dd.MM.yyyy HH:mm:ss"
+								locale="tr_TR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="İşlem" style="width:145px"> 
+	
+						<p:commandButton icon="ui-icon-closethick" actionListener="#{sessionInfoBean.killSession(var)}"
+							update=":principalForm">
+							<p:confirm header="Onay" message="Kullanıcıyı sonlandırmak istediğinize emin misin?" icon="ui-icon-alert"  />
+						</p:commandButton>
+						
+					</p:column>
+					
+				</p:dataTable> 
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

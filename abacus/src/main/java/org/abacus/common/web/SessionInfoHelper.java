@@ -1,7 +1,9 @@
 package org.abacus.common.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.faces.application.NavigationHandler;
@@ -17,12 +19,17 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
 @SuppressWarnings("serial")
 @Component
 public class SessionInfoHelper implements Serializable {
 
+	@Autowired
+	private SessionRegistry sessionRegistry;
+	
 	@Autowired
 	private OrganizationRepository organizationRepository;
 
@@ -31,7 +38,7 @@ public class SessionInfoHelper implements Serializable {
 
 	@Autowired
 	private OrganizationUtils organizationUtils;
-
+	
 	public SecUser currentUser(){
 		SecUser secUser = (SecUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return secUser;
@@ -80,6 +87,23 @@ public class SessionInfoHelper implements Serializable {
 	public FiscalPeriodEntity getFiscalPeriod(Date docDate) {
 		FiscalYearEntity fisYear = currentUser().getSelectedFiscalYear();
 		return fiscalPeriodRepository.findFiscalPeriod(fisYear.getId(), docDate);
+	}
+
+	public List<SessionInformation> getActiveSessionList(){
+		List<Object> principalList = sessionRegistry.getAllPrincipals();
+		List<SessionInformation> allSessionList = new ArrayList<SessionInformation>();
+		for (Object principal: principalList) {
+		    if (principal instanceof SecUser) {
+		    	SecUser usr = (SecUser) principal; 
+		    	List<SessionInformation> userSessionList = sessionRegistry.getAllSessions(principal, false);
+		    	allSessionList.addAll(userSessionList);
+		    }
+		}
+		return allSessionList;
+	}
+
+	public void killSession(SessionInformation sess){
+		sess.expireNow();
 	}
 
 }

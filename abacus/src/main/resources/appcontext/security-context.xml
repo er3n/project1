@@ -24,7 +24,7 @@
 	<!-- Configure Spring Security -->
 	<security:http auto-config="true" use-expressions="true" request-matcher="regex">
 		<security:form-login login-page="/app/user/login.abc" login-processing-url="/app/j_spring_security_check" authentication-failure-url="/app/user/login.abc" default-target-url="/" always-use-default-target="true" />
-		<security:logout logout-url="/app/logout" logout-success-url="/app/user/login.abc" />
+		<security:logout logout-url="/app/logout" logout-success-url="/app/user/login.abc"  />
 
 		
 		<security:intercept-url pattern="/app/organization/organizationDep.abc" access="hasRole('AUTH_0001')" />
@@ -63,12 +63,13 @@
 		<security:intercept-url pattern="/app/transaction/findFinDocument.abc\\?.*((grp=FIN.*typ=FIN_J)|(typ=FIN_J.*grp=FIN)).*" access="hasRole('AUTH_0039')" />
 		<security:intercept-url pattern="/app/budget/budSummary.abc" access="hasRole('AUTH_0041')" />
 		<security:intercept-url pattern="/app/organization/organizationRoot.abc" access="hasRole('AUTH_9999')" />
+		<security:intercept-url pattern="/app/user/principalman.abc" access="hasRole('AUTH_9999')" />
 		
 		<security:intercept-url pattern="/app/.*" access="isAuthenticated()" /> 
 		
 		<security:session-management>
 		
-			<security:concurrency-control max-sessions="1" />
+			<security:concurrency-control max-sessions="1" expired-url="/app/user/login.abc?expired=true" />
 		
 		</security:session-management>
 		

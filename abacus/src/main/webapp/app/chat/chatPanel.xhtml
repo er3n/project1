@@ -1,0 +1,71 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	template="/WEB-INF/content/template/simple.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:define name="content">
+
+<h:form id="form">
+    <p:remoteCommand name="updateList" update="userTable" process="@this" />
+ 
+    <p:fieldset id="container" legend="PrimeChat" toggleable="true">
+ 
+        <h:panelGroup rendered="#{chatView.loggedIn}">
+            <h:panelGrid columns="2" columnClasses="publicColumn,usersColumn" style="width:100%">
+                <p:outputPanel id="public" layout="block" styleClass="ui-corner-all ui-widget-content chatlogs" />
+ 
+ 				<p:dataTable id="userTable" var="var"
+						value="#{chatView.users}"
+						selection="#{chatView.privateUser}"
+						emptyMessage="Kayit Bulanamadi" selectionMode="single"
+						paginator="true" paginatorPosition="bottom" rowKey="#{var}"
+						rows="100" resizableColumns="true">
+						
+					<p:column headerText="User" style="width:50px">
+						<h:outputText value="#{var}" />
+					</p:column>
+
+				</p:dataTable> 
+					
+            </h:panelGrid>
+
+            <p:separator />
+            <p:spacer width="5" />
+            <h:outputText value="Message:" />
+            <p:inputText value="#{chatView.privateMessage}" styleClass="messageInput" style="width:100%; height:50px; font-weigh: bold"/>
+            <p:spacer width="5" />
+            <p:separator />
+            <p:spacer width="5" />
+            <p:commandButton value="Send Message" actionListener="#{chatView.sendPrivate}" oncomplete="$('.messageInput').val('').focus()" />
+            <p:spacer width="5" />
+        </h:panelGroup>
+ 
+    </p:fieldset>
+ 
+</h:form>
+ 
+<p:socket onMessage="handleMessage" channel="/{room}" autoConnect="false" widgetVar='subscriber' />
+ 
+<script type="text/javascript">
+    function handleMessage(message) {
+    	
+        var chatContent = $(PrimeFaces.escapeClientId('form:public')),
+        text = (message.user) ? message.user + ':' + message.text: message.text;
+ 
+        chatContent.append(text + '<br />');
+ 
+        //keep scroll
+        chatContent.scrollTop(chatContent.height());
+ 
+        if(message.updateList) {
+            updateList();
+        }
+    }
+</script>
+
+</ui:define>
+</ui:composition>

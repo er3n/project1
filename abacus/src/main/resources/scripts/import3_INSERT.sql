@@ -5,6 +5,7 @@ insert into org_organization (id, name, level_enum, parent_id) values ('00.01.02
 insert into org_organization (id, name, level_enum, parent_id) values ('00.02', 'T02.Şirketi', 'L1', '00');
 insert into org_organization (id, name, level_enum, parent_id) values ('00.02.01', 'T02.01.Projesi', 'L2', '00.02');
 
+insert into sec_authority (id, code, name) values ('AUTH_ANY','0','Genel');
 insert into sec_authority (id, code, name) values ('AUTH_0000','1','Sistem Yönetimi');
 insert into sec_authority (id, code, name) values ('AUTH_9999','1.01','Organizasyon-Holding');
 insert into sec_authority (id, code, name) values ('AUTH_0001','1.02','Organizasyon-Departman');
@@ -17,6 +18,7 @@ insert into sec_authority (id, code, name) values ('AUTH_0007','1.08','Stok Hare
 insert into sec_authority (id, code, name) values ('AUTH_0008','1.09','Finans Hareket Tanımları');
 insert into sec_authority (id, code, name) values ('AUTH_0009','1.10','Stok Birim Tanımları');
 insert into sec_authority (id, code, name) values ('AUTH_0010','1.11','Parametre Tanımları');
+insert into sec_authority (id, code, name) values ('AUTH_0051','1.12','Aktif Kullanıcılar');
 
 insert into sec_authority (id, code, name) values ('AUTH_0011','2','Hesap Tanım');
 insert into sec_authority (id, code, name) values ('AUTH_0012','2.01','Hesap Tipleri');

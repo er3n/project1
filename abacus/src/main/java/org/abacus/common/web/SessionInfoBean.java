@@ -1,6 +1,7 @@
 package org.abacus.common.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -26,14 +27,16 @@ public class SessionInfoBean implements Serializable {
 	@ManagedProperty(value = "#{globalCounterView}")
 	private GlobalCounterView globalCounterView;
 
-	
 	private List<SessionInformation> allSessionList;
 
 	@PostConstruct
 	public void init() {
 		findActiveSessionList();
 	}
-	
+
+	public SecUser currentUser(){
+		return sessionInfoHelper.currentUser();
+	}
 	public void findActiveSessionList(){
 		allSessionList = null;
 		allSessionList = sessionInfoHelper.getActiveSessionList();
@@ -44,7 +47,17 @@ public class SessionInfoBean implements Serializable {
 		jsfMessageHelper.addInfo("deleteSuccessful", sess.getPrincipal().toString());
 		findActiveSessionList();
 	}
-	
+
+	public List<String> getActiveUserList(){
+		findActiveSessionList();
+		List<String> userList = new ArrayList<String>();
+		for (SessionInformation sessionInformation : allSessionList) {
+			userList.add(((SecUser)sessionInformation.getPrincipal()).getUsername());
+		}
+		return userList;
+	}
+
+
 	public void pushMessage(SessionInformation sess){
 		SecUser user = (SecUser)sess.getPrincipal();
 		globalCounterView.pushMessage(user, "Mesaj","Test Icin");

@@ -64,7 +64,7 @@
 						-
 						<p:link value="#{lbl.earVersion}"  href="/"></p:link>
 					</p>
- 
+ 				
 				</div>
 				<div id="right">
 					<p class="axe">
@@ -86,5 +86,12 @@
 	</h:body>
 </f:view>
 
+<p:socket onMessage="handleMessage" channel="/message" /> 
 
+		<script type="text/javascript">
+       	 	function handleMessage(facesmessage) {  
+            	alert(facesmessage);
+        	}
+		</script>
+		
 </html>

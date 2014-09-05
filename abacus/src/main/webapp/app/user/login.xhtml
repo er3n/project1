@@ -10,8 +10,13 @@
 	<ui:define name="content">
 
 		<c:if test="#{param['expired'] == true}">
-			<h:outputLabel style="font-weight:bold"
-				value="Aynı Kullanıcı ile Tekrar Login Olundu yada Oturum Sonlandırıldı" />
+			<p:panel
+				style="width:300px;margin:0 auto; font-weight:bold; background-color:#FFE6E6">
+				<h:panelGrid columns="1" cellpadding="4">
+					<h:outputText value="Aynı Kullanıcı ile Tekrar Login Olundu" />
+					<h:outputText value="Yada Oturum Sonlandırıldı" />
+				</h:panelGrid>
+			</p:panel>
 		</c:if>
 
 		<h:form id="loginForm" prependId="false">

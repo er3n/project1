@@ -3,9 +3,12 @@ import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import org.abacus.common.security.SecUser;
+import org.atmosphere.util.StringEscapeUtils;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 
@@ -41,6 +44,15 @@ public class GlobalCounterView implements Serializable{
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
         eventBus.publish("/counter", count.toString());
     }
-    
+
+    public void pushMessage(SecUser user, String summary, String detail) {
+        try {
+        	EventBus eventBus = EventBusFactory.getDefault().eventBus();
+//			eventBus.publish("/message", new FacesMessage(StringEscapeUtils.escapeJavaScript(summary), StringEscapeUtils.escapeJavaScript(detail)));
+			eventBus.publish("/message", user.getUsername()+":"+summary+":"+detail);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
     
 }

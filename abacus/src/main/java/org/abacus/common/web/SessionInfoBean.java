@@ -22,6 +22,11 @@ public class SessionInfoBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 	
+
+	@ManagedProperty(value = "#{globalCounterView}")
+	private GlobalCounterView globalCounterView;
+
+	
 	private List<SessionInformation> allSessionList;
 
 	@PostConstruct
@@ -39,6 +44,12 @@ public class SessionInfoBean implements Serializable {
 		jsfMessageHelper.addInfo("deleteSuccessful", sess.getPrincipal().toString());
 		findActiveSessionList();
 	}
+	
+	public void pushMessage(SessionInformation sess){
+		SecUser user = (SecUser)sess.getPrincipal();
+		globalCounterView.pushMessage(user, "Mesaj","Test Icin");
+	}
+	
 
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
@@ -62,6 +73,14 @@ public class SessionInfoBean implements Serializable {
 
 	public void setAllSessionList(List<SessionInformation> allSessionList) {
 		this.allSessionList = allSessionList;
+	}
+
+	public GlobalCounterView getGlobalCounterView() {
+		return globalCounterView;
+	}
+
+	public void setGlobalCounterView(GlobalCounterView globalCounterView) {
+		this.globalCounterView = globalCounterView;
 	}
 
 

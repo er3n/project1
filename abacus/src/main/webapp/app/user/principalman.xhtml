@@ -44,6 +44,10 @@
 							update=":principalForm">
 							<p:confirm header="Onay" message="Kullanıcıyı sonlandırmak istediğinize emin misin?" icon="ui-icon-alert"  />
 						</p:commandButton>
+
+						<p:commandButton icon="ui-icon-search" actionListener="#{sessionInfoBean.pushMessage(var)}"
+							update=":principalForm">
+						</p:commandButton>
 						
 					</p:column>
 					

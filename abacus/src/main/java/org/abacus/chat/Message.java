@@ -4,24 +4,10 @@ public class Message {
     
     private String text;
     private String user;
-    private boolean updateList;
  
-    public Message() {
-    }
- 
-    public Message(String text) {
-        this.text = text;
-    }
-     
-    public Message(String text, boolean updateList) {
-        this.text = text;
-        this.updateList = updateList;
-    }
- 
-    public Message(String user, String text, boolean updateList) {
+    public Message(String user, String text) {
         this.text = text;
         this.user = user;
-        this.updateList = updateList;
     }
      
     public String getText() {
@@ -42,11 +28,4 @@ public class Message {
         return this;
     }
  
-    public boolean isUpdateList() {
-        return updateList;
-    }
- 
-    public void setUpdateList(boolean updateList) {
-        this.updateList = updateList;
-    }
 }

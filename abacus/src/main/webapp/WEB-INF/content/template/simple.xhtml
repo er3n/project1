@@ -86,10 +86,10 @@
 	</h:body>
 </f:view>
 
-<p:socket onMessage="handleMessage" channel="/message" /> 
+<p:socket onMessage="handleMessageGlobal" channel="/message" /> 
 
 		<script type="text/javascript">
-       	 	function handleMessage(facesmessage) {  
+       	 	function handleMessageGlobal(facesmessage) {  
             	alert(facesmessage);
         	}
 		</script>

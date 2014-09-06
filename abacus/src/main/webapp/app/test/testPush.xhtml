@@ -22,10 +22,10 @@
 				actionListener="#{globalCounterView.increment}" />
 		</h:form>
 
-		<p:socket onMessage="handleMessage" channel="/counter" /> 
+		<p:socket onMessage="handleMessageCounter" channel="/counter" /> 
 
 		<script type="text/javascript">
-			function handleMessage(data) {
+			function handleMessageCounter(data) {
 				$('.display').html(data);
 			} 
 		</script> 

@@ -12,11 +12,10 @@
 <h:form id="form">
     <p:remoteCommand name="updateList" update="userTable" process="@this" />
  
-    <p:fieldset id="container" legend="PrimeChat" toggleable="true">
+    <p:fieldset id="container" legend="#{chatView.username}" toggleable="true">
  
         <h:panelGroup rendered="#{chatView.loggedIn}">
             <h:panelGrid columns="2" columnClasses="publicColumn,usersColumn" style="width:100%">
-                <p:outputPanel id="public" layout="block" styleClass="ui-corner-all ui-widget-content chatlogs" />
  
  				<p:dataTable id="userTable" var="var"
 						value="#{chatView.users}"
@@ -25,13 +24,15 @@
 						paginator="true" paginatorPosition="bottom" rowKey="#{var}"
 						rows="100" resizableColumns="true">
 						
-					<p:column headerText="User" style="width:50px">
+					<p:column headerText="#{chatView.username}" style="width:50px">
 						<h:outputText value="#{var}" />
 					</p:column>
 
 				</p:dataTable> 
 					
             </h:panelGrid>
+
+            <p:outputPanel id="public" layout="block" styleClass="ui-corner-all ui-widget-content chatlogs" />
 
             <p:separator />
             <p:spacer width="5" />
@@ -42,16 +43,17 @@
             <p:spacer width="5" />
             <p:commandButton value="Send Message" actionListener="#{chatView.sendPrivate}" oncomplete="$('.messageInput').val('').focus()" />
             <p:spacer width="5" />
+            <p:commandButton value="Disconnect" actionListener="#{chatView.disconnect}" global="false" update="container" />
         </h:panelGroup>
  
     </p:fieldset>
  
 </h:form>
  
-<p:socket onMessage="handleMessage" channel="/{room}" autoConnect="false" widgetVar='subscriber' />
+<p:socket onMessage="handleMessageChat" channel="/{room}" autoConnect="false" widgetVar='subscriber' />
  
 <script type="text/javascript">
-    function handleMessage(message) {
+    function handleMessageChat(message) {
     	
         var chatContent = $(PrimeFaces.escapeClientId('form:public')),
         text = (message.user) ? message.user + ':' + message.text: message.text;

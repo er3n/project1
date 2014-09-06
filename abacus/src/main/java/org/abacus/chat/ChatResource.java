@@ -23,24 +23,21 @@ public class ChatResource {
     @PathParam("user")
     private String username;
  
-//    @Inject
-//    private ServletContext ctx;
- 
     @OnOpen
     public void onOpen(RemoteEndpoint r, EventBus eventBus) {
         logger.info("OnOpen {}", r);
-        eventBus.publish(room + "/*", new Message(username, room+" # "+"onOpen"));
+        eventBus.publish(room + "/*", new Message(username, " #Open"));
     }
  
     @OnClose
     public void onClose(RemoteEndpoint r, EventBus eventBus) {
         logger.info("OnClose {}", r);
-        eventBus.publish(room + "/*", new Message(username, room+" # "+"onClose"));
+        eventBus.publish(room + "/*", new Message(username, " #Close"));
     }
  
     @OnMessage(decoders = {MessageDecoder.class}, encoders = {MessageEncoder.class})
     public Message onMessage(Message message) {
         return message;
     }
- 
+
 }

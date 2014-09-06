@@ -1,6 +1,7 @@
 package org.abacus.chat;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,12 +20,13 @@ public class ChatView implements Serializable {
 
 	private static final long serialVersionUID = 643622951952137607L;
 
-	// private final PushContext pushContext =
-	// PushContextFactory.getDefault().getPushContext();
 	private final EventBus eventBus = EventBusFactory.getDefault().eventBus();
 
 	@ManagedProperty(value = "#{sessionInfoBean}")
 	private SessionInfoBean sessionInfoBean;
+
+	@ManagedProperty("#{chatUsers}")
+	private ChatUsers chatUsers;
 
 	private String privateMessage;
 
@@ -44,21 +46,29 @@ public class ChatView implements Serializable {
 	public void login() {
 		this.username = sessionInfoBean.currentUser().getUsername();
 		loggedIn = true;
+		chatUsers.addUser(this.username);	
 		RequestContext requestContext = RequestContext.getCurrentInstance();
-		requestContext.execute("PF('subscriber').connect('/" + username + "')");
+		requestContext.execute("PF('subscriber').connect('/"+username+"')");
 	}
 
 	public void disconnect() {
+		loggedIn = false;
+		chatUsers.removeUser(this.username);	
 		RequestContext requestContext = RequestContext.getCurrentInstance();
-		requestContext.execute("PF('subscriber').disconnect('/" + username + "')");
-	    loggedIn = false;
-    }
-	
+		requestContext.execute("PF('subscriber').disconnect('/"+username+"')");
+	}
+
 	public List<String> getUsers() {
-	   List<String> list = sessionInfoBean.getActiveUserList();
-       list.remove(username);
-	   return list;
-   }
+		List<String> listAll = sessionInfoBean.getActiveUserList();
+		List<String> listChat = new ArrayList<String>();
+		listAll.remove(username);
+		for (String usr : listAll) {
+			if (chatUsers.containUser(usr)){
+				listChat.add(usr);
+			}
+		}
+		return listChat;
+	}
 
 	public String getPrivateUser() {
 		return privateUser;
@@ -93,7 +103,8 @@ public class ChatView implements Serializable {
 	}
 
 	public void sendPrivate() {
-		eventBus.publish(CHANNEL + privateUser, username + " : " + privateMessage);
+		eventBus.publish(CHANNEL + privateUser, username + " : "
+				+ privateMessage);
 		privateMessage = null;
 		privateUser = null;
 	}
@@ -104,5 +115,13 @@ public class ChatView implements Serializable {
 
 	public void setSessionInfoBean(SessionInfoBean sessionInfoBean) {
 		this.sessionInfoBean = sessionInfoBean;
+	}
+
+	public ChatUsers getChatUsers() {
+		return chatUsers;
+	}
+
+	public void setChatUsers(ChatUsers chatUsers) {
+		this.chatUsers = chatUsers;
 	}
 }

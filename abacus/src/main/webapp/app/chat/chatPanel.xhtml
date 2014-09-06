@@ -10,7 +10,7 @@
 <ui:define name="content">
 
 <h:form id="form">
-    <p:remoteCommand name="updateList" update="userTable" process="@this" />
+    <p:remoteCommand name="updateList" update=":form:userTable" process="@this" />
  
     <p:fieldset id="container" legend="#{chatView.username}" toggleable="true">
  
@@ -62,10 +62,7 @@
  
         //keep scroll
         chatContent.scrollTop(chatContent.height());
- 
-        if(message.updateList) {
-            updateList();
-        }
+        updateList();
     }
 </script>
 

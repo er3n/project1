@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.security.SecUser;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 import org.springframework.security.core.session.SessionInformation;
 
 @SuppressWarnings("serial")
@@ -23,11 +25,8 @@ public class SessionInfoBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 	
-
-	@ManagedProperty(value = "#{globalCounterView}")
-	private GlobalCounterView globalCounterView;
-
 	private List<SessionInformation> allSessionList;
+	private String messageTxt;
 
 	@PostConstruct
 	public void init() {
@@ -58,12 +57,11 @@ public class SessionInfoBean implements Serializable {
 	}
 
 
-	public void pushMessage(SessionInformation sess){
-		SecUser user = (SecUser)sess.getPrincipal();
-		globalCounterView.pushMessage(user, "Mesaj","Test Icin");
+	public void pushGlobalMessage() {
+		EventBus eventBus = EventBusFactory.getDefault().eventBus();
+		eventBus.publish("/message", sessionInfoHelper.currentUserName()+":"+messageTxt);
 	}
 	
-
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
 	}
@@ -88,12 +86,12 @@ public class SessionInfoBean implements Serializable {
 		this.allSessionList = allSessionList;
 	}
 
-	public GlobalCounterView getGlobalCounterView() {
-		return globalCounterView;
+	public String getMessageTxt() {
+		return messageTxt;
 	}
 
-	public void setGlobalCounterView(GlobalCounterView globalCounterView) {
-		this.globalCounterView = globalCounterView;
+	public void setMessageTxt(String messageTxt) {
+		this.messageTxt = messageTxt;
 	}
 
 

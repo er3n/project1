@@ -63,9 +63,9 @@
 		<security:intercept-url pattern="/app/transaction/findFinDocument.abc\\?.*((grp=FIN.*typ=FIN_J)|(typ=FIN_J.*grp=FIN)).*" access="hasRole('AUTH_0039')" />
 		<security:intercept-url pattern="/app/budget/budSummary.abc" access="hasRole('AUTH_0041')" />
 		<security:intercept-url pattern="/app/organization/organizationRoot.abc" access="hasRole('AUTH_9999')" />
-		<security:intercept-url pattern="/app/user/principalman.abc" access="hasRole('AUTH_0051')" />
+		<security:intercept-url pattern="/app/user/sessionman.abc" access="hasRole('AUTH_0051')" />
 
-		<security:intercept-url pattern="/app/chat/chatPanel.abc" access="hasRole('AUTH_ANY')" />
+		<security:intercept-url pattern="/app/user/chatman.abc" access="hasRole('AUTH_ANY')" />
 		
 		<security:intercept-url pattern="/app/.*" access="isAuthenticated()" /> 
 		

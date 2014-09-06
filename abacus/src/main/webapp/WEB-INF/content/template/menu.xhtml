@@ -20,8 +20,7 @@
 			<p:menuitem value="Stok Birim Tanimlari" url="/app/definition/unitmanager.abc" rendered="#{sec:areAnyGranted('AUTH_0009')}" />
 			<p:menuitem value="Parametre Tanimlari" url="/app/definition/defmanager.abc?grp=PRM" rendered="#{sec:areAnyGranted('AUTH_0010')}" />
 			<p:separator/>
-			<p:menuitem value="UserSession" url="/app/user/principalman.abc" rendered="#{sec:areAnyGranted('AUTH_0051')}" />
-			<p:menuitem value="ChatPanel" url="/app/chat/chatPanel.abc" rendered="#{sec:areAnyGranted('AUTH_ANY')}" />
+			<p:menuitem value="Session" url="/app/user/sessionman.abc" rendered="#{sec:areAnyGranted('AUTH_0051')}" />
 		</p:submenu>
 
 		<p:submenu label="Hesap Tanim" rendered="#{sec:areAnyGranted('AUTH_0011')}">
@@ -105,8 +104,7 @@
 					<p:menuButton value="#{request.remoteUser}" style="text-transform:capitalize;">
 						<p:menuitem value="Cikis" url="/app/logout" icon="ui-icon-extlink" />
 					</p:menuButton>
-					
-					
+
 				</h:panelGrid>
 			</h:form>
 		</f:facet>

@@ -40,6 +40,9 @@ public class SecUserEntity extends StaticEntity {
 	@JoinColumn(name = "vendor_id", nullable = true)
 	private DefItemEntity vendor;
 
+	@Column(name = "organization_root", nullable = true, length=2)
+	private String organizationRoot;
+
 	public String getPassword() {
 		return password;
 	}
@@ -78,6 +81,14 @@ public class SecUserEntity extends StaticEntity {
 
 	public void setVendor(DefItemEntity vendor) {
 		this.vendor = vendor;
+	}
+
+	public String getOrganizationRoot() {
+		return organizationRoot;
+	}
+
+	public void setOrganizationRoot(String organizationRoot) {
+		this.organizationRoot = organizationRoot;
 	}
 
 }

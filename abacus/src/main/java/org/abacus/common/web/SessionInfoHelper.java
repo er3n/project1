@@ -47,7 +47,11 @@ public class SessionInfoHelper implements Serializable {
 	public String currentUserName(){
 		return currentUser().getUsername();
 	} 
-	
+
+	public Boolean isRootUser(){
+		return currentUserName().equals("root");
+	}
+
 	public boolean isAuthenticated(){
 		Authentication authentucation = SecurityContextHolder.getContext().getAuthentication();
 		if(authentucation != null && authentucation.getPrincipal() instanceof SecUser){
@@ -96,7 +100,10 @@ public class SessionInfoHelper implements Serializable {
 		    if (principal instanceof SecUser) {
 		    	SecUser usr = (SecUser) principal; 
 		    	List<SessionInformation> userSessionList = sessionRegistry.getAllSessions(principal, false);
-		    	allSessionList.addAll(userSessionList);
+		    	for (SessionInformation sess : userSessionList) {
+			    	if (isRootUser() || currentUser().getUserEntity().getOrganizationRoot().equals(usr.getUserEntity().getOrganizationRoot()))
+		    		allSessionList.add(sess);
+				}
 		    }
 		}
 		return allSessionList;

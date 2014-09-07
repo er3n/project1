@@ -8,12 +8,8 @@
 
 				<h:panelGrid columns="6" cellpadding="2" style="vertical-align:top">
 
-					<h:outputText value="Kullanici Adi" />
-					<p:inputText value="#{userViewBean.searchUserCriteria.username}" />
-
 					<h:outputText value="Sirket" />
 					<p:selectOneMenu value="#{userViewBean.searchUserCriteria.organization}" converter="omnifaces.SelectItemsConverter" style="width:145px">
-						<f:selectItem itemLabel="Seciniz..." itemValue="" />
 						<f:selectItems value="#{userViewBean.allOrganizations}" var="organization" itemLabel="#{organization.name}" itemValue="#{organization}" />
 					</p:selectOneMenu>
 
@@ -47,6 +43,10 @@
 						<h:outputText value="#{userSearchResultRecord.id}" />
 					</p:column>
 
+					<p:column headerText="Organizasyon">
+						<h:outputText value="#{userSearchResultRecord.organizationRoot}" />
+					</p:column>
+
 					<p:column headerText="Durum">
 						<h:outputText value="#{userSearchResultRecord.active ? 'Aktif' : 'Pasif'}" />
 					</p:column>
@@ -62,7 +62,7 @@
 		</h:panelGrid>
 
 		<h:form id="userDetailDialog">
-			<p:dialog widgetVar="userDialog" resizable="false" showEffect="fade" modal="true" appendToBody="@(body)" height="400px" width="600px">
+			<p:dialog widgetVar="userDialog" resizable="false" showEffect="fade" modal="true" appendToBody="@(body)" height="400px" width="700px">
 
 				<f:facet name="header">
 					<h:outputText value="Kullanici Tanimla" rendered="#{empty userViewBean.selectedUser.id}" />
@@ -84,14 +84,17 @@
 						<h:outputLabel for="repassword" value="#{lbl.repassword}"  />
 						<p:password id="repassword" label="repassword" required="true"  requiredMessage="#{lbl.sifreTekrarBosOlamaz}" autocomplete="off" />
 					</c:if>
+
+					<h:outputText value="Organizasyon" rendered="#{userViewBean.selectedUser.id != 'root'}"/>
+					<p:inputText value="#{userViewBean.selectedUser.organizationRoot}" rendered="#{userViewBean.selectedUser.id != 'root'}" required="true" requiredMessage="Root Organizasyon Boş Olamaz" />
  
-					<h:outputLabel value="Satıcı" />
-					<h:panelGrid columns="8" id="itemSelectionGrid">
+					<h:outputLabel value="Satıcı" rendered="#{userViewBean.selectedUser.id != 'root'}"/>
+					<h:panelGrid columns="8" id="itemSelectionGrid" rendered="#{userViewBean.selectedUser.id != 'root'}">
 						<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{userViewBean.selectedUser.vendor}" />
 					</h:panelGrid>
 					
-					<h:outputText value="Durum" rendered="#{not empty userViewBean.selectedUser.id}" />
-					<p:selectOneButton value="#{userViewBean.selectedUser.active}" rendered="#{not empty userViewBean.selectedUser.id}">
+					<h:outputText value="Durum" rendered="#{userViewBean.selectedUser.id != 'root' and not empty userViewBean.selectedUser.id}" />
+					<p:selectOneButton value="#{userViewBean.selectedUser.active}" rendered="#{userViewBean.selectedUser.id != 'root' and not empty userViewBean.selectedUser.id}">
 						<f:selectItem itemLabel="Aktif" itemValue="true" />
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
 					</p:selectOneButton>
@@ -119,7 +122,7 @@
 						<f:facet name="targetCaption">Secilen Sirketler</f:facet>
 
 						<p:column> 
-							#{organization.name}
+							#{organization.id}:#{organization.name}
 						</p:column>
 
 						<o:converter converterId="omnifaces.ListConverter" list="#{userViewBean.allUserOrganization()}" />
@@ -128,17 +131,12 @@
 
 				</h:panelGrid>
 
-
-
 				<f:facet name="footer">
 					<p:commandButton value="Guncelle" actionListener="#{userViewBean.updateUser}" rendered="#{not empty userViewBean.selectedUser.id}" oncomplete="PF('userDialog').hide();" update=":searchResultTable :userQueryPanel" />
 					<p:commandButton value="Tanimla" actionListener="#{userViewBean.createUser}" rendered="#{empty userViewBean.selectedUser.id}" oncomplete="PF('userDialog').hide();" update=":searchResultTable :userQueryPanel" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Vazgec" oncomplete="PF('userDialog').hide();" immediate="true" />
 				</f:facet>
-
-
-
 
 			</p:dialog>
 		</h:form>

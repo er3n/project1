@@ -14,13 +14,13 @@ import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.holder.SearchUserCriteria;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 @Service
 public class UserDao implements Serializable {
@@ -33,22 +33,37 @@ public class UserDao implements Serializable {
 
 	public List<SecUserEntity> findUser(
 			SearchUserCriteria searchUserCriteria) {
-
+				
 		Session session = em.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(SecUserEntity.class,"u");
 		criteria.createAlias("u.userGroupList", "gm",JoinType.LEFT_OUTER_JOIN);
 		criteria.createAlias("u.organizationList", "uc",JoinType.LEFT_OUTER_JOIN);
 		
-		if(StringUtils.hasText(searchUserCriteria.getUsername())){
-			criteria.add(Restrictions.like("u.id", "%"+searchUserCriteria.getUsername()+"%"));
+		if(searchUserCriteria.getUser()!=null){
+			criteria.add(Restrictions.like("u.id", "%"+searchUserCriteria.getUser().getId()+"%"));
 		}
 		
-		if(searchUserCriteria.getHierarchy().equals(EnumList.Hierachy.PARENT) && searchUserCriteria.getOrganization() != null){
-			criteria.add(Restrictions.in("uc.organization", searchUserCriteria.getOrganization().getParentList()));
+		if(!searchUserCriteria.getIsRootUser()){
+			String rootOrg = searchUserCriteria.getOrganization().getRootOrganization().getId();
+			criteria.add(Restrictions.eq("u.organizationRoot", rootOrg));
 		}
-
+		if(searchUserCriteria.getHierarchy().equals(EnumList.Hierachy.PARENT) && searchUserCriteria.getOrganization() != null){
+			Criterion cr1 = Restrictions.in("uc.organization", searchUserCriteria.getOrganization().getParentList());
+			if (searchUserCriteria.getIsRootUser()){
+				Criterion cr2 = Restrictions.isNull("uc.organization");
+				criteria.add(Restrictions.or(cr1, cr2));
+			} else {
+				criteria.add(cr1);
+			}
+		}
 		if(searchUserCriteria.getHierarchy().equals(EnumList.Hierachy.CHILD) && searchUserCriteria.getOrganization() != null){
-			criteria.add(Restrictions.like("uc.organization.id", searchUserCriteria.getOrganization().getId() + "%"));
+			Criterion cr1 = Restrictions.like("uc.organization.id", searchUserCriteria.getOrganization().getId() + "%");
+			if (searchUserCriteria.getIsRootUser()){
+				Criterion cr2 = Restrictions.isNull("uc.organization");
+				criteria.add(Restrictions.or(cr1, cr2));
+			} else {
+				criteria.add(cr1);
+			}
 		}
 		
 		if(!CollectionUtils.isEmpty(searchUserCriteria.getGroupList())){

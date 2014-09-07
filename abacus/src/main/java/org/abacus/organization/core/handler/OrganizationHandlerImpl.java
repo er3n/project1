@@ -61,10 +61,10 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 		entity = organizationRepository.save(entity);
 		
 		if (newRootOrg){
-			SecUserEntity adminUser = new SecUserEntity();
-			adminUser.setId("admin");
+			SecUserEntity rootUser = new SecUserEntity();
+			rootUser.setId("root");
 			SecUserOrganizationEntity userOrg = new SecUserOrganizationEntity();
-			userOrg.setUser(adminUser);
+			userOrg.setUser(rootUser);
 			userOrg.setOrganization(entity);
 			userOrgRepo.save(userOrg);
 		}

@@ -36,8 +36,12 @@ public class SessionInfoBean implements Serializable {
 	public SecUser currentUser(){
 		return sessionInfoHelper.currentUser();
 	}
+
+	public Boolean isRootUser(){
+		return sessionInfoHelper.isRootUser();
+	}
+
 	public void findActiveSessionList(){
-		allSessionList = null;
 		allSessionList = sessionInfoHelper.getActiveSessionList();
 	}
 
@@ -47,6 +51,11 @@ public class SessionInfoBean implements Serializable {
 		findActiveSessionList();
 	}
 
+	public void showMessage(){
+		jsfMessageHelper.addSimple("Mesaj", (messageTxt==null?"?":messageTxt));
+		messageTxt=null;
+	}
+	
 	public List<String> getActiveUserList(){
 		findActiveSessionList();
 		List<String> userList = new ArrayList<String>();

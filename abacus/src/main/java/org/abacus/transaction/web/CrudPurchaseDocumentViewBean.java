@@ -82,7 +82,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 		String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
 		
-		this.vendor = sessionInfoHelper.currentUser().getVendor();
+		this.vendor = sessionInfoHelper.currentUser().getUserEntity().getVendor();
 		if (vendor == null) {
 			this.showDocument = false;
 			jsfMessageHelper.addWarn("noVendorSelected");

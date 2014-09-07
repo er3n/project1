@@ -1,9 +1,16 @@
-insert into org_organization (id, name, level_enum, parent_id) values ('00', 'Test Holdingi', 'L0', null);
-insert into org_organization (id, name, level_enum, parent_id) values ('00.01', 'T01.Şirketi', 'L1', '00');
-insert into org_organization (id, name, level_enum, parent_id) values ('00.01.01', 'T01.01.Projesi', 'L2', '00.01');
-insert into org_organization (id, name, level_enum, parent_id) values ('00.01.02', 'T01.02.Projesi', 'L2', '00.01');
-insert into org_organization (id, name, level_enum, parent_id) values ('00.02', 'T02.Şirketi', 'L1', '00');
-insert into org_organization (id, name, level_enum, parent_id) values ('00.02.01', 'T02.01.Projesi', 'L2', '00.02');
+insert into org_organization (id, name, level_enum, parent_id) values ('00', 'Root', 'L0', null);
+insert into org_organization (id, name, level_enum, parent_id) values ('00.01', 'RT:01.Şirketi', 'L1', '00');
+insert into org_organization (id, name, level_enum, parent_id) values ('00.01.01', 'RT:01.01.Projesi', 'L2', '00.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('00.01.02', 'RT:01.02.Projesi', 'L2', '00.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('00.02', 'RT:02.Şirketi', 'L1', '00');
+insert into org_organization (id, name, level_enum, parent_id) values ('00.02.01', 'RT:02.01.Projesi', 'L2', '00.02');
+
+insert into org_organization (id, name, level_enum, parent_id) values ('01', 'Kutahya Holdingi', 'L0', null);
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01', 'KH:01.Şirketi', 'L1', '01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01.01', 'KH:01.01.Projesi', 'L2', '01.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.01.02', 'KH:01.02.Projesi', 'L2', '01.01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.02', 'KH:02.Şirketi', 'L1', '01');
+insert into org_organization (id, name, level_enum, parent_id) values ('01.02.01', 'KH:02.01.Projesi', 'L2', '01.02');
 
 insert into sec_authority (id, code, name) values ('AUTH_ANY','0','Genel');
 insert into sec_authority (id, code, name) values ('AUTH_0000','1','Sistem Yönetimi');
@@ -80,52 +87,60 @@ insert into sec_group (id, name, version) values (nextval('seq_id'), 'Depo Yöne
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0029', 0);
 insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0031', 0);
 
-insert into sec_user( id, is_active, password) values ('admin', 1, 'e10adc3949ba59abbe56e057f20f883e');
-insert into sec_user( id, is_active, password) values ('vendor1', 1, 'e10adc3949ba59abbe56e057f20f883e');
-insert into sec_user( id, is_active, password) values ('vendor2', 1, 'e10adc3949ba59abbe56e057f20f883e');
+insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('root', 1, 'e977f5da70f10ce715d33d6b7c8d4e65', null, null);
+insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('vendor1', 1, 'e10adc3949ba59abbe56e057f20f883e', '00', null);
+insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('vendor2', 1, 'e10adc3949ba59abbe56e057f20f883e', '00', null);
 
-insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin', 1, 0);
+insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('admin01', 1, 'e10adc3949ba59abbe56e057f20f883e', '01', null);
+
+insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'root', 1, 0);
+insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin01', 1, 0);
+
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'vendor1', 2, 0);
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'vendor2', 2, 0);
 
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','00', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','00.01', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','00.01.01', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','00.01.02', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','00.02', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin','00.02.01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root','00', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root','00.01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root','00.01.01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root','00.01.02', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root','00.02', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root','00.02.01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root','01', 0);
 
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor1','00.01', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor1','00.01.01', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor1','00.01.02', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor1','00.02', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor1','00.02.01', 0);
 
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','00.01', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','00.01.01', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','00.01.02', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','00.02', 0);
 insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'vendor2','00.02.01', 0);
 
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin01','01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin01','01.01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin01','01.01.01', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin01','01.01.02', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin01','01.02', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin01','01.02.01', 0);
+
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01', 'F', 'SY1','1.Şirket Ofisi',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01', 'S', 'SD1_A','1.Şirket Depo A',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01', 'S', 'SD1_B','1.Şirket Depo B',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01', 'SP', 'SP1','1.Şirket Satınalma Depo',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01.01', 'F', 'PY1.1','1.1.Proje Ofisi',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01.01', 'S', 'PD1.1_X','1.1.Proje Depo X',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01.01', 'S', 'PD1.1_Y','1.1.Proje Depo Y',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.01.01', 'SP', 'PP1.1','1.1.Proje Satınalma Depo',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 
 insert into org_department (id, organization_id, group_enum, code, name, version) values (nextval('seq_id'), '00.02.01', 'S', 'PD2.1_X','2.1.Proje Depo X',0);
-insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin', 0, 1, 1);
+insert into sec_user_department (id, department_id, user_id, version, auth_input, auth_output) values (nextval('seq_id'), currval('seq_id')-1, 'admin01', 0, 1, 1);
 
 insert into def_type (id, name, level, tr_state_type) values ('VAL_CATEGORY', 'Grup/Kategori', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('VAL_RECEIPT', 'Yemek Tipleri', 1, 0);

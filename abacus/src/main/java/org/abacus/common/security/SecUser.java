@@ -5,10 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
@@ -16,9 +15,7 @@ import org.springframework.util.CollectionUtils;
 @SuppressWarnings("serial")
 public class SecUser implements UserDetails {
 
-	private String username;
-	private String password;
-	private boolean isActive;
+	private SecUserEntity userEntity;
 
 	private List<String> authorityNames;
 
@@ -28,19 +25,20 @@ public class SecUser implements UserDetails {
 	private OrganizationEntity selectedOrganization;
 	private FiscalYearEntity selectedFiscalYear;
 
-	private DefItemEntity vendor;
-
-	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear,DefItemEntity vendor) {
+	public SecUser(SecUserEntity userEntity){
+		this.userEntity = userEntity;
+	}
+	
+	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear) {
 		setOrganizationList(organizationList);
 		setSelectedOrganization(selectedOrganization);
 		setCompanyFiscalYearSet(companyFiscalYearSet);
 		setSelectedFiscalYear(defaultFiscalYear);
-		setVendor(vendor);
 	}
 
 	@Override
 	public String toString(){
-		return username;
+		return userEntity.getId();
 	}
 	
 	@Override
@@ -58,7 +56,6 @@ public class SecUser implements UserDetails {
 				authorities.add(authority);
 			}
 		}
-
 		return authorities;
 	}
 
@@ -67,37 +64,42 @@ public class SecUser implements UserDetails {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
+				+ ((this.userEntity.getId() == null) ? 0 : this.userEntity.getId().hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object oth) {
+		if (this == oth)
 			return true;
-		if (obj == null)
+		if (oth == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (getClass() != oth.getClass())
 			return false;
-		SecUser other = (SecUser) obj;
-		if (username == null) {
-			if (other.username != null)
+		SecUser other = (SecUser) oth;
+		if (this.userEntity.getId() == null) {
+			if (other.userEntity.getId() != null)
 				return false;
-		} else if (!username.equals(other.username))
+		} else if (!this.userEntity.getId().equals(other.userEntity.getId()))
 			return false;
 		return true;
 	}
 
 	@Override
-	public String getPassword() {
-		return password;
+	public String getUsername() {
+		return this.userEntity.getId();
 	}
 
 	@Override
-	public String getUsername() {
-		return username;
+	public String getPassword() {
+		return this.userEntity.getPassword();
 	}
 
+	@Override
+	public boolean isEnabled() {
+		return this.userEntity.getActive();
+	}
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -113,33 +115,12 @@ public class SecUser implements UserDetails {
 		return true;
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return isActive();
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
 	public List<String> getAuthorityNames() {
 		return authorityNames;
 	}
 
 	public void setAuthorityNames(List<String> authorityNames) {
 		this.authorityNames = authorityNames;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public List<OrganizationEntity> getOrganizationList() {
@@ -174,12 +155,12 @@ public class SecUser implements UserDetails {
 		this.companyFiscalYearSet = companyFiscalYearSet;
 	}
 
-	public DefItemEntity getVendor() {
-		return vendor;
+	public SecUserEntity getUserEntity() {
+		return userEntity;
 	}
 
-	public void setVendor(DefItemEntity vendor) {
-		this.vendor = vendor;
+	public void setUserEntity(SecUserEntity userEntity) {
+		this.userEntity = userEntity;
 	}
 
 }

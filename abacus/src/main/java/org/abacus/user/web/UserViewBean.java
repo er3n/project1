@@ -61,6 +61,7 @@ public class UserViewBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		searchUserCriteria = new SearchUserCriteria();
+		
 		selectedUser = new SecUserEntity();
 		userSearchResults = null;
 		this.clear();
@@ -80,7 +81,7 @@ public class UserViewBean implements Serializable {
 		try {
 			UserCreatedEvent createdEvent = userService.createUser(new CreateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
 			selectedUser = createdEvent.getSecUser();
-			this.reloadSearchCriteria(selectedUser.getId());
+			this.reloadSearchCriteria(selectedUser);
 			jsfMessageHelper.addInfo("createSuccessful","Kullanıcı");
 		} catch (UserNameExistsException e) {
 			jsfMessageHelper.addError("kullaniciAdiKullanimda");
@@ -92,13 +93,14 @@ public class UserViewBean implements Serializable {
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
 		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
 		UserUpdatedEvent updatedEvent = userService.updateUser(new UpdateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
-		this.reloadSearchCriteria(updatedEvent.getUser().getId());
+		this.reloadSearchCriteria(updatedEvent.getUser());
 		jsfMessageHelper.addInfo("updateSuccessful","Kullanıcı");
 	}
 
-	private void reloadSearchCriteria(String username) {
+	private void reloadSearchCriteria(SecUserEntity user) {
 		searchUserCriteria = new SearchUserCriteria();
-		searchUserCriteria.setUsername(username);
+		searchUserCriteria.setUser(user);
+		searchUserCriteria.setIsRootUser(sessionInfoHelper.isRootUser());
 		this.findUser();
 		searchUserCriteria = new SearchUserCriteria();
 	}
@@ -108,13 +110,8 @@ public class UserViewBean implements Serializable {
 	}
 
 	public void findUser() {
-		if (searchUserCriteria.getOrganization() == null || !StringUtils.hasText(searchUserCriteria.getOrganization().getId())) {
-			String organizationId = sessionInfoHelper.currentOrganization().getId();
-			OrganizationEntity organizationEntity = new OrganizationEntity();
-			organizationEntity.setId(organizationId);
-			searchUserCriteria.setOrganization(organizationEntity);
-			searchUserCriteria.setHierarchy(EnumList.Hierachy.CHILD);
-		}
+		searchUserCriteria.setHierarchy(EnumList.Hierachy.CHILD);
+		searchUserCriteria.setIsRootUser(sessionInfoHelper.isRootUser());
 		ReadUserEvent readUserEvent = userService.requestUser(new RequestReadUserEvent(searchUserCriteria));
 		userSearchResults = readUserEvent.getUserEntityList();
 	}

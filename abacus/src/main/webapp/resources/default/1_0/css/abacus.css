@@ -83,3 +83,9 @@ html,body {
 	text-align: right;
 	padding-top: 45px
 }
+
+.pf-picklist-source,
+.pf-picklist-target {
+   width: 320px;
+   height: 320px;
+}

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
@@ -35,19 +34,15 @@ public class SecurityHandler implements UserDetailsService {
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		SecUserEntity user = userRepository.findOne(username);
+		SecUserEntity userEntity = userRepository.findOne(username);
 
-		if (user == null) {
+		if (userEntity == null) {
 			throw new UsernameNotFoundException(username);
 		}
 
-		SecUser secUser = new SecUser();
+		SecUser secUser = new SecUser(userEntity);
 		
-		secUser.setUsername(user.getId());
-		secUser.setPassword(user.getPassword());
-		secUser.setActive(user.getActive());
-
-		List<String> authorityNames = userRepository.findUserAuthorities(user.getId());
+		List<String> authorityNames = userRepository.findUserAuthorities(userEntity.getId());
 		secUser.setAuthorityNames(authorityNames);
 		
 		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);
@@ -63,10 +58,7 @@ public class SecurityHandler implements UserDetailsService {
 		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findFiscalYearSet(defaultOrganization);
 		FiscalYearEntity defaultFiscalYear = organizationUtils.findDefaultFiscalYear(companyFiscalYearSet);
 		
-		DefItemEntity vendor = user.getVendor();
-		
-		secUser.init(userOrganizationList, defaultOrganization,companyFiscalYearSet,defaultFiscalYear,vendor);
-
+		secUser.init(userOrganizationList, defaultOrganization,companyFiscalYearSet,defaultFiscalYear);
 		return secUser;
 	}
 

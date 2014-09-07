@@ -23,8 +23,13 @@
 				rows="30">
 
 				<p:column headerText="Kullanıcı" filterBy="#{var.principal}"
-					filterMatchMode="contains">
+					filterMatchMode="contains" style="width:145px">
 					<p:outputLabel value="#{var.principal}" />
+				</p:column>
+
+				<p:column headerText="Organizasyon" filterBy="#{var.principal.userEntity.organizationRoot}"
+					filterMatchMode="contains" style="width:145px">
+					<p:outputLabel value="#{var.principal.userEntity.organizationRoot}" />
 				</p:column>
 
 				<p:column headerText="Session" filterBy="#{var.sessionId}"
@@ -40,7 +45,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="İşlem" style="width:145px">
+				<p:column headerText="İşlem" style="width:70px">
 
 					<p:commandButton icon="ui-icon-closethick"
 						actionListener="#{sessionInfoBean.killSession(var)}"
@@ -55,16 +60,18 @@
 
 			</p:dataTable>
 
-            <p:spacer width="5" />
-            <h:outputText value="Message:" />
-            <p:inputText value="#{sessionInfoBean.messageTxt}" styleClass="messageInput" style="width:100%; height:50px; font-weigh: bold"/>
-            <p:spacer width="5" />
-            <p:separator />
-			<p:commandButton icon="ui-icon-search"
-				value="SendMessage"
-				actionListener="#{sessionInfoBean.pushGlobalMessage()}"
-				update=":principalForm">
-			</p:commandButton>
+			<p:panel rendered = "#{sessionInfoBean.isRootUser()==true}">
+            	<p:spacer width="5" />
+            	<h:outputText value="Message:" />
+            	<p:inputText value="#{sessionInfoBean.messageTxt}" styleClass="messageInput" style="width:100%; height:50px; font-weigh: bold"/>
+            	<p:spacer width="5" />
+            	<p:separator />
+				<p:commandButton icon="ui-icon-search"
+					value="SendMessage"
+					actionListener="#{sessionInfoBean.pushGlobalMessage()}"
+					update=":principalForm">
+				</p:commandButton>
+			</p:panel>
 
 		</h:form>
 

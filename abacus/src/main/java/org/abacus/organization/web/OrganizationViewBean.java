@@ -47,7 +47,7 @@ public class OrganizationViewBean implements Serializable {
 
 	public Boolean isRoot(boolean isOnlyRoot){
 		if (this.isOnlyRoot==null){
-			this.isOnlyRoot = isOnlyRoot;
+			this.isOnlyRoot = (isOnlyRoot && sessionInfoHelper.isRootUser());
 			findOrganizationList();
 		}
 		return isOnlyRoot;

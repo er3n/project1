@@ -78,7 +78,7 @@ public class DynamicEntity implements RootEntity {
 		}
 		final DynamicEntity other = (DynamicEntity) obj;
 		if (this.id != null && other.id != null) {
-			if (this.id != other.id) {
+			if (!this.id.equals(other.id)) {
 				return false;
 			}
 		}

@@ -43,6 +43,13 @@ public class SecUserEntity extends StaticEntity {
 	@Column(name = "organization_root", nullable = true, length=2)
 	private String organizationRoot;
 
+	public SecUserEntity(){
+	}
+		
+	public SecUserEntity(String id){
+		this.id = id;
+	}
+	
 	public String getPassword() {
 		return password;
 	}

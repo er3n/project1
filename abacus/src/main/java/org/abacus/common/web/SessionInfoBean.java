@@ -3,13 +3,11 @@ package org.abacus.common.web;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.abacus.common.security.SecUser;
 import org.primefaces.push.EventBus;
@@ -33,7 +31,6 @@ public class SessionInfoBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		findActiveSessionList();
 	}
 
 	public SecUser currentUser(){

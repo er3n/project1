@@ -16,8 +16,10 @@ import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -40,6 +42,9 @@ public class SessionInfoHelper implements Serializable {
 	private OrganizationUtils organizationUtils;
 	
 	public SecUser currentUser(){
+		if (SecurityContextHolder.getContext().getAuthentication()==null){
+			return new SecUser(new SecUserEntity("?"));
+		}
 		SecUser secUser = (SecUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return secUser;
 	} 
@@ -49,7 +54,7 @@ public class SessionInfoHelper implements Serializable {
 	} 
 
 	public Boolean isRootUser(){
-		return currentUserName().equals("root");
+		return currentUser().getUsername().equals("root");
 	}
 
 	public boolean isAuthenticated(){
@@ -94,6 +99,10 @@ public class SessionInfoHelper implements Serializable {
 	}
 
 	public List<SessionInformation> getActiveSessionList(boolean withRoot){
+		if (SecurityContextHolder.getContext().getAuthentication()==null){
+			return new ArrayList<SessionInformation>();
+		}
+		
 		List<Object> principalList = sessionRegistry.getAllPrincipals();
 		List<SessionInformation> allSessionList = new ArrayList<SessionInformation>();
 		for (Object principal: principalList) {

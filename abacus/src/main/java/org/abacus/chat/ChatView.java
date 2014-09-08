@@ -40,6 +40,7 @@ public class ChatView implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		sessionInfoBean.findActiveSessionList();
 		login();
 	}
 

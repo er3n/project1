@@ -1,14 +1,19 @@
 package org.abacus.definition.shared.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "def_unit_group")
@@ -25,6 +30,10 @@ public class DefUnitGroupEntity extends DynamicEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	@OneToMany(mappedBy = "unitGroup", fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
+	private Set<DefUnitCodeEntity> unitCodeList;
+	
 	public DefUnitGroupEntity(){
 	}
 	
@@ -50,6 +59,14 @@ public class DefUnitGroupEntity extends DynamicEntity {
 
 	public void setOrganization(OrganizationEntity organization) {
 		this.organization = organization;
+	}
+
+	public Set<DefUnitCodeEntity> getUnitCodeList() {
+		return unitCodeList;
+	}
+
+	public void setUnitCodeList(Set<DefUnitCodeEntity> unitCodeList) {
+		this.unitCodeList = unitCodeList;
 	}
 
 }

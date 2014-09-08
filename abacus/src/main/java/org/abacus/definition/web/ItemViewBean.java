@@ -128,8 +128,14 @@ public class ItemViewBean implements Serializable {
 			selectedUnitGroupsUnitCodeSet = null;
 			return;
 		}
-		List<DefUnitCodeEntity> selectedUnitGroupsUnitCodeList = defUnitHandler.getUnitCodeList(selectedItem.getUnitGroup().getId());
-		selectedUnitGroupsUnitCodeSet = new LinkedHashSet<>(selectedUnitGroupsUnitCodeList);
+//		List<DefUnitCodeEntity> selectedUnitGroupsUnitCodeList = defUnitHandler.getUnitCodeList(selectedItem.getUnitGroup().getId());
+//		selectedUnitGroupsUnitCodeSet = new LinkedHashSet<>(selectedUnitGroupsUnitCodeList);
+		for (DefUnitGroupEntity defUnitGroupEntity : allUnitGroupList) {
+			if (defUnitGroupEntity.getId().equals(selectedItem.getUnitGroup().getId())){
+				selectedUnitGroupsUnitCodeSet = defUnitGroupEntity.getUnitCodeList();
+				return;
+			}
+		}
 	}
 
 	public void newItem() {

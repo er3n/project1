@@ -3,11 +3,13 @@ package org.abacus.common.web;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.abacus.common.security.SecUser;
 import org.primefaces.push.EventBus;
@@ -54,8 +56,11 @@ public class SessionInfoBean implements Serializable {
 	}
 
 	public void showMessage(){
-		jsfMessageHelper.addSimple("Mesaj", (messageTxt==null?"?":messageTxt));
-		messageTxt=null;
+//		FacesContext context = FacesContext.getCurrentInstance();
+//	    Map map = context.getExternalContext().getRequestParameterMap();
+//	    String msg = (String) map.get("msg");
+//	    jsfMessageHelper.addSimple("Mesaj", (msg==null?"?":msg));
+	    jsfMessageHelper.addSimple("Mesaj", (messageTxt==null?"?":messageTxt));
 	}
 	
 	public List<String> getActiveChatList(){
@@ -69,6 +74,9 @@ public class SessionInfoBean implements Serializable {
 
 
 	public void pushGlobalMessage() {
+		if (messageTxt==null || messageTxt.equals("")){
+			return;
+		}
 		EventBus eventBus = EventBusFactory.getDefault().eventBus();
 		eventBus.publish("/message", sessionInfoHelper.currentUserName()+":"+messageTxt);
 	}

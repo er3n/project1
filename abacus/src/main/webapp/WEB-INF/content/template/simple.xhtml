@@ -20,7 +20,7 @@
 		<ui:include src="menu.xhtml" />
 		
 		<h:form id="simpleForm">
-			<h:inputText id="inputId" value="#{sessionInfoBean.messageTxt}" rendered="false" style="width=0px;" />
+			<h:inputHidden id="inputId" value="#{sessionInfoBean.messageTxt}"/>
 			<p:remoteCommand name="showGlobalMessage" actionListener="#{sessionInfoBean.showMessage}" />
  
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -93,9 +93,10 @@
 
 		<script type="text/javascript">
        	 	function handleMessageGlobal(facesmessage) {  
-       	 		//document.getElementById('simpleForm:inputId').value = facesmessage;
-            	//showGlobalMessage();
-            	alert(facesmessage);
+       	 		document.getElementById('simpleForm:inputId').value = facesmessage;
+            	showGlobalMessage();
+            	//showGlobalMessage({msg:facesmessage);
+            	//alert(facesmessage);
         	}
 		</script>
 		

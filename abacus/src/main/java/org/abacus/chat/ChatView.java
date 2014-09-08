@@ -103,10 +103,12 @@ public class ChatView implements Serializable {
 	}
 
 	public void sendPrivate() {
+		if (privateMessage==null || privateMessage.equals("")){
+			return;
+		}
 		eventBus.publish(CHANNEL + privateUser, username + " : "
 				+ privateMessage);
 		privateMessage = null;
-		privateUser = null;
 	}
 
 	public SessionInfoBean getSessionInfoBean() {

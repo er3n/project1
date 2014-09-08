@@ -93,16 +93,19 @@ public class SessionInfoHelper implements Serializable {
 		return fiscalPeriodRepository.findFiscalPeriod(fisYear.getId(), docDate);
 	}
 
-	public List<SessionInformation> getActiveSessionList(){
+	public List<SessionInformation> getActiveSessionList(boolean withRoot){
 		List<Object> principalList = sessionRegistry.getAllPrincipals();
 		List<SessionInformation> allSessionList = new ArrayList<SessionInformation>();
 		for (Object principal: principalList) {
 		    if (principal instanceof SecUser) {
 		    	SecUser usr = (SecUser) principal; 
+		    	boolean isRootSess = usr.getUsername().equals("root");
 		    	List<SessionInformation> userSessionList = sessionRegistry.getAllSessions(principal, false);
 		    	for (SessionInformation sess : userSessionList) {
-			    	if (isRootUser() || currentUser().getUserEntity().getOrganizationRoot().equals(usr.getUserEntity().getOrganizationRoot()))
-		    		allSessionList.add(sess);
+			    	if (isRootUser() || isRootSess || currentUser().getUserEntity().getOrganizationRoot().equals(usr.getUserEntity().getOrganizationRoot()))
+			    		if (isRootUser() || !isRootSess || (isRootSess && withRoot)){
+				    		allSessionList.add(sess);
+			    		} 
 				}
 		    }
 		}

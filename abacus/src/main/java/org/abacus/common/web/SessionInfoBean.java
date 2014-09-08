@@ -25,6 +25,7 @@ public class SessionInfoBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 	
+	private List<SessionInformation> allChatList;
 	private List<SessionInformation> allSessionList;
 	private String messageTxt;
 
@@ -42,7 +43,8 @@ public class SessionInfoBean implements Serializable {
 	}
 
 	public void findActiveSessionList(){
-		allSessionList = sessionInfoHelper.getActiveSessionList();
+		allChatList = sessionInfoHelper.getActiveSessionList(true);
+		allSessionList = sessionInfoHelper.getActiveSessionList(false);
 	}
 
 	public void killSession(SessionInformation sess){
@@ -56,10 +58,10 @@ public class SessionInfoBean implements Serializable {
 		messageTxt=null;
 	}
 	
-	public List<String> getActiveUserList(){
+	public List<String> getActiveChatList(){
 		findActiveSessionList();
 		List<String> userList = new ArrayList<String>();
-		for (SessionInformation sessionInformation : allSessionList) {
+		for (SessionInformation sessionInformation : allChatList) {
 			userList.add(((SecUser)sessionInformation.getPrincipal()).getUsername());
 		}
 		return userList;
@@ -101,6 +103,14 @@ public class SessionInfoBean implements Serializable {
 
 	public void setMessageTxt(String messageTxt) {
 		this.messageTxt = messageTxt;
+	}
+
+	public List<SessionInformation> getAllChatList() {
+		return allChatList;
+	}
+
+	public void setAllChatList(List<SessionInformation> allChatList) {
+		this.allChatList = allChatList;
 	}
 
 

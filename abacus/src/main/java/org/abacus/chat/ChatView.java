@@ -59,7 +59,7 @@ public class ChatView implements Serializable {
 	}
 
 	public List<String> getUsers() {
-		List<String> listAll = sessionInfoBean.getActiveUserList();
+		List<String> listAll = sessionInfoBean.getActiveChatList();
 		List<String> listChat = new ArrayList<String>();
 		listAll.remove(username);
 		for (String usr : listAll) {

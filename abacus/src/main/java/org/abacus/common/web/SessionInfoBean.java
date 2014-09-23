@@ -42,7 +42,6 @@ public class SessionInfoBean implements Serializable {
 	}
 
 	public void findActiveSessionList(){
-		allChatList = sessionInfoHelper.getActiveSessionList(true);
 		allSessionList = sessionInfoHelper.getActiveSessionList(false);
 	}
 
@@ -61,7 +60,7 @@ public class SessionInfoBean implements Serializable {
 	}
 	
 	public List<String> getActiveChatList(){
-		findActiveSessionList();
+		allChatList = sessionInfoHelper.getActiveSessionList(true);
 		List<String> userList = new ArrayList<String>();
 		for (SessionInformation sessionInformation : allChatList) {
 			userList.add(((SecUser)sessionInformation.getPrincipal()).getUsername());

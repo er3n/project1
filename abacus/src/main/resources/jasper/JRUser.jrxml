@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JRUser" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JRUser" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="730b2525-f678-44b5-b101-e43a4ac765ff">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[select su.id
+		<![CDATA[select su.id, su.is_active
   from sec_user su
  order by su.id]]>
 	</queryString>
 	<field name="id" class="java.lang.String"/>
+	<field name="is_active" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="224" y="30" width="100" height="20"/>
+				<reportElement uuid="1183de5f-590d-4e57-a6ac-0ec2a230ad17" x="224" y="30" width="100" height="20"/>
 				<textElement textAlignment="Center">
 					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[User Report]]></text>
+				<text><![CDATA[Kullanıcı Listesi]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -29,18 +30,32 @@
 	<columnHeader>
 		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement x="124" y="2" width="100" height="20"/>
+				<reportElement uuid="a72d44cd-1990-4394-8f82-13110d760d9a" x="124" y="2" width="129" height="20"/>
 				<textElement>
 					<font size="12" isBold="true" isUnderline="true" pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[UserId]]></text>
+				<text><![CDATA[Kullanıcı Kodu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a72d44cd-1990-4394-8f82-13110d760d9a" x="265" y="2" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Aktif mi?]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="124" y="0" width="100" height="20"/>
+				<reportElement uuid="ad6657f7-e12a-4844-b356-5408c139e2c7" x="124" y="0" width="129" height="20"/>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ad6657f7-e12a-4844-b356-5408c139e2c7" x="265" y="0" width="100" height="20"/>
 				<textElement>
 					<font pdfEncoding="Cp1254"/>
 				</textElement>

@@ -32,7 +32,7 @@
 								validatorMessage="organization.Ack" style="width:250px"/>
 
 							
-							<c:if test="#{not organizationViewBean.isOnlyRoot()}">
+							<c:if test="${not organizationViewBean.isOnlyRoot()}">
 
 								<h:outputLabel value="Müşteri"/>
 								<h:panelGrid columns="1">
@@ -95,15 +95,15 @@
            					${selOrganization.nameLevel}  
        					</p:column>
 
-						<p:column headerText="Seviye" style="width:120px" rendered="#{not organizationViewBean.isOnlyRoot()}">  
+						<p:column headerText="Seviye" style="width:120px" rendered="${not organizationViewBean.isOnlyRoot()}">  
            					#{selOrganization.level.description}  
        					</p:column>
 
-						<p:column headerText="Bağlantı" style="width:120px" rendered="#{not organizationViewBean.isOnlyRoot()}">  
+						<p:column headerText="Bağlantı" style="width:120px" rendered="${not organizationViewBean.isOnlyRoot()}">  
            					${selOrganization.getParent().nameLevel}  
        					</p:column>
 
-						<p:column headerText="Müşteri" style="width:120px" rendered="#{not organizationViewBean.isOnlyRoot()}">  
+						<p:column headerText="Müşteri" style="width:120px" rendered="${not organizationViewBean.isOnlyRoot()}">  
            					${selOrganization.customer.name}  
        					</p:column>
 

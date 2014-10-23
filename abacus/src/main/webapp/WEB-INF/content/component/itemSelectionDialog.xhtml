@@ -10,7 +10,7 @@
 	<p:dialog widgetVar="#{widgetVar}" resizable="true" showEffect="fade" closeOnEscape="true" dynamic="true" modal="true" height="400px" width="600px">
 
 		<f:facet name="header">
-			<h:outputText value="#{itemSelectionViewBean.getTypeName(paramType)}" />
+			<h:outputText value="${itemSelectionViewBean.getTypeName(paramType)}" />
 		</f:facet>
 
 		<p:dataTable id="itemDataTable" var="item" value="#{itemSelectionViewBean.getItemDataModel(paramType,paramClass)}" widgetVar="#{widgetVar}_DT" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5" selectionMode="single" lazy="true" selection="#{targetVar}">

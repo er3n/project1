@@ -117,7 +117,7 @@
 					</p:column>
 
 					<p:column headerText="Durum">
-						<h:outputText value="#{findReqDocumentViewBean.reqDepartmentGroupEnum()==OrgDepartmentGroupEnum.SP?var.requestStatus.PDescription:var.requestStatus.description}" />
+						<h:outputText value="${findReqDocumentViewBean.reqDepartmentGroupEnum() eq OrgDepartmentGroupEnum.SP?var.requestStatus.PDescription:var.requestStatus.description}" />
 					</p:column>
 
 					<p:column headerText="Organizasyon">

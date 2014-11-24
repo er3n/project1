@@ -48,3 +48,9 @@ select v.fiscal_year_id,
   from v_stk v
  group by v.fiscal_year_id, v.department_code, v.department_name, v.item_code, v.item_name
  
+ 
+ 
+ update def_task a
+set item_type_detail = (select b.item_type_detail from def_task b where a.code=b.code and b.organization_id='00'),
+    item_type_document = (select b.item_type_document from def_task b where a.code=b.code and b.organization_id='00')
+where organization_id='01'

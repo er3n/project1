@@ -79,7 +79,9 @@ public class UserDao implements Serializable {
 
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
+		criteria.addOrder(Order.desc("u.organizationRoot"));
 		criteria.addOrder(Order.asc("u.id"));
+		criteria.addOrder(Order.asc("uc.organization.id"));
 		
 		List<SecUserEntity> userList = criteria.list();
 		

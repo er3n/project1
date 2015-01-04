@@ -75,11 +75,12 @@ public class UserViewBean implements Serializable {
 	}
 
 	public void createUser() {
-		String currentUser = sessionInfoHelper.currentUserName();
+		selectedUser.setOrganizationRoot(sessionInfoHelper.currentOrganization().getRootOrganization().getId());
+		String logUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
 		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
 		try {
-			UserCreatedEvent createdEvent = userService.createUser(new CreateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
+			UserCreatedEvent createdEvent = userService.createUser(new CreateUserEvent(selectedUser, selectedGroups, userOrganizations, logUser));
 			selectedUser = createdEvent.getSecUser();
 			this.reloadSearchCriteria(selectedUser);
 			jsfMessageHelper.addInfo("createSuccessful","Kullanıcı");
@@ -89,10 +90,10 @@ public class UserViewBean implements Serializable {
 	}
 
 	public void updateUser() {
-		String currentUser = sessionInfoHelper.currentUserName();
+		String logUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
 		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();
-		UserUpdatedEvent updatedEvent = userService.updateUser(new UpdateUserEvent(selectedUser, selectedGroups, userOrganizations, currentUser));
+		UserUpdatedEvent updatedEvent = userService.updateUser(new UpdateUserEvent(selectedUser, selectedGroups, userOrganizations, logUser));
 		this.reloadSearchCriteria(updatedEvent.getUser());
 		jsfMessageHelper.addInfo("updateSuccessful","Kullanıcı");
 	}

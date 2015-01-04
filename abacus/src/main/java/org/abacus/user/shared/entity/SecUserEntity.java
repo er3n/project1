@@ -50,6 +50,10 @@ public class SecUserEntity extends StaticEntity {
 		this.id = id;
 	}
 	
+	public Boolean isRootUser(){
+		return organizationRoot==null;
+	}
+	
 	public String getPassword() {
 		return password;
 	}

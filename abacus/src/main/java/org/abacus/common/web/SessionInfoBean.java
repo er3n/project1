@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.security.SecUser;
+import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 import org.springframework.security.core.session.SessionInformation;
@@ -37,6 +38,10 @@ public class SessionInfoBean implements Serializable {
 		return sessionInfoHelper.currentUser();
 	}
 
+	public OrganizationEntity currentOrganization(){
+		return sessionInfoHelper.currentOrganization();
+	}
+	
 	public Boolean isRootUser(){
 		return sessionInfoHelper.isRootUser();
 	}

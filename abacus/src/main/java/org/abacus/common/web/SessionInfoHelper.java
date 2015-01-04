@@ -10,6 +10,7 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 
 import org.abacus.common.security.SecUser;
+import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.repository.FiscalPeriodRepository;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.core.util.OrganizationUtils;
@@ -54,7 +55,7 @@ public class SessionInfoHelper implements Serializable {
 	} 
 
 	public Boolean isRootUser(){
-		return currentUser().getUsername().equals("root");
+		return currentUser().getUserEntity().isRootUser();
 	}
 
 	public boolean isAuthenticated(){
@@ -108,7 +109,7 @@ public class SessionInfoHelper implements Serializable {
 		for (Object principal: principalList) {
 		    if (principal instanceof SecUser) {
 		    	SecUser usr = (SecUser) principal; 
-		    	boolean isRootSess = usr.getUsername().equals("root");
+		    	boolean isRootSess = usr.getUserEntity().isRootUser();
 		    	List<SessionInformation> userSessionList = sessionRegistry.getAllSessions(principal, false);
 		    	for (SessionInformation sess : userSessionList) {
 			    	if (isRootUser() || isRootSess || currentUser().getUserEntity().getOrganizationRoot().equals(usr.getUserEntity().getOrganizationRoot()))

@@ -41,18 +41,16 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public List<OrganizationEntity> findByOrganization(String organizationId) {
-		return organizationRepository.findByOrganization(organizationId);
+		return organizationRepository.findByOrganizationTree(organizationId);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
 	public OrganizationEntity saveOrganizationEntity(OrganizationEntity entity)  throws AbcBusinessException {
+		boolean newOrg = !organizationRepository.exists(entity.getId());
+
 		OrganizationEntity parent = organizationDao.findParentOrganization(entity);
 		entity.setParent(parent);
-		boolean newRootOrg = false;
-		if (entity.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)){
-			newRootOrg = !organizationRepository.exists(entity.getId());
-		}
 		
 		if (!entity.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0) && entity.getParent()==null){
 			throw new ParentOrganizationNotFoundException();
@@ -60,13 +58,12 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 			
 		entity = organizationRepository.save(entity);
 		
-		if (newRootOrg){
-			SecUserEntity rootUser = new SecUserEntity();
-			rootUser.setId("root");
-			SecUserOrganizationEntity userOrg = new SecUserOrganizationEntity();
-			userOrg.setUser(rootUser);
-			userOrg.setOrganization(entity);
-			userOrgRepo.save(userOrg);
+		if (newOrg){
+			SecUserEntity rootUser = new SecUserEntity("root");
+			SecUserOrganizationEntity rootUserOrg = new SecUserOrganizationEntity();
+			rootUserOrg.setUser(rootUser);
+			rootUserOrg.setOrganization(entity);
+			userOrgRepo.save(rootUserOrg);
 		}
 		
 		return entity;

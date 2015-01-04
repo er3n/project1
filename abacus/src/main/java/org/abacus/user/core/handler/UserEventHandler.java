@@ -305,7 +305,7 @@ public class UserEventHandler implements UserService{
 		if(StringUtils.hasText(event.getUsername())){
 			organizationList = organizationRepository.findByUsername(event.getUsername());
 		}else{
-			organizationList = organizationRepository.findByOrganization(event.getOrganization().getId());
+			organizationList = organizationRepository.findByOrganizationTree(event.getOrganization().getId());
 		}
 		
 		return new ReadOrganizationsEvent(organizationList);

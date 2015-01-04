@@ -13,7 +13,7 @@ public interface OrganizationRepository extends CrudRepository<OrganizationEntit
 	List<OrganizationEntity> findRootOrganization();
 
 	@Query("select c from OrganizationEntity c left outer join fetch c.customer r where (c.id = :organization or c.id like :organization || '.%') order by c.id")
-	List<OrganizationEntity> findByOrganization(@Param("organization")String organization);
+	List<OrganizationEntity> findByOrganizationTree(@Param("organization")String organization);
 
 	@Query("select c from OrganizationEntity c left outer join fetch c.customer r, SecUserOrganizationEntity u where u.user.id = :username and u.organization.id = c.id order by c.id")
 	List<OrganizationEntity> findByUsername(@Param("username")String username);

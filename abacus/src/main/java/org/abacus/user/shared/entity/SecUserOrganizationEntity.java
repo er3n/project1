@@ -12,7 +12,7 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 @Entity
 @SuppressWarnings("serial")
 @Table(name = "sec_user_organization")
-public class SecUserOrganizationEntity extends DynamicEntity {
+public class SecUserOrganizationEntity extends DynamicEntity implements Comparable<SecUserOrganizationEntity> {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
@@ -22,7 +22,11 @@ public class SecUserOrganizationEntity extends DynamicEntity {
 	@JoinColumn(name = "organization_id", nullable = false)
 	private OrganizationEntity organization;
 
-
+	@Override
+	public int compareTo(SecUserOrganizationEntity o) {
+		return this.organization.getId().compareTo(o.organization.getId());
+	}
+	
 	public SecUserEntity getUser() {
 		return user;
 	}

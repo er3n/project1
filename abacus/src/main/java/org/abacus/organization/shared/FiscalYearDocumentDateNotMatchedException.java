@@ -4,8 +4,8 @@ import org.abacus.common.shared.AbcBusinessException;
 
 public class FiscalYearDocumentDateNotMatchedException extends AbcBusinessException {
 
-	public FiscalYearDocumentDateNotMatchedException() {
-		super("fiscalYearDocumentDateNotMatchedException");
+	public FiscalYearDocumentDateNotMatchedException(String... params) {
+		super(params);
 	}
 	
 }

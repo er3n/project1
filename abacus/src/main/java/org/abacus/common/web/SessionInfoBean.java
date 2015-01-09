@@ -61,7 +61,7 @@ public class SessionInfoBean implements Serializable {
 //	    Map map = context.getExternalContext().getRequestParameterMap();
 //	    String msg = (String) map.get("msg");
 //	    jsfMessageHelper.addSimple("Mesaj", (msg==null?"?":msg));
-	    jsfMessageHelper.addSimple("Mesaj", (messageTxt==null?"?":messageTxt));
+	    jsfMessageHelper.addInfo("Mesaj:", (messageTxt==null?"?":messageTxt));
 	}
 	
 	public List<String> getActiveChatList(){

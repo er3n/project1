@@ -99,7 +99,7 @@ public class UserEventHandler implements UserService{
 		String username = secUser.getId();
 		boolean isUserExists = userRepository.exists(username);
 		if (isUserExists) {
-			throw new UserNameExistsException();
+			throw new UserNameExistsException(username);
 		}
 		
 		secUser.setPassword(md5PasswordEncoder.encodePassword(secUser.getPassword(), null));

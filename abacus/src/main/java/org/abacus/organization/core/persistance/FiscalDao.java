@@ -16,6 +16,7 @@ import org.abacus.organization.core.persistance.repository.FiscalYearRepository;
 import org.abacus.organization.shared.FiscalPeriodNotFoundException;
 import org.abacus.organization.shared.FiscalPeriodNotOpenException;
 import org.abacus.organization.shared.FiscalYearDocumentDateNotMatchedException;
+import org.abacus.organization.shared.FiscalYearNotFoundException;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class FiscalDao implements Serializable {
 				return fis;
 			}
 		}
-		return null;
+		throw new FiscalYearNotFoundException(organizationId,date.toString());
 	}
 	
 	public List<FiscalYearEntity> findFiscalYearList(String organizationId) throws AbcBusinessException {
@@ -65,25 +66,27 @@ public class FiscalDao implements Serializable {
 	}
 
 	public FiscalPeriodEntity findFiscalPeriod(FiscalYearEntity fiscalYearEntity, Date docDate, EnumList.DefTypeEnum docTypeEnum) throws AbcBusinessException {
-//		FiscalYearEntity fiscalYearEntity = fiscalYearRepository.findOne(fiscalYearId);
 		
-//		if (!String.valueOf(new DateTime(docDate).getYear()).equals(fiscalYearEntity.getYear())){
+		if (fiscalYearEntity==null){
+			throw new FiscalYearNotFoundException("fiscalYearEntity=null");
+		}
+		
 		if (docDate.compareTo(fiscalYearEntity.getDateStart())<0 || docDate.compareTo(fiscalYearEntity.getDateFinish())>0){
-			throw new FiscalYearDocumentDateNotMatchedException();
+			throw new FiscalYearDocumentDateNotMatchedException(fiscalYearEntity.getId());
 		}
 		
 		FiscalPeriodEntity fiscalPeriod = fiscalPeriodRepository.findFiscalPeriod(fiscalYearEntity.getId(), docDate);
 		if (fiscalPeriod==null){
-			throw new FiscalPeriodNotFoundException();
+			throw new FiscalPeriodNotFoundException(fiscalYearEntity.getId()+"-"+docDate.toString());
 		}
 		if (docTypeEnum.name().startsWith(EnumList.DefTypeGroupEnum.ACC.name()) && !fiscalPeriod.getIsAccActive()){
-			throw new FiscalPeriodNotOpenException(EnumList.DefTypeGroupEnum.ACC);
+			throw new FiscalPeriodNotOpenException(fiscalYearEntity.getId(), EnumList.DefTypeGroupEnum.ACC.name());
 		}
 		if (docTypeEnum.name().startsWith(EnumList.DefTypeGroupEnum.FIN.name()) && !fiscalPeriod.getIsFinActive()){
-			throw new FiscalPeriodNotOpenException(EnumList.DefTypeGroupEnum.FIN);
+			throw new FiscalPeriodNotOpenException(fiscalYearEntity.getId(), EnumList.DefTypeGroupEnum.FIN.name());
 		}
 		if (docTypeEnum.name().startsWith(EnumList.DefTypeGroupEnum.STK.name()) && !fiscalPeriod.getIsStkActive()){
-			throw new FiscalPeriodNotOpenException(EnumList.DefTypeGroupEnum.STK);
+			throw new FiscalPeriodNotOpenException(fiscalYearEntity.getId(), EnumList.DefTypeGroupEnum.STK.name());
 		}
 		return fiscalPeriod;
 	}	

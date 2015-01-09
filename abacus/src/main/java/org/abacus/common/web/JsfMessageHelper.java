@@ -1,7 +1,6 @@
 package org.abacus.common.web;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -13,14 +12,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsfMessageHelper implements Serializable {
 
-
 	public void addError(AbcBusinessException e) {
-		this.addError(e.getMessage(), e.getParameters());
+		this.addError(e.getName(), e.getParams());
 	}
 
-	public void addSimple(String caption, String message) {
+	public void addError(String message, String... params) {
 		FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, caption, message));
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hata", label(message, params)));
 	}
 
 	public void addInfo(String message, String... params) {
@@ -33,28 +31,26 @@ public class JsfMessageHelper implements Serializable {
 				new FacesMessage(FacesMessage.SEVERITY_WARN, "Dikkat", label(message, params)));
 	}
 
-	public void addError(String message, String... params) {
-		FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hata", label(message, params)));
-	}
-
 	public void addFatal(String message, String... params) {
 		FacesContext.getCurrentInstance().addMessage(null, 
 				new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal", label(message, params)));
 	}
 
 	public String label(String key, String... params) {
-		try {
+		StringBuffer message= new StringBuffer();
+		try{
 			FacesContext context = FacesContext.getCurrentInstance();
 			ResourceBundle bundle = context.getApplication().getResourceBundle(context, "lbl");
-			String message = bundle.getString(key);
-			if (params != null && params.length > 0) {
-				message = MessageFormat.format(message, params);
-			}
-			return message;
+			message.append(bundle.getString(key)+"\n");
 		} catch (Exception e) {
-			return "Label: " + key;
+			message.append(key+"\n");
 		}
+		if (params != null && params.length > 0) {
+			for (int i = 0; i < params.length; i++){
+				message.append(params[i]+"\n");
+		    }
+		}
+		return message.toString();
 	}
 
 }

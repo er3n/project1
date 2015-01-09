@@ -73,7 +73,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 		boolean isGroupHasAnyMember = count > 0;
 		
 		if(isGroupHasAnyMember){
-			throw new UserExistsInGroupException();
+			throw new UserExistsInGroupException("");
 		}
 		
 		groupAuthorityRepository.deleteByGroupId(groupId);
@@ -88,7 +88,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 		
 		SecGroupEntity existingGroupEntitiy = groupRepository.findByName(group.getName());
 		if(existingGroupEntitiy != null){
-			throw new GroupNameInUseException();
+			throw new GroupNameInUseException(group.getName());
 		}
 		
 		groupRepository.save(group);

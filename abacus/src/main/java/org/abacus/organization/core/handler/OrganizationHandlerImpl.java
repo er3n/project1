@@ -53,7 +53,7 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 		entity.setParent(parent);
 		
 		if (!entity.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0) && entity.getParent()==null){
-			throw new ParentOrganizationNotFoundException();
+			throw new ParentOrganizationNotFoundException(entity.getId());
 		}
 			
 		entity = organizationRepository.save(entity);

@@ -4,8 +4,8 @@ import org.abacus.common.shared.AbcBusinessException;
 
 public class ParentOrganizationNotFoundException extends AbcBusinessException {
 
-	public ParentOrganizationNotFoundException() {
-		super("parentOrganizationNotFoundException");
+	public ParentOrganizationNotFoundException(String... params) {
+		super(params);
 	}
 	
 }

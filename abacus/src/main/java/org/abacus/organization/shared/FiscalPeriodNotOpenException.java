@@ -5,8 +5,8 @@ import org.abacus.definition.shared.constant.EnumList;
 
 public class FiscalPeriodNotOpenException extends AbcBusinessException {
 
-	public FiscalPeriodNotOpenException(EnumList.DefTypeGroupEnum module) {
-		super("fiscalPeriodNotOpenException", module.name());
+	public FiscalPeriodNotOpenException(String... params) {
+		super(params);
 	}
 	
 }

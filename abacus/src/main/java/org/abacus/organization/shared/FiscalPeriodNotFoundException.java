@@ -4,8 +4,8 @@ import org.abacus.common.shared.AbcBusinessException;
 
 public class FiscalPeriodNotFoundException extends AbcBusinessException {
 
-	public FiscalPeriodNotFoundException() {
-		super("fiscalPeriodNotFoundException");
+	public FiscalPeriodNotFoundException(String... params) {
+		super(params);
 	}
 	
 }

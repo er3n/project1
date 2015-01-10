@@ -121,7 +121,7 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 			this.findDocument(this.document.getId());
 			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -131,7 +131,7 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 			this.findDocument(this.document.getId());
 			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -141,7 +141,7 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 			this.findDocument(this.document.getId());
 			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -151,7 +151,7 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 			this.findDocument(this.document.getId());
 			jsfMessageHelper.addInfo("updateSuccessful", "Döküman");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class CrudPurchDecDocumentViewBean implements Serializable {
 			this.findDocument(this.document.getId());
 			jsfMessageHelper.addInfo("confirmedWithDocumentNo", stkDocument.getDocNo());
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

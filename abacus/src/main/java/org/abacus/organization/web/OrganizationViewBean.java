@@ -73,7 +73,7 @@ public class OrganizationViewBean implements Serializable {
 			jsfMessageHelper.addInfo("createSuccessful","Organizasyon");
 			findOrganizationList();
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

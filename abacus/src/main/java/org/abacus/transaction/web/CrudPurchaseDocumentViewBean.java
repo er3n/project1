@@ -162,7 +162,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("deleteSuccessful", "Teklif");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -172,7 +172,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("createSuccessful", "Teklif");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -182,7 +182,7 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("updateSuccessful", "Teklif");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

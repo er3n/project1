@@ -137,7 +137,7 @@ public class CatMenuViewBean implements Serializable {
 		try {
 			this.menuPreviewEvent = menuHandler.createMenuPreview(new CreateMenuPeriviewEvent(this.selectedMenu, this.consumedDeparment, sessionInfoHelper.currentFiscalYear()));
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -148,7 +148,7 @@ public class CatMenuViewBean implements Serializable {
 			jsfMessageHelper.addInfo("menuConfirmedWithDocumentNo", confirmedEvent.getDocument().getDocNo());
 			
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 			FacesContext.getCurrentInstance().validationFailed();
 		}
 

@@ -94,7 +94,7 @@ public class FindReqDocumentViewBean implements Serializable {
 			transactionHandler.deleteDocument(new DeleteDocumentEvent<ReqDocumentEntity>(document));
 			this.findDocument();
 		} catch (UnableToDeleteDetailException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

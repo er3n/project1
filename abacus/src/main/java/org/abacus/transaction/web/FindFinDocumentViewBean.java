@@ -103,7 +103,7 @@ public class FindFinDocumentViewBean implements Serializable {
 			transactionHandler.cancelDocument(new CancelDocumentEvent<FinDocumentEntity>(document, sessionInfoHelper.currentUserName()));
 			this.findFinDocument();
 		} catch (UnableToUpdateDocumentExpception e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class FindFinDocumentViewBean implements Serializable {
 			transactionHandler.deleteDocument(new DeleteDocumentEvent<FinDocumentEntity>(document));
 			this.findFinDocument();
 		} catch (UnableToDeleteDetailException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

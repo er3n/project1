@@ -1,6 +1,7 @@
 package org.abacus.common.web;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -12,8 +13,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsfMessageHelper implements Serializable {
 
-	public void addError(AbcBusinessException e) {
-		this.addError(e.getName(), e.getParams());
+	public void addException(AbcBusinessException e) {
+		StringBuffer message= new StringBuffer();
+		if (e.getParams() != null && e.getParams().length > 0) {
+			for (int i = 0; i < e.getParams().length; i++){
+				message.append((i+1)+":"+e.getParams()[i]+" ");
+		    }
+		}
+		FacesContext.getCurrentInstance().addMessage(null, 
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getName(), message.toString()));
 	}
 
 	public void addError(String message, String... params) {
@@ -37,20 +45,16 @@ public class JsfMessageHelper implements Serializable {
 	}
 
 	public String label(String key, String... params) {
-		StringBuffer message= new StringBuffer();
+		String message = null;
 		try{
 			FacesContext context = FacesContext.getCurrentInstance();
 			ResourceBundle bundle = context.getApplication().getResourceBundle(context, "lbl");
-			message.append(bundle.getString(key)+"\n");
+			message = bundle.getString(key);
 		} catch (Exception e) {
-			message.append(key+"\n");
+			message = key;
 		}
-		if (params != null && params.length > 0) {
-			for (int i = 0; i < params.length; i++){
-				message.append(params[i]+"\n");
-		    }
-		}
-		return message.toString();
-	}
+		message = MessageFormat.format(message, params);
+		return message;
+	}	
 
 }

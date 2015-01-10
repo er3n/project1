@@ -118,7 +118,7 @@ public class FindStkDocumentViewBean implements Serializable {
 			transactionHandler.cancelDocument(new CancelDocumentEvent<StkDocumentEntity>(document, sessionInfoHelper.currentUserName()));
 			this.findStkDocument();
 		} catch (UnableToUpdateDocumentExpception e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -127,7 +127,7 @@ public class FindStkDocumentViewBean implements Serializable {
 			transactionHandler.deleteDocument(new DeleteDocumentEvent<StkDocumentEntity>(document));
 			this.findStkDocument();
 		} catch (UnableToDeleteDetailException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 	
@@ -141,7 +141,7 @@ public class FindStkDocumentViewBean implements Serializable {
 			jsfMessageHelper.addInfo("createFinDocument");
 			this.findStkDocument();
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

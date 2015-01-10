@@ -142,7 +142,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("createSuccessful", "Fiş");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 
 	}
@@ -153,7 +153,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("updateSuccessful", "Fiş");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -164,7 +164,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			selectedDetail = null;
 			jsfMessageHelper.addInfo("createSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -192,7 +192,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			this.selectedDetail = null;
 			jsfMessageHelper.addInfo("updateSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -202,7 +202,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("deleteSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -233,7 +233,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("operationSuccessful", "Sipariş girme");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -244,7 +244,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("confirmedWithDocumentNo", stkDocument.getDocNo());
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -254,7 +254,7 @@ public class CrudReqDocumentViewBean implements Serializable {
 			this.findDocument(document.getId());
 			jsfMessageHelper.addInfo("operationSuccessful", "Reddedme");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

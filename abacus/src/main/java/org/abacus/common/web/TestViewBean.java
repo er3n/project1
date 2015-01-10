@@ -132,7 +132,7 @@ public class TestViewBean implements Serializable {
 			
 		} catch (AbcBusinessException e){
 			System.out.println("createStkTestData AbcBusinessException");
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		} catch (Exception e) {
 			System.out.println("createStkTestData Exception");
 			jsfMessageHelper.addInfo("createStkTestData Exception");

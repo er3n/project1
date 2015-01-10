@@ -145,7 +145,7 @@ public class ItemViewBean implements Serializable {
 				selectedItem = null;
 				jsfMessageHelper.addInfo("craeteSuccessful");
 			} catch (ItemAlreadyExistsException e) {
-				jsfMessageHelper.addError(e);
+				jsfMessageHelper.addException(e);
 			}
 			
 	}

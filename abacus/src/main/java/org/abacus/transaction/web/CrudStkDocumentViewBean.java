@@ -123,7 +123,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			this.findStkDocument(document.getId());
 			jsfMessageHelper.addInfo("createSuccessful", "Fiş");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 
 	}
@@ -134,7 +134,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			this.findStkDocument(document.getId());
 			jsfMessageHelper.addInfo("updateSuccessful", "Fiş");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -145,7 +145,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			selectedDetail = null;
 			jsfMessageHelper.addInfo("createSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -181,7 +181,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			this.selectedDetail = null;
 			jsfMessageHelper.addInfo("updateSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -191,7 +191,7 @@ public class CrudStkDocumentViewBean implements Serializable {
 			this.findStkDocument(document.getId());
 			jsfMessageHelper.addInfo("deleteSuccessful", "Fiş Detay");
 		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addError(e);
+			jsfMessageHelper.addException(e);
 		}
 	}
 

@@ -17,7 +17,7 @@ public class JsfMessageHelper implements Serializable {
 		StringBuffer message= new StringBuffer();
 		if (e.getParams() != null && e.getParams().length > 0) {
 			for (int i = 0; i < e.getParams().length; i++){
-				message.append((i+1)+":"+e.getParams()[i]+" ");
+				message.append("# "+e.getParams()[i]+" ");
 		    }
 		}
 		FacesContext.getCurrentInstance().addMessage(null, 

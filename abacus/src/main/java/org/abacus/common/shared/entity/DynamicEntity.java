@@ -1,5 +1,6 @@
 package org.abacus.common.shared.entity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import javax.persistence.Version;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public class DynamicEntity implements RootEntity {
+public class DynamicEntity implements Serializable, Cloneable, Comparable<DynamicEntity> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_id")
@@ -95,6 +96,11 @@ public class DynamicEntity implements RootEntity {
 
 	public boolean isNew() {
 		return (this.getId()==null);
+	}
+
+	@Override
+	public int compareTo(DynamicEntity o) {
+		return this.id.compareTo(o.id);
 	}
 
 	public Long getId() {

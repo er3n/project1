@@ -127,7 +127,9 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			if (detail.getItemDetailCount()==null || detail.getItemDetailCount().compareTo(BigDecimal.ZERO)==0){
 				detail.setItemDetailCount(BigDecimal.ONE);
 			}
-			detail.setBaseDetailCount(BigDecimal.ZERO);
+			if (detail.getBaseDetailCount()==null){
+				detail.setBaseDetailCount(BigDecimal.ZERO);
+			}
 			detail.setUnitDetailPrice(detail.getBaseDetailAmount().divide(detail.getItemDetailCount(), EnumList.RoundScale.ACC.getValue(), RoundingMode.HALF_EVEN));
 			detail.setDueDate(document.getDocDate());
 		}

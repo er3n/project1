@@ -77,7 +77,7 @@ public class UserGroupViewBean implements Serializable {
 			jsfMessageHelper.addInfo("createSuccessful","Grup");
 			onGroupRowSelected();
 		} catch (GroupNameInUseException e) {
-			jsfMessageHelper.addError("grupIsmiKullanimda");
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class UserGroupViewBean implements Serializable {
 			jsfMessageHelper.addInfo("updateSuccessful","Grup");
 			onGroupRowSelected();
 		} catch (GroupNameInUseException e) {
-			jsfMessageHelper.addError("grupIsmiKullanimda");
+			jsfMessageHelper.addException(e);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class UserGroupViewBean implements Serializable {
 			jsfMessageHelper.addInfo("deleteSuccessful","Kullanıcı Grubu");
 			this.newSelectedGroup();
 		} catch (UserExistsInGroupException e) {
-			jsfMessageHelper.addError("grubaAitKullanicilarBulundu");
+			jsfMessageHelper.addException(e);
 		}
 
 	}

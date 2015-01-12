@@ -42,7 +42,7 @@ public class FiscalDao implements Serializable {
 	public FiscalYearEntity getFiscalYear(String organizationId, Date date) throws AbcBusinessException {
 		List<FiscalYearEntity> fiscalList = findFiscalYearList(organizationId);
 		for (FiscalYearEntity fis : fiscalList) {
-			if (date.compareTo(fis.getDateStart())>0 && date.compareTo(fis.getDateFinish())<0){
+			if (date.compareTo(fis.getDateStart())>=0 && date.compareTo(fis.getDateFinish())<=0){
 				return fis;
 			}
 		}

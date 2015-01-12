@@ -55,7 +55,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 
 		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
 		if(existingItem != null){
-			throw new ItemAlreadyExistsException();
+			throw new ItemAlreadyExistsException(existingItem.getType().getId(), existingItem.getCode(), existingItem.getItemClass()==null?"":existingItem.getItemClass().getName());
 		}
 		item.createHook(userCreated);
 		item = itemRepository.save(item);

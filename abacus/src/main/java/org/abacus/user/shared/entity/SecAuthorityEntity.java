@@ -10,7 +10,7 @@ import org.abacus.common.shared.entity.StaticEntity;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "sec_authority")
-public class SecAuthorityEntity extends StaticEntity implements Comparable<SecAuthorityEntity> {
+public class SecAuthorityEntity extends StaticEntity {
 
 	@Column(name = "code", nullable = false)
 	private String code;
@@ -22,13 +22,6 @@ public class SecAuthorityEntity extends StaticEntity implements Comparable<SecAu
 		return code.length()==1;
 	}
 	
-	@Override
-	public int compareTo(SecAuthorityEntity other) {
-		if(this == other)
-			return 0;
-		return this.getCode().compareTo(other.getCode());
-	}
-
 	public String getCode() {
 		return code;
 	}

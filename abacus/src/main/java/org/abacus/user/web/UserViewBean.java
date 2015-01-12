@@ -85,7 +85,7 @@ public class UserViewBean implements Serializable {
 			this.reloadSearchCriteria(selectedUser);
 			jsfMessageHelper.addInfo("createSuccessful","Kullanıcı");
 		} catch (UserNameExistsException e) {
-			jsfMessageHelper.addError("kullaniciAdiKullanimda");
+			jsfMessageHelper.addException(e);
 		}
 	}
 

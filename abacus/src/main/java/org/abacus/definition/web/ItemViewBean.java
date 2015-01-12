@@ -119,7 +119,7 @@ public class ItemViewBean implements Serializable {
 			this.itemSelected();
 			jsfMessageHelper.addInfo("updateSuccessful");
 		} catch (ItemAlreadyExistsException e) {
-			jsfMessageHelper.addError("itemExistsWithThisTypeAndCode");
+			jsfMessageHelper.addException(e);
 		}
 	}
 

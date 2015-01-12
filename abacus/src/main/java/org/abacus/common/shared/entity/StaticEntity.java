@@ -1,12 +1,14 @@
 package org.abacus.common.shared.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public class StaticEntity implements RootEntity {
+public class StaticEntity implements Serializable, Cloneable, Comparable<StaticEntity> {
 
 	@Id
 	@Column(name = "id", length=30)
@@ -50,6 +52,11 @@ public class StaticEntity implements RootEntity {
 	
 	public boolean isNew() {
 		return (this.getId()==null);
+	}
+
+	@Override
+	public int compareTo(StaticEntity o) {
+		return this.id.compareTo(o.id);
 	}
 
 }

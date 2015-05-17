@@ -95,8 +95,8 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			document.setFiscalPeriod1(fiscalPeriod1);
 		}
 
-		document = getDocumentRepository().save(document);
-		getDocumentRepository().save(document);
+		document = getDocumentRepository().saveTraDocument(document);
+		getDocumentRepository().saveTraDocument(document);
 		return new DocumentCreatedEvent<T>(document);
 	}
 
@@ -138,7 +138,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			detail.setResource(document.getTypeEnum().getTypeGroupEnum());
 		}
 		detail.createHook(user);
-		detail = getDetailRepository().save(detail);
+		detail = getDetailRepository().saveTraDetail(detail);
 		
 		return new DetailCreatedEvent<D>(detail);
 	}

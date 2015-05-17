@@ -4,8 +4,6 @@ import org.abacus.definition.core.handler.DefTaskHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
-import org.abacus.organization.shared.entity.FiscalYearEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
 import org.abacus.transaction.shared.UnableToChangeRequestStatus;
@@ -55,7 +53,7 @@ public class ReqConfirmationHandlerImpl implements ReqConfirmationHandler {
 	private ReqDocumentEntity updateDocumentRequestStatus(ReqDocumentEntity document,EnumList.RequestStatus requestStatus,String user){
 		document.setRequestStatus(requestStatus);
 		document.updateHook(user);
-		document = reqDocumentRepository.save(document);
+		document = reqDocumentRepository.saveTraDocument(document);
 		return document;
 	}
 	

@@ -10,7 +10,7 @@ public interface TraDetailRepository<D extends TraDetailEntity<D>> {
 
 	@Modifying
 	@Transactional
-	D save(D entity);
+	D saveTraDetail(D entity);
 	
 	List<D> findByDocumentId(Long documentId);
 

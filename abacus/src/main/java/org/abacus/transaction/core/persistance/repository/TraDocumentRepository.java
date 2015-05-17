@@ -8,7 +8,7 @@ public interface TraDocumentRepository<T extends TraDocumentEntity> {
 
 	@Modifying
 	@Transactional
-	T save(T entity);
+	T saveTraDocument(T entity);
 	
 	T findWithFetch(Long id);
 

@@ -78,7 +78,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentUpdatedEvent<StkDocumentEntity> updateDocument(UpdateDocumentEvent<StkDocumentEntity> event) throws UnableToUpdateDocumentExpception {
 		StkDocumentEntity doc = event.getDocument();
-		doc = stkDocumentRepository.save(doc);
+		doc = stkDocumentRepository.saveTraDocument(doc);
 		return new DocumentUpdatedEvent<StkDocumentEntity>(doc);
 	}
 
@@ -200,7 +200,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			DetailCreatedEvent<StkDetailEntity> detailCreated = newDetail(new CreateDetailEvent<StkDetailEntity>(det, event.getUser()));
 			det = detailCreated.getDetail();
 		} else {
-			det = stkDetailRepository.save(det);
+			det = stkDetailRepository.saveTraDetail(det);
 		}
 		return new DetailUpdatedEvent<StkDetailEntity>(det);
 	}
@@ -307,7 +307,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			}
 			detail.setUnitDetailPrice(BigDecimal.ZERO);
 			detail.setBaseDetailAmount(baseDetailAmount);
-			stkDetailRepository.save(detail);
+			stkDetailRepository.saveTraDetail(detail);
 		}
 	}
 	
@@ -364,7 +364,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		}
 		detail.setUnitDetailPrice(BigDecimal.ZERO);
 		detail.setBaseDetailAmount(baseDetailAmount);
-		stkDetailRepository.save(detail);
+		stkDetailRepository.saveTraDetail(detail);
 	}
 
 	@Override

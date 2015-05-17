@@ -75,7 +75,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentUpdatedEvent<FinDocumentEntity> updateDocument(UpdateDocumentEvent<FinDocumentEntity> event) throws UnableToUpdateDocumentExpception {
 		FinDocumentEntity doc = event.getDocument();
-		doc = finDocumentRepository.save(doc);
+		doc = finDocumentRepository.saveTraDocument(doc);
 		return new DocumentUpdatedEvent<FinDocumentEntity>(doc);
 	}
 
@@ -173,7 +173,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		if (detail.getBsDocument()!=null){
 			detail.setItem(detail.getBsDocument().getItem());
 		}
-		detail = finDetailRepository.save(detail);
+		detail = finDetailRepository.saveTraDetail(detail);
 		if (event.getIsOppositeCreate()){
 			createAccRecord(detail.getDocument());
 		}
@@ -208,7 +208,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	public DocumentCreatedEvent<FinDocumentEntity> newDocument(CreateDocumentEvent<FinDocumentEntity> event) {
 		DocumentCreatedEvent<FinDocumentEntity> created = super.newDocumentSupport(event);
 		FinDocumentEntity newDoc = created.getDocument();
-		finDocumentRepository.save(newDoc);
+		finDocumentRepository.saveTraDocument(newDoc);
 		newDoc = finDocumentRepository.findOne(newDoc.getId());
 		return created;
 	}

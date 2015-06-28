@@ -78,7 +78,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentUpdatedEvent<StkDocumentEntity> updateDocument(UpdateDocumentEvent<StkDocumentEntity> event) throws UnableToUpdateDocumentExpception {
 		StkDocumentEntity doc = event.getDocument();
-		doc = stkDocumentRepository.saveTraDocument(doc);
+		doc = stkDocumentRepository.save(doc);
 		return new DocumentUpdatedEvent<StkDocumentEntity>(doc);
 	}
 
@@ -200,7 +200,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			DetailCreatedEvent<StkDetailEntity> detailCreated = newDetail(new CreateDetailEvent<StkDetailEntity>(det, event.getUser()));
 			det = detailCreated.getDetail();
 		} else {
-			det = stkDetailRepository.saveTraDetail(det);
+			det = stkDetailRepository.save(det);
 		}
 		return new DetailUpdatedEvent<StkDetailEntity>(det);
 	}
@@ -216,7 +216,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	}
 	
 	private Boolean trackRefreshRequired(StkDetailEntity dtl){
-		StkDetailEntity old = dtl.getPoint();
+		StkDetailEntity old = (StkDetailEntity)dtl.getPoint();
 		if (old==null){
 			return true;
 		}
@@ -307,7 +307,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			}
 			detail.setUnitDetailPrice(BigDecimal.ZERO);
 			detail.setBaseDetailAmount(baseDetailAmount);
-			stkDetailRepository.saveTraDetail(detail);
+			stkDetailRepository.save(detail);
 		}
 	}
 	
@@ -364,7 +364,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		}
 		detail.setUnitDetailPrice(BigDecimal.ZERO);
 		detail.setBaseDetailAmount(baseDetailAmount);
-		stkDetailRepository.saveTraDetail(detail);
+		stkDetailRepository.save(detail);
 	}
 
 	@Override

@@ -6,11 +6,11 @@ import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface TraDetailRepository<D extends TraDetailEntity<D>> {
+public interface TraDetailRepository<D extends TraDetailEntity> {
 
 	@Modifying
 	@Transactional
-	D saveTraDetail(D entity);
+	D save(D entity);
 	
 	List<D> findByDocumentId(Long documentId);
 

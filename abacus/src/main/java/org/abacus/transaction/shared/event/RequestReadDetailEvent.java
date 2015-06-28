@@ -3,7 +3,7 @@ package org.abacus.transaction.shared.event;
 import org.abacus.common.shared.event.RequestReadEvent;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class RequestReadDetailEvent<D extends TraDetailEntity<D>> extends RequestReadEvent {
+public class RequestReadDetailEvent<D extends TraDetailEntity> extends RequestReadEvent {
 
 	private Long documentId;
 	private String vendor;

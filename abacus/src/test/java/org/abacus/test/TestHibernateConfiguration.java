@@ -54,7 +54,7 @@ public class TestHibernateConfiguration {
 //		
 //		entity.setPassword("wqwe");
 //		
-//		userRepository.saveTraDocument(entity);
+//		userRepository.save(entity);
 		
 	}
 	

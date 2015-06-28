@@ -5,7 +5,7 @@ import java.util.List;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
-public class TraBulkUpdatedEvent<T extends TraDocumentEntity, D extends TraDetailEntity<D>> {
+public class TraBulkUpdatedEvent<T extends TraDocumentEntity, D extends TraDetailEntity> {
 
 	private T document;
 	private List<D> detailList;

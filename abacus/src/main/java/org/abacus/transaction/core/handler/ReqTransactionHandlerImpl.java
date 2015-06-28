@@ -87,7 +87,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DocumentUpdatedEvent<ReqDocumentEntity> updateDocument(UpdateDocumentEvent<ReqDocumentEntity> event) throws UnableToUpdateDocumentExpception {
 		ReqDocumentEntity doc = event.getDocument();
-		doc = reqDocumentRepository.saveTraDocument(doc);
+		doc = reqDocumentRepository.save(doc);
 		return new DocumentUpdatedEvent<ReqDocumentEntity>(doc);
 	}
 
@@ -131,7 +131,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public DetailUpdatedEvent<ReqDetailEntity> updateDetail(UpdateDetailEvent<ReqDetailEntity> event) throws UnableToUpdateDetailException {
-		ReqDetailEntity detail = reqDetailRepository.saveTraDetail(event.getDetail());
+		ReqDetailEntity detail = reqDetailRepository.save(event.getDetail());
 		return new DetailUpdatedEvent<ReqDetailEntity>(detail);
 	}
 	

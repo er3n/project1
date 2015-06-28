@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity<D>>  implements TraTransactionHandler<T, D>  {
+public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity>  implements TraTransactionHandler<T, D>  {
 
 	@Autowired
 	protected FiscalDao fiscalDao;
@@ -95,8 +95,8 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			document.setFiscalPeriod1(fiscalPeriod1);
 		}
 
-		document = getDocumentRepository().saveTraDocument(document);
-		getDocumentRepository().saveTraDocument(document);
+		document = getDocumentRepository().save(document);
+		getDocumentRepository().save(document);
 		return new DocumentCreatedEvent<T>(document);
 	}
 
@@ -138,7 +138,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			detail.setResource(document.getTypeEnum().getTypeGroupEnum());
 		}
 		detail.createHook(user);
-		detail = getDetailRepository().saveTraDetail(detail);
+		detail = getDetailRepository().save(detail);
 		
 		return new DetailCreatedEvent<D>(detail);
 	}

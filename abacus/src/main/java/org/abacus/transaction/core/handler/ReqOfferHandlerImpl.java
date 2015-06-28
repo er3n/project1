@@ -86,7 +86,7 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 		}else{
 			detail.setBaseDetailAmount(BigDecimal.ZERO);
 		}
-		reqDetailRepository.saveTraDetail(detail);
+		reqDetailRepository.save(detail);
 		
 		return new SelectedOfferUpdated(selectedOffer);
 	}

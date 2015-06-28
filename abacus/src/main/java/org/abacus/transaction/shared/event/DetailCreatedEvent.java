@@ -7,7 +7,7 @@ import org.abacus.common.shared.event.CreatedEvent;
 import org.abacus.transaction.shared.entity.StkDetailTrackEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class DetailCreatedEvent<D extends TraDetailEntity<D>> extends CreatedEvent {
+public class DetailCreatedEvent<D extends TraDetailEntity> extends CreatedEvent {
 
 	public D detail;
 	

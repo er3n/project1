@@ -16,7 +16,7 @@ import org.abacus.definition.shared.constant.EnumList;
 @Entity
 @Table(name = "tra_detail")
 @SuppressWarnings("serial")
-public class FinDetailEntity extends TraDetailEntity<FinDetailEntity> {
+public class FinDetailEntity extends TraDetailEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "document_fin_id", nullable = true)

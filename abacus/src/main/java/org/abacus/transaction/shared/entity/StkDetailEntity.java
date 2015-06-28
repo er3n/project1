@@ -13,7 +13,7 @@ import org.springframework.beans.BeanUtils;
 @Entity
 @Table(name = "tra_detail")
 @SuppressWarnings("serial")
-public class StkDetailEntity extends TraDetailEntity<StkDetailEntity> {
+public class StkDetailEntity extends TraDetailEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_stk_id", nullable = true)

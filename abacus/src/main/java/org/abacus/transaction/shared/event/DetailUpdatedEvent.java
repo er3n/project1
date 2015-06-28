@@ -3,7 +3,7 @@ package org.abacus.transaction.shared.event;
 import org.abacus.common.shared.event.UpdatedEvent;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class DetailUpdatedEvent<D extends TraDetailEntity<D>> extends UpdatedEvent {
+public class DetailUpdatedEvent<D extends TraDetailEntity> extends UpdatedEvent {
 
 	private D detail;
 

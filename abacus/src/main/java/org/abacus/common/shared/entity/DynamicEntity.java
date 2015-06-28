@@ -1,5 +1,6 @@
 package org.abacus.common.shared.entity;
 
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
@@ -42,6 +44,23 @@ public class DynamicEntity implements Serializable, Cloneable, Comparable<Dynami
 	@Column(name = "version", nullable = false)
 	private Integer version;
 
+	@Transient
+	private DynamicEntity point;
+	
+
+	public DynamicEntity getPoint() {
+		return point;
+	}
+
+	public void setPoint() {
+		try {
+			this.point = (DynamicEntity) this.clone();
+		} catch (CloneNotSupportedException e) {
+			this.point = null;
+			e.printStackTrace();
+		}
+	}
+	
 	public void updateHook(String userUpdated) {
 		this.dateUpdated = Calendar.getInstance().getTime();
 		this.userUpdated = userUpdated;

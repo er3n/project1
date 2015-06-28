@@ -17,7 +17,7 @@ import org.hibernate.annotations.OrderBy;
 @Entity
 @Table(name = "tra_detail")
 @SuppressWarnings("serial")
-public class ReqDetailEntity extends TraDetailEntity<ReqDetailEntity> {
+public class ReqDetailEntity extends TraDetailEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_req_id", nullable = true)

@@ -5,7 +5,7 @@ import java.util.List;
 import org.abacus.common.shared.event.ReadEvent;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 
-public class ReadDetailEvent<D extends TraDetailEntity<D>> extends ReadEvent {
+public class ReadDetailEvent<D extends TraDetailEntity> extends ReadEvent {
 
 	List<D> details;
 

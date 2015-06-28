@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.Range;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends DynamicEntity {
+public abstract class TraDetailEntity extends DynamicEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "resource", nullable = false, length = 30)
@@ -60,9 +60,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	@Column(name = "det_note", nullable = true)
 	private String detNote;
-
-	@Transient
-	private D point;
 
 	@Transient
 	private EnumList.EntityStatus entityStatus;
@@ -150,19 +147,6 @@ public abstract class TraDetailEntity<D extends TraDetailEntity<D>> extends Dyna
 
 	public EnumList.TraState getTrStateEnum() {
 		return (trStateDetail.intValue() > 0 ? EnumList.TraState.INP : EnumList.TraState.OUT);
-	}
-
-	public D getPoint() {
-		return point;
-	}
-
-	public void setPoint() {
-		try {
-			this.point = (D) this.clone();
-		} catch (CloneNotSupportedException e) {
-			this.point = null;
-			e.printStackTrace();
-		}
 	}
 
 	public BigDecimal getUnitDetailPrice() {

@@ -7,7 +7,7 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
 
-public class TraBulkUpdateEvent<T extends TraDocumentEntity, D extends TraDetailEntity<D>> {
+public class TraBulkUpdateEvent<T extends TraDocumentEntity, D extends TraDetailEntity> {
 
 	private T document;
 	private List<D> detailList;

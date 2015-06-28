@@ -16,7 +16,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.springframework.util.StringUtils;
 
-public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity<D>> {
+public abstract class TraTransactionDao<T extends TraDocumentEntity, D extends TraDetailEntity> {
 
 	@PersistenceContext
 	private EntityManager em;

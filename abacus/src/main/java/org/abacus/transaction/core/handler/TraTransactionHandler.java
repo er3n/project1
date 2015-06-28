@@ -28,7 +28,7 @@ import org.abacus.transaction.shared.event.TraBulkUpdatedEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 
-public interface TraTransactionHandler<T extends TraDocumentEntity, D extends TraDetailEntity<D>> {
+public interface TraTransactionHandler<T extends TraDocumentEntity, D extends TraDetailEntity> {
 	
 	ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event);
 	DocumentCreatedEvent<T> newDocument(CreateDocumentEvent<T> event);

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface StkDetailRepository extends CrudRepository<StkDetailEntity, Long>, TraDetailRepository<StkDetailEntity> {
+public interface StkDetailRepository extends CrudRepository<StkDetailEntity, Long> {
 
 	@Query("select distinct(d) from StkDetailEntity d inner join fetch d.item i inner join fetch d.department left outer join fetch d.itemUnit u left outer join fetch d.departmentOpp left outer join fetch i.itemUnitSet where d.document.id = :documentId")
 	List<StkDetailEntity> findAllByDocumentId(@Param("documentId")Long documentId);

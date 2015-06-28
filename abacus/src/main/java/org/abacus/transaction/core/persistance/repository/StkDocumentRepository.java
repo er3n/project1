@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface StkDocumentRepository extends CrudRepository<StkDocumentEntity, Long>, TraDocumentRepository<StkDocumentEntity> {
+public interface StkDocumentRepository extends CrudRepository<StkDocumentEntity, Long> {
 
 	@Query("select d from StkDocumentEntity d inner join fetch d.organization o inner join fetch d.fiscalPeriod1 fp1 where d.id = :id")
 	StkDocumentEntity findWithFetch(@Param("id") Long id);

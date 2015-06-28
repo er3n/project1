@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface FinDetailRepository extends CrudRepository<FinDetailEntity, Long>, TraDetailRepository<FinDetailEntity> {
+public interface FinDetailRepository extends CrudRepository<FinDetailEntity, Long> {
 
 	@Query("select d from FinDetailEntity d inner join fetch d.item i where d.document.id = :documentId")
 	List<FinDetailEntity> findByDocumentId(@Param("documentId")Long documentId);

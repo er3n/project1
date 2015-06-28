@@ -4,12 +4,9 @@ import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.persistance.ReqTransactionDao;
-import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.ReqDetailRepository;
 import org.abacus.transaction.core.persistance.repository.ReqDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
-import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
-import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToCreateDocumentException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
@@ -30,6 +27,12 @@ import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
+import org.abacus.transaction.shared.event.ReadDetailEvent;
+import org.abacus.transaction.shared.event.ReadDocumentEvent;
+import org.abacus.transaction.shared.event.RequestReadDetailEvent;
+import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdateEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdatedEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,24 +49,53 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	@Autowired
 	private ReqDocumentRepository reqDocumentRepository;  
 
+	public ReqDetailRepository getReqDetailRepository() {
+		return reqDetailRepository;
+	}
+
+	public void setReqDetailRepository(ReqDetailRepository reqDetailRepository) {
+		this.reqDetailRepository = reqDetailRepository;
+	}
+
+	public ReqDocumentRepository getReqDocumentRepository() {
+		return reqDocumentRepository;
+	}
+
+	public void setReqDocumentRepository(ReqDocumentRepository reqDocumentRepository) {
+		this.reqDocumentRepository = reqDocumentRepository;
+	}
+
+	public StkDocumentRepository getStkDocumentRepository() {
+		return stkDocumentRepository;
+	}
+
+	public void setStkDocumentRepository(StkDocumentRepository stkDocumentRepository) {
+		this.stkDocumentRepository = stkDocumentRepository;
+	}
+
+	public ReqTransactionDao getReqTransactionDao() {
+		return reqTransactionDao;
+	}
+
+	public void setReqTransactionDao(ReqTransactionDao reqTransactionDao) {
+		this.reqTransactionDao = reqTransactionDao;
+	}
+
 	@Autowired
 	private StkDocumentRepository stkDocumentRepository;  
 
 	@Autowired
 	private ReqTransactionDao reqTransactionDao;
 	
-	@Override
-	protected TraTransactionDao<ReqDocumentEntity, ReqDetailEntity> getTransactionDao() {
+	protected ReqTransactionDao getTransactionDao() {
 		return reqTransactionDao;
 	}
  
-	@Override
-	protected TraDocumentRepository<ReqDocumentEntity> getDocumentRepository() {
+	protected ReqDocumentRepository getDocumentRepository() {
 		return reqDocumentRepository;
 	}
 	
-	@Override
-	protected TraDetailRepository<ReqDetailEntity> getDetailRepository() {
+	protected ReqDetailRepository getDetailRepository() {
 		return reqDetailRepository;
 	}
 	
@@ -80,7 +112,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 		}
 		
 		document.setRequestStatus(EnumList.RequestStatus.PREPARE);
-		return super.newDocumentSupport(event);
+		return newDocumentSupport(reqDocumentRepository, event);
 	}
 	
 	@Override
@@ -124,7 +156,7 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 		
 		
 		DetailCreatedEvent<ReqDetailEntity> detailCreatedEvent=null;
-		detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+		detailCreatedEvent = newDetailSupport(reqDetailRepository, detailCreateEvent);
 		return detailCreatedEvent;
 	}
 
@@ -147,6 +179,26 @@ public class ReqTransactionHandlerImpl extends TraTransactionSupport<ReqDocument
 	@Deprecated
 	public DocumentCanceledEvent<ReqDocumentEntity> cancelDocument(CancelDocumentEvent<ReqDocumentEntity> cancelDocumentEvent) throws UnableToUpdateDocumentExpception {
 		return null;
+	}
+
+	@Override
+	public ReadDocumentEvent<ReqDocumentEntity> readDocumentList(
+			RequestReadDocumentEvent<ReqDocumentEntity> event) {
+		return super.readDocumentList(reqTransactionDao, event);
+	}
+
+	@Override
+	public ReadDetailEvent<ReqDetailEntity> readDetailList(
+			RequestReadDetailEvent<ReqDetailEntity> event) {
+		List<ReqDetailEntity> detailList = reqDetailRepository.findByDocumentId(event.getDocumentId());
+		return new ReadDetailEvent<ReqDetailEntity>(detailList);
+	}
+
+	@Override
+	public TraBulkUpdatedEvent<ReqDocumentEntity, ReqDetailEntity> bulkUpdate(
+			TraBulkUpdateEvent<ReqDocumentEntity, ReqDetailEntity> bulkUpdateEvent) {
+		return super.bulkUpdate(this, bulkUpdateEvent);
 	}	
 
+	
 }

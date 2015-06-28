@@ -11,8 +11,6 @@ import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.TraTransactionDao;
-import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
-import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.entity.TraDetailEntity;
 import org.abacus.transaction.shared.entity.TraDocumentEntity;
@@ -32,46 +30,29 @@ import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.abacus.transaction.shared.holder.TraDocumentSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity>  implements TraTransactionHandler<T, D>  {
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+public abstract class TraTransactionSupport<T extends TraDocumentEntity, D extends TraDetailEntity> implements TraTransactionHandler<T, D> {
 
 	@Autowired
 	protected FiscalDao fiscalDao;
 	
-	protected abstract TraTransactionDao<T,D> getTransactionDao();
-	
-	protected abstract TraDocumentRepository<T> getDocumentRepository();
-
-	protected abstract TraDetailRepository<D> getDetailRepository();
-
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ReadDetailEvent<D> readDetailList(RequestReadDetailEvent<D> event) {
-		List<D> detailList = getDetailRepository().findByDocumentId(event.getDocumentId());
-		return new ReadDetailEvent<D>(detailList);
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ReadDetailEvent<D> readPRDetailList(RequestReadDetailEvent<D> event) {
-		return null;
-	}
-
-    @Override
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event) {
+	public ReadDocumentEvent<T> readDocumentList(TraTransactionDao<T, D> dao, RequestReadDocumentEvent<T> event) {
 		TraDocumentSearchCriteria documentSearchCriteria = event.getDocumentSearchCriteria();
 		String organizationId = event.getOrganization()==null?null:event.getOrganization().getId();
 		String fiscalYearId2 = event.getFiscalYear2()==null?null:event.getFiscalYear2().getId();
-		List<T> documentList = getTransactionDao().readTraDocument(documentSearchCriteria, organizationId, fiscalYearId2);
+		List<T> documentList = dao.readTraDocument(documentSearchCriteria, organizationId, fiscalYearId2);
 		return new ReadDocumentEvent<T>(documentList);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public DocumentCreatedEvent<T> newDocumentSupport(CreateDocumentEvent<T> event) {
+	public DocumentCreatedEvent<T> newDocumentSupport(CrudRepository<T,Long> repo, CreateDocumentEvent<T> event) {
 
 		T document = event.getDocument();
 		String user = event.getUser();
@@ -95,13 +76,13 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			document.setFiscalPeriod1(fiscalPeriod1);
 		}
 
-		document = getDocumentRepository().save(document);
-		getDocumentRepository().save(document);
+		document = repo.save(document);
+
 		return new DocumentCreatedEvent<T>(document);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public DetailCreatedEvent<D> newDetailSupport(CreateDetailEvent<D> event) throws UnableToCreateDetailException {
+	public DetailCreatedEvent<D> newDetailSupport(CrudRepository<D,Long> repo, CreateDetailEvent<D> event) throws UnableToCreateDetailException {
 		D detail = event.getDetail();
 		TraDocumentEntity document = detail.getDocument();
 		String user = event.getUser();
@@ -138,14 +119,15 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			detail.setResource(document.getTypeEnum().getTypeGroupEnum());
 		}
 		detail.createHook(user);
-		detail = getDetailRepository().save(detail);
+		
+		detail = repo.save(detail);
 		
 		return new DetailCreatedEvent<D>(detail);
 	}
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public TraBulkUpdatedEvent<T,D> bulkUpdate(TraBulkUpdateEvent<T, D> bulkUpdateEvent){
+	public TraBulkUpdatedEvent<T,D> bulkUpdate(TraTransactionHandler<T, D> handler,  TraBulkUpdateEvent<T, D> bulkUpdateEvent){
 		
 		T document = bulkUpdateEvent.getDocument();
 		List<D> detailList = bulkUpdateEvent.getDetailList();
@@ -154,10 +136,10 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 		FiscalYearEntity fiscalYear2 = bulkUpdateEvent.getFiscalYear2();
 		
 		if(document.getId() == null){
-			DocumentCreatedEvent<T> documentCreatedEvent = newDocument(new CreateDocumentEvent<T>(document, user, organization, fiscalYear2));
+			DocumentCreatedEvent<T> documentCreatedEvent = handler.newDocument(new CreateDocumentEvent<T>(document, user, organization, fiscalYear2));
 			document = documentCreatedEvent.getDocument();
 		}else{
-			DocumentUpdatedEvent<T> documentUpdatedEvent = updateDocument(new UpdateDocumentEvent<T>(document, user));
+			DocumentUpdatedEvent<T> documentUpdatedEvent = handler.updateDocument(new UpdateDocumentEvent<T>(document, user));
 			document = documentUpdatedEvent.getDocument();
 		}
 		
@@ -171,11 +153,11 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 				
 				if(detail.getEntityStatus().equals(EnumList.EntityStatus.NEW)){
 					detail.setDocument(document);
-					newDetail(new CreateDetailEvent<D>(detail, user));
+					handler.newDetail(new CreateDetailEvent<D>(detail, user));
 				}else if(detail.getEntityStatus().equals(EnumList.EntityStatus.UPDATE)){
-					updateDetail(new UpdateDetailEvent<D>(detail, user));
+					handler.updateDetail(new UpdateDetailEvent<D>(detail, user));
 				}else if(detail.getEntityStatus().equals(EnumList.EntityStatus.DELETE)){
-					deleteDetail(new DeleteDetailEvent<D>(detail));
+					handler.deleteDetail(new DeleteDetailEvent<D>(detail));
 				}			
 			}
 			
@@ -185,4 +167,8 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 	}
 
 	
+	public ReadDetailEvent<D> readPRDetailList(RequestReadDetailEvent<D> event) {
+		return null;
+	}
+
 }

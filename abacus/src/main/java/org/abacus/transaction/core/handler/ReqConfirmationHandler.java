@@ -23,5 +23,4 @@ public interface ReqConfirmationHandler {
 
 	StkDocumentEntity confirmPartialDocument(ConfirmDocumentEvent confirmDocumentEvent);
 
-
 }

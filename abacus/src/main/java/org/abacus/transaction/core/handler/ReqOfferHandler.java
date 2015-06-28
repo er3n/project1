@@ -25,5 +25,4 @@ public interface ReqOfferHandler {
 
 	List<ReqPurcVendorHolder> findChoosenVendors(Long documentId);
 
-	
 }

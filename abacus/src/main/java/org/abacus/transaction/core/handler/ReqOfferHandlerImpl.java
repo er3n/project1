@@ -121,9 +121,5 @@ public class ReqOfferHandlerImpl implements ReqOfferHandler {
 		
 		return holderList;
 	}
-
-	
-
-	
 	
 }

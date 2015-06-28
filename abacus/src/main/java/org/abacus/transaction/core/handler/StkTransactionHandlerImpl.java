@@ -9,12 +9,9 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.transaction.core.persistance.StkTransactionDao;
-import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.core.persistance.repository.StkDetailTrackRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
-import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
-import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
@@ -36,6 +33,12 @@ import org.abacus.transaction.shared.event.DocumentCanceledEvent;
 import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
+import org.abacus.transaction.shared.event.ReadDetailEvent;
+import org.abacus.transaction.shared.event.ReadDocumentEvent;
+import org.abacus.transaction.shared.event.RequestReadDetailEvent;
+import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdateEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdatedEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.BeanUtils;
@@ -59,18 +62,15 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 	@Autowired
 	private StkTransactionDao stkTransactionDao;
 	
-	@Override
-	protected TraTransactionDao<StkDocumentEntity, StkDetailEntity> getTransactionDao() {
+	protected StkTransactionDao getTransactionDao() {
 		return stkTransactionDao;
 	}
 
-	@Override
-	protected TraDocumentRepository<StkDocumentEntity> getDocumentRepository() {
+	protected StkDocumentRepository getDocumentRepository() {
 		return stkDocumentRepository;
 	}
 
-	@Override
-	protected TraDetailRepository<StkDetailEntity> getDetailRepository() {
+	protected StkDetailRepository getDetailRepository() {
 		return stkDetailRepository;
 	}
 	
@@ -118,20 +118,20 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 		
 		if(trStateDetail.equals(EnumList.TraState.INP.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+			detailCreatedEvent = super.newDetailSupport(stkDetailRepository, detailCreateEvent);
 			if (createStkTrack){
 				this.addInputDetailTrackList(detailCreatedEvent);
 			}
 		}else if(trStateDetail.equals(EnumList.TraState.OUT.value())){
 			detailCreateEvent.getDetail().setTrStateDetail(trStateDetail);
-			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+			detailCreatedEvent = super.newDetailSupport(stkDetailRepository, detailCreateEvent);
 			if (createStkTrack){
 				this.addOutputDetailTrackList(detailCreatedEvent);
 			}
 		}else{
 			//Transfer Out
 			detailCreateEvent.getDetail().setTrStateDetail(EnumList.TraState.OUT.value());
-			detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+			detailCreatedEvent = super.newDetailSupport(stkDetailRepository, detailCreateEvent);
 			if (createStkTrack){
 				this.addOutputDetailTrackList(detailCreatedEvent);
 			}
@@ -153,7 +153,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 			if (inOrg.getId().equals(outOrg.getId())){
 				//ayni organizasyon icinde transfer
 				detailCreateEvent.setDetail(inDetail);
-				detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+				detailCreatedEvent = super.newDetailSupport(stkDetailRepository, detailCreateEvent);
 				if (createStkTrack){
 					detailCreatedEvent.setDetailTrackList(outDetailTrackList);
 					this.addInputDetailTrackList(detailCreatedEvent);
@@ -176,7 +176,7 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 				inDetail.setDocument(docIn);
 				CreateDetailEvent<StkDetailEntity> detailCreateEvent2 = new CreateDetailEvent<StkDetailEntity>(inDetail, false);
 				detailCreateEvent2.setDetail(inDetail);
-				DetailCreatedEvent<StkDetailEntity> detailCreatedEvent2 = super.newDetailSupport(detailCreateEvent2);
+				DetailCreatedEvent<StkDetailEntity> detailCreatedEvent2 = super.newDetailSupport(stkDetailRepository, detailCreateEvent2);
 				if (createStkTrack){
 					detailCreatedEvent2.setDetailTrackList(outDetailTrackList);
 					this.addInputDetailTrackList(detailCreatedEvent2);
@@ -369,7 +369,60 @@ public class StkTransactionHandlerImpl extends TraTransactionSupport<StkDocument
 
 	@Override
 	public DocumentCreatedEvent<StkDocumentEntity> newDocument(CreateDocumentEvent<StkDocumentEntity> event) {
-		return super.newDocumentSupport(event);
+		return super.newDocumentSupport(stkDocumentRepository, event);
 	}
+
+	@Override
+	public ReadDocumentEvent<StkDocumentEntity> readDocumentList(
+			RequestReadDocumentEvent<StkDocumentEntity> event) {
+		return super.readDocumentList(stkTransactionDao, event);
+	}
+
+	public StkDetailRepository getStkDetailRepository() {
+		return stkDetailRepository;
+	}
+
+	public void setStkDetailRepository(StkDetailRepository stkDetailRepository) {
+		this.stkDetailRepository = stkDetailRepository;
+	}
+
+	public StkDocumentRepository getStkDocumentRepository() {
+		return stkDocumentRepository;
+	}
+
+	public void setStkDocumentRepository(StkDocumentRepository stkDocumentRepository) {
+		this.stkDocumentRepository = stkDocumentRepository;
+	}
+
+	public StkDetailTrackRepository getStkDetailTrackRepository() {
+		return stkDetailTrackRepository;
+	}
+
+	public void setStkDetailTrackRepository(
+			StkDetailTrackRepository stkDetailTrackRepository) {
+		this.stkDetailTrackRepository = stkDetailTrackRepository;
+	}
+
+	public StkTransactionDao getStkTransactionDao() {
+		return stkTransactionDao;
+	}
+
+	public void setStkTransactionDao(StkTransactionDao stkTransactionDao) {
+		this.stkTransactionDao = stkTransactionDao;
+	}
+
+	@Override
+	public ReadDetailEvent<StkDetailEntity> readDetailList(
+			RequestReadDetailEvent<StkDetailEntity> event) {
+		List<StkDetailEntity> detailList = stkDetailRepository.findByDocumentId(event.getDocumentId());
+		return new ReadDetailEvent<StkDetailEntity>(detailList);
+	}
+
+	@Override
+	public TraBulkUpdatedEvent<StkDocumentEntity, StkDetailEntity> bulkUpdate(
+			TraBulkUpdateEvent<StkDocumentEntity, StkDetailEntity> bulkUpdateEvent) {
+		return super.bulkUpdate(this, bulkUpdateEvent);
+	}
+
 	
 }

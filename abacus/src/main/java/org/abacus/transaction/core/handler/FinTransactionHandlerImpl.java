@@ -6,12 +6,9 @@ import java.util.List;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.constant.GlcConstant;
 import org.abacus.transaction.core.persistance.FinTransactionDao;
-import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
 import org.abacus.transaction.core.persistance.repository.FinDocumentRepository;
 import org.abacus.transaction.core.persistance.repository.StkDocumentRepository;
-import org.abacus.transaction.core.persistance.repository.TraDetailRepository;
-import org.abacus.transaction.core.persistance.repository.TraDocumentRepository;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
@@ -33,7 +30,11 @@ import org.abacus.transaction.shared.event.DocumentCreatedEvent;
 import org.abacus.transaction.shared.event.DocumentDeletedEvent;
 import org.abacus.transaction.shared.event.DocumentUpdatedEvent;
 import org.abacus.transaction.shared.event.ReadDetailEvent;
+import org.abacus.transaction.shared.event.ReadDocumentEvent;
 import org.abacus.transaction.shared.event.RequestReadDetailEvent;
+import org.abacus.transaction.shared.event.RequestReadDocumentEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdateEvent;
+import org.abacus.transaction.shared.event.TraBulkUpdatedEvent;
 import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,21 +54,50 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	@Autowired
 	private StkDocumentRepository stkDocumentRepository;  
 
-	@Autowired
-	private FinTransactionDao finTransactionDao;
-	
-	@Override
-	protected TraTransactionDao<FinDocumentEntity, FinDetailEntity> getTransactionDao() {
-		return finTransactionDao;
+	public FinDetailRepository getFinDetailRepository() {
+		return finDetailRepository;
 	}
 
-	@Override
-	protected TraDocumentRepository<FinDocumentEntity> getDocumentRepository() {
+	public void setFinDetailRepository(FinDetailRepository finDetailRepository) {
+		this.finDetailRepository = finDetailRepository;
+	}
+
+	public FinDocumentRepository getFinDocumentRepository() {
 		return finDocumentRepository;
 	}
 
-	@Override
-	protected TraDetailRepository<FinDetailEntity> getDetailRepository() {
+	public void setFinDocumentRepository(FinDocumentRepository finDocumentRepository) {
+		this.finDocumentRepository = finDocumentRepository;
+	}
+
+	public StkDocumentRepository getStkDocumentRepository() {
+		return stkDocumentRepository;
+	}
+
+	public void setStkDocumentRepository(StkDocumentRepository stkDocumentRepository) {
+		this.stkDocumentRepository = stkDocumentRepository;
+	}
+
+	public FinTransactionDao getFinTransactionDao() {
+		return finTransactionDao;
+	}
+
+	public void setFinTransactionDao(FinTransactionDao finTransactionDao) {
+		this.finTransactionDao = finTransactionDao;
+	}
+
+	@Autowired
+	private FinTransactionDao finTransactionDao;
+	
+	protected FinTransactionDao getTransactionDao() {
+		return finTransactionDao;
+	}
+
+	protected FinDocumentRepository getDocumentRepository() {
+		return finDocumentRepository;
+	}
+
+	protected FinDetailRepository getDetailRepository() {
 		return finDetailRepository;
 	}
 	
@@ -119,7 +149,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		}
 		setDetailGLC(detail);
 
-		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = super.newDetailSupport(detailCreateEvent);
+		DetailCreatedEvent<FinDetailEntity> detailCreatedEvent = newDetailSupport(finDetailRepository, detailCreateEvent);
 		
 		if (detailCreateEvent.getIsOppositeCreate()){
 			createAccRecord(detail.getDocument());
@@ -150,7 +180,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 				infoDet.setResource(EnumList.DefTypeGroupEnum.ACC);
 				setDetailGLC(infoDet);
 
-				super.newDetailSupport(new CreateDetailEvent<FinDetailEntity>(infoDet, false));
+				newDetailSupport(finDetailRepository, new CreateDetailEvent<FinDetailEntity>(infoDet, false));
 			}
 	}
 	
@@ -206,7 +236,7 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 	
 	@Override
 	public DocumentCreatedEvent<FinDocumentEntity> newDocument(CreateDocumentEvent<FinDocumentEntity> event) {
-		DocumentCreatedEvent<FinDocumentEntity> created = super.newDocumentSupport(event);
+		DocumentCreatedEvent<FinDocumentEntity> created = newDocumentSupport(finDocumentRepository, event);
 		FinDocumentEntity newDoc = created.getDocument();
 		finDocumentRepository.save(newDoc);
 		newDoc = finDocumentRepository.findOne(newDoc.getId());
@@ -219,4 +249,25 @@ public class FinTransactionHandlerImpl extends TraTransactionSupport<FinDocument
 		List<FinDetailEntity> prDetailList = finDetailRepository.findPRDetailList(event.getDocumentId());
 		return new ReadDetailEvent<FinDetailEntity>(prDetailList);
 	}
+
+	@Override
+	public ReadDocumentEvent<FinDocumentEntity> readDocumentList(
+			RequestReadDocumentEvent<FinDocumentEntity> event) {
+		return super.readDocumentList(finTransactionDao, event);
+	}
+
+	@Override
+	public ReadDetailEvent<FinDetailEntity> readDetailList(
+			RequestReadDetailEvent<FinDetailEntity> event) {
+		List<FinDetailEntity> detailList = finDetailRepository.findByDocumentId(event.getDocumentId());
+		return new ReadDetailEvent<FinDetailEntity>(detailList);
+	}
+
+	@Override
+	public TraBulkUpdatedEvent<FinDocumentEntity, FinDetailEntity> bulkUpdate(
+			TraBulkUpdateEvent<FinDocumentEntity, FinDetailEntity> bulkUpdateEvent) {
+		return super.bulkUpdate(this, bulkUpdateEvent);
+	}
+
+	
 }

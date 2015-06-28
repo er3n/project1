@@ -18,4 +18,5 @@ public interface TraIntegrationHandler {
 
 	StkDocumentEntity createSalesDocument(List<CatMenuEntity> holderList, DefItemEntity customer, FiscalPeriodEntity fisPeriod2, DepartmentEntity department, Date transactionDate);
 
+	
 }

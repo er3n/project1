@@ -1,5 +1,6 @@
 package org.abacus.transaction.core.handler;
 
+import org.abacus.transaction.core.persistance.TraTransactionDao;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDetailException;
 import org.abacus.transaction.shared.UnableToDeleteDocumentException;
@@ -29,18 +30,26 @@ import org.abacus.transaction.shared.event.UpdateDetailEvent;
 import org.abacus.transaction.shared.event.UpdateDocumentEvent;
 
 public interface TraTransactionHandler<T extends TraDocumentEntity, D extends TraDetailEntity> {
-	
+
+
 	ReadDocumentEvent<T> readDocumentList(RequestReadDocumentEvent<T> event);
+	ReadDocumentEvent<T> readDocumentList(TraTransactionDao<T, D> dao, RequestReadDocumentEvent<T> event);
+
 	DocumentCreatedEvent<T> newDocument(CreateDocumentEvent<T> event);
 	DocumentUpdatedEvent<T> updateDocument(UpdateDocumentEvent<T> event) throws UnableToUpdateDocumentExpception;
 	DocumentDeletedEvent<T> deleteDocument(DeleteDocumentEvent<T> event) throws UnableToDeleteDocumentException;
 	DocumentCanceledEvent<T> cancelDocument(CancelDocumentEvent<T> cancelDocumentEvent) throws UnableToUpdateDocumentExpception;
 	
-	ReadDetailEvent<D> readDetailList(RequestReadDetailEvent<D> event);
+
 	DetailCreatedEvent<D> newDetail(CreateDetailEvent<D> event) throws UnableToCreateDetailException;
 	DetailUpdatedEvent<D> updateDetail(UpdateDetailEvent<D> event) throws UnableToUpdateDetailException;
 	DetailDeletedEvent<D> deleteDetail(DeleteDetailEvent<D> event) throws UnableToDeleteDetailException;
-	TraBulkUpdatedEvent<T,D> bulkUpdate(TraBulkUpdateEvent<T, D> bulkUpdateEvent); 
+
+	ReadDetailEvent<D> readDetailList(RequestReadDetailEvent<D> event);
 	ReadDetailEvent<D> readPRDetailList(RequestReadDetailEvent<D> event);
+
+	TraBulkUpdatedEvent<T,D> bulkUpdate(TraBulkUpdateEvent<T, D> bulkUpdateEvent); 
+	TraBulkUpdatedEvent<T,D> bulkUpdate(TraTransactionHandler<T, D> handler, TraBulkUpdateEvent<T, D> bulkUpdateEvent); 
+
 	
 }

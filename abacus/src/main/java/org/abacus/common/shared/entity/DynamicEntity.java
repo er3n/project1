@@ -13,8 +13,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @SuppressWarnings("serial")
 @MappedSuperclass

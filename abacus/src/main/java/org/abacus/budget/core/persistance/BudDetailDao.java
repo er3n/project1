@@ -6,12 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.abacus.budget.core.handler.BudgetHandler;
-import org.abacus.budget.core.persistance.repository.BudDetailRepository;
-import org.abacus.budget.core.persistance.repository.BudDocumentRepository;
 import org.abacus.budget.shared.entity.BudDetailEntity;
-import org.abacus.budget.shared.entity.BudDocumentEntity;
-import org.abacus.budget.shared.holder.BudgetHolder;
 import org.abacus.common.web.AbcUtility;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
@@ -22,7 +17,6 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.BigDecimalType;
 import org.hibernate.type.DateType;
 import org.hibernate.type.StringType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

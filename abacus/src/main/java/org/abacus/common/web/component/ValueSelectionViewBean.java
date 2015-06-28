@@ -15,7 +15,6 @@ import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefValueHandler;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
-import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @SuppressWarnings("serial")
 @ManagedBean

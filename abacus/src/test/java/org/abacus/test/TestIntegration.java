@@ -1,6 +1,5 @@
 package org.abacus.test;
 
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.handler.TraIntegrationHandler;
 import org.abacus.transaction.shared.UnableToCreateDetailException;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;

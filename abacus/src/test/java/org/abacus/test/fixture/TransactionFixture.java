@@ -12,7 +12,6 @@ import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefTaskEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.organization.core.persistance.repository.DepartmentRepository;
-import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.DepartmentEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;

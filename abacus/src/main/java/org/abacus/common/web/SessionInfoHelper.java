@@ -10,7 +10,6 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 
 import org.abacus.common.security.SecUser;
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.repository.FiscalPeriodRepository;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.core.util.OrganizationUtils;
@@ -20,7 +19,6 @@ import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;

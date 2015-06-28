@@ -13,8 +13,6 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
-import org.abacus.transaction.core.persistance.StkTransactionDao;
-import org.abacus.transaction.core.persistance.repository.StkDetailRepository;
 import org.abacus.transaction.shared.entity.StkDetailEntity;
 import org.abacus.transaction.shared.entity.StkDocumentEntity;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
@@ -32,12 +30,6 @@ public class DocumentStkSelectionViewBean implements Serializable {
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
 	
-	@ManagedProperty(value = "#{stkTransactionDao}")
-	private StkTransactionDao stkTransactionDao;
-	
-	@ManagedProperty(value = "#{stkDetailRepository}")
-	private StkDetailRepository stkDetailRepository;
-	
 	private Map<String, List<StkDocumentEntity>> resultMap = new HashMap<>();
 	
 	@PostConstruct
@@ -53,7 +45,7 @@ public class DocumentStkSelectionViewBean implements Serializable {
 			TraDocumentSearchCriteria documentSearchCriteria = new TraDocumentSearchCriteria();
 			documentSearchCriteria.setDocType(typeEnum);
 
-			ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(stkTransactionDao, new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
+			ReadDocumentEvent<StkDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<StkDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 			List<StkDocumentEntity> documentSearchResultList = readDocumentEvent.getDocumentList();
 			resultMap.put(key, documentSearchResultList);
 			return documentSearchResultList;

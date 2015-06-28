@@ -2,7 +2,6 @@ package org.abacus.report.core.persistance;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,15 +18,11 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.internal.TypeLocatorImpl;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.BigDecimalType;
 import org.hibernate.type.DateType;
-import org.hibernate.type.EnumType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
-import org.hibernate.type.Type;
-import org.hibernate.type.TypeResolver;
 import org.springframework.stereotype.Service;
 
 

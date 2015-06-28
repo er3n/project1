@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.persistence.EnumType;
 
 import org.abacus.budget.core.handler.BudgetHandler;
 import org.abacus.catering.core.handler.CatMenuHandler;

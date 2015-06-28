@@ -1,7 +1,6 @@
 package org.abacus.user.core.handler;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;

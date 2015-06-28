@@ -2,7 +2,6 @@ package org.abacus.definition.web;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 

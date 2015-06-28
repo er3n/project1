@@ -14,6 +14,8 @@ import javax.faces.bean.ViewScoped;
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.transaction.core.handler.TraTransactionHandler;
+import org.abacus.transaction.core.persistance.FinTransactionDao;
+import org.abacus.transaction.core.persistance.repository.FinDetailRepository;
 import org.abacus.transaction.shared.entity.FinDetailEntity;
 import org.abacus.transaction.shared.entity.FinDocumentEntity;
 import org.abacus.transaction.shared.event.ReadDocumentEvent;
@@ -30,6 +32,12 @@ public class DocumentFinSelectionViewBean implements Serializable {
 	
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
+	
+	@ManagedProperty(value = "#{finTransactionDao}")
+	private FinTransactionDao finTransactionDao;
+	
+	@ManagedProperty(value = "#{finDetailRepository}")
+	private FinDetailRepository finDetailRepository;
 	
 	private Map<String, List<FinDocumentEntity>> resultMap = new HashMap<>();
 	
@@ -50,7 +58,7 @@ public class DocumentFinSelectionViewBean implements Serializable {
 			TraDocumentSearchCriteria documentSearchCriteria = new TraDocumentSearchCriteria();
 			documentSearchCriteria.setDocType(typeEnum);
 
-			ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(new RequestReadDocumentEvent<FinDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
+			ReadDocumentEvent<FinDocumentEntity> readDocumentEvent = transactionHandler.readDocumentList(finTransactionDao, new RequestReadDocumentEvent<FinDocumentEntity>(documentSearchCriteria, sessionInfoHelper.currentOrganization(), sessionInfoHelper.currentFiscalYear()));
 			List<FinDocumentEntity> documentSearchResultList = readDocumentEvent.getDocumentList();
 			resultMap.put(key, documentSearchResultList);
 			return documentSearchResultList;

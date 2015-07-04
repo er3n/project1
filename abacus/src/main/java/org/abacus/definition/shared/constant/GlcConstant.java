@@ -68,7 +68,7 @@ public class GlcConstant {
 			//Receipt
 			new FinHolder(DefTypeEnum.FIN_R , DefTypeEnum.ITM_CS, TraState.INP, AccountGLC.GLC_A),
 			new FinHolder(DefTypeEnum.FIN_R , DefTypeEnum.ITM_CM_CU, TraState.OUT, AccountGLC.GLC_A),
-			new FinHolder(DefTypeEnum.FIN_S , DefTypeEnum.ITM____CU, TraState.INP, AccountGLC.GLC_L),
+            new FinHolder(DefTypeEnum.FIN_R , DefTypeEnum.ITM____CU, TraState.OUT, AccountGLC.GLC_L),
 			//Stock Cost
 			new FinHolder(DefTypeEnum.FIN_J_SC , DefTypeEnum.ITM_SR_ST, TraState.OUT, AccountGLC.GLC_A),
 			new FinHolder(DefTypeEnum.FIN_J_SC , DefTypeEnum.ITM_SR_ST, TraState.INP, AccountGLC.GLC_X),
@@ -89,6 +89,30 @@ public class GlcConstant {
 		}
 	}
 }
+
+
+
+//FIN TASK Definition;			Document;		Detail;
+
+//Satis
+//"FIN_S";"Satış Fatura";		"ITM_CM_CU";	"ITM_SR"
+
+//Alis
+//"FIN_B";"Alış Fatura";		"ITM_CM_VE";	"ITM_SR"
+
+//Odeme
+//"FIN_P";"Masraf Giriş";		"ITM_CS";		"ITM_SR_FN"
+//"FIN_P";"Personel Maaş";		"ITM_CS";		"ITM_CM_PE"
+//"FIN_P";"Satıcıya Avans";		"ITM_CS";		"ITM_CM_VE"
+
+//Tahsilat
+//"FIN_R";"Fatura Tahsilat";	"ITM_CS";		"ITM____CU"
+//"FIN_R";"Müşteriden Avans";	"ITM_CS";		"ITM_CM_CU"
+
+//Mahsup
+//"FIN_J_SC";"Stok Maliyet";	"ITM_SR_ST";	"ITM_SR_ST"
+
+
 
 //VALUES('' ,'FIN.INV.SLS' ,'ACC.CACC' ,1 ,'GLC.A.CUST.SLS' );
 //VALUES('' ,'FIN.TR.ALC.REC.I' ,'ACC.CACC' ,-1 ,'GLC.A.CUST.SLS' );

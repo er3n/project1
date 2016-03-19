@@ -197,9 +197,8 @@ public class ItemViewBean implements Serializable {
 		selectedItem = new DefItemEntity();
 		selectedItem.setOrganization(rootOrganization);
 		selectedItem.setType(new DefTypeEntity(type.name()));
-		selectedItem.setItemClass(clazz);
-		selectedItem.setCategory(new DefValueEntity());
-
+		//selectedItem.setItemClass(clazz);
+		//selectedItem.setCategory(new DefValueEntity());
 		this.itemChange();
 
 		this.unitGroupSelected();

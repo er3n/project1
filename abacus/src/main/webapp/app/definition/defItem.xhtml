@@ -35,6 +35,10 @@
 					<h:outputText value="#{item.category.name}" />
 				</p:column>
 
+				<p:column headerText="Özel">
+					<h:outputText value="#{item.organization == null  ? '' : '**'}" />
+				</p:column>
+			
 				<p:column headerText="Durum" filterBy="#{item.active}" style="width:180px">
 					<f:facet name="filter">
 						<p:selectOneButton onchange="PF('itemsTable').filter()">
@@ -65,7 +69,7 @@
 					<h:outputLabel value="Kod" for="itemCode" />
 					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" required="true" requiredMessage="Kod bos olamaz" />
 
-					<h:outputLabel value="Ad" for="itemName" />
+					<h:outputLabel value="Adı" for="itemName" />
 					<p:inputText id="itemName" value="#{itemViewBean.selectedItem.name}" required="true" requiredMessage="Ad bos olamaz" />
 
 					<h:outputLabel value="Durum" for="itemStatus" />
@@ -74,10 +78,10 @@
 						<f:selectItem itemLabel="Aktif" itemValue="true" />
 						<f:selectItem itemLabel="Pasif" itemValue="false" />
 					</p:selectOneButton>
-
+					
 					<h:outputLabel value="Kategori"/>
 					<h:panelGrid columns="3">
-						<abc:treeSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{itemViewBean.selectedItem.category}" required="true" />
+						<abc:treeSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{itemViewBean.selectedItem.category}" required="false" />
 					</h:panelGrid>
 
 					<h:outputLabel value="Birim Grubu" for="itemUnit" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_SR_ST}" />

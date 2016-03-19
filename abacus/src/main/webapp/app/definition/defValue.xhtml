@@ -40,7 +40,7 @@
 						resizableColumns="true" style="width:100%">
 						<p:ajax event="select"
 							listener="#{defValueViewBean.valueSelectListener}" update=":valForm" />
-						<f:facet name="header">valTree</f:facet>
+						<f:facet name="header">Hiyerarşik Kodlar</f:facet>
 						<p:column style="width:30px">
 							<f:facet name="header">Kod</f:facet>
 							<h:outputText value="#{defValDTO.code}" />
@@ -52,6 +52,10 @@
 						<p:column style="width:30px">
 							<f:facet name="header">Durum</f:facet>
 							<h:outputText value="#{defValDTO.active?'Aktif':'Pasif'}" />
+						</p:column>
+						<p:column style="width:30px">
+							<f:facet name="header">Özel</f:facet>
+							<h:outputText value="#{defValDTO.organization == null  ? '' : '**'}" />
 						</p:column>
 					</p:treeTable>
 

@@ -28,9 +28,9 @@ public interface EnumList {
 	}
 
 	enum OrgOrganizationLevelEnum implements ISelectionEnum {
-		L0("Holding"), //
-		L1("Şirket"), //
-		L2("Proje"), //
+		L0("IL"), //
+		L1("ILCE"), //
+		L2("OKUL"), //
 		;
 		private String description;
 

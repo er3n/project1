@@ -164,11 +164,13 @@ public class UserEventHandler implements UserService{
 		
 		List<SecUserGroupEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
-			SecUserGroupEntity membership = new SecUserGroupEntity();
-			membership.setUser(updatingUser);
-			membership.setGroup(group);
-			membership.updateHook(userUpdated);
-			memberships.add(membership);
+			if (group.getId().longValue()>1){//Zystem Eklenemesin
+				SecUserGroupEntity membership = new SecUserGroupEntity();
+				membership.setUser(updatingUser);
+				membership.setGroup(group);
+				membership.updateHook(userUpdated);
+				memberships.add(membership);	
+			}
 		}
 		
 		userGroupRepository.save(memberships);
@@ -186,7 +188,7 @@ public class UserEventHandler implements UserService{
 		if(StringUtils.hasText(event.getUsername())){
 			groupList =userRepository.findUserGroups(event.getUsername());
 		}else{
-			groupList = groupRepository.findAllOrderByName();
+			groupList = groupRepository.findAllNormal();
 		}
 		ReadGroupsEvent readEvent = new ReadGroupsEvent(groupList);
 		return readEvent;

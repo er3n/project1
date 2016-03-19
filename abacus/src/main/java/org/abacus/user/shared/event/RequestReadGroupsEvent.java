@@ -5,13 +5,20 @@ import org.abacus.common.shared.event.RequestReadEvent;
 public class RequestReadGroupsEvent extends RequestReadEvent {
 
 	private String username;
+	private Boolean isRoot;
 
-	public RequestReadGroupsEvent() {
+	public RequestReadGroupsEvent(String username, Boolean isRoot) {
 		super();
+		this.username = username;
+		this.isRoot = isRoot;
 	}
 
-	public RequestReadGroupsEvent(String username) {
-		this.username = username;
+	public Boolean getIsRoot() {
+		return isRoot;
+	}
+
+	public void setIsRoot(Boolean isRoot) {
+		this.isRoot = isRoot;
 	}
 
 	public String getUsername() {

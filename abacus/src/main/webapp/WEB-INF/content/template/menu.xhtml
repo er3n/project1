@@ -5,10 +5,10 @@
 <h:form >  
 	<p:menubar styleClass="menuStyle"  >
 		<p:submenu label="Sistem Yönetim" rendered="#{sec:areAnyGranted('AUTH_0000')}">
-			<p:menuitem value="Organizasyon-Holding" url="/app/organization/organizationRoot.abc" rendered="#{sec:areAnyGranted('AUTH_9999')}" />
-			<p:menuitem value="Organizasyon-Departman" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_0001')}" />
-			<p:menuitem value="Organizasyon-Dönem" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_0002')}" />
-			<p:menuitem value="Proje Menu Bilgileri" url="/app/catering/catmenuinfo.abc" rendered="#{sec:areAnyGranted('AUTH_0003')}" />
+			<p:menuitem value="IL Tanım" url="/app/organization/organizationRoot.abc" rendered="#{sec:areAnyGranted('AUTH_9999')}" />
+			<p:menuitem value="ILCE Tanım" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_0001')}" />
+			<p:menuitem value="Okul Tanım" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_0002')}" />
+			<p:menuitem value="EÖ.Yılı Tanım" url="/app/catering/catmenuinfo.abc" rendered="#{sec:areAnyGranted('AUTH_0003')}" />
 			<p:separator/>
 			<p:menuitem value="Kullanici Gruplari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_0004')}" />			
 			<p:menuitem value="Kullanici Tanimi" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_0005')}"/>
@@ -34,10 +34,10 @@
 			<p:menuitem value="Nakit Hesapları" url="/app/definition/defItem.abc?type=ITM_CS" rendered="#{sec:areAnyGranted('AUTH_0018')}" />   
 		</p:submenu>
 
-		<p:submenu label="Menu Tanım" rendered="#{sec:areAnyGranted('AUTH_0019')}">
+		<p:submenu label="Ders Planı" rendered="#{sec:areAnyGranted('AUTH_0019')}">
 			<p:menuitem value="Malzeme Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_M" rendered="#{sec:areAnyGranted('AUTH_0020')}" />   
 			<p:menuitem value="Yemek/Ürün Tanimlari" url="/app/definition/defItem.abc?type=ITM_SR_ST&amp;class=STK_P" rendered="#{sec:areAnyGranted('AUTH_0021')}" />
-			<p:menuitem value="Menu Tanimlari" url="/app/catering/catmenu.abc" rendered="#{sec:areAnyGranted('AUTH_0022')}" />
+			<p:menuitem value="Devam Takip" url="/app/catering/catmenu.abc" rendered="#{sec:areAnyGranted('AUTH_0022')}" />
 		</p:submenu>
 
 		<p:submenu label="Stok" rendered="#{sec:areAnyGranted('AUTH_0023')}">
@@ -77,11 +77,11 @@
 			<p:menuitem value="Hesap Durum Sorgula" url="/app/report/queryFinState.abc" rendered="#{sec:areAnyGranted('AUTH_0045')}" />
 			<p:menuitem value="Hesap Hareket Sorgula" url="/app/report/queryFinDetail.abc" rendered="#{sec:areAnyGranted('AUTH_0046')}" />
 			<p:separator/>
-			<p:menuitem value="Yazıcı Raporları" url="/app/report/reportForm.abc" rendered="#{sec:areAnyGranted('AUTH_0047')}" />
+			<p:menuitem value="Raporlar" url="/app/report/reportForm.abc" rendered="#{sec:areAnyGranted('AUTH_0047')}" />
 			<p:separator/>
 			<p:menuitem value="Stok Pivot" url="/app/report/pivotStk.abc" rendered="#{sec:areAnyGranted('AUTH_0048')}" />
 			<p:menuitem value="Finans Pivot" url="/app/report/pivotFin.abc" rendered="#{sec:areAnyGranted('AUTH_0049')}" />
-			<p:menuitem value="Bütçe Pivot" url="/app/report/pivotBudget.abc" rendered="#{sec:areAnyGranted('AUTH_0050')}" />
+			<p:menuitem value="Bütçe" url="/app/report/pivotBudget.abc" rendered="#{sec:areAnyGranted('AUTH_0050')}" />
 		</p:submenu>
 
 

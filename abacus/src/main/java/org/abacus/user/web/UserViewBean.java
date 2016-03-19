@@ -65,8 +65,7 @@ public class UserViewBean implements Serializable {
 		selectedUser = new SecUserEntity();
 		userSearchResults = null;
 		this.clear();
-		RequestReadGroupsEvent event = new RequestReadGroupsEvent();
-		ReadGroupsEvent allGroupsEvent = userService.requestGroup(event);
+		ReadGroupsEvent allGroupsEvent = userService.requestGroup(new RequestReadGroupsEvent(sessionInfoHelper.currentUserName(), sessionInfoHelper.isRootUser()));
 		allGroups = allGroupsEvent.getGroupList();
 
 		ReadOrganizationsEvent allOrganizationsEvent = userService.requestOrganization(new RequestReadOrganizationsEvent(null, sessionInfoHelper.currentOrganization()));
@@ -154,7 +153,7 @@ public class UserViewBean implements Serializable {
 		List<SecGroupEntity> sourceUserGroups = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
-			ReadGroupsEvent readUserGroupsEvent = userService.requestGroup(new RequestReadGroupsEvent(selectedUserName));
+			ReadGroupsEvent readUserGroupsEvent = userService.requestGroup(new RequestReadGroupsEvent(selectedUserName, false));
 			targetUserGroups = readUserGroupsEvent.getGroupList();
 
 			for (SecGroupEntity groupEntity : allGroups) {

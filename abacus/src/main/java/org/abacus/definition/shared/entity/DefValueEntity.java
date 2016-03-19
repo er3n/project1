@@ -39,7 +39,7 @@ public class DefValueEntity extends DynamicEntity {
 	private Boolean active = true;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "organization_id", nullable = false)
+	@JoinColumn(name = "organization_id", nullable = true)
 	private OrganizationEntity organization;
 	
 	public DefValueEntity(){

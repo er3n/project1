@@ -10,8 +10,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface GroupRepository extends CrudRepository<SecGroupEntity, Long> {
 	                      
+	@Query("select g from SecGroupEntity g where g.id>1 order by name")
+	List<SecGroupEntity> findAllNormal();//id>1:Zystem haric
+
 	@Query("select g from SecGroupEntity g order by name")
-	List<SecGroupEntity> findAllOrderByName();
+	List<SecGroupEntity> findAllRoot();
 
 	@Query("select a from SecGroupAuthorityEntity ga, SecAuthorityEntity a where a.id = ga.authority.id and ga.group.id = :groupId order by a.code")
 	List<SecAuthorityEntity> findGroupAuthorities(@Param("groupId") Long groupId);

@@ -1,0 +1,4 @@
+Default Pass
+------------
+admin 		admin**
+adminXX 	admin

@@ -10,7 +10,7 @@ import org.abacus.user.shared.entity.SecGroupEntity;
 
 public interface SecGroupHandler extends Serializable{
 	
-	List<SecGroupEntity> allGroups();
+	List<SecGroupEntity> allGroups(Boolean isRoot);
 
 	List<SecAuthorityEntity> allAuthorities();
 	

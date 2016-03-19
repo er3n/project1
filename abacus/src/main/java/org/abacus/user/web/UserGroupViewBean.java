@@ -118,7 +118,7 @@ public class UserGroupViewBean implements Serializable {
 	}
 
 	public DynamicEntityDataModel<SecGroupEntity> findAllGroups() {
-		ReadGroupsEvent allGroups = userService.requestGroup(new RequestReadGroupsEvent());
+		ReadGroupsEvent allGroups = userService.requestGroup(new RequestReadGroupsEvent(sessionInfoHelper.currentUserName(), sessionInfoHelper.isRootUser()));
 		List<SecGroupEntity> groupList = allGroups.getGroupList();
 		DynamicEntityDataModel<SecGroupEntity> dataModel = new DynamicEntityDataModel<SecGroupEntity>(groupList);
 		return dataModel;

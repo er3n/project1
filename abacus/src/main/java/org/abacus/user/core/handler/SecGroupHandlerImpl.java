@@ -43,8 +43,13 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 	
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	public List<SecGroupEntity> allGroups() {
-		List<SecGroupEntity> groupList = groupRepository.findAllOrderByName();
+	public List<SecGroupEntity> allGroups(Boolean isRoot) {
+		List<SecGroupEntity> groupList;
+		if (isRoot) {
+			groupList = groupRepository.findAllRoot();				
+		} else {
+			groupList = groupRepository.findAllNormal();
+		}
 		return groupList;
 	}
 

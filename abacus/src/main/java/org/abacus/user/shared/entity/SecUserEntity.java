@@ -51,7 +51,10 @@ public class SecUserEntity extends StaticEntity {
 	}
 	
 	public Boolean isRootUser(){
-		return organizationRoot==null;
+		if (getId().equals("root")){
+			return true;			
+		} 
+		return false;
 	}
 	
 	public String getPassword() {

@@ -36,10 +36,6 @@ public class SecUserEntity extends StaticEntity {
 	@Fetch(FetchMode.SELECT)
 	private Set<SecUserGroupEntity> userGroupList;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "vendor_id", nullable = true)
-	private DefItemEntity vendor;
-
 	@Column(name = "organization_root", nullable = true, length=2)
 	private String organizationRoot;
 
@@ -51,7 +47,7 @@ public class SecUserEntity extends StaticEntity {
 	}
 	
 	public Boolean isRootUser(){
-		if (getId().equals("root")){
+		if (getOrganizationRoot()==null){
 			return true;			
 		} 
 		return false;
@@ -87,14 +83,6 @@ public class SecUserEntity extends StaticEntity {
 
 	public void setUserGroupList(Set<SecUserGroupEntity> sertGroupList) {
 		this.userGroupList = sertGroupList;
-	}
-
-	public DefItemEntity getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(DefItemEntity vendor) {
-		this.vendor = vendor;
 	}
 
 	public String getOrganizationRoot() {

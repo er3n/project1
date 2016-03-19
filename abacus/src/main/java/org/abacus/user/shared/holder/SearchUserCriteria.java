@@ -10,7 +10,7 @@ import org.abacus.user.shared.entity.SecUserEntity;
 
 public class SearchUserCriteria implements Serializable {
 
-	private boolean isRootUser;
+	private Boolean isRootUser;
 	private SecUserEntity user;
 	private List<SecGroupEntity> groupList;
 	private OrganizationEntity organization;
@@ -52,11 +52,11 @@ public class SearchUserCriteria implements Serializable {
 		this.hierarchy = hierarchy;
 	}
 
-	public boolean getIsRootUser() {
+	public Boolean getIsRootUser() {
 		return isRootUser;
 	}
 
-	public void setIsRootUser(boolean isRootUser) {
+	public void setIsRootUser(Boolean isRootUser) {
 		this.isRootUser = isRootUser;
 	}
 

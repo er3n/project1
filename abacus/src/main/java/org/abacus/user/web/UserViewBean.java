@@ -65,7 +65,7 @@ public class UserViewBean implements Serializable {
 		selectedUser = new SecUserEntity();
 		userSearchResults = null;
 		this.clear();
-		ReadGroupsEvent allGroupsEvent = userService.requestGroup(new RequestReadGroupsEvent(sessionInfoHelper.currentUserName(), sessionInfoHelper.isRootUser()));
+		ReadGroupsEvent allGroupsEvent = userService.requestGroupShow(new RequestReadGroupsEvent(sessionInfoHelper.currentUserName(), sessionInfoHelper.isRootUser()));
 		allGroups = allGroupsEvent.getGroupList();
 
 		ReadOrganizationsEvent allOrganizationsEvent = userService.requestOrganization(new RequestReadOrganizationsEvent(null, sessionInfoHelper.currentOrganization()));
@@ -112,8 +112,15 @@ public class UserViewBean implements Serializable {
 	public void findUser() {
 		searchUserCriteria.setHierarchy(EnumList.Hierachy.CHILD);
 		searchUserCriteria.setIsRootUser(sessionInfoHelper.isRootUser());
+		SearchUserCriteria searchUserCriteriaSession =  new SearchUserCriteria();
+		searchUserCriteriaSession.setUser(new SecUserEntity(sessionInfoHelper.currentUserName()));
 		ReadUserEvent readUserEvent = userService.requestUser(new RequestReadUserEvent(searchUserCriteria));
+		ReadUserEvent readUserEventSession = userService.requestUser(new RequestReadUserEvent(searchUserCriteriaSession));
 		userSearchResults = readUserEvent.getUserEntityList();
+		SecUserEntity userSession = readUserEventSession.getUserEntityList().get(0);
+		if (!userSearchResults.contains(userSession)){
+			userSearchResults.add(userSession);	
+		}
 	}
 
 	public DualListModel<OrganizationEntity> selectedUserOrganization() {
@@ -153,7 +160,7 @@ public class UserViewBean implements Serializable {
 		List<SecGroupEntity> sourceUserGroups = new ArrayList<>();
 
 		if (StringUtils.hasText(selectedUserName)) {
-			ReadGroupsEvent readUserGroupsEvent = userService.requestGroup(new RequestReadGroupsEvent(selectedUserName, false));
+			ReadGroupsEvent readUserGroupsEvent = userService.requestGroupShow(new RequestReadGroupsEvent(selectedUserName, false));
 			targetUserGroups = readUserGroupsEvent.getGroupList();
 
 			for (SecGroupEntity groupEntity : allGroups) {

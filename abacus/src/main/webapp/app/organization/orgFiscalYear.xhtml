@@ -15,7 +15,7 @@
 	<!-- orgFiscal -->
 	<h:panelGrid id="fiscalGrid" columns="1">
 		<h:form id="orgDetailForm">
-			<p:panel id="fiscalPanel" header="Şiket Çalışma Dönemleri / Müşteri Projeleri">
+			<p:panel id="fiscalPanel" header="Eğitim Öğretim Yılları">
 				<h:panelGrid id="fiscalGrid2" columns="8" cellpadding="2">
  
 					<h:outputLabel value="Adı : " />
@@ -30,9 +30,6 @@
 					<h:outputLabel value="Bitiş : " />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" required="true"
 						value="#{orgFiscalViewBean.selFiscalYear.dateFinish}" />
-
-					<h:outputLabel value="Kâr Oranı: " />
-					<pe:inputNumber decimalPlaces="2" style="text-align: right; width:100%" value="#{orgFiscalViewBean.selFiscalYear.profitRate}" maxlength="3"/>
 
 				</h:panelGrid>
 				
@@ -80,12 +77,6 @@
 
 				<p:column headerText="Bitiş" style="width:150px">  
            			#{selFiscalYear.dateFinish}  
-       			</p:column>
-
-				<p:column headerText="Kâr" style="width:100px; text-align:right" >  
-           			<h:outputText value="#{selFiscalYear.profitRate}">
-						<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
-					</h:outputText>
        			</p:column>
 
 				<p:column headerText="ID" style="width:160px">  

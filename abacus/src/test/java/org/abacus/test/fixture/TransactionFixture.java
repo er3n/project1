@@ -50,7 +50,8 @@ public class TransactionFixture {
 
 	private void enrichDetail(StkDetailEntity detail, TraDocumentEntity document, String user, BigDecimal itemDetailCount) {
 
-		DepartmentEntity department = departmentRepository.findByOrganizationAndGroup(document.getOrganization().getId(), EnumList.OrgDepartmentGroupEnum.S).get(0);
+		//DepartmentEntity department = departmentRepository.findByOrganizationAndGroup(document.getOrganization().getId(), EnumList.OrgDepartmentGroupEnum.S).get(0);
+		DepartmentEntity department = null;
 		detail.setDepartment(department);
 
 		detail.setDocument(document);
@@ -93,7 +94,8 @@ public class TransactionFixture {
 		
 		StkDetailEntity stkDetailEntity = (StkDetailEntity)createDetailEvent.getDetail();
 		
-		DepartmentEntity departmentOpp = departmentRepository.findByOrganizationAndGroup(transferDocument.getOrganization().getId(), EnumList.OrgDepartmentGroupEnum.S).get(1);
+		//DepartmentEntity departmentOpp = departmentRepository.findByOrganizationAndGroup(transferDocument.getOrganization().getId(), EnumList.OrgDepartmentGroupEnum.S).get(1);
+		DepartmentEntity departmentOpp = null;
 		stkDetailEntity.setDepartmentOpp(departmentOpp);
 		
 		return createDetailEvent;

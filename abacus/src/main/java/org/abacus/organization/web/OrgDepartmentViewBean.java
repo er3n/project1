@@ -46,7 +46,7 @@ public class OrgDepartmentViewBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		selectedGroupEnum = EnumList.OrgDepartmentGroupEnum.S;
+		selectedGroupEnum = EnumList.OrgDepartmentGroupEnum.F;
 		createDepartment();
 	}
 
@@ -68,11 +68,14 @@ public class OrgDepartmentViewBean implements Serializable {
 			jsfMessageHelper.addInfo("levelL0NotAvailable");
 			return;
 		}
-		
+		if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L1)) {
+			jsfMessageHelper.addInfo("levelL1NotAvailable");
+			return;
+		}
 		if (selDepartment.isNew()) {
-			jsfMessageHelper.addInfo("createSuccessful","Depo/Ofis");
+			jsfMessageHelper.addInfo("createSuccessful","Birim");
 		} else {
-			jsfMessageHelper.addInfo("updateSuccessful","Depo/Ofis");
+			jsfMessageHelper.addInfo("updateSuccessful","Birim");
 		}
 		departmentService.saveDepartmentEntity(selDepartment);
 		findOrganizationDepartment();
@@ -81,7 +84,7 @@ public class OrgDepartmentViewBean implements Serializable {
 	public void deleteDepartment() {
 		if (!selDepartment.isNew()) {
 			departmentService.deleteDepartmentEntity(selDepartment);
-			jsfMessageHelper.addInfo("deleteSuccessful","Depo/Ofis");
+			jsfMessageHelper.addInfo("deleteSuccessful","Birim");
 		}
 		findOrganizationDepartment();
 	}

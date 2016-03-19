@@ -35,14 +35,11 @@ insert into org_organization (id, name, level_enum, parent_id) values ('72.06.01
 
 insert into sec_authority (id, code, name) values ('AUTH_ANY','0','Genel');
 insert into sec_authority (id, code, name) values ('AUTH_0000','1','Sistem Yönetimi');
-insert into sec_authority (id, code, name) values ('AUTH_9999','1.01','İl Tanımları');
-insert into sec_authority (id, code, name) values ('AUTH_0001','1.02','İlçe Tanımları');
-insert into sec_authority (id, code, name) values ('AUTH_0002','1.03','Okul Tanımları');
-insert into sec_authority (id, code, name) values ('AUTH_0003','1.04','EÖ.Yılı Tanım');
+insert into sec_authority (id, code, name) values ('AUTH_0002','1.03','Okul EÖ.Yılı');
+insert into sec_authority (id, code, name) values ('AUTH_0003','1.04','Ders Tipleri');
 insert into sec_authority (id, code, name) values ('AUTH_0004','1.05','Kullanıcı Grupları');
 insert into sec_authority (id, code, name) values ('AUTH_0005','1.06','Kullanıcı Tanımı');
 insert into sec_authority (id, code, name) values ('AUTH_0006','1.07','Kodlama Tanımları');
-insert into sec_authority (id, code, name) values ('AUTH_0010','1.11','Parametre Tanımları');
 insert into sec_authority (id, code, name) values ('AUTH_0051','1.12','Aktif Kullanıcılar');
 
 insert into sec_authority (id, code, name) values ('AUTH_0011','2','Hesap Tanım');
@@ -66,11 +63,11 @@ insert into sec_group (id, name, version) values (nextval('seq_id'), 'PERSONEL',
 
 insert into sec_group_authority (id, group_id, authority_id, version) select nextval('seq_id'), 1, sa.id, 0 from sec_authority sa;
 
-insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('root', 	1, 'e977f5da70f10ce715d33d6b7c8d4e65', null, null);
-insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('admin', 	1, '01e529ff116bfb1dca9914fe9c45ea8f', null, null);
-insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('admin00', 1, '21232f297a57a5a743894a0e4a801fc3', '00', null);
-insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('admin43', 1, '21232f297a57a5a743894a0e4a801fc3', '43', null);
-insert into sec_user( id, is_active, password, organization_root, vendor_id) values ('admin72', 1, '21232f297a57a5a743894a0e4a801fc3', '72', null);
+insert into sec_user( id, is_active, password, organization_root) values ('root', 	1, 'e977f5da70f10ce715d33d6b7c8d4e65', null);
+insert into sec_user( id, is_active, password, organization_root) values ('admin', 	1, '01e529ff116bfb1dca9914fe9c45ea8f', null);
+insert into sec_user( id, is_active, password, organization_root) values ('admin00', 1, '21232f297a57a5a743894a0e4a801fc3', '00');
+insert into sec_user( id, is_active, password, organization_root) values ('admin43', 1, '21232f297a57a5a743894a0e4a801fc3', '43');
+insert into sec_user( id, is_active, password, organization_root) values ('admin72', 1, '21232f297a57a5a743894a0e4a801fc3', '72');
 
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'root', 	1, 0);
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin', 	1, 0);
@@ -151,11 +148,11 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.05', 'Özürsüz', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.07', 'Ücretsiz İzin', 1, 0);
 
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', null, 'GRP2', 'Grup1', 1, 0);
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', (select v.id from def_value v where v.type_id='VAL_CATEGORY' and v.code='GRP1' and organization_id='00'), 'G1', 'Grup1', 1, 0);
+insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', null, 'GRP1', 'Grup1', 1, 0);
+insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', (select v.id from def_value v where v.type_id='VAL_CATEGORY' and v.code='GRP1'), 'A1', 'Alt1', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', currval('seq_id')-1, 'D11', 'Detay1.1', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', currval('seq_id')-2, 'D12', 'Detay1.2', 1, 0);
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', (select v.id from def_value v where v.type_id='VAL_CATEGORY' and v.code='GRP1' and organization_id='00'), 'G2', 'Grup2', 1, 0);
+insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', (select v.id from def_value v where v.type_id='VAL_CATEGORY' and v.code='GRP1'), 'A1', 'Alt2', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', currval('seq_id')-1, 'D21', 'Detay2.1', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', currval('seq_id')-2, 'D22', 'Detay2.2', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', null, 'GRP2', 'Grup2', 1, 0);

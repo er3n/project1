@@ -44,12 +44,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public List<SecGroupEntity> allGroups(Boolean isRoot) {
-		List<SecGroupEntity> groupList;
-		if (isRoot) {
-			groupList = groupRepository.findAllRoot();				
-		} else {
-			groupList = groupRepository.findAllNormal();
-		}
+		List<SecGroupEntity> groupList = groupRepository.findAllGroup();
 		return groupList;
 	}
 
@@ -63,7 +58,7 @@ public class SecGroupHandlerImpl implements SecGroupHandler {
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	public List<SecAuthorityEntity> findGroupAuthorities(Long groupId) {
-		List<SecAuthorityEntity> groupAuthorities = groupRepository.findGroupAuthorities(groupId);
+		List<SecAuthorityEntity> groupAuthorities = authorityRepository.findGroupAuthorities(groupId);
 		return groupAuthorities;
 	}
 

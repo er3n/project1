@@ -74,9 +74,9 @@ public interface EnumList {
 	}
 
 	enum OrgDepartmentGroupEnum implements ISelectionEnum {
-		F("Ofis"), //
-		S("Depo"), //
-		SP("Satınalma"), //
+		F("Birim"), //
+		//S("Depo"), //
+		//SP("Satınalma"), //
 		// F("Demirbas Deposu"), //
 		;
 		private String description;
@@ -133,8 +133,8 @@ public interface EnumList {
 		// Parameter
 		PRM_STOCK("Stok Parametreleri", 0), //
 		// Value
-		VAL_CATEGORY("Grup/Kategori", 0), //
-		VAL_MEAL("Yemek Öğünleri", 0), //
+		VAL_CATEGORY("Kategori", 0), //
+		VAL_IZIN("İzin Tipleri", 0), //
 		VAL_RECEIPT("Yemek Tipleri", 0), //
 		// Item
 		ITM("All Items", 0), //

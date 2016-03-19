@@ -123,7 +123,8 @@ public class CrudReqDocumentViewBean implements Serializable {
 	}
 
 	public EnumList.OrgDepartmentGroupEnum reqDepartmentGroupEnum(){
-		EnumList.OrgDepartmentGroupEnum ret =  selectedTypeEnum.equals(EnumList.DefTypeEnum.REQ_IO_P)?EnumList.OrgDepartmentGroupEnum.SP:EnumList.OrgDepartmentGroupEnum.S;
+		//EnumList.OrgDepartmentGroupEnum ret =  selectedTypeEnum.equals(EnumList.DefTypeEnum.REQ_IO_P)?EnumList.OrgDepartmentGroupEnum.SP:EnumList.OrgDepartmentGroupEnum.S;
+		EnumList.OrgDepartmentGroupEnum ret = null;
 		return ret;
 	}
 	

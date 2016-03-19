@@ -14,7 +14,7 @@ public interface UserGroupRepository extends CrudRepository<SecUserGroupEntity, 
 
 	@Modifying
 	@Transactional
-	@Query("delete from SecUserGroupEntity e where e.user.id = :username")
+	@Query("delete from SecUserGroupEntity e where e.user.id = :username and e.group.id>1")
 	void delete(@Param("username")String username);
 	                      
 	

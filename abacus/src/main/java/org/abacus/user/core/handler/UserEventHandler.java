@@ -164,7 +164,7 @@ public class UserEventHandler implements UserService{
 		
 		List<SecUserGroupEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
-			if (group.getId().longValue()>1){//Zystem Eklenemesin
+			if (updatingUser.getOrganizationRoot()==null || group.getId().longValue()>1){//Zystem Eklenemesin
 				SecUserGroupEntity membership = new SecUserGroupEntity();
 				membership.setUser(updatingUser);
 				membership.setGroup(group);
@@ -182,17 +182,18 @@ public class UserEventHandler implements UserService{
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
-	public ReadGroupsEvent requestGroup(RequestReadGroupsEvent event) {
+	public ReadGroupsEvent requestGroupShow(RequestReadGroupsEvent event) {
 		
 		List<SecGroupEntity> groupList = null;
-		if(StringUtils.hasText(event.getUsername())){
-			groupList =userRepository.findUserGroups(event.getUsername());
-		}else{
-			groupList = groupRepository.findAllNormal();
+		if (event.getIsRoot()){
+			groupList = groupRepository.findAllGroup();
+		} else if (StringUtils.hasText(event.getUsername())){
+			groupList =groupRepository.findUserGroup(event.getUsername());
+		} else {
+			groupList = groupRepository.findAllGroup();
 		}
 		ReadGroupsEvent readEvent = new ReadGroupsEvent(groupList);
 		return readEvent;
-
 	}
 
 	@Override
@@ -284,7 +285,7 @@ public class UserEventHandler implements UserService{
 		
 		List<SecAuthorityEntity> retAuthorities = null;
 		if(event.getGroupId() != null){
-			retAuthorities = groupRepository.findGroupAuthorities(event.getGroupId());
+			retAuthorities = authorityRepository.findGroupAuthorities(event.getGroupId());
 		}else{
 			retAuthorities = authorityRepository.findAllOrderByCode();
 		}

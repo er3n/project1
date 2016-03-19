@@ -79,17 +79,8 @@ public class CrudPurchaseDocumentViewBean implements Serializable {
 
 	@PostConstruct
 	private void init() {
-
 		String documentId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("document");
-		
-		this.vendor = sessionInfoHelper.currentUser().getUserEntity().getVendor();
-		if (vendor == null) {
-			this.showDocument = false;
-			jsfMessageHelper.addWarn("noVendorSelected");
-		}
-
 		this.findDocument(Long.valueOf(documentId));
-
 	}
 	
 	public void reviewDocument(){

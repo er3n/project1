@@ -8,6 +8,7 @@ import org.abacus.organization.core.persistance.repository.OrganizationRepositor
 import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.core.persistance.repository.AuthorityRepository;
 import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class SecurityHandler implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private AuthorityRepository authorityRepository;
 	
 	@Autowired
 	private OrganizationRepository organizationRepository;
@@ -42,7 +46,7 @@ public class SecurityHandler implements UserDetailsService {
 
 		SecUser secUser = new SecUser(userEntity);
 		
-		List<String> authorityNames = userRepository.findUserAuthorities(userEntity.getId());
+		List<String> authorityNames = authorityRepository.findUserAuthorities(userEntity.getId());
 		secUser.setAuthorityNames(authorityNames);
 		
 		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);

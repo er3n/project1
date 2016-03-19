@@ -34,13 +34,6 @@ public class FiscalYearEntity extends StaticEntity {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_finish", nullable = true)
 	private Date dateFinish;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customer_id", nullable = true)
-	private DefItemEntity customer;
-
-	@Column(name = "profit_rate", nullable = false, precision = 5, scale = 2)
-	private BigDecimal profitRate;
 	
 	public FiscalYearEntity() {
 	}
@@ -81,26 +74,5 @@ public class FiscalYearEntity extends StaticEntity {
 		this.dateFinish = dateFinish;
 	}
 
-	public DefItemEntity getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(DefItemEntity customer) {
-		this.customer = customer;
-	}
-
-	/**
-	 * @return the profitRate
-	 */
-	public BigDecimal getProfitRate() {
-		return profitRate;
-	}
-
-	/**
-	 * @param profitRate the profitRate to set
-	 */
-	public void setProfitRate(BigDecimal profitRate) {
-		this.profitRate = profitRate;
-	}
 
 }

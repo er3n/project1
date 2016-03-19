@@ -34,8 +34,8 @@ public interface UserService {
 	
 	UserUpdatedEvent updateUser(UpdateUserEvent event);
 	
-	ReadGroupsEvent requestGroup(RequestReadGroupsEvent event);
-	
+	ReadGroupsEvent requestGroupShow(RequestReadGroupsEvent event);
+		
 	GroupCreatedEvent createGroup(CreateGroupEvent event) throws GroupNameInUseException;
 	
 	GroupUpdatedEvent updateGroup(UpdateGroupEvent event) throws GroupNameInUseException;

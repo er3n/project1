@@ -34,15 +34,6 @@
 							
 							<c:if test="${not organizationViewBean.isOnlyRoot()}">
 
-								<h:outputLabel value="Müşteri"/>
-								<h:panelGrid columns="1">
-									<abc:itemSelection
-										id="itemSelectionInput" 
-										widgetVar="itemSelectionWdg" 
-										dialogId="itemSelectionDialog" 
-										targetVar="#{organizationViewBean.selOrganization.customer}" />
-								</h:panelGrid>
-							
 								<h:outputLabel value="Seviye : "/>
 								<p:selectOneMenu value="#{organizationViewBean.selOrganization.level}" 
 									style="width:80px">
@@ -101,10 +92,6 @@
 
 						<p:column headerText="Bağlantı" style="width:120px" rendered="${not organizationViewBean.isOnlyRoot()}">  
            					${selOrganization.getParent().nameLevel}  
-       					</p:column>
-
-						<p:column headerText="Müşteri" style="width:120px" rendered="${not organizationViewBean.isOnlyRoot()}">  
-           					${selOrganization.customer.name}  
        					</p:column>
 
 					</p:dataTable>

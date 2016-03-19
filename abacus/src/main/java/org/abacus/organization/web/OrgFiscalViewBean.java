@@ -55,10 +55,10 @@ public class OrgFiscalViewBean implements Serializable {
 
 	
 	public void saveFiscalYear() {
-		if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
-			jsfMessageHelper.addInfo("levelL0NotAvailable");
-			return;
-		}
+		//if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
+		//	jsfMessageHelper.addInfo("levelL0NotAvailable");
+		//	return;
+		//}
 		
 		if (selFiscalYear.isNew()) {
 			jsfMessageHelper.addInfo("createSuccessful","FiscalYear");
@@ -83,10 +83,10 @@ public class OrgFiscalViewBean implements Serializable {
 	}
 
 	public void saveFiscalPeriod() {
-		if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
-			jsfMessageHelper.addInfo("levelL0NotAvailable");
-			return;
-		}
+		//if (selOrganization.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L0)) {
+		//	jsfMessageHelper.addInfo("levelL0NotAvailable");
+		//	return;
+		//}
 		
 		if (selFiscalPeriod.isNew()) {
 			jsfMessageHelper.addInfo("createSuccessful","FiscalPeriod");

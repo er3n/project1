@@ -245,7 +245,7 @@ public class CatMenuViewBean implements Serializable {
 
 	public void initCreateMenu(CatMenuInfoEntity mealFilterEntity, DailyMenuDetail dailyMenu) {
 		FiscalYearEntity fiscalYear = sessionInfoHelper.currentFiscalYear();
-		BigDecimal expectedCountPrepare = mealFilterEntity.getCountPrepare();
+		BigDecimal expectedCountPrepare = BigDecimal.ZERO;
 
 		selectedMenu = new CatMenuEntity();
 		selectedMenu.setFiscalYear(fiscalYear);

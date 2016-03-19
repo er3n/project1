@@ -135,7 +135,7 @@ public interface EnumList {
 		// Value
 		VAL_CATEGORY("Kategori", 0), //
 		VAL_IZIN("İzin Tipleri", 0), //
-		VAL_RECEIPT("Yemek Tipleri", 0), //
+		VAL_RECEIPT("Ders Tipleri", 0), //
 		// Item
 		ITM("All Items", 0), //
 		ITM_CS("Nakit Hesap", 0), //

@@ -53,9 +53,9 @@ public class CatMenuInfoViewBean implements Serializable {
 
 	public void saveCatMeal() {
 		if (selCatMeal.isNew()) {
-			jsfMessageHelper.addInfo("createSuccessful", "Ögün");
+			jsfMessageHelper.addInfo("createSuccessful", "DersTipi");
 		} else {
-			jsfMessageHelper.addInfo("updateSuccessful", "Ögün");
+			jsfMessageHelper.addInfo("updateSuccessful", "DersTipi");
 		}
 		selCatMeal = catMealHandler.saveMenuInfoEntity(selCatMeal);
 		findCatMealList();
@@ -64,7 +64,7 @@ public class CatMenuInfoViewBean implements Serializable {
 	public void deleteCatMeal() {
 		if (!selCatMeal.isNew()) {
 			catMealHandler.deleteMenuInfoEntity(selCatMeal);
-			jsfMessageHelper.addInfo("deleteSuccessful", "Ögün");
+			jsfMessageHelper.addInfo("deleteSuccessful", "DersTipi");
 		}
 		findCatMealList();
 	}

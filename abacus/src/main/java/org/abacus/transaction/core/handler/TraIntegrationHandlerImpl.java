@@ -218,8 +218,8 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			stkDetailEntity.setBaseDetailCount(holder.getCountSale());
 			stkDetailEntity.setItemDetailCount(holder.getCountSale());
 
-			stkDetailEntity.setUnitDetailPrice(holder.getMenuInfo().getUnitPrice());
-			stkDetailEntity.setBaseDetailAmount(holder.getCountSale().multiply(holder.getMenuInfo().getUnitPrice()));
+			stkDetailEntity.setUnitDetailPrice(BigDecimal.ZERO);
+			stkDetailEntity.setBaseDetailAmount(BigDecimal.ZERO);
 			stkDetailEntity.setDetNote("Satış : " + AbcUtility.formatDate(stkDocument.getDocDate())+" : "+holder.getMenuInfo().getMeal().getName());
 			stkTransactionHandler.newDetail(new CreateDetailEvent<StkDetailEntity>(stkDetailEntity, stkDocument.getUserCreated()));
 		}		

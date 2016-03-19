@@ -26,18 +26,9 @@ public class CatMenuInfoEntity extends DynamicEntity {
 	@JoinColumn(name = "meal_id", nullable = false)
 	private DefItemEntity meal;
 
-	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 0)
-	private BigDecimal countPrepare;
-
 	@Column(name = "count_total", nullable = false, precision = 10, scale = 0)
 	private BigDecimal countTotal;
 
-	@Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
-	private BigDecimal unitPrice;
-
-	public BigDecimal getTotalAmount() {
-		return unitPrice.multiply(countTotal);
-	}
 	
 	public DefItemEntity getMeal() {
 		return meal;
@@ -45,22 +36,6 @@ public class CatMenuInfoEntity extends DynamicEntity {
 
 	public void setMeal(DefItemEntity meal) {
 		this.meal = meal;
-	}
-
-	public BigDecimal getCountPrepare() {
-		return countPrepare;
-	}
-
-	public void setCountPrepare(BigDecimal countPrepare) {
-		this.countPrepare = countPrepare;
-	}
-
-	public BigDecimal getUnitPrice() {
-		return unitPrice;
-	}
-
-	public void setUnitPrice(BigDecimal unitPrice) {
-		this.unitPrice = unitPrice;
 	}
 
 	public FiscalYearEntity getFiscalYear() {

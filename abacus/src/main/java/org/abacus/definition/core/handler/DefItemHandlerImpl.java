@@ -120,7 +120,9 @@ public class DefItemHandlerImpl implements DefItemHandler{
 			return new ReadItemEvent(resultList,totalCount);
 		}else if(event.getItemId() != null){
 			DefItemEntity itemEntity = itemRepository.findWithFetch(event.getItemId());
-			itemEntity.getCategory().getName();
+			if (itemEntity.getCategory()!=null){
+				itemEntity.getCategory().getName();
+			}
 			if (itemEntity.getUnitGroup()!=null){
 				itemEntity.getUnitGroup().getName();
 			}

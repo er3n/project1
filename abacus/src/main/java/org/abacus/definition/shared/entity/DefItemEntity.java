@@ -30,7 +30,7 @@ public class DefItemEntity extends DynamicEntity {
 	private DefTypeEntity type;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "organization_id", nullable = false)
+	@JoinColumn(name = "organization_id", nullable = true)
 	private OrganizationEntity organization;
 
 	@Column(name = "code", nullable = false)
@@ -48,7 +48,7 @@ public class DefItemEntity extends DynamicEntity {
 	private EnumList.DefItemClassEnum itemClass;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_id", nullable = false)
+	@JoinColumn(name = "category_id", nullable = true)
 	private DefValueEntity category;
 
 	@ManyToOne(fetch = FetchType.LAZY)

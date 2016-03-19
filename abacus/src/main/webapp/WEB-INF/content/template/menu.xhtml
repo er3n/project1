@@ -8,7 +8,7 @@
 			<p:menuitem value="IL Tanım" url="/app/organization/organizationRoot.abc" rendered="#{sec:areAnyGranted('AUTH_9999')}" />
 			<p:menuitem value="Okul-Birimler" url="/app/organization/organizationDep.abc" rendered="#{sec:areAnyGranted('AUTH_0001')}" />
 			<p:menuitem value="Okul-EÖ.Yılı" url="/app/organization/organizationFis.abc" rendered="#{sec:areAnyGranted('AUTH_0002')}" />
-			<p:menuitem value="Ders Tipleri" url="/app/catering/catmenuinfo.abc" rendered="#{sec:areAnyGranted('AUTH_0003')}" />
+			<p:menuitem value="EÖ.Yılı Mesaisi" url="/app/catering/catmenuinfo.abc" rendered="#{sec:areAnyGranted('AUTH_0003')}" />
 			<p:separator/>
 			<p:menuitem value="Kullanici Gruplari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_0004')}" />			
 			<p:menuitem value="Kullanici Tanimi" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_0005')}"/>
@@ -26,8 +26,7 @@
 		<p:submenu label="Hesap Tanim" rendered="#{sec:areAnyGranted('AUTH_0011')}">
 			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" rendered="#{sec:areAnyGranted('AUTH_0012')}" />
 			<p:separator/>
-			<p:menuitem value="Gelir Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_R" rendered="#{sec:areAnyGranted('AUTH_0013')}" />   
-			<p:menuitem value="Gider Hizmet Hesapları" url="/app/definition/defItem.abc?type=ITM_SR_FN&amp;class=FIN_X" rendered="#{sec:areAnyGranted('AUTH_0014')}" />   
+			<p:menuitem value="Mesai Tanımları" url="/app/definition/defItem.abc?type=ITM_SR_FN" rendered="#{sec:areAnyGranted('AUTH_0014')}" />   
 			<p:menuitem value="Firma Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_VE" rendered="#{sec:areAnyGranted('AUTH_0015')}" />   
 			<p:menuitem value="Müşteri Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_CU" rendered="#{sec:areAnyGranted('AUTH_0016')}" />   
 			<p:menuitem value="Personel Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_PE" rendered="#{sec:areAnyGranted('AUTH_0017')}" />   

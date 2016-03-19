@@ -18,35 +18,20 @@
 			<h:panelGrid id="mealGrid" columns="1">
 				<h:form id="mealForm">
 				
-					<p:panel id="mealPanel" header="#{catMenuInfoViewBean.fiscalYear.organization.name} #{catMenuInfoViewBean.fiscalYear.name} Proje Menu Bilgileri" >
+					<p:panel id="mealPanel" header="#{catMenuInfoViewBean.fiscalYear.organization.name} #{catMenuInfoViewBean.fiscalYear.name} - Bilgileri" >
 
 						<h:panelGrid id="mealGrid" columns="4" cellpadding="0">
 
-							<h:outputLabel value="Öğün : " />
+							<h:outputLabel value="Ders Tipi : " />
 							<h:panelGrid>
 							<abc:itemSelection id="materialSelectionInput" 
 								widgetVar="materialSelectionWdg" 
 								dialogId="materialSelectionDialog" 
 								targetVar="#{catMenuInfoViewBean.selCatMeal.meal}" 
-								required="true" 
-							/>
+								required="true" />
 							</h:panelGrid>
 
-							<h:outputLabel value="Birim Fiyat : " />
-							<pe:inputNumber 
-								decimalPlaces="2" style="text-align: right;"
-								value="#{catMenuInfoViewBean.selCatMeal.unitPrice}"
-								required="true" requiredMessage="meal.Miktar Bos olamaz"
-								validatorMessage="meal.price" />
-
-							<h:outputLabel value="1 Öğündeki Sayı : " />
-							<pe:inputNumber 
-								decimalPlaces="0" style="text-align: right;"
-								value="#{catMenuInfoViewBean.selCatMeal.countPrepare}"
-								required="true" requiredMessage="meal.Adet Bos olamaz"
-								validatorMessage="prepare.count" />
-
-							<h:outputLabel value="Proje Toplam Sayısı : " />
+							<h:outputLabel value="Günlük EnFazla : " />
 							<pe:inputNumber 
 								decimalPlaces="0" style="text-align: right;"
 								value="#{catMenuInfoViewBean.selCatMeal.countTotal}"
@@ -88,31 +73,13 @@
 							listener="#{catMenuInfoViewBean.catMealRowSelectListener}">
 						</p:ajax>
 
-						<p:column headerText="Öğün">  
+						<p:column headerText="Ders Tipi">  
            					#{selCatMeal.meal.code} #{selCatMeal.meal.name}  
        					</p:column>
 
-						<p:column headerText="Birim Fiyat" style="text-align: right;"> 
-							<h:outputText value="#{selCatMeal.unitPrice}">
-								<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
-							</h:outputText>
-       					</p:column>
-
-						<p:column headerText="1 Öğündeki Sayı" style="text-align: right;">  
-           					<h:outputText value="#{selCatMeal.countPrepare}">
-								<f:convertNumber type="currency" minFractionDigits="0" currencySymbol=""/>
-							</h:outputText>
-       					</p:column>
-
-						<p:column headerText="Proje Toplam Sayısı" style="text-align: right;">  
+						<p:column headerText="Günlük EnFazla" style="text-align: right;">  
            					<h:outputText value="#{selCatMeal.countTotal}">
 								<f:convertNumber type="currency" minFractionDigits="0" currencySymbol=""/>
-							</h:outputText>
-       					</p:column>
-
-						<p:column headerText="Toplam Tutar" style="text-align: right;"> 
-							<h:outputText value="#{selCatMeal.getTotalAmount()}">
-								<f:convertNumber type="currency" minFractionDigits="2" currencySymbol=""/>
 							</h:outputText>
        					</p:column>
 
@@ -131,7 +98,7 @@
 	
 	<abc:itemSelectionDialog id="materialSelectionDialog"
 			update=":mealForm:materialSelectionInput"
-			widgetVar="materialSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_FN}" paramClass="#{DefItemClassEnum.FIN_R}"
+			widgetVar="materialSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_FN}"
 			targetVar="#{catMenuInfoViewBean.selCatMeal.meal}" rendered="true" />
 
 	</ui:define> 

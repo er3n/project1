@@ -215,8 +215,8 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 			stkDetailEntity.setTrStateDetail(-1);
 			stkDetailEntity.setDepartment(department);
 			
-			stkDetailEntity.setBaseDetailCount(holder.getCountSale());
-			stkDetailEntity.setItemDetailCount(holder.getCountSale());
+			//stkDetailEntity.setBaseDetailCount(holder.getCountSale());
+			//stkDetailEntity.setItemDetailCount(holder.getCountSale());
 
 			stkDetailEntity.setUnitDetailPrice(BigDecimal.ZERO);
 			stkDetailEntity.setBaseDetailAmount(BigDecimal.ZERO);
@@ -225,7 +225,7 @@ public class TraIntegrationHandlerImpl implements TraIntegrationHandler {
 		}		
 		FinDocumentEntity finDocument = createFinFromStk(stkDocument.getId());
 		for(CatMenuEntity holder : holderList){	
-			holder.setFinDocument(finDocument);
+			//holder.setFinDocument(finDocument);
 			menuRepository.save(holder);
 		}
 		return stkDocument;

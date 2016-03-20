@@ -75,7 +75,7 @@ public class CatMenuItemToMenuMaterialConverter {
 		MenuMaterialHolder holder = new MenuMaterialHolder();
 		DefItemEntity item = itemRepository.findWithFetch(menuItem.getItem().getId());
 		holder.setItem(item);
-		holder.setUnit(menuItem.getUnit());
+		//holder.setUnit(menuItem.getUnit());
 		holder.setCountPrepare(countPrepare.multiply(unitItemCount));
 		menuMetarialList.add(holder);
 	}

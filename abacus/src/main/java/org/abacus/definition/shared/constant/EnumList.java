@@ -134,10 +134,9 @@ public interface EnumList {
 		PRM_STOCK("Stok Parametreleri", 0), //
 		// Value
 		VAL_CATEGORY("Kategori", 0), //
-		VAL_IZIN("İzin Tipleri", 0), //
-		VAL_RECEIPT("Ders Tipleri", 0), //
 		// Item
 		ITM("All Items", 0), //
+		ITM_IZIN("İzin Tipleri", 0), //
 		ITM_CS("Nakit Hesap", 0), //
 		ITM_CM_CU("Müşteri Hesap", 0), //
 		ITM_CM_VE("Satıcı Hesap", 0), //
@@ -227,9 +226,9 @@ public interface EnumList {
 	}
 
 	enum MenuStatusEnum implements ISelectionEnum {
-		WAIT("Beklemede"), //
-		DONE("Yapıldı"), //
-		CANCEL("Iptal"), //
+		WAIT("Bekliyor"), //
+		DONE("Onaylandı"), //
+		//CANCEL("Iptal"), //
 		;
 
 		private String description;

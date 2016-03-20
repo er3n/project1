@@ -26,21 +26,9 @@ public class CatMenuItemEntity extends DynamicEntity {
 	@JoinColumn(name = "item_id", nullable = false)
 	private DefItemEntity item;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "unit_id", nullable = false)
-	private DefUnitCodeEntity unit;
-
-	@Column(name = "unit_item_count", nullable = false, precision = 10, scale = 3)
+	@Column(name = "unit_item_count", nullable = false, precision = 2, scale = 0)
 	private BigDecimal unitItemCount;
 	
-	public DefUnitCodeEntity getUnit() {
-		return unit;
-	}
-
-	public void setUnit(DefUnitCodeEntity unit) {
-		this.unit = unit;
-	}
-
 	public CatMenuEntity getMenu() {
 		return menu;
 	}

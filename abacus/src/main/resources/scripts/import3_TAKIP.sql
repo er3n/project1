@@ -45,6 +45,7 @@ insert into sec_authority (id, code, name) values ('AUTH_0051','1.12','Aktif Kul
 insert into sec_authority (id, code, name) values ('AUTH_0011','2','Hesap Tanım');
 insert into sec_authority (id, code, name) values ('AUTH_0017','2.06','Personel Tanımları');
 insert into sec_authority (id, code, name) values ('AUTH_0014','2.03','Ders Tipleri');
+insert into sec_authority (id, code, name) values ('AUTH_0018','2.07','İzin Tipleri');
 
 insert into sec_authority (id, code, name) values ('AUTH_0019','3','Ders Planı');
 insert into sec_authority (id, code, name) values ('AUTH_0022','3.03','Devam Takip');
@@ -90,7 +91,8 @@ insert into sec_user_organization (id, user_id, organization_id, version) values
 
 
 insert into def_type (id, name, level, tr_state_type) values ('VAL_CATEGORY', 'Gruplama', 1, 0);
-insert into def_type (id, name, level, tr_state_type) values ('VAL_IZIN', 'İzin Tipleri', 1, 0);
+
+insert into def_type (id, name, level, tr_state_type) values ('ITM_IZIN', 'İzin Tipleri', 1, 0);
 insert into def_type (id, name, level, tr_state_type) values ('ITM_SR_FN', 'Ders Tipleri', 1, 0);
 
 insert into def_type (id, name, level, tr_state_type) values ('STK_WB_I', 'Alış İrsaliye', 1, +1);
@@ -142,13 +144,6 @@ insert into def_task (id, organization_id, type_id, code, name, is_active, versi
 insert into def_unit_group (id, organization_id, code, name, version) values (nextval('seq_id'), '00', 'SAY', 'Sayilan', 0);
 insert into def_unit_code (id, unit_group_id, code, name, ratio, version) values (nextval('seq_id'), currval('seq_id')-1, 'B0001', 'Adet', 1, 0);
 
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.01', 'Mazeret', 1, 0);
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.02', 'Sağlık', 1, 0);
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.03', 'İşKaz.MesHas', 1, 0);
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.04', 'Özel Durum', 1, 0);
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.05', 'Özürsüz', 1, 0);
-insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_IZIN', null, '02.07', 'Ücretsiz İzin', 1, 0);
-
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', null, 'GRP1', 'Grup1', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', (select v.id from def_value v where v.type_id='VAL_CATEGORY' and v.code='GRP1'), 'A1', 'Alt1', 1, 0);
 insert into def_value (id, organization_id, type_id, parent_id, code, name, is_active, version) values (nextval('seq_id'), null, 'VAL_CATEGORY', currval('seq_id')-1, 'D11', 'Detay1.1', 1, 0);
@@ -161,3 +156,9 @@ insert into def_value (id, organization_id, type_id, parent_id, code, name, is_a
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'D1', null, 'Normal Ders', null, null, 'ITM_SR_FN', null);
 insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  'D2', null, 'Ek Ders', null, null, 'ITM_SR_FN', null);
 
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  '02.01', null, 'Mazeret', null, null, 'ITM_IZIN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  '02.02', null, 'Sağlık', null, null, 'ITM_IZIN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  '02.03', null, 'İşKaz.MesHas', null, null, 'ITM_IZIN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  '02.04', null, 'Özel Durum', null, null, 'ITM_IZIN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  '02.05', null, 'Özürsüz', null, null, 'ITM_IZIN', null);
+insert into def_item (id, version, is_active, code, class_enum, name, category_id, organization_id, type_id, unit_group_id) values (nextval('seq_id'), 0, 1,  '02.07', null, 'Ücretsiz İzin', null, null, 'ITM_IZIN', null);

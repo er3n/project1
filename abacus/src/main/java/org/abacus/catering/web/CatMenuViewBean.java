@@ -142,21 +142,22 @@ public class CatMenuViewBean implements Serializable {
 	}
 
 	public void confirmMenu() {
-		try {
-			MenuConfirmedEvent confirmedEvent = menuHandler.confirmMenu(new ConfirmMenuEvent(menuPreviewEvent.getDocument(), menuPreviewEvent.getDetails(), this.selectedMenu, sessionInfoHelper.currentUserName(), sessionInfoHelper.currentFiscalYear()));
-			this.initMenuSummary();
-			jsfMessageHelper.addInfo("menuConfirmedWithDocumentNo", confirmedEvent.getDocument().getDocNo());
-			
-		} catch (AbcBusinessException e) {
-			jsfMessageHelper.addException(e);
-			FacesContext.getCurrentInstance().validationFailed();
+		if (this.selectedMenu==null){
+			return;
 		}
-
+		this.selectedMenu.setMenuStatus(EnumList.MenuStatusEnum.DONE);
+		this.updateMenu();
+		jsfMessageHelper.addInfo("İzin Onaylandı ", "");
 	}
 
 	public void cancelMenu() {
-		this.selectedMenu.setMenuStatus(EnumList.MenuStatusEnum.CANCEL);
+		if (this.selectedMenu==null){
+			return;
+		}
+		this.selectedMenu.setMenuStatus(EnumList.MenuStatusEnum.WAIT);
 		this.updateMenu();
+		
+		jsfMessageHelper.addInfo("Onay İptal Edildi ", "");
 	}
 
 	public void nextMenu() {
@@ -206,7 +207,7 @@ public class CatMenuViewBean implements Serializable {
 		CatMenuItemEntity menuItem = new CatMenuItemEntity();
 		menuItem.setMenu(selectedMenu);
 		menuItem.setItem(selectedItem);
-		menuItem.setUnit(selectedUnit);
+		//menuItem.setUnit(selectedUnit);
 		menuItem.setUnitItemCount(selectedUnitItemCount==null?BigDecimal.ONE:selectedUnitItemCount);
 
 		if (CollectionUtils.isEmpty(menuItemSet)) {

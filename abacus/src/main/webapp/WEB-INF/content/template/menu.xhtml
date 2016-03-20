@@ -13,7 +13,6 @@
 			<p:menuitem value="Kullanici Gruplari" url="/app/user/rolemanager.abc" rendered="#{sec:areAnyGranted('AUTH_0004')}" />			
 			<p:menuitem value="Kullanici Tanimi" url="/app/user/usermanager.abc" rendered="#{sec:areAnyGranted('AUTH_0005')}"/>
 			<p:separator/>
-			<p:menuitem value="Seçim Kod Tanimlari" url="/app/definition/defmanager.abc?grp=VAL" rendered="#{sec:areAnyGranted('AUTH_0006')}"/>
 			<p:menuitem value="Stok Hareket Tanimlari" url="/app/definition/defmanager.abc?grp=STK" rendered="#{sec:areAnyGranted('AUTH_0007')}" />
 			<p:menuitem value="Finans Hareket Tanimlari" url="/app/definition/defmanager.abc?grp=FIN" rendered="#{sec:areAnyGranted('AUTH_0008')}" />
 			<p:separator/>
@@ -23,14 +22,15 @@
 			<p:menuitem value="Session" url="/app/user/sessionman.abc" rendered="#{sec:areAnyGranted('AUTH_0051')}" />
 		</p:submenu>
 
-		<p:submenu label="Hesap Tanim" rendered="#{sec:areAnyGranted('AUTH_0011')}">
-			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" rendered="#{sec:areAnyGranted('AUTH_0012')}" />
+		<p:submenu label="Tanimlar" rendered="#{sec:areAnyGranted('AUTH_0011')}">
+			<p:menuitem value="Personel Tanımları" url="/app/definition/defItem.abc?type=ITM_CM_PE" rendered="#{sec:areAnyGranted('AUTH_0017')}" />   
 			<p:separator/>
+			<p:menuitem value="Hesap Tipleri" url="/app/definition/defmanager.abc?grp=ITM" rendered="#{sec:areAnyGranted('AUTH_0012')}" />
 			<p:menuitem value="Mesai Tanımları" url="/app/definition/defItem.abc?type=ITM_SR_FN" rendered="#{sec:areAnyGranted('AUTH_0014')}" />   
 			<p:menuitem value="Firma Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_VE" rendered="#{sec:areAnyGranted('AUTH_0015')}" />   
 			<p:menuitem value="Müşteri Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_CU" rendered="#{sec:areAnyGranted('AUTH_0016')}" />   
-			<p:menuitem value="Personel Hesapları" url="/app/definition/defItem.abc?type=ITM_CM_PE" rendered="#{sec:areAnyGranted('AUTH_0017')}" />   
-			<p:menuitem value="Nakit Hesapları" url="/app/definition/defItem.abc?type=ITM_CS" rendered="#{sec:areAnyGranted('AUTH_0018')}" />   
+			<p:menuitem value="İzin Tipleri" url="/app/definition/defItem.abc?type=ITM_IZIN" rendered="#{sec:areAnyGranted('AUTH_0018')}" />   
+			<p:menuitem value="Diğer Tanimlar" url="/app/definition/defmanager.abc?grp=VAL" rendered="#{sec:areAnyGranted('AUTH_0006')}"/>
 		</p:submenu>
 
 		<p:submenu label="Ders Planı" rendered="#{sec:areAnyGranted('AUTH_0019')}">

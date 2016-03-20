@@ -235,7 +235,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 		}
 
 		menu.setMenuStatus(EnumList.MenuStatusEnum.DONE);
-		menu.setStkDocument((StkDocumentEntity) stkDocument);
+		//menu.setStkDocument((StkDocumentEntity) stkDocument);
 		MenuUpdatedEvent mue = this.updateMenu(new UpdateMenuEvent(menu, user));
 		menu = mue.getMenu();
 

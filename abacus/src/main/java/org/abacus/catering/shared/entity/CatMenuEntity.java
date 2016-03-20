@@ -39,14 +39,6 @@ public class CatMenuEntity extends DynamicEntity {
 	@JoinColumn(name = "menu_info_id", nullable = false)
 	private CatMenuInfoEntity menuInfo;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "document_stk_id", nullable = true)
-	private StkDocumentEntity stkDocument;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "document_fin_id", nullable = true)
-	private FinDocumentEntity finDocument;
-
 	@Temporal(TemporalType.DATE)
 	@Column(name = "menu_date", nullable = false)
 	private Date menuDate;
@@ -55,14 +47,9 @@ public class CatMenuEntity extends DynamicEntity {
 	@Column(name = "menu_status", nullable = false, length=30)
 	private EnumList.MenuStatusEnum menuStatus;
 
-	@Column(name = "count_prepare", nullable = false, precision = 10, scale = 3)
+	@Column(name = "count_prepare", nullable = false, precision = 2, scale = 0)
 	private BigDecimal countPrepare = BigDecimal.ZERO;
 
-	@Column(name = "count_sale", nullable = false, precision = 10, scale = 3)
-	private BigDecimal countSale = BigDecimal.ZERO;
-
-	@Column(name = "cancel_reason", nullable = true)
-	private String cancelReason;
 
 	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
@@ -105,28 +92,12 @@ public class CatMenuEntity extends DynamicEntity {
 		this.countPrepare = countPrepare!=null?countPrepare:BigDecimal.ZERO;
 	}
 
-	public BigDecimal getCountSale() {
-		return countSale;
-	}
-
-	public void setCountSale(BigDecimal countSale) {
-		this.countSale = countSale!=null?countSale:BigDecimal.ZERO;
-	}
-
 	public Set<CatMenuItemEntity> getMenuItemSet() {
 		return menuItemSet;
 	}
 
 	public void setMenuItemSet(Set<CatMenuItemEntity> menuItemSet) {
 		this.menuItemSet = menuItemSet;
-	}
-
-	public String getCancelReason() {
-		return cancelReason;
-	}
-
-	public void setCancelReason(String cancelReason) {
-		this.cancelReason = cancelReason;
 	}
 
 	public FiscalYearEntity getFiscalYear() {
@@ -137,20 +108,5 @@ public class CatMenuEntity extends DynamicEntity {
 		this.fiscalYear = fiscalYear;
 	}
 
-	public StkDocumentEntity getStkDocument() {
-		return stkDocument;
-	}
-
-	public void setStkDocument(StkDocumentEntity stkDocument) {
-		this.stkDocument = stkDocument;
-	}
-
-	public FinDocumentEntity getFinDocument() {
-		return finDocument;
-	}
-
-	public void setFinDocument(FinDocumentEntity finDocument) {
-		this.finDocument = finDocument;
-	}
 
 }

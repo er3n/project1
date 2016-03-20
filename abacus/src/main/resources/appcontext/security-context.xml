@@ -43,7 +43,7 @@
 		<security:intercept-url pattern="/app/definition/defItem.abc\\?.*type=ITM_CM_VE.*" access="hasRole('AUTH_0015')" />
 		<security:intercept-url pattern="/app/definition/defItem.abc\\?.*type=ITM_CM_CU.*" access="hasRole('AUTH_0016')" />
 		<security:intercept-url pattern="/app/definition/defItem.abc\?.*type=ITM_CM_PE.*" access="hasRole('AUTH_0017')" />
-		<security:intercept-url pattern="/app/definition/defItem.abc\\?.*type=ITM_CS.*" access="hasRole('AUTH_0018')" />
+		<security:intercept-url pattern="/app/definition/defItem.abc\\?.*type=ITM_IZIN" access="hasRole('AUTH_0018')" />
 		<security:intercept-url pattern="/app/definition/defItem.abc\\?.*((type=ITM_SR_ST.*class=STK_M)|(class=STK_M.*type=ITM_SR_ST)).*" access="hasRole('AUTH_0020')" />
 		<security:intercept-url pattern="/app/definition/defItem.abc\\?.*((type=ITM_SR_ST.*class=STK_P)|(class=STK_P.*type=ITM_SR_ST)).*" access="hasRole('AUTH_0021')" />
 		<security:intercept-url pattern="/app/catering/catmenu.abc" access="hasRole('AUTH_0022')" />

@@ -27,6 +27,18 @@ public class DailyMenuDetail implements Comparable<DailyMenuDetail> {
 		menuMap.put(menu.getMenuInfo().getMeal().getCode(), menu);
 	}
 
+	public String getDay() {
+		if (this.date==null){
+			return "#000000";
+		}
+		int day = this.date.getDay();
+		if (day==0 || day==6){
+			return "#AAE6E6";
+		} else {
+			return "#FFE6E6";
+		}
+	}
+	
 	public Date getDate() {
 		return date;
 	}

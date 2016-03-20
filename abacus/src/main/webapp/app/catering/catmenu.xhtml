@@ -40,7 +40,7 @@
 
 					<f:facet name="header">
 						<p:row>
-							<p:column colspan="#{catMenuViewBean.menuSummary.meals.size() + 2}" style="font-weight:bold">Haftalik Yemek Listesi
+							<p:column colspan="#{catMenuViewBean.menuSummary.meals.size() + 2}" style="font-weight:bold">Mesai / İzin Listesi
 								<p:commandButton style="float:right" value="ileri »" actionListener="#{catMenuViewBean.nextMenu}" update=":menuDetailForm :menuTimeForm" />
 								<p:commandButton style="float:right" value="« geri" actionListener="#{catMenuViewBean.prevMenu}" update=":menuDetailForm :menuTimeForm" />
 							</p:column>
@@ -55,18 +55,17 @@
 
 					<c:forEach var="dailyMenu" items="#{catMenuViewBean.menuSummary.dailyMenuDetails}">
 						<p:row>
-
-							<p:column style="font-weight:bold;width:4%;background-color:#F7F7F7">
-								<h:outputText value="#{dailyMenu.date}">
+							 
+							<p:column colspan="1" style="font-weight:bold;width:1%">
+								<h:outputText value="#{dailyMenu.date}" style="font-weight:bold"> 
 									<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)" locale="tr_TR" />
 								</h:outputText>
 							</p:column>
-
+ 								
+ 
 							<c:forEach var="mealFilter" items="#{catMenuViewBean.menuSummary.meals}">
 
 								<c:set value="#{dailyMenu.menuMap.get(mealFilter.meal.code)}" var="menuEntitys" />
-
-
 
 								<p:column style="font-weight:bold;width:4%">
 									<h:outputText value="-" rendered="#{empty menuEntitys.menuItemList}" />
@@ -95,9 +94,15 @@
 						</p:row>
 
 						<p:row styleClass="ui-widget-header">
-							<p:column colspan="1" style="font-weight:bold;background-color:#FFE6E6">~~~~~~</p:column>
+							
+							<p:column colspan="1" style="font-weight:bold;background-color:#{dailyMenu.day}">
+								<h:outputText value="#{dailyMenu.date}" style="font-weight:bold"> 
+									<f:convertDateTime timeZone="Turkey" pattern="EEEE" locale="tr_TR" />
+								</h:outputText>
+							</p:column>
+												
 							<c:forEach var="mealFilter" items="#{catMenuViewBean.menuSummary.meals}">
-								<p:column colspan="1" style="font-weight:bold;background-color:#FFE6E6">
+								<p:column colspan="1" style="font-weight:bold;background-color:#{dailyMenu.day}">
 									<c:set value="#{dailyMenu.menuMap.get(mealFilter.meal.code)}" var="menuEntity" />
 									<c:set value="#{catMenuViewBean.isMealActiveAtGivenDate(mealFilter,dailyMenu.date)}" var="isMealActive" />
 									<c:set value="#{isMealActive and not empty menuEntity}" var="isMenuEditable" />
@@ -166,13 +171,13 @@
 				<h:panelGrid columns="8" id="itemSelectionGrid">
 					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{catMenuViewBean.selectedItem}" />
 					<pe:inputNumber decimalPlaces="3" style="text-align: right; width:120px" value="#{catMenuViewBean.selectedUnitItemCount}" required="false" />
-					<p:commandButton value="Ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems @parent" process="@form" />
+					<p:commandButton value="İzin Ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems @parent" process="@form" />
 				</h:panelGrid> 
 
 				<p:spacer height="10px" />
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
-					<p:outputLabel value="Hazirlanan" />
+					<p:outputLabel value="Planlanan Mesai" />
 					<pe:inputNumber value="#{catMenuViewBean.selectedMenu.countPrepare}" decimalPlaces="0" style="text-align: right;" required="true" requiredMessage="Tahmini miktar bos olamaz" />
 
 				</h:panelGrid>
@@ -188,70 +193,39 @@
 		</h:form>
 
 		<h:form id="cancelMenuForm">
-
 			<p:dialog widgetVar="cancelMenuWdg" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" closeOnEscape="true" dynamic="true">
-
 				<f:facet name="header">
-					<p:outputLabel value="Menu Iptal Et - " />
+					<p:outputLabel value="Onay İptal - " />
 					<h:outputText value="#{catMenuViewBean.selectedMenu.menuDate}">
 						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)" locale="tr_TR" />
 					</h:outputText>
 					<h:outputText value=" #{catMenuViewBean.selectedMenu.menuInfo.meal.name}" />
 				</f:facet>
-
 				<f:facet name="footer">
 					<p:commandButton value="Onay İptal" actionListener="#{catMenuViewBean.cancelMenu()}" process="@form" update=":menuDetailForm" oncomplete="PF('cancelMenuWdg').hide();" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Vazgeç-Çık" oncomplete="PF('cancelMenuWdg').hide();" immediate="true" />
 				</f:facet>
-
 			</p:dialog>
-
 		</h:form>
 
 		<h:form id="confirmMenuForm">
-			<p:dialog widgetVar="confirmMenuWdg" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" width="600px" closeOnEscape="true">
-
+			<p:dialog widgetVar="confirmMenuWdg" resizable="true" showEffect="fade" modal="true" appendToBody="@(body)" closeOnEscape="true" dynamic="true">
 				<f:facet name="header">
-					<p:outputLabel value="Menu Onayla - " />
-					<p:outputLabel value="#{catMenuViewBean.selectedMenu.menuDate}">
+					<p:outputLabel value="İzin Onayla- " />
+					<h:outputText value="#{catMenuViewBean.selectedMenu.menuDate}">
 						<f:convertDateTime timeZone="Turkey" pattern="dd/MM/yyyy (E)" locale="tr_TR" />
-					</p:outputLabel>
-					<p:outputLabel value=" #{catMenuViewBean.selectedMenu.menuInfo.meal.name}" />
+					</h:outputText>
+					<h:outputText value=" #{catMenuViewBean.selectedMenu.menuInfo.meal.name}" />
 				</f:facet>
-
-				<p:dataTable id="menuItems" var="menuItem" value="#{catMenuViewBean.selectedMenu.menuItemSet}" emptyMessage="Secili işlem bulunmamaktadir">
-					<f:facet name="header">
-					İşlem Listesi
-				</f:facet>
-
-					<p:column headerText="İşlem">
-						<h:outputLabel value="#{menuItem.item.name} - (#{menuItem.item.code})"></h:outputLabel>
-					</p:column>
-
-					<p:column headerText="Miktar" style="text-align: right; width:80px">
-						<h:outputLabel value="#{menuItem.unitItemCount}">
-							<f:convertNumber type="currency" minFractionDigits="3" currencySymbol=""/>
-						</h:outputLabel>
-					</p:column>
-
-				</p:dataTable>
-
-				<p:spacer height="10px" />
-
-				<h:panelGrid columns="2" cellpadding="0" cellspacing="5">
-
-				</h:panelGrid>
-
 				<f:facet name="footer">
-		
-					<p:commandButton value="İzin Onayla" actionListener="#{catMenuViewBean.confirmMenu()}" update=":confirmMenuForm" />
+					<p:commandButton value="İzin Onayla" actionListener="#{catMenuViewBean.confirmMenu()}" process="@form" update=":menuDetailForm" oncomplete="PF('confirmMenuWdg').hide();" />
 					<p:spacer width="5px" />
 					<p:commandButton value="Vazgeç-Çık" oncomplete="PF('confirmMenuWdg').hide();" immediate="true" />
 				</f:facet>
-
 			</p:dialog>
 		</h:form>
+
 
 
 	</ui:define>

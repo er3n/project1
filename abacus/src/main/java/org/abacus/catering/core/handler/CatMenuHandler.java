@@ -40,6 +40,6 @@ public interface CatMenuHandler {
 	
 	void deleteMenuInfoEntity(CatMenuInfoEntity entity);
 
-	List<CatMenuEntity> getMenuListForFinace(String fiscalYearId, Date menuDate);
+	List<CatMenuEntity> getMenuListForFinace(String fiscalYearId, Date menuDate, Long personId);
 	
 }

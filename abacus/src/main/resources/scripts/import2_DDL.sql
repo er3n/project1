@@ -12,7 +12,7 @@ create unique index ix_bud_document on bud_document (fiscal_year_id);
 
 create unique index ix_cat_menu_info on cat_menu_info (fiscal_year_id, meal_id);
 
-create unique index ix_cat_menu on cat_menu (fiscal_year_id, menu_date, menu_info_id);
+create unique index ix_cat_menu on cat_menu (fiscal_year_id, menu_date, menu_info_id, person_id);
 
 create unique index ix_cat_menu_item on cat_menu_item (menu_id, item_id);
 

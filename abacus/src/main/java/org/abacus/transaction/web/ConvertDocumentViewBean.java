@@ -80,7 +80,7 @@ public class ConvertDocumentViewBean implements Serializable {
 			return;
 		}
 		
-		List<CatMenuEntity> catMenuList = catMealHandler.getMenuListForFinace(fiscalYear.getId(), transactionDate);
+		List<CatMenuEntity> catMenuList = catMealHandler.getMenuListForFinace(fiscalYear.getId(), transactionDate, null);
 		if (catMenuList.size()==0){
 			jsfMessageHelper.addError("Hakedişi Oluşturulacak Menü bulunamadı");
 			return;

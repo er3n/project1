@@ -80,7 +80,7 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public MenuSummary findMenuSummary(CatMenuSearchCriteria searchCriteria) {
 		MenuSummary sum = new MenuSummary();
-		if (searchCriteria.getFiscalYear()==null){
+		if (searchCriteria.getFiscalYear()==null || searchCriteria.getPerson()==null){
 			return sum;
 		}
 
@@ -263,8 +263,8 @@ public class CatMenuHandlerImpl implements CatMenuHandler {
 	
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public List<CatMenuEntity> getMenuListForFinace(String fiscalYearId, Date menuDate) {
-		return menuRepository.getMenuListForFinace(fiscalYearId, menuDate);
+	public List<CatMenuEntity> getMenuListForFinace(String fiscalYearId, Date menuDate, Long personId) {
+		return menuRepository.getMenuListForFinace(fiscalYearId, menuDate, personId);
 	}
 
 	public CatMenuDao getMenuDao() {

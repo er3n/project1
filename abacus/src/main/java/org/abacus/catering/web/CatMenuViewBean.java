@@ -281,6 +281,7 @@ public class CatMenuViewBean implements Serializable {
 
 	public void saveMenu() {
 		String username = sessionInfoHelper.currentUserName();
+		this.selectedMenu.setPerson(searchCriteria.getPerson());
 		MenuCreatedEvent menuCreatedEvent = menuHandler.newMenu(new CreateMenuEvent(this.selectedMenu, username));
 		this.selectedMenu = menuCreatedEvent.getMenu();
 		this.initMenuSummary();

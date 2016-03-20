@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.joda.time.LocalDate;
 
@@ -15,6 +16,7 @@ public class CatMenuSearchCriteria implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private FiscalYearEntity fiscalYear;
+	private DefItemEntity person;
 	
 	public CatMenuSearchCriteria(FiscalYearEntity fiscalYear){
 		this.fiscalYear = fiscalYear;
@@ -28,6 +30,15 @@ public class CatMenuSearchCriteria implements Serializable {
 		this.period = period;
 	}
 
+
+	public DefItemEntity getPerson() {
+		return person;
+	}
+
+	public void setPerson(DefItemEntity person) {
+		this.person = person;
+	}
+	
 	public Date getStartDate() {
 		return startDate;
 	}

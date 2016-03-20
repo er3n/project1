@@ -22,7 +22,12 @@
 
 			<h:form id="menuTimeForm">
 				<h:panelGrid columns="3">
-					<p:outputLabel for="menuTimeCal" value="Tarih:" style="font-weigh: bold" />
+					
+						<abc:itemSelection update=":menuTimeForm :menuDetailForm" id="personSelectionInput" widgetVar="personItemSelectionWdg" dialogId="personItemSelectionDialog" targetVar="#{catMenuViewBean.searchCriteria.person}" >
+						</abc:itemSelection>	
+					 
+					
+					<p:outputLabel for="menuTimeCal" value="Tarih Seç:" style="font-weigh: bold" />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" id="menuTimeCal" value="#{catMenuViewBean.searchCriteria.date}">
 						<p:ajax event="dateSelect" listener="#{catMenuViewBean.menuDateSelected}" update=":menuDetailForm" />
 					</p:calendar>
@@ -169,7 +174,7 @@
 				<p:spacer width="5px" />
 
 				<h:panelGrid columns="8" id="itemSelectionGrid">
-					<abc:itemSelection id="itemSelectionInput" widgetVar="itemSelectionWdg" dialogId="itemSelectionDialog" targetVar="#{catMenuViewBean.selectedItem}" />
+					<abc:itemSelection id="itemSelectionInput" widgetVar="izinItemSelectionWdg" dialogId="izinItemSelectionDialog" targetVar="#{catMenuViewBean.selectedItem}" />
 					<pe:inputNumber decimalPlaces="3" style="text-align: right; width:120px" value="#{catMenuViewBean.selectedUnitItemCount}" required="false" />
 					<p:commandButton value="İzin Ekle" actionListener="#{catMenuViewBean.addItemToMenu}" update=":menuDialogFrm:menuItems @parent" process="@form" />
 				</h:panelGrid> 
@@ -235,18 +240,9 @@
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
-		<abc:itemSelectionDialog id="itemSelectionDialog" update=":menuDialogFrm:itemSelectionGrid" widgetVar="itemSelectionWdg" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
-
-		<abc:departmentSelectionDialog id="departmentSelectionDialog" update=":confirmMenuForm:departmentSelectionInput" widgetVar="departmentSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.S}" targetVar="#{catMenuViewBean.consumedDeparment}" rendered="true" />
-
-		<abc:itemSelectionDialog id="stkItemSelectionDialog" update=":confirmMenuStkDetailForm:confirmMenuStkDetailPnl" widgetVar="stkItemSelectionWdg" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedDetail.item}" rendered="true" />
-
-		<abc:itemSelectionDialog id="finItemSelectionDialog" update=":confirmMenuStkDetailForm:confirmMenuStkDetailPnl" widgetVar="finItemSelectionWdg" paramType="#{DefTypeEnum.ITM_SR_FN}" targetVar="#{catMenuViewBean.selectedDetail.item}" rendered="true" />
-
-		<abc:departmentSelectionDialog id="finDepartmentSelectionDialog" update=":confirmMenuStkDetailForm:confirmMenuStkDetailPnl" widgetVar="finDepartmentSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.F}" targetVar="#{catMenuViewBean.selectedDetail.department}" rendered="true" />
-
-		<abc:departmentSelectionDialog id="stkDepartmentSelectionDialog" update=":confirmMenuStkDetailForm:confirmMenuStkDetailPnl" widgetVar="stkDepartmentSelectionWdg" paramUser="#{sessionInfoHelper.currentUser().username}" paramDepGroup="#{OrgDepartmentGroupEnum.S}" targetVar="#{catMenuViewBean.selectedDetail.department}" rendered="true" />
-
+		<abc:itemSelectionDialog id="izinItemSelectionDialog" widgetVar="izinItemSelectionWdg" update=":menuDialogFrm:itemSelectionGrid" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
+		<abc:itemSelectionDialog id="personItemSelectionDialog" widgetVar="personItemSelectionWdg" update=":menuTimeForm :menuDetailForm" paramType="#{DefTypeEnum.ITM_CM_PE}" targetVar="#{catMenuViewBean.searchCriteria.person}" rendered="true" />	
+	
 	</ui:define>
 
 </ui:composition>

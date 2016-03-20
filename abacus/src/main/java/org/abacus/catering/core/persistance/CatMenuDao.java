@@ -1,5 +1,6 @@
 package org.abacus.catering.core.persistance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -20,6 +21,10 @@ public class CatMenuDao {
 	private EntityManager em;
 
 	public List<CatMenuEntity> findMenuList(CatMenuSearchCriteria searchCriteria) {
+		if (searchCriteria.getPerson() == null || searchCriteria.getFiscalYear()==null){
+			return new ArrayList<CatMenuEntity>();
+		}
+		
 		Session session = em.unwrap(Session.class);
 
 		Criteria criteria = session.createCriteria(CatMenuEntity.class,"m");
@@ -32,6 +37,9 @@ public class CatMenuDao {
 		}
 		if(searchCriteria.getEndDate() != null){
 			criteria.add(Restrictions.le("m.menuDate", searchCriteria.getEndDate()));
+		}
+		if(searchCriteria.getPerson() != null){
+			criteria.add(Restrictions.eq("m.person.id", searchCriteria.getPerson().getId()));
 		}
 		criteria.addOrder(Order.asc("m.menuDate"));
 		

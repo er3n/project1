@@ -11,7 +11,6 @@ import javax.persistence.Table;
 
 import org.abacus.common.shared.entity.DynamicEntity;
 import org.abacus.definition.shared.entity.DefItemEntity;
-import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 
 @Entity
 @SuppressWarnings("serial")

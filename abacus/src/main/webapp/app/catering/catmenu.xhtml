@@ -23,7 +23,7 @@
 			<h:form id="menuTimeForm">
 				<h:panelGrid columns="3">
 					
-						<abc:itemSelection update=":menuTimeForm :menuDetailForm" id="personSelectionInput" widgetVar="personItemSelectionWdg" dialogId="personItemSelectionDialog" targetVar="#{catMenuViewBean.searchCriteria.person}" >
+						<abc:itemSelection id="personSelectionInput" widgetVar="personItemSelectionWdg" dialogId="personItemSelectionDialog" targetVar="#{catMenuViewBean.searchCriteria.person}" >
 						</abc:itemSelection>	
 					 
 					
@@ -241,7 +241,7 @@
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
 		<abc:itemSelectionDialog id="izinItemSelectionDialog" widgetVar="izinItemSelectionWdg" update=":menuDialogFrm:itemSelectionGrid" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
-		<abc:itemSelectionDialog id="personItemSelectionDialog" widgetVar="personItemSelectionWdg" update=":menuTimeForm :menuDetailForm" paramType="#{DefTypeEnum.ITM_CM_PE}" targetVar="#{catMenuViewBean.searchCriteria.person}" rendered="true" />	
+		<abc:itemSelectionDialog id="personItemSelectionDialog" widgetVar="personItemSelectionWdg" addListenerOfCatMenu="true" update=":menuDetailForm" paramType="#{DefTypeEnum.ITM_CM_PE}" targetVar="#{catMenuViewBean.searchCriteria.person}" rendered="true" />	
 	
 	</ui:define>
 

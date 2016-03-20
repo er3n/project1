@@ -10,6 +10,7 @@
 
 	<security:http security="none" pattern="/app/user/login.abc"></security:http>
 	<security:http security="none" pattern="/app/resources/**"></security:http>
+	<security:http security="none" pattern="/app/rest/service/getIzin/**"></security:http>
 
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="securityHandler">
@@ -67,8 +68,8 @@
 
 		<security:intercept-url pattern="/app/user/chatman.abc" access="hasRole('AUTH_ANY')" />
 		
-		<security:intercept-url pattern="/app/.*" access="isAuthenticated()" /> 
-		
+		<security:intercept-url pattern="/app/.*" access="isAuthenticated()" />
+				
 		<security:session-management>
 		
 			<security:concurrency-control max-sessions="1" expired-url="/app/user/login.abc?expired=true" />

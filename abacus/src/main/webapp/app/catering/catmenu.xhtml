@@ -23,8 +23,8 @@
 			<h:form id="menuTimeForm">
 				<h:panelGrid columns="3">
 					
-						<abc:itemSelection id="personSelectionInput" widgetVar="personItemSelectionWdg" dialogId="personItemSelectionDialog" targetVar="#{catMenuViewBean.searchCriteria.person}" >
-						</abc:itemSelection>	
+						<abc:itemSelection id="personSelectionInput" widgetVar="personItemSelectionWdg" dialogId="personItemSelectionDialog" targetVar="#{catMenuViewBean.searchCriteria.person}" 
+						 update=":menuDialogFrm :itemSelectionGrid"/>
 					 
 					
 					<p:outputLabel for="menuTimeCal" value="Tarih Seç:" style="font-weigh: bold" />
@@ -240,8 +240,8 @@
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
-		<abc:itemSelectionDialog id="izinItemSelectionDialog" widgetVar="izinItemSelectionWdg" update=":menuDialogFrm:itemSelectionGrid" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
-		<abc:itemSelectionDialog id="personItemSelectionDialog" widgetVar="personItemSelectionWdg" addListenerOfCatMenu="true" update=":menuDetailForm" paramType="#{DefTypeEnum.ITM_CM_PE}" targetVar="#{catMenuViewBean.searchCriteria.person}" rendered="true" />	
+		<abc:itemSelectionDialog id="izinItemSelectionDialog" widgetVar="izinItemSelectionWdg" update=":menuDialogFrm :itemSelectionGrid" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
+		<abc:itemSelectionDialog id="personItemSelectionDialog" widgetVar="personItemSelectionWdg" addListenerOfCatMenu="true" update=":menuDetailForm :menuTimeForm" paramType="#{DefTypeEnum.ITM_CM_PE}" targetVar="#{catMenuViewBean.searchCriteria.person}" rendered="true" />	
 	
 	</ui:define>
 

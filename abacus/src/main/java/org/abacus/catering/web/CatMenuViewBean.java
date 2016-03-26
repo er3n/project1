@@ -279,6 +279,12 @@ public class CatMenuViewBean implements Serializable {
 		this.initMenuSummary();
 	}
 
+	public void menuDateSelectedClear() {
+		searchCriteria.setPerson(null);
+		searchCriteria.refreshDate();
+		this.initMenuSummary();
+	}
+	
 	public void saveMenu() {
 		String username = sessionInfoHelper.currentUserName();
 		this.selectedMenu.setPerson(searchCriteria.getPerson());

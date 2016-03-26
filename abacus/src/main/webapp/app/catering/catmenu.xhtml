@@ -23,14 +23,14 @@
 			<h:form id="menuTimeForm">
 				<h:panelGrid columns="3">
 					
-						<abc:itemSelection id="personSelectionInput" widgetVar="personItemSelectionWdg" dialogId="personItemSelectionDialog" targetVar="#{catMenuViewBean.searchCriteria.person}" 
-						 update=":menuDialogFrm :itemSelectionGrid"/>
-					 
-					
-					<p:outputLabel for="menuTimeCal" value="Tarih Seç:" style="font-weigh: bold" />
+					<p:outputLabel value="Tarih Seçimi:" style="font-weigh: bold" /><p:outputLabel value="" style="font-weigh: bold" />
 					<p:calendar pattern="dd.MM.yyyy" mask="true" showOn="button" id="menuTimeCal" value="#{catMenuViewBean.searchCriteria.date}">
 						<p:ajax event="dateSelect" listener="#{catMenuViewBean.menuDateSelected}" update=":menuDetailForm" />
 					</p:calendar>
+					
+					<p:outputLabel value="Personel:" style="font-weigh: bold" />
+					<abc:itemSelection id="personSelectionInput" widgetVar="personItemSelectionWdg" dialogId="personItemSelectionDialog" targetVar="#{catMenuViewBean.searchCriteria.person}" 
+						 update=":menuDialogFrm :itemSelectionGrid" addListenerOfCatMenu="true"/>
 
 					<p:selectOneButton value="#{catMenuViewBean.searchCriteria.period}" style="width:145px">
 						<f:selectItems value="#{CatMenuPeriod}" var="menuEnum" itemLabel="#{menuEnum.description}" itemValue="#{menuEnum}" />
@@ -240,7 +240,7 @@
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefItemClassEnum" />
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.OrgDepartmentGroupEnum" />
 
-		<abc:itemSelectionDialog id="izinItemSelectionDialog" widgetVar="izinItemSelectionWdg" update=":menuDialogFrm :itemSelectionGrid" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
+		<abc:itemSelectionDialog id="izinItemSelectionDialog" widgetVar="izinItemSelectionWdg" update=":menuDialogFrm:itemSelectionGrid" paramType="#{DefTypeEnum.ITM_IZIN}" targetVar="#{catMenuViewBean.selectedItem}" rendered="true" />
 		<abc:itemSelectionDialog id="personItemSelectionDialog" widgetVar="personItemSelectionWdg" addListenerOfCatMenu="true" update=":menuDetailForm :menuTimeForm" paramType="#{DefTypeEnum.ITM_CM_PE}" targetVar="#{catMenuViewBean.searchCriteria.person}" rendered="true" />	
 	
 	</ui:define>

@@ -7,12 +7,15 @@
 	xmlns:of="http://omnifaces.org/functions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
+<c:if test="#{empty addListenerOfCatMenu}">
+	<c:set var="addListenerOfCatMenu" value="false" />
+</c:if>
+
 <h:panelGrid id="#{id}" columns="5" cellspacing="0">
 
 	<c:if test="#{empty required}">
 		<c:set var="#{required}" value="false" />
 	</c:if>
-
 
 	<p:inputText id="#{id}_txt" value="#{targetVar.name}" disabled="true"
 		onclick="PF('#{widgetVar}').show()" />
@@ -20,10 +23,14 @@
 		requiredMessage="Malzeme/Hesap bos olamaz" />
 	<p:commandButton icon="ui-icon-extlink"
 		oncomplete="PF('#{widgetVar}').show()" process="@this" />
-	<p:commandButton icon="ui-icon-trash" process="@this"
-		update="@parent:#{id}_txt">
-		<f:setPropertyActionListener target="#{targetVar}" value="" />
+
+	<p:commandButton icon="ui-icon-trash" process="@this" update="@parent:#{id}_txt">
+		<f:setPropertyActionListener target="#{targetVar}" value=""/>
+		<c:if test="#{addListenerOfCatMenu}">
+			<p:ajax event="click" listener="#{catMenuViewBean.menuDateSelectedClear}" update=":menuDetailForm" />
+		</c:if>				
 	</p:commandButton>
+			
 	<p:watermark value="Seçim Yapınız..." for="@parent:#{id}_txt @parent:#{id}_txtH"></p:watermark>
 </h:panelGrid>
 

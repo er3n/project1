@@ -72,7 +72,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		String userCreated = event.getCreatedUser();
 		DefItemEntity item = event.getItem();
 
-		DefItemEntity existingItem = itemRepository.exists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
+		DefItemEntity existingItem = itemExists(item.getCode(),item.getType().getId(),item.getOrganization().getId());
 		if(existingItem != null){
 			throw new ItemAlreadyExistsException(existingItem.getType().getId(), existingItem.getCode(), existingItem.getItemClass()==null?"":existingItem.getItemClass().getName());
 		}
@@ -104,7 +104,7 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		OrganizationEntity organization = event.getOrganization();
 		//Set<DefUnitCodeEntity> unitCodeSet = event.getUnitCodeSet();
 
-		DefItemEntity existingItem = itemRepository.exists(item.getCode(), item.getType().getId(), organization.getId());
+		DefItemEntity existingItem = itemRepository.itemExists(item.getCode(), item.getType().getId(), organization.getId());
 		boolean isItemExists = existingItem != null && !(existingItem.getId().equals(item.getId()));
 		if(isItemExists){
 			throw new ItemAlreadyExistsException();
@@ -223,6 +223,12 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		itemProductRepository.delete(product.getId());
 		
 		return new ItemProductDeletedEvent(product);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	public DefItemEntity itemExists(String code, String type, String organization){
+		return itemRepository.itemExists(code, type, organization);
 	}
 
 }

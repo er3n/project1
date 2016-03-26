@@ -11,6 +11,6 @@ public interface DefItemRepository extends CrudRepository<DefItemEntity, Long> {
 	DefItemEntity findWithFetch(@Param("itemId") Long itemId);
 
 	@Query("select f from DefItemEntity f where f.code = :code and f.type.id = :type and (f.organization.id is null or f.organization.id = :organization)")
-	DefItemEntity exists(@Param("code") String code, @Param("type") String type, @Param("organization") String organization);
+	DefItemEntity itemExists(@Param("code") String code, @Param("type") String type, @Param("organization") String organization);
 
 }

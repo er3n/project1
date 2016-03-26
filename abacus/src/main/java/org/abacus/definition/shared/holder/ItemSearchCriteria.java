@@ -12,6 +12,7 @@ public class ItemSearchCriteria implements Serializable {
 	private OrganizationEntity organization;
 	private DefTypeEnum itemType;
 	private DefItemClassEnum itemClass;
+	private String code;
 	private String codeLike;
 	private String nameLike;
 	private String categoryNameLike;
@@ -68,6 +69,15 @@ public class ItemSearchCriteria implements Serializable {
 		this.pageSize = pageSize;
 	}
 
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	public String getCodeLike() {
 		return codeLike;
 	}

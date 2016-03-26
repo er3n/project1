@@ -1,6 +1,7 @@
 package org.abacus.definition.core.handler;
 
 import org.abacus.definition.shared.ItemAlreadyExistsException;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
 import org.abacus.definition.shared.event.CreateItemProductEvent;
 import org.abacus.definition.shared.event.DeleteItemProductEvent;
@@ -28,5 +29,7 @@ public interface DefItemHandler {
 	public ItemProductUpdatedEvent updateItemProduct(UpdateItemProductEvent updateItemProductEvent);
 
 	public ItemProductDeletedEvent deleteItemProduct(DeleteItemProductEvent deleteItemProductEvent);
+
+	DefItemEntity itemExists(String code, String type, String organization);
 
 }

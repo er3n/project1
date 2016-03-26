@@ -52,8 +52,7 @@ public class ItemDataModel extends LazyDataModel<DefItemEntity> {
 		
 		this.addFilters(filters);
 
-		ReadItemEvent readItemEvent = itemHandler
-				.findItem(new RequestReadItemEvent(searchCriteria));
+		ReadItemEvent readItemEvent = itemHandler.findItem(new RequestReadItemEvent(searchCriteria));
 		
 		this.clearFilters();
 		

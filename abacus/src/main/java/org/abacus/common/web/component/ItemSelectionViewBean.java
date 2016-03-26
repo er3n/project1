@@ -13,9 +13,12 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
+import org.abacus.definition.core.persistance.repository.DefItemRepository;
 import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -27,19 +30,28 @@ public class ItemSelectionViewBean implements Serializable {
 	
 	@ManagedProperty(value = "#{sessionInfoHelper}")
 	private SessionInfoHelper sessionInfoHelper;
-
+	
+	
 	private Map<String, ItemDataModel> resultMap = new HashMap<>();
 	private Map<String, List<String>> typeFilterMap = new HashMap<>();
 
 	public ItemDataModel getItemDataModel(EnumList.DefTypeEnum itemType, EnumList.DefItemClassEnum itemClass) {
 		if (itemType==null){
 			return new ItemDataModel(new ItemSearchCriteria(null,null,null));
-		}
+		}		
 		String key = itemType.getName()+((itemClass==null)?"":"-"+itemClass.name());
 		if (resultMap.containsKey(key)) {
 			return resultMap.get(key);
 		} else {
-			ItemDataModel itemDataModel =  new ItemDataModel(new ItemSearchCriteria(sessionInfoHelper.currentOrganization().getRootOrganization(), itemType, itemClass));
+			ItemSearchCriteria crit = new ItemSearchCriteria(sessionInfoHelper.currentOrganization().getRootOrganization(), itemType, itemClass);
+			if (itemType.equals(EnumList.DefTypeEnum.ITM_CM_PE)){
+				String userId = sessionInfoHelper.currentUser().getUsername();
+				DefItemEntity personItem = defItemHandler.itemExists(userId, EnumList.DefTypeEnum.ITM_CM_PE.getName(), sessionInfoHelper.currentOrganization().getId());
+				if (personItem!=null){
+					crit.setCode(userId);						
+				}
+			}
+			ItemDataModel itemDataModel =  new ItemDataModel(crit);
 			resultMap.put(key, itemDataModel);
 			return itemDataModel;
 		}

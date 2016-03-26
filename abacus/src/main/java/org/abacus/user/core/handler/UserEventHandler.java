@@ -164,7 +164,7 @@ public class UserEventHandler implements UserService{
 		
 		List<SecUserGroupEntity> memberships = new ArrayList<>();
 		for (SecGroupEntity group : userGroups) {
-			if (updatingUser.getOrganizationRoot()==null || group.getId().longValue()>1){//Zystem Eklenemesin
+			if (/*updatingUser.getOrganizationRoot()==null ||*/ group.getId().longValue()>1){//Zystem Eklenemesin
 				SecUserGroupEntity membership = new SecUserGroupEntity();
 				membership.setUser(updatingUser);
 				membership.setGroup(group);

@@ -44,9 +44,10 @@ public class UserDao implements Serializable {
 		} else {
 			if(!searchUserCriteria.getIsRootUser()){
 				String rootOrg = searchUserCriteria.getOrganization().getRootOrganization().getId();
-				criteria.add(Restrictions.eq("u.organizationRoot", rootOrg));
+				//criteria.add(Restrictions.eq("u.organizationRoot", rootOrg));
 			} else {
 				criteria.add(Restrictions.ne("u.id", "root"));
+				criteria.add(Restrictions.ne("u.id", "admin"));
 			}
 			if(searchUserCriteria.getHierarchy().equals(EnumList.Hierachy.PARENT) && searchUserCriteria.getOrganization() != null){
 				Criterion cr1 = Restrictions.in("uc.organization", searchUserCriteria.getOrganization().getParentList());
@@ -81,7 +82,7 @@ public class UserDao implements Serializable {
 
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
-		criteria.addOrder(Order.desc("u.organizationRoot"));
+		//criteria.addOrder(Order.desc("u.organizationRoot"));
 		criteria.addOrder(Order.asc("u.id"));
 		criteria.addOrder(Order.asc("uc.organization.id"));
 		

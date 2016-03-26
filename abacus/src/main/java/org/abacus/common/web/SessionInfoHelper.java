@@ -110,7 +110,7 @@ public class SessionInfoHelper implements Serializable {
 		    	boolean isRootSess = usr.getUserEntity().isRootUser();
 		    	List<SessionInformation> userSessionList = sessionRegistry.getAllSessions(principal, false);
 		    	for (SessionInformation sess : userSessionList) {
-			    	if (isRootUser() || isRootSess || currentUser().getUserEntity().getOrganizationRoot().equals(usr.getUserEntity().getOrganizationRoot()))
+			    	if (isRootUser() || isRootSess) // || currentUser().getUserEntity().getOrganizationRoot().equals(usr.getUserEntity().getOrganizationRoot()))
 			    		if (isRootUser() || !isRootSess || (isRootSess && withRoot)){
 				    		allSessionList.add(sess);
 			    		} 

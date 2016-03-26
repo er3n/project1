@@ -74,7 +74,7 @@ public class UserViewBean implements Serializable {
 	}
 
 	public void createUser() {
-		selectedUser.setOrganizationRoot(sessionInfoHelper.currentOrganization().getRootOrganization().getId());
+		//selectedUser.setOrganizationRoot(sessionInfoHelper.currentOrganization().getRootOrganization().getId());
 		String logUser = sessionInfoHelper.currentUserName();
 		List<SecGroupEntity> selectedGroups = selectedUserGroupDL.getTarget();
 		List<OrganizationEntity> userOrganizations = selectedUserOrganizationDL.getTarget();

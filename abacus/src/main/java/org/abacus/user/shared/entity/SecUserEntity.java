@@ -36,8 +36,8 @@ public class SecUserEntity extends StaticEntity {
 	@Fetch(FetchMode.SELECT)
 	private Set<SecUserGroupEntity> userGroupList;
 
-	@Column(name = "organization_root", nullable = true, length=2)
-	private String organizationRoot;
+	//@Column(name = "organization_root", nullable = true, length=2)
+	//private String organizationRoot;
 
 	public SecUserEntity(){
 	}
@@ -47,7 +47,7 @@ public class SecUserEntity extends StaticEntity {
 	}
 	
 	public Boolean isRootUser(){
-		if (getOrganizationRoot()==null){
+		if (id.equals("root") || id.equals("admin")){
 			return true;			
 		} 
 		return false;
@@ -85,12 +85,12 @@ public class SecUserEntity extends StaticEntity {
 		this.userGroupList = sertGroupList;
 	}
 
-	public String getOrganizationRoot() {
-		return organizationRoot;
-	}
+	//public String getOrganizationRoot() {
+	//	return organizationRoot;
+	//}
 
-	public void setOrganizationRoot(String organizationRoot) {
-		this.organizationRoot = organizationRoot;
-	}
+	//public void setOrganizationRoot(String organizationRoot) {
+	//	this.organizationRoot = organizationRoot;
+	//}
 
 }

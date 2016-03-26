@@ -64,6 +64,12 @@ public class OrganizationHandlerImpl implements OrganizationHandler {
 			rootUserOrg.setUser(rootUser);
 			rootUserOrg.setOrganization(entity);
 			userOrgRepo.save(rootUserOrg);
+			
+			SecUserEntity adminUser = new SecUserEntity("admin");
+			SecUserOrganizationEntity adminUserOrg = new SecUserOrganizationEntity();
+			adminUserOrg.setUser(adminUser);
+			adminUserOrg.setOrganization(entity);
+			userOrgRepo.save(adminUserOrg);
 		}
 		
 		return entity;

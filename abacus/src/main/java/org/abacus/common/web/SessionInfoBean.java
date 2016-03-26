@@ -1,7 +1,6 @@
 package org.abacus.common.web;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +25,6 @@ public class SessionInfoBean implements Serializable {
 	@ManagedProperty(value = "#{jsfMessageHelper}")
 	private JsfMessageHelper jsfMessageHelper;
 	
-	private List<SessionInformation> allChatList;
 	private List<SessionInformation> allSessionList;
 	private String messageTxt;
 
@@ -63,17 +61,7 @@ public class SessionInfoBean implements Serializable {
 //	    jsfMessageHelper.addSimple("Mesaj", (msg==null?"?":msg));
 	    jsfMessageHelper.addInfo("Mesaj:", (messageTxt==null?"?":messageTxt));
 	}
-	
-	public List<String> getActiveChatList(){
-		allChatList = sessionInfoHelper.getActiveSessionList(true);
-		List<String> userList = new ArrayList<String>();
-		for (SessionInformation sessionInformation : allChatList) {
-			userList.add(((SecUser)sessionInformation.getPrincipal()).getUsername());
-		}
-		return userList;
-	}
-
-
+	/*
 	public void pushGlobalMessage() {
 		if (messageTxt==null || messageTxt.equals("")){
 			return;
@@ -81,7 +69,7 @@ public class SessionInfoBean implements Serializable {
 		EventBus eventBus = EventBusFactory.getDefault().eventBus();
 		eventBus.publish("/message", sessionInfoHelper.currentUserName()+":"+messageTxt);
 	}
-	
+	*/
 	public JsfMessageHelper getJsfMessageHelper() {
 		return jsfMessageHelper;
 	}
@@ -113,14 +101,5 @@ public class SessionInfoBean implements Serializable {
 	public void setMessageTxt(String messageTxt) {
 		this.messageTxt = messageTxt;
 	}
-
-	public List<SessionInformation> getAllChatList() {
-		return allChatList;
-	}
-
-	public void setAllChatList(List<SessionInformation> allChatList) {
-		this.allChatList = allChatList;
-	}
-
 
 }

@@ -28,6 +28,7 @@
 		<security:logout logout-url="/app/logout" logout-success-url="/app/user/login.abc"  />
 
 		
+		<security:intercept-url pattern="/app/organization/organizationRoot.abc" access="hasRole('AUTH_9999')" />
 		<security:intercept-url pattern="/app/organization/organizationDep.abc" access="hasRole('AUTH_0001')" />
 		<security:intercept-url pattern="/app/organization/organizationFis.abc" access="hasRole('AUTH_0002')" />
 		<security:intercept-url pattern="/app/catering/catmenuinfo.abc" access="hasRole('AUTH_0003')" />
@@ -63,10 +64,7 @@
 		<security:intercept-url pattern="/app/transaction/findFinDocument.abc\\?.*((grp=FIN.*typ=FIN_R)|(typ=FIN_R.*grp=FIN)).*" access="hasRole('AUTH_0038')" />
 		<security:intercept-url pattern="/app/transaction/findFinDocument.abc\\?.*((grp=FIN.*typ=FIN_J)|(typ=FIN_J.*grp=FIN)).*" access="hasRole('AUTH_0039')" />
 		<security:intercept-url pattern="/app/budget/budSummary.abc" access="hasRole('AUTH_0041')" />
-		<security:intercept-url pattern="/app/organization/organizationRoot.abc" access="hasRole('AUTH_9999')" />
 		<security:intercept-url pattern="/app/user/sessionman.abc" access="hasRole('AUTH_0051')" />
-
-		<security:intercept-url pattern="/app/user/chatman.abc" access="hasRole('AUTH_ANY')" />
 		
 		<security:intercept-url pattern="/app/.*" access="isAuthenticated()" />
 				

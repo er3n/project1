@@ -64,8 +64,6 @@
  
 					<p> 
 						<p:link value="Yardım"  href="/../abchelp/HTML/index.html" target="_blank"  ></p:link>
-						-
-						<p:link value="Chat"  href="/app/user/chatman.abc" target="_blank"  ></p:link>
 					</p>
  				
 				</div>
@@ -89,15 +87,4 @@
 	</h:body>
 </f:view>
 
-<p:socket onMessage="handleMessageGlobal" channel="/message" /> 
-
-		<script type="text/javascript">
-       	 	function handleMessageGlobal(facesmessage) {  
-       	 		document.getElementById('simpleForm:inputId').value = facesmessage;
-            	showGlobalMessage();
-            	//showGlobalMessage({msg:facesmessage);
-            	//alert(facesmessage);
-        	}
-		</script>
-		
 </html>

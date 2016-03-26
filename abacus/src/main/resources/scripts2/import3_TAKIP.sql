@@ -65,11 +65,11 @@ insert into sec_group (id, name, version) values (nextval('seq_id'), 'PERSONEL',
 
 insert into sec_group_authority (id, group_id, authority_id, version) select nextval('seq_id'), 1, sa.id, 0 from sec_authority sa;
 
-insert into sec_user( id, is_active, password, organization_root) values ('root', 	1, 'e977f5da70f10ce715d33d6b7c8d4e65', null);
-insert into sec_user( id, is_active, password, organization_root) values ('admin', 	1, '01e529ff116bfb1dca9914fe9c45ea8f', null);
-insert into sec_user( id, is_active, password, organization_root) values ('admin00', 1, '21232f297a57a5a743894a0e4a801fc3', '00');
-insert into sec_user( id, is_active, password, organization_root) values ('admin43', 1, '21232f297a57a5a743894a0e4a801fc3', '43');
-insert into sec_user( id, is_active, password, organization_root) values ('admin72', 1, '21232f297a57a5a743894a0e4a801fc3', '72');
+insert into sec_user( id, is_active, password) values ('root', 1, 'e977f5da70f10ce715d33d6b7c8d4e65');
+insert into sec_user( id, is_active, password) values ('admin', 1, '01e529ff116bfb1dca9914fe9c45ea8f');
+insert into sec_user( id, is_active, password) values ('admin00', 1, '21232f297a57a5a743894a0e4a801fc3');
+insert into sec_user( id, is_active, password) values ('admin43', 1, '21232f297a57a5a743894a0e4a801fc3');
+insert into sec_user( id, is_active, password) values ('admin72', 1, '21232f297a57a5a743894a0e4a801fc3');
 
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'root', 	1, 0);
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin', 	1, 0);
@@ -78,16 +78,16 @@ insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_
 insert into sec_user_group(id, user_id, group_id, version) values (nextval('seq_id'), 'admin72', 2, 0);
 
 
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root',	'00', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root',	'43', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root',	'72', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin',	'00', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin',	'43', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin',	'72', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root', '00', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root', '43', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'root', '72', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin', '00', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin', '43', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin', '72', 0);
 
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin00','00', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin43','43', 0);
-insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin72','72', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin00', '00', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin43', '43', 0);
+insert into sec_user_organization (id, user_id, organization_id, version) values (nextval('seq_id'), 'admin72', '72', 0);
 
 
 insert into def_type (id, name, level, tr_state_type) values ('VAL_CATEGORY', 'Gruplama', 1, 0);

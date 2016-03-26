@@ -13,12 +13,13 @@ import org.abacus.definition.shared.event.ReadItemEvent;
 import org.abacus.definition.shared.event.RequestReadItemEvent;
 import org.abacus.definition.shared.event.UpdateItemEvent;
 import org.abacus.definition.shared.event.UpdateItemProductEvent;
+import org.abacus.user.core.handler.UserService;
 
 public interface DefItemHandler {
 
-	public ItemCreatedEvent newItem(CreateItemEvent event) throws ItemAlreadyExistsException;
+	public ItemCreatedEvent newItem(CreateItemEvent event, UserService userService) throws ItemAlreadyExistsException;
 
-	public ItemUpdatedEvent updateItem(UpdateItemEvent event) throws ItemAlreadyExistsException;
+	public ItemUpdatedEvent updateItem(UpdateItemEvent event, UserService userService) throws ItemAlreadyExistsException;
 
 	public ReadItemEvent findItem(RequestReadItemEvent event);
 

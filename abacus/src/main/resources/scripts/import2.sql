@@ -65,6 +65,24 @@ insert into sec_group (id, name, version) values (nextval('seq_id'), 'PERSONEL',
 
 insert into sec_group_authority (id, group_id, authority_id, version) select nextval('seq_id'), 1, sa.id, 0 from sec_authority sa;
 
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0011', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0017', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0019', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 2, 'AUTH_0022', 0);
+
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 3, 'AUTH_0011', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 3, 'AUTH_0017', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 3, 'AUTH_0019', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 3, 'AUTH_0022', 0);
+
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 4, 'AUTH_0011', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 4, 'AUTH_0017', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 4, 'AUTH_0019', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 4, 'AUTH_0022', 0);
+
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 5, 'AUTH_0019', 0);
+insert into sec_group_authority (id, group_id, authority_id, version) values (nextval('seq_id'), 5, 'AUTH_0022', 0);
+
 insert into sec_user( id, is_active, password, organization_root) values ('root', 	1, 'e977f5da70f10ce715d33d6b7c8d4e65', null);
 insert into sec_user( id, is_active, password, organization_root) values ('admin', 	1, '01e529ff116bfb1dca9914fe9c45ea8f', null);
 insert into sec_user( id, is_active, password, organization_root) values ('admin00', 1, '21232f297a57a5a743894a0e4a801fc3', '00');

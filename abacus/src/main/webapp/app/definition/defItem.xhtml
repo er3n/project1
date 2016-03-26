@@ -35,10 +35,15 @@
 					<h:outputText value="#{item.category.name}" />
 				</p:column>
 
-				<p:column headerText="Özel">
+	
+				<p:column headerText="Özel" rendered="#{itemViewBean.type ne DefTypeEnum.ITM_CM_PE}">
 					<h:outputText value="#{item.organization == null  ? '' : '**'}" />
 				</p:column>
 			
+				<p:column headerText="Login" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}">
+					<h:outputText value="#{ (not empty item.login and item.login)  ? '*' : ''}" />
+				</p:column>
+				
 				<p:column headerText="Durum" filterBy="#{item.active}" style="width:180px">
 					<f:facet name="filter">
 						<p:selectOneButton onchange="PF('itemsTable').filter()">
@@ -83,7 +88,10 @@
 					<h:panelGrid columns="3">
 						<abc:treeSelection id="materialCategorySelection" widgetVar="categorySelectionWidget" targetVar="#{itemViewBean.selectedItem.category}" required="false" />
 					</h:panelGrid>
-
+					
+					<h:outputText value="Login" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}"/>
+       				<p:selectBooleanCheckbox value="#{itemViewBean.selectedItem.login}" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}"/>
+			
 					<h:outputLabel value="Birim Grubu" for="itemUnit" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_SR_ST}" />
 					<h:panelGrid columns="2" id="itemUnitGrid">
 						<p:selectOneMenu id="itemUnit" value="#{itemViewBean.selectedItem.unitGroup}" converter="omnifaces.SelectItemsConverter" 

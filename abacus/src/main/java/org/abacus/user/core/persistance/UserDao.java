@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.user.core.persistance.repository.UserRepository;
 import org.abacus.user.shared.entity.SecGroupEntity;
 import org.abacus.user.shared.entity.SecUserEntity;
 import org.abacus.user.shared.holder.SearchUserCriteria;
@@ -18,7 +17,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -28,9 +26,6 @@ public class UserDao implements Serializable {
 	@PersistenceContext
 	private EntityManager em;
 	
-	@Autowired
-	private UserRepository userRepository;
-
 	public List<SecUserEntity> findUser(
 			SearchUserCriteria searchUserCriteria) {
 				

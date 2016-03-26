@@ -22,6 +22,7 @@ public class OrganizationUtils {
 	@Autowired
 	private FiscalYearRepository fiscalYearRepository;
 
+	/*
 	public static OrganizationEntity findRootOrganization(OrganizationEntity child) {
 		OrganizationEntity orgEntity = findLevelOrganization(child, EnumList.OrgOrganizationLevelEnum.L0);
 		return orgEntity;
@@ -45,6 +46,7 @@ public class OrganizationUtils {
 		}
 		return orgEntity;
 	}
+	*/
 
 	public static List<OrganizationEntity> getParentList(OrganizationEntity orgEntity){
 		List<OrganizationEntity> list = new ArrayList<>();
@@ -73,7 +75,7 @@ public class OrganizationUtils {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public FiscalYearEntity findDefaultFiscalYear(OrganizationEntity defaultOrganization) {
 
-		OrganizationEntity companyOrganization = findCompanyOrganization(defaultOrganization);
+		OrganizationEntity companyOrganization = defaultOrganization; //findCompanyOrganization(defaultOrganization);
 
 		if (companyOrganization == null) {
 			return null;

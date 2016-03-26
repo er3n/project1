@@ -43,6 +43,10 @@ public class DefItemEntity extends DynamicEntity {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active = true;
 
+	@Column(name = "is_login", nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean login = true;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "class_enum", nullable = true, length=30)
 	private EnumList.DefItemClassEnum itemClass;
@@ -97,7 +101,15 @@ public class DefItemEntity extends DynamicEntity {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+	
+	public Boolean getLogin() {
+		return login;
+	}
 
+	public void setLogin(Boolean login) {
+		this.login = login;
+	}
+	
 	public OrganizationEntity getOrganization() {
 		return organization;
 	}

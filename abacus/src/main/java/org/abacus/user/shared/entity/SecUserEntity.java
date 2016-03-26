@@ -81,8 +81,8 @@ public class SecUserEntity extends StaticEntity {
 		return userGroupList;
 	}
 
-	public void setUserGroupList(Set<SecUserGroupEntity> sertGroupList) {
-		this.userGroupList = sertGroupList;
+	public void setUserGroupList(Set<SecUserGroupEntity> setGroupList) {
+		this.userGroupList = setGroupList;
 	}
 
 	//public String getOrganizationRoot() {

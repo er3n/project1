@@ -4,11 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.bean.ManagedProperty;
+
 import org.abacus.definition.core.persistance.DefItemDao;
 import org.abacus.definition.core.persistance.repository.DefItemProductRepository;
 import org.abacus.definition.core.persistance.repository.DefItemRepository;
 import org.abacus.definition.core.persistance.repository.DefItemUnitRepository;
 import org.abacus.definition.shared.ItemAlreadyExistsException;
+import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.entity.DefItemProductEntity;
 import org.abacus.definition.shared.entity.DefItemUnitEntity;
@@ -27,6 +30,13 @@ import org.abacus.definition.shared.event.UpdateItemEvent;
 import org.abacus.definition.shared.event.UpdateItemProductEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.core.handler.UserService;
+import org.abacus.user.core.persistance.repository.GroupRepository;
+import org.abacus.user.core.persistance.repository.UserOrganizationRepository;
+import org.abacus.user.core.persistance.repository.UserRepository;
+import org.abacus.user.shared.entity.SecUserEntity;
+import org.abacus.user.shared.entity.SecUserGroupEntity;
+import org.abacus.user.shared.entity.SecUserOrganizationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,19 +47,28 @@ public class DefItemHandlerImpl implements DefItemHandler{
 	
 	@Autowired
 	private DefItemDao itemDao;
+
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private GroupRepository groupRepository;
 	
 	@Autowired
 	private DefItemRepository itemRepository;
+
+	@Autowired
+	private UserOrganizationRepository userOrgRepository;
 	
 	@Autowired
 	private DefItemUnitRepository itemUnitRepository;
 	
 	@Autowired
 	private DefItemProductRepository itemProductRepository;
-
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public ItemCreatedEvent newItem(CreateItemEvent event) throws ItemAlreadyExistsException {
+	public ItemCreatedEvent newItem(CreateItemEvent event, UserService userService) throws ItemAlreadyExistsException {
 		String userCreated = event.getCreatedUser();
 		DefItemEntity item = event.getItem();
 
@@ -72,17 +91,18 @@ public class DefItemHandlerImpl implements DefItemHandler{
 			}
 			itemUnitRepository.save(itemUnitSet);
 		}
-
+		OrganizationEntity organization = event.getOrganization();
+		createAutoUser(item, organization, userService);
 		return new ItemCreatedEvent(item);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
-	public ItemUpdatedEvent updateItem(UpdateItemEvent event) throws ItemAlreadyExistsException {
+	public ItemUpdatedEvent updateItem(UpdateItemEvent event, UserService userService) throws ItemAlreadyExistsException {
 		String userUpdated = event.getUserUpdated();
 		DefItemEntity item = event.getItem();
 		OrganizationEntity organization = event.getOrganization();
-		Set<DefUnitCodeEntity> unitCodeSet = event.getUnitCodeSet();
+		//Set<DefUnitCodeEntity> unitCodeSet = event.getUnitCodeSet();
 
 		DefItemEntity existingItem = itemRepository.exists(item.getCode(), item.getType().getId(), organization.getId());
 		boolean isItemExists = existingItem != null && !(existingItem.getId().equals(item.getId()));
@@ -94,6 +114,9 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		
 		item = itemRepository.save(item);
 		
+		createAutoUser(item, organization, userService);
+		
+		/*
 		itemUnitRepository.delete(item.getId());
 		
 		Set<DefItemUnitEntity> itemUnitSet = new HashSet<>();
@@ -105,10 +128,45 @@ public class DefItemHandlerImpl implements DefItemHandler{
 			itemUnitSet.add(itemUnitEntity);
 		}
 		itemUnitRepository.save(itemUnitSet);
-		
+		*/
 		return new ItemUpdatedEvent(item);
 	}
 
+	private void createAutoUser(DefItemEntity item, OrganizationEntity organization, UserService userService){
+		if (item.getType().getId().equals(DefTypeEnum.ITM_CM_PE.getName())){
+			if ( item.getLogin()){
+				SecUserEntity usr = userRepository.findOne(item.getCode());
+				if (usr==null){//Create User -> Group:Personel
+					usr = new SecUserEntity();
+					usr.setId(item.getCode());
+					SecUserGroupEntity userGrp = new SecUserGroupEntity();
+					userGrp.setUser(usr);
+					userGrp.setGroup(groupRepository.findOne(5L));
+					Set<SecUserGroupEntity> listUserGroup = new HashSet<>();
+					listUserGroup.add(userGrp);
+					usr.setUserGroupList(listUserGroup);
+				};
+				SecUserOrganizationEntity uo = userOrgRepository.findByNameAndOrg(usr.getId(), organization.getId());
+				if (uo==null){
+					uo = new SecUserOrganizationEntity();
+					uo.setUser(usr);
+					uo.setOrganization(organization);
+					Set<SecUserOrganizationEntity> orgList = usr.getOrganizationList();	
+					if (orgList==null){
+						orgList = new HashSet<>();
+					}
+					orgList.add(uo);
+					usr.setOrganizationList(orgList);
+				}
+				usr.setActive(true);
+				usr.setPassword("21232f297a57a5a743894a0e4a801fc3");//Password:admin					
+				usr = userService.createAutoUser(usr);
+			} else {
+				userOrgRepository.deleteByNameAndOrg(item.getCode(), organization.getId());
+			}
+		}
+	}
+	
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly=true)
 	public ReadItemEvent findItem(RequestReadItemEvent event) {
@@ -131,6 +189,8 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		
 		return null;
 	}
+	
+
 
 	@Override
 	public ItemProductCreatedEvent newItemProduct(CreateItemProductEvent createItemProductEvent) {

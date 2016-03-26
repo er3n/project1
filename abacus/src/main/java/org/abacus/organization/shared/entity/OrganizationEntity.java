@@ -54,7 +54,8 @@ public class OrganizationEntity extends StaticEntity {
 	}
 
 	public OrganizationEntity getRootOrganization(){
-		return OrganizationUtils.findRootOrganization(this);
+		//return OrganizationUtils.findRootOrganization(this);
+		return this;
 	}
 	
 	public List<OrganizationEntity> getParentList(){

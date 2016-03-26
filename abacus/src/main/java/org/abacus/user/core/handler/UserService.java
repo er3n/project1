@@ -2,6 +2,7 @@ package org.abacus.user.core.handler;
 
 import java.util.List;
 
+import org.abacus.common.security.SecUser;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.UserNameExistsException;
@@ -33,7 +34,7 @@ public interface UserService {
 	UserCreatedEvent createUser(CreateUserEvent event) throws UserNameExistsException;
 	
 	UserUpdatedEvent updateUser(UpdateUserEvent event);
-	
+
 	ReadGroupsEvent requestGroupShow(RequestReadGroupsEvent event);
 		
 	GroupCreatedEvent createGroup(CreateGroupEvent event) throws GroupNameInUseException;
@@ -47,6 +48,7 @@ public interface UserService {
 	ReadOrganizationsEvent requestOrganization(RequestReadOrganizationsEvent requestReadOrganizationsEvent);
 
 	List<SecUserEntity> findUser(SearchUserCriteria searchUserCriteria);
-	
+
+	SecUserEntity createAutoUser(SecUserEntity selectedUser);
 	
 }

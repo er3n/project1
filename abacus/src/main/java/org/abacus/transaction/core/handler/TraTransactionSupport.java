@@ -70,7 +70,7 @@ public abstract class TraTransactionSupport<T extends TraDocumentEntity, D exten
 			document.setFiscalPeriod1(fiscalPeriod2);
 		} else {
 			//Sirket FiscalPeriod
-			OrganizationEntity orgCompany = OrganizationUtils.findLevelOrganization(event.getFiscalYear2().getOrganization(), EnumList.OrgOrganizationLevelEnum.L1);
+			OrganizationEntity orgCompany =  event.getFiscalYear2().getOrganization(); //OrganizationUtils.findLevelOrganization(event.getFiscalYear2().getOrganization(), EnumList.OrgOrganizationLevelEnum.L1);
 			FiscalYearEntity fiscalCompany = fiscalDao.getFiscalYear(orgCompany.getId(), document.getDocDate());
 			FiscalPeriodEntity fiscalPeriod1 = fiscalDao.findFiscalPeriod(fiscalCompany, document.getDocDate(), document.getTypeEnum());
 			document.setFiscalPeriod1(fiscalPeriod1);

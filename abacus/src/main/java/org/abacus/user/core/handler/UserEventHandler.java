@@ -3,6 +3,9 @@ package org.abacus.user.core.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ManagedProperty;
+
+import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.UserDao;
@@ -135,6 +138,22 @@ public class UserEventHandler implements UserService{
 		return createdEvent;
 	}
 
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
+	public SecUserEntity createAutoUser(SecUserEntity selectedUser) {
+		List<OrganizationEntity> userOrganizations = new ArrayList<>();
+		for (SecUserOrganizationEntity uo : selectedUser.getOrganizationList()){
+			userOrganizations.add(uo.getOrganization());
+		}
+		List<SecGroupEntity> selectedGroups = new ArrayList<>();
+		for (SecUserGroupEntity ug : selectedUser.getUserGroupList()){
+			selectedGroups.add(ug.getGroup());
+		}
+			
+		UserUpdatedEvent updatedEvent = updateUser(new UpdateUserEvent(selectedUser, selectedGroups, userOrganizations, "auto"));
+		return selectedUser;
+	}
+			
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public UserUpdatedEvent updateUser(UpdateUserEvent event) {

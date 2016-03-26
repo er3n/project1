@@ -41,6 +41,7 @@ import org.abacus.definition.shared.event.UpdateItemProductEvent;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
 import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.abacus.user.core.handler.UserService;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -67,6 +68,9 @@ public class ItemViewBean implements Serializable {
 	@ManagedProperty(value = "#{defValueHandler}")
 	private DefValueHandler defValueHandler;
 
+	@ManagedProperty(value = "#{userEventHandler}")
+	private UserService userService;
+	
 	private ItemDataModel itemLazyModel;
 
 	private DefItemEntity selectedItem;
@@ -114,7 +118,7 @@ public class ItemViewBean implements Serializable {
 	public void updateItem() {
 		try {
 			String userUpdated = sessionInfoHelper.currentUserName();
-			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, userUpdated, rootOrganization));
+			ItemUpdatedEvent updatedEvent = itemHandler.updateItem(new UpdateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, userUpdated, rootOrganization), userService);
 			this.itemSelected();
 			jsfMessageHelper.addInfo("updateSuccessful");
 		} catch (ItemAlreadyExistsException e) {
@@ -140,7 +144,7 @@ public class ItemViewBean implements Serializable {
 	public void newItem() {
 			try {
 				String createdUser = sessionInfoHelper.currentUserName();
-				ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, createdUser));
+				ItemCreatedEvent createdEvent = itemHandler.newItem(new CreateItemEvent(selectedItem, selectedUnitGroupsSelectedUnitCodeSet, createdUser, rootOrganization), userService);
 				selectedItem = null;
 				jsfMessageHelper.addInfo("craeteSuccessful");
 			} catch (ItemAlreadyExistsException e) {
@@ -354,6 +358,14 @@ public class ItemViewBean implements Serializable {
 		this.defValueHandler = defValueHandler;
 	}
 
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	
 //	public List<DefValueEntity> getAllReceiptList() {
 //		return allReceiptList;
 //	}

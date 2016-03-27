@@ -16,6 +16,13 @@
 
 <h:body>
 	<h:form>
+		<c:set var="codeText" value="Kod" />
+		<c:set var="nameText" value="Açıklama" />
+		<c:if test="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}">
+			<c:set var="codeText" value="TC No" />
+			<c:set var="nameText" value="Adı Soyadı" />
+		</c:if>
+		
 		<p:dataTable var="item" value="#{defItemTableViewBean.itemLazyModel}"
 			widgetVar="itemsTable" paginator="true" rows="5"
 			paginatorAlwaysVisible="true"
@@ -25,14 +32,14 @@
 
 			<p:ajax event="rowSelect" listener="#{defItemTableViewBean.itemSelected(item)}" />
 
-			<p:column headerText="Kod" filterBy="#{item.code}">
+			<p:column headerText="#{codeText}" filterBy="#{item.code}">
 				<h:outputText value="#{item.code}" />
 			</p:column>
 
-			<p:column headerText="Ad" filterBy="#{item.name}">
+			<p:column headerText="#{nameText}" filterBy="#{item.name}">
 				<h:outputText value="#{item.name}" />
 			</p:column>
-
+			 
 			<p:column headerText="Kategori" filterBy="#{item.category}">
 				<h:outputText value="#{item.category.name}" />
 			</p:column>
@@ -41,9 +48,9 @@
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('itemsTable').filter()">
 						<f:converter converterId="javax.faces.Boolean" />
-						<f:selectItem itemLabel="Hepsi" itemValue="" />
-						<f:selectItem itemLabel="Aktif" itemValue="true" />
-						<f:selectItem itemLabel="Pasif" itemValue="false" />
+						<f:selectItem itemLabel="Hep" itemValue="" />
+						<f:selectItem itemLabel="Ak" itemValue="true" />
+						<f:selectItem itemLabel="Pa" itemValue="false" />
 					</p:selectOneButton>
 				</f:facet>
 				<h:outputText value="Aktif" rendered="#{item.active}" />

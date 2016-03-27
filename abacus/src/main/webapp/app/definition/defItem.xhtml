@@ -14,8 +14,16 @@
 	>
 
 	<ui:define name="content">
+		
 		<o:importConstants type="org.abacus.definition.shared.constant.EnumList.DefTypeEnum" />
 		<h:form id="itemsForm">
+		
+		<c:set var="codeText" value="Kod" />
+		<c:set var="nameText" value="Açıklama" />
+		<c:if test="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}">
+			<c:set var="codeText" value="TC No" />
+			<c:set var="nameText" value="Adı Soyadı" />
+		</c:if>
 
 			<p:dataTable var="item" value="#{itemViewBean.itemLazyModel}" widgetVar="itemsTable" paginator="true" rows="5" paginatorAlwaysVisible="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,20" selectionMode="single" selection="#{itemViewBean.selectedItem}" id="itemTable" lazy="true">
 
@@ -23,34 +31,33 @@
 				
 				<p:ajax event="filter" update=":itemDetails :itemProductListForm :itemProductDetailForm" />
 
-				<p:column headerText="#{itemViewBean.clazz.description} Kod" filterBy="#{item.code}" style="width:150px">
+				<p:column headerText="#{codeText}" filterBy="#{item.code}" style="width:100px">
 					<h:outputText value="#{item.code}" />
 				</p:column>
-
-				<p:column headerText="Ad" filterBy="#{item.name}">
+				
+				<p:column headerText="#{nameText}" filterBy="#{item.name}">
 					<h:outputText value="#{item.name}" />
 				</p:column>
-
-				<p:column headerText="Kategori" filterBy="#{item.category}" style="width:200px">
+				
+				<p:column headerText="Kategori" filterBy="#{item.category}" style="width:95px">
 					<h:outputText value="#{item.category.name}" />
 				</p:column>
-
 	
-				<p:column headerText="Kurum">
+				<p:column headerText="Kurum" style="width:60px">
 					<h:outputText value="#{item.organization}" />
 				</p:column>
 			
-				<p:column headerText="Login" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}">
+				<p:column headerText="Login" style="width:30px" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}">
 					<h:outputText value="#{ (not empty item.login and item.login)  ? '*' : ''}" />
 				</p:column>
 				
-				<p:column headerText="Durum" filterBy="#{item.active}" style="width:180px">
+				<p:column headerText="Durum" filterBy="#{item.active}" style="width:110px">
 					<f:facet name="filter">
 						<p:selectOneButton onchange="PF('itemsTable').filter()">
 							<f:converter converterId="javax.faces.Boolean" />
-							<f:selectItem itemLabel="Hepsi" itemValue="" />
-							<f:selectItem itemLabel="Aktif" itemValue="true" />
-							<f:selectItem itemLabel="Pasif" itemValue="false" />
+							<f:selectItem itemLabel="*" itemValue="" />
+							<f:selectItem itemLabel="A" itemValue="true" />
+							<f:selectItem itemLabel="P" itemValue="false" />
 						</p:selectOneButton>
 					</f:facet>
 					<h:outputText value="Aktif" rendered="#{item.active}" />
@@ -67,15 +74,16 @@
 
 
 		<h:form id="itemDetails">
-			<p:panel header="#{itemViewBean.clazz.description} Detay" rendered="#{not empty itemViewBean.selectedItem}">
+		
+			<p:panel header="#{itemViewBean.clazz.description} Tanım Detayı" rendered="#{not empty itemViewBean.selectedItem}">
 
 				<h:panelGrid columns="6" cellspacing="10">
 
-					<h:outputLabel value="Kod" for="itemCode" />
-					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" required="true" requiredMessage="Kod bos olamaz" />
+					<h:outputLabel value="#{codeText}" for="itemCode"/>
+					<p:inputText id="itemCode" value="#{itemViewBean.selectedItem.code}" required="true" requiredMessage="Kod bos olamaz"/>
 
-					<h:outputLabel value="Adı" for="itemName" />
-					<p:inputText id="itemName" value="#{itemViewBean.selectedItem.name}" required="true" requiredMessage="Ad bos olamaz" />
+					<h:outputLabel value="#{nameText}" for="itemName"/>
+					<p:inputText id="itemName" value="#{itemViewBean.selectedItem.name}" required="true" requiredMessage="Ad bos olamaz"/>
 
 					<h:outputLabel value="Durum" for="itemStatus" />
 					<p:selectOneButton id="itemStatus" value="#{itemViewBean.selectedItem.active}" required="true" requiredMessage="Durum bos olamaz">

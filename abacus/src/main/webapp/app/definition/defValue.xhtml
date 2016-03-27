@@ -54,8 +54,8 @@
 							<h:outputText value="#{defValDTO.active?'Aktif':'Pasif'}" />
 						</p:column>
 						<p:column style="width:30px">
-							<f:facet name="header">Özel</f:facet>
-							<h:outputText value="#{defValDTO.organization == null  ? '' : '**'}" />
+							<f:facet name="header">Kurum</f:facet>
+							<h:outputText value="#{defValDTO.organization}" />
 						</p:column>
 					</p:treeTable>
 

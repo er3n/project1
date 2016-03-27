@@ -11,7 +11,6 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.JsfMessageHelper;
 import org.abacus.common.web.SessionInfoHelper;
-import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.handler.FiscalHandler;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;

@@ -10,8 +10,6 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.security.SecUser;
 import org.abacus.organization.shared.entity.OrganizationEntity;
-import org.primefaces.push.EventBus;
-import org.primefaces.push.EventBusFactory;
 import org.springframework.security.core.session.SessionInformation;
 
 @SuppressWarnings("serial")

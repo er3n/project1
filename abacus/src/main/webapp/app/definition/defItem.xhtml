@@ -36,8 +36,8 @@
 				</p:column>
 
 	
-				<p:column headerText="Özel" rendered="#{itemViewBean.type ne DefTypeEnum.ITM_CM_PE}">
-					<h:outputText value="#{item.organization == null  ? '' : '**'}" />
+				<p:column headerText="Kurum">
+					<h:outputText value="#{item.organization}" />
 				</p:column>
 			
 				<p:column headerText="Login" rendered="#{itemViewBean.type eq DefTypeEnum.ITM_CM_PE}">

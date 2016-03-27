@@ -2,7 +2,6 @@ package org.abacus.user.core.handler;
 
 import java.util.List;
 
-import org.abacus.common.security.SecUser;
 import org.abacus.user.shared.GroupNameInUseException;
 import org.abacus.user.shared.UserExistsInGroupException;
 import org.abacus.user.shared.UserNameExistsException;

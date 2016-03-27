@@ -25,7 +25,6 @@ import org.abacus.definition.shared.entity.DefItemUnitEntity;
 import org.abacus.definition.shared.entity.DefTypeEntity;
 import org.abacus.definition.shared.entity.DefUnitCodeEntity;
 import org.abacus.definition.shared.entity.DefUnitGroupEntity;
-import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
 import org.abacus.definition.shared.event.CreateItemProductEvent;
 import org.abacus.definition.shared.event.DeleteItemProductEvent;

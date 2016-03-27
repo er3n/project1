@@ -18,7 +18,6 @@ import org.abacus.common.shared.entity.StaticEntity;
 import org.abacus.common.web.AbcUtility;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
-import org.abacus.organization.core.util.OrganizationUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -46,6 +45,14 @@ public class OrganizationEntity extends StaticEntity {
 	@JoinColumn(name = "customer_id", nullable = true)
 	private DefItemEntity customer;
 
+	@Override
+	public String toString(){
+		if (this.id!=null){
+			return this.id;
+		}
+		return this.getClass().getSimpleName()+":NEW";
+	}
+	
 	public OrganizationEntity() {
 	}
 	

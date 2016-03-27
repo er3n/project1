@@ -18,6 +18,10 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.abacus.common.web.JsfMessageHelper;
+import org.abacus.definition.shared.constant.EnumList;
+import org.abacus.report.core.handler.SqlQueryHandler;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -26,10 +30,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
-
-import org.abacus.common.web.JsfMessageHelper;
-import org.abacus.definition.shared.constant.EnumList;
-import org.abacus.report.core.handler.SqlQueryHandler;
 
 @ManagedBean
 @ViewScoped

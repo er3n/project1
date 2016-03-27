@@ -14,6 +14,13 @@ import org.abacus.definition.core.persistance.repository.DefValueRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefValueEntity;
 import org.abacus.definition.shared.entity.DefValueLevelEntity;
+import org.abacus.organization.core.persistance.repository.OrganizationRepository;
+import org.abacus.organization.shared.entity.OrganizationEntity;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +32,42 @@ public class DefValueDao implements Serializable {
 	private EntityManager em;
 
 	@Autowired
+	private OrganizationRepository orgRepository;
+	
+	@Autowired
 	private DefValueRepository valueRepository;
 
 	@Autowired
 	private DefValueLevelRepository levelRepository;
 
+	private Criteria createRequestValueCriteria(String organizationId, String typeId){
+		Session currentSession = em.unwrap(Session.class);
+		Criteria criteria  = currentSession.createCriteria(DefValueEntity.class,"i");
+		criteria.createAlias("i.type","t", JoinType.INNER_JOIN);
+		criteria.createAlias("i.organization","o", JoinType.LEFT_OUTER_JOIN);
+		
+		Criterion orgRoot = Restrictions.isNull("i.organization");
+		if(organizationId!=null){
+			OrganizationEntity org = orgRepository.findOne(organizationId);
+			List<OrganizationEntity> upList = org.getParentList();
+			Criterion orgUpper = Restrictions.in("i.organization", upList);
+			Criterion orgDown = Restrictions.like("i.organization.id", organizationId+"%");
+			criteria.add(Restrictions.or(orgRoot, orgUpper, orgDown));			
+		} else {
+			criteria.add(orgRoot);	
+		}
+		
+		if(typeId != null){
+			criteria.add(Restrictions.like("t.id", typeId));
+		}
+		return criteria;
+	}
+	
+	public List<DefValueEntity> getValueList(String organizationId, String typeId) {
+		Criteria criteria = this.createRequestValueCriteria(organizationId, typeId);
+		List<DefValueEntity> resultList = criteria.list();
+		return resultList;
+	}
 
 	public DefValueEntity saveValueEntity(DefValueEntity entity) {
 		entity = valueRepository.save(entity);
@@ -57,7 +95,7 @@ public class DefValueDao implements Serializable {
 	}
 
 	public void refreshTypeLevel(String organizationId, EnumList.DefTypeEnum typeEnum){
-		List<DefValueEntity> valueList = valueRepository.getValueList(organizationId, typeEnum.getName());
+		List<DefValueEntity> valueList = getValueList(organizationId, typeEnum.getName());
 		for (DefValueEntity val : valueList) {
 			insertLevelEntity(val);
 		}

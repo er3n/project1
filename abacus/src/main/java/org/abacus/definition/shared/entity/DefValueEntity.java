@@ -38,7 +38,7 @@ public class DefValueEntity extends DynamicEntity {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean active = true;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id", nullable = true)
 	private OrganizationEntity organization;
 	

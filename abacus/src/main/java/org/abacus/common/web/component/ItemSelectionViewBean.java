@@ -13,12 +13,10 @@ import javax.faces.bean.ViewScoped;
 
 import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.definition.core.handler.DefItemHandler;
-import org.abacus.definition.core.persistance.repository.DefItemRepository;
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.holder.ItemSearchCriteria;
 import org.abacus.definition.web.model.ItemDataModel;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings("serial")
 @ManagedBean

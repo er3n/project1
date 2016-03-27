@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.faces.bean.ManagedProperty;
-
 import org.abacus.definition.core.persistance.DefItemDao;
 import org.abacus.definition.core.persistance.repository.DefItemProductRepository;
 import org.abacus.definition.core.persistance.repository.DefItemRepository;

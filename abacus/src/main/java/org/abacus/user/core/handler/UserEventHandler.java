@@ -3,9 +3,6 @@ package org.abacus.user.core.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ManagedProperty;
-
-import org.abacus.common.web.SessionInfoHelper;
 import org.abacus.organization.core.persistance.repository.OrganizationRepository;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 import org.abacus.user.core.persistance.UserDao;

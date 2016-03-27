@@ -1,6 +1,5 @@
 package org.abacus.organization.shared.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.abacus.common.shared.entity.StaticEntity;
-import org.abacus.definition.shared.entity.DefItemEntity;
 
 @Entity
 @SuppressWarnings("serial")

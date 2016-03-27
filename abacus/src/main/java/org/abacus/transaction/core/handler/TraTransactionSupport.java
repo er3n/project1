@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList;
 import org.abacus.organization.core.persistance.FiscalDao;
-import org.abacus.organization.core.util.OrganizationUtils;
 import org.abacus.organization.shared.entity.FiscalPeriodEntity;
 import org.abacus.organization.shared.entity.FiscalYearEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;

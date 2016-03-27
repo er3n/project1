@@ -51,12 +51,12 @@ public class SecurityHandler implements UserDetailsService {
 		
 		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);
 		
-		OrganizationEntity defaultOrganization = null; //userOrganizationList.get(0);
+		OrganizationEntity defaultOrganization = userOrganizationList.get(0);
 		
 		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findFiscalYearSet(defaultOrganization);
 		FiscalYearEntity defaultFiscalYear = organizationUtils.findDefaultFiscalYear(companyFiscalYearSet);
 		
-		secUser.init(userOrganizationList, defaultOrganization,companyFiscalYearSet,defaultFiscalYear);
+		secUser.initApp(userOrganizationList, defaultOrganization,companyFiscalYearSet,defaultFiscalYear);
 		return secUser;
 	}
 

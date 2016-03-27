@@ -29,7 +29,7 @@ public class SecUser implements UserDetails {
 		this.userEntity = userEntity;
 	}
 	
-	public void init(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear) {
+	public void initApp(List<OrganizationEntity> organizationList, OrganizationEntity selectedOrganization, Set<FiscalYearEntity> companyFiscalYearSet, FiscalYearEntity defaultFiscalYear) {
 		setOrganizationList(organizationList);
 		setSelectedOrganization(selectedOrganization);
 		setCompanyFiscalYearSet(companyFiscalYearSet);

@@ -20,10 +20,10 @@
 						<h:panelGrid id="organizationGrid2" columns="8" cellpadding="2">
 
 							<h:outputLabel value="Kod : " />
-							<p:inputText value="#{organizationViewBean.selOrganization.id}" maxlength="8"
+							<p:inputText value="#{organizationViewBean.selOrganization.id}" maxlength="9"
 								required="true" requiredMessage="organization.Code Bos olamaz"
-								validatorMessage="Kod ##.##.## Formatında Olmalıdır" style="width:100px">
-								 <f:validateLength minimum="2" maximum="8"/>
+								validatorMessage="Kod ##.##.### Formatında Olmalıdır" style="width:100px">
+								 <f:validateLength minimum="2" maximum="9"/>
 							</p:inputText>	  
 
 							<h:outputLabel value="Ad : " />

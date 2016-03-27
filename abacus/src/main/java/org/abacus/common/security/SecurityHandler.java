@@ -51,13 +51,7 @@ public class SecurityHandler implements UserDetailsService {
 		
 		List<OrganizationEntity> userOrganizationList = organizationRepository.findByUsername(username);
 		
-		OrganizationEntity defaultOrganization = userOrganizationList.get(0);
-		for (OrganizationEntity oe : userOrganizationList) {
-			if (oe.getLevel().equals(EnumList.OrgOrganizationLevelEnum.L1)){
-				defaultOrganization = oe;
-				break;
-			}
-		}		
+		OrganizationEntity defaultOrganization = null; //userOrganizationList.get(0);
 		
 		Set<FiscalYearEntity> companyFiscalYearSet = organizationUtils.findFiscalYearSet(defaultOrganization);
 		FiscalYearEntity defaultFiscalYear = organizationUtils.findDefaultFiscalYear(companyFiscalYearSet);

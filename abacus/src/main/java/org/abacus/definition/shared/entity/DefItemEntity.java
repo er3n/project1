@@ -51,7 +51,7 @@ public class DefItemEntity extends DynamicEntity {
 	@Column(name = "class_enum", nullable = true, length=30)
 	private EnumList.DefItemClassEnum itemClass;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", nullable = true)
 	private DefValueEntity category;
 

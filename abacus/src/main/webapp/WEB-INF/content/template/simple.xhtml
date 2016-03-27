@@ -41,41 +41,22 @@
 			</div>
 
 		</div>
-		<ui:remove>
-			<div id="footer">
 
-				<div style="text-align: center">
-					<h:graphicImage library="default" name="img/banner.jpg" style="opacity: 0.1;margin: 2px auto; text-align:center"></h:graphicImage>
-				</div>
-
-				<p:outputLabel value="#{lbl.projectFooter}" />
+		<p:panel>
+			<div id="footer2">		
+				<p>
+					<p:link value="#{lbl.projectFooter} - #{lbl.earVersion}" href="/"></p:link>
+				</p> 
+				<p> 
+					<p:link value="Özel Çözüm Sitesi"  href="http://www.ozelcozum.com" target="_blank"></p:link>
+				</p> 				
+				<p>
+					<h:graphicImage library="default" name="img/banner1.jpg" style="opacity: 0.5;margin: 2px auto"></h:graphicImage>
+					<h:graphicImage library="default" name="img/banner2.jpg" style="opacity: 0.5;margin: 2px auto"></h:graphicImage>
+				</p>
 			</div>
-		</ui:remove>
-
-
-
-		<div id="footer2">
-			<div id="foot2">
-				<div id="left">
-
-					<p>
-						<p:link value="#{lbl.projectFooter} - #{lbl.earVersion}"  href="/"></p:link>
-					</p>
- 
-					<p> 
-						<p:link value="Yardım"  href="/../abchelp/HTML/index.html" target="_blank"  ></p:link>
-					</p>
- 				
-				</div>
-				<div id="right">
-					<p class="axe">
-						<h:graphicImage library="default" name="img/banner.jpg" style="opacity: 0.1;margin: 2px auto; text-align:center"></h:graphicImage>
-					</p>
-
-				</div>
-			</div>
-		</div>
-
+		</p:panel>
+				
 		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">

@@ -48,9 +48,9 @@
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('itemsTable').filter()">
 						<f:converter converterId="javax.faces.Boolean" />
-						<f:selectItem itemLabel="Hep" itemValue="" />
-						<f:selectItem itemLabel="Ak" itemValue="true" />
-						<f:selectItem itemLabel="Pa" itemValue="false" />
+						<f:selectItem itemLabel="*" itemValue="" />
+						<f:selectItem itemLabel="A" itemValue="true" />
+						<f:selectItem itemLabel="P" itemValue="false" />
 					</p:selectOneButton>
 				</f:facet>
 				<h:outputText value="Aktif" rendered="#{item.active}" />

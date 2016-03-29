@@ -52,11 +52,14 @@
 				<h:outputText value="#{item.name}" />
 			</p:column>
 
-			<p:column headerText="Kategori" filterBy="#{item.category}">
+			<p:column headerText="Kategori" filterBy="#{item.category.name}">
 				<h:outputText value="#{item.category.name}" />
 			</p:column>
 
-
+			<p:column headerText="Kurum" filterBy="#{item.organization.id}">
+				<h:outputText value="#{item.organization.id}" />
+			</p:column>
+			<!-- 
 			<p:column filterBy="#{filterTypeDesc}" headerText="Tip">
 				<f:facet name="filter">
 					<p:selectOneMenu onchange="PF('#{widgetVar}_DT').filter()">
@@ -68,7 +71,8 @@
 				</f:facet>
 				<h:outputText value="#{item.type.getTypeEnum().description}" />
 			</p:column>
-
+			 -->
+			 
 			<p:column headerText="Durum" filterBy="#{item.active}">
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('#{widgetVar}_DT').filter()">

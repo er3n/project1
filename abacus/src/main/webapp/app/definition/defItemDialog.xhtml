@@ -44,6 +44,10 @@
 				<h:outputText value="#{item.category.name}" />
 			</p:column>
 
+			<p:column headerText="Kurum" filterBy="#{item.organization.id}">
+				<h:outputText value="#{item.organization.id}" />
+			</p:column>
+
 			<p:column headerText="Durum" filterBy="#{item.active}">
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('itemsTable').filter()">

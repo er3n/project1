@@ -7,12 +7,12 @@ import java.util.Set;
 import org.abacus.report.core.handler.SqlQueryHandler;
 import org.abacus.report.shared.holder.SqlDataHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+//security-context
 @RestController
 @RequestMapping("/service")
 public class SqlDataController {
@@ -46,51 +46,6 @@ public class SqlDataController {
 	public Set<String> sqlFieldPut(@RequestParam("sqlText") String sqlText) {
 		SqlDataHolder sqlData = sqlQueryHandler.getSqlData(sqlText);
 		return sqlData.getSqlFieldSet();
-	}
-	
-	//YYYYMMDD
-	//http://localhost:8080/abacus/app/rest/service/getIzin/root:root*/milliegitim/121112/132121
-	@RequestMapping(value = "/getIzin/{token}/{companyId}/{startDate}/{endDate}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public TestClass getIzin(@PathVariable("token") String token, @PathVariable("companyId") String companyId, @PathVariable("startDate")String startDate, @PathVariable("endDate")String endDate) {
-		
-	    String[] usernameAndPassword = token.split(":");
-	    
-	    String username = usernameAndPassword[0];
-	    String pass = usernameAndPassword[1];
-	    
-		TestClass t = new TestClass();
-		t.setBir(companyId);
-		t.setIki(startDate);
-		t.setUc(endDate);
-		return t;
-	}
-	
-	
-	public static class TestClass{
-		private String bir;
-		private String iki;
-		private String uc;
-		public String getBir() {
-			return bir;
-		}
-		public void setBir(String bir) {
-			this.bir = bir;
-		}
-		public String getIki() {
-			return iki;
-		}
-		public void setIki(String iki) {
-			this.iki = iki;
-		}
-		public String getUc() {
-			return uc;
-		}
-		public void setUc(String uc) {
-			this.uc = uc;
-		}
-		
-		
-		
 	}
 	
 }

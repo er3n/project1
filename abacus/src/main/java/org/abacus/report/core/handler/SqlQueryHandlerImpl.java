@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.abacus.report.core.persistance.SqlQueryDao;
 import org.abacus.report.shared.holder.SqlDataHolder;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,6 +40,11 @@ public class SqlQueryHandlerImpl implements SqlQueryHandler {
 		return queryHolder;
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=false)
+	public SecUserEntity getUser(String usrName, String usrPass) {
+		return sqlQueryDao.getUser(usrName, usrPass);
+	}
 }
 
 

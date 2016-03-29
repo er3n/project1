@@ -44,8 +44,9 @@ public class ItemSelectionViewBean implements Serializable {
 			ItemSearchCriteria crit = new ItemSearchCriteria(sessionInfoHelper.currentOrganization().getRootOrganization(), itemType, itemClass);
 			if (itemType.equals(EnumList.DefTypeEnum.ITM_CM_PE)){
 				String userId = sessionInfoHelper.currentUser().getUsername();
-				DefItemEntity personItem = defItemHandler.itemExists(userId, EnumList.DefTypeEnum.ITM_CM_PE.getName(), sessionInfoHelper.currentOrganization().getId());
-				if (personItem!=null){
+				List<DefItemEntity> loginItemList = defItemHandler.loginItemList(userId, EnumList.DefTypeEnum.ITM_CM_PE.getName(), sessionInfoHelper.currentOrganization().getId());
+				if (loginItemList!=null && loginItemList.size()>0){
+					crit.setItemList(loginItemList);
 					crit.setCode(userId);						
 				}
 			}

@@ -72,6 +72,9 @@ public class DefItemDao implements Serializable {
 	}
 	
 	public List<DefItemEntity> requestItems(ItemSearchCriteria searchCriteria) {
+		if (searchCriteria.getItemList()!=null && searchCriteria.getItemList().size()>0){
+			return searchCriteria.getItemList();
+		}
 		Criteria criteria = this.createRequestItemsCriteria(searchCriteria);
 		if(searchCriteria.getFirst() != null && searchCriteria.getPageSize() != null){
 			criteria.setFirstResult(searchCriteria.getFirst());

@@ -229,4 +229,9 @@ public class DefItemHandlerImpl implements DefItemHandler{
 		return itemRepository.itemExists(code, type, organization);
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly=true)
+	public List<DefItemEntity> loginItemList(String code, String type, String organization){
+		return itemRepository.loginItemList(code, type, organization);
+	}
 }

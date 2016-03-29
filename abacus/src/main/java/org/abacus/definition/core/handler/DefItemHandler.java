@@ -1,5 +1,7 @@
 package org.abacus.definition.core.handler;
 
+import java.util.List;
+
 import org.abacus.definition.shared.ItemAlreadyExistsException;
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.definition.shared.event.CreateItemEvent;
@@ -31,5 +33,7 @@ public interface DefItemHandler {
 	public ItemProductDeletedEvent deleteItemProduct(DeleteItemProductEvent deleteItemProductEvent);
 
 	DefItemEntity itemExists(String code, String type, String organization);
+	
+	List<DefItemEntity> loginItemList(String code, String type, String organization);
 
 }

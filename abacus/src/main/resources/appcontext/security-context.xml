@@ -10,7 +10,7 @@
 
 	<security:http security="none" pattern="/app/user/login.abc"></security:http>
 	<security:http security="none" pattern="/app/resources/**"></security:http>
-	<security:http security="none" pattern="/app/rest/service/getIzin/**"></security:http>
+	<security:http security="none" pattern="/app/rest/data/getTakip/**"></security:http>
 
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="securityHandler">

@@ -16,8 +16,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.abacus.report.shared.holder.SqlDataHolder;
+import org.abacus.user.shared.entity.SecUserEntity;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.jdbc.ReturningWork;
@@ -31,6 +34,18 @@ public class SqlQueryDao {
 	
 	private Logger logger = Logger.getLogger(SqlQueryDao.class);
 
+	public SecUserEntity getUser(String usrName, String usrPass) {
+		Session session = em.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(SecUserEntity.class,"u");
+		criteria.add(Restrictions.eq("u.id", usrName));
+		criteria.add(Restrictions.eq("u.password", usrPass));
+		List<SecUserEntity> userList = criteria.list();
+		if (userList.size()>0){
+			return userList.get(0);
+		}
+		return null;
+	}
+	
 	public Connection getConnection() throws SQLException {
 		Session session = em.unwrap(Session.class);
 		SessionFactoryImplementor sfi = (SessionFactoryImplementor) session

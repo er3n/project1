@@ -1,5 +1,7 @@
 package org.abacus.definition.core.persistance.repository;
 
+import java.util.List;
+
 import org.abacus.definition.shared.entity.DefItemEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,5 +14,8 @@ public interface DefItemRepository extends CrudRepository<DefItemEntity, Long> {
 
 	@Query("select f from DefItemEntity f where f.code = :code and f.type.id = :type and f.organization.id = :organization")
 	DefItemEntity itemExists(@Param("code") String code, @Param("type") String type, @Param("organization") String organization);
+
+	@Query("select f from DefItemEntity f where f.code = :code and f.type.id = :type and f.organization.id like :organization||'%' and f.active=true and f.login=true")
+	List<DefItemEntity> loginItemList(@Param("code") String code, @Param("type") String type, @Param("organization") String organization);
 
 }

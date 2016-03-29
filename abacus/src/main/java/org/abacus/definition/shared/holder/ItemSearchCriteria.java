@@ -1,9 +1,11 @@
 package org.abacus.definition.shared.holder;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.abacus.definition.shared.constant.EnumList.DefItemClassEnum;
 import org.abacus.definition.shared.constant.EnumList.DefTypeEnum;
+import org.abacus.definition.shared.entity.DefItemEntity;
 import org.abacus.organization.shared.entity.OrganizationEntity;
 
 @SuppressWarnings("serial")
@@ -18,6 +20,7 @@ public class ItemSearchCriteria implements Serializable {
 	private String categoryNameLike;
 	private Boolean status;
 	private String filterTypeDesc;
+	private List<DefItemEntity> itemList;
 
 	private Integer first;
 	private Integer pageSize;
@@ -116,6 +119,14 @@ public class ItemSearchCriteria implements Serializable {
 
 	public void setFilterTypeDesc(String filterTypeDesc) {
 		this.filterTypeDesc = filterTypeDesc;
+	}
+
+	public List<DefItemEntity> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<DefItemEntity> itemList) {
+		this.itemList = itemList;
 	}
 
 }
